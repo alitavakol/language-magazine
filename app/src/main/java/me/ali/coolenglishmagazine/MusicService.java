@@ -43,6 +43,7 @@ public class MusicService extends Service implements
     private final IBinder binder = new MusicBinder();
 
     private MediaPlayer mediaPlayer = null;
+    private boolean paused = false;
 
     /**
      * current media player data source
@@ -68,6 +69,7 @@ public class MusicService extends Service implements
     @Override
     public void onCompletion(MediaPlayer mp) {
         handleStopRequest();
+        handlePrepareRequest(dataSource);
     }
 
     @Override
@@ -158,17 +160,10 @@ public class MusicService extends Service implements
         return (mediaPlayer != null) ? mediaPlayer.getCurrentPosition() : 0;
     }
 
-    /**
-     * Called when MediaPlayer is ready
-     */
-    public void onPrepared(MediaPlayer player) {
-        LogHelper.i(TAG, "Media prepared.");
-
-        if (onMediaStateChangedListener != null)
-            onMediaStateChangedListener.onMediaStateChanged(PlaybackState.STATE_STOPPED);
-    }
-
     private void handlePrepareRequest(String dataSource) {
+        if(mediaPlayer != null && !dataSource.equals(this.dataSource))
+            handleStopRequest();
+
         if (mediaPlayer == null) {
             mediaPlayer = new MediaPlayer();
 
@@ -191,8 +186,21 @@ public class MusicService extends Service implements
         }
     }
 
+    /**
+     * Called when MediaPlayer is ready
+     */
+    public void onPrepared(MediaPlayer player) {
+        LogHelper.i(TAG, "Media prepared.");
+
+        if (onMediaStateChangedListener != null)
+            onMediaStateChangedListener.onMediaStateChanged(PlaybackState.STATE_STOPPED);
+    }
+
     private void handlePlayRequest() {
         mediaPlayer.start();
+        paused = false;
+
+        startForeground(PLAYBACK_NOTIFICATION_ID, getNotification(true));
 
         if (onMediaStateChangedListener != null)
             onMediaStateChangedListener.onMediaStateChanged(PlaybackState.STATE_PLAYING);
@@ -205,6 +213,7 @@ public class MusicService extends Service implements
             mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer = null;
+            paused = false;
         }
 
         if (onMediaStateChangedListener != null)
@@ -214,6 +223,7 @@ public class MusicService extends Service implements
     public void handlePauseRequest() {
         if (mediaPlayer != null) {
             mediaPlayer.pause();
+            paused = true;
 
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(PLAYBACK_NOTIFICATION_ID, getNotification(false));
@@ -242,11 +252,16 @@ public class MusicService extends Service implements
 
     public void setOnMediaStateChangedListener(OnMediaStateChangedListener listener) {
         onMediaStateChangedListener = listener;
-        onMediaStateChangedListener.onMediaStateChanged(mediaPlayer == null ? PlaybackState.STATE_STOPPED : (mediaPlayer.isPlaying()? PlaybackState.STATE_PLAYING : PlaybackState.STATE_PAUSED));
+        onMediaStateChangedListener.onMediaStateChanged(mediaPlayer == null ? PlaybackState.STATE_NONE : (mediaPlayer.isPlaying()? PlaybackState.STATE_PLAYING : (paused? PlaybackState.STATE_PAUSED : PlaybackState.STATE_STOPPED)));
     }
 
     public void removeOnMediaStateChangedListener(OnMediaStateChangedListener listener) {
         if (listener == onMediaStateChangedListener)
             onMediaStateChangedListener = null;
+    }
+
+    public void seekTo(int position) {
+        if(mediaPlayer != null && mediaPlayer.isPlaying() || paused)
+            mediaPlayer.seekTo(position);
     }
 }

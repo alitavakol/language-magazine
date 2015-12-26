@@ -11,27 +11,42 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
-import javax.xml.datatype.Duration;
-
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 
-public class ReadAndListenActivity extends AppCompatActivity implements View.OnClickListener, MusicService.OnMediaStateChangedListener {
+public class ReadAndListenActivity extends AppCompatActivity implements View.OnClickListener, MusicService.OnMediaStateChangedListener, SeekBar.OnSeekBarChangeListener {
 
     private static final String TAG = LogHelper.makeLogTag(ReadAndListenActivity.class);
 
     private MusicService musicService;
     private boolean boundToMusicService = false;
+
+    /**
+     * music playback state
+     */
+    protected int state = PlaybackState.STATE_NONE;
+
+    protected final String transcriptFilePath = "/mnt/sdcard/cool-english-magazine/swimming-squirrel.html";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +57,30 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         WebView webView = (WebView) findViewById(R.id.webView);
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("file:///mnt/sdcard/cool-english-magazine/swimming-squirrel.html");
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl("file://" + transcriptFilePath);
 
-        ((ImageView) findViewById(R.id.play)).setOnClickListener(this);
-        ((ImageView) findViewById(R.id.pause)).setOnClickListener(this);
+        findViewById(R.id.play).setOnClickListener(this);
+        findViewById(R.id.pause).setOnClickListener(this);
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         startText = (TextView) findViewById(R.id.startText);
         endText = (TextView) findViewById(R.id.endText);
+
+        findViewById(R.id.play).setEnabled(false);
+        findViewById(R.id.pause).setEnabled(false);
+        findViewById(R.id.prev).setEnabled(false);
+        findViewById(R.id.next).setEnabled(false);
+        seekBar.setEnabled(false);
+        seekBar.setOnSeekBarChangeListener(this);
+
+        try {
+            ArrayList<int[]> timePoints = getTimePoints(transcriptFilePath);
+            timePoints.toString();
+
+        } catch(Exception e) {
+            LogHelper.e(TAG, e.getMessage());
+        }
     }
 
     @Override
@@ -85,6 +116,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             musicService.setOnMediaStateChangedListener(ReadAndListenActivity.this);
             boundToMusicService = true;
 
+            Intent startIntent = new Intent(ReadAndListenActivity.this, MusicService.class);
+            startIntent.setAction(MusicService.ACTION_PREPARE);
+            startIntent.putExtra("dataSource", "file:///mnt/sdcard/cool-english-magazine/swimming-squirrel.mp3");
+            startService(startIntent);
+
 //            final String dataSource = "file:///mnt/sdcard/cool-english-magazine/swimming-squirrel.mp3";
 //            if (!dataSource.equals(musicService.getDataSource())) {
 //                musicService.stopPlayback();
@@ -118,7 +154,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             case R.id.play:
                 Intent startIntent = new Intent(ReadAndListenActivity.this, MusicService.class);
                 startIntent.setAction(MusicService.ACTION_PLAY);
-                startIntent.putExtra("dataSource", "file:///mnt/sdcard/cool-english-magazine/swimming-squirrel.mp3");
                 startService(startIntent);
                 break;
 
@@ -137,17 +172,32 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     protected TextView startText = null, endText = null;
     protected Timer seekBarTimer = null;
 
+    protected String formatTime(int time) {
+        return String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(time),
+                TimeUnit.MILLISECONDS.toSeconds(time) % TimeUnit.MINUTES.toSeconds(1));
+    }
+
     @Override
     public void onMediaStateChanged(int state) {
         LogHelper.i(TAG, "media playback state: ", state);
 
-        if(musicService != null) {
+        if (state != PlaybackState.STATE_NONE) {
             final int duration = musicService.getDuration();
+            final int currentPosition = musicService.getCurrentMediaPosition();
+
             seekBar.setMax(duration);
-            seekBar.setProgress(musicService.getCurrentMediaPosition());
-            endText.setText(String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(duration),
-                    TimeUnit.MILLISECONDS.toSeconds(duration) % TimeUnit.MINUTES.toSeconds(1)));
+            seekBar.setProgress(currentPosition);
+
+            endText.setText(formatTime(duration));
         }
+
+        findViewById(R.id.play).setEnabled(state != PlaybackState.STATE_NONE);
+        findViewById(R.id.pause).setEnabled(state != PlaybackState.STATE_NONE);
+
+        final boolean canSeek = state == PlaybackState.STATE_PAUSED || state == PlaybackState.STATE_PLAYING;
+        findViewById(R.id.prev).setEnabled(canSeek);
+        findViewById(R.id.next).setEnabled(canSeek);
+        seekBar.setEnabled(canSeek);
 
         if (state == PlaybackState.STATE_PLAYING) {
             findViewById(R.id.play).setVisibility(View.GONE);
@@ -160,21 +210,17 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            int currentPosition = musicService.getCurrentMediaPosition();
-                            seekBar.setProgress(currentPosition);
-                            startText.setText(String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(currentPosition),
-                                    TimeUnit.MILLISECONDS.toSeconds(currentPosition) % TimeUnit.MINUTES.toSeconds(1)));
+                            if (!ignoreSeekBar)
+                                seekBar.setProgress(musicService.getCurrentMediaPosition());
                         }
                     });
                 }
-            }, 0, musicService.getDuration() / 100);
+            }, 0, 1000);
 
         } else if (state == PlaybackState.STATE_STOPPED) {
             findViewById(R.id.play).setVisibility(View.VISIBLE);
             findViewById(R.id.pause).setVisibility(View.GONE);
 
-//            seekBar.setMax(0);
-//            seekBar.setProgress(0);
             if (seekBarTimer != null) {
                 seekBarTimer.cancel();
                 seekBarTimer = null;
@@ -184,12 +230,55 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             findViewById(R.id.play).setVisibility(View.VISIBLE);
             findViewById(R.id.pause).setVisibility(View.GONE);
 
-//            seekBar.setMax(musicService.getDuration());
-//            seekBar.setProgress(musicService.getCurrentMediaPosition());
             if (seekBarTimer != null) {
                 seekBarTimer.cancel();
                 seekBarTimer = null;
             }
         }
+
+        this.state = state;
+    }
+
+    /**
+     * if true, don't change seekBar position.
+     */
+    boolean ignoreSeekBar = false;
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        if (fromUser)
+            musicService.seekTo(progress);
+        startText.setText(formatTime(progress));
+    }
+
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        ignoreSeekBar = true;
+    }
+
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        ignoreSeekBar = false;
+    }
+
+    public static ArrayList<int[]> getTimePoints(String filePath)
+            throws XmlPullParserException, IOException {
+        ArrayList<int[]> timePoints = new ArrayList<>();
+
+        File input = new File(filePath);
+        Document doc = Jsoup.parse(input, "UTF-8", "");
+
+        Elements spans = doc.getElementsByTag("span");
+        for (Element span : spans) {
+            String start = span.attr("data-start");
+            String end = span.attr("data-end");
+
+            if(start.length() > 0 && end.length() > 0) {
+                int[] timePoint = new int[2];
+                timePoint[0] = Integer.valueOf(start);
+                timePoint[1] = Integer.valueOf(end);
+                timePoints.add(timePoint);
+            }
+        }
+
+        return timePoints;
     }
 }
