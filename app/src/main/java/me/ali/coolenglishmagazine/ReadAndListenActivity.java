@@ -26,7 +26,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -48,6 +50,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
     protected final String transcriptFilePath = "/mnt/sdcard/cool-english-magazine/swimming-squirrel.html";
 
+    /**
+     * array of voice timestamps (start and end of voice snippets)
+     */
+    ArrayList<int[]> timePoints = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,13 +62,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         // TODO read http://javarticles.com/2015/09/android-toolbar-example.html to add toolbar
 
-        WebView webView = (WebView) findViewById(R.id.webView);
+        webView = (WebView) findViewById(R.id.webView);
         webView.setWebViewClient(new WebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl("file://" + transcriptFilePath);
-
-        findViewById(R.id.play).setOnClickListener(this);
-        findViewById(R.id.pause).setOnClickListener(this);
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         startText = (TextView) findViewById(R.id.startText);
@@ -72,11 +76,15 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         findViewById(R.id.prev).setEnabled(false);
         findViewById(R.id.next).setEnabled(false);
         seekBar.setEnabled(false);
+
+        findViewById(R.id.play).setOnClickListener(this);
+        findViewById(R.id.pause).setOnClickListener(this);
+        findViewById(R.id.prev).setOnClickListener(this);
+        findViewById(R.id.next).setOnClickListener(this);
         seekBar.setOnSeekBarChangeListener(this);
 
         try {
-            ArrayList<int[]> timePoints = getTimePoints(transcriptFilePath);
-            timePoints.toString();
+            timePoints = getTimePoints(transcriptFilePath);
 
         } catch(Exception e) {
             LogHelper.e(TAG, e.getMessage());
@@ -120,11 +128,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             startIntent.setAction(MusicService.ACTION_PREPARE);
             startIntent.putExtra("dataSource", "file:///mnt/sdcard/cool-english-magazine/swimming-squirrel.mp3");
             startService(startIntent);
-
-//            final String dataSource = "file:///mnt/sdcard/cool-english-magazine/swimming-squirrel.mp3";
-//            if (!dataSource.equals(musicService.getDataSource())) {
-//                musicService.stopPlayback();
-//            }
         }
 
         @Override
@@ -163,6 +166,39 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 startService(pauseIntent);
                 break;
 
+            case R.id.prev: {
+                int currentPosition = musicService.getCurrentMediaPosition();
+                int prevTimePoint = 0; // time point to seek to
+
+                for (int i = timePoints.size() - 1; i >= 0; i--) {
+                    final int[] timePoint = timePoints.get(i);
+                    if (currentPosition - timePoint[0] > 1500) {
+                        prevTimePoint = timePoint[0];
+                        break;
+                    }
+                }
+
+                musicService.seekTo(prevTimePoint);
+                seekBar.setProgress(prevTimePoint);
+                break;
+            }
+
+            case R.id.next: {
+                int currentPosition = musicService.getCurrentMediaPosition();
+                int nextTimePoint = musicService.getDuration(); // time point to seek to
+
+                for(int[] timePoint : timePoints) {
+                    if(timePoint[0] > currentPosition) {
+                        nextTimePoint = timePoint[0];
+                        break;
+                    }
+                }
+
+                musicService.seekTo(nextTimePoint);
+                seekBar.setProgress(nextTimePoint);
+                break;
+            }
+
             default:
                 break;
         }
@@ -171,6 +207,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     protected SeekBar seekBar = null;
     protected TextView startText = null, endText = null;
     protected Timer seekBarTimer = null;
+
+    protected WebView webView = null;
 
     protected String formatTime(int time) {
         return String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(time),
@@ -266,16 +304,19 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         File input = new File(filePath);
         Document doc = Jsoup.parse(input, "UTF-8", "");
 
-        Elements spans = doc.getElementsByTag("span");
+        Elements spans = doc.getElementsByAttribute("data-start");
         for (Element span : spans) {
             String start = span.attr("data-start");
             String end = span.attr("data-end");
 
-            if(start.length() > 0 && end.length() > 0) {
+            try {
                 int[] timePoint = new int[2];
                 timePoint[0] = Integer.valueOf(start);
                 timePoint[1] = Integer.valueOf(end);
                 timePoints.add(timePoint);
+
+            } catch(java.lang.NumberFormatException e) {
+                LogHelper.e(TAG, e.getMessage());
             }
         }
 
