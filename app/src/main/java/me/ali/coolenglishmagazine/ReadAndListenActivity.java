@@ -19,17 +19,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -55,6 +48,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
      * array of voice timestamps (start and end of voice snippets)
      */
     ArrayList<int[]> timePoints = null;
+    protected int[] currentTimePoint = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +61,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         webView.setWebViewClient(new WebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl("file://" + transcriptFilePath);
+//        webView.loadUrl("javascript:alert('hi');");
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         startText = (TextView) findViewById(R.id.startText);
@@ -135,6 +130,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
+            musicService = null;
             boundToMusicService = false;
         }
     };
@@ -150,8 +146,9 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         if (boundToMusicService) {
             // Detach our existing connection.
             unbindService(musicServiceConnection);
-            boundToMusicService = false;
         }
+        musicService = null;
+        boundToMusicService = false;
     }
 
     @Override
@@ -255,12 +252,17 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            if(musicService == null) {
+                                seekBarTimer.cancel();
+                                return;
+                            }
+
                             if (!ignoreSeekBar)
                                 seekBar.setProgress(musicService.getCurrentMediaPosition());
                         }
                     });
                 }
-            }, 0, 1000);
+            }, 0, 250);
 
         } else if (state == PlaybackState.STATE_STOPPED) {
             findViewById(R.id.play).setVisibility(View.VISIBLE);
@@ -293,7 +295,22 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (fromUser)
             musicService.seekTo(progress);
+
         startText.setText(formatTime(progress));
+
+        int[] currentTimePoint = null;
+        for(int[] timePoint : timePoints) {
+            if(progress >= timePoint[0] && progress <= timePoint[1]) {
+                currentTimePoint = timePoint;
+                break;
+            }
+        }
+        if(currentTimePoint != this.currentTimePoint) {
+            this.currentTimePoint = currentTimePoint;
+            webView.loadUrl("javascript:$('.highlight').removeClass('highlight');");
+            if(currentTimePoint != null)
+                webView.loadUrl("javascript:$('[data-start=" + currentTimePoint[0] + "]').addClass('highlight');");
+        }
     }
 
     public void onStartTrackingTouch(SeekBar seekBar) {
@@ -304,8 +321,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         ignoreSeekBar = false;
     }
 
-    public static ArrayList<int[]> getTimePoints(String filePath)
-            throws XmlPullParserException, IOException {
+    public static ArrayList<int[]> getTimePoints(String filePath) throws IOException {
         ArrayList<int[]> timePoints = new ArrayList<>();
 
         File input = new File(filePath);
@@ -332,7 +348,12 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public boolean onLongClick(View v) {
-        v.setVisibility(View.GONE);
+        switch(v.getId()) {
+            case R.id.lock:
+                v.setVisibility(View.GONE);
+                webView.loadUrl("javascript:$('.blur').removeClass('blur');");
+                break;
+        }
         return true;
     }
 
