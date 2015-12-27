@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -36,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 
-public class ReadAndListenActivity extends AppCompatActivity implements View.OnClickListener, MusicService.OnMediaStateChangedListener, SeekBar.OnSeekBarChangeListener {
+public class ReadAndListenActivity extends AppCompatActivity implements View.OnClickListener, MusicService.OnMediaStateChangedListener, SeekBar.OnSeekBarChangeListener, View.OnLongClickListener {
 
     private static final String TAG = LogHelper.makeLogTag(ReadAndListenActivity.class);
 
@@ -82,11 +83,13 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         findViewById(R.id.prev).setOnClickListener(this);
         findViewById(R.id.next).setOnClickListener(this);
         seekBar.setOnSeekBarChangeListener(this);
+        findViewById(R.id.lock).setOnClickListener(this);
+        findViewById(R.id.lock).setOnLongClickListener(this);
 
         try {
             timePoints = getTimePoints(transcriptFilePath);
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             LogHelper.e(TAG, e.getMessage());
         }
     }
@@ -187,8 +190,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 int currentPosition = musicService.getCurrentMediaPosition();
                 int nextTimePoint = musicService.getDuration(); // time point to seek to
 
-                for(int[] timePoint : timePoints) {
-                    if(timePoint[0] > currentPosition) {
+                for (int[] timePoint : timePoints) {
+                    if (timePoint[0] > currentPosition) {
                         nextTimePoint = timePoint[0];
                         break;
                     }
@@ -198,6 +201,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 seekBar.setProgress(nextTimePoint);
                 break;
             }
+
+            case R.id.lock:
+                Toast.makeText(this, R.string.unlock_hint, Toast.LENGTH_SHORT).show();
+                break;
 
             default:
                 break;
@@ -315,11 +322,18 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 timePoint[1] = Integer.valueOf(end);
                 timePoints.add(timePoint);
 
-            } catch(java.lang.NumberFormatException e) {
+            } catch (java.lang.NumberFormatException e) {
                 LogHelper.e(TAG, e.getMessage());
             }
         }
 
         return timePoints;
     }
+
+    @Override
+    public boolean onLongClick(View v) {
+        v.setVisibility(View.GONE);
+        return true;
+    }
+
 }

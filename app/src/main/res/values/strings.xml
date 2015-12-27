@@ -5,4 +5,6 @@
     <string name="play_pause">play or pause</string>
     <string name="skip_next">skip to next</string>
     <string name="skip_prev">skip to previous</string>
+
+    <string name="unlock_hint">Tap and hold to reveal transcript.</string>
 </resources>
