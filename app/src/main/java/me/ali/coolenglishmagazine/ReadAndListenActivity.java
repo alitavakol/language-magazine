@@ -9,6 +9,7 @@ import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.SeekBar;
@@ -55,17 +56,23 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read_and_listen);
 
+        if (savedInstanceState != null) {
+            transcriptLocked = savedInstanceState.getBoolean("transcriptLocked");
+        }
+
         // TODO read http://javarticles.com/2015/09/android-toolbar-example.html to add toolbar
 
         webView = (WebView) findViewById(R.id.webView);
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient() {
+            public void onPageFinished(WebView view, String url) {
+                if (!transcriptLocked)
+                    onLongClick(findViewById(R.id.lock));
+                currentTimePoint = -1; // force redo highlight current snippet
+            }
+        });
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.addJavascriptInterface(new WebViewJavaScriptInterface(), "app");
         webView.loadUrl("file://" + transcriptFilePath);
-
-        if(savedInstanceState != null) {
-            if(!savedInstanceState.getBoolean("transciptLocked"))
-                onLongClick(findViewById(R.id.lock));
-        }
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         startText = (TextView) findViewById(R.id.startText);
@@ -93,11 +100,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    protected boolean transciptLocked = true;
+    protected boolean transcriptLocked = true;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putBoolean("transciptLocked", transciptLocked);
+        outState.putBoolean("transcriptLocked", transcriptLocked);
     }
 
     @Override
@@ -244,7 +251,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if(musicService == null) {
+                            if (musicService == null) {
                                 seekBarTimer.cancel();
                                 return;
                             }
@@ -291,10 +298,9 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         startText.setText(formatTime(progress));
 
         final int currentTimePoint = floorPosition(progress, 0);
-        if(currentTimePoint != this.currentTimePoint) {
+        if (currentTimePoint != this.currentTimePoint) {
             this.currentTimePoint = currentTimePoint;
-            webView.loadUrl("javascript:$('.highlight').removeClass('highlight');");
-            webView.loadUrl("javascript:$('[data-start=" + currentTimePoint + "]').addClass('highlight');");
+            webView.loadUrl("javascript:highlight(" + currentTimePoint + ");");
         }
     }
 
@@ -311,8 +317,9 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
     /**
      * mathematical floor
+     *
      * @param currentPosition apply floor on this time position
-     * @param margin returned value is behind current position by at least this margin
+     * @param margin          returned value is behind current position by at least this margin
      * @return music position of the latest sound snippet behind current position
      */
     protected int floorPosition(int currentPosition, int margin) {
@@ -331,6 +338,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
     /**
      * mathematical ceil
+     *
      * @param currentPosition apply ceil on this time position
      * @return music position of the first sound snippet after current position
      */
@@ -374,14 +382,28 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public boolean onLongClick(View v) {
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.lock:
                 v.setVisibility(View.GONE);
-                webView.loadUrl("javascript:$('.blur').removeClass('blur');");
-                transciptLocked = false;
+                webView.loadUrl("javascript:lock(false);");
+                transcriptLocked = false;
                 break;
         }
         return true;
     }
 
+    /*
+     * JavaScript Interface. Web code can access methods in here
+     * (as long as they have the @JavascriptInterface annotation)
+     */
+    public class WebViewJavaScriptInterface {
+        /*
+         * This method can be called from Android. @JavascriptInterface
+         * required after SDK version 17.
+         */
+        @JavascriptInterface
+        public void makeToast(String message, boolean lengthLong) {
+            Toast.makeText(getApplicationContext(), message, (lengthLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT)).show();
+        }
+    }
 }
