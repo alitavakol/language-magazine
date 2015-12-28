@@ -14,7 +14,6 @@ import android.media.session.PlaybackState;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.support.annotation.NonNull;
 import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
 

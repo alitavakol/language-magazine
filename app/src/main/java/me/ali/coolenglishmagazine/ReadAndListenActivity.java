@@ -48,7 +48,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
      * array of voice timestamps (start and end of voice snippets)
      */
     ArrayList<int[]> timePoints = null;
-    protected int[] currentTimePoint = null;
+    protected int currentTimePoint = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,33 +178,14 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 break;
 
             case R.id.prev: {
-                int currentPosition = musicService.getCurrentMediaPosition();
-                int prevTimePoint = 0; // time point to seek to
-
-                for (int i = timePoints.size() - 1; i >= 0; i--) {
-                    final int[] timePoint = timePoints.get(i);
-                    if (currentPosition - timePoint[0] > 1500) {
-                        prevTimePoint = timePoint[0];
-                        break;
-                    }
-                }
-
+                int prevTimePoint = floorPosition(musicService.getCurrentMediaPosition(), 1500); // time point to seek to
                 musicService.seekTo(prevTimePoint);
                 seekBar.setProgress(prevTimePoint);
                 break;
             }
 
             case R.id.next: {
-                int currentPosition = musicService.getCurrentMediaPosition();
-                int nextTimePoint = musicService.getDuration(); // time point to seek to
-
-                for (int[] timePoint : timePoints) {
-                    if (timePoint[0] > currentPosition) {
-                        nextTimePoint = timePoint[0];
-                        break;
-                    }
-                }
-
+                int nextTimePoint = ceilPosition(musicService.getCurrentMediaPosition()); // time point to seek to
                 musicService.seekTo(nextTimePoint);
                 seekBar.setProgress(nextTimePoint);
                 break;
@@ -298,38 +279,72 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     }
 
     /**
-     * if true, don't change seekBar position.
+     * if true, code won't change seekBar position.
      */
     boolean ignoreSeekBar = false;
 
+    /**
+     * handle seekBar progress change
+     */
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        if (fromUser)
-            musicService.seekTo(progress);
-
         startText.setText(formatTime(progress));
 
-        int[] currentTimePoint = null;
-        for(int[] timePoint : timePoints) {
-            if(progress >= timePoint[0] && progress <= timePoint[1]) {
-                currentTimePoint = timePoint;
-                break;
-            }
-        }
+        final int currentTimePoint = floorPosition(progress, 0);
         if(currentTimePoint != this.currentTimePoint) {
             this.currentTimePoint = currentTimePoint;
             webView.loadUrl("javascript:$('.highlight').removeClass('highlight');");
-            if(currentTimePoint != null)
-                webView.loadUrl("javascript:$('[data-start=" + currentTimePoint[0] + "]').addClass('highlight');");
+            webView.loadUrl("javascript:$('[data-start=" + currentTimePoint + "]').addClass('highlight');");
         }
     }
 
     public void onStartTrackingTouch(SeekBar seekBar) {
-        ignoreSeekBar = true;
+        ignoreSeekBar = true; // prevent code from changing seekBar position
     }
 
     public void onStopTrackingTouch(SeekBar seekBar) {
+        int prevPosition = floorPosition(seekBar.getProgress(), 0);
+        musicService.seekTo(prevPosition);
+        seekBar.setProgress(prevPosition);
         ignoreSeekBar = false;
+    }
+
+    /**
+     * mathematical floor
+     * @param currentPosition apply floor on this time position
+     * @param margin returned value is behind current position by at least this margin
+     * @return music position of the latest sound snippet behind current position
+     */
+    protected int floorPosition(int currentPosition, int margin) {
+        int prevTimePoint = 0;
+
+        for (int i = timePoints.size() - 1; i >= 0; i--) {
+            final int[] timePoint = timePoints.get(i);
+            if (currentPosition - timePoint[0] >= margin) {
+                prevTimePoint = timePoint[0];
+                break;
+            }
+        }
+
+        return prevTimePoint;
+    }
+
+    /**
+     * mathematical ceil
+     * @param currentPosition apply ceil on this time position
+     * @return music position of the first sound snippet after current position
+     */
+    protected int ceilPosition(int currentPosition) {
+        int nextTimePoint = musicService.getDuration();
+
+        for (int[] timePoint : timePoints) {
+            if (timePoint[0] > currentPosition) {
+                nextTimePoint = timePoint[0];
+                break;
+            }
+        }
+
+        return nextTimePoint;
     }
 
     public static ArrayList<int[]> getTimePoints(String filePath) throws IOException {
