@@ -61,7 +61,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         webView.setWebViewClient(new WebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl("file://" + transcriptFilePath);
-//        webView.loadUrl("javascript:alert('hi');");
+
+        if(savedInstanceState != null) {
+            if(!savedInstanceState.getBoolean("transciptLocked"))
+                onLongClick(findViewById(R.id.lock));
+        }
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         startText = (TextView) findViewById(R.id.startText);
@@ -87,6 +91,13 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         } catch (Exception e) {
             LogHelper.e(TAG, e.getMessage());
         }
+    }
+
+    protected boolean transciptLocked = true;
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean("transciptLocked", transciptLocked);
     }
 
     @Override
@@ -352,6 +363,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             case R.id.lock:
                 v.setVisibility(View.GONE);
                 webView.loadUrl("javascript:$('.blur').removeClass('blur');");
+                transciptLocked = false;
                 break;
         }
         return true;

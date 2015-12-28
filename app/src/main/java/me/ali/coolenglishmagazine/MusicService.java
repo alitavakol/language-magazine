@@ -87,22 +87,13 @@ public class MusicService extends Service implements
 
             handlePlayRequest();
 
-        } else if (intent.getAction().equals("PREV_ACTION")) {
-            LogHelper.i(TAG, "Clicked Previous");
-
         } else if (intent.getAction().equals(ACTION_PAUSE)) {
             LogHelper.i(TAG, "Received pause foreground intent ");
 
             handlePauseRequest();
 
-        } else if (intent.getAction().equals("NEXT_ACTION")) {
-            LogHelper.i(TAG, "Clicked Next");
-
         } else if (intent.getAction().equals(ACTION_STOP)) {
-            LogHelper.i(TAG, "Received stop foreground intent");
-
-            stopForeground(true);
-            stopSelf();
+            handleStopRequest();
         }
 
         return START_STICKY;
