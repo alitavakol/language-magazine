@@ -78,21 +78,25 @@ public class MusicService extends Service implements
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(intent.getAction().equals(ACTION_PREPARE)) {
-            handlePrepareRequest(intent.getStringExtra("dataSource"));
+        final String action = intent.getAction();
 
-        } else if (intent.getAction().equals(ACTION_PLAY)) {
-            LogHelper.i(TAG, "Received start foreground intent ");
+        if(action != null) {
+            if (action.equals(ACTION_PREPARE)) {
+                handlePrepareRequest(intent.getStringExtra("dataSource"));
 
-            handlePlayRequest();
+            } else if (action.equals(ACTION_PLAY)) {
+                LogHelper.i(TAG, "Received start foreground intent ");
 
-        } else if (intent.getAction().equals(ACTION_PAUSE)) {
-            LogHelper.i(TAG, "Received pause foreground intent ");
+                handlePlayRequest();
 
-            handlePauseRequest();
+            } else if (action.equals(ACTION_PAUSE)) {
+                LogHelper.i(TAG, "Received pause foreground intent ");
 
-        } else if (intent.getAction().equals(ACTION_STOP)) {
-            handleStopRequest();
+                handlePauseRequest();
+
+            } else if (action.equals(ACTION_STOP)) {
+                handleStopRequest();
+            }
         }
 
         return START_STICKY;

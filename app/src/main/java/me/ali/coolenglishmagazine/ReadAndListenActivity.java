@@ -26,6 +26,8 @@ import org.jsoup.select.Elements;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -51,8 +53,15 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     /**
      * array of voice timestamps (start and end of voice snippets)
      */
-    ArrayList<int[]> timePoints = null;
+    protected ArrayList<int[]> timePoints = null;
     protected int currentTimePoint = -1;
+
+    public static class NewWord {
+        Map<String, String> definition;
+        String type;
+    }
+
+    protected HashMap<String, NewWord> newWords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +107,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         findViewById(R.id.lock).setOnLongClickListener(this);
 
         try {
+            newWords = getNewWords(transcriptFilePath);
             timePoints = getTimePoints(transcriptFilePath);
 
         } catch (Exception e) {
@@ -190,7 +200,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 break;
 
             case R.id.prev: {
-                int prevTimePoint = floorPosition(musicService.getCurrentMediaPosition(), 1500); // time point to seek to
+                int prevTimePoint = floorPosition(musicService.getCurrentMediaPosition(), 1500, false); // time point to seek to
                 musicService.seekTo(prevTimePoint);
                 seekBar.setProgress(prevTimePoint);
                 break;
@@ -302,7 +312,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         startText.setText(formatTime(progress));
 
-        final int currentTimePoint = floorPosition(progress, 0);
+        final int currentTimePoint = floorPosition(progress, 0, true);
         if (currentTimePoint != this.currentTimePoint) {
             this.currentTimePoint = currentTimePoint;
             webView.loadUrl("javascript:highlight(" + currentTimePoint + ");");
@@ -314,7 +324,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     }
 
     public void onStopTrackingTouch(SeekBar seekBar) {
-        int prevPosition = floorPosition(seekBar.getProgress(), 0);
+        int prevPosition = floorPosition(seekBar.getProgress(), 0, false);
         musicService.seekTo(prevPosition);
         seekBar.setProgress(prevPosition);
         ignoreSeekBar = false;
@@ -325,14 +335,15 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
      *
      * @param currentPosition apply floor on this time position
      * @param margin          returned value is behind current position by at least this margin
+     * @param closed          if true, end of audio snippet is considered too
      * @return music position of the latest sound snippet behind current position
      */
-    protected int floorPosition(int currentPosition, int margin) {
+    protected int floorPosition(int currentPosition, int margin, boolean closed) {
         int prevTimePoint = 0;
 
         for (int i = timePoints.size() - 1; i >= 0; i--) {
             final int[] timePoint = timePoints.get(i);
-            if (currentPosition - timePoint[0] >= margin) {
+            if (currentPosition - timePoint[0] >= margin && (!closed || currentPosition <= timePoint[1])) {
                 prevTimePoint = timePoint[0];
                 break;
             }
@@ -383,6 +394,27 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         }
 
         return timePoints;
+    }
+
+    public static HashMap<String, NewWord> getNewWords(String filePath) throws IOException {
+        HashMap<String, NewWord> newWords = new HashMap<String, NewWord>();
+
+        File input = new File(filePath);
+        Document doc = Jsoup.parse(input, "UTF-8", "");
+
+        Elements spans = doc.getElementsByClass("new-word");
+        for (Element span : spans) {
+            NewWord newWord = new NewWord();
+            newWord.definition = new HashMap<>();
+
+            newWord.type = span.attr("data-start");
+            newWord.definition.put("en", span.attr("data-en"));
+            newWord.definition.put("fa", span.attr("data-fa"));
+
+            newWords.put(span.attr("data-word"), newWord);
+        }
+
+        return newWords;
     }
 
     @Override
