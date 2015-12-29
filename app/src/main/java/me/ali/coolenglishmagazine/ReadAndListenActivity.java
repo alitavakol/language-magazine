@@ -5,15 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.session.PlaybackState;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -397,7 +403,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     }
 
     public static HashMap<String, NewWord> getNewWords(String filePath) throws IOException {
-        HashMap<String, NewWord> newWords = new HashMap<String, NewWord>();
+        HashMap<String, NewWord> newWords = new HashMap<>();
 
         File input = new File(filePath);
         Document doc = Jsoup.parse(input, "UTF-8", "");
@@ -407,7 +413,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             NewWord newWord = new NewWord();
             newWord.definition = new HashMap<>();
 
-            newWord.type = span.attr("data-start");
+            newWord.type = span.attr("data-type");
             newWord.definition.put("en", span.attr("data-en"));
             newWord.definition.put("fa", span.attr("data-fa"));
 
@@ -446,8 +452,38 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         }
 
         @JavascriptInterface
-        public void showGlossary(String phrase, int top, int bottom) {
-            Toast.makeText(getApplicationContext(), "Show glossary for " + phrase + " at (" + top + "," + bottom + ")", Toast.LENGTH_LONG).show();
+        public void showGlossary(final String phrase, final int left, final int top, final int height) {
+//            Toast.makeText(getApplicationContext(), newWords.get(phrase).definition.get("fa"), Toast.LENGTH_LONG).show();
+
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    final NewWord newWord = newWords.get(phrase);
+
+                    LayoutInflater layoutInflater
+                            = (LayoutInflater) getBaseContext()
+                            .getSystemService(LAYOUT_INFLATER_SERVICE);
+
+                    View popupView = layoutInflater.inflate(R.layout.word_definition, null);
+                    ((TextView) popupView.findViewById(R.id.new_word)).setText(phrase);
+                    ((TextView) popupView.findViewById(R.id.word_type)).setText(newWord.type);
+                    ((TextView) popupView.findViewById(R.id.def_en)).setText(newWord.definition.get("en"));
+                    ((TextView) popupView.findViewById(R.id.def_fa)).setText(newWord.definition.get("fa"));
+
+                    final PopupWindow popupWindow = new PopupWindow(
+                            popupView,
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
+                    popupWindow.setBackgroundDrawable(new BitmapDrawable());
+                    popupWindow.setOutsideTouchable(true);
+
+                    if (top < webView.getHeight() / 2) {
+                        popupWindow.showAtLocation(webView, Gravity.TOP | Gravity.LEFT, left, top + 3 * height);
+                    } else {
+                        popupView.measure(View.MeasureSpec.makeMeasureSpec(webView.getWidth(), View.MeasureSpec.AT_MOST), View.MeasureSpec.UNSPECIFIED);
+                        popupWindow.showAtLocation(webView, Gravity.TOP | Gravity.LEFT, left, top + height - popupView.getMeasuredHeight());
+                    }
+                }
+            });
         }
     }
 }

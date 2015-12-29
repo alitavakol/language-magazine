@@ -78,7 +78,7 @@ public class MusicService extends Service implements
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        final String action = intent.getAction();
+        final String action = intent != null ? intent.getAction() : null;
 
         if(action != null) {
             if (action.equals(ACTION_PREPARE)) {
