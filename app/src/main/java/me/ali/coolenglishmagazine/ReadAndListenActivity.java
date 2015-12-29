@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.BitmapFactory;
 import android.media.session.PlaybackState;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +46,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     protected int state = PlaybackState.STATE_NONE;
 
     protected final String transcriptFilePath = "/mnt/sdcard/cool-english-magazine/swimming-squirrel.html";
+    protected final String backgroundImage = "/mnt/sdcard/cool-english-magazine/swimming-squirrel.jpg";
 
     /**
      * array of voice timestamps (start and end of voice snippets)
@@ -73,6 +76,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         webView.getSettings().setJavaScriptEnabled(true);
         webView.addJavascriptInterface(new WebViewJavaScriptInterface(), "app");
         webView.loadUrl("file://" + transcriptFilePath);
+
+        ((ImageView) findViewById(R.id.background_mage)).setImageBitmap(BitmapFactory.decodeFile(backgroundImage));
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         startText = (TextView) findViewById(R.id.startText);
@@ -385,7 +390,9 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         switch (v.getId()) {
             case R.id.lock:
                 v.setVisibility(View.GONE);
-                webView.loadUrl("javascript:lock(false);");
+                findViewById(R.id.background_mage).setVisibility(View.GONE);
+                findViewById(R.id.gradient).setVisibility(View.GONE);
+//                webView.loadUrl("javascript:lock(false);");
                 transcriptLocked = false;
                 break;
         }
@@ -404,6 +411,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         @JavascriptInterface
         public void makeToast(String message, boolean lengthLong) {
             Toast.makeText(getApplicationContext(), message, (lengthLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT)).show();
+        }
+
+        @JavascriptInterface
+        public void showGlossary(String phrase, int top, int bottom) {
+            Toast.makeText(getApplicationContext(), "Show glossary for " + phrase + " at (" + top + "," + bottom + ")", Toast.LENGTH_LONG).show();
         }
     }
 }
