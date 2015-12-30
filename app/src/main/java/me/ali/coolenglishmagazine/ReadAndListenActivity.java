@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
@@ -53,8 +52,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
      */
     protected int state = PlaybackState.STATE_NONE;
 
-    protected final String transcriptFilePath = "/mnt/sdcard/cool-english-magazine/swimming-squirrel.html";
-    protected final String backgroundImage = "/mnt/sdcard/cool-english-magazine/swimming-squirrel.jpg";
+    protected final String manifestFilePath = "/mnt/sdcard/cool-english-magazine/1/manifest.xml";
+    protected String transcriptFilePath;
+    protected String posterFilePath;
+    protected String audioFilePath;
 
     /**
      * array of voice timestamps (start and end of voice snippets)
@@ -83,8 +84,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         // TODO read http://javarticles.com/2015/09/android-toolbar-example.html to add toolbar
 
-        lockTranscript(transcriptLocked);
-
         webView = (WebView) findViewById(R.id.webView);
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
@@ -93,9 +92,24 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         });
         webView.getSettings().setJavaScriptEnabled(true);
         webView.addJavascriptInterface(new WebViewJavaScriptInterface(), "app");
-        webView.loadUrl("file://" + transcriptFilePath);
 
-        ((ImageView) findViewById(R.id.background_mage)).setImageBitmap(BitmapFactory.decodeFile(backgroundImage));
+        try {
+            initFromManifest(manifestFilePath);
+
+            webView.loadUrl("file://" + transcriptFilePath);
+            ((ImageView) findViewById(R.id.background_mage)).setImageBitmap(BitmapFactory.decodeFile(posterFilePath));
+
+            newWords = getNewWords(transcriptFilePath);
+            timePoints = getTimePoints(transcriptFilePath);
+
+            ((TextView) findViewById(R.id.title)).setText(itemTitle);
+            ((TextView) findViewById(R.id.subtitle)).setText(itemSubtitle);
+
+        } catch (IOException e) {
+            LogHelper.e(TAG, e.getMessage());
+        }
+
+        lockTranscript(transcriptLocked);
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         startText = (TextView) findViewById(R.id.startText);
@@ -114,14 +128,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         seekBar.setOnSeekBarChangeListener(this);
         findViewById(R.id.lock).setOnClickListener(this);
         findViewById(R.id.lock).setOnLongClickListener(this);
-
-        try {
-            newWords = getNewWords(transcriptFilePath);
-            timePoints = getTimePoints(transcriptFilePath);
-
-        } catch (Exception e) {
-            LogHelper.e(TAG, e.getMessage());
-        }
     }
 
     protected boolean transcriptLocked = true;
@@ -166,7 +172,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
             Intent startIntent = new Intent(ReadAndListenActivity.this, MusicService.class);
             startIntent.setAction(MusicService.ACTION_PREPARE);
-            startIntent.putExtra("dataSource", "file:///mnt/sdcard/cool-english-magazine/swimming-squirrel.mp3");
+            startIntent.putExtra("dataSource", audioFilePath);
             startService(startIntent);
         }
 
@@ -217,7 +223,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
             case R.id.next: {
                 int nextTimePoint = ceilPosition(musicService.getCurrentMediaPosition()); // time point to seek to
-                if(nextTimePoint < musicService.getDuration()) {
+                if (nextTimePoint < musicService.getDuration()) {
                     musicService.seekTo(nextTimePoint);
                     seekBar.setProgress(nextTimePoint);
                 }
@@ -382,11 +388,31 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         return nextTimePoint;
     }
 
+    protected String itemTitle, itemSubtitle;
+    protected String itemDirectory;
+
+    protected void initFromManifest(String manifestFilePath) throws IOException {
+        File input = new File(manifestFilePath);
+        final Document doc = Jsoup.parse(input, "UTF-8", "");
+
+        itemDirectory = input.getParent();
+
+        Elements elements = doc.getElementsByTag("item");
+        for (Element e : elements) {
+            itemTitle = e.attr("title");
+            itemSubtitle = e.attr("subtitle");
+            transcriptFilePath = itemDirectory + "/" + e.attr("content");
+            posterFilePath = itemDirectory + "/" + e.attr("poster");
+            audioFilePath = itemDirectory + "/" + e.attr("audio");
+            break;
+        }
+    }
+
     public static ArrayList<int[]> getTimePoints(String filePath) throws IOException {
         ArrayList<int[]> timePoints = new ArrayList<>();
 
         File input = new File(filePath);
-        Document doc = Jsoup.parse(input, "UTF-8", "");
+        final Document doc = Jsoup.parse(input, "UTF-8", "");
 
         Elements spans = doc.getElementsByAttribute("data-start");
         for (Element span : spans) {
@@ -411,7 +437,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         HashMap<String, NewWord> newWords = new HashMap<>();
 
         File input = new File(filePath);
-        Document doc = Jsoup.parse(input, "UTF-8", "");
+        final Document doc = Jsoup.parse(input, "UTF-8", "");
 
         Elements spans = doc.getElementsByClass("new-word");
         for (Element span : spans) {
@@ -442,9 +468,9 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
      * Hide transcript
      */
     protected void lockTranscript(boolean lock) {
-        findViewById(R.id.lock).setVisibility(lock? View.VISIBLE : View.GONE);
-        findViewById(R.id.background_mage).setVisibility(lock? View.VISIBLE : View.GONE);
-        findViewById(R.id.gradient).setVisibility(lock? View.VISIBLE : View.GONE);
+        findViewById(R.id.lock).setVisibility(lock ? View.VISIBLE : View.GONE);
+        findViewById(R.id.background_mage).setVisibility(lock ? View.VISIBLE : View.GONE);
+        findViewById(R.id.gradient).setVisibility(lock ? View.VISIBLE : View.GONE);
         findViewById(R.id.webView).setVisibility(lock ? View.INVISIBLE : View.VISIBLE);
 //        webView.loadUrl("javascript:lock(false);");
         transcriptLocked = lock;
@@ -488,6 +514,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                             ViewGroup.LayoutParams.WRAP_CONTENT);
                     popupWindow.setBackgroundDrawable(new BitmapDrawable());
                     popupWindow.setOutsideTouchable(true);
+                    popupWindow.setFocusable(true);
 
                     if (top < webView.getHeight() / 2) {
                         popupWindow.showAtLocation(webView, Gravity.TOP | Gravity.LEFT, left, top + 3 * height);
