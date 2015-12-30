@@ -10,7 +10,8 @@
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/controllers" />
+        android:layout_above="@+id/controllers"
+        android:visibility="invisible" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -55,7 +56,8 @@
                 android:gravity="center_vertical"
                 android:maxLines="1"
                 android:text="0:00"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:typeface="monospace" />
 
             <SeekBar
                 android:id="@+id/seekBar"
@@ -79,7 +81,8 @@
                 android:gravity="center_vertical"
                 android:maxLines="1"
                 android:text="1:16"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:typeface="monospace" />
 
         </RelativeLayout>
 

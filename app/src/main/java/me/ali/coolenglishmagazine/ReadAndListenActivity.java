@@ -67,6 +67,9 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         String type;
     }
 
+    /**
+     * new words extracted from audio transcript HTML file
+     */
     protected HashMap<String, NewWord> newWords;
 
     @Override
@@ -80,12 +83,12 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         // TODO read http://javarticles.com/2015/09/android-toolbar-example.html to add toolbar
 
+        lockTranscript(transcriptLocked);
+
         webView = (WebView) findViewById(R.id.webView);
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
-                if (!transcriptLocked)
-                    onLongClick(findViewById(R.id.lock));
-                currentTimePoint = -1; // force redo highlight current snippet
+                currentTimePoint = -1; // force redo highlight current snippet when playing
             }
         });
         webView.getSettings().setJavaScriptEnabled(true);
@@ -214,8 +217,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
             case R.id.next: {
                 int nextTimePoint = ceilPosition(musicService.getCurrentMediaPosition()); // time point to seek to
-                musicService.seekTo(nextTimePoint);
-                seekBar.setProgress(nextTimePoint);
+                if(nextTimePoint < musicService.getDuration()) {
+                    musicService.seekTo(nextTimePoint);
+                    seekBar.setProgress(nextTimePoint);
+                }
                 break;
             }
 
@@ -427,14 +432,22 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     public boolean onLongClick(View v) {
         switch (v.getId()) {
             case R.id.lock:
-                v.setVisibility(View.GONE);
-                findViewById(R.id.background_mage).setVisibility(View.GONE);
-                findViewById(R.id.gradient).setVisibility(View.GONE);
-//                webView.loadUrl("javascript:lock(false);");
-                transcriptLocked = false;
+                lockTranscript(false);
                 break;
         }
         return true;
+    }
+
+    /**
+     * Hide transcript
+     */
+    protected void lockTranscript(boolean lock) {
+        findViewById(R.id.lock).setVisibility(lock? View.VISIBLE : View.GONE);
+        findViewById(R.id.background_mage).setVisibility(lock? View.VISIBLE : View.GONE);
+        findViewById(R.id.gradient).setVisibility(lock? View.VISIBLE : View.GONE);
+        findViewById(R.id.webView).setVisibility(lock ? View.INVISIBLE : View.VISIBLE);
+//        webView.loadUrl("javascript:lock(false);");
+        transcriptLocked = lock;
     }
 
     /*
@@ -479,6 +492,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                     if (top < webView.getHeight() / 2) {
                         popupWindow.showAtLocation(webView, Gravity.TOP | Gravity.LEFT, left, top + 3 * height);
                     } else {
+                        // TODO find correct value for first parameter of this call
                         popupView.measure(View.MeasureSpec.makeMeasureSpec(webView.getWidth(), View.MeasureSpec.AT_MOST), View.MeasureSpec.UNSPECIFIED);
                         popupWindow.showAtLocation(webView, Gravity.TOP | Gravity.LEFT, left, top + height - popupView.getMeasuredHeight());
                     }
