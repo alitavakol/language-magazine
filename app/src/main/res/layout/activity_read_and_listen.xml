@@ -10,50 +10,15 @@
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/controllers"
-        android:visibility="invisible" />
+        android:layout_alignParentBottom="true" />
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/gradient_edge"
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_above="@+id/controllers"
-        android:background="@drawable/half_gradient"></RelativeLayout>
-
-    <ImageView
-        android:id="@+id/background_mage"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:scaleType="centerCrop" />
-
-    <RelativeLayout
-        android:id="@+id/gradient"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/fullscreen_bg_gradient">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="@dimen/text_view_margin"
-            android:layout_marginLeft="@dimen/text_view_margin"
-            android:text="Large Text"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@id/title"
-            android:layout_marginLeft="@dimen/text_view_margin"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </RelativeLayout>
-
+        android:src="@drawable/half_gradient"
+        android:visibility="invisible" />
 
     <LinearLayout
         android:id="@+id/controllers"
@@ -156,9 +121,9 @@
         android:id="@+id/lock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/webView"
+        android:layout_above="@id/gradient_edge"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/key" />
+        android:src="@drawable/key"
+        android:visibility="invisible"/>
 
 </RelativeLayout>

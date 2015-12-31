@@ -19,6 +19,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,7 +55,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
     protected final String manifestFilePath = "/mnt/sdcard/cool-english-magazine/1/manifest.xml";
     protected String transcriptFilePath;
-    protected String posterFilePath;
     protected String audioFilePath;
 
     /**
@@ -87,7 +87,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         webView = (WebView) findViewById(R.id.webView);
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
-                currentTimePoint = -1; // force redo highlight current snippet when playing
+                lockTranscript(transcriptLocked);
+                webView.loadUrl("javascript:highlight(" + currentTimePoint + ");");
+                if (state == PlaybackState.STATE_PLAYING) {
+                    currentTimePoint = -1; // force redo highlight current snippet when playing
+                }
             }
         });
         webView.getSettings().setJavaScriptEnabled(true);
@@ -96,20 +100,9 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         try {
             initFromManifest(manifestFilePath);
 
-            webView.loadUrl("file://" + transcriptFilePath);
-            ((ImageView) findViewById(R.id.background_mage)).setImageBitmap(BitmapFactory.decodeFile(posterFilePath));
-
-            newWords = getNewWords(transcriptFilePath);
-            timePoints = getTimePoints(transcriptFilePath);
-
-            ((TextView) findViewById(R.id.title)).setText(itemTitle);
-            ((TextView) findViewById(R.id.subtitle)).setText(itemSubtitle);
-
         } catch (IOException e) {
             LogHelper.e(TAG, e.getMessage());
         }
-
-        lockTranscript(transcriptLocked);
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         startText = (TextView) findViewById(R.id.startText);
@@ -128,6 +121,16 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         seekBar.setOnSeekBarChangeListener(this);
         findViewById(R.id.lock).setOnClickListener(this);
         findViewById(R.id.lock).setOnLongClickListener(this);
+
+        try {
+            webView.loadUrl("file://" + transcriptFilePath);
+
+            newWords = getNewWords(transcriptFilePath);
+            timePoints = getTimePoints(transcriptFilePath);
+
+        } catch (IOException e) {
+            LogHelper.e(TAG, e.getMessage());
+        }
     }
 
     protected boolean transcriptLocked = true;
@@ -154,8 +157,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         super.onStop();
         LogHelper.d(TAG, "onStop");
 
-        musicService.removeOnMediaStateChangedListener(ReadAndListenActivity.this);
-        unbindMusicService();
+        if(boundToMusicService) {
+            musicService.removeOnMediaStateChangedListener(ReadAndListenActivity.this);
+            unbindMusicService();
+        }
     }
 
     /**
@@ -402,7 +407,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             itemTitle = e.attr("title");
             itemSubtitle = e.attr("subtitle");
             transcriptFilePath = itemDirectory + "/" + e.attr("content");
-            posterFilePath = itemDirectory + "/" + e.attr("poster");
             audioFilePath = itemDirectory + "/" + e.attr("audio");
             break;
         }
@@ -468,12 +472,20 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
      * Hide transcript
      */
     protected void lockTranscript(boolean lock) {
-        findViewById(R.id.lock).setVisibility(lock ? View.VISIBLE : View.GONE);
-        findViewById(R.id.background_mage).setVisibility(lock ? View.VISIBLE : View.GONE);
-        findViewById(R.id.gradient).setVisibility(lock ? View.VISIBLE : View.GONE);
-        findViewById(R.id.webView).setVisibility(lock ? View.INVISIBLE : View.VISIBLE);
-//        webView.loadUrl("javascript:lock(false);");
+        findViewById(R.id.lock).setVisibility(lock ? View.VISIBLE : View.INVISIBLE);
+        findViewById(R.id.gradient_edge).setVisibility(lock ? View.GONE: View.VISIBLE);
+        webView.loadUrl("javascript:lock(" + lock + ");");
         transcriptLocked = lock;
+
+        RelativeLayout.LayoutParams layout = (RelativeLayout.LayoutParams) webView.getLayoutParams();
+        if(lock) {
+            layout.removeRule(RelativeLayout.ABOVE);
+            layout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        } else {
+            layout.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            layout.addRule(RelativeLayout.ABOVE, R.id.controllers);
+        }
+        webView.setLayoutParams(layout);
     }
 
     /*
@@ -514,7 +526,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                             ViewGroup.LayoutParams.WRAP_CONTENT);
                     popupWindow.setBackgroundDrawable(new BitmapDrawable());
                     popupWindow.setOutsideTouchable(true);
-                    popupWindow.setFocusable(true);
+                    popupWindow.setFocusable(true); // pressing back button will close popup window
 
                     if (top < webView.getHeight() / 2) {
                         popupWindow.showAtLocation(webView, Gravity.TOP | Gravity.LEFT, left, top + 3 * height);
