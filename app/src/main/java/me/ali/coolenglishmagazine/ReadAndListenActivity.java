@@ -4,20 +4,24 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.BitmapFactory;
+import android.content.res.TypedArray;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.session.PlaybackState;
 import android.os.IBinder;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -83,11 +87,29 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         }
 
         // TODO read http://javarticles.com/2015/09/android-toolbar-example.html to add toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+        if(ab!=null) {
+            ab.setDisplayShowTitleEnabled(false); // hide action bar title
+            ab.setDisplayHomeAsUpEnabled(true); // Enable the Up button
+        }
 
         webView = (WebView) findViewById(R.id.webView);
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
+                // show html content below action bar, keeping background untouched
+                int[] actionBarSizeAttr = new int[]{android.R.attr.actionBarSize};
+                int indexOfAttrActionBarSize = 0;
+                TypedArray a = obtainStyledAttributes(new TypedValue().data, actionBarSizeAttr);
+                int actionBarSize = a.getDimensionPixelSize(indexOfAttrActionBarSize, -1);
+                a.recycle();
+                webView.loadUrl("javascript:adjustLayout(" + (actionBarSize + 16) + ")"); // I don't know where does 16 extra pixels belong to.
+
                 lockTranscript(transcriptLocked);
+
                 webView.loadUrl("javascript:highlight(" + currentTimePoint + ");");
                 if (state == PlaybackState.STATE_PLAYING) {
                     currentTimePoint = -1; // force redo highlight current snippet when playing
@@ -133,6 +155,31 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+    Menu menu;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.read_and_listen, menu);
+        this.menu = menu;
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.action_lock) {
+            lockTranscript(true);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     protected boolean transcriptLocked = true;
 
     @Override
@@ -157,7 +204,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         super.onStop();
         LogHelper.d(TAG, "onStop");
 
-        if(boundToMusicService) {
+        if (boundToMusicService) {
             musicService.removeOnMediaStateChangedListener(ReadAndListenActivity.this);
             unbindMusicService();
         }
@@ -402,13 +449,12 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         itemDirectory = input.getParent();
 
-        Elements elements = doc.getElementsByTag("item");
-        for (Element e : elements) {
+        Element e = doc.getElementsByTag("item").first();
+        if (e != null) {
             itemTitle = e.attr("title");
             itemSubtitle = e.attr("subtitle");
             transcriptFilePath = itemDirectory + "/" + e.attr("content");
             audioFilePath = itemDirectory + "/" + e.attr("audio");
-            break;
         }
     }
 
@@ -473,19 +519,28 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
      */
     protected void lockTranscript(boolean lock) {
         findViewById(R.id.lock).setVisibility(lock ? View.VISIBLE : View.INVISIBLE);
-        findViewById(R.id.gradient_edge).setVisibility(lock ? View.GONE: View.VISIBLE);
-        webView.loadUrl("javascript:lock(" + lock + ");");
+        findViewById(R.id.gradient_edge).setVisibility(lock ? View.GONE : View.VISIBLE);
+        if (menu != null)
+            menu.findItem(R.id.action_lock).setVisible(!lock);
+
         transcriptLocked = lock;
 
         RelativeLayout.LayoutParams layout = (RelativeLayout.LayoutParams) webView.getLayoutParams();
-        if(lock) {
+        if (lock) {
             layout.removeRule(RelativeLayout.ABOVE);
             layout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            layout.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+
         } else {
             layout.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
             layout.addRule(RelativeLayout.ABOVE, R.id.controllers);
+            layout.topMargin = 0;
+            layout.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
+            layout.addRule(RelativeLayout.BELOW, R.id.toolbar);
         }
         webView.setLayoutParams(layout);
+
+        webView.loadUrl("javascript:lock(" + lock + ");");
     }
 
     /*
@@ -529,11 +584,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                     popupWindow.setFocusable(true); // pressing back button will close popup window
 
                     if (top < webView.getHeight() / 2) {
-                        popupWindow.showAtLocation(webView, Gravity.TOP | Gravity.LEFT, left, top + 3 * height);
+                        popupWindow.showAtLocation(webView, Gravity.TOP | Gravity.LEFT, left, top + 3 * height + webView.getTop());
                     } else {
                         // TODO find correct value for first parameter of this call
                         popupView.measure(View.MeasureSpec.makeMeasureSpec(webView.getWidth(), View.MeasureSpec.AT_MOST), View.MeasureSpec.UNSPECIFIED);
-                        popupWindow.showAtLocation(webView, Gravity.TOP | Gravity.LEFT, left, top + height - popupView.getMeasuredHeight());
+                        popupWindow.showAtLocation(webView, Gravity.TOP | Gravity.LEFT, left, top + height - popupView.getMeasuredHeight() + webView.getTop());
                     }
                 }
             });
