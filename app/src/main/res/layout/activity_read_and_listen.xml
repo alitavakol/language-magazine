@@ -54,7 +54,10 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_toEndOf="@+id/startText"
-                android:layout_toStartOf="@+id/endText" />
+                android:layout_toStartOf="@+id/endText"
+                android:indeterminateDrawable="@drawable/apptheme_scrubber_progress_horizontal_holo_light"
+                android:progressDrawable="@drawable/apptheme_scrubber_progress_horizontal_holo_light"
+                android:thumb="@drawable/apptheme_scrubber_control_selector_holo_light" />
 
             <TextView
                 android:id="@+id/endText"
@@ -124,6 +127,6 @@
         android:layout_above="@id/gradient_edge"
         android:layout_centerHorizontal="true"
         android:src="@drawable/key"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
 </RelativeLayout>
