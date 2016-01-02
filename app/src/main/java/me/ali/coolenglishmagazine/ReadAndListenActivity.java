@@ -106,11 +106,15 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 TypedArray a = obtainStyledAttributes(new TypedValue().data, actionBarSizeAttr);
                 int actionBarSize = a.getDimensionPixelSize(indexOfAttrActionBarSize, -1);
                 a.recycle();
-                webView.loadUrl("javascript:adjustLayout("
-                                + (actionBarSize + getResources().getDimension(R.dimen.gradient_edge_height))
-                                + ", " + webView.getMeasuredHeight()
-                                + ");"
-                );
+
+                final String command = "javascript:adjustLayout("
+                        + (actionBarSize + getResources().getDimension(R.dimen.gradient_edge_height))
+                        + ", " + webView.getMeasuredHeight()
+                        + ", '#" + Integer.toHexString(getResources().getColor(R.color.colorAccent)) + "'"
+                        + ", '" + "#C5C5C5" + "'"
+                        + ", '#" + Integer.toHexString(getResources().getColor(R.color.colorPrimary)) + "'"
+                        + ");";
+                webView.loadUrl(command);
 
                 lockTranscript(transcriptLocked);
 
