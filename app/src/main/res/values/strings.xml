@@ -7,6 +7,7 @@
     <string name="skip_prev">skip to previous</string>
 
     <string name="lock">Hide Transcript</string>
+    <string name="unlock">Reveal Transcript</string>
     <string name="unlock_hint">Tap and hold to reveal transcript.</string>
 
     <string name="action_settings">Preferences</string>

@@ -92,7 +92,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
-        if(ab!=null) {
+        if (ab != null) {
             ab.setDisplayShowTitleEnabled(false); // hide action bar title
             ab.setDisplayHomeAsUpEnabled(true); // Enable the Up button
         }
@@ -106,7 +106,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 TypedArray a = obtainStyledAttributes(new TypedValue().data, actionBarSizeAttr);
                 int actionBarSize = a.getDimensionPixelSize(indexOfAttrActionBarSize, -1);
                 a.recycle();
-                webView.loadUrl("javascript:adjustLayout(" + (actionBarSize + 16) + ")"); // I don't know where does 16 extra pixels belong to.
+                webView.loadUrl("javascript:adjustLayout("
+                                + (actionBarSize + 16) // I don't know where does 16 extra pixels belong to.
+                                + ", " + webView.getMeasuredHeight()
+                                + ");"
+                );
 
                 lockTranscript(transcriptLocked);
 
@@ -118,6 +122,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         });
         webView.getSettings().setJavaScriptEnabled(true);
         webView.addJavascriptInterface(new WebViewJavaScriptInterface(), "app");
+        webView.setVerticalScrollBarEnabled(false);
 
         try {
             initFromManifest(manifestFilePath);
@@ -174,6 +179,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         if (id == R.id.action_lock) {
             lockTranscript(true);
+            return true;
+
+        } else if (id == R.id.action_unlock) {
+            lockTranscript(false);
             return true;
         }
 
@@ -255,6 +264,9 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.play:
+                if (musicService != null && state == PlaybackState.STATE_PAUSED) { // rewind to start of audio snippet
+                    musicService.seekTo(floorPosition(musicService.getCurrentMediaPosition(), 0, false));
+                }
                 Intent startIntent = new Intent(ReadAndListenActivity.this, MusicService.class);
                 startIntent.setAction(MusicService.ACTION_PLAY);
                 startService(startIntent);
@@ -336,7 +348,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                         @Override
                         public void run() {
                             if (musicService == null) {
-                                seekBarTimer.cancel();
+                                if (seekBarTimer != null) {
+                                    seekBarTimer.cancel();
+                                    seekBarTimer = null;
+                                }
                                 return;
                             }
 
@@ -518,27 +533,14 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
      * Hide transcript
      */
     protected void lockTranscript(boolean lock) {
-        findViewById(R.id.lock).setVisibility(lock ? View.VISIBLE : View.INVISIBLE);
-        findViewById(R.id.gradient_edge).setVisibility(lock ? View.GONE : View.VISIBLE);
-        if (menu != null)
-            menu.findItem(R.id.action_lock).setVisible(!lock);
-
         transcriptLocked = lock;
 
-        RelativeLayout.LayoutParams layout = (RelativeLayout.LayoutParams) webView.getLayoutParams();
-        if (lock) {
-            layout.removeRule(RelativeLayout.ABOVE);
-            layout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            layout.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        findViewById(R.id.lock).setVisibility(lock ? View.VISIBLE : View.INVISIBLE);
 
-        } else {
-            layout.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            layout.addRule(RelativeLayout.ABOVE, R.id.controllers);
-            layout.topMargin = 0;
-            layout.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
-            layout.addRule(RelativeLayout.BELOW, R.id.toolbar);
+        if (menu != null) {
+            menu.findItem(R.id.action_lock).setVisible(!lock);
+//            menu.findItem(R.id.action_unlock).setVisible(lock);
         }
-        webView.setLayoutParams(layout);
 
         webView.loadUrl("javascript:lock(" + lock + ");");
     }
@@ -555,6 +557,29 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         @JavascriptInterface
         public void makeToast(String message, boolean lengthLong) {
             Toast.makeText(getApplicationContext(), message, (lengthLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT)).show();
+        }
+
+        @JavascriptInterface
+        public void onLockStateChanged() {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    findViewById(R.id.gradient_edge).setVisibility(transcriptLocked ? View.GONE : View.VISIBLE);
+
+                    RelativeLayout.LayoutParams layout = (RelativeLayout.LayoutParams) webView.getLayoutParams();
+                    if (transcriptLocked) {
+                        layout.removeRule(RelativeLayout.ABOVE);
+                        layout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                        layout.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+
+                    } else {
+                        layout.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                        layout.addRule(RelativeLayout.ABOVE, R.id.controllers);
+                        layout.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
+                        layout.addRule(RelativeLayout.BELOW, R.id.toolbar);
+                    }
+                    webView.setLayoutParams(layout);
+                }
+            });
         }
 
         @JavascriptInterface

@@ -6,7 +6,14 @@
         android:id="@+id/action_lock"
         android:icon="@android:drawable/ic_lock_idle_lock"
         android:title="@string/lock"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_unlock"
+        android:icon="@android:drawable/ic_lock_idle_lock"
+        android:title="@string/unlock"
+        app:showAsAction="ifRoom"
+        android:visible="false"/>
 
     <!-- Settings, should always be in the overflow -->
     <item android:id="@+id/action_settings"
