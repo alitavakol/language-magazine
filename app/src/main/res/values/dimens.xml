@@ -6,4 +6,6 @@
     <!-- Margins for media playback controls -->
     <dimen name="text_view_margin">16dp</dimen>
     <dimen name="end_text_margin">16dp</dimen>
+
+    <dimen name="gradient_edge_height">16dp</dimen>
 </resources>

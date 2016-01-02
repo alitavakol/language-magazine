@@ -107,7 +107,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 int actionBarSize = a.getDimensionPixelSize(indexOfAttrActionBarSize, -1);
                 a.recycle();
                 webView.loadUrl("javascript:adjustLayout("
-                                + (actionBarSize + 16) // I don't know where does 16 extra pixels belong to.
+                                + (actionBarSize + getResources().getDimension(R.dimen.gradient_edge_height))
                                 + ", " + webView.getMeasuredHeight()
                                 + ");"
                 );
@@ -535,14 +535,12 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     protected void lockTranscript(boolean lock) {
         transcriptLocked = lock;
 
-        findViewById(R.id.lock).setVisibility(lock ? View.VISIBLE : View.INVISIBLE);
-
         if (menu != null) {
-            menu.findItem(R.id.action_lock).setVisible(!lock);
+            menu.findItem(R.id.action_lock).setVisible(!transcriptLocked);
 //            menu.findItem(R.id.action_unlock).setVisible(lock);
         }
 
-        webView.loadUrl("javascript:lock(" + lock + ");");
+        webView.loadUrl("javascript:lock(" + transcriptLocked + ");");
     }
 
     /*
@@ -559,23 +557,26 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             Toast.makeText(getApplicationContext(), message, (lengthLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT)).show();
         }
 
+        /**
+         * we adjust layout after javascript finishes laying out new view after locking/unlocking.
+         * this function is called back by javascript.
+         */
         @JavascriptInterface
         public void onLockStateChanged() {
             runOnUiThread(new Runnable() {
                 public void run() {
                     findViewById(R.id.gradient_edge).setVisibility(transcriptLocked ? View.GONE : View.VISIBLE);
+                    findViewById(R.id.gradient_edge_up).setVisibility(transcriptLocked ? View.GONE : View.VISIBLE);
+                    findViewById(R.id.lock).setVisibility(transcriptLocked ? View.VISIBLE : View.INVISIBLE);
+                    findViewById(R.id.toolbar).setBackgroundResource(transcriptLocked ? android.R.color.transparent : R.color.colorPrimary);
 
                     RelativeLayout.LayoutParams layout = (RelativeLayout.LayoutParams) webView.getLayoutParams();
                     if (transcriptLocked) {
                         layout.removeRule(RelativeLayout.ABOVE);
                         layout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                        layout.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-
                     } else {
                         layout.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                         layout.addRule(RelativeLayout.ABOVE, R.id.controllers);
-                        layout.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
-                        layout.addRule(RelativeLayout.BELOW, R.id.toolbar);
                     }
                     webView.setLayoutParams(layout);
                 }
