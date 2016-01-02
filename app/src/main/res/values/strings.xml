@@ -11,4 +11,6 @@
     <string name="unlock_hint">Tap and hold to reveal transcript.</string>
 
     <string name="action_settings">Preferences</string>
+    <string name="title_item_list">Magazine</string>
+    <string name="title_item_detail">Item Detail</string>
 </resources>

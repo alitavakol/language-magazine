@@ -8,4 +8,6 @@
     <dimen name="end_text_margin">16dp</dimen>
 
     <dimen name="gradient_edge_height">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="app_bar_height">200dp</dimen>
 </resources>
