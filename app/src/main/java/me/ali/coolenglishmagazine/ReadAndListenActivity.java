@@ -8,6 +8,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.session.PlaybackState;
 import android.os.IBinder;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -65,6 +66,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
      * array of voice timestamps (start and end of voice snippets)
      */
     protected ArrayList<int[]> timePoints = null;
+
+    /**
+     * start time of currently playing audio snippet
+     */
     protected int currentTimePoint = -1;
 
     public static class NewWord {
@@ -108,12 +113,13 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 a.recycle();
 
                 final String command = "javascript:adjustLayout("
-                        + (actionBarSize + getResources().getDimension(R.dimen.gradient_edge_height))
-                        + ", " + webView.getMeasuredHeight()
-                        + ", '#" + Integer.toHexString(getResources().getColor(R.color.colorAccent))
-                        + "', '#C5C5C5', '#"
-                         + Integer.toHexString(getResources().getColor(R.color.colorPrimary))
-                        + "');";
+                        + (actionBarSize + getResources().getDimension(R.dimen.gradient_edge_height)) // HTML content top margin
+                        + ", " + webView.getMeasuredHeight() // poster height
+                        + ", " + ContextCompat.getColor(getApplicationContext(), R.color.colorAccent) // accent color
+                        + ", 0xc5c5c5, " // text color
+                        + ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary) // background color
+                        + ", 0xf8f8f8" // new word color
+                        + ");";
                 webView.loadUrl(command);
 
                 lockTranscript(transcriptLocked);
