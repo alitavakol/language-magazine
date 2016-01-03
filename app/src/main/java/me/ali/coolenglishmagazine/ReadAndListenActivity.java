@@ -110,10 +110,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 final String command = "javascript:adjustLayout("
                         + (actionBarSize + getResources().getDimension(R.dimen.gradient_edge_height))
                         + ", " + webView.getMeasuredHeight()
-                        + ", '#" + Integer.toHexString(getResources().getColor(R.color.colorAccent)) + "'"
-                        + ", '" + "#C5C5C5" + "'"
-                        + ", '#" + Integer.toHexString(getResources().getColor(R.color.colorPrimary)) + "'"
-                        + ");";
+                        + ", '#" + Integer.toHexString(getResources().getColor(R.color.colorAccent))
+                        + "', '#C5C5C5', '#"
+                         + Integer.toHexString(getResources().getColor(R.color.colorPrimary))
+                        + "');";
                 webView.loadUrl(command);
 
                 lockTranscript(transcriptLocked);
@@ -156,8 +156,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         try {
             webView.loadUrl("file://" + transcriptFilePath);
 
-            newWords = getNewWords(transcriptFilePath);
-            timePoints = getTimePoints(transcriptFilePath);
+            File input = new File(transcriptFilePath);
+            final Document doc = Jsoup.parse(input, "UTF-8", "");
+
+            newWords = getNewWords(doc);
+            timePoints = getTimePoints(doc);
 
         } catch (IOException e) {
             LogHelper.e(TAG, e.getMessage());
@@ -477,11 +480,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    public static ArrayList<int[]> getTimePoints(String filePath) throws IOException {
+    public static ArrayList<int[]> getTimePoints(final Document doc) throws IOException {
         ArrayList<int[]> timePoints = new ArrayList<>();
-
-        File input = new File(filePath);
-        final Document doc = Jsoup.parse(input, "UTF-8", "");
 
         Elements spans = doc.getElementsByAttribute("data-start");
         for (Element span : spans) {
@@ -502,11 +502,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         return timePoints;
     }
 
-    public static HashMap<String, NewWord> getNewWords(String filePath) throws IOException {
+    public static HashMap<String, NewWord> getNewWords(final Document doc) throws IOException {
         HashMap<String, NewWord> newWords = new HashMap<>();
-
-        File input = new File(filePath);
-        final Document doc = Jsoup.parse(input, "UTF-8", "");
 
         Elements spans = doc.getElementsByClass("new-word");
         for (Element span : spans) {
