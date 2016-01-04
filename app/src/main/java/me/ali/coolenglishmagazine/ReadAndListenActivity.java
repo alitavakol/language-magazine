@@ -50,6 +50,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
     private static final String TAG = LogHelper.makeLogTag(ReadAndListenActivity.class);
 
+    public static final String ARG_ROOT_DIRECTORY = "item_root_directory";
+
     private MusicService musicService;
     private boolean boundToMusicService = false;
 
@@ -58,7 +60,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
      */
     protected int state = PlaybackState.STATE_NONE;
 
-    protected final String manifestFilePath = "/mnt/sdcard/cool-english-magazine/1/manifest.xml";
+    protected static final String manifestFileName = "manifest.xml";
     protected String transcriptFilePath;
     protected String audioFilePath;
 
@@ -135,7 +137,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         webView.setVerticalScrollBarEnabled(false);
 
         try {
-            initFromManifest(manifestFilePath);
+            initFromManifest();
 
         } catch (IOException e) {
             LogHelper.e(TAG, e.getMessage());
@@ -471,11 +473,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     protected String itemTitle, itemSubtitle;
     protected String itemDirectory;
 
-    protected void initFromManifest(String manifestFilePath) throws IOException {
-        File input = new File(manifestFilePath);
-        final Document doc = Jsoup.parse(input, "UTF-8", "");
+    protected void initFromManifest() throws IOException {
+        itemDirectory = getIntent().getStringExtra(ARG_ROOT_DIRECTORY);
 
-        itemDirectory = input.getParent();
+        File input = new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY), manifestFileName);
+        final Document doc = Jsoup.parse(input, "UTF-8", "");
 
         Element e = doc.getElementsByTag("item").first();
         if (e != null) {

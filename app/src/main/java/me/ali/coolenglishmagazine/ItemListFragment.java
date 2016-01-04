@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import me.ali.coolenglishmagazine.dummy.DummyContent;
+import me.ali.coolenglishmagazine.data.MagazineContent;
 
 /**
  * A list fragment representing a list of Magazine. This fragment
@@ -19,6 +19,12 @@ import me.ali.coolenglishmagazine.dummy.DummyContent;
  * interface.
  */
 public class ItemListFragment extends ListFragment {
+
+    MagazineContent magazineContent = new MagazineContent();
+
+    public String rootDirectory;
+
+    public static final String ARG_ROOT_DIRECTORY = "magazine_root_directory";
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -46,7 +52,7 @@ public class ItemListFragment extends ListFragment {
         /**
          * Callback for when an item has been selected.
          */
-        public void onItemSelected(String id);
+        void onItemSelected(MagazineContent.Item item);
     }
 
     /**
@@ -55,7 +61,7 @@ public class ItemListFragment extends ListFragment {
      */
     private static Callbacks sDummyCallbacks = new Callbacks() {
         @Override
-        public void onItemSelected(String id) {
+        public void onItemSelected(MagazineContent.Item item) {
         }
     };
 
@@ -70,12 +76,16 @@ public class ItemListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        rootDirectory = getArguments().getString(ARG_ROOT_DIRECTORY);
+
+        magazineContent.loadItems(rootDirectory);
+
         // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
+        setListAdapter(new ArrayAdapter<>(
                 getActivity(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
-                DummyContent.ITEMS));
+                magazineContent.ITEMS));
     }
 
     @Override
@@ -115,7 +125,7 @@ public class ItemListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        mCallbacks.onItemSelected(magazineContent.ITEMS.get(position));
     }
 
     @Override

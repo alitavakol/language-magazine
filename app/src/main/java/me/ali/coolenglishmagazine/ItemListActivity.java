@@ -8,6 +8,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
+import me.ali.coolenglishmagazine.data.MagazineContent;
+import me.ali.coolenglishmagazine.util.LogHelper;
+
 
 /**
  * An activity representing a list of Magazine. This activity
@@ -52,6 +55,14 @@ public class ItemListActivity extends AppCompatActivity
             }
         });
 
+        Bundle arguments = new Bundle();
+        arguments.putString(ItemListFragment.ARG_ROOT_DIRECTORY, getExternalFilesDir(null).getAbsolutePath() + "/");
+        ItemListFragment fragment = new ItemListFragment();
+        fragment.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frameLayout, fragment)
+                .commit();
+
         if (findViewById(R.id.item_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-large and
@@ -74,13 +85,13 @@ public class ItemListActivity extends AppCompatActivity
      * indicating that the item with the given ID was selected.
      */
     @Override
-    public void onItemSelected(String id) {
+    public void onItemSelected(MagazineContent.Item item) {
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ItemDetailFragment.ARG_ITEM_ID, id);
+            arguments.putString(ItemDetailFragment.ARG_ROOT_DIRECTORY, item.rootDirectory);
             ItemDetailFragment fragment = new ItemDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -91,7 +102,7 @@ public class ItemListActivity extends AppCompatActivity
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, ItemDetailActivity.class);
-            detailIntent.putExtra(ItemDetailFragment.ARG_ITEM_ID, id);
+            detailIntent.putExtra(ItemDetailFragment.ARG_ROOT_DIRECTORY, item.rootDirectory);
             startActivity(detailIntent);
         }
     }
