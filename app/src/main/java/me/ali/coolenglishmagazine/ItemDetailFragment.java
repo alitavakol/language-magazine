@@ -29,7 +29,7 @@ public class ItemDetailFragment extends Fragment {
     public static final String ARG_ROOT_DIRECTORY = "item_root_directory";
 
     /**
-     * The dummy content this fragment is presenting.
+     * The magazine item this fragment is presenting.
      */
     private MagazineContent.Item item;
 
@@ -45,20 +45,14 @@ public class ItemDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ROOT_DIRECTORY)) {
-            // Load the dummy content specified by the fragment
+            // Load magazine content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             try {
                 item = MagazineContent.getItem(getArguments().getString(ARG_ROOT_DIRECTORY));
+
             } catch (IOException e) {
                 // TODO: handle error
-            }
-
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(item.title);
-                ((ImageView) activity.findViewById(R.id.poster)).setImageBitmap(BitmapFactory.decodeFile(item.rootDirectory + item.posterFileName));
             }
         }
     }
@@ -74,5 +68,17 @@ public class ItemDetailFragment extends Fragment {
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        Activity activity = this.getActivity();
+        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+        if (appBarLayout != null) {
+            appBarLayout.setTitle(item.title);
+            ((ImageView) appBarLayout.findViewById(R.id.poster)).setImageBitmap(BitmapFactory.decodeFile(item.rootDirectory + item.posterFileName));
+        }
     }
 }

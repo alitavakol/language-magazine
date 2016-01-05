@@ -14,8 +14,11 @@ import android.media.session.PlaybackState;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
+
+import java.io.File;
 
 import me.ali.coolenglishmagazine.util.LogHelper;
 
@@ -80,7 +83,7 @@ public class MusicService extends Service implements
     public int onStartCommand(Intent intent, int flags, int startId) {
         final String action = intent != null ? intent.getAction() : null;
 
-        if(action != null) {
+        if (action != null) {
             if (action.equals(ACTION_PREPARE)) {
                 handlePrepareRequest(intent.getStringExtra("dataSource"));
 
@@ -105,9 +108,16 @@ public class MusicService extends Service implements
     private Notification getNotification(boolean isPlaying) {
         Intent notificationIntent = new Intent(this, ReadAndListenActivity.class);
         notificationIntent.setAction("MAIN_ACTION");
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        notificationIntent.putExtra(ReadAndListenActivity.ARG_ROOT_DIRECTORY, new File(dataSource).getParent() + "/");
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        // Use TaskStackBuilder to build the back stack and get the PendingIntent
+        PendingIntent pendingIntent =
+                TaskStackBuilder.create(this)
+                        // add all of DetailsActivity's parents to the stack,
+                        // followed by intended activity itself
+                        .addNextIntentWithParentStack(notificationIntent)
+                        .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent previousIntent = new Intent(this, MusicService.class);
         previousIntent.setAction("PREV_ACTION");
@@ -155,7 +165,7 @@ public class MusicService extends Service implements
     }
 
     private void handlePrepareRequest(String dataSource) {
-        if(mediaPlayer != null && !dataSource.equals(this.dataSource))
+        if (mediaPlayer != null && !dataSource.equals(this.dataSource))
             handleStopRequest();
 
         if (mediaPlayer == null) {
@@ -246,7 +256,7 @@ public class MusicService extends Service implements
 
     public void setOnMediaStateChangedListener(OnMediaStateChangedListener listener) {
         onMediaStateChangedListener = listener;
-        onMediaStateChangedListener.onMediaStateChanged(mediaPlayer == null ? PlaybackState.STATE_NONE : (mediaPlayer.isPlaying()? PlaybackState.STATE_PLAYING : (paused? PlaybackState.STATE_PAUSED : PlaybackState.STATE_STOPPED)));
+        onMediaStateChangedListener.onMediaStateChanged(mediaPlayer == null ? PlaybackState.STATE_NONE : (mediaPlayer.isPlaying() ? PlaybackState.STATE_PLAYING : (paused ? PlaybackState.STATE_PAUSED : PlaybackState.STATE_STOPPED)));
     }
 
     public void removeOnMediaStateChangedListener(OnMediaStateChangedListener listener) {
@@ -255,7 +265,7 @@ public class MusicService extends Service implements
     }
 
     public void seekTo(int position) {
-        if(mediaPlayer != null && mediaPlayer.isPlaying() || paused)
+        if (mediaPlayer != null && mediaPlayer.isPlaying() || paused)
             mediaPlayer.seekTo(position);
     }
 }

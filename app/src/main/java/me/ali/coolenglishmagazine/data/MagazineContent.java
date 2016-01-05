@@ -22,6 +22,11 @@ public class MagazineContent {
     private static final String TAG = LogHelper.makeLogTag(MagazineContent.class);
 
     /**
+     * file containing lesson item properties
+     */
+    protected static final String manifestFileName = "manifest.xml";
+
+    /**
      * An array of sample (dummy) items.
      */
     public List<Item> ITEMS = new ArrayList<>();
@@ -43,7 +48,7 @@ public class MagazineContent {
     public static Item getItem(String itemRootDirectory) throws IOException {
         Item item = new Item();
 
-        File input = new File(itemRootDirectory, "manifest.xml");
+        File input = new File(itemRootDirectory, manifestFileName);
         final Document doc = Jsoup.parse(input, "UTF-8", "");
 
         Element e = doc.getElementsByTag("item").first();

@@ -8,6 +8,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.session.PlaybackState;
 import android.os.IBinder;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -43,6 +44,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
+import me.ali.coolenglishmagazine.data.MagazineContent;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 
@@ -52,6 +54,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
     public static final String ARG_ROOT_DIRECTORY = "item_root_directory";
 
+    /**
+     * current lesson item descriptor
+     */
+    protected MagazineContent.Item item;
+
     private MusicService musicService;
     private boolean boundToMusicService = false;
 
@@ -59,10 +66,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
      * music playback state
      */
     protected int state = PlaybackState.STATE_NONE;
-
-    protected static final String manifestFileName = "manifest.xml";
-    protected String transcriptFilePath;
-    protected String audioFilePath;
 
     /**
      * array of voice timestamps (start and end of voice snippets)
@@ -137,7 +140,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         webView.setVerticalScrollBarEnabled(false);
 
         try {
-            initFromManifest();
+            item = MagazineContent.getItem(getIntent().getStringExtra(ARG_ROOT_DIRECTORY));
 
         } catch (IOException e) {
             LogHelper.e(TAG, e.getMessage());
@@ -162,10 +165,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         findViewById(R.id.lock).setOnLongClickListener(this);
 
         try {
-            webView.loadUrl("file://" + transcriptFilePath);
-
-            File input = new File(transcriptFilePath);
+            File input = new File(item.rootDirectory, item.transcriptFileName);
             final Document doc = Jsoup.parse(input, "UTF-8", "");
+
+            webView.loadUrl("file://" + input.getAbsolutePath());
 
             newWords = getNewWords(doc);
             timePoints = getTimePoints(doc);
@@ -198,6 +201,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         } else if (id == R.id.action_unlock) {
             lockTranscript(false);
+            return true;
+
+        } else if(id == android.R.id.home) {
+            onBackPressed();
             return true;
         }
 
@@ -248,7 +255,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
             Intent startIntent = new Intent(ReadAndListenActivity.this, MusicService.class);
             startIntent.setAction(MusicService.ACTION_PREPARE);
-            startIntent.putExtra("dataSource", audioFilePath);
+            startIntent.putExtra("dataSource", item.rootDirectory + item.audioFileName);
             startService(startIntent);
         }
 
@@ -468,24 +475,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         }
 
         return nextTimePoint;
-    }
-
-    protected String itemTitle, itemSubtitle;
-    protected String itemDirectory;
-
-    protected void initFromManifest() throws IOException {
-        itemDirectory = getIntent().getStringExtra(ARG_ROOT_DIRECTORY);
-
-        File input = new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY), manifestFileName);
-        final Document doc = Jsoup.parse(input, "UTF-8", "");
-
-        Element e = doc.getElementsByTag("item").first();
-        if (e != null) {
-            itemTitle = e.attr("title");
-            itemSubtitle = e.attr("subtitle");
-            transcriptFilePath = itemDirectory + "/" + e.attr("content");
-            audioFilePath = itemDirectory + "/" + e.attr("audio");
-        }
     }
 
     public static ArrayList<int[]> getTimePoints(final Document doc) throws IOException {

@@ -31,6 +31,8 @@ import me.ali.coolenglishmagazine.util.LogHelper;
 public class ItemListActivity extends AppCompatActivity
         implements ItemListFragment.Callbacks {
 
+    private static final String TAG = LogHelper.makeLogTag(ItemListActivity.class);
+
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -101,9 +103,10 @@ public class ItemListActivity extends AppCompatActivity
         } else {
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
-            Intent detailIntent = new Intent(this, ItemDetailActivity.class);
-            detailIntent.putExtra(ItemDetailFragment.ARG_ROOT_DIRECTORY, item.rootDirectory);
-            startActivity(detailIntent);
+            Intent intent = new Intent(this, ItemDetailActivity.class);
+            intent.putExtra(ItemDetailFragment.ARG_ROOT_DIRECTORY, item.rootDirectory);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            startActivity(intent);
         }
     }
 }

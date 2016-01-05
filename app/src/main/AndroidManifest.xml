@@ -15,7 +15,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ReadAndListenActivity"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:parentActivityName=".ItemListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="me.ali.coolenglishmagazine.ItemDetailActivity" />

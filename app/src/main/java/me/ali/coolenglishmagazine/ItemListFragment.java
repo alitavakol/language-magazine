@@ -105,7 +105,7 @@ public class ItemListFragment extends ListFragment {
 
         // Activities containing this fragment must implement its callbacks.
         if (!(activity instanceof Callbacks)) {
-            throw new IllegalStateException("Activity must implement fragment's callbacks.");
+            throw new ClassCastException(activity.toString() + " must implement fragment's callbacks.");
         }
 
         mCallbacks = (Callbacks) activity;
