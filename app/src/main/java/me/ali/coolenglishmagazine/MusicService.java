@@ -108,16 +108,13 @@ public class MusicService extends Service implements
     private Notification getNotification(boolean isPlaying) {
         Intent notificationIntent = new Intent(this, ReadAndListenActivity.class);
         notificationIntent.setAction("MAIN_ACTION");
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        notificationIntent.putExtra(ReadAndListenActivity.ARG_ROOT_DIRECTORY, new File(dataSource).getParent() + "/");
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        final String s = new File(dataSource).getParent() + "/";
+        notificationIntent.putExtra(ReadAndListenActivity.ARG_ROOT_DIRECTORY, s);
 
-        // Use TaskStackBuilder to build the back stack and get the PendingIntent
-        PendingIntent pendingIntent =
-                TaskStackBuilder.create(this)
-                        // add all of DetailsActivity's parents to the stack,
-                        // followed by intended activity itself
-                        .addNextIntentWithParentStack(notificationIntent)
-                        .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        // http://stackoverflow.com/a/31445004
+        // killed me :(
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent previousIntent = new Intent(this, MusicService.class);
         previousIntent.setAction("PREV_ACTION");
@@ -201,13 +198,15 @@ public class MusicService extends Service implements
     }
 
     private void handlePlayRequest() {
-        mediaPlayer.start();
-        paused = false;
+        if(mediaPlayer != null) {
+            mediaPlayer.start();
+            paused = false;
 
-        startForeground(PLAYBACK_NOTIFICATION_ID, getNotification(true));
+            startForeground(PLAYBACK_NOTIFICATION_ID, getNotification(true));
 
-        if (onMediaStateChangedListener != null)
-            onMediaStateChangedListener.onMediaStateChanged(PlaybackState.STATE_PLAYING);
+            if (onMediaStateChangedListener != null)
+                onMediaStateChangedListener.onMediaStateChanged(PlaybackState.STATE_PLAYING);
+        }
     }
 
     public void handleStopRequest() {
@@ -231,10 +230,10 @@ public class MusicService extends Service implements
 
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(PLAYBACK_NOTIFICATION_ID, getNotification(false));
-        }
 
-        if (onMediaStateChangedListener != null)
-            onMediaStateChangedListener.onMediaStateChanged(PlaybackState.STATE_PAUSED);
+            if (onMediaStateChangedListener != null)
+                onMediaStateChangedListener.onMediaStateChanged(PlaybackState.STATE_PAUSED);
+        }
     }
 
     /**

@@ -32,7 +32,8 @@ public class ItemDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ItemDetailActivity.this, ReadAndListenActivity.class);
-                intent.putExtra(ReadAndListenActivity.ARG_ROOT_DIRECTORY, getIntent().getStringExtra(ItemDetailFragment.ARG_ROOT_DIRECTORY));
+                final String s = getIntent().getStringExtra(ItemDetailFragment.ARG_ROOT_DIRECTORY);
+                intent.putExtra(ReadAndListenActivity.ARG_ROOT_DIRECTORY, s);
                 startActivity(intent);
             }
         });
