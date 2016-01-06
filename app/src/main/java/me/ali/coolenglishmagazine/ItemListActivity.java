@@ -105,7 +105,7 @@ public class ItemListActivity extends AppCompatActivity
             // for the selected item ID.
             Intent intent = new Intent(this, ItemDetailActivity.class);
             intent.putExtra(ItemDetailFragment.ARG_ROOT_DIRECTORY, item.rootDirectory);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(intent);
         }
     }

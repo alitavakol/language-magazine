@@ -14,7 +14,6 @@ import android.media.session.PlaybackState;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
 
@@ -108,7 +107,7 @@ public class MusicService extends Service implements
     private Notification getNotification(boolean isPlaying) {
         Intent notificationIntent = new Intent(this, ReadAndListenActivity.class);
         notificationIntent.setAction("MAIN_ACTION");
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         final String s = new File(dataSource).getParent() + "/";
         notificationIntent.putExtra(ReadAndListenActivity.ARG_ROOT_DIRECTORY, s);
 
@@ -147,10 +146,6 @@ public class MusicService extends Service implements
 //                .addAction(R.id.play_pause, "", playPendingIntent)
 //                .addAction(android.R.drawable.ic_media_next, "", nextPendingIntent)
                 .build();
-    }
-
-    public String getDataSource() {
-        return dataSource;
     }
 
     public int getDuration() {
@@ -264,7 +259,12 @@ public class MusicService extends Service implements
     }
 
     public void seekTo(int position) {
-        if (mediaPlayer != null && mediaPlayer.isPlaying() || paused)
-            mediaPlayer.seekTo(position);
+        try {
+            if (mediaPlayer != null && (mediaPlayer.isPlaying() || paused))
+                mediaPlayer.seekTo(position);
+
+        } catch (IllegalStateException e) {
+            LogHelper.e(TAG, e.getMessage());
+        }
     }
 }

@@ -35,6 +35,7 @@ public class ItemDetailActivity extends AppCompatActivity {
                 final String s = getIntent().getStringExtra(ItemDetailFragment.ARG_ROOT_DIRECTORY);
                 intent.putExtra(ReadAndListenActivity.ARG_ROOT_DIRECTORY, s);
                 startActivity(intent);
+                finish(); // remove this activity from back stack
             }
         });
 
