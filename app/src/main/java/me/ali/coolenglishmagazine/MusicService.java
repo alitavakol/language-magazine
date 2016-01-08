@@ -14,6 +14,7 @@ import android.media.session.PlaybackState;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
 
@@ -106,14 +107,21 @@ public class MusicService extends Service implements
 
     private Notification getNotification(boolean isPlaying) {
         Intent notificationIntent = new Intent(this, ReadAndListenActivity.class);
-        notificationIntent.setAction("MAIN_ACTION");
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         final String s = new File(dataSource).getParent() + "/";
         notificationIntent.putExtra(ReadAndListenActivity.ARG_ROOT_DIRECTORY, s);
 
         // http://stackoverflow.com/a/31445004
         // killed me :(
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 100, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+//        // add the back stack
+//        stackBuilder.addParentStack(ReadAndListenActivity.class);
+//        // add the Intent to the top of the stack
+//        stackBuilder.addNextIntent(notificationIntent);
+//        // get a PendingIntent containing the entire back stack
+//        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent previousIntent = new Intent(this, MusicService.class);
         previousIntent.setAction("PREV_ACTION");

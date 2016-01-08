@@ -19,7 +19,7 @@
             android:parentActivityName=".ItemListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="me.ali.coolenglishmagazine.ItemDetailActivity" />
+                android:value=".ItemListActivity" />
         </activity>
 
         <service

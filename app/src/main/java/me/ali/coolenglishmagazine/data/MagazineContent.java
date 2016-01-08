@@ -22,11 +22,6 @@ public class MagazineContent {
     private static final String TAG = LogHelper.makeLogTag(MagazineContent.class);
 
     /**
-     * file containing lesson item properties
-     */
-    protected static final String manifestFileName = "manifest.xml";
-
-    /**
      * An array of sample (dummy) items.
      */
     public List<Item> ITEMS = new ArrayList<>();
@@ -48,7 +43,7 @@ public class MagazineContent {
     public static Item getItem(String itemRootDirectory) throws IOException {
         Item item = new Item();
 
-        File input = new File(itemRootDirectory, manifestFileName);
+        File input = new File(itemRootDirectory, Item.manifestFileName);
         final Document doc = Jsoup.parse(input, "UTF-8", "");
 
         Element e = doc.getElementsByTag("item").first();
@@ -73,6 +68,13 @@ public class MagazineContent {
      * A dummy item representing a piece of content.
      */
     public static class Item {
+        /**
+         * file containing lesson item properties
+         */
+        protected static final String manifestFileName = "manifest.xml";
+
+        public static final String introFileName = "intro.html";
+
         public String title;
         public String subtitle;
 

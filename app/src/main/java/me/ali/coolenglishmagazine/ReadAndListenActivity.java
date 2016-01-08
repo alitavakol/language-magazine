@@ -204,7 +204,14 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             return true;
 
         } else if(id == android.R.id.home) {
-            onBackPressed();
+            finish();
+
+            // when this activity is launched from the notification, back button goes to home screen.
+            // I could not find any solution except manually creating parent.
+            Intent intent = new Intent(this, ItemListActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+
             return true;
         }
 
@@ -596,8 +603,20 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                     View popupView = layoutInflater.inflate(R.layout.word_definition, null);
                     ((TextView) popupView.findViewById(R.id.new_word)).setText(phrase);
                     ((TextView) popupView.findViewById(R.id.word_type)).setText(newWord.type);
-                    ((TextView) popupView.findViewById(R.id.def_en)).setText(newWord.definition.get("en"));
-                    ((TextView) popupView.findViewById(R.id.def_fa)).setText(newWord.definition.get("fa"));
+
+                    final TextView textViewEn = (TextView) popupView.findViewById(R.id.def_en);
+                    final String en = newWord.definition.get("en");
+                    if(en.length() > 0)
+                        textViewEn.setText(en);
+                    else
+                        textViewEn.setVisibility(View.GONE);
+
+                    final TextView textViewFa = (TextView) popupView.findViewById(R.id.def_fa);
+                    final String fa = newWord.definition.get("fa");
+                    if(fa.length() > 0)
+                        textViewFa.setText(fa);
+                    else
+                        textViewFa.setVisibility(View.GONE);
 
                     final PopupWindow popupWindow = new PopupWindow(
                             popupView,
