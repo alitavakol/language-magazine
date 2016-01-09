@@ -2,11 +2,15 @@ package me.ali.coolenglishmagazine;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.view.MenuItem;
 import android.view.View;
+
+import java.io.File;
 
 import me.ali.coolenglishmagazine.data.MagazineContent;
 import me.ali.coolenglishmagazine.util.LogHelper;
@@ -48,6 +52,13 @@ public class ItemListActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 //        toolbar.setTitle(getTitle());
 
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+//            ab.setDisplayShowTitleEnabled(false); // hide action bar title
+            ab.setDisplayHomeAsUpEnabled(true); // Enable the Up button
+        }
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,9 +69,13 @@ public class ItemListActivity extends AppCompatActivity
         });
 
         Bundle arguments = new Bundle();
-        arguments.putString(ItemListFragment.ARG_ROOT_DIRECTORY, getExternalFilesDir(null).getAbsolutePath() + "/");
+
+        final String issueRootDirectory = getIntent().getStringExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY);
+        arguments.putString(IssueDetailActivity.ARG_ROOT_DIRECTORY, issueRootDirectory);
+
         ItemListFragment fragment = new ItemListFragment();
         fragment.setArguments(arguments);
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frameLayout, fragment)
                 .commit();
@@ -93,9 +108,11 @@ public class ItemListActivity extends AppCompatActivity
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ItemDetailFragment.ARG_ROOT_DIRECTORY, item.rootDirectory);
+            arguments.putString(ItemDetailActivity.ARG_ROOT_DIRECTORY, item.rootDirectory);
+
             ItemDetailFragment fragment = new ItemDetailFragment();
             fragment.setArguments(arguments);
+
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.item_detail_container, fragment)
                     .commit();
@@ -104,9 +121,32 @@ public class ItemListActivity extends AppCompatActivity
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent intent = new Intent(this, ItemDetailActivity.class);
-            intent.putExtra(ItemDetailFragment.ARG_ROOT_DIRECTORY, item.rootDirectory);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            intent.putExtra(ItemDetailActivity.ARG_ROOT_DIRECTORY, item.rootDirectory);
             startActivity(intent);
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if(id == android.R.id.home) {
+            finish();
+
+            // when this activity is launched from the notification, back button goes to home screen.
+            // I could not find any solution except manually creating parent.
+            Intent intent = new Intent(this, IssueListActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+            startActivity(intent);
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

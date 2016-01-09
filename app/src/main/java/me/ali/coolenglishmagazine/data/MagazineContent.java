@@ -11,18 +11,12 @@ import java.util.List;
 
 import me.ali.coolenglishmagazine.util.LogHelper;
 
-/**
- * Helper class for providing sample content for user interfaces created by
- * Android template wizards.
- * <p/>
- * TODO: Replace all uses of this class before publishing your app.
- */
 public class MagazineContent {
 
     private static final String TAG = LogHelper.makeLogTag(MagazineContent.class);
 
     /**
-     * An array of sample (dummy) items.
+     * An array of available magazine items.
      */
     public List<Item> ITEMS = new ArrayList<>();
 
@@ -48,7 +42,7 @@ public class MagazineContent {
 
         Element e = doc.getElementsByTag("item").first();
         if (e == null)
-            throw new IOException();
+            throw new IOException("Invalid manifest file.");
 
         item.rootDirectory = itemRootDirectory;
         item.title = e.attr("title");

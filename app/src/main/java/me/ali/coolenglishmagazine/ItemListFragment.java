@@ -24,8 +24,6 @@ public class ItemListFragment extends ListFragment {
 
     public String rootDirectory;
 
-    public static final String ARG_ROOT_DIRECTORY = "magazine_root_directory";
-
     /**
      * The serialization (saved instance state) Bundle key representing the
      * activated item position. Only used on tablets.
@@ -76,7 +74,7 @@ public class ItemListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        rootDirectory = getArguments().getString(ARG_ROOT_DIRECTORY);
+        rootDirectory = getArguments().getString(IssueDetailActivity.ARG_ROOT_DIRECTORY);
 
         magazineContent.loadItems(rootDirectory);
 

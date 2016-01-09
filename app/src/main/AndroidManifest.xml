@@ -16,10 +16,10 @@
         <activity
             android:name=".ReadAndListenActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".ItemListActivity">
+            android:parentActivityName=".ItemDetailActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ItemListActivity" />
+                android:value=".ItemDetailActivity" />
         </activity>
 
         <service
@@ -30,13 +30,13 @@
         <activity
             android:name=".ItemListActivity"
             android:label="@string/title_item_list"
+            android:parentActivityName=".IssueDetailActivity"
             android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".IssueDetailActivity" />
         </activity>
+
         <activity
             android:name=".ItemDetailActivity"
             android:label="@string/title_item_detail"
@@ -44,7 +44,28 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="me.ali.coolenglishmagazine.ItemListActivity" />
+                android:value=".ItemListActivity" />
+        </activity>
+
+        <activity
+            android:name=".IssueListActivity"
+            android:label="@string/title_issue_list"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".IssueDetailActivity"
+            android:label="@string/title_issue_detail"
+            android:parentActivityName=".IssueListActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".IssueListActivity" />
         </activity>
     </application>
 

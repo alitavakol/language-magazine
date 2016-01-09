@@ -8,7 +8,6 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.session.PlaybackState;
 import android.os.IBinder;
-import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -51,8 +50,6 @@ import me.ali.coolenglishmagazine.util.LogHelper;
 public class ReadAndListenActivity extends AppCompatActivity implements View.OnClickListener, MusicService.OnMediaStateChangedListener, SeekBar.OnSeekBarChangeListener, View.OnLongClickListener {
 
     private static final String TAG = LogHelper.makeLogTag(ReadAndListenActivity.class);
-
-    public static final String ARG_ROOT_DIRECTORY = "item_root_directory";
 
     /**
      * current lesson item descriptor
@@ -140,7 +137,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         webView.setVerticalScrollBarEnabled(false);
 
         try {
-            item = MagazineContent.getItem(getIntent().getStringExtra(ARG_ROOT_DIRECTORY));
+            item = MagazineContent.getItem(getIntent().getStringExtra(ItemDetailActivity.ARG_ROOT_DIRECTORY));
 
         } catch (IOException e) {
             LogHelper.e(TAG, e.getMessage());
@@ -210,6 +207,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             // I could not find any solution except manually creating parent.
             Intent intent = new Intent(this, ItemListActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+            final String issueRootDirectory = new File(this.item.rootDirectory).getParent() + "/";
+            intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issueRootDirectory);
+
             startActivity(intent);
 
             return true;

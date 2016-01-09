@@ -1,14 +1,11 @@
 package me.ali.coolenglishmagazine;
 
 import android.app.Activity;
-import android.content.res.TypedArray;
 import android.graphics.BitmapFactory;
-import android.media.session.PlaybackState;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +13,6 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,11 +26,6 @@ import me.ali.coolenglishmagazine.data.MagazineContent;
  * on handsets.
  */
 public class ItemDetailFragment extends Fragment {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
-    public static final String ARG_ROOT_DIRECTORY = "item_root_directory";
 
     /**
      * The magazine item this fragment is presenting.
@@ -56,12 +43,12 @@ public class ItemDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ROOT_DIRECTORY)) {
+        if (getArguments().containsKey(ItemDetailActivity.ARG_ROOT_DIRECTORY)) {
             // Load magazine content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             try {
-                item = MagazineContent.getItem(getArguments().getString(ARG_ROOT_DIRECTORY));
+                item = MagazineContent.getItem(getArguments().getString(ItemDetailActivity.ARG_ROOT_DIRECTORY));
 
             } catch (IOException e) {
                 // TODO: handle error
