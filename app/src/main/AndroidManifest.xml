@@ -36,7 +36,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".IssueDetailActivity" />
         </activity>
-
         <activity
             android:name=".ItemDetailActivity"
             android:label="@string/title_item_detail"
@@ -46,7 +45,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ItemListActivity" />
         </activity>
-
         <activity
             android:name=".IssueListActivity"
             android:label="@string/title_issue_list"
@@ -57,7 +55,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".IssueDetailActivity"
             android:label="@string/title_issue_detail"
@@ -67,6 +64,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".IssueListActivity" />
         </activity>
+
+        <receiver
+            android:name=".RemoteControlReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

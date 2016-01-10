@@ -4,8 +4,11 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
@@ -27,7 +30,7 @@ import me.ali.coolenglishmagazine.util.LogHelper;
  */
 public class MusicService extends Service implements
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
-        MediaPlayer.OnCompletionListener {
+        MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
 
     public static final int PLAYBACK_NOTIFICATION_ID = 100;
 
@@ -70,7 +73,6 @@ public class MusicService extends Service implements
     @Override
     public void onCompletion(MediaPlayer mp) {
         handleStopRequest();
-        handlePrepareRequest(dataSource);
     }
 
     @Override
@@ -199,15 +201,51 @@ public class MusicService extends Service implements
             onMediaStateChangedListener.onMediaStateChanged(PlaybackState.STATE_STOPPED);
     }
 
+    AudioManager audioManager;
+    private ComponentName mediaButtonReceiverComponent;
+
     private void handlePlayRequest() {
-        if(mediaPlayer != null) {
-            mediaPlayer.start();
-            paused = false;
+        if (mediaPlayer != null) {
+            audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+            mediaButtonReceiverComponent = new ComponentName(this.getPackageName(), RemoteControlReceiver.class.getName());
 
-            startForeground(PLAYBACK_NOTIFICATION_ID, getNotification(true));
+            // Request audio focus for playback
+            int requestAudioFocusResult = audioManager.requestAudioFocus(this,
+                    // Use the music stream.
+                    AudioManager.STREAM_MUSIC,
+                    // Request permanent focus.
+                    AudioManager.AUDIOFOCUS_GAIN);
 
-            if (onMediaStateChangedListener != null)
-                onMediaStateChangedListener.onMediaStateChanged(PlaybackState.STATE_PLAYING);
+            if (requestAudioFocusResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                audioManager.registerMediaButtonEventReceiver(mediaButtonReceiverComponent);
+
+                mediaPlayer.start();
+                paused = false;
+
+                noisyAudioStreamReceiver = new NoisyAudioStreamReceiver();
+                registerReceiver(noisyAudioStreamReceiver, intentFilter);
+
+                startForeground(PLAYBACK_NOTIFICATION_ID, getNotification(true));
+
+                if (onMediaStateChangedListener != null)
+                    onMediaStateChangedListener.onMediaStateChanged(PlaybackState.STATE_PLAYING);
+            }
+        }
+    }
+
+    @Override
+    public void onAudioFocusChange(int focusChange) {
+        if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
+            // Pause playback
+            handlePauseRequest();
+
+        } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+            // Resume playback
+            handlePlayRequest();
+
+        } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+            // Stop playback
+            handleStopRequest();
         }
     }
 
@@ -219,16 +257,28 @@ public class MusicService extends Service implements
             mediaPlayer.release();
             mediaPlayer = null;
             paused = false;
+
+            audioManager.abandonAudioFocus(this);
+            audioManager.unregisterMediaButtonEventReceiver(mediaButtonReceiverComponent);
+
+            unregisterReceiver(noisyAudioStreamReceiver);
         }
 
         if (onMediaStateChangedListener != null)
             onMediaStateChangedListener.onMediaStateChanged(PlaybackState.STATE_STOPPED);
+
+        handlePrepareRequest(dataSource);
     }
 
     public void handlePauseRequest() {
         if (mediaPlayer != null) {
             mediaPlayer.pause();
             paused = true;
+
+            audioManager.abandonAudioFocus(this);
+            audioManager.unregisterMediaButtonEventReceiver(mediaButtonReceiverComponent);
+
+            unregisterReceiver(noisyAudioStreamReceiver);
 
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(PLAYBACK_NOTIFICATION_ID, getNotification(false));
@@ -274,4 +324,17 @@ public class MusicService extends Service implements
             LogHelper.e(TAG, e.getMessage());
         }
     }
+
+    private IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+    private NoisyAudioStreamReceiver noisyAudioStreamReceiver;
+
+    private class NoisyAudioStreamReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
+                handlePauseRequest();
+            }
+        }
+    }
+
 }
