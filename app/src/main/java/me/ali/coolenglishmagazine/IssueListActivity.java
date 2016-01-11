@@ -21,13 +21,16 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import me.ali.coolenglishmagazine.data.Magazines;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.util.NetworkHelper;
+import me.ali.coolenglishmagazine.util.ZipHelper;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -68,7 +71,8 @@ public class IssueListActivity extends AppCompatActivity {
             }
         });
 
-        magazines.loadIssues(getExternalFilesDir(null).getAbsolutePath() + "/");
+        magazines.loadIssues(getExternalFilesDir(null).getAbsolutePath());
+        firstMissingIssueNumber = findFirstMissingIssueNumber();
 
         View recyclerView = findViewById(R.id.issue_list);
         assert recyclerView != null;
@@ -80,6 +84,15 @@ public class IssueListActivity extends AppCompatActivity {
             // If this view is present, then the
             // activity should be in two-pane mode.
             mTwoPane = true;
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(this);
+            requestQueue = null;
         }
     }
 
@@ -162,6 +175,8 @@ public class IssueListActivity extends AppCompatActivity {
         return true;
     }
 
+    RequestQueue requestQueue = null;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -170,39 +185,90 @@ public class IssueListActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_refresh) {
-            if (NetworkHelper.isOnline(this)) {
-                // Instantiate the RequestQueue.
-                RequestQueue queue = Volley.newRequestQueue(this);
-                final String url = "http://10.0.2.2:3000/";
-
-                // Request a string response from the provided URL.
-                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                LogHelper.i(TAG, response);
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                LogHelper.e(TAG, error.getMessage());
-                                Toast.makeText(IssueListActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                );
-
-                // Add the request to the RequestQueue.
-                queue.add(stringRequest);
-
-            } else {
-                Toast.makeText(this, R.string.check_connection, Toast.LENGTH_SHORT).show();
-            }
-
+            syncAvailableIssuesList(firstMissingIssueNumber);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * issue number of the first missing issue
+     */
+    int firstMissingIssueNumber;
+
+    /**
+     * gets list of available issues from server.
+     */
+    void syncAvailableIssuesList(int firstMissingIssueNumber) {
+        if (NetworkHelper.isOnline(this)) {
+            // Instantiate the RequestQueue.
+            if (requestQueue == null)
+                requestQueue = Volley.newRequestQueue(this);
+
+            final String url = "http://10.0.2.2:3000/api/issues?min_issue_number=" + firstMissingIssueNumber;
+
+            // Request a string response from the provided URL.
+            InputStreamVolleyRequest request = new InputStreamVolleyRequest(Request.Method.GET, url, new Response.Listener<byte[]>() {
+                @Override
+                public void onResponse(byte[] response) {
+                    try {
+                        File cacheDir = IssueListActivity.this.getExternalCacheDir();
+                        File zipFile = File.createTempFile("issues-preview", ".zip", cacheDir);
+
+                        FileOutputStream f = new FileOutputStream(zipFile);
+                        f.write(response, 0, response.length);
+                        f.close();
+
+                        ZipHelper.unzip(zipFile, IssueListActivity.this.getExternalFilesDir(null));
+
+                        // get next bunch of available issues, until the saved list of issues remain unchanged
+                        int firstMissingIssueNumber = findFirstMissingIssueNumber();
+                        if (firstMissingIssueNumber > IssueListActivity.this.firstMissingIssueNumber) {
+                            syncAvailableIssuesList(firstMissingIssueNumber);
+                        }
+
+                        magazines.loadIssues(getExternalFilesDir(null).getAbsolutePath());
+                        IssueListActivity.this.firstMissingIssueNumber = firstMissingIssueNumber;
+
+                        setupRecyclerView((RecyclerView) IssueListActivity.this.findViewById(R.id.issue_list));
+
+                    } catch (IOException e) {
+                        LogHelper.e(TAG, e.getMessage());
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    LogHelper.e(TAG, error.getMessage());
+                    Toast.makeText(IssueListActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
+                    requestQueue.cancelAll(IssueListActivity.this);
+                }
+            }, null);
+
+            request.setTag(this);
+
+            // Add the request to the RequestQueue.
+            requestQueue.add(request);
+
+        } else {
+            Toast.makeText(this, R.string.check_connection, Toast.LENGTH_SHORT).show();
+            requestQueue.cancelAll(this);
+        }
+    }
+
+    /**
+     * in order to ask server for new issues, we need to know minimum issue number to request for.
+     * in response to each request, server sends compressed file issues-preview-{10k}-{10k+9}.zip,
+     * which also contains issue with requested minimum issue number.
+     *
+     * @return issue number of the first missing magazine
+     */
+    protected int findFirstMissingIssueNumber() {
+        int i = 1;
+        while (new File(getExternalFilesDir(null), "" + i).exists())
+            i++;
+
+        return i;
+    }
 }

@@ -21,6 +21,8 @@ public class Magazines {
     public final List<Issue> ISSUES = new ArrayList<>();
 
     public void loadIssues(String issuesRootDirectory) {
+        ISSUES.clear();
+
         File f = new File(issuesRootDirectory);
         File[] files = f.listFiles();
         for (File g : files) {
