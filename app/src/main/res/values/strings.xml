@@ -17,4 +17,8 @@
 
     <string name="title_issue_list">Gallery of Issues</string>
     <string name="title_issue_detail">Issue Details</string>
+
+    <string name="refresh">Refresh</string>
+    <string name="check_connection">Make sure your device is online.</string>
+    <string name="network_error">Could not connect to server.</string>
 </resources>

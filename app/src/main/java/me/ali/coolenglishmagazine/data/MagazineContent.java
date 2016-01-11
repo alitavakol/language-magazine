@@ -34,6 +34,12 @@ public class MagazineContent {
         }
     }
 
+    /**
+     * Loads item from its root directory into an {@link Item} class.
+     * @param itemRootDirectory should end with a slash '/' character
+     * @return the corresponding {@link Item} instance
+     * @throws IOException if {@code manifest.xml} file with {@code <item>} root node could not be found
+     */
     public static Item getItem(String itemRootDirectory) throws IOException {
         Item item = new Item();
 
