@@ -137,7 +137,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         webView.setVerticalScrollBarEnabled(false);
 
         try {
-            item = MagazineContent.getItem(getIntent().getStringExtra(ItemDetailActivity.ARG_ROOT_DIRECTORY));
+            item = MagazineContent.getItem(new File(getIntent().getStringExtra(ItemDetailActivity.ARG_ROOT_DIRECTORY)));
 
         } catch (IOException e) {
             LogHelper.e(TAG, e.getMessage());
@@ -208,7 +208,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             Intent intent = new Intent(this, ItemListActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-            final String issueRootDirectory = new File(this.item.rootDirectory).getParent() + "/";
+            final String issueRootDirectory = this.item.rootDirectory.getParent();
             intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issueRootDirectory);
 
             startActivity(intent);
@@ -263,7 +263,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
             Intent startIntent = new Intent(ReadAndListenActivity.this, MusicService.class);
             startIntent.setAction(MusicService.ACTION_PREPARE);
-            startIntent.putExtra("dataSource", item.rootDirectory + item.audioFileName);
+            startIntent.putExtra("dataSource", new File(item.rootDirectory, item.audioFileName).getAbsolutePath());
             startService(startIntent);
         }
 

@@ -48,7 +48,7 @@ public class ItemDetailFragment extends Fragment {
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             try {
-                item = MagazineContent.getItem(getArguments().getString(ItemDetailActivity.ARG_ROOT_DIRECTORY));
+                item = MagazineContent.getItem(new File(getArguments().getString(ItemDetailActivity.ARG_ROOT_DIRECTORY)));
 
             } catch (IOException e) {
                 // TODO: handle error
@@ -97,7 +97,7 @@ public class ItemDetailFragment extends Fragment {
         CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
         if (appBarLayout != null) {
 //            appBarLayout.setTitle(item.title);
-            ((ImageView) appBarLayout.findViewById(R.id.poster)).setImageBitmap(BitmapFactory.decodeFile(item.rootDirectory + item.posterFileName));
+            ((ImageView) appBarLayout.findViewById(R.id.poster)).setImageBitmap(BitmapFactory.decodeFile(new File(item.rootDirectory, item.posterFileName).getAbsolutePath()));
         }
     }
 

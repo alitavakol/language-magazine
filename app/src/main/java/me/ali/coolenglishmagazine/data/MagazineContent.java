@@ -26,7 +26,7 @@ public class MagazineContent {
         for (File g : files) {
             if (g.isDirectory()) {
                 try {
-                    addItem(getItem(g.getAbsolutePath() + "/"));
+                    addItem(getItem(g));
                 } catch (IOException e) {
                     LogHelper.e(TAG, e.getMessage());
                 }
@@ -40,7 +40,7 @@ public class MagazineContent {
      * @return the corresponding {@link Item} instance
      * @throws IOException if {@code manifest.xml} file with {@code <item>} root node could not be found
      */
-    public static Item getItem(String itemRootDirectory) throws IOException {
+    public static Item getItem(File itemRootDirectory) throws IOException {
         Item item = new Item();
 
         File input = new File(itemRootDirectory, Item.manifestFileName);
@@ -82,7 +82,7 @@ public class MagazineContent {
         public String transcriptFileName;
         public String posterFileName;
 
-        public String rootDirectory;
+        public File rootDirectory;
 
         @Override
         public String toString() {

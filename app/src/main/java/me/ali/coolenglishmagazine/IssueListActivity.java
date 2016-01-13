@@ -96,16 +96,19 @@ public class IssueListActivity extends AppCompatActivity {
         }
     }
 
+    protected IssuesRecyclerViewAdapter adapter;
+
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(magazines.ISSUES));
+        adapter = new IssuesRecyclerViewAdapter(magazines.ISSUES);
+        recyclerView.setAdapter(adapter);
     }
 
-    public class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+    public class IssuesRecyclerViewAdapter
+            extends RecyclerView.Adapter<IssuesRecyclerViewAdapter.ViewHolder> {
 
         private final List<Magazines.Issue> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<Magazines.Issue> items) {
+        public IssuesRecyclerViewAdapter(List<Magazines.Issue> items) {
             mValues = items;
         }
 
@@ -126,18 +129,29 @@ public class IssueListActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(IssueDetailActivity.ARG_ROOT_DIRECTORY, holder.issue.rootDirectory);
+                        arguments.putString(IssueDetailActivity.ARG_ROOT_DIRECTORY, holder.issue.rootDirectory.getAbsolutePath());
                         IssueDetailFragment fragment = new IssueDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.issue_detail_container, fragment)
                                 .commit();
+
                     } else {
                         Context context = v.getContext();
-                        Intent intent = new Intent(context, IssueDetailActivity.class);
-                        intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, holder.issue.rootDirectory);
 
-                        context.startActivity(intent);
+                        final File downloaded = new File(holder.issue.rootDirectory, "downloaded");
+                        if (downloaded.exists()) {
+                            // jump straight into issue's table of contents if it is downloaded
+                            Intent intent = new Intent(context, ItemListActivity.class);
+                            intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, holder.issue.rootDirectory.getAbsolutePath());
+                            context.startActivity(intent);
+
+                        } else {
+                            // show intro and advertise the issue if it is not downloaded yet
+                            Intent intent = new Intent(context, IssueDetailActivity.class);
+                            intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, holder.issue.rootDirectory.getAbsolutePath());
+                            context.startActivity(intent);
+                        }
                     }
                 }
             });
@@ -221,6 +235,7 @@ public class IssueListActivity extends AppCompatActivity {
                         f.close();
 
                         ZipHelper.unzip(zipFile, IssueListActivity.this.getExternalFilesDir(null));
+                        zipFile.delete();
 
                         // get next bunch of available issues, until the saved list of issues remain unchanged
                         int firstMissingIssueNumber = findFirstMissingIssueNumber();
@@ -231,7 +246,8 @@ public class IssueListActivity extends AppCompatActivity {
                         magazines.loadIssues(getExternalFilesDir(null).getAbsolutePath());
                         IssueListActivity.this.firstMissingIssueNumber = firstMissingIssueNumber;
 
-                        setupRecyclerView((RecyclerView) IssueListActivity.this.findViewById(R.id.issue_list));
+                        adapter.notifyDataSetChanged();
+//                        setupRecyclerView((RecyclerView) IssueListActivity.this.findViewById(R.id.issue_list));
 
                     } catch (IOException e) {
                         LogHelper.e(TAG, e.getMessage());

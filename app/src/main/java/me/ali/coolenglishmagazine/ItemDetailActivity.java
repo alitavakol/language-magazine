@@ -90,7 +90,7 @@ public class ItemDetailActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ItemListActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-            final String issueRootDirectory = new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)).getParent() + "/";
+            final String issueRootDirectory = new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)).getParent();
             intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issueRootDirectory);
 
             startActivity(intent);

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.io.File;
 import java.io.IOException;
 
 import me.ali.coolenglishmagazine.data.Magazines;
@@ -42,7 +43,7 @@ public class IssueDetailFragment extends Fragment {
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             try {
-                issue = Magazines.getIssue(getArguments().getString(IssueDetailActivity.ARG_ROOT_DIRECTORY));
+                issue = Magazines.getIssue(new File(getArguments().getString(IssueDetailActivity.ARG_ROOT_DIRECTORY)));
 
             } catch (IOException e) {
                 // TODO: handle error

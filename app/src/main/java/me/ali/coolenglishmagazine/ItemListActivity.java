@@ -108,7 +108,7 @@ public class ItemListActivity extends AppCompatActivity
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ItemDetailActivity.ARG_ROOT_DIRECTORY, item.rootDirectory);
+            arguments.putString(ItemDetailActivity.ARG_ROOT_DIRECTORY, item.rootDirectory.getAbsolutePath());
 
             ItemDetailFragment fragment = new ItemDetailFragment();
             fragment.setArguments(arguments);
@@ -121,7 +121,7 @@ public class ItemListActivity extends AppCompatActivity
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent intent = new Intent(this, ItemDetailActivity.class);
-            intent.putExtra(ItemDetailActivity.ARG_ROOT_DIRECTORY, item.rootDirectory);
+            intent.putExtra(ItemDetailActivity.ARG_ROOT_DIRECTORY, item.rootDirectory.getAbsolutePath());
             startActivity(intent);
         }
     }

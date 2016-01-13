@@ -109,7 +109,7 @@ public class MusicService extends Service implements
     private Notification getNotification(boolean isPlaying) {
         Intent notificationIntent = new Intent(this, ReadAndListenActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        final String itemRootDirectory = new File(dataSource).getParent() + "/";
+        final String itemRootDirectory = new File(dataSource).getParent();
         notificationIntent.putExtra(ItemDetailActivity.ARG_ROOT_DIRECTORY, itemRootDirectory);
 
         // http://stackoverflow.com/a/31445004
@@ -258,10 +258,15 @@ public class MusicService extends Service implements
             mediaPlayer = null;
             paused = false;
 
-            audioManager.abandonAudioFocus(this);
-            audioManager.unregisterMediaButtonEventReceiver(mediaButtonReceiverComponent);
+            if (audioManager != null) {
+                audioManager.abandonAudioFocus(this);
+                audioManager.unregisterMediaButtonEventReceiver(mediaButtonReceiverComponent);
+            }
 
-            unregisterReceiver(noisyAudioStreamReceiver);
+            if(noisyAudioStreamReceiver != null) {
+                unregisterReceiver(noisyAudioStreamReceiver);
+                noisyAudioStreamReceiver = null;
+            }
         }
 
         if (onMediaStateChangedListener != null)
@@ -275,10 +280,15 @@ public class MusicService extends Service implements
             mediaPlayer.pause();
             paused = true;
 
-            audioManager.abandonAudioFocus(this);
-            audioManager.unregisterMediaButtonEventReceiver(mediaButtonReceiverComponent);
+            if (audioManager != null) {
+                audioManager.abandonAudioFocus(this);
+                audioManager.unregisterMediaButtonEventReceiver(mediaButtonReceiverComponent);
+            }
 
-            unregisterReceiver(noisyAudioStreamReceiver);
+            if(noisyAudioStreamReceiver != null) {
+                unregisterReceiver(noisyAudioStreamReceiver);
+                noisyAudioStreamReceiver = null;
+            }
 
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(PLAYBACK_NOTIFICATION_ID, getNotification(false));
