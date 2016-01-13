@@ -21,4 +21,7 @@
     <string name="refresh">Refresh</string>
     <string name="check_connection">Make sure your device is online.</string>
     <string name="network_error">Could not connect to server.</string>
+
+    <!-- for issue download notification -->
+    <string name="issue_downloaded_notification">New issue is ready. Let\'s start<![CDATA[!]]></string>
 </resources>

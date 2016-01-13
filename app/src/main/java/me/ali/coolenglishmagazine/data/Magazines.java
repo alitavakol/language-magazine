@@ -55,6 +55,7 @@ public class Magazines {
         issue.rootDirectory = issueRootDirectory;
         issue.title = e.attr("title");
         issue.posterFileName = e.attr("poster");
+        issue.id = Integer.parseInt(issueRootDirectory.getName());
 
         return issue;
     }
@@ -86,6 +87,11 @@ public class Magazines {
         public String posterFileName;
 
         public File rootDirectory;
+
+        /**
+         * unique identifier which is also magazine root folder's name
+         */
+        public int id;
 
         @Override
         public String toString() {

@@ -1,6 +1,7 @@
 package me.ali.coolenglishmagazine;
 
 import android.app.DownloadManager;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -183,25 +184,14 @@ public class IssueDetailActivity extends AppCompatActivity {
                     int columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
                     int status = cursor.getInt(columnIndex);
 
-                    int fileNameIndex = cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME);
-                    String savedFilePath = cursor.getString(fileNameIndex);
-
                     // get the reason - more detail on the status
                     int columnReason = cursor.getColumnIndex(DownloadManager.COLUMN_REASON);
                     int reason = cursor.getInt(columnReason);
 
                     switch (status) {
                         case DownloadManager.STATUS_SUCCESSFUL:
-                            try {
-                                File f = new File(savedFilePath);
-                                ZipHelper.unzip(f, getExternalFilesDir(null));
-                                f.delete();
-                                updateFab();
-//                                Toast.makeText(IssueDetailActivity.this, , Toast.LENGTH_LONG).show();
-
-                            } catch (IOException e) {
-                                LogHelper.e(TAG, e.getMessage());
-                            }
+                            updateFab();
+//                            ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
                             break;
 
                         case DownloadManager.STATUS_FAILED:
