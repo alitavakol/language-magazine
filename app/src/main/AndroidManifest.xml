@@ -31,6 +31,7 @@
         <activity
             android:name=".ItemListActivity"
             android:label="@string/title_item_list"
+            android:launchMode="singleTop"
             android:parentActivityName=".IssueDetailActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -74,13 +75,20 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
-
         <receiver
-            android:name="me.ali.coolenglishmagazine.DownloadCompleteBroadcastReceiver"
+            android:name=".DownloadCompleteBroadcastReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".DownloadNotificationClickedBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED" />
             </intent-filter>
         </receiver>
     </application>

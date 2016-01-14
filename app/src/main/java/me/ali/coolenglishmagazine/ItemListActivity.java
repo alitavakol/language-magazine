@@ -10,8 +10,6 @@ import android.support.design.widget.Snackbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.io.File;
-
 import me.ali.coolenglishmagazine.data.MagazineContent;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
@@ -95,6 +93,15 @@ public class ItemListActivity extends AppCompatActivity
         }
 
         // TODO: If exposing deep links into your app, handle intents here.
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        setIntent(intent);
+        // TODO: verify the new intent will be used after recreate
+        recreate();
     }
 
     /**

@@ -1,13 +1,19 @@
 package me.ali.coolenglishmagazine;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.io.File;
+import java.io.IOException;
+
 import me.ali.coolenglishmagazine.data.MagazineContent;
+import me.ali.coolenglishmagazine.data.Magazines;
 
 /**
  * A list fragment representing a list of Magazine. This fragment
@@ -20,9 +26,8 @@ import me.ali.coolenglishmagazine.data.MagazineContent;
  */
 public class ItemListFragment extends ListFragment {
 
-    MagazineContent magazineContent = new MagazineContent();
-
-    public String rootDirectory;
+    protected MagazineContent magazineContent = new MagazineContent();
+    protected Magazines.Issue issue;
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -74,9 +79,12 @@ public class ItemListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        rootDirectory = getArguments().getString(IssueDetailActivity.ARG_ROOT_DIRECTORY);
+        try {
+            issue = Magazines.getIssue(new File(getArguments().getString(IssueDetailActivity.ARG_ROOT_DIRECTORY)));
+            magazineContent.loadItems(issue);
 
-        magazineContent.loadItems(rootDirectory);
+        } catch (IOException e) {
+        }
 
         // TODO: replace with a real list adapter.
         setListAdapter(new ArrayAdapter<>(
@@ -84,6 +92,8 @@ public class ItemListFragment extends ListFragment {
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
                 magazineContent.ITEMS));
+
+        ((NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
     }
 
     @Override

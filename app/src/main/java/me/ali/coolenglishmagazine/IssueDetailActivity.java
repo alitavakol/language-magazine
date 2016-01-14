@@ -1,27 +1,23 @@
 package me.ali.coolenglishmagazine;
 
 import android.app.DownloadManager;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
 
 import me.ali.coolenglishmagazine.data.Magazines;
 import me.ali.coolenglishmagazine.util.LogHelper;
-import me.ali.coolenglishmagazine.util.ZipHelper;
 
 /**
  * An activity representing a single Issue detail screen. This
@@ -136,8 +132,7 @@ public class IssueDetailActivity extends AppCompatActivity {
     }
 
     private long downloadReference;
-    private BroadcastReceiver receiverDownloadComplete;
-    private BroadcastReceiver receiverNotificationClicked;
+    private BroadcastReceiver receiverDownloadExtracted;
 
     @Override
     protected void onResume() {
@@ -145,85 +140,19 @@ public class IssueDetailActivity extends AppCompatActivity {
 
         updateFab();
 
-        // filter for notifications - only acts on notification while download busy
-        IntentFilter filter = new IntentFilter(DownloadManager.ACTION_NOTIFICATION_CLICKED);
-
-        receiverNotificationClicked = new BroadcastReceiver() {
+        receiverDownloadExtracted = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                String extraId = DownloadManager.EXTRA_NOTIFICATION_CLICK_DOWNLOAD_IDS;
-                long[] references = intent.getLongArrayExtra(extraId);
-                for (long reference : references) {
-                    if (reference == downloadReference) {
-                        // do something with the download file
-                    }
-                }
+                updateFab();
             }
         };
-        registerReceiver(receiverNotificationClicked, filter);
-
-        // filter for download - on completion
-        IntentFilter intentFilter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
-
-        receiverDownloadComplete = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                long reference = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-
-                if (downloadReference == reference) {
-                    findViewById(R.id.fab_download).setClickable(true);
-
-                    // do something with the download file
-                    DownloadManager.Query query = new DownloadManager.Query();
-                    query.setFilterById(reference);
-
-                    Cursor cursor = ((DownloadManager) getSystemService(DOWNLOAD_SERVICE)).query(query);
-                    cursor.moveToFirst();
-
-                    // get the status of the download
-                    int columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
-                    int status = cursor.getInt(columnIndex);
-
-                    // get the reason - more detail on the status
-                    int columnReason = cursor.getColumnIndex(DownloadManager.COLUMN_REASON);
-                    int reason = cursor.getInt(columnReason);
-
-                    switch (status) {
-                        case DownloadManager.STATUS_SUCCESSFUL:
-                            updateFab();
-//                            ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
-                            break;
-
-                        case DownloadManager.STATUS_FAILED:
-                            Toast.makeText(IssueDetailActivity.this, "FAILED: " + reason, Toast.LENGTH_LONG).show();
-                            break;
-
-                        case DownloadManager.STATUS_PAUSED:
-                            Toast.makeText(IssueDetailActivity.this, "PAUSED: " + reason, Toast.LENGTH_LONG).show();
-                            break;
-
-                        case DownloadManager.STATUS_PENDING:
-                            Toast.makeText(IssueDetailActivity.this, "PENDING!", Toast.LENGTH_LONG).show();
-                            break;
-
-                        case DownloadManager.STATUS_RUNNING:
-                            Toast.makeText(IssueDetailActivity.this, "RUNNING!", Toast.LENGTH_LONG).show();
-                            break;
-                    }
-
-                    cursor.close();
-                }
-            }
-        };
-        registerReceiver(receiverDownloadComplete, intentFilter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiverDownloadExtracted, new IntentFilter(DownloadCompleteBroadcastReceiver.ACTION_DOWNLOAD_EXTRACTED));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
-        unregisterReceiver(receiverDownloadComplete);
-        unregisterReceiver(receiverNotificationClicked);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiverDownloadExtracted);
     }
 
     @Override

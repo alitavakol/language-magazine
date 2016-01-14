@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
 import java.io.File;
@@ -22,6 +23,11 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = LogHelper.makeLogTag(DownloadCompleteBroadcastReceiver.class);
 
     protected static final int ISSUE_DOWNLOADED_NOTIFICATION_ID = 200;
+
+    /**
+     * local broadcast intent action that is sent when an issue has been downloaded and extracted.
+     */
+    public static final String ACTION_DOWNLOAD_EXTRACTED = "me.ali.coolenglishmagazine.intent.action.DOWNLOAD_EXTRACTED";
 
     public DownloadCompleteBroadcastReceiver() {
     }
@@ -59,7 +65,8 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
                     final Magazines.Issue issue = Magazines.getIssue(new File(context.getExternalFilesDir(null), issueId));
 
                     // prepare intent which is triggered if the notification is selected
-                    Intent intent = new Intent(context, IssueDetailActivity.class);
+                    Intent intent = new Intent(context, ItemListActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
 
                     // use System.currentTimeMillis() to have a unique ID for the pending intent
@@ -79,6 +86,8 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
                             .build();
 
                     ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id, n);
+
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(DownloadCompleteBroadcastReceiver.ACTION_DOWNLOAD_EXTRACTED));
 
                 } catch (IOException e) {
                     LogHelper.e(TAG, e.getMessage());

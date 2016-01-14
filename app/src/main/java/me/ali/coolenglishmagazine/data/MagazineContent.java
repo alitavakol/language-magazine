@@ -20,9 +20,8 @@ public class MagazineContent {
      */
     public List<Item> ITEMS = new ArrayList<>();
 
-    public void loadItems(String magazineRootDirectory) {
-        File f = new File(magazineRootDirectory);
-        File[] files = f.listFiles();
+    public void loadItems(Magazines.Issue issue) {
+        File[] files = issue.rootDirectory.listFiles();
         for (File g : files) {
             if (g.isDirectory()) {
                 try {
