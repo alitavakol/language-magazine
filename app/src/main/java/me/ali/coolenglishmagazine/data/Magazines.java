@@ -4,6 +4,7 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -108,7 +109,7 @@ public class Magazines {
     public static long download(Context context, Issue issue) throws IOException {
         int id = Integer.parseInt(issue.rootDirectory.getName());
 
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(getIssueDownloadUrl(issue)))
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(getIssueDownloadUrl(context, issue)))
                 .setDescription(issue.title)
                 .setTitle(context.getResources().getString(R.string.app_name))
                 .setDestinationInExternalFilesDir(context, null, "" + id + ".zip")
@@ -123,15 +124,17 @@ public class Magazines {
     /**
      * @return URL from which the zip archive of the given issue can be downloaded.
      */
-    public static String getIssueDownloadUrl(Issue issue) {
-        return "http://10.0.2.2:3000/api/issues/" + Integer.parseInt(issue.rootDirectory.getName());
+    public static String getIssueDownloadUrl(Context context, Issue issue) {
+        final Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(context).getString("server_address", context.getResources().getString(R.string.pref_default_server_address)));
+        // http://docs.oracle.com/javase/tutorial/networking/urls/urlInfo.html
+        return uri.toString() + "/api/issues/" + Integer.parseInt(issue.rootDirectory.getName());
     }
 
     /**
      * @return download status (if there is any) or -1
      */
     public static int getDownloadStatus(Context context, Issue issue) {
-        final String issueDownloadUrl = getIssueDownloadUrl(issue);
+        final String issueDownloadUrl = getIssueDownloadUrl(context, issue);
 
         DownloadManager.Query query = new DownloadManager.Query();
 
