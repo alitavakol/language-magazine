@@ -1,9 +1,11 @@
 package me.ali.coolenglishmagazine;
 
+import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -161,15 +164,39 @@ public class IssueDetailActivity extends AppCompatActivity {
 
     void updateFab() {
         final int status = Magazines.getDownloadStatus(this, issue);
-        // TODO: take the above download status into account
 
-        if (new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists()) {
-            findViewById(R.id.fab_download).setVisibility(View.GONE);
-            findViewById(R.id.fab).setVisibility(View.VISIBLE);
+        final ImageView fab_download = (ImageView) findViewById(R.id.fab_download);
+        final ImageView fab = (ImageView) findViewById(R.id.fab);
 
-        } else {
-            findViewById(R.id.fab_download).setVisibility(View.VISIBLE);
-            findViewById(R.id.fab).setVisibility(View.GONE);
+        final AnimationDrawable d = (AnimationDrawable) fab_download.getDrawable();
+        d.setCallback(fab_download);
+        d.setVisible(true, true);
+
+        switch (status) {
+            case DownloadManager.STATUS_PENDING:
+            case DownloadManager.STATUS_RUNNING:
+            case DownloadManager.STATUS_PAUSED:
+            case DownloadManager.STATUS_SUCCESSFUL:
+                fab_download.setClickable(false);
+                fab_download.setVisibility(View.VISIBLE);
+                d.start();
+
+                fab.setVisibility(View.GONE);
+                break;
+
+            default:
+                fab_download.setClickable(true);
+                d.stop();
+
+                if (new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists()) {
+                    fab_download.setVisibility(View.GONE);
+                    fab.setVisibility(View.VISIBLE);
+
+                } else {
+                    fab_download.setVisibility(View.VISIBLE);
+                    fab.setVisibility(View.GONE);
+                }
+                break;
         }
     }
 
