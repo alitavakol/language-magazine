@@ -10,7 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import me.ali.coolenglishmagazine.data.MagazineContent;
+import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 

@@ -43,7 +43,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
-import me.ali.coolenglishmagazine.data.MagazineContent;
+import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 

@@ -1,4 +1,4 @@
-package me.ali.coolenglishmagazine;
+package me.ali.coolenglishmagazine.broadcast_receivers;
 
 import android.app.DownloadManager;
 import android.app.Notification;
@@ -14,7 +14,10 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 
-import me.ali.coolenglishmagazine.data.Magazines;
+import me.ali.coolenglishmagazine.IssueDetailActivity;
+import me.ali.coolenglishmagazine.ItemListActivity;
+import me.ali.coolenglishmagazine.R;
+import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.util.ZipHelper;
 
@@ -22,12 +25,12 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
 
     private static final String TAG = LogHelper.makeLogTag(DownloadCompleteBroadcastReceiver.class);
 
-    protected static final int ISSUE_DOWNLOADED_NOTIFICATION_ID = 200;
+    public static final int ISSUE_DOWNLOADED_NOTIFICATION_ID = 200;
 
     /**
      * local broadcast intent action that is sent when an issue has been downloaded and extracted.
      */
-    public static final String ACTION_DOWNLOAD_EXTRACTED = "me.ali.coolenglishmagazine.intent.action.DOWNLOAD_EXTRACTED";
+    public static final String ACTION_DOWNLOAD_EXTRACTED = "me.ali.coolenglishmagazine.action.DOWNLOAD_EXTRACTED";
 
     public DownloadCompleteBroadcastReceiver() {
     }

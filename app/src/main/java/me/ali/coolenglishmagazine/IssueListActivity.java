@@ -23,7 +23,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
-import me.ali.coolenglishmagazine.data.Magazines;
+import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.InputStreamVolleyRequest;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.util.NetworkHelper;
 import me.ali.coolenglishmagazine.util.ZipHelper;

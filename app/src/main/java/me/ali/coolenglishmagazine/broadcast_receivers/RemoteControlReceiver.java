@@ -1,4 +1,4 @@
-package me.ali.coolenglishmagazine;
+package me.ali.coolenglishmagazine.broadcast_receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

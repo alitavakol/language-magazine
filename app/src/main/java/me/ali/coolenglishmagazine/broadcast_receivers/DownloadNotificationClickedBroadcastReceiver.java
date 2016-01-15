@@ -1,4 +1,4 @@
-package me.ali.coolenglishmagazine;
+package me.ali.coolenglishmagazine.broadcast_receivers;
 
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -9,7 +9,8 @@ import android.database.Cursor;
 import java.io.File;
 import java.io.IOException;
 
-import me.ali.coolenglishmagazine.data.Magazines;
+import me.ali.coolenglishmagazine.IssueDetailActivity;
+import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 public class DownloadNotificationClickedBroadcastReceiver extends BroadcastReceiver {

@@ -1,4 +1,4 @@
-package me.ali.coolenglishmagazine.data;
+package me.ali.coolenglishmagazine.model;
 
 import android.app.DownloadManager;
 import android.content.Context;

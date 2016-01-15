@@ -12,8 +12,9 @@ import android.widget.ListView;
 import java.io.File;
 import java.io.IOException;
 
-import me.ali.coolenglishmagazine.data.MagazineContent;
-import me.ali.coolenglishmagazine.data.Magazines;
+import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
+import me.ali.coolenglishmagazine.model.MagazineContent;
+import me.ali.coolenglishmagazine.model.Magazines;
 
 /**
  * A list fragment representing a list of Magazine. This fragment

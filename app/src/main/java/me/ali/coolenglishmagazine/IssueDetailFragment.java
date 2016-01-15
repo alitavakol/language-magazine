@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.io.File;
 import java.io.IOException;
 
-import me.ali.coolenglishmagazine.data.Magazines;
+import me.ali.coolenglishmagazine.model.Magazines;
 
 /**
  * A fragment representing a single Issue detail screen.

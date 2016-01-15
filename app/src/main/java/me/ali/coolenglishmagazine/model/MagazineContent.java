@@ -1,4 +1,4 @@
-package me.ali.coolenglishmagazine.data;
+package me.ali.coolenglishmagazine.model;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

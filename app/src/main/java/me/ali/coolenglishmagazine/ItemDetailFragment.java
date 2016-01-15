@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import java.io.File;
 import java.io.IOException;
 
-import me.ali.coolenglishmagazine.data.MagazineContent;
+import me.ali.coolenglishmagazine.model.MagazineContent;
 
 /**
  * A fragment representing a single Item detail screen.

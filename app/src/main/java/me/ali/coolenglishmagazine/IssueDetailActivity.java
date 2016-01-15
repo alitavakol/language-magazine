@@ -18,7 +18,8 @@ import android.widget.ImageView;
 import java.io.File;
 import java.io.IOException;
 
-import me.ali.coolenglishmagazine.data.Magazines;
+import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
+import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 /**

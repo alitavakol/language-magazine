@@ -22,6 +22,7 @@ import android.widget.RemoteViews;
 
 import java.io.File;
 
+import me.ali.coolenglishmagazine.broadcast_receivers.RemoteControlReceiver;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 /**
