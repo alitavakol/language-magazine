@@ -223,11 +223,11 @@ public class IssueListActivity extends AppCompatActivity {
      * gets list of available issues from server.
      */
     void syncAvailableIssuesList(int firstMissingIssueNumber) {
-        if (NetworkHelper.isOnline(this)) {
-            // Instantiate the RequestQueue.
-            if (requestQueue == null)
-                requestQueue = Volley.newRequestQueue(this);
+        // Instantiate the RequestQueue.
+        if (requestQueue == null)
+            requestQueue = Volley.newRequestQueue(this);
 
+        if (NetworkHelper.isOnline(this)) {
             final Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(this).getString("server_address", getResources().getString(R.string.pref_default_server_address)));
             // http://docs.oracle.com/javase/tutorial/networking/urls/urlInfo.html
             final String url = uri.toString() + "/api/issues?min_issue_number=" + firstMissingIssueNumber;
@@ -266,7 +266,7 @@ public class IssueListActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    LogHelper.e(TAG, error.getMessage());
+//                    LogHelper.e(TAG, error.getMessage()); // error
                     Toast.makeText(IssueListActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
                     requestQueue.cancelAll(IssueListActivity.this);
                 }
