@@ -176,7 +176,6 @@ public class IssueDetailActivity extends AppCompatActivity {
             case DownloadManager.STATUS_PENDING:
             case DownloadManager.STATUS_RUNNING:
             case DownloadManager.STATUS_PAUSED:
-            case DownloadManager.STATUS_SUCCESSFUL:
                 fab_download.setClickable(false);
                 fab_download.setVisibility(View.VISIBLE);
                 d.start();
