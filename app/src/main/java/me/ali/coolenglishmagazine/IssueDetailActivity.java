@@ -1,6 +1,5 @@
 package me.ali.coolenglishmagazine;
 
-import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -69,7 +68,7 @@ public class IssueDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    downloadReference = Magazines.download(IssueDetailActivity.this, issue.rootDirectory);
+                    downloadReference = Magazines.download(IssueDetailActivity.this, issue);
                     findViewById(R.id.fab_download).setClickable(false);
                     updateFab();
                 } catch (IOException e) {
@@ -161,9 +160,13 @@ public class IssueDetailActivity extends AppCompatActivity {
     }
 
     void updateFab() {
+        final int status = Magazines.getDownloadStatus(this, issue);
+        // TODO: take the above download status into account
+
         if (new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists()) {
             findViewById(R.id.fab_download).setVisibility(View.GONE);
             findViewById(R.id.fab).setVisibility(View.VISIBLE);
+
         } else {
             findViewById(R.id.fab_download).setVisibility(View.VISIBLE);
             findViewById(R.id.fab).setVisibility(View.GONE);

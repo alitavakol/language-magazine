@@ -80,9 +80,6 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
                             .setSmallIcon(R.mipmap.ic_launcher)
                             .setContentIntent(pIntent)
                             .setAutoCancel(true)
-//                            .addAction(R.drawable.icon, "Call", pIntent)
-//                            .addAction(R.drawable.icon, "More", pIntent)
-//                            .addAction(R.drawable.icon, "And more", pIntent)
                             .build();
 
                     ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id, n);

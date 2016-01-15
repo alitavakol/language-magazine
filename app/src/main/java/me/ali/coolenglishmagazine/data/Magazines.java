@@ -2,8 +2,8 @@ package me.ali.coolenglishmagazine.data;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -26,6 +26,9 @@ public class Magazines {
      */
     public final List<Issue> ISSUES = new ArrayList<>();
 
+    /**
+     * populates list of {@code ISSUES} from the specified root directory of device's local storage
+     */
     public void loadIssues(String issuesRootDirectory) {
         ISSUES.clear();
 
@@ -100,17 +103,12 @@ public class Magazines {
     }
 
     /**
-     * @param context
-     * @param issueRootDirectory
      * @return download reference number
      */
-    public static long download(Context context, File issueRootDirectory) throws IOException {
-        final Issue issue = Magazines.getIssue(issueRootDirectory);
+    public static long download(Context context, Issue issue) throws IOException {
+        int id = Integer.parseInt(issue.rootDirectory.getName());
 
-        int id = Integer.parseInt(issueRootDirectory.getName());
-        final String url = "http://10.0.2.2:3000/api/issues/" + id;
-
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url))
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(getIssueDownloadUrl(issue)))
                 .setDescription(issue.title)
                 .setTitle(context.getResources().getString(R.string.app_name))
                 .setDestinationInExternalFilesDir(context, null, "" + id + ".zip")
@@ -121,4 +119,34 @@ public class Magazines {
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         return downloadManager.enqueue(request);
     }
+
+    /**
+     * @return URL from which the zip archive of the given issue can be downloaded.
+     */
+    public static String getIssueDownloadUrl(Issue issue) {
+        return "http://10.0.2.2:3000/api/issues/" + Integer.parseInt(issue.rootDirectory.getName());
+    }
+
+    /**
+     * @return download status (if there is any) or -1
+     */
+    public static int getDownloadStatus(Context context, Issue issue) {
+        final String issueDownloadUrl = getIssueDownloadUrl(issue);
+
+        DownloadManager.Query query = new DownloadManager.Query();
+
+        Cursor cursor = ((DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE)).query(query);
+        final int uriIndex = cursor.getColumnIndex(DownloadManager.COLUMN_URI);
+
+        while (cursor.moveToNext()) {
+            final String cursorUrl = cursor.getString(uriIndex);
+            if (cursorUrl.equals(issueDownloadUrl)) {
+                return cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
+            }
+        }
+
+        cursor.close();
+        return -1;
+    }
+
 }

@@ -61,6 +61,7 @@
             android:name=".IssueDetailActivity"
             android:label="@string/title_issue_detail"
             android:parentActivityName=".IssueListActivity"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
