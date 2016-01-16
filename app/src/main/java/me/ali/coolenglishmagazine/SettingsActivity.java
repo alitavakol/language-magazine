@@ -2,7 +2,6 @@ package me.ali.coolenglishmagazine;
 
 
 import android.annotation.TargetApi;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -14,7 +13,6 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceScreen;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
@@ -28,13 +26,10 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import java.util.List;
 
@@ -158,7 +153,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
         AppBarLayout appBarLayout = (AppBarLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
-        Toolbar bar = (Toolbar) appBarLayout.findViewById(R.id.toolbar);
+        bar = (Toolbar) appBarLayout.findViewById(R.id.toolbar);
         root.addView(appBarLayout, 0); // insert at top
         bar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,6 +162,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             }
         });
     }
+
+    Toolbar bar;
 
     /**
      * see <a href="http://stackoverflow.com/a/27455355">this link</a>.
@@ -197,66 +194,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
 
         return null;
-    }
-
-    /**
-     * see <a href="http://stackoverflow.com/a/27455355">this link</a>.
-     */
-    @SuppressWarnings("deprecation")
-    @Override
-    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-        super.onPreferenceTreeClick(preferenceScreen, preference);
-
-        // If the user has clicked on a preference screen, set up the screen
-        if (preference instanceof PreferenceScreen) {
-            setUpNestedScreen((PreferenceScreen) preference);
-        }
-
-        return false;
-    }
-
-    /**
-     * see <a href="http://stackoverflow.com/a/27455355">this link</a>.
-     */
-    public void setUpNestedScreen(PreferenceScreen preferenceScreen) {
-        final Dialog dialog = preferenceScreen.getDialog();
-
-        Toolbar bar;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            LinearLayout root = (LinearLayout) dialog.findViewById(android.R.id.list).getParent();
-            bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
-            root.addView(bar, 0); // insert at top
-        } else {
-            ViewGroup root = (ViewGroup) dialog.findViewById(android.R.id.content);
-            ListView content = (ListView) root.getChildAt(0);
-
-            root.removeAllViews();
-
-            bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
-
-            int height;
-            TypedValue tv = new TypedValue();
-            if (getTheme().resolveAttribute(R.attr.actionBarSize, tv, true)) {
-                height = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
-            } else {
-                height = bar.getHeight();
-            }
-
-            content.setPadding(0, height, 0, 0);
-
-            root.addView(content);
-            root.addView(bar);
-        }
-
-        bar.setTitle(preferenceScreen.getTitle());
-
-        bar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
     }
 
     /**
@@ -308,6 +245,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
 
         @Override
+        public void onResume() {
+            super.onResume();
+            ((SettingsActivity) getActivity()).bar.setTitle(R.string.pref_header_general);
+        }
+
+        @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
             if (id == android.R.id.home) {
@@ -335,6 +278,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // updated to reflect the new value, per the Android Design
             // guidelines.
             bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            ((SettingsActivity) getActivity()).bar.setTitle(R.string.pref_header_notifications);
         }
 
         @Override
@@ -366,6 +315,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // guidelines.
             bindPreferenceSummaryToValue(findPreference("sync_frequency"));
             bindPreferenceSummaryToValue(findPreference("server_address"));
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            ((SettingsActivity) getActivity()).bar.setTitle(R.string.pref_header_data_sync);
         }
 
         @Override

@@ -4,12 +4,12 @@
 
     <header
         android:fragment="me.ali.coolenglishmagazine.SettingsActivity$GeneralPreferenceFragment"
-        android:icon="@android:drawable/stat_notify_chat"
+        android:icon="@android:drawable/stat_notify_voicemail"
         android:title="@string/pref_header_general" />
 
     <header
         android:fragment="me.ali.coolenglishmagazine.SettingsActivity$NotificationPreferenceFragment"
-        android:icon="@android:drawable/stat_notify_more"
+        android:icon="@android:drawable/stat_notify_sdcard"
         android:title="@string/pref_header_notifications" />
 
     <header
