@@ -2,7 +2,10 @@ package me.ali.coolenglishmagazine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -199,9 +202,14 @@ public class IssueListActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_refresh) {
-            syncAvailableIssuesList(firstMissingIssueNumber);
-            return true;
+        switch (id) {
+            case R.id.action_refresh:
+                syncAvailableIssuesList(firstMissingIssueNumber);
+                return true;
+
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -216,12 +224,14 @@ public class IssueListActivity extends AppCompatActivity {
      * gets list of available issues from server.
      */
     void syncAvailableIssuesList(int firstMissingIssueNumber) {
-        if (NetworkHelper.isOnline(this)) {
-            // Instantiate the RequestQueue.
-            if (requestQueue == null)
-                requestQueue = Volley.newRequestQueue(this);
+        // Instantiate the RequestQueue.
+        if (requestQueue == null)
+            requestQueue = Volley.newRequestQueue(this);
 
-            final String url = "http://10.0.2.2:3000/api/issues?min_issue_number=" + firstMissingIssueNumber;
+        if (NetworkHelper.isOnline(this)) {
+            final Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(this).getString("server_address", getResources().getString(R.string.pref_default_server_address)));
+            // http://docs.oracle.com/javase/tutorial/networking/urls/urlInfo.html
+            final String url = uri.toString() + "/api/issues?min_issue_number=" + firstMissingIssueNumber;
 
             // Request a string response from the provided URL.
             InputStreamVolleyRequest request = new InputStreamVolleyRequest(Request.Method.GET, url, new Response.Listener<byte[]>() {
@@ -257,7 +267,7 @@ public class IssueListActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    LogHelper.e(TAG, error.getMessage());
+//                    LogHelper.e(TAG, error.getMessage()); // error
                     Toast.makeText(IssueListActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
                     requestQueue.cancelAll(IssueListActivity.this);
                 }
