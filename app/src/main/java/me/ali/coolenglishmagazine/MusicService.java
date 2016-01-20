@@ -111,7 +111,7 @@ public class MusicService extends Service implements
         Intent notificationIntent = new Intent(this, ReadAndListenActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         final String itemRootDirectory = new File(dataSource).getParent();
-        notificationIntent.putExtra(ItemDetailActivity.ARG_ROOT_DIRECTORY, itemRootDirectory);
+        notificationIntent.putExtra(ReadAndListenActivity.ARG_ROOT_DIRECTORY, itemRootDirectory);
 
         // http://stackoverflow.com/a/31445004
         // killed me :(

@@ -20,7 +20,7 @@
             android:parentActivityName=".ItemDetailActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ItemDetailActivity" />
+                android:value=".ItemListActivity" />
         </activity>
 
         <service
@@ -38,15 +38,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".IssueDetailActivity" />
         </activity>
-        <activity
-            android:name=".ItemDetailActivity"
-            android:label="@string/title_item_detail"
-            android:parentActivityName=".ItemListActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ItemListActivity" />
-        </activity>
+
         <activity
             android:name=".IssueListActivity"
             android:label="@string/title_issue_list"
@@ -95,7 +87,7 @@
 
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings" />
     </application>
 
 </manifest>

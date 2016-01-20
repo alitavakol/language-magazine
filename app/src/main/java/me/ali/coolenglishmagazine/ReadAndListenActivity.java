@@ -52,6 +52,12 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     private static final String TAG = LogHelper.makeLogTag(ReadAndListenActivity.class);
 
     /**
+     * The activity argument representing the item ID that this activity
+     * represents.
+     */
+    public static final String ARG_ROOT_DIRECTORY = "item_root_directory";
+
+    /**
      * current lesson item descriptor
      */
     protected MagazineContent.Item item;
@@ -139,7 +145,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         webView.setVerticalScrollBarEnabled(false);
 
         try {
-            item = MagazineContent.getItem(new File(getIntent().getStringExtra(ItemDetailActivity.ARG_ROOT_DIRECTORY)));
+            item = MagazineContent.getItem(new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
 
         } catch (IOException e) {
             LogHelper.e(TAG, e.getMessage());
@@ -611,7 +617,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 public void run() {
                     correctSlide = show;
                     findViewById(R.id.gradient_edge).setVisibility((transcriptLocked || !correctSlide) ? View.GONE : View.VISIBLE);
-                    findViewById(R.id.controllers).setVisibility(correctSlide ? View.VISIBLE : View.GONE);
+//                    findViewById(R.id.controllers).setVisibility(correctSlide ? View.VISIBLE : View.GONE);
                     findViewById(R.id.lock).setVisibility((transcriptLocked && correctSlide) ? View.VISIBLE : View.INVISIBLE);
                 }
             });
