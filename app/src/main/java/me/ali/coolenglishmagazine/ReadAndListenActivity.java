@@ -84,6 +84,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
      */
     protected HashMap<String, NewWord> newWords;
 
+    WebViewJavaScriptInterface webViewJavaScriptInterface = new WebViewJavaScriptInterface();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,7 +135,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             }
         });
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.addJavascriptInterface(new WebViewJavaScriptInterface(), "app");
+        webView.addJavascriptInterface(webViewJavaScriptInterface, "app");
         webView.setVerticalScrollBarEnabled(false);
 
         try {
@@ -225,6 +227,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     }
 
     protected boolean transcriptLocked = true;
+
+    /**
+     * true if current swipeable slide is the manuscript tab
+     */
+    protected boolean correctSlide = false;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -552,6 +559,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         }
 
         webView.loadUrl("javascript:lock(" + transcriptLocked + ");");
+        webViewJavaScriptInterface.showControls(correctSlide);
     }
 
     /*
@@ -576,9 +584,9 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         public void onLockStateChanged() {
             runOnUiThread(new Runnable() {
                 public void run() {
-                    findViewById(R.id.gradient_edge).setVisibility(transcriptLocked ? View.GONE : View.VISIBLE);
+                    findViewById(R.id.gradient_edge).setVisibility((transcriptLocked || !correctSlide) ? View.GONE : View.VISIBLE);
                     findViewById(R.id.gradient_edge_up).setVisibility(transcriptLocked ? View.GONE : View.VISIBLE);
-                    findViewById(R.id.lock).setVisibility(transcriptLocked ? View.VISIBLE : View.INVISIBLE);
+                    findViewById(R.id.lock).setVisibility((transcriptLocked && correctSlide) ? View.VISIBLE : View.INVISIBLE);
                     findViewById(R.id.toolbar).setBackgroundResource(transcriptLocked ? android.R.color.transparent : R.color.colorPrimary);
 
                     RelativeLayout.LayoutParams layout = (RelativeLayout.LayoutParams) webView.getLayoutParams();
@@ -590,6 +598,21 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                         layout.addRule(RelativeLayout.ABOVE, R.id.controllers);
                     }
                     webView.setLayoutParams(layout);
+                }
+            });
+        }
+
+        /**
+         * shows lock button and media playback controls if on correct slide. and hides them otherwise.
+         */
+        @JavascriptInterface
+        public void showControls(final boolean show) {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    correctSlide = show;
+                    findViewById(R.id.gradient_edge).setVisibility((transcriptLocked || !correctSlide) ? View.GONE : View.VISIBLE);
+                    findViewById(R.id.controllers).setVisibility(correctSlide ? View.VISIBLE : View.GONE);
+                    findViewById(R.id.lock).setVisibility((transcriptLocked && correctSlide) ? View.VISIBLE : View.INVISIBLE);
                 }
             });
         }
