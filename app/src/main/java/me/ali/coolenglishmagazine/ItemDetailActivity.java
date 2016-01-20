@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -82,21 +83,33 @@ public class ItemDetailActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.item_detail, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == android.R.id.home) {
-            finish();
+        switch (id) {
+            case android.R.id.home:
+                finish();
 
-            Intent intent = new Intent(this, ItemListActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Intent intent = new Intent(this, ItemListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-            final String issueRootDirectory = new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)).getParent();
-            intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issueRootDirectory);
+                final String issueRootDirectory = new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)).getParent();
+                intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issueRootDirectory);
 
-            startActivity(intent);
+                startActivity(intent);
 
-            return true;
+                return true;
+
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

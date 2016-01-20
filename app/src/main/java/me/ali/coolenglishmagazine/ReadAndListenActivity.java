@@ -192,28 +192,33 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_lock) {
-            lockTranscript(true);
-            return true;
+        switch (id) {
+            case R.id.action_lock:
+                lockTranscript(true);
+                return true;
 
-        } else if (id == R.id.action_unlock) {
-            lockTranscript(false);
-            return true;
+            case R.id.action_unlock:
+                lockTranscript(false);
+                return true;
 
-        } else if(id == android.R.id.home) {
-            finish();
+            case android.R.id.home:
+                finish();
 
-            // when this activity is launched from the notification, back button goes to home screen.
-            // I could not find any solution except manually creating parent.
-            Intent intent = new Intent(this, ItemListActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                // when this activity is launched from the notification, back button goes to home screen.
+                // I could not find any solution except manually creating parent.
+                Intent intent = new Intent(this, ItemListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-            final String issueRootDirectory = this.item.rootDirectory.getParent();
-            intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issueRootDirectory);
+                final String issueRootDirectory = this.item.rootDirectory.getParent();
+                intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issueRootDirectory);
 
-            startActivity(intent);
+                startActivity(intent);
 
-            return true;
+                return true;
+
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -607,14 +612,14 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
                     final TextView textViewEn = (TextView) popupView.findViewById(R.id.def_en);
                     final String en = newWord.definition.get("en");
-                    if(en.length() > 0)
+                    if (en.length() > 0)
                         textViewEn.setText(en);
                     else
                         textViewEn.setVisibility(View.GONE);
 
                     final TextView textViewFa = (TextView) popupView.findViewById(R.id.def_fa);
                     final String fa = newWord.definition.get("fa");
-                    if(fa.length() > 0)
+                    if (fa.length() > 0)
                         textViewFa.setText(fa);
                     else
                         textViewFa.setVisibility(View.GONE);

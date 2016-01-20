@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -21,11 +22,11 @@ import me.ali.coolenglishmagazine.util.LogHelper;
  * lead to a {@link ItemDetailActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
- * <p>
+ * <p/>
  * The activity makes heavy use of fragments. The list of items is a
  * {@link ItemListFragment} and the item details
  * (if present) is a {@link ItemDetailFragment}.
- * <p>
+ * <p/>
  * This activity also implements the required
  * {@link ItemListFragment.Callbacks} interface
  * to listen for item selections.
@@ -134,23 +135,34 @@ public class ItemListActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.item_list, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if(id == android.R.id.home) {
-            finish();
+        switch (id) {
+            case android.R.id.home:
+                finish();
 
-            // when this activity is launched from the notification, back button goes to home screen.
-            // I could not find any solution except manually creating parent.
-            Intent intent = new Intent(this, IssueListActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                // when this activity is launched from the notification, back button goes to home screen.
+                // I could not find any solution except manually creating parent.
+                Intent intent = new Intent(this, IssueListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
 
-            startActivity(intent);
+                return true;
 
-            return true;
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
