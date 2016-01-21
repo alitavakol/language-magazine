@@ -24,7 +24,6 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -124,6 +123,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
                 final String command = "javascript:adjustLayout("
                         + (actionBarSize + getResources().getDimension(R.dimen.gradient_edge_height)) // HTML content top margin
+                        + ", " + findViewById(R.id.controllers).getMeasuredHeight()
                         + ", " + webView.getMeasuredHeight() // poster height
                         + ", " + ContextCompat.getColor(getApplicationContext(), R.color.colorAccent) // accent color
                         + ", 0xc5c5c5, " // text color
@@ -560,8 +560,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         transcriptLocked = lock;
 
         if (menu != null) {
-            menu.findItem(R.id.action_lock).setVisible(!transcriptLocked);
-//            menu.findItem(R.id.action_unlock).setVisible(lock);
+            menu.findItem(R.id.action_lock).setVisible(!transcriptLocked && correctSlide);
         }
 
         webView.loadUrl("javascript:lock(" + transcriptLocked + ");");
@@ -590,20 +589,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         public void onLockStateChanged() {
             runOnUiThread(new Runnable() {
                 public void run() {
-                    findViewById(R.id.gradient_edge).setVisibility((transcriptLocked || !correctSlide) ? View.GONE : View.VISIBLE);
-                    findViewById(R.id.gradient_edge_up).setVisibility(transcriptLocked ? View.GONE : View.VISIBLE);
+//                    findViewById(R.id.gradient_edge_up).setVisibility(transcriptLocked ? View.GONE : View.VISIBLE);
                     findViewById(R.id.lock).setVisibility((transcriptLocked && correctSlide) ? View.VISIBLE : View.INVISIBLE);
+                    menu.findItem(R.id.action_lock).setVisible(!transcriptLocked && correctSlide);
                     findViewById(R.id.toolbar).setBackgroundResource(transcriptLocked ? android.R.color.transparent : R.color.colorPrimary);
-
-                    RelativeLayout.LayoutParams layout = (RelativeLayout.LayoutParams) webView.getLayoutParams();
-                    if (transcriptLocked) {
-                        layout.removeRule(RelativeLayout.ABOVE);
-                        layout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                    } else {
-                        layout.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                        layout.addRule(RelativeLayout.ABOVE, R.id.controllers);
-                    }
-                    webView.setLayoutParams(layout);
                 }
             });
         }
@@ -616,9 +605,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             runOnUiThread(new Runnable() {
                 public void run() {
                     correctSlide = show;
-                    findViewById(R.id.gradient_edge).setVisibility((transcriptLocked || !correctSlide) ? View.GONE : View.VISIBLE);
+//                    findViewById(R.id.gradient_edge).setVisibility(transcriptLocked ? View.GONE : View.VISIBLE);
 //                    findViewById(R.id.controllers).setVisibility(correctSlide ? View.VISIBLE : View.GONE);
                     findViewById(R.id.lock).setVisibility((transcriptLocked && correctSlide) ? View.VISIBLE : View.INVISIBLE);
+                    menu.findItem(R.id.action_lock).setVisible(!transcriptLocked && correctSlide);
                 }
             });
         }

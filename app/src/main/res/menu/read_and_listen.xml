@@ -6,6 +6,7 @@
         android:id="@+id/action_lock"
         android:icon="@android:drawable/ic_lock_idle_lock"
         android:title="@string/lock"
+        android:visible="false"
         app:showAsAction="always" />
 
     <item
