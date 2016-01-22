@@ -138,6 +138,7 @@
 			}
 
 			setCurrentSlide = function(index) {
+				$('#page-indicator').show();
 				$('#page-indicator .dot').eq(index).addClass('active');
 
 				window.swipeable = $('#swipeable').Swipe({

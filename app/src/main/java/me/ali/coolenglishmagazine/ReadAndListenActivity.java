@@ -124,7 +124,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 a.recycle();
 
                 final String command = "javascript:adjustLayout("
-                        + (actionBarSize + getResources().getDimension(R.dimen.gradient_edge_height)) // HTML content top margin
+                        + actionBarSize // HTML content top margin
                         + ", " + findViewById(R.id.controllers).getMeasuredHeight()
                         + ", " + webView.getMeasuredHeight() // poster height
                         + ", " + ContextCompat.getColor(getApplicationContext(), R.color.colorAccent) // accent color

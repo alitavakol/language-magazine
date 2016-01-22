@@ -167,7 +167,7 @@ public class MusicService extends Service implements
     }
 
     private void handlePrepareRequest(String dataSource) {
-        if (mediaPlayer != null && !dataSource.equals(this.dataSource)) {
+        if (mediaPlayer != null && !this.dataSource.equals(dataSource)) {
             this.dataSource = dataSource;
             handleStopRequest();
         }
