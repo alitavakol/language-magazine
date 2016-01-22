@@ -164,6 +164,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         findViewById(R.id.prev).setEnabled(false);
         findViewById(R.id.next).setEnabled(false);
         seekBar.setEnabled(false);
+        findViewById(R.id.controllers).setVisibility(item.audioFileName.length() > 0 ? View.VISIBLE : View.GONE);
 
         findViewById(R.id.play).setOnClickListener(this);
         findViewById(R.id.pause).setOnClickListener(this);
@@ -289,7 +290,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
             Intent startIntent = new Intent(ReadAndListenActivity.this, MusicService.class);
             startIntent.setAction(MusicService.ACTION_PREPARE);
-            startIntent.putExtra("dataSource", new File(item.rootDirectory, item.audioFileName).getAbsolutePath());
+            if(item.audioFileName.length() > 0)
+                startIntent.putExtra("dataSource", new File(item.rootDirectory, item.audioFileName).getAbsolutePath());
             startService(startIntent);
         }
 

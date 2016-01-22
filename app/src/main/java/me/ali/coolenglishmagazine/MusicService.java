@@ -172,7 +172,7 @@ public class MusicService extends Service implements
             handleStopRequest();
         }
 
-        if (mediaPlayer == null) {
+        if (mediaPlayer == null && dataSource != null && dataSource.length() > 0) {
             mediaPlayer = new MediaPlayer();
 
             mediaPlayer.setWakeMode(getApplicationContext(),

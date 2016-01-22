@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>News Stories</title>
+		<meta charset="utf-8">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style type="text/css">
+			.card {
+				position: relative;
+				/*margin: 0.5rem 0 1rem 0;*/
+				margin-left: 10px;
+				margin-right: 10px;
+				background-color: #fff;
+				transition: box-shadow .25s;
+				border-radius: 2px;
+				box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+				max-width: 100%;
+			}
+			.card .card-image {
+				position: relative;
+			}
+			.card .card-image img {
+				display: block;
+				border-radius: 2px 2px 0 0;
+				position: relative;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+			}
+			img {
+				/*border: 0;*/
+			}
+			.card .card-image .card-title {
+				color: #fff;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				padding: 20px;
+				text-transform: uppercase;
+				background-color: black;
+				opacity: 0.7;
+			}
+			.card .card-title {
+				font-size: 24px;
+				font-weight: 300;
+			}
+			.card .card-content {
+				border-radius: 0 0 2px 2px;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-bottom: 10px;
+			}
+			.card .card-action {
+				border-top: 1px solid rgba(160,160,160,0.2);
+				padding: 20px;
+				padding-bottom: 0;
+			}
+			.card .card-action {
+				color: #ffab40;
+				margin-right: 20px;
+				transition: color .3s ease;
+				text-transform: uppercase;
+				text-decoration: none;
+				-webkit-tap-highlight-color: transparent;
+			}
+			.illustrate {
+				width: 100%;
+				height: 300px;
+				overflow: hidden;
+				background-position: center center;
+				background-repeat: no-repeat;
+				background-size: cover;
+			}
+		</style>
+
+		<style id="dynamic-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/swipe.min.js"></script>
+		<script src="../../../swipe.min.js"></script>
+
+		<script src="../code.js"></script>
+	</head>
+
+	<body>
+		<div id="page-indicator" style="position: absolute; z-index: 1;">
+			<span class="dot"></span>
+			<span class="dot"></span>
+			<span class="dot"></span>
+			<span class="dot"></span>
+			<span class="dot"></span>
+			<span class="dot"></span>
+		</div>
+
+		<div id='swipeable' style='margin:0 auto;' class='swipe'>
+			<div class='swipe-wrap'>
+				<div>
+					<div class="card">
+						<div class="card-image">
+							<div class="illustrate" style="background-image: url('1.jpg');"></div>
+							<span class="card-title">To pitch a tent</span>
+						</div>
+						<div class="card-action">
+							To assemble a tent.
+						</div>
+						<div class="card-content">
+							<p>“The first thing we did when we got to the campsite was pitch our tent.”</p>
+						</div>
+					</div>
+				</div>
+
+				<div>
+					<div class="card">
+						<div class="card-image">
+							<div class="illustrate" style="background-image: url('2.jpg');"></div>
+							<span class="card-title">To go on a hike</span>
+						</div>
+						<div class="card-action">
+							To go for a long walk in the country.
+						</div>
+						<div class="card-content">
+							<p>“We plan to go on a hike in Fisher Canyon.”</p>
+						</div>
+					</div>
+				</div>
+
+				<div>
+					<div class="card">
+						<div class="card-image">
+							<div class="illustrate" style="background-image: url('3.jpg');"></div>
+							<span class="card-title">To build a fire</span>
+						</div>
+						<div class="card-action">
+							To make a f ire from materials such as wood and sticks.
+						</div>
+						<div class="card-content">
+							<p>“If we want to eat dinner, we should probably build a fire first.”</p>
+						</div>
+					</div>
+				</div>
+
+				<div>
+					<div class="card">
+						<div class="card-image">
+							<div class="illustrate" style="background-image: url('4.jpg');"></div>
+							<span class="card-title">To catch fish</span>
+						</div>
+						<div class="card-action">
+							To use a fishing rod and/or line to get fish.
+						</div>
+						<div class="card-content">
+							<p>“My mum and I caught seven fish in three hours down at the lake.”</p>
+						</div>
+					</div>
+				</div>
+
+				<div>
+					<div class="card">
+						<div class="card-image">
+							<div class="illustrate" style="background-image: url('5.jpg');"></div>
+							<span class="card-title">To roast marshmallows</span>
+						</div>
+						<div class="card-action">
+							To cook marshmallows over a fire.
+						</div>
+						<div class="card-content">
+							<p>“Sean loves to roast marshmallows when we go camping.”</p>
+						</div>
+					</div>
+				</div>
+
+				<div>
+					<div class="card">
+						<div class="card-image">
+							<div class="illustrate" style="background-image: url('6.jpg');"></div>
+							<span class="card-title">To set up camp</span>
+						</div>
+						<div class="card-action">
+							If you “set up camp”, you organise your campsite by putting your tent, supplies and food in order.
+						</div>
+						<div class="card-content">
+							<p>“My friends and I left home in the morning because we wanted to set up camp before dark.”</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			adjustCustomLayout = function() {
+				$('#dynamic-rules').text("\
+					.card { margin-top: " + (topMargin+28) + "px; } \
+					.highlight { background-color: " + highlihtColor + "; } \
+					body { background-color: #" + backgroundColor + "; } \
+					.transcript, dd, dt { color: #" + textColor + "; } \
+					.accent { color: #" + accentColor + "; } \
+					.new-word { color: #" + newWordColor + "; } \
+					#page-indicator { margin-top: " + topMargin + "px; } \
+					.swipe-wrap > div { height: " + height + "px; overflow-y: auto; }"
+				);
+			}
+
+			lock = function(b) {
+			}
+
+			setCurrentSlide = function(index) {
+				$('#page-indicator .dot').eq(index).addClass('active');
+
+				window.swipeable = $('#swipeable').Swipe({
+					startSlide: index,
+					callback: function(index,elem) {
+						$('#page-indicator .dot').removeClass('active');
+						$('#page-indicator .dot').eq(index).addClass('active');
+						app.showControls(index, false);
+					},
+				}).data('Swipe');
+			}
+		</script>
+
+	</body>
+</html>

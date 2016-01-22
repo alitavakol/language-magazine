@@ -1,0 +1,125 @@
+@font-face {
+	font-family: FiraMono;
+	src: url("file:///android_asset/FiraMono-Regular.otf")
+}
+@font-face {
+	font-family: FiraMonoBold;
+	src: url("file:///android_asset/FiraMono-Bold.otf")
+}
+body {
+	font-family: FiraMono;
+	margin-left: 0;
+	margin-right: 0;
+	background-color: #000;
+	margin: 0;
+	overflow: hidden;
+}
+.poster {
+	width: 100%;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	z-index: -1;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.transcript {
+	line-height: 1.4;
+}
+.new-word {
+	text-decoration: none;
+	font-family: FiraMonoBold;
+}
+header {
+	position: absolute;
+	/*top: 0;*/
+	left: 0;
+	width: 100%;
+	/*padding: 20px 10px;*/
+}
+.hidden {
+	visibility: hidden;
+	display: none;
+}
+.container {
+	margin-left: 10px;
+	margin-right: 10px;
+	/*margin-top: 100px;*/
+	overflow-y: auto;
+}
+h1 {
+	margin-top: 0;
+	margin-bottom: 0;
+	/*text-shadow: 0 1px 0 black;*/
+}
+h3 {
+	margin-top: 0;
+}
+
+
+.swipe {
+	overflow: hidden;
+	visibility: hidden;
+	position: relative;
+}
+.swipe-wrap {
+	overflow: hidden;
+	position: relative;
+}
+.swipe-wrap > div {
+	float: left;
+	width: 20px;
+	position: relative;
+	overflow: hidden;
+}
+
+
+.faq {
+	counter-reset: my-badass-counter;
+}
+.faq dt {
+	position: relative;
+	font-family: FiraMonoBold;
+	padding: 4px 0 10px 0;
+}
+.faq dt:before {
+	content: counter(my-badass-counter);
+	counter-increment: my-badass-counter;
+	position: absolute;
+	left: 0;
+	top: 0;
+	/*font-family: FiraMonoBold;*/
+	font: bold 50px/1 FiraMonoBold;
+}
+.faq dd {
+	margin: 0 0 32px 0;
+}	
+.faq dt, .faq dd {
+	padding-left: 50px;
+}
+
+dl.inline dt {
+	display: inline-block;
+	min-width: 100px;
+}
+dl.inline dd {
+	display: inline;
+	margin: 0;
+}
+
+#page-indicator {
+	width: 100%;
+	position: absolute;
+	text-align: center;
+}
+.dot {
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	border-radius: 4px;
+	background-color: #8999A6;
+}
+.dot.active {
+	background-color: azure;
+}
