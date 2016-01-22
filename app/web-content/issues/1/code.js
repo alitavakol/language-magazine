@@ -34,12 +34,9 @@ adjustLayout = function(topMargin_, bottomMargin_, height_, accentColor_, textCo
 
 if(typeof(app) == 'undefined') { // on web browser
 	$(document).ready(function() {
-		var transcriptLocked = false;
-
 		$('body').append('<button id="buttonToggleLock" style="position: absolute; top: 0; z-index: 2;">Toggle Show/Hide</button>');
 		$('#buttonToggleLock').click(function() {
-			transcriptLocked = !transcriptLocked;
-			lock(transcriptLocked);
+			lock(!transcriptLocked);
 		});
 
 		$('body').append("<button  style='position: absolute; top: 0; float: right; right: 50px; z-index: 2;' onclick='swipeable.prev()'>Previous</button> <button  style='position: absolute; top: 0; float: right; right: 0; z-index: 2;' onclick='swipeable.next()'>Next</button>");

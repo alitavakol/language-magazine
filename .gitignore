@@ -6,5 +6,4 @@
 .DS_Store
 /build
 /captures
-/home/hamed/Code/AndroidStudio/CoolEnglishMagazine/app/web-content/issues/*.zip
-
+/app/web-content/issues/*.zip

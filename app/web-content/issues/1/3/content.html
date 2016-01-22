@@ -37,13 +37,13 @@
 						<dl id="properties" class="inline" style="font-size: small; margin-bottom: 32px; padding: 6px;">
 							<dt>level:</dt>
 							<dd>Pre-Intermediate</dd>
-							<br>
+							<br/>
 							<dt>accent:</dt>
 							<dd><img src="gb.png" style="height: 16px; vertical-align: middle;"> English (woman)</dd>
-							<br>
+							<br/>
 							<dt>category:</dt>
 							<dd>Read and Listen</dd>
-							<br>
+							<br/>
 						</dl>
 
 						<dl class="faq">
@@ -117,23 +117,23 @@
 			}
 
 			lock = function(b) {
+				transcriptLocked = b;
+
 				if(b) {
 					$('.transcript').addClass('hidden');
 					$('.poster').removeClass('hidden');
 					$('h1').removeClass('alt');
 					$('h3').removeClass('alt');
-					// $('.container').css('margin-top', topMargin);
 
 				} else {
 					$('.transcript').removeClass('hidden');
 					$('.poster').addClass('hidden');
 					$('h1').eq(1).addClass('alt');
 					$('h3').eq(1).addClass('alt');
-					// $('.container').css('margin-top', 0);
 				}
 
 				if(typeof(app) != 'undefined') {
-					app.onLockStateChanged();
+					saveInstanceState();
 				}
 			}
 
@@ -144,11 +144,32 @@
 				window.swipeable = $('#swipeable').Swipe({
 					startSlide: index,
 					callback: function(index,elem) {
+						currentSlide = index;
+
 						$('#page-indicator .dot').removeClass('active');
 						$('#page-indicator .dot').eq(index).addClass('active');
-						app.showControls(index, index == 1);
+
+						app.showLockControls(currentSlide == 1);
+						saveInstanceState();
 					},
 				}).data('Swipe');
+			}
+
+			currentSlide = 0;
+			transcriptLocked = true;
+
+			saveInstanceState = function() {
+				app.saveInstanceState([currentSlide.toString(), transcriptLocked.toString()]);
+			}
+
+			setInstanceState = function(state) {
+				if(state[0])
+					currentSlide = parseInt(state[0]);
+				setCurrentSlide(currentSlide);
+
+				if(state[1])
+					transcriptLocked = JSON.parse(state[1])
+				lock(transcriptLocked);
 			}
 		</script>
 

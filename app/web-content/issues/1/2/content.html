@@ -151,9 +151,23 @@
 					callback: function(index,elem) {
 						$('#page-indicator .dot').removeClass('active');
 						$('#page-indicator .dot').eq(index).addClass('active');
-						app.showControls(index, false);
+
+						currentSlide = index;
+						saveInstanceState();
 					},
 				}).data('Swipe');
+			}
+
+			currentSlide = 0;
+
+			saveInstanceState = function() {
+				app.saveInstanceState([currentSlide.toString()]);
+			}
+
+			setInstanceState = function(state) {
+				if(state[0])
+					currentSlide = parseInt(state[0]);
+				setCurrentSlide(currentSlide);
 			}
 		</script>
 
