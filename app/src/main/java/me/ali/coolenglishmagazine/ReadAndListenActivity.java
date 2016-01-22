@@ -98,6 +98,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         if (savedInstanceState != null) {
             transcriptLocked = savedInstanceState.getBoolean("transcriptLocked");
+            correctSlide = savedInstanceState.getBoolean("correctSlide");
+            currentSlide = savedInstanceState.getInt("currentSlide");
         }
 
         // TODO read http://javarticles.com/2015/09/android-toolbar-example.html to add toolbar
@@ -131,6 +133,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                         + ", 0xf8f8f8" // new word color
                         + ");";
                 webView.loadUrl(command);
+
+                webView.loadUrl("javascript:setCurrentSlide(" + currentSlide + ");");
 
                 lockTranscript(transcriptLocked);
 
@@ -170,7 +174,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         findViewById(R.id.lock).setOnLongClickListener(this);
 
         try {
-            File input = new File(item.rootDirectory, item.transcriptFileName);
+            File input = new File(item.rootDirectory, item.contentFileName);
             final Document doc = Jsoup.parse(input, "UTF-8", "");
 
             webView.loadUrl("file://" + input.getAbsolutePath());
@@ -235,13 +239,17 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     protected boolean transcriptLocked = true;
 
     /**
-     * true if current swipeable slide is the manuscript tab
+     * true if current swipeable slide has the manuscript, which can be locked
      */
     protected boolean correctSlide = false;
+
+    protected int currentSlide = 0;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putBoolean("transcriptLocked", transcriptLocked);
+        outState.putBoolean("correctSlide", correctSlide);
+        outState.putInt("currentSlide", currentSlide);
     }
 
     @Override
@@ -564,7 +572,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         }
 
         webView.loadUrl("javascript:lock(" + transcriptLocked + ");");
-        webViewJavaScriptInterface.showControls(correctSlide);
+        webViewJavaScriptInterface.showControls(currentSlide, correctSlide);
     }
 
     /*
@@ -601,14 +609,16 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
          * shows lock button and media playback controls if on correct slide. and hides them otherwise.
          */
         @JavascriptInterface
-        public void showControls(final boolean show) {
+        public void showControls(int slideIndex, boolean show) {
+            correctSlide = show;
+            currentSlide = slideIndex;
             runOnUiThread(new Runnable() {
                 public void run() {
-                    correctSlide = show;
 //                    findViewById(R.id.gradient_edge).setVisibility(transcriptLocked ? View.GONE : View.VISIBLE);
 //                    findViewById(R.id.controllers).setVisibility(correctSlide ? View.VISIBLE : View.GONE);
                     findViewById(R.id.lock).setVisibility((transcriptLocked && correctSlide) ? View.VISIBLE : View.INVISIBLE);
-                    menu.findItem(R.id.action_lock).setVisible(!transcriptLocked && correctSlide);
+                    if (menu != null)
+                        menu.findItem(R.id.action_lock).setVisible(!transcriptLocked && correctSlide);
                 }
             });
         }

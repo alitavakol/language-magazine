@@ -52,7 +52,6 @@ public class MagazineContent {
         item.rootDirectory = itemRootDirectory;
         item.title = e.attr("title");
         item.subtitle = e.attr("subtitle");
-        item.transcriptFileName = e.attr("content");
         item.audioFileName = e.attr("audio");
         item.posterFileName = e.attr("poster");
 
@@ -63,25 +62,25 @@ public class MagazineContent {
         ITEMS.add(item);
     }
 
-    /**
-     * A dummy item representing a piece of content.
-     */
     public static class Item {
+        public File rootDirectory;
+
+        /**
+         * A dummy item representing a piece of content.
+         */
+        public String audioFileName;
+
         /**
          * file containing lesson item properties
          */
         protected static final String manifestFileName = "manifest.xml";
 
-        public static final String introFileName = "intro.html";
-
+        public static final String contentFileName = "content.html";
         public String title;
+
         public String subtitle;
 
-        public String audioFileName;
-        public String transcriptFileName;
         public String posterFileName;
-
-        public File rootDirectory;
 
         @Override
         public String toString() {
