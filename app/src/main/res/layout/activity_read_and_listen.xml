@@ -20,7 +20,7 @@
         android:layout_height="@dimen/gradient_edge_height"
         android:layout_above="@+id/controllers"
         android:src="@drawable/half_gradient"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/gradient_edge_up"
@@ -28,7 +28,7 @@
         android:layout_height="@dimen/gradient_edge_height"
         android:layout_below="@+id/toolbar"
         android:src="@drawable/half_gradient_up"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/controllers"
@@ -131,10 +131,11 @@
         android:id="@+id/lock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/gradient_edge"
+        android:layout_above="@id/controllers"
         android:layout_centerHorizontal="true"
+        android:paddingBottom="@dimen/gradient_edge_height"
         android:src="@drawable/key"
-        android:visibility="gone" />
+        android:visibility="invisible" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

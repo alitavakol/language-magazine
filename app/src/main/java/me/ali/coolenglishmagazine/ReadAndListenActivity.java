@@ -24,7 +24,6 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +49,12 @@ import me.ali.coolenglishmagazine.util.LogHelper;
 public class ReadAndListenActivity extends AppCompatActivity implements View.OnClickListener, MusicService.OnMediaStateChangedListener, SeekBar.OnSeekBarChangeListener, View.OnLongClickListener {
 
     private static final String TAG = LogHelper.makeLogTag(ReadAndListenActivity.class);
+
+    /**
+     * The activity argument representing the item ID that this activity
+     * represents.
+     */
+    public static final String ARG_ROOT_DIRECTORY = "item_root_directory";
 
     /**
      * current lesson item descriptor
@@ -84,6 +89,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
      */
     protected HashMap<String, NewWord> newWords;
 
+    WebViewJavaScriptInterface webViewJavaScriptInterface = new WebViewJavaScriptInterface();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +98,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         if (savedInstanceState != null) {
             transcriptLocked = savedInstanceState.getBoolean("transcriptLocked");
+            correctSlide = savedInstanceState.getBoolean("correctSlide");
+            currentSlide = savedInstanceState.getInt("currentSlide");
         }
 
         // TODO read http://javarticles.com/2015/09/android-toolbar-example.html to add toolbar
@@ -116,6 +125,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
                 final String command = "javascript:adjustLayout("
                         + (actionBarSize + getResources().getDimension(R.dimen.gradient_edge_height)) // HTML content top margin
+                        + ", " + findViewById(R.id.controllers).getMeasuredHeight()
                         + ", " + webView.getMeasuredHeight() // poster height
                         + ", " + ContextCompat.getColor(getApplicationContext(), R.color.colorAccent) // accent color
                         + ", 0xc5c5c5, " // text color
@@ -123,6 +133,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                         + ", 0xf8f8f8" // new word color
                         + ");";
                 webView.loadUrl(command);
+
+                webView.loadUrl("javascript:setCurrentSlide(" + currentSlide + ");");
 
                 lockTranscript(transcriptLocked);
 
@@ -133,11 +145,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             }
         });
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.addJavascriptInterface(new WebViewJavaScriptInterface(), "app");
+        webView.addJavascriptInterface(webViewJavaScriptInterface, "app");
         webView.setVerticalScrollBarEnabled(false);
 
         try {
-            item = MagazineContent.getItem(new File(getIntent().getStringExtra(ItemDetailActivity.ARG_ROOT_DIRECTORY)));
+            item = MagazineContent.getItem(new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
 
         } catch (IOException e) {
             LogHelper.e(TAG, e.getMessage());
@@ -162,7 +174,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         findViewById(R.id.lock).setOnLongClickListener(this);
 
         try {
-            File input = new File(item.rootDirectory, item.transcriptFileName);
+            File input = new File(item.rootDirectory, item.contentFileName);
             final Document doc = Jsoup.parse(input, "UTF-8", "");
 
             webView.loadUrl("file://" + input.getAbsolutePath());
@@ -226,9 +238,18 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
     protected boolean transcriptLocked = true;
 
+    /**
+     * true if current swipeable slide has the manuscript, which can be locked
+     */
+    protected boolean correctSlide = false;
+
+    protected int currentSlide = 0;
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putBoolean("transcriptLocked", transcriptLocked);
+        outState.putBoolean("correctSlide", correctSlide);
+        outState.putInt("currentSlide", currentSlide);
     }
 
     @Override
@@ -547,11 +568,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         transcriptLocked = lock;
 
         if (menu != null) {
-            menu.findItem(R.id.action_lock).setVisible(!transcriptLocked);
-//            menu.findItem(R.id.action_unlock).setVisible(lock);
+            menu.findItem(R.id.action_lock).setVisible(!transcriptLocked && correctSlide);
         }
 
         webView.loadUrl("javascript:lock(" + transcriptLocked + ");");
+        webViewJavaScriptInterface.showControls(currentSlide, correctSlide);
     }
 
     /*
@@ -576,20 +597,28 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         public void onLockStateChanged() {
             runOnUiThread(new Runnable() {
                 public void run() {
-                    findViewById(R.id.gradient_edge).setVisibility(transcriptLocked ? View.GONE : View.VISIBLE);
-                    findViewById(R.id.gradient_edge_up).setVisibility(transcriptLocked ? View.GONE : View.VISIBLE);
-                    findViewById(R.id.lock).setVisibility(transcriptLocked ? View.VISIBLE : View.INVISIBLE);
+//                    findViewById(R.id.gradient_edge_up).setVisibility(transcriptLocked ? View.GONE : View.VISIBLE);
+                    findViewById(R.id.lock).setVisibility((transcriptLocked && correctSlide) ? View.VISIBLE : View.INVISIBLE);
+                    menu.findItem(R.id.action_lock).setVisible(!transcriptLocked && correctSlide);
                     findViewById(R.id.toolbar).setBackgroundResource(transcriptLocked ? android.R.color.transparent : R.color.colorPrimary);
+                }
+            });
+        }
 
-                    RelativeLayout.LayoutParams layout = (RelativeLayout.LayoutParams) webView.getLayoutParams();
-                    if (transcriptLocked) {
-                        layout.removeRule(RelativeLayout.ABOVE);
-                        layout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                    } else {
-                        layout.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                        layout.addRule(RelativeLayout.ABOVE, R.id.controllers);
-                    }
-                    webView.setLayoutParams(layout);
+        /**
+         * shows lock button and media playback controls if on correct slide. and hides them otherwise.
+         */
+        @JavascriptInterface
+        public void showControls(int slideIndex, boolean show) {
+            correctSlide = show;
+            currentSlide = slideIndex;
+            runOnUiThread(new Runnable() {
+                public void run() {
+//                    findViewById(R.id.gradient_edge).setVisibility(transcriptLocked ? View.GONE : View.VISIBLE);
+//                    findViewById(R.id.controllers).setVisibility(correctSlide ? View.VISIBLE : View.GONE);
+                    findViewById(R.id.lock).setVisibility((transcriptLocked && correctSlide) ? View.VISIBLE : View.INVISIBLE);
+                    if (menu != null)
+                        menu.findItem(R.id.action_lock).setVisible(!transcriptLocked && correctSlide);
                 }
             });
         }

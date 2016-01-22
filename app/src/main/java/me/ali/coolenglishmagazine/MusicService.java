@@ -111,7 +111,7 @@ public class MusicService extends Service implements
         Intent notificationIntent = new Intent(this, ReadAndListenActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         final String itemRootDirectory = new File(dataSource).getParent();
-        notificationIntent.putExtra(ItemDetailActivity.ARG_ROOT_DIRECTORY, itemRootDirectory);
+        notificationIntent.putExtra(ReadAndListenActivity.ARG_ROOT_DIRECTORY, itemRootDirectory);
 
         // http://stackoverflow.com/a/31445004
         // killed me :(
@@ -167,8 +167,10 @@ public class MusicService extends Service implements
     }
 
     private void handlePrepareRequest(String dataSource) {
-        if (mediaPlayer != null && !dataSource.equals(this.dataSource))
+        if (mediaPlayer != null && !dataSource.equals(this.dataSource)) {
+            this.dataSource = dataSource;
             handleStopRequest();
+        }
 
         if (mediaPlayer == null) {
             mediaPlayer = new MediaPlayer();

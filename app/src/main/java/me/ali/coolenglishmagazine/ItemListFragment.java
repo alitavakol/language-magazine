@@ -20,7 +20,8 @@ import me.ali.coolenglishmagazine.model.Magazines;
  * A list fragment representing a list of Magazine. This fragment
  * also supports tablet devices by allowing list items to be given an
  * 'activated' state upon selection. This helps indicate which item is
- * currently being viewed in a {@link ItemDetailFragment}.
+ * TODO: fix the following line
+ * currently being viewed in an item detail fragment ????.
  * <p>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.

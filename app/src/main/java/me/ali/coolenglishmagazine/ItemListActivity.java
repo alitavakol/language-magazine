@@ -19,13 +19,15 @@ import me.ali.coolenglishmagazine.util.LogHelper;
  * An activity representing a list of Magazine. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link ItemDetailActivity} representing
+ * TODO: fix the following line
+ * lead to a ???? activity representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  * <p/>
  * The activity makes heavy use of fragments. The list of items is a
  * {@link ItemListFragment} and the item details
- * (if present) is a {@link ItemDetailFragment}.
+ * TODO: fix the following line
+ * (if present) is an item detail fragment ????.
  * <p/>
  * This activity also implements the required
  * {@link ItemListFragment.Callbacks} interface
@@ -116,20 +118,21 @@ public class ItemListActivity extends AppCompatActivity
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ItemDetailActivity.ARG_ROOT_DIRECTORY, item.rootDirectory.getAbsolutePath());
+            arguments.putString(ReadAndListenActivity.ARG_ROOT_DIRECTORY, item.rootDirectory.getAbsolutePath());
 
-            ItemDetailFragment fragment = new ItemDetailFragment();
-            fragment.setArguments(arguments);
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.item_detail_container, fragment)
-                    .commit();
+            // TODO: what should be shown in right fragment?
+//            ItemDetailFragment fragment = new ItemDetailFragment();
+//            fragment.setArguments(arguments);
+//
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.item_detail_container, fragment)
+//                    .commit();
 
         } else {
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
-            Intent intent = new Intent(this, ItemDetailActivity.class);
-            intent.putExtra(ItemDetailActivity.ARG_ROOT_DIRECTORY, item.rootDirectory.getAbsolutePath());
+            Intent intent = new Intent(this, ReadAndListenActivity.class);
+            intent.putExtra(ReadAndListenActivity.ARG_ROOT_DIRECTORY, item.rootDirectory.getAbsolutePath());
             startActivity(intent);
         }
     }
