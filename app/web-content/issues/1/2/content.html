@@ -6,10 +6,16 @@
 
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
-		<style type="text/css">
+		<style id="dynamic-rules">
 		</style>
 
-		<style id="dynamic-rules">
+		<style id="local-rules">
+		</style>
+
+		<style type="text/css">
+			.swipe-wrap > div {
+				overflow-y: auto;
+			}
 		</style>
 
 		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
@@ -126,17 +132,7 @@
 
 		<script type="text/javascript">
 			adjustCustomLayout = function() {
-				$('#dynamic-rules').text("\
-					.card { margin-top: " + (topMargin+28) + "px; } \
-					.highlight { background-color: " + highlihtColor + "; } \
-					body { background-color: #" + backgroundColor + "; } \
-					.transcript, dd, dt { color: #" + textColor + "; } \
-					.accent { color: #" + accentColor + "; } \
-					.new-word { color: #" + newWordColor + "; } \
-					#page-indicator { margin-top: " + topMargin + "px; } \
-					.swipe-wrap > div { height: " + height + "px; overflow-y: auto; } \
-					.card-action { color: #" + accentColor + " }"
-				);
+				$('#local-rules').text("");
 			}
 
 			lock = function(b) {

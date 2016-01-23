@@ -26,6 +26,26 @@ adjustLayout = function(topMargin_, bottomMargin_, height_, accentColor_, textCo
 	while(highlihtColor.length < 6) highlihtColor = '0' + highlihtColor;
 	highlihtColor = '#' + highlihtColor;
 
+	$('#dynamic-rules').text("\
+		.card { margin-top: " + (topMargin+28) + "px; background-color: #" + accentColor + "; } \
+		.highlight { background-color: " + highlihtColor + "; } \
+		body { background-color: #" + backgroundColor + "; } \
+		.transcript { color: #" + textColor + "; } \
+		.accent { color: #" + accentColor + "; } \
+		.new-word, dd, dt { color: #" + newWordColor + "; } \
+		#page-indicator { margin-top: " + topMargin + "px; } \
+		.container { margin-top: " + (topMargin+28) + "px; height: " + (height-topMargin-bottomMargin-28) + "px; } \
+		h1 { color: #" + newWordColor + "; } \
+		h3 { color: #" + textColor + "; } \
+		h1.alt { color: #" + accentColor + "; } \
+		h3.alt { color: #" + accentColor + "; } \
+		.swipe-wrap > div { height: " + height + "px; } \
+		#properties { background-color: " + highlihtColor + "; } \
+		.card-content { color: #" + newWordColor + "; } \
+		.dot { background-color: #" + textColor + "; } \
+		.dot.active { background-color: #" + newWordColor + "; } "
+	);
+
 	adjustCustomLayout();
 
 	// if(typeof(app) == 'undefined')
@@ -41,8 +61,9 @@ if(typeof(app) == 'undefined') { // on web browser
 
 		$('body').append("<button  style='position: absolute; top: 0; float: right; right: 50px; z-index: 2;' onclick='swipeable.prev()'>Previous</button> <button  style='position: absolute; top: 0; float: right; right: 0; z-index: 2;' onclick='swipeable.next()'>Next</button>");
 
+		//adjustLayout(0, 0, $(window).height(), 0x9688, 0x888888, 0xf5f5f5, 0);
 		adjustLayout(0, 0, $(window).height(), 0x9688, 0xc5c5c5, 0x212121, 0xf8f8f8);
-		lock(transcriptLocked);
+		lock(false);
 		setCurrentSlide(0);
 	});
 

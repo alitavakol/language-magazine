@@ -6,10 +6,13 @@
 
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
-		<style type="text/css">
+		<style id="dynamic-rules">
 		</style>
 
-		<style id="dynamic-rules">
+		<style id="local-rules">
+		</style>
+
+		<style type="text/css">
 		</style>
 
 		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
@@ -89,22 +92,8 @@
 		<script type="text/javascript">
 			adjustCustomLayout = function() {
 				t = "(#" + backgroundColor + ", rgba(" + ((backgroundColor_>>16)&0xff) + "," + ((backgroundColor_>>8)&0xff) + "," + (backgroundColor_&0xff) + ",0), #" + backgroundColor + "), url('swimming-squirrel.jpg')";
-
-				$('#dynamic-rules').text("\
-					.container { margin-top: " + (topMargin+28) + "px; height: " + (height-topMargin-bottomMargin-28) + "px; } \
-					.highlight { background-color: " + highlihtColor + "; } \
-					body { background-color: #" + backgroundColor + "; } \
-					.transcript, dd, dt { color: #" + textColor + "; } \
-					.accent { color: #" + accentColor + "; } \
-					.new-word { color: #" + newWordColor + "; } \
-					.poster { background-image: -webkit-linear-gradient" + t + "; background-image: linear-gradient" + t + "; height: " + height + "px; } \
-					h1 { color: #" + newWordColor + "; } \
-					h3 { color: #" + textColor + "; } \
-					h1.alt { color: #" + accentColor + "; } \
-					h3.alt { color: #" + accentColor + "; } \
-					#page-indicator { margin-top: " + topMargin + "px; } \
-					.swipe-wrap > div { height: " + height + "px; } \
-					#properties { background-color: " + highlihtColor + "; } "
+				$('#local-rules').text("\
+					.poster { background-image: -webkit-linear-gradient" + t + "; background-image: linear-gradient" + t + "; height: " + height + "px; } "
 				);
 			}
 

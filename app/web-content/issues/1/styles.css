@@ -120,21 +120,19 @@ dl.inline dd {
 	width: 8px;
 	height: 8px;
 	border-radius: 4px;
-	background-color: #8999A6;
+	/* background-color: #8999A6; */
 }
 .dot.active {
-	background-color: azure;
+	/* background-color: azure; */
 }
 
 
 .card {
 	position: relative;
 	margin: 10px;
-	margin-top: 0;
-	background-color: #fff;
 	transition: box-shadow .25s;
 	border-radius: 2px;
-	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+	box-shadow: 0 6px 10px 0 rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.2);
 	max-width: 100%;
 }
 .card .card-image {
@@ -171,10 +169,9 @@ dl.inline dd {
 	padding-bottom: 10px;
 }
 .card .card-action {
-	border-top: 1px solid rgba(160,160,160,0.2);
+	border-top: 1px solid rgba(0,0,0,0.2);
 	padding: 20px;
 	padding-bottom: 0;
-	margin-right: 20px;
 	transition: color .3s ease;
 	text-transform: uppercase;
 	text-decoration: none;
