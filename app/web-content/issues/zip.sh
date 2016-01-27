@@ -1,5 +1,5 @@
 #!/bin/bash
 
-pushd "/home/hamed/Desktop/cem-data/issues"
-zip -r $1.zip $1
+pushd $1
+zip -r $2.zip $2
 popd
