@@ -190,13 +190,13 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    Menu menu;
+    private MenuItem lockActionButton;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.read_and_listen, menu);
-        this.menu = menu;
+        lockActionButton = menu.findItem(R.id.action_lock);
         return true;
     }
 
@@ -609,8 +609,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             runOnUiThread(new Runnable() {
                 public void run() {
                     findViewById(R.id.lock).setVisibility(useLockControls && transcriptLocked ? View.VISIBLE : View.INVISIBLE);
-                    if (menu != null)
-                        menu.findItem(R.id.action_lock).setVisible(useLockControls && !transcriptLocked);
+                    if (lockActionButton != null)
+                        lockActionButton.setVisible(useLockControls && !transcriptLocked);
                 }
             });
         }

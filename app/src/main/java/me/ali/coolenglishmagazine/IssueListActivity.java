@@ -2,11 +2,11 @@ package me.ali.coolenglishmagazine;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -45,7 +45,7 @@ import java.util.List;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class IssueListActivity extends AppCompatActivity {
+public class IssueListActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = LogHelper.makeLogTag(IssueListActivity.class);
 
@@ -75,6 +75,13 @@ public class IssueListActivity extends AppCompatActivity {
             }
         });
 
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        swipeContainer.setOnRefreshListener(this);
+
         magazines.loadIssues(getExternalFilesDir(null).getAbsolutePath());
         firstMissingIssueNumber = findFirstMissingIssueNumber();
 
@@ -91,9 +98,19 @@ public class IssueListActivity extends AppCompatActivity {
         }
     }
 
+    private SwipeRefreshLayout swipeContainer;
+    private MenuItem refreshActionButton;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        swipeContainer.setRefreshing(false);
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
+
         if (requestQueue != null) {
             requestQueue.cancelAll(this);
             requestQueue = null;
@@ -190,6 +207,7 @@ public class IssueListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.issue_list, menu);
+        refreshActionButton = menu.findItem(R.id.action_refresh);
         return true;
     }
 
@@ -215,6 +233,11 @@ public class IssueListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onRefresh() {
+        syncAvailableIssuesList(firstMissingIssueNumber);
+    }
+
     /**
      * issue number of the first missing issue
      */
@@ -224,6 +247,9 @@ public class IssueListActivity extends AppCompatActivity {
      * gets list of available issues from server.
      */
     void syncAvailableIssuesList(int firstMissingIssueNumber) {
+        swipeContainer.setRefreshing(true);
+        refreshActionButton.setEnabled(false);
+
         // Instantiate the RequestQueue.
         if (requestQueue == null)
             requestQueue = Volley.newRequestQueue(this);
@@ -262,12 +288,18 @@ public class IssueListActivity extends AppCompatActivity {
 
                     } catch (IOException e) {
                         LogHelper.e(TAG, e.getMessage());
+
+                    } finally {
+                        swipeContainer.setRefreshing(false);
+                        refreshActionButton.setEnabled(true);
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
 //                    LogHelper.e(TAG, error.getMessage()); // error
+                    swipeContainer.setRefreshing(false);
+                    refreshActionButton.setEnabled(true);
                     Toast.makeText(IssueListActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
                     requestQueue.cancelAll(IssueListActivity.this);
                 }
@@ -279,6 +311,8 @@ public class IssueListActivity extends AppCompatActivity {
             requestQueue.add(request);
 
         } else {
+            swipeContainer.setRefreshing(false);
+            refreshActionButton.setEnabled(true);
             Toast.makeText(this, R.string.check_connection, Toast.LENGTH_SHORT).show();
             requestQueue.cancelAll(this);
         }
