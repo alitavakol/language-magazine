@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/poster"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/poster"
+        android:layout_alignStart="@id/poster"
+        android:background="#cc000000"
+        android:fontFamily="monospace"
+        android:paddingBottom="4dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="2dp"
+        android:text="Item Title"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/title"
+        android:layout_alignParentStart="true"
+        android:background="#bbffffff"
+        android:elevation="@dimen/gradient_edge_height"
+        android:fontFamily="monospace"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:text="Category"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textStyle="bold|italic" />
+
+    <ImageView
+        android:id="@+id/flag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/type"
+        android:layout_alignEnd="@id/title"
+        android:layout_alignTop="@id/type"
+        android:layout_toEndOf="@id/type"
+        android:elevation="@dimen/gradient_edge_height"
+        android:scaleType="fitEnd" />
+
+    <TextView
+        android:id="@+id/itemNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="-10dp"
+        android:text="1"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#88ffffff"
+        android:textSize="64sp" />
+
+</RelativeLayout>

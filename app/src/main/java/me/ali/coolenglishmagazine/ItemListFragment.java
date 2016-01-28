@@ -3,11 +3,17 @@ package me.ali.coolenglishmagazine;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,12 +23,12 @@ import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.model.Magazines;
 
 /**
- * A list fragment representing a list of Magazine. This fragment
+ * A list fragment representing a list of magazine items. This fragment
  * also supports tablet devices by allowing list items to be given an
  * 'activated' state upon selection. This helps indicate which item is
  * TODO: fix the following line
  * currently being viewed in an item detail fragment ????.
- * <p>
+ * <p/>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
@@ -89,11 +95,7 @@ public class ItemListFragment extends ListFragment {
         }
 
         // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                magazineContent.ITEMS));
+        setListAdapter(new Adapter());
 
         ((NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
     }
@@ -167,5 +169,47 @@ public class ItemListFragment extends ListFragment {
         }
 
         mActivatedPosition = position;
+    }
+
+    public class Adapter extends BaseAdapter {
+        private LayoutInflater inflater = null;
+
+        public Adapter() {
+            inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        public int getCount() {
+            return magazineContent.ITEMS.size();
+        }
+
+        public Object getItem(int position) {
+            return magazineContent.ITEMS.get(position);
+        }
+
+        public long getItemId(int position) {
+            return magazineContent.ITEMS.get(position).id;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            final MagazineContent.Item item = magazineContent.ITEMS.get(position);
+
+            View vi = convertView;
+            if (convertView == null)
+                vi = inflater.inflate(R.layout.item_list_row, null);
+
+            ((ImageView) vi.findViewById(R.id.poster)).setImageBitmap(BitmapFactory.decodeFile(new File(item.rootDirectory, item.posterFileName).getAbsolutePath()));
+            ((TextView) vi.findViewById(R.id.title)).setText(item.title);
+            ((TextView) vi.findViewById(R.id.type)).setText(item.type);
+            if(item.flagFileName != null && item.flagFileName.length() > 0)
+                ((ImageView) vi.findViewById(R.id.flag)).setImageBitmap(BitmapFactory.decodeFile(new File(item.rootDirectory, item.flagFileName).getAbsolutePath()));
+            ((TextView) vi.findViewById(R.id.type)).setTextColor(getResources().getIntArray(R.array.levelColors)[item.level]);
+            ((TextView) vi.findViewById(R.id.itemNo)).setText(Integer.toString(item.id));
+
+            int color = getResources().getIntArray(R.array.levelColors)[item.level];
+            int transparentColor = Color.argb(200, Color.red(color), Color.green(color), Color.blue(color));
+            vi.findViewById(R.id.title).setBackgroundColor(transparentColor);
+
+            return vi;
+        }
     }
 }

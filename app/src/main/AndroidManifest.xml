@@ -17,7 +17,7 @@
         <activity
             android:name=".ReadAndListenActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".ItemDetailActivity">
+            android:parentActivityName=".ItemListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ItemListActivity" />

@@ -27,7 +27,7 @@
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
         tools:context="me.ali.coolenglishmagazine.IssueListActivity"
-        tools:listitem="@layout/issue_list_content" />
+        tools:listitem="@layout/issue_list_row" />
 
     <FrameLayout
         android:id="@+id/issue_detail_container"

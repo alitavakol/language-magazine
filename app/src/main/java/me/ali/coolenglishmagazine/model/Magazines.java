@@ -4,6 +4,7 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 
 import org.jsoup.Jsoup;
@@ -35,12 +36,14 @@ public class Magazines {
 
         File f = new File(issuesRootDirectory);
         File[] files = f.listFiles();
-        for (File g : files) {
-            if (g.isDirectory()) {
-                try {
-                    addIssue(getIssue(g));
-                } catch (IOException e) {
-                    LogHelper.e(TAG, e.getMessage());
+        if (files != null) {
+            for (File g : files) {
+                if (g.isDirectory()) {
+                    try {
+                        addIssue(getIssue(g));
+                    } catch (IOException e) {
+                        LogHelper.e(TAG, e.getMessage());
+                    }
                 }
             }
         }
@@ -58,7 +61,6 @@ public class Magazines {
 
         issue.rootDirectory = issueRootDirectory;
         issue.title = e.attr("title");
-        issue.posterFileName = e.attr("poster");
         issue.id = Integer.parseInt(issueRootDirectory.getName());
 
         return issue;
@@ -78,6 +80,11 @@ public class Magazines {
         protected static final String manifestFileName = "manifest.xml";
 
         /**
+         * magazine cover picture
+         */
+        public static final String posterFileName = "cover.jpg";
+
+        /**
          * if this file is present, issue is downloaded and available to read offline.
          */
         public static final String downloadedFileName = "downloaded";
@@ -87,8 +94,6 @@ public class Magazines {
          * e.g. "Cool English Magazine #1 (2016, Week #1)
          */
         public String title;
-
-        public String posterFileName;
 
         public File rootDirectory;
 
@@ -112,7 +117,7 @@ public class Magazines {
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(getIssueDownloadUrl(context, issue)))
                 .setDescription(issue.title)
                 .setTitle(context.getResources().getString(R.string.app_name))
-                .setDestinationInExternalFilesDir(context, null, "" + id + ".zip")
+                .setDestinationUri(Uri.fromFile(new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), Integer.toString(id) + ".zip")))
                 .setVisibleInDownloadsUi(false)
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
                 .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);

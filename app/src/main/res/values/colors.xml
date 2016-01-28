@@ -3,4 +3,20 @@
     <color name="colorPrimary">#212121</color>
     <color name="colorPrimaryDark">#000</color>
     <color name="colorAccent">#009688</color>
+
+    <!-- issue row -->
+    <color name="book_without_palette">#009688</color>
+    <color name="text_without_palette">#212121</color>
+
+    <color name="beginnerLevelColor">#4444bb</color>
+    <color name="intermediateLevelColor">#229922</color>
+    <color name="upperIntermediateLevelColor">#999900</color>
+    <color name="advancedLevelColor">#bb3300</color>
+
+    <array name="levelColors">
+        <item>@color/beginnerLevelColor</item>
+        <item>@color/intermediateLevelColor</item>
+        <item>@color/upperIntermediateLevelColor</item>
+        <item>@color/advancedLevelColor</item>
+    </array>
 </resources>

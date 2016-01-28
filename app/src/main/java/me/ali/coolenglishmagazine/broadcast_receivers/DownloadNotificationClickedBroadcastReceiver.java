@@ -28,7 +28,7 @@ public class DownloadNotificationClickedBroadcastReceiver extends BroadcastRecei
         query.setFilterById(references);
 
         Cursor cursor = ((DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE)).query(query);
-        final int fileNameIndex = cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME);
+        final int fileNameIndex = cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI);
 
         while (cursor.moveToNext()) {
             final String savedFilePath = cursor.getString(fileNameIndex);

@@ -50,10 +50,14 @@ public class MagazineContent {
             throw new IOException("Invalid manifest file.");
 
         item.rootDirectory = itemRootDirectory;
+        item.id = Integer.parseInt(itemRootDirectory.getName());
         item.title = e.attr("title");
         item.subtitle = e.attr("subtitle");
         item.audioFileName = e.attr("audio");
         item.posterFileName = e.attr("poster");
+        item.flagFileName = e.attr("flag");
+        item.type = e.attr("type");
+        item.level = Integer.parseInt(e.attr("level"));
 
         return item;
     }
@@ -70,17 +74,25 @@ public class MagazineContent {
          */
         public String audioFileName;
 
+        public String posterFileName;
+
+        /**
+         * accent shown by country flag
+         */
+        public String flagFileName;
+
         /**
          * file containing lesson item properties
          */
         protected static final String manifestFileName = "manifest.xml";
 
         public static final String contentFileName = "content.html";
+
         public String title;
-
         public String subtitle;
-
-        public String posterFileName;
+        public String type;
+        public int level;
+        public int id;
 
         @Override
         public String toString() {
