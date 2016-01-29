@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="#323232"
+    android:descendantFocusability="blocksDescendants"
+    android:paddingBottom="8dp">
 
     <ImageView
         android:id="@+id/poster"
@@ -9,58 +12,76 @@
         android:layout_height="150dp"
         android:scaleType="centerCrop" />
 
+    <ImageView
+        android:id="@+id/gradient_edge"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_below="@id/poster"
+        android:src="@drawable/half_gradient_up" />
+
     <TextView
         android:id="@+id/title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/poster"
-        android:layout_alignStart="@id/poster"
-        android:background="#cc000000"
+        android:layout_below="@+id/gradient_edge"
         android:fontFamily="monospace"
+        android:maxLines="2"
         android:paddingBottom="4dp"
         android:paddingEnd="8dp"
         android:paddingStart="8dp"
         android:paddingTop="2dp"
         android:text="Item Title"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/title"
-        android:layout_alignParentStart="true"
-        android:background="#bbffffff"
-        android:elevation="@dimen/gradient_edge_height"
-        android:fontFamily="monospace"
-        android:paddingEnd="8dp"
-        android:paddingStart="8dp"
-        android:text="Category"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/flag"
-        android:layout_width="wrap_content"
+        android:layout_width="36dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/type"
-        android:layout_alignEnd="@id/title"
-        android:layout_alignTop="@id/type"
-        android:layout_toEndOf="@id/type"
-        android:elevation="@dimen/gradient_edge_height"
-        android:scaleType="fitEnd" />
+        android:layout_alignBottom="@+id/type"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/type"
+        android:layout_marginBottom="-4dp"
+        android:layout_marginTop="-2dp"
+        android:paddingStart="8dp"
+        android:scaleType="fitStart" />
+
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_toEndOf="@id/flag"
+        android:fontFamily="monospace"
+        android:paddingStart="8dp"
+        android:text="type"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="110dp"
         android:background="#bbffffff"
+        android:paddingBottom="2dp"
         android:paddingEnd="8dp"
         android:paddingStart="8dp"
-        android:paddingBottom="2dp"
         android:text="level"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textStyle="bold|italic" />
+
+    <ImageButton
+        android:id="@+id/overflowMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/type"
+        android:layout_alignParentEnd="true"
+        android:background="@android:color/transparent"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:paddingEnd="8dp"
+        android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha" />
 
 </RelativeLayout>

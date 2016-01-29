@@ -13,7 +13,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -110,6 +112,9 @@ public class ItemListFragment extends ListFragment {
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
+
+        getListView().setDivider(null);
+        getListView().setDividerHeight(16);
     }
 
     @Override
@@ -200,26 +205,40 @@ public class ItemListFragment extends ListFragment {
 
             int color = getResources().getIntArray(R.array.levelColors)[item.level];
             int transparentColor = Color.argb(200, Color.red(color), Color.green(color), Color.blue(color));
-            int moreTransparentColor = Color.argb(100, Color.red(color), Color.green(color), Color.blue(color));
-            int levelColor = getResources().getIntArray(R.array.levelColors)[item.level];
+//            int moreTransparentColor = Color.argb(100, Color.red(color), Color.green(color), Color.blue(color));
+//            int levelColor = getResources().getIntArray(R.array.levelColors)[item.level];
 
             ((ImageView) vi.findViewById(R.id.poster)).setImageBitmap(BitmapFactory.decodeFile(new File(item.rootDirectory, item.posterFileName).getAbsolutePath()));
 
             final TextView textViewTitle = (TextView) vi.findViewById(R.id.title);
             textViewTitle.setText(item.title);
-            textViewTitle.setBackgroundColor(transparentColor);
+//            textViewTitle.setBackgroundColor(transparentColor);
 
             final TextView textViewType = (TextView) vi.findViewById(R.id.type);
             textViewType.setText(item.type);
-            textViewType.setTextColor(levelColor);
+//            textViewType.setTextColor(levelColor);
 
-            if (item.flagFileName != null && item.flagFileName.length() > 0)
-                ((ImageView) vi.findViewById(R.id.flag)).setImageBitmap(BitmapFactory.decodeFile(new File(item.rootDirectory, item.flagFileName).getAbsolutePath()));
+            final ImageView flagImageView = (ImageView) vi.findViewById(R.id.flag);
+            if (item.flagFileName != null && item.flagFileName.length() > 0) {
+                flagImageView.setImageBitmap(BitmapFactory.decodeFile(new File(item.rootDirectory, item.flagFileName).getAbsolutePath()));
+            } else {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) textViewType.getLayoutParams();
+                params.removeRule(RelativeLayout.END_OF);
+                params.addRule(RelativeLayout.ALIGN_START, R.id.title);
+                textViewType.setLayoutParams(params);
+            }
 
             final TextView textViewLevel = (TextView) vi.findViewById(R.id.level);
             textViewLevel.setText(Level.levels[item.level]);
 //            textViewLevel.setTextColor(levelColor);
-            textViewLevel.setBackgroundColor(moreTransparentColor);
+            textViewLevel.setBackgroundColor(transparentColor);
+
+            vi.findViewById(R.id.overflowMenu).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(ItemListFragment.this.getActivity(), "Overflow of " + item.title, Toast.LENGTH_SHORT).show();
+                }
+            });
 
             return vi;
         }
