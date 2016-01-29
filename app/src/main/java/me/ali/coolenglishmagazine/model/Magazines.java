@@ -14,6 +14,8 @@ import org.jsoup.nodes.Element;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import me.ali.coolenglishmagazine.R;
@@ -47,6 +49,14 @@ public class Magazines {
                 }
             }
         }
+
+        // sorting
+        Collections.sort(ISSUES, new Comparator<Issue>() {
+            @Override
+            public int compare(Issue issue1, Issue issue2) {
+                return issue1.id - issue2.id;
+            }
+        });
     }
 
     public static Issue getIssue(File issueRootDirectory) throws IOException {
@@ -109,15 +119,14 @@ public class Magazines {
     }
 
     /**
+     * downloads a single issue.
      * @return download reference number
      */
     public static long download(Context context, Issue issue) throws IOException {
-        int id = Integer.parseInt(issue.rootDirectory.getName());
-
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(getIssueDownloadUrl(context, issue)))
                 .setDescription(issue.title)
                 .setTitle(context.getResources().getString(R.string.app_name))
-                .setDestinationUri(Uri.fromFile(new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), Integer.toString(id) + ".zip")))
+                .setDestinationUri(Uri.fromFile(new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), Integer.toString(issue.id) + ".zip")))
                 .setVisibleInDownloadsUi(false)
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
                 .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);

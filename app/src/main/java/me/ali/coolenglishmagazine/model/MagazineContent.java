@@ -7,6 +7,8 @@ import org.jsoup.nodes.Element;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import me.ali.coolenglishmagazine.util.LogHelper;
@@ -31,10 +33,19 @@ public class MagazineContent {
                 }
             }
         }
+
+        // sorting
+        Collections.sort(ITEMS, new Comparator<Item>() {
+            @Override
+            public int compare(Item item1, Item item2) {
+                return item1.id - item2.id;
+            }
+        });
     }
 
     /**
      * Loads item from its root directory into an {@link Item} class.
+     *
      * @param itemRootDirectory should end with a slash '/' character
      * @return the corresponding {@link Item} instance
      * @throws IOException if {@code manifest.xml} file with {@code <item>} root node could not be found

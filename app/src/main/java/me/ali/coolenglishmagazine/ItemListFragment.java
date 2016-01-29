@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 
 import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
+import me.ali.coolenglishmagazine.model.Level;
 import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.model.Magazines;
 
@@ -197,17 +198,28 @@ public class ItemListFragment extends ListFragment {
             if (convertView == null)
                 vi = inflater.inflate(R.layout.item_list_row, null);
 
-            ((ImageView) vi.findViewById(R.id.poster)).setImageBitmap(BitmapFactory.decodeFile(new File(item.rootDirectory, item.posterFileName).getAbsolutePath()));
-            ((TextView) vi.findViewById(R.id.title)).setText(item.title);
-            ((TextView) vi.findViewById(R.id.type)).setText(item.type);
-            if(item.flagFileName != null && item.flagFileName.length() > 0)
-                ((ImageView) vi.findViewById(R.id.flag)).setImageBitmap(BitmapFactory.decodeFile(new File(item.rootDirectory, item.flagFileName).getAbsolutePath()));
-            ((TextView) vi.findViewById(R.id.type)).setTextColor(getResources().getIntArray(R.array.levelColors)[item.level]);
-            ((TextView) vi.findViewById(R.id.itemNo)).setText(Integer.toString(item.id));
-
             int color = getResources().getIntArray(R.array.levelColors)[item.level];
             int transparentColor = Color.argb(200, Color.red(color), Color.green(color), Color.blue(color));
-            vi.findViewById(R.id.title).setBackgroundColor(transparentColor);
+            int moreTransparentColor = Color.argb(100, Color.red(color), Color.green(color), Color.blue(color));
+            int levelColor = getResources().getIntArray(R.array.levelColors)[item.level];
+
+            ((ImageView) vi.findViewById(R.id.poster)).setImageBitmap(BitmapFactory.decodeFile(new File(item.rootDirectory, item.posterFileName).getAbsolutePath()));
+
+            final TextView textViewTitle = (TextView) vi.findViewById(R.id.title);
+            textViewTitle.setText(item.title);
+            textViewTitle.setBackgroundColor(transparentColor);
+
+            final TextView textViewType = (TextView) vi.findViewById(R.id.type);
+            textViewType.setText(item.type);
+            textViewType.setTextColor(levelColor);
+
+            if (item.flagFileName != null && item.flagFileName.length() > 0)
+                ((ImageView) vi.findViewById(R.id.flag)).setImageBitmap(BitmapFactory.decodeFile(new File(item.rootDirectory, item.flagFileName).getAbsolutePath()));
+
+            final TextView textViewLevel = (TextView) vi.findViewById(R.id.level);
+            textViewLevel.setText(Level.levels[item.level]);
+//            textViewLevel.setTextColor(levelColor);
+            textViewLevel.setBackgroundColor(moreTransparentColor);
 
             return vi;
         }
