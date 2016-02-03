@@ -5,9 +5,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
@@ -29,7 +33,7 @@ import me.ali.coolenglishmagazine.util.LogHelper;
  * item details are presented side-by-side with a list of items
  * in a {@link IssueListActivity}.
  */
-public class IssueDetailActivity extends AppCompatActivity {
+public class IssueDetailActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
 
     private static final String TAG = LogHelper.makeLogTag(IssueDetailActivity.class);
 
@@ -50,7 +54,7 @@ public class IssueDetailActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_issue_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
         try {
@@ -76,17 +80,28 @@ public class IssueDetailActivity extends AppCompatActivity {
                     downloadReference = Magazines.download(IssueDetailActivity.this, issue);
                     findViewById(R.id.fab_download).setClickable(false);
                     updateFab();
+
                 } catch (IOException e) {
                     LogHelper.e(TAG, e.getMessage());
                 }
             }
         });
 
+        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        collapsingToolbar.setTitleEnabled(false);
+
+        appBarLayout = ((AppBarLayout) findViewById(R.id.app_bar));
+        appBarLayout.addOnOffsetChangedListener(this);
+
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false); // hide action bar title
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        final ImageView coverImageView = (ImageView)findViewById(R.id.cover);
+        coverImageView.setImageBitmap(BitmapFactory.decodeFile(new File(issue.rootDirectory, Magazines.Issue.posterFileName).getAbsolutePath()));
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
@@ -111,6 +126,19 @@ public class IssueDetailActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.issue_detail_container, fragment)
                     .commit();
+        }
+    }
+
+    CollapsingToolbarLayout collapsingToolbar;
+    Toolbar toolbar;
+    AppBarLayout appBarLayout;
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        if(collapsingToolbar.getHeight() + verticalOffset < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)) {
+//            toolbar.animate().alpha(1).setDuration(600);
+        } else {
+//            toolbar.animate().alpha(0).setDuration(600);
         }
     }
 

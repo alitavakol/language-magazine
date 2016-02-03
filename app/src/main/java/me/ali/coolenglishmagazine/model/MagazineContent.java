@@ -51,14 +51,14 @@ public class MagazineContent {
      * @throws IOException if {@code manifest.xml} file with {@code <item>} root node could not be found
      */
     public static Item getItem(File itemRootDirectory) throws IOException {
-        Item item = new Item();
-
         File input = new File(itemRootDirectory, Item.manifestFileName);
         final Document doc = Jsoup.parse(input, "UTF-8", "");
 
         Element e = doc.getElementsByTag("item").first();
         if (e == null)
             throw new IOException("Invalid manifest file.");
+
+        Item item = new Item();
 
         item.rootDirectory = itemRootDirectory;
         item.id = Integer.parseInt(itemRootDirectory.getName());
@@ -97,6 +97,9 @@ public class MagazineContent {
          */
         protected static final String manifestFileName = "manifest.xml";
 
+        /**
+         * main item content
+         */
         public static final String contentFileName = "content.html";
 
         public String title;

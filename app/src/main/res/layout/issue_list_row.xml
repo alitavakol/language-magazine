@@ -8,13 +8,11 @@
     <ImageView
         android:id="@+id/icon"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="240dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_launcher" />
 
     <RelativeLayout
-        android:id="@+id/item_book_text_container"
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:background="@color/book_without_palette"

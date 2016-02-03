@@ -60,14 +60,14 @@ public class Magazines {
     }
 
     public static Issue getIssue(File issueRootDirectory) throws IOException {
-        Issue issue = new Issue();
-
         File input = new File(issueRootDirectory, Issue.manifestFileName);
         final Document doc = Jsoup.parse(input, "UTF-8", "");
 
         Element e = doc.getElementsByTag("issue").first();
         if (e == null)
             throw new IOException("Invalid manifest file.");
+
+        Issue issue = new Issue();
 
         issue.rootDirectory = issueRootDirectory;
         issue.title = e.attr("title");
@@ -88,6 +88,11 @@ public class Magazines {
          * file containing issue properties
          */
         protected static final String manifestFileName = "manifest.xml";
+
+        /**
+         * issue introduction (details) page
+         */
+        public static final String contentFileName = "content.html";
 
         /**
          * magazine cover picture
