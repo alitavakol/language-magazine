@@ -104,7 +104,7 @@ public class MusicService extends Service implements
             }
         }
 
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     private Notification getNotification(boolean isPlaying) {

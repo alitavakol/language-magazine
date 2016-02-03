@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 
 import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
-import me.ali.coolenglishmagazine.model.Level;
 import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.model.Magazines;
 
@@ -229,7 +228,8 @@ public class ItemListFragment extends ListFragment {
             }
 
             final TextView textViewLevel = (TextView) vi.findViewById(R.id.level);
-            textViewLevel.setText(Level.levels[item.level]);
+            final String level = getResources().getStringArray(R.array.levels)[item.level];
+            textViewLevel.setText(level);
 //            textViewLevel.setTextColor(levelColor);
             textViewLevel.setBackgroundColor(transparentColor);
 
