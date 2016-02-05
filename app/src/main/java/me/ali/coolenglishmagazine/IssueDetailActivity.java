@@ -100,7 +100,7 @@ public class IssueDetailActivity extends AppCompatActivity implements AppBarLayo
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        final ImageView coverImageView = (ImageView)findViewById(R.id.cover);
+        final ImageView coverImageView = (ImageView) findViewById(R.id.cover);
         coverImageView.setImageBitmap(BitmapFactory.decodeFile(new File(issue.rootDirectory, Magazines.Issue.posterFileName).getAbsolutePath()));
 
         // savedInstanceState is non-null when there is fragment state
@@ -135,9 +135,11 @@ public class IssueDetailActivity extends AppCompatActivity implements AppBarLayo
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        if(collapsingToolbar.getHeight() + verticalOffset < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)) {
-//            toolbar.animate().alpha(1).setDuration(600);
+        if (collapsingToolbar.getHeight() + verticalOffset < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)) {
+//            toolbar
+            findViewById(R.id.toolbarTitle).animate().alpha(1).setDuration(600);
         } else {
+            findViewById(R.id.toolbarTitle).animate().alpha(0).setDuration(600);
 //            toolbar.animate().alpha(0).setDuration(600);
         }
     }
@@ -219,7 +221,7 @@ public class IssueDetailActivity extends AppCompatActivity implements AppBarLayo
             case DownloadManager.STATUS_RUNNING:
             case DownloadManager.STATUS_PAUSED:
                 fab_download.setClickable(false);
-                fab_download.setVisibility(View.VISIBLE);
+//                fab_download.setVisibility(View.VISIBLE);
                 d.start();
 
                 fab.setVisibility(View.GONE);
@@ -231,10 +233,10 @@ public class IssueDetailActivity extends AppCompatActivity implements AppBarLayo
 
                 if (new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists()) {
                     fab_download.setVisibility(View.GONE);
-                    fab.setVisibility(View.VISIBLE);
+//                    fab.setVisibility(View.VISIBLE);
 
                 } else {
-                    fab_download.setVisibility(View.VISIBLE);
+//                    fab_download.setVisibility(View.VISIBLE);
                     fab.setVisibility(View.GONE);
                 }
                 break;

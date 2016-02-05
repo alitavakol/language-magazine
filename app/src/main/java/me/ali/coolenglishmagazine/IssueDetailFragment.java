@@ -92,7 +92,7 @@ public class IssueDetailFragment extends Fragment {
             webView.setVerticalScrollBarEnabled(false);
 
             final File input = new File(issue.rootDirectory, Magazines.Issue.contentFileName);
-            webView.loadUrl("file://" + input.getAbsolutePath());
+            webView.loadUrl(input.toURI().toString());
         }
 
         return rootView;

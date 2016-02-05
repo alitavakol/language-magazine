@@ -29,14 +29,12 @@ adjustLayout = function(topMargin_, bottomMargin_, height_, accentColor_, textCo
 	$('#dynamic-rules').text("\
 		.card { margin-top: " + (topMargin+28) + "px; background-color: #" + accentColor + "; } \
 		.highlight { background-color: " + highlihtColor + "; } \
-		body { background-color: #" + backgroundColor + "; } \
-		.transcript { color: #" + textColor + "; } \
+		body { background-color: #" + backgroundColor + "; color: #" + textColor + "; } \
 		.accent { color: #" + accentColor + "; } \
 		.new-word, dd, dt { color: #" + newWordColor + "; } \
 		#page-indicator { margin-top: " + topMargin + "px; } \
 		.container { margin-top: " + (topMargin+28) + "px; height: " + (height-topMargin-bottomMargin-28) + "px; } \
 		h1 { color: #" + newWordColor + "; } \
-		h3 { color: #" + textColor + "; } \
 		h1.alt { color: #" + accentColor + "; } \
 		h3.alt { color: #" + accentColor + "; } \
 		.swipe-wrap > div { height: " + height + "px; } \
@@ -47,9 +45,6 @@ adjustLayout = function(topMargin_, bottomMargin_, height_, accentColor_, textCo
 	);
 
 	adjustCustomLayout();
-
-	// if(typeof(app) == 'undefined')
-		// $('.poster').css('height', '100%');
 }
 
 if(typeof(app) == 'undefined') { // on web browser

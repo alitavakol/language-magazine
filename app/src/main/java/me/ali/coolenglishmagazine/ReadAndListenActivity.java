@@ -180,7 +180,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             File input = new File(item.rootDirectory, MagazineContent.Item.contentFileName);
             final Document doc = Jsoup.parse(input, "UTF-8", "");
 
-            webView.loadUrl("file://" + input.getAbsolutePath());
+            webView.loadUrl(input.toURI().toString());
 
             newWords = getNewWords(doc);
             timePoints = getTimePoints(doc);

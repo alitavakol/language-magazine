@@ -34,17 +34,47 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                <TextView
+                    android:id="@+id/toolbarTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Test" />
+
+            </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/issue_detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/buttonDownload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="Download" />
+
+            <FrameLayout
+                android:id="@+id/issue_detail_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/buttonDownload" />
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_download"
@@ -54,6 +84,7 @@
         android:layout_margin="@dimen/fab_margin"
         android:scaleType="center"
         android:src="@android:drawable/stat_sys_download"
+        android:visibility="gone"
         app:layout_anchor="@+id/issue_detail_container"
         app:layout_anchorGravity="top|end" />
 
@@ -65,6 +96,7 @@
         android:layout_margin="@dimen/fab_margin"
         android:scaleType="center"
         android:src="@android:drawable/stat_sys_headset"
+        android:visibility="gone"
         app:layout_anchor="@+id/issue_detail_container"
         app:layout_anchorGravity="top|end" />
 
