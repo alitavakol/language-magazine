@@ -2,11 +2,9 @@
 <resources>
     <color name="colorPrimary">#212121</color>
     <color name="colorPrimaryDark">#000</color>
+    <color name="colorPrimaryLight">#323232</color>
     <color name="colorAccent">#009688</color>
-
-    <!-- issue row -->
-    <color name="book_without_palette">#009688</color>
-    <color name="text_without_palette">#212121</color>
+    <color name="colorAccentOpposite">#002100</color>
 
     <color name="beginnerLevelColor">#4444bb</color>
     <color name="intermediateLevelColor">#229922</color>
