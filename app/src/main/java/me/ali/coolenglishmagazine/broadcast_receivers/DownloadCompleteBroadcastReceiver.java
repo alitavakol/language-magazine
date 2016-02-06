@@ -95,19 +95,7 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
                 break;
 
             case DownloadManager.STATUS_FAILED:
-                Toast.makeText(context, "FAILED: " + reason, Toast.LENGTH_LONG).show();
-                break;
-
-            case DownloadManager.STATUS_PAUSED:
-                Toast.makeText(context, "PAUSED: " + reason, Toast.LENGTH_LONG).show();
-                break;
-
-            case DownloadManager.STATUS_PENDING:
-                Toast.makeText(context, "PENDING!", Toast.LENGTH_LONG).show();
-                break;
-
-            case DownloadManager.STATUS_RUNNING:
-                Toast.makeText(context, "RUNNING!", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, context.getResources().getString(R.string.download_failed_msg) + reason, Toast.LENGTH_LONG).show();
                 break;
         }
 

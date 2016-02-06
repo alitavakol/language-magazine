@@ -1,10 +1,12 @@
 package me.ali.coolenglishmagazine;
 
 import android.app.DownloadManager;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -18,13 +20,19 @@ import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.FileHelper;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 /**
@@ -45,45 +53,76 @@ public class IssueDetailActivity extends AppCompatActivity implements AppBarLayo
 
     Magazines.Issue issue;
 
+    ImageButton buttonCancel;
+    Button buttonDownload, buttonOpen, buttonDelete;
+    ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (savedInstanceState != null) {
-            downloadReference = savedInstanceState.getLong("downloadReference");
-        }
 
         setContentView(R.layout.activity_issue_detail);
         toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
+        downloadManager = (DownloadManager) IssueDetailActivity.this.getSystemService(Context.DOWNLOAD_SERVICE);
+
+        buttonCancel = (ImageButton) findViewById(R.id.buttonCancel);
+        buttonDownload = (Button) findViewById(R.id.buttonDownload);
+        buttonOpen = (Button) findViewById(R.id.buttonOpen);
+        buttonDelete = (Button) findViewById(R.id.buttonDelete);
+        progressBar = (ProgressBar) findViewById(R.id.progress);
+
         try {
             issue = Magazines.getIssue(new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
+            downloadReference = Magazines.getDownloadReference(this, issue);
         } catch (Exception e) {
         }
 
-        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+        buttonOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(IssueDetailActivity.this, ItemListActivity.class);
                 intent.putExtra(ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
-
                 startActivity(intent);
                 finish(); // remove this activity from back stack
             }
         });
 
-        findViewById(R.id.fab_download).setOnClickListener(new View.OnClickListener() {
+        buttonDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
                     downloadReference = Magazines.download(IssueDetailActivity.this, issue);
-                    findViewById(R.id.fab_download).setClickable(false);
                     updateFab();
-
                 } catch (IOException e) {
                     LogHelper.e(TAG, e.getMessage());
                 }
+            }
+        });
+
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                downloadManager.remove(downloadReference);
+                updateFab();
+            }
+        });
+
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
+                File[] files = issue.rootDirectory.listFiles();
+                if (files != null) {
+                    for (File g : files) {
+                        if (g.isDirectory()) { // delete item folders only
+                            FileHelper.deleteRecursive(g);
+                        }
+                    }
+                }
+                new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).delete();
+                updateFab();
             }
         });
 
@@ -184,8 +223,6 @@ public class IssueDetailActivity extends AppCompatActivity implements AppBarLayo
     protected void onResume() {
         super.onResume();
 
-        updateFab();
-
         receiverDownloadExtracted = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -193,53 +230,93 @@ public class IssueDetailActivity extends AppCompatActivity implements AppBarLayo
             }
         };
         LocalBroadcastManager.getInstance(this).registerReceiver(receiverDownloadExtracted, new IntentFilter(DownloadCompleteBroadcastReceiver.ACTION_DOWNLOAD_EXTRACTED));
+
+        updateFab();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        if (timer != null)
+            timer.cancel();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiverDownloadExtracted);
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putLong("downloadReference", downloadReference);
-    }
+    DownloadManager downloadManager;
+    Timer timer;
+    int dl_progress;
 
     void updateFab() {
         final int status = Magazines.getDownloadStatus(this, issue);
 
-        final ImageView fab_download = (ImageView) findViewById(R.id.fab_download);
-        final ImageView fab = (ImageView) findViewById(R.id.fab);
-
-        final AnimationDrawable d = (AnimationDrawable) fab_download.getDrawable();
-        d.setCallback(fab_download);
-        d.setVisible(true, true);
-
         switch (status) {
             case DownloadManager.STATUS_PENDING:
-            case DownloadManager.STATUS_RUNNING:
             case DownloadManager.STATUS_PAUSED:
-                fab_download.setClickable(false);
-//                fab_download.setVisibility(View.VISIBLE);
-                d.start();
+                buttonDownload.setVisibility(View.GONE);
+                buttonOpen.setVisibility(View.GONE);
+                buttonCancel.setVisibility(View.VISIBLE);
+                buttonDelete.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setIndeterminate(true);
+                break;
 
-                fab.setVisibility(View.GONE);
+            case DownloadManager.STATUS_RUNNING:
+                buttonDownload.setVisibility(View.GONE);
+                buttonOpen.setVisibility(View.GONE);
+                buttonCancel.setVisibility(View.VISIBLE);
+                buttonDelete.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setIndeterminate(false);
+                progressBar.setProgress(dl_progress);
                 break;
 
             default:
-                fab_download.setClickable(true);
-                d.stop();
+                buttonCancel.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
 
                 if (new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists()) {
-                    fab_download.setVisibility(View.GONE);
-//                    fab.setVisibility(View.VISIBLE);
-
+                    buttonDownload.setVisibility(View.GONE);
+                    buttonOpen.setVisibility(View.VISIBLE);
+                    buttonDelete.setVisibility(View.VISIBLE);
                 } else {
-//                    fab_download.setVisibility(View.VISIBLE);
-                    fab.setVisibility(View.GONE);
+                    buttonDownload.setText(status == DownloadManager.STATUS_FAILED ? R.string.retry_download : R.string.download);
+                    buttonDownload.setVisibility(View.VISIBLE);
+                    buttonOpen.setVisibility(View.GONE);
+                    buttonDelete.setVisibility(View.GONE);
                 }
-                break;
+
+                if (timer != null) {
+                    LogHelper.i(TAG, "timer cancelled.");
+                    timer.cancel();
+                    timer = null;
+                }
+                return;
+        }
+
+        if (timer == null) {
+            LogHelper.i(TAG, "timer created.");
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    DownloadManager.Query q = new DownloadManager.Query();
+                    q.setFilterById(downloadReference);
+                    Cursor cursor = downloadManager.query(q);
+                    cursor.moveToFirst();
+                    int bytes_downloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                    int bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+                    cursor.close();
+                    dl_progress = (bytes_downloaded * 100 / bytes_total);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateFab();
+                            LogHelper.i(TAG, "download progress: " + dl_progress);
+                        }
+                    });
+                }
+            }, 0, 2000);
         }
     }
 

@@ -98,4 +98,12 @@
         <item>@string/upperIntermediateLevel</item>
         <item>@string/advancedLevel</item>
     </array>
+
+    <string name="download">Download</string>
+    <string name="cancel">Cancel</string>
+    <string name="open">Open</string>
+    <string name="delete">Delete</string>
+    <string name="retry_download">Retry Download</string>
+
+    <string name="download_failed_msg">Download failed with error code\u0020</string>
 </resources>

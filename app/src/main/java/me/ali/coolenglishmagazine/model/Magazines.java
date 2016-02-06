@@ -125,6 +125,7 @@ public class Magazines {
 
     /**
      * downloads a single issue.
+     *
      * @return download reference number
      */
     public static long download(Context context, Issue issue) throws IOException {
@@ -136,7 +137,7 @@ public class Magazines {
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
                 .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
 
-        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        final DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         return downloadManager.enqueue(request);
     }
 
@@ -164,6 +165,28 @@ public class Magazines {
             final String cursorUrl = cursor.getString(uriIndex);
             if (cursorUrl.equals(issueDownloadUrl)) {
                 return cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
+            }
+        }
+
+        cursor.close();
+        return -1;
+    }
+
+    /**
+     * @return download status (if there is any) or -1
+     */
+    public static long getDownloadReference(Context context, Issue issue) {
+        final String issueDownloadUrl = getIssueDownloadUrl(context, issue);
+
+        DownloadManager.Query query = new DownloadManager.Query();
+
+        Cursor cursor = ((DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE)).query(query);
+        final int uriIndex = cursor.getColumnIndex(DownloadManager.COLUMN_URI);
+
+        while (cursor.moveToNext()) {
+            final String cursorUrl = cursor.getString(uriIndex);
+            if (cursorUrl.equals(issueDownloadUrl)) {
+                return cursor.getLong(cursor.getColumnIndex(DownloadManager.COLUMN_ID));
             }
         }
 
