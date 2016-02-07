@@ -14,4 +14,32 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+
+    <!-- issue details (from Google IO) -->
+    <style name="TextAppearance.Title" parent="TextAppearance.AppCompat.Title">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="SessionDetailsTitle">
+        <item name="android:textAppearance">@style/TextAppearance.Title</item>
+        <!--<item name="android:textColor">?android:textColorPrimary</item>-->
+        <item name="android:textSize">18sp</item>
+        <item name="android:lineSpacingMultiplier">@dimen/h3_spacing</item>
+    </style>
+
+    <style name="TextAppearance.Body1" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">14sp
+        </item> <!-- bug in AppCompat, can remove this when it's fixed -->
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+    <style name="Body1Text">
+        <item name="android:textAppearance">@style/TextAppearance.Body1</item>
+        <item name="android:lineSpacingMultiplier">@dimen/body_1_spacing</item>
+    </style>
+
+    <style name="SessionDetailsSubtitle" parent="@style/Body1Text">
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
 </resources>

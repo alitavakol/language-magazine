@@ -2,7 +2,5 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/webView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_alignParentBottom="true"
-    android:layout_alignParentTop="true"
-    tools:context="me.ali.coolenglishmagazine.IssueDetailFragment" />
+    android:layout_height="wrap_content"
+    tools:context="me.ali.coolenglishmagazine.IssueDetailFragment"/>

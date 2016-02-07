@@ -1,90 +1,92 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<me.ali.coolenglishmagazine.widget.ObservableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:overScrollMode="never"
     tools:context="me.ali.coolenglishmagazine.IssueDetailActivity"
     tools:ignore="MergeRootFrame">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
+    <FrameLayout
+        android:id="@+id/scroll_view_child"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
-        android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:layout_height="wrap_content"
+        android:clipChildren="false">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
+        <!-- Background photo. -->
+        <FrameLayout
+            android:id="@+id/session_photo_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:toolbarId="@+id/toolbar">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/cover"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                android:scaleType="centerCrop" />
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_launcher" />
+        </FrameLayout>
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/detail_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-                <TextView
-                    android:id="@+id/toolbarTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Test" />
-
-            </android.support.v7.widget.Toolbar>
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <LinearLayout
+        <FrameLayout
+            android:id="@+id/issue_detail_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content" />
+
+        <!-- Title/subtitle bar (floating; position determined at run time as the content view scrolls) -->
+        <LinearLayout
+            android:id="@+id/header_session"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/keyline_1">
+
+            <include layout="@layout/toolbar" />
+
+            <TextView
+                android:id="@+id/session_title"
+                style="@style/SessionDetailsTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/padding_normal"
+                android:layout_marginLeft="@dimen/keyline_2_session_detail"
+                android:layout_marginRight="@dimen/padding_normal"
+                android:layout_marginStart="@dimen/keyline_2_session_detail"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:text="You want me to measure what!? Turning qualitative information into quantitative data"
+                android:textAlignment="viewStart" />
+
+            <TextView
+                android:id="@+id/session_subtitle"
+                style="@style/SessionDetailsSubtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/padding_normal"
+                android:layout_marginStart="@dimen/keyline_2_session_detail"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="Test Session Subtitle"
+                android:textAlignment="viewStart" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="@dimen/activity_horizontal_margin">
+                android:padding="@dimen/activity_horizontal_margin"
+                android:gravity="end">
 
                 <Button
                     android:id="@+id/buttonDownload"
                     style="?android:attr/buttonStyleSmall"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:minHeight="0dp"
-                    android:text="@string/download" />
-
-                <ImageButton
-                    android:id="@+id/buttonCancel"
-                    style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:background="@android:color/transparent"
                     android:minHeight="0dp"
-                    android:minWidth="0dp"
-                    android:src="@android:drawable/ic_menu_close_clear_cancel" />
+                    android:text="@string/download" />
 
                 <ProgressBar
                     android:id="@+id/progress"
@@ -97,6 +99,17 @@
                     android:indeterminateBehavior="repeat"
                     android:max="100"
                     android:padding="@dimen/activity_horizontal_margin" />
+
+                <ImageButton
+                    android:id="@+id/buttonCancel"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:src="@android:drawable/ic_menu_close_clear_cancel" />
 
                 <Button
                     android:id="@+id/buttonOpen"
@@ -119,38 +132,8 @@
                     android:text="@string/delete" />
 
             </LinearLayout>
-
-            <FrameLayout
-                android:id="@+id/issue_detail_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </FrameLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_download"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|start"
-        android:layout_margin="@dimen/fab_margin"
-        android:scaleType="center"
-        android:src="@android:drawable/stat_sys_download"
-        android:visibility="gone"
-        app:layout_anchor="@+id/issue_detail_container"
-        app:layout_anchorGravity="top|end" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|start"
-        android:layout_margin="@dimen/fab_margin"
-        android:scaleType="center"
-        android:src="@android:drawable/stat_sys_headset"
-        android:visibility="gone"
-        app:layout_anchor="@+id/issue_detail_container"
-        app:layout_anchorGravity="top|end" />
-
-</android.support.design.widget.CoordinatorLayout>
+</me.ali.coolenglishmagazine.widget.ObservableScrollView>

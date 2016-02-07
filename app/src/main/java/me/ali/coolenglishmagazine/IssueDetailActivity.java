@@ -8,21 +8,20 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import java.io.File;
@@ -34,6 +33,7 @@ import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastR
 import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.util.FileHelper;
 import me.ali.coolenglishmagazine.util.LogHelper;
+import me.ali.coolenglishmagazine.widget.ObservableScrollView;
 
 /**
  * An activity representing a single Issue detail screen. This
@@ -41,7 +41,7 @@ import me.ali.coolenglishmagazine.util.LogHelper;
  * item details are presented side-by-side with a list of items
  * in a {@link IssueListActivity}.
  */
-public class IssueDetailActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
+public class IssueDetailActivity extends AppCompatActivity implements ObservableScrollView.Callbacks {
 
     private static final String TAG = LogHelper.makeLogTag(IssueDetailActivity.class);
 
@@ -56,13 +56,17 @@ public class IssueDetailActivity extends AppCompatActivity implements AppBarLayo
     ImageButton buttonCancel;
     Button buttonDownload, buttonOpen, buttonDelete;
     ProgressBar progressBar;
+    private ObservableScrollView mScrollView;
+    private View mPhotoViewContainer;
+    private LinearLayout mHeaderSession;
+    private FrameLayout issueDetailsContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_issue_detail);
-        toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
 
         downloadManager = (DownloadManager) IssueDetailActivity.this.getSystemService(Context.DOWNLOAD_SERVICE);
@@ -126,12 +130,6 @@ public class IssueDetailActivity extends AppCompatActivity implements AppBarLayo
             }
         });
 
-        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        collapsingToolbar.setTitleEnabled(false);
-
-        appBarLayout = ((AppBarLayout) findViewById(R.id.app_bar));
-        appBarLayout.addOnOffsetChangedListener(this);
-
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -141,6 +139,17 @@ public class IssueDetailActivity extends AppCompatActivity implements AppBarLayo
 
         final ImageView coverImageView = (ImageView) findViewById(R.id.cover);
         coverImageView.setImageBitmap(BitmapFactory.decodeFile(new File(issue.rootDirectory, Magazines.Issue.posterFileName).getAbsolutePath()));
+
+        mScrollView = (ObservableScrollView) findViewById(R.id.scroll_view);
+        mScrollView.addCallbacks(this);
+        ViewTreeObserver vto = mScrollView.getViewTreeObserver();
+        if (vto.isAlive()) {
+            vto.addOnGlobalLayoutListener(mGlobalLayoutListener);
+        }
+
+        mPhotoViewContainer = findViewById(R.id.session_photo_container);
+        mHeaderSession = (LinearLayout) findViewById(R.id.header_session);
+        issueDetailsContainer = (FrameLayout) findViewById(R.id.issue_detail_container);
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
@@ -168,20 +177,17 @@ public class IssueDetailActivity extends AppCompatActivity implements AppBarLayo
         }
     }
 
-    CollapsingToolbarLayout collapsingToolbar;
-    Toolbar toolbar;
-    AppBarLayout appBarLayout;
-
     @Override
-    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        if (collapsingToolbar.getHeight() + verticalOffset < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)) {
-//            toolbar
-            findViewById(R.id.toolbarTitle).animate().alpha(1).setDuration(600);
-        } else {
-            findViewById(R.id.toolbarTitle).animate().alpha(0).setDuration(600);
-//            toolbar.animate().alpha(0).setDuration(600);
+    public void onDestroy() {
+        super.onDestroy();
+
+        ViewTreeObserver vto = mScrollView.getViewTreeObserver();
+        if (vto.isAlive()) {
+            vto.removeGlobalOnLayoutListener(mGlobalLayoutListener);
         }
     }
+
+    Toolbar toolbar;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -320,4 +326,27 @@ public class IssueDetailActivity extends AppCompatActivity implements AppBarLayo
         }
     }
 
+    @Override
+    public void onScrollChanged(int deltaX, int deltaY) {
+        int scrollY = mScrollView.getScrollY();
+        mPhotoViewContainer.setTranslationY(scrollY * 0.5f);
+        mHeaderSession.setTranslationY(Math.max(headerTranslation, scrollY));
+//        mHeaderSession.setElevation(scrollY > headerTranslation ? 10 : 0);
+    }
+
+    int headerTranslation;
+
+    private ViewTreeObserver.OnGlobalLayoutListener mGlobalLayoutListener
+            = new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+            headerTranslation = mPhotoViewContainer.getHeight();
+            int headerHeight = mHeaderSession.getHeight();
+            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) issueDetailsContainer.getLayoutParams();
+            lp.bottomMargin = headerTranslation + headerHeight;
+            issueDetailsContainer.setLayoutParams(lp);
+            issueDetailsContainer.setTranslationY(headerTranslation + headerHeight);
+            onScrollChanged(0, 0);
+        }
+    };
 }

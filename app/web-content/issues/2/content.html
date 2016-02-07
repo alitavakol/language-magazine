@@ -30,6 +30,9 @@
 
 		<script type="text/javascript">
 			adjustCustomLayout = function() {
+				$('#local-rules').text("\
+					.container { margin-top: " + (topMargin) + "px; margin-bottom: 28px; } "
+				);
 			}
 
 			saveInstanceState = function() {

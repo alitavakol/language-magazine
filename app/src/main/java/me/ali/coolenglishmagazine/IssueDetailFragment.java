@@ -1,8 +1,6 @@
 package me.ali.coolenglishmagazine;
 
-import android.app.Activity;
 import android.content.res.TypedArray;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -67,13 +65,6 @@ public class IssueDetailFragment extends Fragment {
             final WebView webView = (WebView) rootView.findViewById(R.id.webView);
             webView.setWebViewClient(new WebViewClient() {
                 public void onPageFinished(WebView view, String url) {
-                    // show html content below action bar, keeping background untouched
-                    int[] actionBarSizeAttr = new int[]{android.R.attr.actionBarSize};
-                    int indexOfAttrActionBarSize = 0;
-                    TypedArray a = getActivity().obtainStyledAttributes(new TypedValue().data, actionBarSizeAttr);
-                    int actionBarSize = a.getDimensionPixelSize(indexOfAttrActionBarSize, -1);
-                    a.recycle();
-
                     final String command = "javascript:adjustLayout("
                             + 0 // HTML content top margin
                             + ", 0, " + webView.getMeasuredHeight() // poster height
@@ -83,7 +74,6 @@ public class IssueDetailFragment extends Fragment {
                             + ", 0xf8f8f8" // new word color
                             + ");";
                     webView.loadUrl(command);
-
 //                    webView.loadUrl("javascript:setInstanceState(" + new JSONArray(Arrays.asList(webViewState)) + ");");
                 }
             });
@@ -96,17 +86,6 @@ public class IssueDetailFragment extends Fragment {
         }
 
         return rootView;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        Activity activity = this.getActivity();
-        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-        if (appBarLayout != null) {
-            appBarLayout.setTitle(issue.title);
-        }
     }
 
 }
