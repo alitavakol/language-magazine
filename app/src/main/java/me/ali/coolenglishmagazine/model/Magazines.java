@@ -124,6 +124,13 @@ public class Magazines {
     }
 
     /**
+     * @return path to downloaded issue zip archive
+     */
+    public static File getIssueLocalDownloadUri(Context context, Issue issue) {
+        return new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), Integer.toString(issue.id) + ".zip");
+    }
+
+    /**
      * downloads a single issue.
      *
      * @return download reference number
@@ -132,7 +139,7 @@ public class Magazines {
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(getIssueDownloadUrl(context, issue)))
                 .setDescription(issue.title)
                 .setTitle(context.getResources().getString(R.string.app_name))
-                .setDestinationUri(Uri.fromFile(new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), Integer.toString(issue.id) + ".zip")))
+                .setDestinationUri(Uri.fromFile(getIssueLocalDownloadUri(context, issue)))
                 .setVisibleInDownloadsUi(false)
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
                 .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
@@ -164,7 +171,13 @@ public class Magazines {
         while (cursor.moveToNext()) {
             final String cursorUrl = cursor.getString(uriIndex);
             if (cursorUrl.equals(issueDownloadUrl)) {
-                return cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
+                int status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
+                if(status == DownloadManager.STATUS_SUCCESSFUL) {
+                    if (getIssueLocalDownloadUri(context, issue).exists()) {
+                        status = -3; // custom value indicating that the issue is being extracted.
+                    }
+                }
+                return status;
             }
         }
 

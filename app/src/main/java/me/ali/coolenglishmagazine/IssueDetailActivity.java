@@ -276,6 +276,15 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
                 progressBar.setProgress(dl_progress);
                 break;
 
+            case -3: // the issue is being extracted
+                buttonDownload.setVisibility(View.GONE);
+                buttonOpen.setVisibility(View.GONE);
+                buttonCancel.setVisibility(View.GONE);
+                buttonDelete.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setIndeterminate(true);
+                break;
+
             default:
                 buttonCancel.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);

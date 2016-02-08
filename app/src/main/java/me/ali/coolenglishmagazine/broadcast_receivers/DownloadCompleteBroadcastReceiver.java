@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
@@ -59,39 +60,7 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
 
         switch (status) {
             case DownloadManager.STATUS_SUCCESSFUL:
-                try {
-                    File f = new File(savedFilePath);
-                    ZipHelper.unzip(f, context.getExternalFilesDir(null));
-                    f.delete();
-
-                    final String issueId = new File(savedFilePath).getName().split("\\.(?=[^\\.]+$)")[0];
-                    final Magazines.Issue issue = Magazines.getIssue(new File(context.getExternalFilesDir(null), issueId));
-
-                    // prepare intent which is triggered if the notification is selected
-                    Intent intent = new Intent(context, ItemListActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
-
-                    // use System.currentTimeMillis() to have a unique ID for the pending intent
-                    PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
-
-                    // build notification
-                    // the addAction re-use the same intent to keep the example short
-                    Notification n = new Notification.Builder(context)
-                            .setContentTitle(issue.title)
-                            .setContentText(context.getResources().getString(R.string.issue_downloaded_notification))
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentIntent(pIntent)
-                            .setAutoCancel(true)
-                            .build();
-
-                    ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id, n);
-
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(DownloadCompleteBroadcastReceiver.ACTION_DOWNLOAD_EXTRACTED));
-
-                } catch (IOException e) {
-                    LogHelper.e(TAG, e.getMessage());
-                }
+                new UnzipOperation().execute(context, new File(savedFilePath));
                 break;
 
             case DownloadManager.STATUS_FAILED:
@@ -100,6 +69,63 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
         }
 
         cursor.close();
+    }
+
+    /**
+     * a background task that extracts downloaded zip archive, and emits a download extracted broadcast intent.
+     */
+    private class UnzipOperation extends AsyncTask<Object, Void, Void> {
+        Context context;
+        File f;
+
+        @Override
+        protected Void doInBackground(Object... params) {
+            context = (Context) params[0];
+            f = (File) params[1];
+
+            try {
+                ZipHelper.unzip(f, context.getExternalFilesDir(null));
+            } catch (IOException e) {
+                LogHelper.e(TAG, e.getMessage());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void params) {
+            try {
+                f.delete();
+
+                final String issueId = f.getName().split("\\.(?=[^\\.]+$)")[0];
+                final Magazines.Issue issue = Magazines.getIssue(new File(context.getExternalFilesDir(null), issueId));
+
+                // prepare intent which is triggered if the notification is selected
+                Intent intent = new Intent(context, ItemListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
+
+                // use System.currentTimeMillis() to have a unique ID for the pending intent
+                PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
+
+                // build notification
+                // the addAction re-use the same intent to keep the example short
+                Notification n = new Notification.Builder(context)
+                        .setContentTitle(issue.title)
+                        .setContentText(context.getResources().getString(R.string.issue_downloaded_notification))
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentIntent(pIntent)
+                        .setAutoCancel(true)
+                        .build();
+
+                ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id, n);
+
+                LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(DownloadCompleteBroadcastReceiver.ACTION_DOWNLOAD_EXTRACTED));
+
+            } catch (IOException e) {
+                LogHelper.e(TAG, e.getMessage());
+            }
+        }
     }
 
 }
