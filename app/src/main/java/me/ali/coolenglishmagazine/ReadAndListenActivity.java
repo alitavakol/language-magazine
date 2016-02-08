@@ -577,7 +577,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         webView.loadUrl("javascript:lock(" + transcriptLocked + ");");
     }
 
-    /*
+    /**
      * JavaScript Interface. Web code can access methods in here
      * (as long as they have the @JavascriptInterface annotation)
      */

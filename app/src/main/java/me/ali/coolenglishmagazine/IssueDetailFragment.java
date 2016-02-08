@@ -1,13 +1,12 @@
 package me.ali.coolenglishmagazine;
 
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -78,7 +77,7 @@ public class IssueDetailFragment extends Fragment {
                 }
             });
             webView.getSettings().setJavaScriptEnabled(true);
-//            webView.addJavascriptInterface(webViewJavaScriptInterface, "app");
+            webView.addJavascriptInterface(webViewJavaScriptInterface, "app");
             webView.setVerticalScrollBarEnabled(false);
 
             final File input = new File(issue.rootDirectory, Magazines.Issue.contentFileName);
@@ -88,4 +87,15 @@ public class IssueDetailFragment extends Fragment {
         return rootView;
     }
 
+    WebViewJavaScriptInterface webViewJavaScriptInterface = new WebViewJavaScriptInterface();
+
+    /**
+     * JavaScript Interface. Web code can access methods in here
+     * (as long as they have the @JavascriptInterface annotation)
+     */
+    public class WebViewJavaScriptInterface {
+        @JavascriptInterface
+        public void saveInstanceState(final String[] state) {
+        }
+    }
 }
