@@ -106,4 +106,8 @@
     <string name="retry_download">Retry Download</string>
 
     <string name="download_failed_msg">Download failed with error code\u0020</string>
+
+    <string name="my_issues">On My Device</string>
+    <string name="available_issues">Available for Download</string>
+    <string name="completed_issues">Completed</string>
 </resources>

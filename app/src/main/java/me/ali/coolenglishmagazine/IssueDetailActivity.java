@@ -249,9 +249,20 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
     }
 
     DownloadManager downloadManager;
+
+    /**
+     * progress bar update timer
+     */
     Timer timer;
+
+    /**
+     * progress bar value
+     */
     int dl_progress;
 
+    /**
+     * updates visibility of buttons and progress bar, depending on current issue download status
+     */
     void updateFab() {
         final int status = Magazines.getDownloadStatus(this, issue);
 
@@ -345,6 +356,9 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
 
     int headerTranslation;
 
+    /**
+     * adjust top margin and translationY of views contained in the FrameLayout, which depends on measured height of them
+     */
     private ViewTreeObserver.OnGlobalLayoutListener mGlobalLayoutListener
             = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override

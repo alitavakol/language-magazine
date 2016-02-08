@@ -1,26 +1,19 @@
 package me.ali.coolenglishmagazine;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -38,6 +31,7 @@ import me.ali.coolenglishmagazine.util.ZipHelper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,7 +42,7 @@ import java.util.List;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class IssueListActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class IssueListActivity extends AppCompatActivity implements IssuesListFragment.OnFragmentInteractionListener {
 
     private static final String TAG = LogHelper.makeLogTag(IssueListActivity.class);
 
@@ -69,28 +63,14 @@ public class IssueListActivity extends AppCompatActivity implements SwipeRefresh
         setSupportActionBar(toolbar);
 //        toolbar.setTitle(getTitle());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        setupViewPager(viewPager);
 
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-        swipeContainer.setOnRefreshListener(this);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
 
         magazines.loadIssues(getExternalFilesDir(null).getAbsolutePath());
         firstMissingIssueNumber = findFirstMissingIssueNumber();
-
-        View recyclerView = findViewById(R.id.issue_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
 
         if (findViewById(R.id.issue_detail_container) != null) {
             // The detail container view will be present only in the
@@ -101,14 +81,43 @@ public class IssueListActivity extends AppCompatActivity implements SwipeRefresh
         }
     }
 
-    private SwipeRefreshLayout swipeContainer;
-    private MenuItem refreshActionButton;
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        swipeContainer.setRefreshing(false);
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(IssuesListFragment.newInstance(IssuesListFragment.MY_ISSUES), R.string.my_issues);
+        adapter.addFragment(IssuesListFragment.newInstance(IssuesListFragment.AVAILABLE_ISSUES), R.string.available_issues);
+        adapter.addFragment(IssuesListFragment.newInstance(IssuesListFragment.COMPLETED_ISSUES), R.string.completed_issues);
+        viewPager.setAdapter(adapter);
     }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, int titleId) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(getResources().getString(titleId));
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
+
 
     @Override
     protected void onStop() {
@@ -120,101 +129,10 @@ public class IssueListActivity extends AppCompatActivity implements SwipeRefresh
         }
     }
 
-    protected IssuesRecyclerViewAdapter adapter;
-
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-
-        adapter = new IssuesRecyclerViewAdapter(magazines.ISSUES);
-        recyclerView.setAdapter(adapter);
-    }
-
-    public class IssuesRecyclerViewAdapter extends RecyclerView.Adapter<IssuesRecyclerViewAdapter.ViewHolder> {
-
-        private final List<Magazines.Issue> issues;
-
-        public IssuesRecyclerViewAdapter(List<Magazines.Issue> issues) {
-            this.issues = issues;
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.issue_list_row, parent, false);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            final Magazines.Issue issue = issues.get(position);
-
-            holder.titleTextView.setText(issue.title);
-            holder.subtitleTextView.setText(issue.title);
-            holder.posterImageView.setImageBitmap(BitmapFactory.decodeFile(new File(issue.rootDirectory, Magazines.Issue.posterFileName).getAbsolutePath()));
-
-            holder.view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mTwoPane) {
-                        Bundle arguments = new Bundle();
-                        arguments.putString(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
-                        IssueDetailFragment fragment = new IssueDetailFragment();
-                        fragment.setArguments(arguments);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.issue_detail_container, fragment)
-                                .commit();
-
-                    } else {
-                        Context context = v.getContext();
-
-                        final File downloaded = new File(issue.rootDirectory, "downloaded");
-                        if (downloaded.exists()) {
-                            // jump straight into issue's table of contents if it is downloaded
-                            Intent intent = new Intent(context, ItemListActivity.class);
-                            intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
-                            context.startActivity(intent);
-
-                        } else {
-                            // show intro and advertise the issue if it is not downloaded yet
-                            Intent intent = new Intent(context, IssueDetailActivity.class);
-                            intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
-                            context.startActivity(intent);
-                        }
-                    }
-                }
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return issues.size();
-        }
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            public final View view;
-            public final TextView titleTextView, subtitleTextView;
-            public final ImageView posterImageView;
-
-            public ViewHolder(View view) {
-                super(view);
-
-                this.view = view;
-                titleTextView = (TextView) view.findViewById(R.id.title);
-                subtitleTextView = (TextView) view.findViewById(R.id.subtitle);
-                posterImageView = (ImageView) view.findViewById(R.id.icon);
-            }
-
-            @Override
-            public String toString() {
-                return super.toString() + " '" + titleTextView.getText() + "'";
-            }
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.issue_list, menu);
-        refreshActionButton = menu.findItem(R.id.action_refresh);
         return true;
     }
 
@@ -228,9 +146,9 @@ public class IssueListActivity extends AppCompatActivity implements SwipeRefresh
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.action_refresh:
-                syncAvailableIssuesList(firstMissingIssueNumber);
-                return true;
+//            case R.id.action_refresh:
+//                syncAvailableIssuesList(firstMissingIssueNumber);
+//                return true;
 
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
@@ -241,24 +159,25 @@ public class IssueListActivity extends AppCompatActivity implements SwipeRefresh
     }
 
     /**
-     * called when user pulls screen to refresh
-     */
-    @Override
-    public void onRefresh() {
-        syncAvailableIssuesList(firstMissingIssueNumber);
-    }
-
-    /**
      * issue number of the first missing issue
      */
     int firstMissingIssueNumber;
 
     /**
+     * do not perform sync when already in a sync job
+     */
+    boolean syncing = false;
+
+    /**
      * gets list of available issues from server.
      */
-    void syncAvailableIssuesList(int firstMissingIssueNumber) {
-        swipeContainer.setRefreshing(true);
-        refreshActionButton.setEnabled(false);
+    void syncAvailableIssuesList(int firstMissingIssueNumber, final RecyclerView.Adapter adapter) {
+        if (firstMissingIssueNumber == -1) {
+            if (syncing)
+                return;
+            syncing = true;
+            firstMissingIssueNumber = this.firstMissingIssueNumber;
+        }
 
         // Instantiate the RequestQueue.
         if (requestQueue == null)
@@ -287,31 +206,30 @@ public class IssueListActivity extends AppCompatActivity implements SwipeRefresh
                         // get next bunch of available issues, until the saved list of issues remain unchanged
                         int firstMissingIssueNumber = findFirstMissingIssueNumber();
                         if (firstMissingIssueNumber > IssueListActivity.this.firstMissingIssueNumber) {
-                            syncAvailableIssuesList(firstMissingIssueNumber);
+                            syncAvailableIssuesList(firstMissingIssueNumber, adapter);
                         }
 
                         magazines.loadIssues(getExternalFilesDir(null).getAbsolutePath());
                         IssueListActivity.this.firstMissingIssueNumber = firstMissingIssueNumber;
 
-                        adapter.notifyDataSetChanged();
-//                        setupRecyclerView((RecyclerView) IssueListActivity.this.findViewById(R.id.issue_list));
+                        ((IssuesListFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(true);
 
                     } catch (IOException e) {
                         LogHelper.e(TAG, e.getMessage());
 
                     } finally {
-                        swipeContainer.setRefreshing(false);
-                        refreshActionButton.setEnabled(true);
+                        syncing = false;
+                        ((IssuesListFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false);
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
 //                    LogHelper.e(TAG, error.getMessage()); // error
-                    swipeContainer.setRefreshing(false);
-                    refreshActionButton.setEnabled(true);
                     Toast.makeText(IssueListActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
                     requestQueue.cancelAll(IssueListActivity.this);
+                    syncing = false;
+                    ((IssuesListFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false);
                 }
             }, null);
 
@@ -321,10 +239,10 @@ public class IssueListActivity extends AppCompatActivity implements SwipeRefresh
             requestQueue.add(request);
 
         } else {
-            swipeContainer.setRefreshing(false);
-            refreshActionButton.setEnabled(true);
             Toast.makeText(this, R.string.check_connection, Toast.LENGTH_SHORT).show();
             requestQueue.cancelAll(this);
+            syncing = false;
+            ((IssuesListFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false);
         }
     }
 
@@ -341,5 +259,33 @@ public class IssueListActivity extends AppCompatActivity implements SwipeRefresh
             i++;
 
         return i;
+    }
+
+    public void onItemClicked(Magazines.Issue issue) {
+        if (mTwoPane) {
+            Bundle arguments = new Bundle();
+            arguments.putString(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
+            IssueDetailFragment fragment = new IssueDetailFragment();
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.issue_detail_container, fragment)
+                    .commit();
+
+        } else {
+            final File downloaded = new File(issue.rootDirectory, "downloaded");
+            if (downloaded.exists()) {
+                // jump straight into issue's table of contents if it is downloaded
+                Intent intent = new Intent(this, ItemListActivity.class);
+                intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
+                startActivity(intent);
+
+            } else {
+                // show intro and advertise the issue if it is not downloaded yet
+                Intent intent = new Intent(this, IssueDetailActivity.class);
+                intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
+                startActivity(intent);
+            }
+        }
+
     }
 }
