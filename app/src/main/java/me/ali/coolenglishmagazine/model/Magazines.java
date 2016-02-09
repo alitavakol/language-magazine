@@ -73,6 +73,8 @@ public class Magazines {
         issue.title = e.attr("title");
         issue.id = Integer.parseInt(issueRootDirectory.getName());
 
+        issue.status = issue.id == 1 ? Issue.Status.active : Issue.Status.other_saved;
+
         return issue;
     }
 
@@ -116,6 +118,21 @@ public class Magazines {
          * unique identifier which is also magazine root folder's name
          */
         public int id;
+
+        public enum Status {
+            header_active,
+            active,
+            header_other_saved,
+            other_saved,
+            header_completed,
+            completed,
+            header_downloading,
+            downloading,
+            header_available,
+            available,
+        }
+
+        public Status status;
 
         @Override
         public String toString() {
@@ -172,7 +189,7 @@ public class Magazines {
             final String cursorUrl = cursor.getString(uriIndex);
             if (cursorUrl.equals(issueDownloadUrl)) {
                 int status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
-                if(status == DownloadManager.STATUS_SUCCESSFUL) {
+                if (status == DownloadManager.STATUS_SUCCESSFUL) {
                     if (getIssueLocalDownloadUri(context, issue).exists()) {
                         status = -3; // custom value indicating that the issue is being extracted.
                     }

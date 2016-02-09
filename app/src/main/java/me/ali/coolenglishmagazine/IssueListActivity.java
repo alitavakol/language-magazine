@@ -85,7 +85,6 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(IssuesListFragment.newInstance(IssuesListFragment.MY_ISSUES), R.string.my_issues);
         adapter.addFragment(IssuesListFragment.newInstance(IssuesListFragment.AVAILABLE_ISSUES), R.string.available_issues);
-        adapter.addFragment(IssuesListFragment.newInstance(IssuesListFragment.COMPLETED_ISSUES), R.string.completed_issues);
         viewPager.setAdapter(adapter);
     }
 

@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import me.ali.coolenglishmagazine.model.Magazines;
@@ -35,9 +37,15 @@ import me.ali.coolenglishmagazine.model.Magazines;
 public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String ARG_FILTER = "filter";
 
+    /**
+     * "my issues" tab index
+     */
     public static final int MY_ISSUES = 0;
+
+    /**
+     * "available for download" issues tab index
+     */
     public static final int AVAILABLE_ISSUES = 1;
-    public static final int COMPLETED_ISSUES = 2;
 
     /**
      * category of issues to include
@@ -151,20 +159,33 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
     protected IssuesRecyclerViewAdapter adapter;
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-
         adapter = new IssuesRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
+
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
+        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return adapter.isHeader(position) ? 2 : 1;
+            }
+        });
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setHasFixedSize(true);
     }
 
     public class IssuesRecyclerViewAdapter extends RecyclerView.Adapter<IssuesRecyclerViewAdapter.ViewHolder> {
         private List<Magazines.Issue> issues = new ArrayList<>();
+
+        // http://blog.sqisland.com/2014/12/recyclerview-grid-with-header.html
+        private static final int ITEM_VIEW_TYPE_HEADER = 0;
+        private static final int ITEM_VIEW_TYPE_ITEM = 1;
 
         public IssuesRecyclerViewAdapter() {
         }
 
         /**
          * calculates filtered list of issues, and then calls notifyDataSetChanged()
+         *
          * @param success if true, data set has changed
          */
         public void preNotifyDataSetChanged(boolean success) {
@@ -174,33 +195,83 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
 
             issues = new ArrayList<>();
             switch (filter) {
-//            case COMPLETED_ISSUES:
                 case MY_ISSUES:
                     for (Magazines.Issue issue : ((IssueListActivity) getActivity()).magazines.ISSUES) {
-                        if (new File(issue.rootDirectory, issue.downloadedFileName).exists())
+                        if (new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists())
                             issues.add(issue);
                     }
                     break;
 
                 case AVAILABLE_ISSUES:
                     for (Magazines.Issue issue : ((IssueListActivity) getActivity()).magazines.ISSUES) {
-                        if (!(new File(issue.rootDirectory, issue.downloadedFileName).exists()))
+                        if (!(new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists()))
                             issues.add(issue);
                     }
                     break;
             }
+
+            Magazines.Issue.Status[] statuses = Magazines.Issue.Status.values();
+
+            // true if header for the issue with the specified status is included in the array
+            int[] isHeaderAdded = new int[statuses.length];
+
+            for (Magazines.Issue issue : issues) {
+                int status = issue.status.ordinal();
+                isHeaderAdded[status]++;
+            }
+
+            // add header for items (if there is any item with that kind of status)
+            for (Magazines.Issue.Status s : statuses) {
+                int status = s.ordinal();
+                if (isHeaderAdded[status] > 0 && (isHeaderAdded[status] < issues.size() || (s != Magazines.Issue.Status.available && s != Magazines.Issue.Status.other_saved))) {
+                    Magazines.Issue h = new Magazines.Issue();
+                    h.status = statuses[status - 1];
+                    issues.add(h);
+                }
+            }
+
+            // sorting with respect to issue status
+            Collections.sort(issues, new Comparator<Magazines.Issue>() {
+                @Override
+                public int compare(Magazines.Issue issue1, Magazines.Issue issue2) {
+                    return issue1.status.ordinal() - issue2.status.ordinal();
+                }
+            });
+
             notifyDataSetChanged();
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.issue_list_row, parent, false);
+            View view = null;
+            switch (viewType) {
+                case ITEM_VIEW_TYPE_HEADER:
+                    view = LayoutInflater.from(parent.getContext()).inflate(R.layout.issue_list_header, parent, false);
+                    break;
+                case ITEM_VIEW_TYPE_ITEM:
+                    view = LayoutInflater.from(parent.getContext()).inflate(R.layout.issue_list_row, parent, false);
+                    break;
+            }
             return new ViewHolder(view);
+        }
+
+        public boolean isHeader(int position) {
+            return issues.get(position).status.ordinal() % 2 == 0;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return isHeader(position) ? ITEM_VIEW_TYPE_HEADER : ITEM_VIEW_TYPE_ITEM;
         }
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             final Magazines.Issue issue = issues.get(position);
+
+            if (isHeader(position)) {
+                ((TextView) holder.view.findViewById(R.id.headerTextView)).setText(getResources().obtainTypedArray(R.array.issue_list_header_titles).getString(issue.status.ordinal() / 2));
+                return;
+            }
 
             holder.titleTextView.setText(issue.title);
             holder.subtitleTextView.setText(issue.title);
