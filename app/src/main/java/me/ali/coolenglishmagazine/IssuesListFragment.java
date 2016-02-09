@@ -158,7 +158,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
     }
 
     public class IssuesRecyclerViewAdapter extends RecyclerView.Adapter<IssuesRecyclerViewAdapter.ViewHolder> {
-        private List<Magazines.Issue> issues;
+        private List<Magazines.Issue> issues = new ArrayList<>();
 
         public IssuesRecyclerViewAdapter() {
         }

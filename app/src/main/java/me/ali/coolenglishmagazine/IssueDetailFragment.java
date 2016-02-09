@@ -66,8 +66,8 @@ public class IssueDetailFragment extends Fragment {
                 public void onPageFinished(WebView view, String url) {
                     final String command = "javascript:adjustLayout("
                             + 0 // HTML content top margin
-                            + ", 0, " + webView.getMeasuredHeight() // poster height
-                            + ", " + ContextCompat.getColor(getActivity(), R.color.colorAccent) // accent color
+                            + ", 0, 0, " // poster height
+                            + ContextCompat.getColor(getActivity(), R.color.colorAccent) // accent color
                             + ", 0xc5c5c5, " // text color
                             + ContextCompat.getColor(getActivity(), R.color.colorPrimary) // background color
                             + ", 0xf8f8f8" // new word color
