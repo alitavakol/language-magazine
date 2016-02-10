@@ -46,6 +46,11 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
 
     private static final String TAG = LogHelper.makeLogTag(IssueListActivity.class);
 
+    /**
+     * intent action that activates available issues tab, to show downloads in progress
+     */
+    public static final String ACTION_SHOW_DOWNLOADS = "me.ali.coolenglishmagazine.ACTION_SHOW_DOWNLOADS";
+
     Magazines magazines = new Magazines();
 
     /**
@@ -68,6 +73,8 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
+        if(ACTION_SHOW_DOWNLOADS.equals(getIntent().getAction()))
+            tabLayout.getTabAt(1).select();
 
         magazines.loadIssues(getExternalFilesDir(null).getAbsolutePath());
         firstMissingIssueNumber = findFirstMissingIssueNumber();

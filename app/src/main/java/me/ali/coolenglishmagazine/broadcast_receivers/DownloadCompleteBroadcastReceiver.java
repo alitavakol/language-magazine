@@ -31,7 +31,7 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
     /**
      * local broadcast intent action that is sent when an issue has been downloaded and extracted.
      */
-    public static final String ACTION_DOWNLOAD_EXTRACTED = "me.ali.coolenglishmagazine.action.DOWNLOAD_EXTRACTED";
+    public static final String ACTION_DOWNLOAD_EXTRACTED = "me.ali.coolenglishmagazine.ACTION_DOWNLOAD_EXTRACTED";
 
     public DownloadCompleteBroadcastReceiver() {
     }
