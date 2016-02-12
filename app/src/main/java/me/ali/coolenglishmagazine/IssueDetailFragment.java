@@ -47,7 +47,7 @@ public class IssueDetailFragment extends Fragment {
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             try {
-                issue = Magazines.getIssue(new File(getArguments().getString(IssueDetailActivity.ARG_ROOT_DIRECTORY)));
+                issue = Magazines.getIssue(getActivity(), new File(getArguments().getString(IssueDetailActivity.ARG_ROOT_DIRECTORY)));
 
             } catch (IOException e) {
                 // TODO: handle error

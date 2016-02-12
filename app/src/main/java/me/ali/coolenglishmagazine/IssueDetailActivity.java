@@ -78,7 +78,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         progressBar = (ProgressBar) findViewById(R.id.progress);
 
         try {
-            issue = Magazines.getIssue(new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
+            issue = Magazines.getIssue(this, new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
             downloadReference = Magazines.getDownloadReference(this, issue);
         } catch (Exception e) {
         }
@@ -109,6 +109,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             @Override
             public void onClick(View v) {
                 downloadManager.remove(downloadReference);
+                issue.setStatus(Magazines.Issue.Status.available);
                 updateFab();
             }
         });
@@ -126,6 +127,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
                     }
                 }
                 new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).delete();
+                issue.setStatus(Magazines.Issue.Status.available);
                 updateFab();
             }
         });
@@ -243,8 +245,11 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
     @Override
     protected void onPause() {
         super.onPause();
-        if (timer != null)
+        if (timer != null) {
             timer.cancel();
+            timer = null;
+            LogHelper.i(TAG, "timer cancelled.");
+        }
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiverDownloadExtracted);
     }
 
@@ -312,28 +317,19 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
                 }
 
                 if (timer != null) {
-                    LogHelper.i(TAG, "timer cancelled.");
                     timer.cancel();
                     timer = null;
+                    LogHelper.i(TAG, "timer cancelled.");
                 }
                 return;
         }
 
         if (timer == null) {
-            LogHelper.i(TAG, "timer created.");
             timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    DownloadManager.Query q = new DownloadManager.Query();
-                    q.setFilterById(downloadReference);
-                    Cursor cursor = downloadManager.query(q);
-                    cursor.moveToFirst();
-                    int bytes_downloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-                    int bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-                    cursor.close();
-                    dl_progress = (bytes_downloaded * 100 / bytes_total);
-
+                    dl_progress = Magazines.getDownloadProgress(IssueDetailActivity.this, issue);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -343,6 +339,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
                     });
                 }
             }, 0, 2000);
+            LogHelper.i(TAG, "timer created.");
         }
     }
 

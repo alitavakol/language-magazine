@@ -45,29 +45,24 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
         query.setFilterById(reference);
 
         Cursor cursor = ((DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE)).query(query);
-        cursor.moveToFirst();
+        if(cursor.moveToFirst()) {
+            // get the status of the download
+            int status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
 
-        // get the status of the download
-        int columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
-        int status = cursor.getInt(columnIndex);
+            switch (status) {
+                case DownloadManager.STATUS_SUCCESSFUL:
+                    int fileNameIndex = cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME);
+                    final File f = new File(cursor.getString(fileNameIndex));
+                    new UnzipOperation().execute(context, f);
+                    break;
 
-        int fileNameIndex = cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME);
-        String savedFilePath = cursor.getString(fileNameIndex);
-
-        // get the reason - more detail on the status
-        int columnReason = cursor.getColumnIndex(DownloadManager.COLUMN_REASON);
-        int reason = cursor.getInt(columnReason);
-
-        switch (status) {
-            case DownloadManager.STATUS_SUCCESSFUL:
-                new UnzipOperation().execute(context, new File(savedFilePath));
-                break;
-
-            case DownloadManager.STATUS_FAILED:
-                Toast.makeText(context, context.getResources().getString(R.string.download_failed_msg) + reason, Toast.LENGTH_LONG).show();
-                break;
+                case DownloadManager.STATUS_FAILED:
+                    // get the reason - more detail on the status
+                    int reason = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_REASON));
+                    Toast.makeText(context, context.getResources().getString(R.string.download_failed_msg) + reason, Toast.LENGTH_LONG).show();
+                    break;
+            }
         }
-
         cursor.close();
     }
 
@@ -97,8 +92,7 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
             try {
                 f.delete();
 
-                final String issueId = f.getName().split("\\.(?=[^\\.]+$)")[0];
-                final Magazines.Issue issue = Magazines.getIssue(new File(context.getExternalFilesDir(null), issueId));
+                final Magazines.Issue issue = Magazines.getIssueFromFile(context, f);
 
                 // prepare intent which is triggered if the notification is selected
                 Intent intent = new Intent(context, ItemListActivity.class);
@@ -120,6 +114,7 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
 
                 ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id, n);
 
+                issue.setStatus(Magazines.Issue.Status.other_saved);
                 LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(DownloadCompleteBroadcastReceiver.ACTION_DOWNLOAD_EXTRACTED));
 
             } catch (IOException e) {

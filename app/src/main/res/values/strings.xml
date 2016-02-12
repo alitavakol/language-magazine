@@ -109,17 +109,24 @@
 
     <string name="my_issues">On My Device</string>
     <string name="available_issues">Available for Download</string>
+    <string name="completed_issues">Completed</string>
+
+    <!-- issues list tab titles -->
+    <array name="issue_list_tab_titles">
+        <item>@string/my_issues</item>
+        <item>@string/available_issues</item>
+        <item>@string/completed_issues</item>
+    </array>
 
     <string name="active_issue">Currently Learning</string>
     <string name="saved_issues">Other Saved Issues</string>
-    <string name="completed_issues">Completed</string>
     <string name="downloading_issues">Downloading</string>
     <string name="more_available_issues">More Available Magazines</string>
 
+    <!-- issues list fragments section header titles -->
     <array name="issue_list_header_titles">
         <item>@string/active_issue</item>
         <item>@string/saved_issues</item>
-        <item>@string/completed_issues</item>
         <item>@string/downloading_issues</item>
         <item>@string/more_available_issues</item>
     </array>

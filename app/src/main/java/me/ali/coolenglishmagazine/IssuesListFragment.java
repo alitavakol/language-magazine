@@ -1,7 +1,7 @@
 package me.ali.coolenglishmagazine;
 
+import android.app.DownloadManager;
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -17,13 +17,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.File;
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.LogHelper;
 
 
 /**
@@ -34,7 +39,12 @@ import me.ali.coolenglishmagazine.model.Magazines;
  * Use the {@link IssuesListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, Magazines.Issue.OnStatusChangedListener {
+    private static final String TAG = LogHelper.makeLogTag(IssuesListFragment.class);
+
+    /**
+     * tab filter argument name
+     */
     private static final String ARG_FILTER = "filter";
 
     /**
@@ -48,10 +58,18 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
     public static final int AVAILABLE_ISSUES = 1;
 
     /**
+     * "completed" issues (either saved on device or available online) tab index
+     */
+    public static final int COMPLETED_ISSUES = 2;
+
+    /**
      * category of issues to include
      */
     public int filter;
 
+    /**
+     * callback activity via this
+     */
     private OnFragmentInteractionListener mListener;
 
     public IssuesListFragment() {
@@ -156,10 +174,25 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
         mListener = null;
     }
 
-    protected IssuesRecyclerViewAdapter adapter;
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        for (Timer timer : issue2timer.values()) {
+            if (timer != null) {
+                timer.cancel();
+            }
+        }
+        issue2timer.clear();
+
+        // ensure listener is not set after this call again. for example, in volley success callback.
+        for (Magazines.Issue issue : ((IssueListActivity) getActivity()).magazines.ISSUES)
+            issue.removeOnStatusChangedListener(this);
+    }
+
+    protected IssuesRecyclerViewAdapter adapter = new IssuesRecyclerViewAdapter();
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        adapter = new IssuesRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
 
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
@@ -172,6 +205,11 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
     }
+
+    /**
+     * progress bars update timer
+     */
+    static HashMap<Magazines.Issue, Timer> issue2timer = new HashMap<>();
 
     public class IssuesRecyclerViewAdapter extends RecyclerView.Adapter<IssuesRecyclerViewAdapter.ViewHolder> {
         private List<Magazines.Issue> issues = new ArrayList<>();
@@ -194,20 +232,26 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
                 return;
 
             issues = new ArrayList<>();
-            switch (filter) {
-                case MY_ISSUES:
-                    for (Magazines.Issue issue : ((IssueListActivity) getActivity()).magazines.ISSUES) {
-                        if (new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists())
-                            issues.add(issue);
-                    }
-                    break;
+            for (Magazines.Issue issue : ((IssueListActivity) getActivity()).magazines.ISSUES) {
+                issue.addOnStatusChangedListener(IssuesListFragment.this);
 
-                case AVAILABLE_ISSUES:
-                    for (Magazines.Issue issue : ((IssueListActivity) getActivity()).magazines.ISSUES) {
-                        if (!(new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists()))
+                Magazines.Issue.Status status = issue.getStatus();
+                switch (filter) {
+                    case MY_ISSUES:
+                        if (status == Magazines.Issue.Status.other_saved || status == Magazines.Issue.Status.active)
                             issues.add(issue);
-                    }
-                    break;
+                        break;
+
+                    case AVAILABLE_ISSUES:
+                        if (status == Magazines.Issue.Status.downloading || status == Magazines.Issue.Status.available)
+                            issues.add(issue);
+                        break;
+
+                    case COMPLETED_ISSUES:
+                        if (status == Magazines.Issue.Status.completed)
+                            issues.add(issue);
+                        break;
+                }
             }
 
             Magazines.Issue.Status[] statuses = Magazines.Issue.Status.values();
@@ -216,7 +260,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
             int[] isHeaderAdded = new int[statuses.length];
 
             for (Magazines.Issue issue : issues) {
-                int status = issue.status.ordinal();
+                int status = issue.getStatusValue();
                 isHeaderAdded[status]++;
             }
 
@@ -225,7 +269,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
                 int status = s.ordinal();
                 if (isHeaderAdded[status] > 0 && (isHeaderAdded[status] < issues.size() || (s != Magazines.Issue.Status.available && s != Magazines.Issue.Status.other_saved))) {
                     Magazines.Issue h = new Magazines.Issue();
-                    h.status = statuses[status - 1];
+                    h.setStatus(statuses[status - 1]);
                     issues.add(h);
                 }
             }
@@ -234,7 +278,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
             Collections.sort(issues, new Comparator<Magazines.Issue>() {
                 @Override
                 public int compare(Magazines.Issue issue1, Magazines.Issue issue2) {
-                    return issue1.status.ordinal() - issue2.status.ordinal();
+                    return issue1.getStatusValue() - issue2.getStatusValue();
                 }
             });
 
@@ -256,7 +300,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
         }
 
         public boolean isHeader(int position) {
-            return issues.get(position).status.ordinal() % 2 == 0;
+            return issues.get(position).getStatusValue() % 2 == 0;
         }
 
         @Override
@@ -265,24 +309,92 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
             final Magazines.Issue issue = issues.get(position);
 
             if (isHeader(position)) {
-                ((TextView) holder.view.findViewById(R.id.headerTextView)).setText(getResources().obtainTypedArray(R.array.issue_list_header_titles).getString(issue.status.ordinal() / 2));
+                ((TextView) holder.view.findViewById(R.id.headerTextView)).setText(getResources().obtainTypedArray(R.array.issue_list_header_titles).getString(issue.getStatusValue() / 2));
                 return;
             }
 
-            holder.titleTextView.setText(issue.title);
-            holder.subtitleTextView.setText(issue.title);
-            holder.posterImageView.setImageBitmap(BitmapFactory.decodeFile(new File(issue.rootDirectory, Magazines.Issue.posterFileName).getAbsolutePath()));
+            if (!holder.titleTextView.getText().equals(issue.title)) {
+                holder.titleTextView.setText(issue.title);
+                holder.subtitleTextView.setText(issue.title);
+                holder.posterImageView.setImageBitmap(issue.poster);
 
-            holder.view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mListener.onItemClicked(issue);
+                holder.view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mListener.onItemClicked(issue);
+                    }
+                });
+            }
+
+            final int status = Magazines.getDownloadStatus(getActivity(), issue);
+            boolean enableTimer = true;
+
+            switch (status) {
+                case DownloadManager.STATUS_PENDING:
+                case DownloadManager.STATUS_PAUSED:
+                    LogHelper.i(TAG, "pending");
+                    holder.progressBar.setVisibility(View.VISIBLE);
+                    if (!holder.progressBar.isIndeterminate())
+                        holder.progressBar.setIndeterminate(true);
+                    break;
+
+                case DownloadManager.STATUS_RUNNING:
+                    LogHelper.i(TAG, "running");
+                    holder.progressBar.setVisibility(View.VISIBLE);
+                    if (holder.progressBar.isIndeterminate())
+                        holder.progressBar.setIndeterminate(false);
+                    holder.progressBar.setProgress(holder.dl_progress);
+                    break;
+
+                case -3: // the issue is being extracted
+                    LogHelper.i(TAG, "extracting");
+                    holder.progressBar.setVisibility(View.VISIBLE);
+                    if (!holder.progressBar.isIndeterminate()) {
+                        holder.progressBar.setIndeterminate(true);
+                        holder.progressBar.resetAnimation();
+                    }
+                    break;
+
+                default:
+                    LogHelper.i(TAG, "default");
+                    holder.progressBar.setVisibility(View.GONE);
+                    enableTimer = false;
+                    break;
+            }
+
+            if (enableTimer) {
+                Timer timer = IssuesListFragment.issue2timer.get(issue);
+                if (timer == null) {
+                    timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            holder.dl_progress = Magazines.getDownloadProgress(getActivity(), issue);
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    onBindViewHolder(holder, holder.getAdapterPosition());
+                                    LogHelper.i(TAG, "dl_progress: " + holder.dl_progress);
+                                }
+                            });
+                        }
+                    }, 0, 2000);
+                    IssuesListFragment.issue2timer.put(issue, timer);
+                    LogHelper.i(TAG, "timer created for ", issue.title);
                 }
-            });
+
+            } else {
+                Timer timer = IssuesListFragment.issue2timer.get(issue);
+                if (timer != null) {
+                    timer.cancel();
+                    IssuesListFragment.issue2timer.remove(issue);
+                    LogHelper.i(TAG, "timer for ", issue.title, " cancelled");
+                }
+            }
         }
 
         @Override
@@ -292,8 +404,12 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             public final View view;
+
             public final TextView titleTextView, subtitleTextView;
             public final ImageView posterImageView;
+            public final CircularProgressView progressBar;
+
+            public int dl_progress;
 
             public ViewHolder(View view) {
                 super(view);
@@ -302,11 +418,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
                 titleTextView = (TextView) view.findViewById(R.id.title);
                 subtitleTextView = (TextView) view.findViewById(R.id.subtitle);
                 posterImageView = (ImageView) view.findViewById(R.id.icon);
-            }
-
-            @Override
-            public String toString() {
-                return super.toString() + " '" + titleTextView.getText() + "'";
+                progressBar = (CircularProgressView) view.findViewById(R.id.progress);
             }
         }
     }
@@ -335,6 +447,10 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
     public void onRefresh() {
         swipeContainer.setRefreshing(true);
         ((IssueListActivity) getActivity()).syncAvailableIssuesList(-1, adapter);
+    }
+
+    public void onIssueStatusChanged(Magazines.Issue issue) {
+        adapter.preNotifyDataSetChanged(true);
     }
 
 }

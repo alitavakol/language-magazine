@@ -90,7 +90,7 @@ public class ItemListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         try {
-            issue = Magazines.getIssue(new File(getArguments().getString(IssueDetailActivity.ARG_ROOT_DIRECTORY)));
+            issue = Magazines.getIssue(getActivity(), new File(getArguments().getString(IssueDetailActivity.ARG_ROOT_DIRECTORY)));
             magazineContent.loadItems(issue);
 
         } catch (IOException e) {
@@ -207,7 +207,7 @@ public class ItemListFragment extends ListFragment {
 //            int moreTransparentColor = Color.argb(100, Color.red(color), Color.green(color), Color.blue(color));
 //            int levelColor = getResources().getIntArray(R.array.levelColors)[item.level];
 
-            ((ImageView) vi.findViewById(R.id.poster)).setImageBitmap(BitmapFactory.decodeFile(new File(item.rootDirectory, item.posterFileName).getAbsolutePath()));
+            ((ImageView) vi.findViewById(R.id.poster)).setImageBitmap(item.poster);
 
             final TextView textViewTitle = (TextView) vi.findViewById(R.id.title);
             textViewTitle.setText(item.title);

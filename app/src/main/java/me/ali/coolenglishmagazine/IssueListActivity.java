@@ -64,6 +64,14 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issue_list);
 
+        if (savedInstanceState == null) {
+            if (ACTION_SHOW_DOWNLOADS.equals(getIntent().getAction()))
+                currentTabIndex = 1;
+
+        } else {
+            currentTabIndex = savedInstanceState.getInt("currentTabIndex");
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 //        toolbar.setTitle(getTitle());
@@ -71,12 +79,11 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         setupViewPager(viewPager);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
-        if(ACTION_SHOW_DOWNLOADS.equals(getIntent().getAction()))
-            tabLayout.getTabAt(1).select();
+        tabLayout.getTabAt(currentTabIndex).select();
 
-        magazines.loadIssues(getExternalFilesDir(null).getAbsolutePath());
+        magazines.loadIssues(this, getExternalFilesDir(null).getAbsolutePath());
         firstMissingIssueNumber = findFirstMissingIssueNumber();
 
         if (findViewById(R.id.issue_detail_container) != null) {
@@ -88,11 +95,38 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
         }
     }
 
+    IssuesListFragment issuesListFragments[];
+
+    TabLayout tabLayout;
+    int currentTabIndex;
+
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(IssuesListFragment.newInstance(IssuesListFragment.MY_ISSUES), R.string.my_issues);
-        adapter.addFragment(IssuesListFragment.newInstance(IssuesListFragment.AVAILABLE_ISSUES), R.string.available_issues);
+
+        issuesListFragments = new IssuesListFragment[3];
+        for (int i = 0; i < issuesListFragments.length; i++) {
+            issuesListFragments[i] = IssuesListFragment.newInstance(i);
+            adapter.addFragment(issuesListFragments[i], getResources().obtainTypedArray(R.array.issue_list_tab_titles).getResourceId(i, 0));
+        }
+
         viewPager.setAdapter(adapter);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (currentTabIndex != tabLayout.getSelectedTabPosition())
+                    issuesListFragments[position].adapter.preNotifyDataSetChanged(true);
+                currentTabIndex = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -124,15 +158,26 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
         }
     }
 
-
     @Override
     protected void onStop() {
         super.onStop();
 
+        // this should happen before removing issue status change listener
         if (requestQueue != null) {
             requestQueue.cancelAll(this);
             requestQueue = null;
         }
+    }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        issuesListFragments[tab].adapter.preNotifyDataSetChanged(true);
+//    }
+
+    @Override
+    public void onSaveInstanceState(Bundle state) {
+        state.putInt("currentTabIndex", currentTabIndex);
     }
 
     @Override
@@ -215,7 +260,8 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
                             syncAvailableIssuesList(firstMissingIssueNumber, adapter);
                         }
 
-                        magazines.loadIssues(getExternalFilesDir(null).getAbsolutePath());
+                        magazines.loadIssues(IssueListActivity.this, getExternalFilesDir(null).getAbsolutePath());
+
                         IssueListActivity.this.firstMissingIssueNumber = firstMissingIssueNumber;
 
                         ((IssuesListFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(true);
@@ -292,6 +338,6 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
                 startActivity(intent);
             }
         }
-
     }
+
 }

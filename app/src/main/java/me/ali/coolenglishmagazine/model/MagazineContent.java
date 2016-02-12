@@ -1,5 +1,8 @@
 package me.ali.coolenglishmagazine.model;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -65,7 +68,7 @@ public class MagazineContent {
         item.title = e.attr("title");
         item.subtitle = e.attr("subtitle");
         item.audioFileName = e.attr("audio");
-        item.posterFileName = e.attr("poster");
+        item.poster = BitmapFactory.decodeFile(new File(item.rootDirectory, e.attr("poster")).getAbsolutePath());
         item.flagFileName = e.attr("flag");
         item.type = e.attr("type");
         item.level = Integer.parseInt(e.attr("level"));
@@ -85,7 +88,7 @@ public class MagazineContent {
          */
         public String audioFileName;
 
-        public String posterFileName;
+        public Bitmap poster;
 
         /**
          * accent shown by country flag
@@ -107,10 +110,5 @@ public class MagazineContent {
         public String type;
         public int level;
         public int id;
-
-        @Override
-        public String toString() {
-            return title;
-        }
     }
 }
