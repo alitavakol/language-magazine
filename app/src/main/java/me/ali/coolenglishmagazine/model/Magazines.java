@@ -71,38 +71,40 @@ public class Magazines {
 
     public static Issue getIssue(Context context, File issueRootDirectory) throws IOException {
         Issue issue = file2issue.get(issueRootDirectory);
+
         if (issue == null) {
             issue = new Issue();
+
+            File input = new File(issueRootDirectory, Issue.manifestFileName);
+            final Document doc = Jsoup.parse(input, "UTF-8", "");
+
+            Element e = doc.getElementsByTag("issue").first();
+            if (e == null) {
+                throw new IOException("Invalid manifest file.");
+            }
+
+            issue.rootDirectory = issueRootDirectory;
+            issue.title = e.attr("title");
+            issue.id = Integer.parseInt(issueRootDirectory.getName());
+            if (issue.poster == null)
+                issue.poster = BitmapFactory.decodeFile(new File(issue.rootDirectory, Magazines.Issue.posterFileName).getAbsolutePath());
+
+            int downloadStatus = getDownloadStatus(context, issue);
+
+            if (new File(issue.rootDirectory, Issue.completedFileName).exists())
+                issue.status = Issue.Status.completed;
+            else if (new File(issue.rootDirectory, Issue.activeFileName).exists())
+                issue.status = Issue.Status.active;
+            else if (new File(issue.rootDirectory, Issue.downloadedFileName).exists())
+                issue.status = Issue.Status.other_saved;
+            else if (downloadStatus != -1 && downloadStatus != DownloadManager.STATUS_SUCCESSFUL)
+                issue.status = Issue.Status.downloading;
+            else
+                issue.status = Issue.Status.available;
+
+            file2issue.put(issueRootDirectory, issue);
         }
 
-        File input = new File(issueRootDirectory, Issue.manifestFileName);
-        final Document doc = Jsoup.parse(input, "UTF-8", "");
-
-        Element e = doc.getElementsByTag("issue").first();
-        if (e == null) {
-            throw new IOException("Invalid manifest file.");
-        }
-
-        issue.rootDirectory = issueRootDirectory;
-        issue.title = e.attr("title");
-        issue.id = Integer.parseInt(issueRootDirectory.getName());
-        if (issue.poster == null)
-            issue.poster = BitmapFactory.decodeFile(new File(issue.rootDirectory, Magazines.Issue.posterFileName).getAbsolutePath());
-
-        int downloadStatus = getDownloadStatus(context, issue);
-
-        if (new File(issue.rootDirectory, Issue.completedFileName).exists())
-            issue.status = Issue.Status.completed;
-        else if (new File(issue.rootDirectory, Issue.activeFileName).exists())
-            issue.status = Issue.Status.active;
-        else if (new File(issue.rootDirectory, Issue.downloadedFileName).exists())
-            issue.status = Issue.Status.other_saved;
-        else if (downloadStatus != -1 && downloadStatus != DownloadManager.STATUS_SUCCESSFUL)
-            issue.status = Issue.Status.downloading;
-        else
-            issue.status = Issue.Status.available;
-
-        file2issue.put(issueRootDirectory, issue);
         return issue;
     }
 
@@ -266,7 +268,7 @@ public class Magazines {
             if (cursorUrl.equals(issueDownloadUrl)) {
                 int bytes_downloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
                 int bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-                progress = (bytes_downloaded * 100 / bytes_total);
+                progress = bytes_total != 0 ? (bytes_downloaded * 100 / bytes_total) : 0;
                 break;
             }
         }

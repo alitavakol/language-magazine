@@ -155,7 +155,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
     @Override
     public void onResume() {
         super.onResume();
-        adapter.preNotifyDataSetChanged(true);
+        adapter.preNotifyDataSetChanged(true, null);
     }
 
     @Override
@@ -195,7 +195,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(adapter);
 
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
+        GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -211,9 +211,17 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
      */
     static HashMap<Magazines.Issue, Timer> issue2timer = new HashMap<>();
 
-    public class IssuesRecyclerViewAdapter extends RecyclerView.Adapter<IssuesRecyclerViewAdapter.ViewHolder> {
-        private List<Magazines.Issue> issues = new ArrayList<>();
+    /**
+     * list of issues shown in this fragment (filtered by value of filter)
+     */
+    private List<Magazines.Issue> issues = new ArrayList<>();
 
+    /**
+     * header rows, which are of type {@link me.ali.coolenglishmagazine.model.Magazines.Issue}, but with {@link me.ali.coolenglishmagazine.model.Magazines.Issue.Status} as a header.
+     */
+    private static Magazines.Issue[] headers;
+
+    public class IssuesRecyclerViewAdapter extends RecyclerView.Adapter<IssuesRecyclerViewAdapter.ViewHolder> {
         // http://blog.sqisland.com/2014/12/recyclerview-grid-with-header.html
         private static final int ITEM_VIEW_TYPE_HEADER = 0;
         private static final int ITEM_VIEW_TYPE_ITEM = 1;
@@ -224,37 +232,67 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
         /**
          * calculates filtered list of issues, and then calls notifyDataSetChanged()
          *
-         * @param success if true, data set has changed
+         * @param changedIssue changed issue that leads to adapter update, or null to update adapter entirely.
+         * @param success      if true, data set has changed
          */
-        public void preNotifyDataSetChanged(boolean success) {
+        public void preNotifyDataSetChanged(boolean success, Magazines.Issue changedIssue) {
             swipeContainer.setRefreshing(false);
             if (!success)
                 return;
 
-            issues = new ArrayList<>();
-            for (Magazines.Issue issue : ((IssueListActivity) getActivity()).magazines.ISSUES) {
+//            issues = new ArrayList<>();
+            List<Magazines.Issue> issues_;
+            if (changedIssue == null)
+                issues_ = ((IssueListActivity) getActivity()).magazines.ISSUES;
+            else {
+                issues_ = new ArrayList<>();
+                issues_.add(changedIssue);
+            }
+            for (Magazines.Issue issue : issues_) {
                 issue.addOnStatusChangedListener(IssuesListFragment.this);
 
                 Magazines.Issue.Status status = issue.getStatus();
                 switch (filter) {
                     case MY_ISSUES:
-                        if (status == Magazines.Issue.Status.other_saved || status == Magazines.Issue.Status.active)
-                            issues.add(issue);
+                        if (status == Magazines.Issue.Status.other_saved || status == Magazines.Issue.Status.active) {
+                            if (!issues.contains(issue))
+                                issues.add(issue);
+                        } else {
+                            issues.remove(issue);
+                        }
                         break;
 
                     case AVAILABLE_ISSUES:
-                        if (status == Magazines.Issue.Status.downloading || status == Magazines.Issue.Status.available)
-                            issues.add(issue);
+                        if (status == Magazines.Issue.Status.downloading || status == Magazines.Issue.Status.available) {
+                            if (!issues.contains(issue))
+                                issues.add(issue);
+                        } else {
+                            issues.remove(issue);
+                        }
                         break;
 
                     case COMPLETED_ISSUES:
-                        if (status == Magazines.Issue.Status.completed)
-                            issues.add(issue);
+                        if (status == Magazines.Issue.Status.completed) {
+                            if (!issues.contains(issue))
+                                issues.add(issue);
+                        } else {
+                            issues.remove(issue);
+                        }
                         break;
                 }
             }
 
             Magazines.Issue.Status[] statuses = Magazines.Issue.Status.values();
+
+            if (headers == null) {
+                headers = new Magazines.Issue[statuses.length / 2];
+                for (int i = 0; i < headers.length; i++) {
+                    headers[i] = new Magazines.Issue();
+                    headers[i].setStatus(statuses[2 * i]);
+                }
+            }
+            for (Magazines.Issue header : headers)
+                issues.remove(header);
 
             // true if header for the issue with the specified status is included in the array
             int[] isHeaderAdded = new int[statuses.length];
@@ -268,9 +306,8 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
             for (Magazines.Issue.Status s : statuses) {
                 int status = s.ordinal();
                 if (isHeaderAdded[status] > 0 && (isHeaderAdded[status] < issues.size() || (s != Magazines.Issue.Status.available && s != Magazines.Issue.Status.other_saved))) {
-                    Magazines.Issue h = new Magazines.Issue();
-                    h.setStatus(statuses[status - 1]);
-                    issues.add(h);
+                    if (!issues.contains(headers[status / 2]))
+                        issues.add(headers[status / 2]);
                 }
             }
 
@@ -330,7 +367,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
                 });
             }
 
-            final int status = Magazines.getDownloadStatus(getActivity(), issue);
+            final int status = Magazines.getDownloadStatus(getContext(), issue);
             boolean enableTimer = true;
 
             switch (status) {
@@ -338,15 +375,19 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
                 case DownloadManager.STATUS_PAUSED:
                     LogHelper.i(TAG, "pending");
                     holder.progressBar.setVisibility(View.VISIBLE);
-                    if (!holder.progressBar.isIndeterminate())
+                    if (!holder.progressBar.isIndeterminate()) {
                         holder.progressBar.setIndeterminate(true);
+                        holder.progressBar.resetAnimation();
+                    }
                     break;
 
                 case DownloadManager.STATUS_RUNNING:
                     LogHelper.i(TAG, "running");
                     holder.progressBar.setVisibility(View.VISIBLE);
-                    if (holder.progressBar.isIndeterminate())
+                    if (holder.progressBar.isIndeterminate()) {
                         holder.progressBar.setIndeterminate(false);
+                        holder.progressBar.resetAnimation();
+                    }
                     holder.progressBar.setProgress(holder.dl_progress);
                     break;
 
@@ -373,7 +414,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
                     timer.schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            holder.dl_progress = Magazines.getDownloadProgress(getActivity(), issue);
+                            holder.dl_progress = Magazines.getDownloadProgress(getContext(), issue);
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -382,7 +423,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
                                 }
                             });
                         }
-                    }, 0, 2000);
+                    }, 0, 3000);
                     IssuesListFragment.issue2timer.put(issue, timer);
                     LogHelper.i(TAG, "timer created for ", issue.title);
                 }
@@ -450,7 +491,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
     }
 
     public void onIssueStatusChanged(Magazines.Issue issue) {
-        adapter.preNotifyDataSetChanged(true);
+        adapter.preNotifyDataSetChanged(true, issue);
     }
 
 }

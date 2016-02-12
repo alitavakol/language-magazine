@@ -119,7 +119,7 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
             @Override
             public void onPageSelected(int position) {
                 if (currentTabIndex != tabLayout.getSelectedTabPosition())
-                    issuesListFragments[position].adapter.preNotifyDataSetChanged(true);
+                    issuesListFragments[position].adapter.preNotifyDataSetChanged(true, null);
                 currentTabIndex = position;
             }
 
@@ -264,14 +264,14 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
 
                         IssueListActivity.this.firstMissingIssueNumber = firstMissingIssueNumber;
 
-                        ((IssuesListFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(true);
+                        ((IssuesListFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(true, null);
 
                     } catch (IOException e) {
                         LogHelper.e(TAG, e.getMessage());
 
                     } finally {
                         syncing = false;
-                        ((IssuesListFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false);
+                        ((IssuesListFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false, null);
                     }
                 }
             }, new Response.ErrorListener() {
@@ -281,7 +281,7 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
                     Toast.makeText(IssueListActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
                     requestQueue.cancelAll(IssueListActivity.this);
                     syncing = false;
-                    ((IssuesListFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false);
+                    ((IssuesListFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false, null);
                 }
             }, null);
 
@@ -294,7 +294,7 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
             Toast.makeText(this, R.string.check_connection, Toast.LENGTH_SHORT).show();
             requestQueue.cancelAll(this);
             syncing = false;
-            ((IssuesListFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false);
+            ((IssuesListFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false, null);
         }
     }
 
