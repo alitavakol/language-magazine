@@ -95,7 +95,12 @@ public class IssueDetailFragment extends Fragment {
      */
     public class WebViewJavaScriptInterface {
         @JavascriptInterface
-        public void saveInstanceState(final String[] state) {
+        public void onAdjustLayoutComplete() {
+            getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    getView().setVisibility(View.VISIBLE);
+                }
+            });
         }
     }
 }

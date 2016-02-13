@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +24,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +34,7 @@ import java.util.TimerTask;
 import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
 import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.util.FileHelper;
+import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.widget.ObservableScrollView;
 
@@ -60,6 +63,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
     private View mPhotoViewContainer;
     private LinearLayout mHeaderSession;
     private FrameLayout issueDetailsContainer;
+    private TextView textViewHourglass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,6 +156,10 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         mPhotoViewContainer = findViewById(R.id.session_photo_container);
         mHeaderSession = (LinearLayout) findViewById(R.id.header_session);
         issueDetailsContainer = (FrameLayout) findViewById(R.id.issue_detail_container);
+
+        textViewHourglass = (TextView) findViewById(R.id.hourglass);
+        Typeface iconFont = FontManager.getTypeface(getApplicationContext(), FontManager.FONTAWESOME);
+        textViewHourglass.setTypeface(iconFont);
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
@@ -366,6 +374,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             lp.bottomMargin = headerTranslation + headerHeight;
             issueDetailsContainer.setLayoutParams(lp);
             issueDetailsContainer.setTranslationY(headerTranslation + headerHeight);
+            textViewHourglass.setTranslationY(headerTranslation + headerHeight);
             onScrollChanged(0, 0);
         }
     };

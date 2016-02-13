@@ -177,6 +177,7 @@ public class Magazines {
 
         private Status status;
 
+        // TODO: what happens to memory if there are a lot of items in the list?
         public Bitmap poster;
 
         /**

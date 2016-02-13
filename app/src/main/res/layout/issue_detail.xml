@@ -3,4 +3,5 @@
     android:id="@+id/webView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="me.ali.coolenglishmagazine.IssueDetailFragment"/>
+    android:visibility="invisible"
+    tools:context="me.ali.coolenglishmagazine.IssueDetailFragment" />

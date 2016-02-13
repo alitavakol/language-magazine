@@ -45,6 +45,9 @@ adjustLayout = function(topMargin_, bottomMargin_, height_, accentColor_, textCo
 	);
 
 	adjustCustomLayout();
+
+	if(typeof(app) != 'undefined')
+		app.onAdjustLayoutComplete();
 }
 
 if(typeof(app) == 'undefined') { // on web browser

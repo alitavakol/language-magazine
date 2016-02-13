@@ -28,6 +28,15 @@
                 android:src="@mipmap/ic_launcher" />
         </FrameLayout>
 
+        <TextView
+            android:id="@+id/hourglass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/fa_hourglass"
+            android:textSize="72sp"
+            android:padding="@dimen/keyline_2"/>
+
         <FrameLayout
             android:id="@+id/issue_detail_container"
             android:layout_width="match_parent"
@@ -75,9 +84,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="end"
                 android:orientation="horizontal"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:gravity="end">
+                android:padding="@dimen/activity_horizontal_margin">
 
                 <Button
                     android:id="@+id/buttonDownload"
@@ -94,11 +103,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
                     android:layout_weight="1"
                     android:indeterminate="true"
                     android:indeterminateBehavior="repeat"
-                    android:max="100"
-                    android:layout_margin="@dimen/activity_horizontal_margin" />
+                    android:max="100" />
 
                 <ImageButton
                     android:id="@+id/buttonCancel"

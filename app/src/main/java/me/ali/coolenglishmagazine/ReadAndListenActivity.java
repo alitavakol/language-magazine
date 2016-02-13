@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.session.PlaybackState;
 import android.os.IBinder;
@@ -45,6 +46,7 @@ import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import me.ali.coolenglishmagazine.model.MagazineContent;
+import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 
@@ -149,6 +151,9 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         webView.getSettings().setJavaScriptEnabled(true);
         webView.addJavascriptInterface(webViewJavaScriptInterface, "app");
         webView.setVerticalScrollBarEnabled(false);
+
+        Typeface iconFont = FontManager.getTypeface(getApplicationContext(), FontManager.FONTAWESOME);
+        ((TextView) findViewById(R.id.hourglass)).setTypeface(iconFont);
 
         try {
             item = MagazineContent.getItem(new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
@@ -660,6 +665,15 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                         popupView.measure(View.MeasureSpec.makeMeasureSpec(webView.getWidth(), View.MeasureSpec.AT_MOST), View.MeasureSpec.UNSPECIFIED);
                         popupWindow.showAtLocation(webView, Gravity.TOP | Gravity.LEFT, left, top + height - popupView.getMeasuredHeight() + webView.getTop());
                     }
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public void onAdjustLayoutComplete() {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    webView.setVisibility(View.VISIBLE);
                 }
             });
         }
