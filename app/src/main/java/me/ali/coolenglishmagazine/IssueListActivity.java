@@ -162,7 +162,6 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
     protected void onStop() {
         super.onStop();
 
-        // this should happen before removing issue status change listener
         if (requestQueue != null) {
             requestQueue.cancelAll(this);
             requestQueue = null;

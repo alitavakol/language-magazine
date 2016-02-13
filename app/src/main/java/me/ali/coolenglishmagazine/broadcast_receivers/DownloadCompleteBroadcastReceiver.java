@@ -69,30 +69,29 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
     /**
      * a background task that extracts downloaded zip archive, and emits a download extracted broadcast intent.
      */
-    private class UnzipOperation extends AsyncTask<Object, Void, Void> {
+    private class UnzipOperation extends AsyncTask<Object, Void, File> {
         Context context;
         File f;
 
         @Override
-        protected Void doInBackground(Object... params) {
+        protected File doInBackground(Object... params) {
             context = (Context) params[0];
             f = (File) params[1];
 
             try {
-                ZipHelper.unzip(f, context.getExternalFilesDir(null));
+                return ZipHelper.unzip(f, context.getExternalFilesDir(null));
             } catch (IOException e) {
                 LogHelper.e(TAG, e.getMessage());
+                return null;
             }
-
-            return null;
         }
 
         @Override
-        protected void onPostExecute(Void params) {
+        protected void onPostExecute(File rootFile) {
             try {
                 f.delete();
 
-                final Magazines.Issue issue = Magazines.getIssueFromFile(context, f);
+                final Magazines.Issue issue = Magazines.getIssueFromFile(context, rootFile);
 
                 // prepare intent which is triggered if the notification is selected
                 Intent intent = new Intent(context, ItemListActivity.class);

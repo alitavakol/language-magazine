@@ -73,8 +73,6 @@ public class Magazines {
         Issue issue = file2issue.get(issueRootDirectory);
 
         if (issue == null) {
-            issue = new Issue();
-
             File input = new File(issueRootDirectory, Issue.manifestFileName);
             final Document doc = Jsoup.parse(input, "UTF-8", "");
 
@@ -82,6 +80,8 @@ public class Magazines {
             if (e == null) {
                 throw new IOException("Invalid manifest file.");
             }
+
+            issue = new Issue();
 
             issue.rootDirectory = issueRootDirectory;
             issue.title = e.attr("title");
@@ -159,6 +159,9 @@ public class Magazines {
          */
         public int id;
 
+        /**
+         * issue status is used to classify them in the issues list activity, and show them in appropriate tab and in proper section.
+         */
         public enum Status {
             header_active,
             active,
@@ -176,23 +179,30 @@ public class Magazines {
 
         public Bitmap poster;
 
+        /**
+         * see {@link me.ali.coolenglishmagazine.model.Magazines.Issue.Status} for more information.
+         * @return issue status ordinal
+         */
         public int getStatusValue() {
             return status.ordinal();
         }
 
+        /**
+         * see {@link me.ali.coolenglishmagazine.model.Magazines.Issue.Status} for more information.
+         * @return issue status
+         */
         public Status getStatus() {
             return status;
         }
 
+        /**
+         * changes issue status. see {@link me.ali.coolenglishmagazine.model.Magazines.Issue.Status} for more information.
+         * @param status new {@link me.ali.coolenglishmagazine.model.Magazines.Issue.Status} value
+         */
         public void setStatus(Status status) {
             this.status = status;
             for (OnStatusChangedListener listener : listeners)
                 listener.onIssueStatusChanged(this);
-        }
-
-        @Override
-        public String toString() {
-            return title;
         }
 
         public void addOnStatusChangedListener(OnStatusChangedListener listener) {

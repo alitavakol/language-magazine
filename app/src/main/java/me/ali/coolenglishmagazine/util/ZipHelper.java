@@ -19,11 +19,13 @@ public class ZipHelper {
      *
      * @param zipFile
      * @param targetDirectory
+     * @return first encountered file/folder
      * @throws IOException
      */
-    public static void unzip(File zipFile, File targetDirectory) throws IOException {
-        ZipInputStream zis = new ZipInputStream(
-                new BufferedInputStream(new FileInputStream(zipFile)));
+    public static File unzip(File zipFile, File targetDirectory) throws IOException {
+        ZipInputStream zis = new ZipInputStream(new BufferedInputStream(new FileInputStream(zipFile)));
+        File rootFile = null;
+
         try {
             ZipEntry ze;
             int count;
@@ -32,6 +34,9 @@ public class ZipHelper {
             while ((ze = zis.getNextEntry()) != null) {
                 File file = new File(targetDirectory, ze.getName());
                 File dir = ze.isDirectory() ? file : file.getParentFile();
+
+                if(rootFile == null)
+                    rootFile = file;
 
                 if (!dir.isDirectory() && !dir.mkdirs())
                     throw new FileNotFoundException("Failed to ensure directory: " +
@@ -58,6 +63,8 @@ public class ZipHelper {
         } finally {
             zis.close();
         }
+
+        return rootFile;
     }
 
 }

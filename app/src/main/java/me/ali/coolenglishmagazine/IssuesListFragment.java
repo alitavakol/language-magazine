@@ -311,11 +311,14 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
                 }
             }
 
-            // sorting with respect to issue status
+            // sorting with respect to issue status and id
             Collections.sort(issues, new Comparator<Magazines.Issue>() {
                 @Override
                 public int compare(Magazines.Issue issue1, Magazines.Issue issue2) {
-                    return issue1.getStatusValue() - issue2.getStatusValue();
+                    int comparison = issue1.getStatusValue() - issue2.getStatusValue();
+                    if(comparison == 0)
+                        comparison = issue1.id - issue2.id;
+                    return comparison;
                 }
             });
 
