@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fillViewport="true"
-    android:overScrollMode="never"
+    android:overScrollMode="ifContentScrolls"
     tools:context="me.ali.coolenglishmagazine.IssueDetailActivity"
     tools:ignore="MergeRootFrame">
 

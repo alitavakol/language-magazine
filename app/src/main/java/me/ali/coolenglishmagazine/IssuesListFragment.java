@@ -316,7 +316,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
                 @Override
                 public int compare(Magazines.Issue issue1, Magazines.Issue issue2) {
                     int comparison = issue1.getStatusValue() - issue2.getStatusValue();
-                    if(comparison == 0)
+                    if (comparison == 0)
                         comparison = issue1.id - issue2.id;
                     return comparison;
                 }
@@ -421,7 +421,9 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    onBindViewHolder(holder, holder.getAdapterPosition());
+                                    int position = holder.getAdapterPosition();
+                                    if (position != RecyclerView.NO_POSITION)
+                                        onBindViewHolder(holder, position);
                                     LogHelper.i(TAG, "dl_progress: " + holder.dl_progress);
                                 }
                             });
