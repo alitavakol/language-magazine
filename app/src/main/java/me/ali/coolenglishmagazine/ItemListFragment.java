@@ -3,10 +3,12 @@ package me.ali.coolenglishmagazine;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +21,12 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 
 import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
 import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.BitmapHelper;
 
 /**
  * A list fragment representing a list of magazine items. This fragment
@@ -207,7 +211,12 @@ public class ItemListFragment extends ListFragment {
 //            int moreTransparentColor = Color.argb(100, Color.red(color), Color.green(color), Color.blue(color));
 //            int levelColor = getResources().getIntArray(R.array.levelColors)[item.level];
 
-            ((ImageView) vi.findViewById(R.id.poster)).setImageBitmap(BitmapFactory.decodeFile(new File(item.rootDirectory, item.posterFileName).getAbsolutePath()));
+            // load downsampled poster
+            int w = parent.getMinimumWidth();
+            int h = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
+            // TODO: load bitmap in an async task, http://developer.android.com/training/displaying-bitmaps/process-bitmap.html
+            final Bitmap bitmap = BitmapHelper.decodeSampledBitmapFromFile(new File(item.rootDirectory, item.posterFileName).getAbsolutePath(), w, h);
+            ((ImageView) vi.findViewById(R.id.poster)).setImageBitmap(bitmap);
 
             final TextView textViewTitle = (TextView) vi.findViewById(R.id.title);
             textViewTitle.setText(item.title);

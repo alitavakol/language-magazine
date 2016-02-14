@@ -78,7 +78,6 @@ public class IssueDetailFragment extends Fragment {
             });
             webView.getSettings().setJavaScriptEnabled(true);
             webView.addJavascriptInterface(webViewJavaScriptInterface, "app");
-            webView.setVerticalScrollBarEnabled(false);
 
             final File input = new File(issue.rootDirectory, Magazines.Issue.contentFileName);
             webView.loadUrl(input.toURI().toString());

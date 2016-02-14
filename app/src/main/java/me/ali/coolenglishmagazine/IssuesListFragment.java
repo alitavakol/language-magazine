@@ -2,12 +2,14 @@ package me.ali.coolenglishmagazine;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,6 +31,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.BitmapHelper;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 
@@ -360,7 +364,18 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
             if (!holder.titleTextView.getText().equals(issue.title)) {
                 holder.titleTextView.setText(issue.title);
                 holder.subtitleTextView.setText(issue.title);
-                holder.posterImageView.setImageBitmap(issue.poster);
+
+                // http://stackoverflow.com/a/31162004
+                holder.itemView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        int w = holder.itemView.getWidth();
+                        int h = 4 * w / 3;
+                        // TODO: load bitmap in an async task, http://developer.android.com/training/displaying-bitmaps/process-bitmap.html
+                        final Bitmap bitmap = BitmapHelper.decodeSampledBitmapFromFile(new File(issue.rootDirectory, Magazines.Issue.posterFileName).getAbsolutePath(), w, h);
+                        holder.posterImageView.setImageBitmap(bitmap);
+                    }
+                });
 
                 holder.view.setOnClickListener(new View.OnClickListener() {
                     @Override

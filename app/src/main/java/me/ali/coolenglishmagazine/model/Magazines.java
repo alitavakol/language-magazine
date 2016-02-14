@@ -3,8 +3,6 @@ package me.ali.coolenglishmagazine.model;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -86,8 +84,8 @@ public class Magazines {
             issue.rootDirectory = issueRootDirectory;
             issue.title = e.attr("title");
             issue.id = Integer.parseInt(issueRootDirectory.getName());
-            if (issue.poster == null)
-                issue.poster = BitmapFactory.decodeFile(new File(issue.rootDirectory, Magazines.Issue.posterFileName).getAbsolutePath());
+//            if (issue.poster == null)
+//                issue.poster = BitmapFactory.decodeFile(new File(issue.rootDirectory, Magazines.Issue.posterFileName).getAbsolutePath());
 
             int downloadStatus = getDownloadStatus(context, issue);
 
@@ -178,7 +176,7 @@ public class Magazines {
         private Status status;
 
         // TODO: what happens to memory if there are a lot of items in the list?
-        public Bitmap poster;
+//        public Bitmap poster;
 
         /**
          * see {@link me.ali.coolenglishmagazine.model.Magazines.Issue.Status} for more information.
