@@ -4,16 +4,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -59,6 +63,15 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
      */
     private boolean mTwoPane;
 
+    Toolbar toolbar;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+
+    /**
+     * currently selected navigation drawer item position
+     */
+    int currentNavDrawerPosition;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,14 +80,16 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
         if (savedInstanceState == null) {
             if (ACTION_SHOW_DOWNLOADS.equals(getIntent().getAction()))
                 currentTabIndex = 1;
-
-        } else {
-            currentTabIndex = savedInstanceState.getInt("currentTabIndex");
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 //        toolbar.setTitle(getTitle());
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+
+        setUpNavDrawer();
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         setupViewPager(viewPager);
@@ -95,9 +110,48 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
         }
     }
 
+    private void setUpNavDrawer() {
+        if (toolbar != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbar.setNavigationIcon(R.drawable.ic_drawer);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                }
+            });
+
+            navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(MenuItem menuItem) {
+                    menuItem.setChecked(true);
+
+                    switch (menuItem.getItemId()) {
+                        case R.id.navigation_item_1:
+                            Toast.makeText(IssueListActivity.this, "Item One", Toast.LENGTH_SHORT).show();
+                            currentNavDrawerPosition = 0;
+                            return true;
+
+                        case R.id.navigation_item_2:
+                            Toast.makeText(IssueListActivity.this, "Item Two", Toast.LENGTH_SHORT).show();
+                            currentNavDrawerPosition = 1;
+                            return true;
+
+                        default:
+                            return true;
+                    }
+                }
+            });
+        }
+    }
+
     IssuesListFragment issuesListFragments[];
 
     TabLayout tabLayout;
+
+    /**
+     * current view pager tab
+     */
     int currentTabIndex;
 
     private void setupViewPager(ViewPager viewPager) {
@@ -175,8 +229,22 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
 //    }
 
     @Override
-    public void onSaveInstanceState(Bundle state) {
-        state.putInt("currentTabIndex", currentTabIndex);
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("currentTabIndex", currentTabIndex);
+        outState.putInt("currentNavDrawerPosition", currentNavDrawerPosition);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        currentNavDrawerPosition = savedInstanceState.getInt("currentNavDrawerPosition", 0);
+        Menu menu = navigationView.getMenu();
+        menu.getItem(currentNavDrawerPosition).setChecked(true);
+
+        currentTabIndex = savedInstanceState.getInt("currentTabIndex");
     }
 
     @Override
