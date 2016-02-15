@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,13 +37,14 @@ import me.ali.coolenglishmagazine.util.LogHelper;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link IssuesListFragment.OnFragmentInteractionListener} interface
+ * {@link IssuesTabFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link IssuesListFragment#newInstance} factory method to
+ * Use the {@link IssuesTabFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, Magazines.Issue.OnStatusChangedListener {
-    private static final String TAG = LogHelper.makeLogTag(IssuesListFragment.class);
+public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, Magazines.Issue.OnStatusChangedListener {
+
+    private static final String TAG = LogHelper.makeLogTag(IssuesTabFragment.class);
 
     /**
      * tab filter argument name
@@ -76,7 +76,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
      */
     private OnFragmentInteractionListener mListener;
 
-    public IssuesListFragment() {
+    public IssuesTabFragment() {
         // Required empty public constructor
     }
 
@@ -85,10 +85,10 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
      * this fragment using the provided parameters.
      *
      * @param filter specifies whether to show available issues or my issues
-     * @return A new instance of fragment IssuesListFragment.
+     * @return A new instance of fragment IssuesTabFragment.
      */
-    public static IssuesListFragment newInstance(int filter) {
-        IssuesListFragment fragment = new IssuesListFragment();
+    public static IssuesTabFragment newInstance(int filter) {
+        IssuesTabFragment fragment = new IssuesTabFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_FILTER, filter);
         fragment.setArguments(args);
@@ -253,7 +253,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
                 issues_.add(changedIssue);
             }
             for (Magazines.Issue issue : issues_) {
-                issue.addOnStatusChangedListener(IssuesListFragment.this);
+                issue.addOnStatusChangedListener(IssuesTabFragment.this);
 
                 Magazines.Issue.Status status = issue.getStatus();
                 switch (filter) {
@@ -426,7 +426,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
             }
 
             if (enableTimer) {
-                Timer timer = IssuesListFragment.issue2timer.get(issue);
+                Timer timer = IssuesTabFragment.issue2timer.get(issue);
                 if (timer == null) {
                     timer = new Timer();
                     timer.schedule(new TimerTask() {
@@ -444,15 +444,15 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
                             });
                         }
                     }, 0, 3000);
-                    IssuesListFragment.issue2timer.put(issue, timer);
+                    IssuesTabFragment.issue2timer.put(issue, timer);
                     LogHelper.i(TAG, "timer created for ", issue.title);
                 }
 
             } else {
-                Timer timer = IssuesListFragment.issue2timer.get(issue);
+                Timer timer = IssuesTabFragment.issue2timer.get(issue);
                 if (timer != null) {
                     timer.cancel();
-                    IssuesListFragment.issue2timer.remove(issue);
+                    IssuesTabFragment.issue2timer.remove(issue);
                     LogHelper.i(TAG, "timer for ", issue.title, " cancelled");
                 }
             }

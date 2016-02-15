@@ -38,7 +38,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".IssueDetailActivity" />
         </activity>
-
         <activity
             android:name=".IssueListActivity"
             android:label="@string/title_issue_list"
@@ -88,6 +87,16 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".RootActivity"
+            android:label="@string/title_issue_list"
+            android:theme="@style/AppTheme.FitScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

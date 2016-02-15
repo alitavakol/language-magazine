@@ -25,6 +25,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.mikepenz.materialdrawer.DrawerBuilder;
 
 import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.util.InputStreamVolleyRequest;
@@ -46,7 +47,7 @@ import java.util.List;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class IssueListActivity extends AppCompatActivity implements IssuesListFragment.OnFragmentInteractionListener {
+public class IssueListActivity extends AppCompatActivity implements IssuesTabFragment.OnFragmentInteractionListener {
 
     private static final String TAG = LogHelper.makeLogTag(IssueListActivity.class);
 
@@ -75,7 +76,7 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_issue_list);
+        setContentView(R.layout.activity_issue_list_content);
 
         if (savedInstanceState == null) {
             if (ACTION_SHOW_DOWNLOADS.equals(getIntent().getAction()))
@@ -89,12 +90,13 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
-        setUpNavDrawer();
+//        setUpNavDrawer();
+        new DrawerBuilder().withActivity(this).withToolbar(toolbar).build();
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         setupViewPager(viewPager);
 
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(currentTabIndex).select();
 
@@ -145,7 +147,7 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
         }
     }
 
-    IssuesListFragment issuesListFragments[];
+    IssuesTabFragment issuesTabFragments[];
 
     TabLayout tabLayout;
 
@@ -157,10 +159,10 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        issuesListFragments = new IssuesListFragment[3];
-        for (int i = 0; i < issuesListFragments.length; i++) {
-            issuesListFragments[i] = IssuesListFragment.newInstance(i);
-            adapter.addFragment(issuesListFragments[i], getResources().obtainTypedArray(R.array.issue_list_tab_titles).getResourceId(i, 0));
+        issuesTabFragments = new IssuesTabFragment[3];
+        for (int i = 0; i < issuesTabFragments.length; i++) {
+            issuesTabFragments[i] = IssuesTabFragment.newInstance(i);
+            adapter.addFragment(issuesTabFragments[i], getResources().obtainTypedArray(R.array.issue_list_tab_titles).getResourceId(i, 0));
         }
 
         viewPager.setAdapter(adapter);
@@ -173,7 +175,7 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
             @Override
             public void onPageSelected(int position) {
                 if (currentTabIndex != tabLayout.getSelectedTabPosition())
-                    issuesListFragments[position].adapter.preNotifyDataSetChanged(true, null);
+                    issuesTabFragments[position].adapter.preNotifyDataSetChanged(true, null);
                 currentTabIndex = position;
             }
 
@@ -225,7 +227,7 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
 //    @Override
 //    public void onResume() {
 //        super.onResume();
-//        issuesListFragments[tab].adapter.preNotifyDataSetChanged(true);
+//        issuesTabFragments[tab].adapter.preNotifyDataSetChanged(true);
 //    }
 
     @Override
@@ -331,14 +333,14 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
 
                         IssueListActivity.this.firstMissingIssueNumber = firstMissingIssueNumber;
 
-                        ((IssuesListFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(true, null);
+                        ((IssuesTabFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(true, null);
 
                     } catch (IOException e) {
                         LogHelper.e(TAG, e.getMessage());
 
                     } finally {
                         syncing = false;
-                        ((IssuesListFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false, null);
+                        ((IssuesTabFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false, null);
                     }
                 }
             }, new Response.ErrorListener() {
@@ -348,7 +350,7 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
                     Toast.makeText(IssueListActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
                     requestQueue.cancelAll(IssueListActivity.this);
                     syncing = false;
-                    ((IssuesListFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false, null);
+                    ((IssuesTabFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false, null);
                 }
             }, null);
 
@@ -361,7 +363,7 @@ public class IssueListActivity extends AppCompatActivity implements IssuesListFr
             Toast.makeText(this, R.string.check_connection, Toast.LENGTH_SHORT).show();
             requestQueue.cancelAll(this);
             syncing = false;
-            ((IssuesListFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false, null);
+            ((IssuesTabFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false, null);
         }
     }
 
