@@ -1,23 +1,38 @@
 package me.ali.coolenglishmagazine;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.google.android.gms.plus.PlusOneButton;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.InputStreamVolleyRequest;
+import me.ali.coolenglishmagazine.util.LogHelper;
+import me.ali.coolenglishmagazine.util.NetworkHelper;
+import me.ali.coolenglishmagazine.util.ZipHelper;
 
 /**
  * A fragment with a Google +1 button.
@@ -28,19 +43,23 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class GalleryOfIssuesFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    // The request code must be 0 or greater.
-    private static final int PLUS_ONE_REQUEST_CODE = 0;
-    // The URL to +1.  Must be a valid URL.
-    private final String PLUS_ONE_URL = "http://developer.android.com";
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private static final String TAG = LogHelper.makeLogTag(GalleryOfIssuesFragment.class);
+
+    public static final String FRAGMENT_TAG = GalleryOfIssuesFragment.class.getName();
+
+    private static final String ARG_TAB_INDEX = "tab_index";
+
+    protected Magazines magazines = new Magazines();
+
+    private TabLayout tabLayout;
+
+    /**
+     * current view pager tab
+     */
+    private int currentTabIndex;
+
+    public OnFragmentInteractionListener mListener;
 
     public GalleryOfIssuesFragment() {
         // Required empty public constructor
@@ -50,16 +69,13 @@ public class GalleryOfIssuesFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param currentTabIndex view pager tab index to show on start
      * @return A new instance of fragment GalleryOfIssuesFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static GalleryOfIssuesFragment newInstance(String param1, String param2) {
+    public static GalleryOfIssuesFragment newInstance(int currentTabIndex) {
         GalleryOfIssuesFragment fragment = new GalleryOfIssuesFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARG_TAB_INDEX, currentTabIndex);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,10 +83,13 @@ public class GalleryOfIssuesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            currentTabIndex = getArguments().getInt(ARG_TAB_INDEX);
         }
+
+        magazines.loadIssues(getContext(), getContext().getExternalFilesDir(null).getAbsolutePath());
+        firstMissingIssueNumber = findFirstMissingIssueNumber();
     }
 
     @Override
@@ -79,37 +98,58 @@ public class GalleryOfIssuesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gallery_of_issues, container, false);
 
+        mListener.onToolbarCreated((Toolbar) view.findViewById(R.id.toolbar));
+
+        final ViewPager viewPager = (ViewPager) view.findViewById(R.id.view_pager);
+        setupViewPager(viewPager);
+
+        tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.getTabAt(currentTabIndex).select();
+
         return view;
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
-        setupViewPager((RootActivity) getActivity(), (ViewPager) getView().findViewById(R.id.view_pager));
-    }
+//    @Override
+//    public void onActivityCreated(Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//    }
 
     @Override
     public void onResume() {
         super.onResume();
+
+//        for(IssuesTabFragment fragment : issuesTabFragments)
+//            issuesTabFragments[currentTabIndex].adapter.preNotifyDataSetChanged(true, magazines.ISSUES);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        for (Magazines.Issue issue : magazines.ISSUES)
+            for (IssuesTabFragment fragment : issuesTabFragments)
+                issue.removeOnStatusChangedListener(fragment);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (requestQueue != null) {
+            requestQueue.cancelAll(this);
+            requestQueue = null;
+        }
     }
 
     @Override
@@ -129,8 +169,9 @@ public class GalleryOfIssuesFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onToolbarCreated(Toolbar toolbar);
+
+        void onIssueSelected(Magazines.Issue issue);
     }
 
     /**
@@ -138,15 +179,8 @@ public class GalleryOfIssuesFragment extends Fragment {
      */
     private IssuesTabFragment issuesTabFragments[];
 
-    /**
-     * current view pager tab
-     */
-    int currentTabIndex;
-
-    private TabLayout tabLayout;
-
-    private void setupViewPager(AppCompatActivity activity, ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(activity.getSupportFragmentManager());
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
 
         issuesTabFragments = new IssuesTabFragment[3];
         for (int i = 0; i < issuesTabFragments.length; i++) {
@@ -163,8 +197,8 @@ public class GalleryOfIssuesFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                if (currentTabIndex != tabLayout.getSelectedTabPosition())
-                    issuesTabFragments[position].adapter.preNotifyDataSetChanged(true, null);
+                if (currentTabIndex != position)
+                    issuesTabFragments[position].adapter.preNotifyDataSetChanged(true, magazines.ISSUES);
                 currentTabIndex = position;
             }
 
@@ -201,6 +235,113 @@ public class GalleryOfIssuesFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+
+    /**
+     * issue number of the first missing issue
+     */
+    int firstMissingIssueNumber;
+
+    /**
+     * do not perform sync when already in a sync job
+     */
+    boolean syncing = false;
+
+    RequestQueue requestQueue = null;
+
+    /**
+     * gets list of available issues from server.
+     */
+    void syncAvailableIssuesList(int firstMissingIssueNumber, final RecyclerView.Adapter adapter) {
+        if (firstMissingIssueNumber == -1) {
+            if (syncing)
+                return;
+            syncing = true;
+            firstMissingIssueNumber = this.firstMissingIssueNumber;
+        }
+
+        final Context context = getContext();
+
+        // Instantiate the RequestQueue.
+        if (requestQueue == null)
+            requestQueue = Volley.newRequestQueue(context);
+
+        if (NetworkHelper.isOnline(context)) {
+            final Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(context).getString("server_address", getResources().getString(R.string.pref_default_server_address)));
+            // http://docs.oracle.com/javase/tutorial/networking/urls/urlInfo.html
+            final String url = uri.toString() + "/api/issues?min_issue_number=" + firstMissingIssueNumber;
+
+            // Request a string response from the provided URL.
+            InputStreamVolleyRequest request = new InputStreamVolleyRequest(Request.Method.GET, url, new Response.Listener<byte[]>() {
+                @Override
+                public void onResponse(byte[] response) {
+                    try {
+                        final File cacheDir = context.getExternalCacheDir();
+                        final File zipFile = File.createTempFile("issues-preview", ".zip", cacheDir);
+
+                        FileOutputStream f = new FileOutputStream(zipFile);
+                        f.write(response, 0, response.length);
+                        f.close();
+
+                        ZipHelper.unzip(zipFile, context.getExternalFilesDir(null));
+                        zipFile.delete();
+
+                        // get next bunch of available issues, until the saved list of issues remain unchanged
+                        int firstMissingIssueNumber = findFirstMissingIssueNumber();
+                        if (firstMissingIssueNumber > GalleryOfIssuesFragment.this.firstMissingIssueNumber) {
+                            syncAvailableIssuesList(firstMissingIssueNumber, adapter);
+                        }
+
+                        magazines.loadIssues(context, context.getExternalFilesDir(null).getAbsolutePath());
+
+                        GalleryOfIssuesFragment.this.firstMissingIssueNumber = firstMissingIssueNumber;
+
+                        ((IssuesTabFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(true, magazines.ISSUES);
+
+                    } catch (IOException e) {
+                        LogHelper.e(TAG, e.getMessage());
+
+                    } finally {
+                        syncing = false;
+                        ((IssuesTabFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false, magazines.ISSUES);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
+                    requestQueue.cancelAll(context);
+                    syncing = false;
+                    ((IssuesTabFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false, magazines.ISSUES);
+                }
+            }, null);
+
+            request.setTag(this);
+
+            // Add the request to the RequestQueue.
+            requestQueue.add(request);
+
+        } else {
+            Toast.makeText(context, R.string.check_connection, Toast.LENGTH_SHORT).show();
+            requestQueue.cancelAll(this);
+            syncing = false;
+            ((IssuesTabFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false, magazines.ISSUES);
+        }
+    }
+
+    /**
+     * in order to ask server for new issues, we need to know minimum issue number to request for.
+     * in response to each request, server sends compressed file issues-preview-{10k}-{10k+9}.zip,
+     * which also contains issue with requested minimum issue number.
+     *
+     * @return issue number of the first missing magazine
+     */
+    protected int findFirstMissingIssueNumber() {
+        int i = 1;
+        while (new File(getContext().getExternalFilesDir(null), Integer.toString(i)).exists())
+            i++;
+        return i;
     }
 
 }

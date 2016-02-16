@@ -42,11 +42,6 @@
             android:name=".IssueListActivity"
             android:label="@string/title_issue_list"
             android:theme="@style/AppTheme.FitScreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".IssueDetailActivity"

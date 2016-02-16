@@ -25,6 +25,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 
 import me.ali.coolenglishmagazine.model.Magazines;
@@ -47,7 +48,7 @@ import java.util.List;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class IssueListActivity extends AppCompatActivity implements IssuesTabFragment.OnFragmentInteractionListener {
+public class IssueListActivity extends AppCompatActivity {
 
     private static final String TAG = LogHelper.makeLogTag(IssueListActivity.class);
 
@@ -65,13 +66,6 @@ public class IssueListActivity extends AppCompatActivity implements IssuesTabFra
     private boolean mTwoPane;
 
     Toolbar toolbar;
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
-
-    /**
-     * currently selected navigation drawer item position
-     */
-    int currentNavDrawerPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,11 +81,8 @@ public class IssueListActivity extends AppCompatActivity implements IssuesTabFra
         setSupportActionBar(toolbar);
 //        toolbar.setTitle(getTitle());
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
-
 //        setUpNavDrawer();
-        new DrawerBuilder().withActivity(this).withToolbar(toolbar).build();
+        Drawer drawer = new DrawerBuilder().withActivity(this).withToolbar(toolbar).build();
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         setupViewPager(viewPager);
@@ -109,41 +100,6 @@ public class IssueListActivity extends AppCompatActivity implements IssuesTabFra
             // If this view is present, then the
             // activity should be in two-pane mode.
             mTwoPane = true;
-        }
-    }
-
-    private void setUpNavDrawer() {
-        if (toolbar != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            toolbar.setNavigationIcon(R.drawable.ic_drawer);
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    drawerLayout.openDrawer(GravityCompat.START);
-                }
-            });
-
-            navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(MenuItem menuItem) {
-                    menuItem.setChecked(true);
-
-                    switch (menuItem.getItemId()) {
-                        case R.id.navigation_item_1:
-                            Toast.makeText(IssueListActivity.this, "Item One", Toast.LENGTH_SHORT).show();
-                            currentNavDrawerPosition = 0;
-                            return true;
-
-                        case R.id.navigation_item_2:
-                            Toast.makeText(IssueListActivity.this, "Item Two", Toast.LENGTH_SHORT).show();
-                            currentNavDrawerPosition = 1;
-                            return true;
-
-                        default:
-                            return true;
-                    }
-                }
-            });
         }
     }
 
@@ -174,8 +130,8 @@ public class IssueListActivity extends AppCompatActivity implements IssuesTabFra
 
             @Override
             public void onPageSelected(int position) {
-                if (currentTabIndex != tabLayout.getSelectedTabPosition())
-                    issuesTabFragments[position].adapter.preNotifyDataSetChanged(true, null);
+                if (currentTabIndex != position)
+                    issuesTabFragments[position].adapter.preNotifyDataSetChanged(true, magazines.ISSUES);
                 currentTabIndex = position;
             }
 
@@ -235,16 +191,11 @@ public class IssueListActivity extends AppCompatActivity implements IssuesTabFra
         super.onSaveInstanceState(outState);
 
         outState.putInt("currentTabIndex", currentTabIndex);
-        outState.putInt("currentNavDrawerPosition", currentNavDrawerPosition);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-
-        currentNavDrawerPosition = savedInstanceState.getInt("currentNavDrawerPosition", 0);
-        Menu menu = navigationView.getMenu();
-        menu.getItem(currentNavDrawerPosition).setChecked(true);
 
         currentTabIndex = savedInstanceState.getInt("currentTabIndex");
     }

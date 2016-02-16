@@ -29,7 +29,7 @@ public class Magazines {
     /**
      * An array of magazine issues.
      */
-    public final List<Issue> ISSUES = new ArrayList<>();
+    public final ArrayList<Issue> ISSUES = new ArrayList<>();
 
     /**
      * populates list of {@code ISSUES} from the specified root directory of device's local storage

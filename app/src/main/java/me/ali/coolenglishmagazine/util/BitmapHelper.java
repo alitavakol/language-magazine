@@ -1,14 +1,8 @@
 package me.ali.coolenglishmagazine.util;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import java.io.File;
-
-/**
- * Created by hamed on 2/14/16.
- */
 public class BitmapHelper {
 
     /**
