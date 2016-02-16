@@ -98,6 +98,8 @@ public class IssueDetailFragment extends Fragment {
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     getView().setVisibility(View.VISIBLE);
+                    getActivity().findViewById(R.id.hourglass).setVisibility(View.GONE);
+                    ((IssueDetailActivity)getActivity()).setOnScrollViewLayoutChangedListener();
                 }
             });
         }
