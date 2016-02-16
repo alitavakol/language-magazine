@@ -58,7 +58,7 @@ public class IssueDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.issue_detail, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_issue_detail, container, false);
 
         if (issue != null) {
             final WebView webView = (WebView) rootView.findViewById(R.id.webView);
