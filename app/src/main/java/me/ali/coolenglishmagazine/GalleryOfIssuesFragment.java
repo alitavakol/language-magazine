@@ -241,15 +241,17 @@ public class GalleryOfIssuesFragment extends Fragment {
                 @Override
                 public void onResponse(byte[] response) {
                     try {
-                        final File cacheDir = context.getExternalCacheDir();
-                        final File zipFile = File.createTempFile("issues-preview", ".zip", cacheDir);
+                        if(response.length > 0) {
+                            final File cacheDir = context.getExternalCacheDir();
+                            final File zipFile = File.createTempFile("issues-preview", ".zip", cacheDir);
 
-                        FileOutputStream f = new FileOutputStream(zipFile);
-                        f.write(response, 0, response.length);
-                        f.close();
+                            FileOutputStream f = new FileOutputStream(zipFile);
+                            f.write(response, 0, response.length);
+                            f.close();
 
-                        ZipHelper.unzip(zipFile, context.getExternalFilesDir(null));
-                        zipFile.delete();
+                            ZipHelper.unzip(zipFile, context.getExternalFilesDir(null));
+                            zipFile.delete();
+                        }
 
                         // get next bunch of available issues, until the saved list of issues remain unchanged
                         int firstMissingIssueNumber = findFirstMissingIssueNumber();
@@ -264,7 +266,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                         ((IssuesTabFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(true, magazines.ISSUES);
 
                     } catch (IOException e) {
-                        LogHelper.e(TAG, e.getMessage());
+//                        LogHelper.e(TAG, e.getMessage());
 
                     } finally {
                         syncing = false;
