@@ -34,23 +34,18 @@ import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.util.NetworkHelper;
 import me.ali.coolenglishmagazine.util.ZipHelper;
 
-/**
- * A fragment with a Google +1 button.
- * Activities that contain this fragment must implement the
- * {@link GalleryOfIssuesFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link GalleryOfIssuesFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class GalleryOfIssuesFragment extends Fragment {
 
     private static final String TAG = LogHelper.makeLogTag(GalleryOfIssuesFragment.class);
 
     public static final String FRAGMENT_TAG = GalleryOfIssuesFragment.class.getName();
 
+    /**
+     * fragment argument representing initial tab index to show.
+     */
     private static final String ARG_TAB_INDEX = "tab_index";
 
-    protected Magazines magazines = new Magazines();
+    public Magazines magazines;
 
     private TabLayout tabLayout;
 
@@ -69,13 +64,13 @@ public class GalleryOfIssuesFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param currentTabIndex view pager tab index to show on start
+     * @param initialTabIndex view pager tab index to show on start
      * @return A new instance of fragment GalleryOfIssuesFragment.
      */
-    public static GalleryOfIssuesFragment newInstance(int currentTabIndex) {
+    public static GalleryOfIssuesFragment newInstance(int initialTabIndex) {
         GalleryOfIssuesFragment fragment = new GalleryOfIssuesFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_TAB_INDEX, currentTabIndex);
+        args.putInt(ARG_TAB_INDEX, initialTabIndex);
         fragment.setArguments(args);
         return fragment;
     }
@@ -88,7 +83,9 @@ public class GalleryOfIssuesFragment extends Fragment {
             currentTabIndex = getArguments().getInt(ARG_TAB_INDEX);
         }
 
-        magazines.loadIssues(getContext(), getContext().getExternalFilesDir(null).getAbsolutePath());
+        magazines = new Magazines();
+        magazines.loadIssues(getActivity(), getActivity().getExternalFilesDir(null).getAbsolutePath());
+
         firstMissingIssueNumber = findFirstMissingIssueNumber();
     }
 
@@ -108,28 +105,6 @@ public class GalleryOfIssuesFragment extends Fragment {
         tabLayout.getTabAt(currentTabIndex).select();
 
         return view;
-    }
-
-//    @Override
-//    public void onActivityCreated(Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-//        for(IssuesTabFragment fragment : issuesTabFragments)
-//            issuesTabFragments[currentTabIndex].adapter.preNotifyDataSetChanged(true, magazines.ISSUES);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        for (Magazines.Issue issue : magazines.ISSUES)
-            for (IssuesTabFragment fragment : issuesTabFragments)
-                issue.removeOnStatusChangedListener(fragment);
     }
 
     @Override
@@ -169,43 +144,30 @@ public class GalleryOfIssuesFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+        /**
+         * called when toolbar is created, and container activity can set up navigation drawer.
+         *
+         * @param toolbar app toolbar
+         */
         void onToolbarCreated(Toolbar toolbar);
 
+        /**
+         * called when user clicks an issue item from the list of issues.
+         *
+         * @param issue selected issue
+         */
         void onIssueSelected(Magazines.Issue issue);
     }
-
-    /**
-     * view pager tab fragments
-     */
-    private IssuesTabFragment issuesTabFragments[];
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
 
-        issuesTabFragments = new IssuesTabFragment[3];
-        for (int i = 0; i < issuesTabFragments.length; i++) {
-            issuesTabFragments[i] = IssuesTabFragment.newInstance(i);
-            adapter.addFragment(issuesTabFragments[i], getResources().obtainTypedArray(R.array.issue_list_tab_titles).getResourceId(i, 0));
+        for (int i = 0; i < 3; i++) {
+            IssuesTabFragment fragment = IssuesTabFragment.newInstance(i);
+            adapter.addFragment(fragment, getResources().obtainTypedArray(R.array.issue_list_tab_titles).getResourceId(i, 0));
         }
 
         viewPager.setAdapter(adapter);
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (currentTabIndex != position)
-                    issuesTabFragments[position].adapter.preNotifyDataSetChanged(true, magazines.ISSUES);
-                currentTabIndex = position;
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -237,7 +199,6 @@ public class GalleryOfIssuesFragment extends Fragment {
         }
     }
 
-
     /**
      * issue number of the first missing issue
      */
@@ -248,6 +209,9 @@ public class GalleryOfIssuesFragment extends Fragment {
      */
     boolean syncing = false;
 
+    /**
+     * volley network request queue
+     */
     RequestQueue requestQueue = null;
 
     /**
@@ -261,7 +225,7 @@ public class GalleryOfIssuesFragment extends Fragment {
             firstMissingIssueNumber = this.firstMissingIssueNumber;
         }
 
-        final Context context = getContext();
+        final Context context = getActivity();
 
         // Instantiate the RequestQueue.
         if (requestQueue == null)

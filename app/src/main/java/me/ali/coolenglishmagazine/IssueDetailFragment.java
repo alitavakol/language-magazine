@@ -18,7 +18,7 @@ import me.ali.coolenglishmagazine.util.LogHelper;
 
 /**
  * A fragment representing a single Issue detail screen.
- * This fragment is either contained in a {@link IssueListActivity}
+ * This fragment is either contained in a {@link RootActivity}
  * in two-pane mode (on tablets) or a {@link IssueDetailActivity}
  * on handsets.
  */

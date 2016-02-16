@@ -39,19 +39,14 @@
                 android:value=".IssueDetailActivity" />
         </activity>
         <activity
-            android:name=".IssueListActivity"
-            android:label="@string/title_issue_list"
-            android:theme="@style/AppTheme.FitScreen">
-        </activity>
-        <activity
             android:name=".IssueDetailActivity"
             android:label="@string/title_issue_detail"
             android:launchMode="singleTask"
-            android:parentActivityName=".IssueListActivity"
+            android:parentActivityName=".RootActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".IssueListActivity" />
+                android:value=".RootActivity" />
         </activity>
 
         <receiver

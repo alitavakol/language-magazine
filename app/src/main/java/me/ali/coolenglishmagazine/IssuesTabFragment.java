@@ -143,30 +143,26 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
         swipeContainer.setRefreshing(false);
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        try {
-//            adapter.preNotifyDataSetChanged(true, ((GalleryOfIssuesFragment) getParentFragment()).magazines.ISSUES);
-//        } catch (Exception e) {
-//            e.getMessage();
-//        }
-//    }
+    GalleryOfIssuesFragment galleryOfIssuesFragment;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        galleryOfIssuesFragment = (GalleryOfIssuesFragment) getActivity().getSupportFragmentManager().findFragmentByTag(GalleryOfIssuesFragment.FRAGMENT_TAG);
+        adapter.preNotifyDataSetChanged(true, galleryOfIssuesFragment.magazines.ISSUES);
+    }
 
     @Override
     public void onPause() {
         super.onPause();
 
-        for (Timer timer : issue2timer.values()) {
-            if (timer != null) {
-                timer.cancel();
+        for (Magazines.Issue issue : issues) {
+            if(issue2timer.containsKey(issue)) {
+                issue2timer.get(issue).cancel();
+                issue2timer.remove(issue);
             }
+            issue.removeOnStatusChangedListener(this);
         }
-        issue2timer.clear();
-
-//        // ensure listener is not set after this call again. for example, in volley success callback.
-//        for (Magazines.Issue issue : ((GalleryOfIssuesFragment) getParentFragment()).magazines.ISSUES)
-//            issue.removeOnStatusChangedListener(this);
     }
 
     protected IssuesRecyclerViewAdapter adapter = new IssuesRecyclerViewAdapter();
@@ -347,7 +343,7 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
                 holder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((GalleryOfIssuesFragment) getActivity().getSupportFragmentManager().findFragmentByTag(GalleryOfIssuesFragment.FRAGMENT_TAG)).mListener.onIssueSelected(issue);
+                        galleryOfIssuesFragment.mListener.onIssueSelected(issue);
                     }
                 });
             }
@@ -457,7 +453,7 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
     @Override
     public void onRefresh() {
         swipeContainer.setRefreshing(true);
-        ((GalleryOfIssuesFragment) getParentFragment()).syncAvailableIssuesList(-1, adapter);
+        galleryOfIssuesFragment.syncAvailableIssuesList(-1, adapter);
     }
 
     public void onIssueStatusChanged(Magazines.Issue issue) {

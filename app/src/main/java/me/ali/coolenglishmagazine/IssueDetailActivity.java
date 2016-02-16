@@ -42,7 +42,7 @@ import me.ali.coolenglishmagazine.widget.ObservableScrollView;
  * An activity representing a single Issue detail screen. This
  * activity is only used narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
- * in a {@link IssueListActivity}.
+ * in a {@link RootActivity}.
  */
 public class IssueDetailActivity extends AppCompatActivity implements ObservableScrollView.Callbacks {
 
@@ -220,7 +220,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             case android.R.id.home:
                 finish();
 
-                Intent intent = new Intent(this, IssueListActivity.class);
+                Intent intent = new Intent(this, RootActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                 // This ID represents the Home or Up button. In the case of this

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.mikepenz.materialdrawer.DrawerBuilder;
 
@@ -16,7 +18,15 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
 
     private static final String TAG = LogHelper.makeLogTag(RootActivity.class);
 
-    protected Toolbar toolbar;
+    /**
+     * intent action that activates available issues tab, to show downloads in progress
+     */
+    public static final String ACTION_SHOW_DOWNLOADS = "me.ali.coolenglishmagazine.ACTION_SHOW_DOWNLOADS";
+
+    /**
+     * Whether or not the activity is in two-pane mode, i.e. running on a tablet device.
+     */
+    private boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,35 +34,67 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
         setContentView(R.layout.activity_root);
 
         if (savedInstanceState == null) {
+            int tabIndex = 0;
+            if (ACTION_SHOW_DOWNLOADS.equals(getIntent().getAction()))
+                tabIndex = 1; // switch to available issues tab within the gallery of issues fragment
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.root_fragment, GalleryOfIssuesFragment.newInstance(0), GalleryOfIssuesFragment.FRAGMENT_TAG)
+                    .replace(R.id.root_fragment, GalleryOfIssuesFragment.newInstance(tabIndex), GalleryOfIssuesFragment.FRAGMENT_TAG)
                     .commit();
         }
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.issue_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void onToolbarCreated(Toolbar toolbar) {
         setSupportActionBar(toolbar);
-        new DrawerBuilder().withActivity(this).withToolbar(toolbar).build();
+        new DrawerBuilder().withActivity(this).withToolbar(toolbar).withHeader(R.layout.drawer_header).build();
     }
 
     public void onIssueSelected(Magazines.Issue issue) {
-        final File downloaded = new File(issue.rootDirectory, Magazines.Issue.downloadedFileName);
-        if (downloaded.exists()) {
-            // jump straight into issue's table of contents if it is downloaded
-            Intent intent = new Intent(this, ItemListActivity.class);
-            intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
-            startActivity(intent);
+        if (mTwoPane) {
+            Bundle arguments = new Bundle();
+            arguments.putString(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
+            IssueDetailFragment fragment = new IssueDetailFragment();
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.issue_detail_container, fragment)
+                    .commit();
 
         } else {
-            // show intro and advertise the issue if it is not downloaded yet
-            Intent intent = new Intent(this, IssueDetailActivity.class);
-            intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
-            startActivity(intent);
+            final File downloaded = new File(issue.rootDirectory, Magazines.Issue.downloadedFileName);
+            if (downloaded.exists()) {
+                // jump straight into issue's table of contents if it is downloaded
+                Intent intent = new Intent(this, ItemListActivity.class);
+                intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
+                startActivity(intent);
+
+            } else {
+                // show intro and advertise the issue if it is not downloaded yet
+                Intent intent = new Intent(this, IssueDetailActivity.class);
+                intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
+                startActivity(intent);
+            }
         }
     }
 
