@@ -380,12 +380,15 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         public void onGlobalLayout() {
             headerTranslation = mPhotoViewContainer.getHeight();
             int headerHeight = mHeaderSession.getHeight();
+
             FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) issueDetailsContainer.getLayoutParams();
             lp.bottomMargin = headerTranslation + headerHeight;
             issueDetailsContainer.setLayoutParams(lp);
+
             issueDetailsContainer.setTranslationY(headerTranslation + headerHeight);
-//            textViewHourglass.setTranslationY(headerTranslation + headerHeight);
+
             onScrollChanged(0, 0);
+
             mScrollView.getViewTreeObserver().removeGlobalOnLayoutListener(mGlobalLayoutListener);
         }
     };

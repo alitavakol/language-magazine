@@ -1,7 +1,9 @@
 package me.ali.coolenglishmagazine;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
@@ -9,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,7 +85,7 @@ public class GalleryOfIssuesFragment extends Fragment {
         }
 
         magazines = new Magazines();
-        magazines.loadIssues(getActivity(), getActivity().getExternalFilesDir(null).getAbsolutePath());
+        magazines.loadIssues(getActivity());
 
         firstMissingIssueNumber = findFirstMissingIssueNumber();
     }
@@ -214,18 +215,80 @@ public class GalleryOfIssuesFragment extends Fragment {
      */
     RequestQueue requestQueue = null;
 
+    private class UnzipOperation extends AsyncTask<Object, Void, Boolean> {
+        IssuesTabFragment.IssuesRecyclerViewAdapter adapter;
+
+        @Override
+        protected Boolean doInBackground(Object... obj) {
+            byte[] response = (byte[]) obj[0];
+            adapter = (IssuesTabFragment.IssuesRecyclerViewAdapter) obj[1];
+
+            try {
+                final File cacheDir = getContext().getExternalCacheDir();
+                final File zipFile = File.createTempFile("issues-preview", ".zip", cacheDir);
+
+                FileOutputStream f = new FileOutputStream(zipFile);
+                f.write(response, 0, response.length);
+                f.close();
+
+                ZipHelper.unzip(zipFile, getContext().getExternalFilesDir(null));
+
+                zipFile.delete();
+                return true;
+
+            } catch (IOException e) {
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            if (success) {
+                final int firstMissingIssueNumber = findFirstMissingIssueNumber();
+
+                if (firstMissingIssueNumber > GalleryOfIssuesFragment.this.firstMissingIssueNumber) {
+                    magazines.loadIssues(getContext());
+
+                    adapter.preNotifyDataSetChanged(true, magazines.ISSUES);
+                    adapter.notifyItemRangeInserted(GalleryOfIssuesFragment.this.firstMissingIssueNumber, firstMissingIssueNumber - GalleryOfIssuesFragment.this.firstMissingIssueNumber);
+
+                    GalleryOfIssuesFragment.this.firstMissingIssueNumber = firstMissingIssueNumber;
+
+                    // rerun sync, because number of local issues has changed
+                    if (firstMissingIssueNumber % 10 == 0) { // if first missing issue number is not a multiple of 10, then we are already up to date.
+                        syncAvailableIssuesList(firstMissingIssueNumber, adapter);
+
+                    } else {
+                        success = false; // force jump into the following if block
+                    }
+
+                } else {
+                    success = false; // force jump into the following if block
+                }
+
+            } else {
+                Toast.makeText(getActivity(), R.string.unzip_error, Toast.LENGTH_SHORT).show();
+            }
+
+            if (!success) {
+                syncing = false;
+                adapter.preNotifyDataSetChanged(false, null);
+            }
+        }
+    }
+
     /**
      * gets list of available issues from server.
      */
-    void syncAvailableIssuesList(int firstMissingIssueNumber, final RecyclerView.Adapter adapter) {
+    void syncAvailableIssuesList(int firstMissingIssueNumber, final IssuesTabFragment.IssuesRecyclerViewAdapter adapter) {
         if (firstMissingIssueNumber == -1) {
             if (syncing)
                 return;
-            syncing = true;
             firstMissingIssueNumber = this.firstMissingIssueNumber;
         }
 
-        final Context context = getActivity();
+        final Activity context = getActivity();
+        syncing = true;
 
         // Instantiate the RequestQueue.
         if (requestQueue == null)
@@ -240,46 +303,23 @@ public class GalleryOfIssuesFragment extends Fragment {
             InputStreamVolleyRequest request = new InputStreamVolleyRequest(Request.Method.GET, url, new Response.Listener<byte[]>() {
                 @Override
                 public void onResponse(byte[] response) {
-                    try {
-                        if(response.length > 0) {
-                            final File cacheDir = context.getExternalCacheDir();
-                            final File zipFile = File.createTempFile("issues-preview", ".zip", cacheDir);
+                    if (response.length > 0) {
+                        new UnzipOperation().execute(response, adapter);
 
-                            FileOutputStream f = new FileOutputStream(zipFile);
-                            f.write(response, 0, response.length);
-                            f.close();
-
-                            ZipHelper.unzip(zipFile, context.getExternalFilesDir(null));
-                            zipFile.delete();
-                        }
-
-                        // get next bunch of available issues, until the saved list of issues remain unchanged
-                        int firstMissingIssueNumber = findFirstMissingIssueNumber();
-                        if (firstMissingIssueNumber > GalleryOfIssuesFragment.this.firstMissingIssueNumber) {
-                            syncAvailableIssuesList(firstMissingIssueNumber, adapter);
-                        }
-
-                        magazines.loadIssues(context, context.getExternalFilesDir(null).getAbsolutePath());
-
-                        GalleryOfIssuesFragment.this.firstMissingIssueNumber = firstMissingIssueNumber;
-
-                        ((IssuesTabFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(true, magazines.ISSUES);
-
-                    } catch (IOException e) {
-//                        LogHelper.e(TAG, e.getMessage());
-
-                    } finally {
+                    } else {
+                        // received success with status code 204 (no content)
                         syncing = false;
-                        ((IssuesTabFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false, magazines.ISSUES);
+                        adapter.preNotifyDataSetChanged(false, null);
+                        Toast.makeText(context, R.string.update_success, Toast.LENGTH_SHORT).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
                     requestQueue.cancelAll(context);
                     syncing = false;
-                    ((IssuesTabFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false, magazines.ISSUES);
+                    adapter.preNotifyDataSetChanged(false, null);
+                    Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
                 }
             }, null);
 
@@ -289,10 +329,10 @@ public class GalleryOfIssuesFragment extends Fragment {
             requestQueue.add(request);
 
         } else {
-            Toast.makeText(context, R.string.check_connection, Toast.LENGTH_SHORT).show();
             requestQueue.cancelAll(this);
             syncing = false;
-            ((IssuesTabFragment.IssuesRecyclerViewAdapter) adapter).preNotifyDataSetChanged(false, magazines.ISSUES);
+            adapter.preNotifyDataSetChanged(false, null);
+            Toast.makeText(context, R.string.check_connection, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -304,7 +344,7 @@ public class GalleryOfIssuesFragment extends Fragment {
      * @return issue number of the first missing magazine
      */
     protected int findFirstMissingIssueNumber() {
-        int i = 1;
+        int i = Math.max(1, firstMissingIssueNumber); // count up from last found value
         while (new File(getContext().getExternalFilesDir(null), Integer.toString(i)).exists())
             i++;
         return i;

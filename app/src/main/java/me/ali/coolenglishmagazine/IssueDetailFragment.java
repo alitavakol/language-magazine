@@ -1,5 +1,6 @@
 package me.ali.coolenglishmagazine;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -55,6 +56,7 @@ public class IssueDetailFragment extends Fragment {
         }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,8 +67,7 @@ public class IssueDetailFragment extends Fragment {
             webView.setWebViewClient(new WebViewClient() {
                 public void onPageFinished(WebView view, String url) {
                     final String command = "javascript:adjustLayout("
-                            + 0 // HTML content top margin
-                            + ", 0, 0, " // poster height
+                            + "0, 0, 0, " // top margin, bottom margin, poster height
                             + ContextCompat.getColor(getActivity(), R.color.colorAccent) // accent color
                             + ", 0xc5c5c5, " // text color
                             + ContextCompat.getColor(getActivity(), R.color.colorPrimary) // background color
@@ -74,10 +75,11 @@ public class IssueDetailFragment extends Fragment {
                             + ");";
                     webView.loadUrl(command);
 //                    webView.loadUrl("javascript:setInstanceState(" + new JSONArray(Arrays.asList(webViewState)) + ");");
+                    webView.loadUrl("javascript:app.onAdjustLayoutComplete();");
                 }
             });
             webView.getSettings().setJavaScriptEnabled(true);
-            webView.addJavascriptInterface(webViewJavaScriptInterface, "app");
+            webView.addJavascriptInterface(new WebViewJavaScriptInterface(), "app");
 
             final File input = new File(issue.rootDirectory, Magazines.Issue.contentFileName);
             webView.loadUrl(input.toURI().toString());
@@ -85,8 +87,6 @@ public class IssueDetailFragment extends Fragment {
 
         return rootView;
     }
-
-    WebViewJavaScriptInterface webViewJavaScriptInterface = new WebViewJavaScriptInterface();
 
     /**
      * JavaScript Interface. Web code can access methods in here
@@ -97,9 +97,9 @@ public class IssueDetailFragment extends Fragment {
         public void onAdjustLayoutComplete() {
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
-                    getView().setVisibility(View.VISIBLE);
-                    getActivity().findViewById(R.id.hourglass).setVisibility(View.GONE);
                     ((IssueDetailActivity)getActivity()).setOnScrollViewLayoutChangedListener();
+                    getActivity().findViewById(R.id.hourglass).setVisibility(View.GONE);
+                    getView().setVisibility(View.VISIBLE);
                 }
             });
         }

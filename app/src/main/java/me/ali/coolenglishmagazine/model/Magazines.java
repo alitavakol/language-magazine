@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 
 import me.ali.coolenglishmagazine.R;
 import me.ali.coolenglishmagazine.util.LogHelper;
@@ -34,10 +33,8 @@ public class Magazines {
     /**
      * populates list of {@code ISSUES} from the specified root directory of device's local storage
      */
-    public void loadIssues(Context context, String issuesRootDirectory) {
-        ISSUES.clear();
-
-        File f = new File(issuesRootDirectory);
+    public void loadIssues(Context context) {
+        File f = new File(context.getExternalFilesDir(null).getAbsolutePath());
         File[] files = f.listFiles();
         if (files != null) {
             for (File g : files) {
@@ -84,8 +81,6 @@ public class Magazines {
             issue.rootDirectory = issueRootDirectory;
             issue.title = e.attr("title");
             issue.id = Integer.parseInt(issueRootDirectory.getName());
-//            if (issue.poster == null)
-//                issue.poster = BitmapFactory.decodeFile(new File(issue.rootDirectory, Magazines.Issue.posterFileName).getAbsolutePath());
 
             int downloadStatus = getDownloadStatus(context, issue);
 
@@ -107,7 +102,8 @@ public class Magazines {
     }
 
     private void addIssue(Issue issue) {
-        ISSUES.add(issue);
+        if(!ISSUES.contains(issue))
+            ISSUES.add(issue);
     }
 
     /**

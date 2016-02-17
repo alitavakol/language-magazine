@@ -7,7 +7,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 
 import java.io.File;
 
@@ -66,9 +70,30 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * navigation drawer
+     */
+    Drawer drawer;
+
     public void onToolbarCreated(Toolbar toolbar) {
         setSupportActionBar(toolbar);
-        new DrawerBuilder().withActivity(this).withToolbar(toolbar).withHeader(R.layout.drawer_header).build();
+        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withName(R.string.app_name).withIcon(R.drawable.key);
+        SecondaryDrawerItem item2 = new SecondaryDrawerItem().withName(R.string.action_settings);
+        drawer = new DrawerBuilder().withActivity(this).withToolbar(toolbar).withHeader(R.layout.drawer_header).addDrawerItems(
+                item1,
+                new DividerDrawerItem(),
+                item2,
+                new SecondaryDrawerItem().withName(R.string.active_issue)
+        ).build();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer != null && drawer.isDrawerOpen()) {
+            drawer.closeDrawer();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     public void onIssueSelected(Magazines.Issue issue) {

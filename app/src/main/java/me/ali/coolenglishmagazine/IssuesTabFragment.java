@@ -149,7 +149,8 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
     public void onResume() {
         super.onResume();
         galleryOfIssuesFragment = (GalleryOfIssuesFragment) getActivity().getSupportFragmentManager().findFragmentByTag(GalleryOfIssuesFragment.FRAGMENT_TAG);
-        adapter.preNotifyDataSetChanged(true, galleryOfIssuesFragment.magazines.ISSUES);
+        if (adapter.preNotifyDataSetChanged(true, galleryOfIssuesFragment.magazines.ISSUES))
+            adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -157,7 +158,7 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
         super.onPause();
 
         for (Magazines.Issue issue : issues) {
-            if(issue2timer.containsKey(issue)) {
+            if (issue2timer.containsKey(issue)) {
                 issue2timer.get(issue).cancel();
                 issue2timer.remove(issue);
             }
@@ -208,12 +209,16 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
          * calculates filtered list of issues, and then calls notifyDataSetChanged()
          *
          * @param issues_ changed issue(s) that leads to adapter update.
-         * @param success if true, data set has changed
+         * @param success if true, data set has changed. if false, only the refresh animation will stop.
+         * @return true if tab issues list has changed
          */
-        public void preNotifyDataSetChanged(boolean success, ArrayList<Magazines.Issue> issues_) {
-            swipeContainer.setRefreshing(false);
-            if (!success)
-                return;
+        public boolean preNotifyDataSetChanged(boolean success, ArrayList<Magazines.Issue> issues_) {
+            if (!success) {
+                swipeContainer.setRefreshing(false);
+                return false;
+            }
+
+            boolean changed = false;
 
             for (Magazines.Issue issue : issues_) {
                 issue.addOnStatusChangedListener(IssuesTabFragment.this);
@@ -222,28 +227,37 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
                 switch (filter) {
                     case MY_ISSUES:
                         if (status == Magazines.Issue.Status.other_saved || status == Magazines.Issue.Status.active) {
-                            if (!issues.contains(issue))
+                            if (!issues.contains(issue)) {
                                 issues.add(issue);
-                        } else {
+                                changed = true;
+                            }
+                        } else if (issues.contains(issue)) {
                             issues.remove(issue);
+                            changed = true;
                         }
                         break;
 
                     case AVAILABLE_ISSUES:
+                        // TODO: this should be set to true if status toggles from/to downloading and available, within the same available issues list.
+                        changed = true;
                         if (status == Magazines.Issue.Status.downloading || status == Magazines.Issue.Status.available) {
-                            if (!issues.contains(issue))
+                            if (!issues.contains(issue)) {
                                 issues.add(issue);
-                        } else {
+                            }
+                        } else if (issues.contains(issue)) {
                             issues.remove(issue);
                         }
                         break;
 
                     case COMPLETED_ISSUES:
                         if (status == Magazines.Issue.Status.completed) {
-                            if (!issues.contains(issue))
+                            if (!issues.contains(issue)) {
                                 issues.add(issue);
-                        } else {
+                                changed = true;
+                            }
+                        } else if (issues.contains(issue)) {
                             issues.remove(issue);
+                            changed = true;
                         }
                         break;
                 }
@@ -289,7 +303,7 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
                 }
             });
 
-            notifyDataSetChanged();
+            return changed;
         }
 
         @Override
@@ -332,9 +346,9 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
                 holder.itemView.post(new Runnable() {
                     @Override
                     public void run() {
+                        // FIXME: load bitmap in an async task, http://developer.android.com/training/displaying-bitmaps/process-bitmap.html
                         int w = holder.itemView.getWidth();
                         int h = 4 * w / 3;
-                        // TODO: load bitmap in an async task, http://developer.android.com/training/displaying-bitmaps/process-bitmap.html
                         final Bitmap bitmap = BitmapHelper.decodeSampledBitmapFromFile(new File(issue.rootDirectory, Magazines.Issue.posterFileName).getAbsolutePath(), w, h);
                         holder.posterImageView.setImageBitmap(bitmap);
                     }
@@ -459,7 +473,9 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
     public void onIssueStatusChanged(Magazines.Issue issue) {
         ArrayList<Magazines.Issue> issues = new ArrayList<>();
         issues.add(issue);
-        adapter.preNotifyDataSetChanged(true, issues);
+        if (adapter.preNotifyDataSetChanged(true, issues)) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
 }
