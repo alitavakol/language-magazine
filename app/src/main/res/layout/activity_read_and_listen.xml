@@ -143,8 +143,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/controllers"
         android:layout_centerHorizontal="true"
-        android:paddingBottom="@dimen/gradient_edge_height"
-        android:src="@drawable/key"
+        android:background="@drawable/lock_bg"
+        android:padding="@dimen/gradient_edge_height"
         android:visibility="invisible" />
 
     <android.support.v7.widget.Toolbar

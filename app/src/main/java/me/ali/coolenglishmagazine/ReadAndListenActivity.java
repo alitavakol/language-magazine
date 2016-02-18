@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.session.PlaybackState;
@@ -24,10 +25,14 @@ import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 
 import org.json.JSONArray;
 import org.jsoup.Jsoup;
@@ -178,8 +183,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         findViewById(R.id.prev).setOnClickListener(this);
         findViewById(R.id.next).setOnClickListener(this);
         seekBar.setOnSeekBarChangeListener(this);
-        findViewById(R.id.lock).setOnClickListener(this);
-        findViewById(R.id.lock).setOnLongClickListener(this);
+
+        ImageView lock = (ImageView) findViewById(R.id.lock);
+        lock.setOnClickListener(this);
+        lock.setOnLongClickListener(this);
+        lock.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_vpn_key).sizeDp(72).color(Color.LTGRAY));
 
         try {
             File input = new File(item.rootDirectory, MagazineContent.Item.contentFileName);
