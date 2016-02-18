@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 
 import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
 import me.ali.coolenglishmagazine.model.MagazineContent;

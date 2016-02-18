@@ -1,4 +1,5 @@
 <me.ali.coolenglishmagazine.widget.ObservableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scroll_view"
     android:layout_width="match_parent"
@@ -44,7 +45,12 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/keyline_1">
 
-            <include layout="@layout/toolbar" />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_actionbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             <TextView
                 android:id="@+id/session_title"

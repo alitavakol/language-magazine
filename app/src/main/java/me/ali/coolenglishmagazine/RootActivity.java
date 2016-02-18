@@ -55,15 +55,8 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
             drawer_selection = savedInstanceState.getInt("drawer_selection");
 
         } else {
-            Fragment fragment;
-            switch (getIntent().getAction()) {
-                case ACTION_SHOW_TIMES:
-                    fragment = null;
-
-                default:
-                    // show the gallery of issues fragment by default
-                    fragment = GalleryOfIssuesFragment.newInstance(ACTION_SHOW_DOWNLOADS.equals(getIntent().getAction()) ? 1 : 0);
-            }
+            // show the gallery of issues fragment by default
+            Fragment fragment = GalleryOfIssuesFragment.newInstance(ACTION_SHOW_DOWNLOADS.equals(getIntent().getAction()) ? 1 : 0);
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.root_fragment, fragment, GalleryOfIssuesFragment.FRAGMENT_TAG)
@@ -86,6 +79,7 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
         PrimaryDrawerItem galleryOfIssues = new PrimaryDrawerItem().withName(R.string.gallery_of_issues).withIcon(GoogleMaterial.Icon.gmd_playlist_play).withTypeface(typeface);
         PrimaryDrawerItem englishTimes = new PrimaryDrawerItem().withName(R.string.cool_english_times).withIcon(GoogleMaterial.Icon.gmd_alarm).withTypeface(typeface);
         PrimaryDrawerItem readme = new PrimaryDrawerItem().withName(R.string.readme).withIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied).withTypeface(typeface);
+//        PrimaryDrawerItem preferences = new PrimaryDrawerItem().withName(R.string.action_settings).withIcon(GoogleMaterial.Icon.gmd_settings).withTypeface(typeface);
         PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info_outline).withTypeface(typeface);
 
         drawer = new DrawerBuilder().withHeaderDivider(false).withActivity(this).withHeader(headerView).addDrawerItems(
@@ -93,11 +87,40 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
                 englishTimes,
                 readme,
                 new DividerDrawerItem(),
+//                preferences,
                 about
         ).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
             @Override
             public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                Toast.makeText(RootActivity.this, "item clicked: " + position, Toast.LENGTH_SHORT).show();
+                if (drawer_selection == position)
+                    return false;
+
+                switch (position) {
+                    case 1:
+                        if (drawer_selection == 5)
+                            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.root_fragment)).commit();
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.root_fragment, GalleryOfIssuesFragment.newInstance(0))
+                                .commit();
+                        break;
+
+//                    case 5:
+//                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.root_fragment)).commit();
+//                        getFragmentManager().beginTransaction()
+//                                .replace(R.id.root_fragment, new PrefsFragment())
+//                                .commit();
+//
+//                        // manually load drawer header, and apply custom typeface to it.
+//                        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+//                        Toolbar toolbar = (Toolbar) inflater.inflate(R.layout.toolbar, null);
+//                        onToolbarCreated(toolbar);
+//                        break;
+
+                    default:
+                        Toast.makeText(RootActivity.this, "item clicked: " + position, Toast.LENGTH_SHORT).show();
+                }
+
+                drawer_selection = position;
                 return false;
             }
         }).withSelectedItemByPosition(drawer_selection).build();
