@@ -1,7 +1,6 @@
 package me.ali.coolenglishmagazine;
 
 import android.app.DownloadManager;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,16 +33,9 @@ import me.ali.coolenglishmagazine.util.BitmapHelper;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link IssuesListFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link IssuesListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, Magazines.Issue.OnStatusChangedListener {
-    private static final String TAG = LogHelper.makeLogTag(IssuesListFragment.class);
+public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, Magazines.Issue.OnStatusChangedListener {
+
+    private static final String TAG = LogHelper.makeLogTag(IssuesTabFragment.class);
 
     /**
      * tab filter argument name
@@ -71,12 +62,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
      */
     public int filter;
 
-    /**
-     * callback activity via this
-     */
-    private OnFragmentInteractionListener mListener;
-
-    public IssuesListFragment() {
+    public IssuesTabFragment() {
         // Required empty public constructor
     }
 
@@ -85,10 +71,10 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
      * this fragment using the provided parameters.
      *
      * @param filter specifies whether to show available issues or my issues
-     * @return A new instance of fragment IssuesListFragment.
+     * @return A new instance of fragment IssuesTabFragment.
      */
-    public static IssuesListFragment newInstance(int filter) {
-        IssuesListFragment fragment = new IssuesListFragment();
+    public static IssuesTabFragment newInstance(int filter) {
+        IssuesTabFragment fragment = new IssuesTabFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_FILTER, filter);
         fragment.setArguments(args);
@@ -102,8 +88,9 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
             filter = getArguments().getInt(ARG_FILTER);
         }
 
-        if (filter == AVAILABLE_ISSUES)
+        if (filter == AVAILABLE_ISSUES) {
             setHasOptionsMenu(true);
+        }
     }
 
     @Override
@@ -156,42 +143,27 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
         swipeContainer.setRefreshing(false);
     }
 
+    GalleryOfIssuesFragment galleryOfIssuesFragment;
+
     @Override
     public void onResume() {
         super.onResume();
-        adapter.preNotifyDataSetChanged(true, null);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+        galleryOfIssuesFragment = (GalleryOfIssuesFragment) getActivity().getSupportFragmentManager().findFragmentByTag(GalleryOfIssuesFragment.FRAGMENT_TAG);
+        if (adapter.preNotifyDataSetChanged(true, galleryOfIssuesFragment.magazines.ISSUES))
+            adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onPause() {
         super.onPause();
 
-        for (Timer timer : issue2timer.values()) {
-            if (timer != null) {
-                timer.cancel();
+        for (Magazines.Issue issue : issues) {
+            if (issue2timer.containsKey(issue)) {
+                issue2timer.get(issue).cancel();
+                issue2timer.remove(issue);
             }
-        }
-        issue2timer.clear();
-
-        // ensure listener is not set after this call again. for example, in volley success callback.
-        for (Magazines.Issue issue : ((IssueListActivity) getActivity()).magazines.ISSUES)
             issue.removeOnStatusChangedListener(this);
+        }
     }
 
     protected IssuesRecyclerViewAdapter adapter = new IssuesRecyclerViewAdapter();
@@ -236,51 +208,56 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
         /**
          * calculates filtered list of issues, and then calls notifyDataSetChanged()
          *
-         * @param changedIssue changed issue that leads to adapter update, or null to update adapter entirely.
-         * @param success      if true, data set has changed
+         * @param issues_ changed issue(s) that leads to adapter update.
+         * @param success if true, data set has changed. if false, only the refresh animation will stop.
+         * @return true if tab issues list has changed
          */
-        public void preNotifyDataSetChanged(boolean success, Magazines.Issue changedIssue) {
-            swipeContainer.setRefreshing(false);
-            if (!success)
-                return;
-
-//            issues = new ArrayList<>();
-            List<Magazines.Issue> issues_;
-            if (changedIssue == null)
-                issues_ = ((IssueListActivity) getActivity()).magazines.ISSUES;
-            else {
-                issues_ = new ArrayList<>();
-                issues_.add(changedIssue);
+        public boolean preNotifyDataSetChanged(boolean success, ArrayList<Magazines.Issue> issues_) {
+            if (!success) {
+                swipeContainer.setRefreshing(false);
+                return false;
             }
+
+            boolean changed = false;
+
             for (Magazines.Issue issue : issues_) {
-                issue.addOnStatusChangedListener(IssuesListFragment.this);
+                issue.addOnStatusChangedListener(IssuesTabFragment.this);
 
                 Magazines.Issue.Status status = issue.getStatus();
                 switch (filter) {
                     case MY_ISSUES:
                         if (status == Magazines.Issue.Status.other_saved || status == Magazines.Issue.Status.active) {
-                            if (!issues.contains(issue))
+                            if (!issues.contains(issue)) {
                                 issues.add(issue);
-                        } else {
+                                changed = true;
+                            }
+                        } else if (issues.contains(issue)) {
                             issues.remove(issue);
+                            changed = true;
                         }
                         break;
 
                     case AVAILABLE_ISSUES:
+                        // TODO: this should be set to true if status toggles from/to downloading and available, within the same available issues list.
+                        changed = true;
                         if (status == Magazines.Issue.Status.downloading || status == Magazines.Issue.Status.available) {
-                            if (!issues.contains(issue))
+                            if (!issues.contains(issue)) {
                                 issues.add(issue);
-                        } else {
+                            }
+                        } else if (issues.contains(issue)) {
                             issues.remove(issue);
                         }
                         break;
 
                     case COMPLETED_ISSUES:
                         if (status == Magazines.Issue.Status.completed) {
-                            if (!issues.contains(issue))
+                            if (!issues.contains(issue)) {
                                 issues.add(issue);
-                        } else {
+                                changed = true;
+                            }
+                        } else if (issues.contains(issue)) {
                             issues.remove(issue);
+                            changed = true;
                         }
                         break;
                 }
@@ -326,7 +303,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
                 }
             });
 
-            notifyDataSetChanged();
+            return changed;
         }
 
         @Override
@@ -369,9 +346,9 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
                 holder.itemView.post(new Runnable() {
                     @Override
                     public void run() {
+                        // FIXME: load bitmap in an async task, http://developer.android.com/training/displaying-bitmaps/process-bitmap.html
                         int w = holder.itemView.getWidth();
                         int h = 4 * w / 3;
-                        // TODO: load bitmap in an async task, http://developer.android.com/training/displaying-bitmaps/process-bitmap.html
                         final Bitmap bitmap = BitmapHelper.decodeSampledBitmapFromFile(new File(issue.rootDirectory, Magazines.Issue.posterFileName).getAbsolutePath(), w, h);
                         holder.posterImageView.setImageBitmap(bitmap);
                     }
@@ -380,7 +357,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
                 holder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mListener.onItemClicked(issue);
+                        galleryOfIssuesFragment.mListener.onIssueSelected(issue);
                     }
                 });
             }
@@ -426,7 +403,7 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
             }
 
             if (enableTimer) {
-                Timer timer = IssuesListFragment.issue2timer.get(issue);
+                Timer timer = IssuesTabFragment.issue2timer.get(issue);
                 if (timer == null) {
                     timer = new Timer();
                     timer.schedule(new TimerTask() {
@@ -444,15 +421,15 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
                             });
                         }
                     }, 0, 3000);
-                    IssuesListFragment.issue2timer.put(issue, timer);
+                    IssuesTabFragment.issue2timer.put(issue, timer);
                     LogHelper.i(TAG, "timer created for ", issue.title);
                 }
 
             } else {
-                Timer timer = IssuesListFragment.issue2timer.get(issue);
+                Timer timer = IssuesTabFragment.issue2timer.get(issue);
                 if (timer != null) {
                     timer.cancel();
-                    IssuesListFragment.issue2timer.remove(issue);
+                    IssuesTabFragment.issue2timer.remove(issue);
                     LogHelper.i(TAG, "timer for ", issue.title, " cancelled");
                 }
             }
@@ -485,33 +462,20 @@ public class IssuesListFragment extends Fragment implements SwipeRefreshLayout.O
     }
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        /**
-         * called when user selects an issue
-         */
-        void onItemClicked(Magazines.Issue issue);
-    }
-
-    /**
      * called when user pulls screen to refresh
      */
     @Override
     public void onRefresh() {
         swipeContainer.setRefreshing(true);
-        ((IssueListActivity) getActivity()).syncAvailableIssuesList(-1, adapter);
+        galleryOfIssuesFragment.syncAvailableIssuesList(-1, adapter);
     }
 
     public void onIssueStatusChanged(Magazines.Issue issue) {
-        adapter.preNotifyDataSetChanged(true, issue);
+        ArrayList<Magazines.Issue> issues = new ArrayList<>();
+        issues.add(issue);
+        if (adapter.preNotifyDataSetChanged(true, issues)) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
 }

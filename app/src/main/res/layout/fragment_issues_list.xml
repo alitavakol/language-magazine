@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="me.ali.coolenglishmagazine.IssuesListFragment">
+    tools:context=".IssuesTabFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/issue_list"
@@ -14,7 +14,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         app:layoutManager="LinearLayoutManager"
-        tools:context="me.ali.coolenglishmagazine.IssueListActivity"
         tools:listitem="@layout/issue_list_row" />
 
 </android.support.v4.widget.SwipeRefreshLayout>

@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Cool English Magazine</string>
 
+    <string name="gallery_of_issues">Gallery of Issues</string>
+    <string name="cool_english_times">Cool English Times</string>
+    <string name="readme">Read Me</string>
+    <string name="about">About</string>
+
     <!-- media playback controls -->
     <string name="play_pause">play or pause</string>
     <string name="skip_next">skip to next</string>
@@ -21,6 +26,8 @@
     <string name="refresh">Refresh</string>
     <string name="check_connection">Make sure your device is online.</string>
     <string name="network_error">Could not connect to server.</string>
+    <string name="update_success">Sync completed successfully.</string>
+    <string name="unzip_error">Unknown error occurred.</string>
 
     <!-- for issue download notification -->
     <string name="issue_downloaded_notification">New issue is ready. Let\'s start<![CDATA[!]]></string>

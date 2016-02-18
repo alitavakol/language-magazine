@@ -42,7 +42,7 @@ import me.ali.coolenglishmagazine.widget.ObservableScrollView;
  * An activity representing a single Issue detail screen. This
  * activity is only used narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
- * in a {@link IssueListActivity}.
+ * in a {@link RootActivity}.
  */
 public class IssueDetailActivity extends AppCompatActivity implements ObservableScrollView.Callbacks {
 
@@ -63,7 +63,6 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
     private View mPhotoViewContainer;
     private LinearLayout mHeaderSession;
     private FrameLayout issueDetailsContainer;
-    private TextView textViewHourglass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,19 +153,16 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         });
 
         mScrollView = (ObservableScrollView) findViewById(R.id.scroll_view);
-        mScrollView.addCallbacks(this);
-        ViewTreeObserver vto = mScrollView.getViewTreeObserver();
-        if (vto.isAlive()) {
-            vto.addOnGlobalLayoutListener(mGlobalLayoutListener);
-        }
-
         mPhotoViewContainer = findViewById(R.id.session_photo_container);
         mHeaderSession = (LinearLayout) findViewById(R.id.header_session);
         issueDetailsContainer = (FrameLayout) findViewById(R.id.issue_detail_container);
 
-        textViewHourglass = (TextView) findViewById(R.id.hourglass);
+        TextView textViewHourglass = (TextView) findViewById(R.id.hourglass);
         Typeface iconFont = FontManager.getTypeface(getApplicationContext(), FontManager.FONTAWESOME);
         textViewHourglass.setTypeface(iconFont);
+
+        mScrollView.addCallbacks(this);
+        setOnScrollViewLayoutChangedListener();
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
@@ -194,13 +190,20 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//
+//        ViewTreeObserver vto = mScrollView.getViewTreeObserver();
+//        if (vto.isAlive()) {
+//            vto.removeGlobalOnLayoutListener(mGlobalLayoutListener);
+//        }
+//    }
 
+    public void setOnScrollViewLayoutChangedListener() {
         ViewTreeObserver vto = mScrollView.getViewTreeObserver();
         if (vto.isAlive()) {
-            vto.removeGlobalOnLayoutListener(mGlobalLayoutListener);
+            vto.addOnGlobalLayoutListener(mGlobalLayoutListener);
         }
     }
 
@@ -220,7 +223,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             case android.R.id.home:
                 finish();
 
-                Intent intent = new Intent(this, IssueListActivity.class);
+                Intent intent = new Intent(this, RootActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                 // This ID represents the Home or Up button. In the case of this
@@ -377,12 +380,16 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         public void onGlobalLayout() {
             headerTranslation = mPhotoViewContainer.getHeight();
             int headerHeight = mHeaderSession.getHeight();
+
             FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) issueDetailsContainer.getLayoutParams();
             lp.bottomMargin = headerTranslation + headerHeight;
             issueDetailsContainer.setLayoutParams(lp);
+
             issueDetailsContainer.setTranslationY(headerTranslation + headerHeight);
-            textViewHourglass.setTranslationY(headerTranslation + headerHeight);
+
             onScrollChanged(0, 0);
+
+            mScrollView.getViewTreeObserver().removeGlobalOnLayoutListener(mGlobalLayoutListener);
         }
     };
 }

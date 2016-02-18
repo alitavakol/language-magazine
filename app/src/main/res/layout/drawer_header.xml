@@ -1,0 +1,11 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/TextAppearance.AppCompat.Subhead"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:paddingBottom="20dp"
+    android:paddingEnd="10dp"
+    android:paddingStart="20dp"
+    android:paddingTop="50dp"
+    android:text="@string/app_name"
+    android:textColor="@android:color/white" />

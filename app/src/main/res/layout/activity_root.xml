@@ -1,0 +1,5 @@
+<!-- this layout is filled in with one of the fragments corresponding to currently selected item of the navigation drawer -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />

@@ -157,7 +157,7 @@ public class ItemListActivity extends AppCompatActivity
 
                 // when this activity is launched from the notification, back button goes to home screen.
                 // I could not find any solution except manually creating parent.
-                Intent intent = new Intent(this, IssueListActivity.class);
+                Intent intent = new Intent(this, RootActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
 
