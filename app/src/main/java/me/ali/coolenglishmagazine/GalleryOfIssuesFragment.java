@@ -96,7 +96,7 @@ public class GalleryOfIssuesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gallery_of_issues, container, false);
 
-        mListener.onToolbarCreated((Toolbar) view.findViewById(R.id.toolbar));
+        mListener.onToolbarCreated((Toolbar) view.findViewById(R.id.toolbar_actionbar));
 
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.view_pager);
         setupViewPager(viewPager);

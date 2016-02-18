@@ -36,6 +36,7 @@ import com.mikepenz.iconics.IconicsDrawable;
 
 import org.json.JSONArray;
 import org.jsoup.Jsoup;
+import org.jsoup.helper.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -112,8 +113,12 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         }
 
         // TODO read http://javarticles.com/2015/09/android-toolbar-example.html to add toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
+
+        Typeface typeface = FontManager.getTypeface(getApplicationContext(), FontManager.ROBOTO);
+        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        toolbarTitle.setTypeface(typeface);
 
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
@@ -157,11 +162,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         webView.addJavascriptInterface(webViewJavaScriptInterface, "app");
         webView.setVerticalScrollBarEnabled(false);
 
-        Typeface iconFont = FontManager.getTypeface(getApplicationContext(), FontManager.FONTAWESOME);
-        ((TextView) findViewById(R.id.hourglass)).setTypeface(iconFont);
+        ((ImageView) findViewById(R.id.hourglass)).setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_hourglass_full).sizeDp(72).color(Color.LTGRAY));
 
         try {
             item = MagazineContent.getItem(new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
+            toolbarTitle.setText(item.type);
 
         } catch (IOException e) {
             LogHelper.e(TAG, e.getMessage());

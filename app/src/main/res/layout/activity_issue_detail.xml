@@ -131,14 +131,13 @@
 
             </LinearLayout>
 
-            <TextView
+            <ImageView
                 android:id="@+id/hourglass"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/fa_hourglass"
-                android:textSize="72sp"
-                android:padding="@dimen/keyline_2"/>
+                android:layout_gravity="center_horizontal"
+                android:padding="@dimen/keyline_2" />
+
         </LinearLayout>
 
     </FrameLayout>

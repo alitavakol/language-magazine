@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -25,13 +26,17 @@ import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.text.style.TypefaceSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.List;
+
+import me.ali.coolenglishmagazine.util.FontManager;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -141,6 +146,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         if (actionBar != null) {
             // Show the Up button in the action bar.
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(false);
         }
     }
 
@@ -153,7 +159,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         LinearLayout root = (LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
         AppBarLayout appBarLayout = (AppBarLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
-        bar = (Toolbar) appBarLayout.findViewById(R.id.toolbar);
+        bar = (Toolbar) appBarLayout.findViewById(R.id.toolbar_actionbar);
         root.addView(appBarLayout, 0); // insert at top
         bar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,9 +167,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 finish();
             }
         });
+
+        Typeface typeface = FontManager.getTypeface(getApplicationContext(), FontManager.ROBOTO);
+        toolbarTitle = (TextView) bar.findViewById(R.id.toolbar_title);
+        toolbarTitle.setTypeface(typeface);
     }
 
     Toolbar bar;
+    TextView toolbarTitle;
 
     /**
      * see <a href="http://stackoverflow.com/a/27455355">this link</a>.
@@ -247,7 +258,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public void onResume() {
             super.onResume();
-            ((SettingsActivity) getActivity()).bar.setTitle(R.string.pref_header_general);
+//            ((SettingsActivity) getActivity()).bar.setTitle(R.string.pref_header_general);
+            ((SettingsActivity) getActivity()).toolbarTitle.setText(R.string.pref_header_general);
         }
 
         @Override
@@ -283,7 +295,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public void onResume() {
             super.onResume();
-            ((SettingsActivity) getActivity()).bar.setTitle(R.string.pref_header_notifications);
+//            ((SettingsActivity) getActivity()).bar.setTitle(R.string.pref_header_notifications);
+            ((SettingsActivity) getActivity()).toolbarTitle.setText(R.string.pref_header_notifications);
         }
 
         @Override
@@ -320,7 +333,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public void onResume() {
             super.onResume();
-            ((SettingsActivity) getActivity()).bar.setTitle(R.string.pref_header_data_sync);
+//            ((SettingsActivity) getActivity()).bar.setTitle(R.string.pref_header_data_sync);
+            ((SettingsActivity) getActivity()).toolbarTitle.setText(R.string.pref_header_data_sync);
         }
 
         @Override

@@ -7,13 +7,11 @@
     android:layout_height="match_parent"
     tools:context="me.ali.coolenglishmagazine.ReadAndListenActivity">
 
-    <TextView
+    <ImageView
         android:id="@+id/hourglass"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/fa_hourglass"
-        android:textSize="72sp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
     <WebView
         android:id="@+id/webView"
@@ -35,7 +33,7 @@
         android:id="@+id/gradient_edge_up"
         android:layout_width="match_parent"
         android:layout_height="@dimen/gradient_edge_height"
-        android:layout_below="@+id/toolbar"
+        android:layout_below="@+id/toolbar_actionbar"
         android:src="@drawable/half_gradient_up"
         android:visibility="gone" />
 
@@ -148,12 +146,23 @@
         android:visibility="invisible" />
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_actionbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
         android:background="@android:color/transparent"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat" />
+        app:popupTheme="@style/ThemeOverlay.AppCompat">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            style="@android:style/TextAppearance.Holo.Widget.ActionBar.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:ellipsize="end"
+            android:singleLine="true"
+            tools:text="Toolbar Title" />
+    </android.support.v7.widget.Toolbar>
 
 </RelativeLayout>

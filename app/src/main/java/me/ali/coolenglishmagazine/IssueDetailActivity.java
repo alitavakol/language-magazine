@@ -7,7 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
@@ -23,7 +23,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +36,6 @@ import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastR
 import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.util.BitmapHelper;
 import me.ali.coolenglishmagazine.util.FileHelper;
-import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.widget.ObservableScrollView;
 
@@ -157,9 +158,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         mHeaderSession = (LinearLayout) findViewById(R.id.header_session);
         issueDetailsContainer = (FrameLayout) findViewById(R.id.issue_detail_container);
 
-        TextView textViewHourglass = (TextView) findViewById(R.id.hourglass);
-        Typeface iconFont = FontManager.getTypeface(getApplicationContext(), FontManager.FONTAWESOME);
-        textViewHourglass.setTypeface(iconFont);
+        ((ImageView) findViewById(R.id.hourglass)).setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_hourglass_full).sizeDp(72).color(Color.LTGRAY));
 
         mScrollView.addCallbacks(this);
         setOnScrollViewLayoutChangedListener();

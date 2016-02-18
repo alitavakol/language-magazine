@@ -1,6 +1,7 @@
 package me.ali.coolenglishmagazine;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +11,10 @@ import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import me.ali.coolenglishmagazine.model.MagazineContent;
+import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 
@@ -49,15 +52,19 @@ public class ItemListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_app_bar);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
-//        toolbar.setTitle(getTitle());
+
+        Typeface typeface = FontManager.getTypeface(getApplicationContext(), FontManager.ROBOTO);
+        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        toolbarTitle.setText(getTitle());
+        toolbarTitle.setTypeface(typeface);
 
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
-//            ab.setDisplayShowTitleEnabled(false); // hide action bar title
             ab.setDisplayHomeAsUpEnabled(true); // Enable the Up button
+            ab.setDisplayShowTitleEnabled(false);
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

@@ -11,9 +11,10 @@ import android.widget.TextView;
  */
 public class FontManager {
 
-    public static final String FONTAWESOME = "fontawesome-webfont.ttf";
+//    public static final String FONTAWESOME = "fontawesome-webfont.ttf";
     public static final String ROBOTO = "RobotoMono-Regular.ttf";
-    public static final String ROBOTO_BOLD = "RobotoMono-Bold.ttf";
+//    public static final String ROBOTO_BOLD = "RobotoMono-Bold.ttf";
+//    public static final String FIRA = "FiraMono-Regular.otf";
 
     public static Typeface getTypeface(Context context, String font) {
         return Typeface.createFromAsset(context.getAssets(), font);
