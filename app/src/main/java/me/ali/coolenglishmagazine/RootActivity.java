@@ -83,10 +83,9 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
         View headerView = inflater.inflate(R.layout.drawer_header, null);
         ((TextView) headerView).setTypeface(typeface);
 
-        PrimaryDrawerItem galleryOfIssues = new PrimaryDrawerItem().withName(R.string.gallery_of_issues).withIcon(GoogleMaterial.Icon.gmd_library_books).withTypeface(typeface);
+        PrimaryDrawerItem galleryOfIssues = new PrimaryDrawerItem().withName(R.string.gallery_of_issues).withIcon(GoogleMaterial.Icon.gmd_playlist_play).withTypeface(typeface);
         PrimaryDrawerItem englishTimes = new PrimaryDrawerItem().withName(R.string.cool_english_times).withIcon(GoogleMaterial.Icon.gmd_alarm).withTypeface(typeface);
         PrimaryDrawerItem readme = new PrimaryDrawerItem().withName(R.string.readme).withIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied).withTypeface(typeface);
-        PrimaryDrawerItem preferences = new PrimaryDrawerItem().withName(R.string.action_settings).withIcon(GoogleMaterial.Icon.gmd_settings).withTypeface(typeface);
         PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info_outline).withTypeface(typeface);
 
         drawer = new DrawerBuilder().withHeaderDivider(false).withActivity(this).withHeader(headerView).addDrawerItems(
@@ -94,7 +93,6 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
                 englishTimes,
                 readme,
                 new DividerDrawerItem(),
-                preferences,
                 about
         ).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
             @Override

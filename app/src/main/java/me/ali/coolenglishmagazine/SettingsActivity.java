@@ -26,7 +26,6 @@ import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.text.style.TypefaceSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -168,9 +167,25 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             }
         });
 
+        setSupportActionBar(bar);
+
         Typeface typeface = FontManager.getTypeface(getApplicationContext(), FontManager.ROBOTO);
         toolbarTitle = (TextView) bar.findViewById(R.id.toolbar_title);
         toolbarTitle.setTypeface(typeface);
+        toolbarTitle.setText(R.string.action_settings);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     Toolbar bar;
