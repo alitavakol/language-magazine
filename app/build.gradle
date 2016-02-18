@@ -32,4 +32,5 @@ dependencies {
     compile('com.mikepenz:materialdrawer:4.6.4@aar') {
         transitive = true
     }
+    compile 'com.mikepenz:google-material-typeface:2.2.0.1.original@aar'
 }

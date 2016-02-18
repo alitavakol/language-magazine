@@ -1,21 +1,28 @@
 package me.ali.coolenglishmagazine;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.io.File;
 
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFragment.OnFragmentInteractionListener {
@@ -37,13 +44,54 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_root);
 
-        if (savedInstanceState == null) {
-            int tabIndex = 0;
-            if (ACTION_SHOW_DOWNLOADS.equals(getIntent().getAction()))
-                tabIndex = 1; // switch to available issues tab within the gallery of issues fragment
+        if (savedInstanceState != null) {
+            drawer_selection = savedInstanceState.getInt("drawer_selection");
+
+        } else {
+            // show the gallery of issues fragment
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.root_fragment, GalleryOfIssuesFragment.newInstance(tabIndex), GalleryOfIssuesFragment.FRAGMENT_TAG)
+                    .replace(R.id.root_fragment, GalleryOfIssuesFragment.newInstance(ACTION_SHOW_DOWNLOADS.equals(getIntent().getAction()) ? 1 : 0), GalleryOfIssuesFragment.FRAGMENT_TAG)
                     .commit();
+        }
+
+        setupNavigationDrawer();
+    }
+
+    protected void setupNavigationDrawer() {
+        // manually load drawer header, and apply custom typeface to it.
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View headerView = inflater.inflate(R.layout.drawer_header, null);
+        ((TextView) headerView).setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.ROBOTO_BOLD));
+
+        Typeface typeface = FontManager.getTypeface(getApplicationContext(), FontManager.ROBOTO);
+
+        PrimaryDrawerItem galleryOfIssues = new PrimaryDrawerItem().withName(R.string.gallery_of_issues).withIcon(GoogleMaterial.Icon.gmd_library_books).withTypeface(typeface);
+        PrimaryDrawerItem englishTimes = new PrimaryDrawerItem().withName(R.string.cool_english_times).withIcon(GoogleMaterial.Icon.gmd_alarm).withTypeface(typeface);
+        PrimaryDrawerItem readme = new PrimaryDrawerItem().withName(R.string.readme).withIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied).withTypeface(typeface);
+        PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info_outline).withTypeface(typeface);
+        PrimaryDrawerItem preferences = new PrimaryDrawerItem().withName(R.string.action_settings).withIcon(GoogleMaterial.Icon.gmd_settings).withTypeface(typeface);
+
+        drawer = new DrawerBuilder().withHeaderDivider(false).withActivity(this).withHeader(headerView).addDrawerItems(
+                galleryOfIssues,
+                englishTimes,
+                readme,
+                new DividerDrawerItem(),
+                about,
+                preferences
+        ).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+            @Override
+            public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                Toast.makeText(RootActivity.this, "item clicked: " + position, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }).withSelectedItemByPosition(drawer_selection).build();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (drawer != null) {
+            outState.putInt("drawer_selection", drawer.getCurrentSelectedPosition());
         }
     }
 
@@ -75,16 +123,14 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
      */
     Drawer drawer;
 
+    /**
+     * selected drawer item position
+     */
+    int drawer_selection = 1;
+
     public void onToolbarCreated(Toolbar toolbar) {
         setSupportActionBar(toolbar);
-        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withName(R.string.app_name).withIcon(R.drawable.key);
-        SecondaryDrawerItem item2 = new SecondaryDrawerItem().withName(R.string.action_settings);
-        drawer = new DrawerBuilder().withActivity(this).withToolbar(toolbar).withHeader(R.layout.drawer_header).addDrawerItems(
-                item1,
-                new DividerDrawerItem(),
-                item2,
-                new SecondaryDrawerItem().withName(R.string.active_issue)
-        ).build();
+        drawer.setToolbar(this, toolbar);
     }
 
     @Override
