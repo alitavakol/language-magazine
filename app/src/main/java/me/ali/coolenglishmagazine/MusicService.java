@@ -9,18 +9,23 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.ContentObserver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.session.PlaybackState;
 import android.os.Binder;
+import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import me.ali.coolenglishmagazine.broadcast_receivers.RemoteControlReceiver;
 import me.ali.coolenglishmagazine.util.LogHelper;
@@ -39,6 +44,8 @@ public class MusicService extends Service implements
     public static final String ACTION_PAUSE = "me.ali.coolenglishmagazine.ACTION_PAUSE";
     public static final String ACTION_STOP = "me.ali.coolenglishmagazine.ACTION_STOP";
     public static final String ACTION_PREPARE = "me.ali.coolenglishmagazine.ACTION_PREPARE";
+    public static final String ACTION_FAST_FORWARD = "me.ali.coolenglishmagazine.ACTION_FAST_FORWARD";
+    public static final String ACTION_REWIND = "me.ali.coolenglishmagazine.ACTION_REWIND";
 
     private static final String TAG = LogHelper.makeLogTag(MusicService.class);
 
@@ -85,22 +92,30 @@ public class MusicService extends Service implements
     public int onStartCommand(Intent intent, int flags, int startId) {
         final String action = intent != null ? intent.getAction() : null;
 
-        if (action != null) {
-            if (action.equals(ACTION_PREPARE)) {
-                handlePrepareRequest(intent.getStringExtra("dataSource"));
+        if (ACTION_PREPARE.equals(action)) {
+            handlePrepareRequest(intent.getStringExtra("dataSource"));
 
-            } else if (action.equals(ACTION_PLAY)) {
-                LogHelper.i(TAG, "Received start foreground intent ");
+        } else if (ACTION_PLAY.equals(action)) {
+            LogHelper.i(TAG, "Received start foreground intent ");
 
-                handlePlayRequest();
+            handlePlayRequest();
 
-            } else if (action.equals(ACTION_PAUSE)) {
-                LogHelper.i(TAG, "Received pause foreground intent ");
+        } else if (ACTION_PAUSE.equals(action)) {
+            LogHelper.i(TAG, "Received pause foreground intent ");
 
-                handlePauseRequest();
+            handlePauseRequest();
 
-            } else if (action.equals(ACTION_STOP)) {
-                handleStopRequest();
+        } else if (ACTION_STOP.equals(action)) {
+            handleStopRequest();
+
+        } else if (ACTION_FAST_FORWARD.equals(action)) {
+            if (mediaPlayer != null) {
+                fastForward();
+            }
+
+        } else if (ACTION_REWIND.equals(action)) {
+            if (mediaPlayer != null) {
+                rewind();
             }
         }
 
@@ -232,9 +247,17 @@ public class MusicService extends Service implements
 
                 if (onMediaStateChangedListener != null)
                     onMediaStateChangedListener.onMediaStateChanged(PlaybackState.STATE_PLAYING);
+
+//                int volumeControlsBehaviour = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("volume_controls_behaviour", "1"));
+//                if (volumeControlsBehaviour != 0) {
+                mSettingsContentObserver = new SettingsContentObserver(new Handler());
+                getApplicationContext().getContentResolver().registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, mSettingsContentObserver);
+//                }
             }
         }
     }
+
+    SettingsContentObserver mSettingsContentObserver = null;
 
     @Override
     public void onAudioFocusChange(int focusChange) {
@@ -261,12 +284,17 @@ public class MusicService extends Service implements
             mediaPlayer = null;
             paused = false;
 
+            if (mSettingsContentObserver != null) {
+                getApplicationContext().getContentResolver().unregisterContentObserver(mSettingsContentObserver);
+                mSettingsContentObserver = null;
+            }
+
             if (audioManager != null) {
                 audioManager.abandonAudioFocus(this);
                 audioManager.unregisterMediaButtonEventReceiver(mediaButtonReceiverComponent);
             }
 
-            if(noisyAudioStreamReceiver != null) {
+            if (noisyAudioStreamReceiver != null) {
                 unregisterReceiver(noisyAudioStreamReceiver);
                 noisyAudioStreamReceiver = null;
             }
@@ -283,12 +311,17 @@ public class MusicService extends Service implements
             mediaPlayer.pause();
             paused = true;
 
+            if (mSettingsContentObserver != null) {
+                getApplicationContext().getContentResolver().unregisterContentObserver(mSettingsContentObserver);
+                mSettingsContentObserver = null;
+            }
+
             if (audioManager != null) {
                 audioManager.abandonAudioFocus(this);
                 audioManager.unregisterMediaButtonEventReceiver(mediaButtonReceiverComponent);
             }
 
-            if(noisyAudioStreamReceiver != null) {
+            if (noisyAudioStreamReceiver != null) {
                 unregisterReceiver(noisyAudioStreamReceiver);
                 noisyAudioStreamReceiver = null;
             }
@@ -346,6 +379,159 @@ public class MusicService extends Service implements
         public void onReceive(Context context, Intent intent) {
             if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
                 handlePauseRequest();
+            }
+        }
+    }
+
+
+    /**
+     * array of voice timestamps (start and end of voice snippets)
+     */
+    protected ArrayList<int[]> timePoints = null;
+
+    /**
+     * mathematical floor
+     *
+     * @param currentPosition apply floor on this time position
+     * @param margin          returned value is behind current position by at least this margin
+     * @param closed          if true, end of audio snippet is considered too
+     * @return music position of the latest sound snippet behind current position
+     */
+    public int floorPosition(int currentPosition, int margin, boolean closed) {
+        int prevTimePoint = 0;
+
+        for (int i = timePoints.size() - 1; i >= 0; i--) {
+            final int[] timePoint = timePoints.get(i);
+            if (currentPosition - timePoint[0] >= margin && (!closed || currentPosition <= timePoint[1])) {
+                prevTimePoint = timePoint[0];
+                break;
+            }
+        }
+
+        return prevTimePoint;
+    }
+
+    /**
+     * mathematical ceil
+     *
+     * @param currentPosition apply ceil on this time position
+     * @return music position of the first sound snippet after current position
+     */
+    protected int ceilPosition(int currentPosition) {
+        int nextTimePoint = getDuration();
+
+        for (int[] timePoint : timePoints) {
+            if (timePoint[0] > currentPosition) {
+                nextTimePoint = timePoint[0];
+                break;
+            }
+        }
+
+        return nextTimePoint;
+    }
+
+    public void setTimePoints(ArrayList<int[]> timePoints) {
+        this.timePoints = timePoints;
+    }
+
+    /**
+     * fast forward to start of next time phrase.
+     *
+     * @return new media position
+     */
+    public int fastForward() {
+        int nextTimePoint = ceilPosition(getCurrentMediaPosition()); // time point to seek to
+        if (nextTimePoint < getDuration()) {
+            seekTo(nextTimePoint);
+        }
+        return nextTimePoint;
+    }
+
+    /**
+     * rewind to start of previous time phrase.
+     *
+     * @return new media position
+     */
+    public int rewind() {
+        int prevTimePoint = floorPosition(getCurrentMediaPosition(), 2000, false); // time point to seek to
+        seekTo(prevTimePoint);
+        return prevTimePoint;
+    }
+
+    /**
+     * shows whether or not the lesson activity containing media control buttons is in the foreground.
+     */
+    public static boolean readAndListenActivityResumed;
+
+    /**
+     * this class listens for device volume buttons.
+     * taken from <a href="http://stackoverflow.com/a/15292255">this link</a>.
+     */
+    public class SettingsContentObserver extends ContentObserver {
+        int previousVolume;
+
+        /**
+         * if true, do not handle volume change, which is originated from code.
+         */
+        boolean ignore;
+
+        public SettingsContentObserver(Handler handler) {
+            super(handler);
+
+            AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            previousVolume = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
+        }
+
+        @Override
+        public boolean deliverSelfNotifications() {
+            return super.deliverSelfNotifications();
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+
+            AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            int currentVolume = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+            if (ignore) {
+                ignore = false;
+                return;
+            }
+
+            boolean useVolumeButtonsAsPlaybackNavigation = false;
+
+            int volumeControlsBehaviour = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(MusicService.this).getString("volume_controls_behaviour", "1"));
+            switch (volumeControlsBehaviour) {
+                case 1: // volume controls are used to navigate playback when screen is off
+                    // http://stackoverflow.com/a/34651569
+                    PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+                        useVolumeButtonsAsPlaybackNavigation = !pm.isInteractive();
+                    } else {
+                        useVolumeButtonsAsPlaybackNavigation = !pm.isScreenOn();
+                    }
+                    break;
+
+                case 2: // volume controls are used to navigate playback when lesson activity is not in resumed state
+                    useVolumeButtonsAsPlaybackNavigation = !MusicService.readAndListenActivityResumed;
+                    break;
+            }
+
+            if (useVolumeButtonsAsPlaybackNavigation) {
+                if (previousVolume > currentVolume)
+                    rewind();
+                else
+                    fastForward();
+
+                ignore = true; // ignore next volume change which is originated from code
+
+                // undo volume change
+                audio.setStreamVolume(AudioManager.STREAM_MUSIC, previousVolume, 0);
+
+            } else {
+                // reset fixed volume
+                previousVolume = currentVolume;
             }
         }
     }

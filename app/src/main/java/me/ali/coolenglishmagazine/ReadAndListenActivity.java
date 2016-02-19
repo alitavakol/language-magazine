@@ -36,7 +36,6 @@ import com.mikepenz.iconics.IconicsDrawable;
 
 import org.json.JSONArray;
 import org.jsoup.Jsoup;
-import org.jsoup.helper.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -299,6 +298,18 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        MusicService.readAndListenActivityResumed = true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MusicService.readAndListenActivityResumed = false;
+    }
+
     /**
      * connection to music service
      */
@@ -311,6 +322,9 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             musicService.setOnMediaStateChangedListener(ReadAndListenActivity.this);
             boundToMusicService = true;
 
+            musicService.setTimePoints(timePoints);
+
+            // start ACTION_PREPARE even if this item has no audio. this will help user concentrate better on the opened item.
             Intent startIntent = new Intent(ReadAndListenActivity.this, MusicService.class);
             startIntent.setAction(MusicService.ACTION_PREPARE);
             if (item.audioFileName.length() > 0)
@@ -346,7 +360,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         switch (v.getId()) {
             case R.id.play:
                 if (musicService != null && state == PlaybackState.STATE_PAUSED) { // rewind to start of audio snippet
-                    musicService.seekTo(floorPosition(musicService.getCurrentMediaPosition(), 0, false));
+                    musicService.seekTo(musicService.floorPosition(musicService.getCurrentMediaPosition(), 0, false));
                 }
                 Intent startIntent = new Intent(ReadAndListenActivity.this, MusicService.class);
                 startIntent.setAction(MusicService.ACTION_PLAY);
@@ -360,18 +374,12 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 break;
 
             case R.id.prev: {
-                int prevTimePoint = floorPosition(musicService.getCurrentMediaPosition(), 1500, false); // time point to seek to
-                musicService.seekTo(prevTimePoint);
-                seekBar.setProgress(prevTimePoint);
+                seekBar.setProgress(musicService.rewind());
                 break;
             }
 
             case R.id.next: {
-                int nextTimePoint = ceilPosition(musicService.getCurrentMediaPosition()); // time point to seek to
-                if (nextTimePoint < musicService.getDuration()) {
-                    musicService.seekTo(nextTimePoint);
-                    seekBar.setProgress(nextTimePoint);
-                }
+                seekBar.setProgress(musicService.fastForward());
                 break;
             }
 
@@ -477,7 +485,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         startText.setText(formatTime(progress));
 
-        final int currentTimePoint = floorPosition(progress, 0, true);
+        final int currentTimePoint = musicService.floorPosition(progress, 0, true);
         if (currentTimePoint != this.currentTimePoint) {
             this.currentTimePoint = currentTimePoint;
             webView.loadUrl("javascript:highlight(" + currentTimePoint + ");");
@@ -489,51 +497,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     }
 
     public void onStopTrackingTouch(SeekBar seekBar) {
-        int prevPosition = floorPosition(seekBar.getProgress(), 0, false);
+        int prevPosition = musicService.floorPosition(seekBar.getProgress(), 0, false);
         musicService.seekTo(prevPosition);
         seekBar.setProgress(prevPosition);
         ignoreSeekBar = false;
-    }
-
-    /**
-     * mathematical floor
-     *
-     * @param currentPosition apply floor on this time position
-     * @param margin          returned value is behind current position by at least this margin
-     * @param closed          if true, end of audio snippet is considered too
-     * @return music position of the latest sound snippet behind current position
-     */
-    protected int floorPosition(int currentPosition, int margin, boolean closed) {
-        int prevTimePoint = 0;
-
-        for (int i = timePoints.size() - 1; i >= 0; i--) {
-            final int[] timePoint = timePoints.get(i);
-            if (currentPosition - timePoint[0] >= margin && (!closed || currentPosition <= timePoint[1])) {
-                prevTimePoint = timePoint[0];
-                break;
-            }
-        }
-
-        return prevTimePoint;
-    }
-
-    /**
-     * mathematical ceil
-     *
-     * @param currentPosition apply ceil on this time position
-     * @return music position of the first sound snippet after current position
-     */
-    protected int ceilPosition(int currentPosition) {
-        int nextTimePoint = musicService.getDuration();
-
-        for (int[] timePoint : timePoints) {
-            if (timePoint[0] > currentPosition) {
-                nextTimePoint = timePoint[0];
-                break;
-            }
-        }
-
-        return nextTimePoint;
     }
 
     public static ArrayList<int[]> getTimePoints(final Document doc) throws IOException {
@@ -691,4 +658,15 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             });
         }
     }
+
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        switch (keyCode) {
+//            case KeyEvent.KEYCODE_VOLUME_UP:
+//            case KeyEvent.KEYCODE_VOLUME_DOWN:
+//                return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
+
 }
