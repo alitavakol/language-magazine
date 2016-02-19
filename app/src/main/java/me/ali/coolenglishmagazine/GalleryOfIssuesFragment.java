@@ -2,6 +2,7 @@ package me.ali.coolenglishmagazine;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.InputStreamVolleyRequest;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.util.NetworkHelper;
@@ -104,6 +106,9 @@ public class GalleryOfIssuesFragment extends Fragment {
         tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(currentTabIndex).select();
+
+        Typeface typeface = FontManager.getTypeface(getActivity(), FontManager.ROBOTO_LIGHT);
+        FontManager.markAsIconContainer(tabLayout, typeface);
 
         return view;
     }

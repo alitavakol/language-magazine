@@ -74,12 +74,11 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
         // manually load drawer header, and apply custom typeface to it.
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         View headerView = inflater.inflate(R.layout.drawer_header, null);
-        ((TextView) headerView).setTypeface(typeface);
+        ((TextView) headerView).setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.ROBOTO_BOLD));
 
         PrimaryDrawerItem galleryOfIssues = new PrimaryDrawerItem().withName(R.string.gallery_of_issues).withIcon(GoogleMaterial.Icon.gmd_playlist_play).withTypeface(typeface);
         PrimaryDrawerItem englishTimes = new PrimaryDrawerItem().withName(R.string.cool_english_times).withIcon(GoogleMaterial.Icon.gmd_alarm).withTypeface(typeface);
         PrimaryDrawerItem readme = new PrimaryDrawerItem().withName(R.string.readme).withIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied).withTypeface(typeface);
-//        PrimaryDrawerItem preferences = new PrimaryDrawerItem().withName(R.string.action_settings).withIcon(GoogleMaterial.Icon.gmd_settings).withTypeface(typeface);
         PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info_outline).withTypeface(typeface);
 
         drawer = new DrawerBuilder().withHeaderDivider(false).withActivity(this).withHeader(headerView).addDrawerItems(
@@ -87,7 +86,6 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
                 englishTimes,
                 readme,
                 new DividerDrawerItem(),
-//                preferences,
                 about
         ).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
             @Override
@@ -103,18 +101,6 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
                                 .replace(R.id.root_fragment, GalleryOfIssuesFragment.newInstance(0))
                                 .commit();
                         break;
-
-//                    case 5:
-//                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.root_fragment)).commit();
-//                        getFragmentManager().beginTransaction()
-//                                .replace(R.id.root_fragment, new PrefsFragment())
-//                                .commit();
-//
-//                        // manually load drawer header, and apply custom typeface to it.
-//                        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-//                        Toolbar toolbar = (Toolbar) inflater.inflate(R.layout.toolbar, null);
-//                        onToolbarCreated(toolbar);
-//                        break;
 
                     default:
                         Toast.makeText(RootActivity.this, "item clicked: " + position, Toast.LENGTH_SHORT).show();
