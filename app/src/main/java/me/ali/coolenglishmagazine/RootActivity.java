@@ -46,6 +46,8 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
      */
     private boolean mTwoPane;
 
+    Fragment galleryOfIssuesFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,10 +58,10 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
 
         } else {
             // show the gallery of issues fragment by default
-            Fragment fragment = GalleryOfIssuesFragment.newInstance(ACTION_SHOW_DOWNLOADS.equals(getIntent().getAction()) ? 1 : 0);
+            galleryOfIssuesFragment = GalleryOfIssuesFragment.newInstance(ACTION_SHOW_DOWNLOADS.equals(getIntent().getAction()) ? 1 : 0);
 
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.root_fragment, fragment, GalleryOfIssuesFragment.FRAGMENT_TAG)
+                    .replace(R.id.root_fragment, galleryOfIssuesFragment, GalleryOfIssuesFragment.FRAGMENT_TAG)
                     .commit();
         }
 
@@ -76,10 +78,10 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
         View headerView = inflater.inflate(R.layout.drawer_header, null);
         ((TextView) headerView).setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.ROBOTO_BOLD));
 
-        PrimaryDrawerItem galleryOfIssues = new PrimaryDrawerItem().withName(R.string.gallery_of_issues).withIcon(GoogleMaterial.Icon.gmd_playlist_play).withTypeface(typeface);
-        PrimaryDrawerItem englishTimes = new PrimaryDrawerItem().withName(R.string.cool_english_times).withIcon(GoogleMaterial.Icon.gmd_alarm).withTypeface(typeface);
-        PrimaryDrawerItem readme = new PrimaryDrawerItem().withName(R.string.readme).withIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied).withTypeface(typeface);
-        PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info_outline).withTypeface(typeface);
+        final PrimaryDrawerItem galleryOfIssues = new PrimaryDrawerItem().withName(R.string.gallery_of_issues).withIcon(GoogleMaterial.Icon.gmd_playlist_play).withTypeface(typeface);
+        final PrimaryDrawerItem englishTimes = new PrimaryDrawerItem().withName(R.string.cool_english_times).withIcon(GoogleMaterial.Icon.gmd_alarm).withTypeface(typeface);
+        final PrimaryDrawerItem readme = new PrimaryDrawerItem().withName(R.string.readme).withIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied).withTypeface(typeface);
+        final PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info_outline).withTypeface(typeface);
 
         drawer = new DrawerBuilder().withHeaderDivider(false).withActivity(this).withHeader(headerView).addDrawerItems(
                 galleryOfIssues,
@@ -93,17 +95,21 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
                 if (drawer_selection == position)
                     return false;
 
+                Fragment fragment = null;
                 switch (position) {
                     case 1:
-                        if (drawer_selection == 5)
-                            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.root_fragment)).commit();
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.root_fragment, GalleryOfIssuesFragment.newInstance(0))
-                                .commit();
+                        if (galleryOfIssuesFragment == null)
+                            galleryOfIssuesFragment = GalleryOfIssuesFragment.newInstance(0);
+                        fragment = galleryOfIssuesFragment;
                         break;
+                }
 
-                    default:
-                        Toast.makeText(RootActivity.this, "item clicked: " + position, Toast.LENGTH_SHORT).show();
+                if (fragment != null) {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.root_fragment, fragment)
+                            .commit();
+                } else {
+                    Toast.makeText(RootActivity.this, "item clicked: " + position, Toast.LENGTH_SHORT).show();
                 }
 
                 drawer_selection = position;
