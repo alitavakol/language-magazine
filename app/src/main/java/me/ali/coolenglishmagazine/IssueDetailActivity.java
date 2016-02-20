@@ -38,6 +38,7 @@ import me.ali.coolenglishmagazine.util.BitmapHelper;
 import me.ali.coolenglishmagazine.util.FileHelper;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.widget.ObservableScrollView;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * An activity representing a single Issue detail screen. This
@@ -64,6 +65,11 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
     private View mPhotoViewContainer;
     private LinearLayout mHeaderSession;
     private FrameLayout issueDetailsContainer;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

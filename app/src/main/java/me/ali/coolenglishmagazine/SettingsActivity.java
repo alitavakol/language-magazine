@@ -1,6 +1,6 @@
 package me.ali.coolenglishmagazine;
 
-import android.graphics.Typeface;
+import android.content.Context;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -15,11 +15,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
-import me.ali.coolenglishmagazine.util.FontManager;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -31,10 +29,8 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
 
-        Typeface typeface = FontManager.getTypeface(getApplicationContext(), FontManager.ROBOTO);
         TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
         toolbarTitle.setText(R.string.action_settings);
-        toolbarTitle.setTypeface(typeface);
 
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
@@ -50,6 +46,11 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
     public static class PrefsFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -62,18 +63,6 @@ public class SettingsActivity extends AppCompatActivity {
             bindPreferenceSummaryToValue(findPreference("example_text"));
             bindPreferenceSummaryToValue(findPreference("example_list"));
             bindPreferenceSummaryToValue(findPreference("sync_frequency"));
-        }
-
-        @Override
-        public void onViewCreated(final View view, Bundle savedInstanceState) {
-            view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    Typeface typeface = FontManager.getTypeface(getActivity(), FontManager.ROBOTO);
-                    FontManager.markAsIconContainer(view, typeface);
-                    view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }
-            });
         }
 
         /**

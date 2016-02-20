@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.TypedValue;
@@ -26,6 +27,7 @@ import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastR
 import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.util.BitmapHelper;
+import me.ali.coolenglishmagazine.util.FontManager;
 
 /**
  * A list fragment representing a list of magazine items. This fragment
@@ -88,6 +90,8 @@ public class ItemListFragment extends ListFragment {
     public ItemListFragment() {
     }
 
+    Typeface levelTypeface;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +102,8 @@ public class ItemListFragment extends ListFragment {
 
         } catch (IOException e) {
         }
+
+        levelTypeface = FontManager.getTypeface(getActivity(), FontManager.ROBOTO_ITALIC);
 
         // TODO: replace with a real list adapter.
         setListAdapter(new Adapter());
@@ -240,6 +246,7 @@ public class ItemListFragment extends ListFragment {
             textViewLevel.setText(level);
 //            textViewLevel.setTextColor(levelColor);
             textViewLevel.setBackgroundColor(transparentColor);
+            textViewLevel.setTypeface(levelTypeface);
 
             vi.findViewById(R.id.overflowMenu).setOnClickListener(new View.OnClickListener() {
                 @Override

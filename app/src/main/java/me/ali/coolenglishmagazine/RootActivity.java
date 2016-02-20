@@ -1,7 +1,7 @@
 package me.ali.coolenglishmagazine;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +26,7 @@ import java.io.File;
 import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFragment.OnFragmentInteractionListener {
 
@@ -49,6 +50,11 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
     Fragment galleryOfIssuesFragment;
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_root);
@@ -68,20 +74,16 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
         setupNavigationDrawer();
     }
 
-    Typeface typeface;
-
     protected void setupNavigationDrawer() {
-        typeface = FontManager.getTypeface(getApplicationContext(), FontManager.ROBOTO);
-
         // manually load drawer header, and apply custom typeface to it.
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         View headerView = inflater.inflate(R.layout.drawer_header, null);
         ((TextView) headerView).setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.ROBOTO_BOLD));
 
-        final PrimaryDrawerItem galleryOfIssues = new PrimaryDrawerItem().withName(R.string.gallery_of_issues).withIcon(GoogleMaterial.Icon.gmd_playlist_play).withTypeface(typeface);
-        final PrimaryDrawerItem englishTimes = new PrimaryDrawerItem().withName(R.string.cool_english_times).withIcon(GoogleMaterial.Icon.gmd_alarm).withTypeface(typeface);
-        final PrimaryDrawerItem readme = new PrimaryDrawerItem().withName(R.string.readme).withIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied).withTypeface(typeface);
-        final PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info_outline).withTypeface(typeface);
+        final PrimaryDrawerItem galleryOfIssues = new PrimaryDrawerItem().withName(R.string.gallery_of_issues).withIcon(GoogleMaterial.Icon.gmd_playlist_play);
+        final PrimaryDrawerItem englishTimes = new PrimaryDrawerItem().withName(R.string.cool_english_times).withIcon(GoogleMaterial.Icon.gmd_alarm);
+        final PrimaryDrawerItem readme = new PrimaryDrawerItem().withName(R.string.readme).withIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied);
+        final PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info_outline);
 
         drawer = new DrawerBuilder().withHeaderDivider(false).withActivity(this).withHeader(headerView).addDrawerItems(
                 galleryOfIssues,
@@ -168,7 +170,6 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
 
         TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
         toolbarTitle.setText(R.string.gallery_of_issues);
-        toolbarTitle.setTypeface(typeface);
 
         drawer.setToolbar(this, toolbar);
     }

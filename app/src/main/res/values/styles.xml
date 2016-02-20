@@ -8,6 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/colorPrimary</item>
         <!--<item name="android:typeface">monospace</item>-->
+
+        <item name="android:textViewStyle">@style/AppTheme.Widget.TextView</item>
+    </style>
+
+    <style name="AppTheme.Widget"/>
+
+    <style name="AppTheme.Widget.TextView" parent="android:Widget.Holo.Light.TextView">
+        <item name="fontPath">RobotoMono-Regular.ttf</item>
     </style>
 
     <style name="AppTheme.FitScreen" parent="AppTheme">
