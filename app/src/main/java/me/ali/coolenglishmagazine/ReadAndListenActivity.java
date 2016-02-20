@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.session.PlaybackState;
 import android.os.IBinder;
@@ -51,8 +50,8 @@ import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import me.ali.coolenglishmagazine.model.MagazineContent;
-import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class ReadAndListenActivity extends AppCompatActivity implements View.OnClickListener, MusicService.OnMediaStateChangedListener, SeekBar.OnSeekBarChangeListener, View.OnLongClickListener {
@@ -101,6 +100,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     WebViewJavaScriptInterface webViewJavaScriptInterface = new WebViewJavaScriptInterface();
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read_and_listen);
@@ -114,10 +118,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         // TODO read http://javarticles.com/2015/09/android-toolbar-example.html to add toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
-
-        Typeface typeface = FontManager.getTypeface(getApplicationContext(), FontManager.ROBOTO);
-        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        toolbarTitle.setTypeface(typeface);
 
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
@@ -165,6 +165,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         try {
             item = MagazineContent.getItem(new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
+
+            TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
             toolbarTitle.setText(item.type);
 
         } catch (IOException e) {

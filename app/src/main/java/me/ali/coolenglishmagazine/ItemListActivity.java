@@ -1,7 +1,7 @@
 package me.ali.coolenglishmagazine;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,8 +14,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import me.ali.coolenglishmagazine.model.MagazineContent;
-import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 /**
@@ -48,6 +48,11 @@ public class ItemListActivity extends AppCompatActivity
     private boolean mTwoPane;
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_app_bar);
@@ -55,10 +60,8 @@ public class ItemListActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
 
-        Typeface typeface = FontManager.getTypeface(getApplicationContext(), FontManager.ROBOTO);
         TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
         toolbarTitle.setText(getTitle());
-        toolbarTitle.setTypeface(typeface);
 
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();

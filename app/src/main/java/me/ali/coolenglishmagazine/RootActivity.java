@@ -1,7 +1,7 @@
 package me.ali.coolenglishmagazine;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +26,7 @@ import java.io.File;
 import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFragment.OnFragmentInteractionListener {
 
@@ -46,6 +47,13 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
      */
     private boolean mTwoPane;
 
+    Fragment galleryOfIssuesFragment;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,38 +63,27 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
             drawer_selection = savedInstanceState.getInt("drawer_selection");
 
         } else {
-            Fragment fragment;
-            switch (getIntent().getAction()) {
-                case ACTION_SHOW_TIMES:
-                    fragment = null;
-
-                default:
-                    // show the gallery of issues fragment by default
-                    fragment = GalleryOfIssuesFragment.newInstance(ACTION_SHOW_DOWNLOADS.equals(getIntent().getAction()) ? 1 : 0);
-            }
+            // show the gallery of issues fragment by default
+            galleryOfIssuesFragment = GalleryOfIssuesFragment.newInstance(ACTION_SHOW_DOWNLOADS.equals(getIntent().getAction()) ? 1 : 0);
 
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.root_fragment, fragment, GalleryOfIssuesFragment.FRAGMENT_TAG)
+                    .replace(R.id.root_fragment, galleryOfIssuesFragment, GalleryOfIssuesFragment.FRAGMENT_TAG)
                     .commit();
         }
 
         setupNavigationDrawer();
     }
 
-    Typeface typeface;
-
     protected void setupNavigationDrawer() {
-        typeface = FontManager.getTypeface(getApplicationContext(), FontManager.ROBOTO);
-
         // manually load drawer header, and apply custom typeface to it.
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         View headerView = inflater.inflate(R.layout.drawer_header, null);
-        ((TextView) headerView).setTypeface(typeface);
+        ((TextView) headerView).setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.ROBOTO_BOLD));
 
-        PrimaryDrawerItem galleryOfIssues = new PrimaryDrawerItem().withName(R.string.gallery_of_issues).withIcon(GoogleMaterial.Icon.gmd_playlist_play).withTypeface(typeface);
-        PrimaryDrawerItem englishTimes = new PrimaryDrawerItem().withName(R.string.cool_english_times).withIcon(GoogleMaterial.Icon.gmd_alarm).withTypeface(typeface);
-        PrimaryDrawerItem readme = new PrimaryDrawerItem().withName(R.string.readme).withIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied).withTypeface(typeface);
-        PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info_outline).withTypeface(typeface);
+        final PrimaryDrawerItem galleryOfIssues = new PrimaryDrawerItem().withName(R.string.gallery_of_issues).withIcon(GoogleMaterial.Icon.gmd_playlist_play);
+        final PrimaryDrawerItem englishTimes = new PrimaryDrawerItem().withName(R.string.cool_english_times).withIcon(GoogleMaterial.Icon.gmd_alarm);
+        final PrimaryDrawerItem readme = new PrimaryDrawerItem().withName(R.string.readme).withIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied);
+        final PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info_outline);
 
         drawer = new DrawerBuilder().withHeaderDivider(false).withActivity(this).withHeader(headerView).addDrawerItems(
                 galleryOfIssues,
@@ -97,7 +94,27 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
         ).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
             @Override
             public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                Toast.makeText(RootActivity.this, "item clicked: " + position, Toast.LENGTH_SHORT).show();
+                if (drawer_selection == position)
+                    return false;
+
+                Fragment fragment = null;
+                switch (position) {
+                    case 1:
+                        if (galleryOfIssuesFragment == null)
+                            galleryOfIssuesFragment = GalleryOfIssuesFragment.newInstance(0);
+                        fragment = galleryOfIssuesFragment;
+                        break;
+                }
+
+                if (fragment != null) {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.root_fragment, fragment)
+                            .commit();
+                } else {
+                    Toast.makeText(RootActivity.this, "item clicked: " + position, Toast.LENGTH_SHORT).show();
+                }
+
+                drawer_selection = position;
                 return false;
             }
         }).withSelectedItemByPosition(drawer_selection).build();
@@ -153,7 +170,6 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
 
         TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
         toolbarTitle.setText(R.string.gallery_of_issues);
-        toolbarTitle.setTypeface(typeface);
 
         drawer.setToolbar(this, toolbar);
     }

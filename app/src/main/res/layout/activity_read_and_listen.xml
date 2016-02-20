@@ -60,8 +60,7 @@
                 android:gravity="center_vertical"
                 android:maxLines="1"
                 android:text="0:00"
-                android:textColor="@android:color/white"
-                android:typeface="monospace" />
+                android:textColor="@android:color/white" />
 
             <SeekBar
                 android:id="@+id/seekBar"
@@ -85,8 +84,7 @@
                 android:gravity="center_vertical"
                 android:maxLines="1"
                 android:text="1:16"
-                android:textColor="@android:color/white"
-                android:typeface="monospace" />
+                android:textColor="@android:color/white" />
 
         </RelativeLayout>
 
