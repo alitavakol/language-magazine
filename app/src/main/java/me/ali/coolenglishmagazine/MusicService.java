@@ -6,21 +6,30 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.ContentQueryMap;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.ContentObservable;
 import android.database.ContentObserver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.session.PlaybackState;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.support.v4.media.VolumeProviderCompat;
+import android.support.v4.media.session.MediaButtonReceiver;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
 
@@ -224,7 +233,7 @@ public class MusicService extends Service implements
 
     private void handlePlayRequest() {
         if (mediaPlayer != null) {
-            audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+            audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
             mediaButtonReceiverComponent = new ComponentName(this.getPackageName(), RemoteControlReceiver.class.getName());
 
             // Request audio focus for playback
@@ -248,14 +257,58 @@ public class MusicService extends Service implements
                 if (onMediaStateChangedListener != null)
                     onMediaStateChangedListener.onMediaStateChanged(PlaybackState.STATE_PLAYING);
 
-//                int volumeControlsBehaviour = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("volume_controls_behaviour", "1"));
-//                if (volumeControlsBehaviour != 0) {
+                // prevent maximum volume
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, Math.min(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC), audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC) - 1), 0);
+
                 mSettingsContentObserver = new SettingsContentObserver(new Handler());
-                getApplicationContext().getContentResolver().registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, mSettingsContentObserver);
-//                }
+                getContentResolver().registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, mSettingsContentObserver);
+
+//                mediaSession = new MediaSessionCompat(getApplicationContext(), TAG);
+//                mediaSession.setCallback(new MediaSessionCompat.Callback() {
+//                    public boolean onMediaButtonEvent(Intent mediaButtonIntent) {
+//                        LogHelper.i(TAG, "onMediaButtonEvent called: " + mediaButtonIntent);
+//                        return false;
+//                    }
+//
+//                    public void onPause() {
+//                        LogHelper.i(TAG, "onPause called (media button pressed)");
+//                        super.onPause();
+//                    }
+//
+//                    public void onPlay() {
+//                        LogHelper.i(TAG, "onPlay called (media button pressed)");
+//                        super.onPlay();
+//                    }
+//
+//                    public void onStop() {
+//                        LogHelper.i(TAG, "onStop called (media button pressed)");
+//                        super.onStop();
+//                    }
+//                });
+//                mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+//                PlaybackStateCompat state = new PlaybackStateCompat.Builder()
+//                        .setActions(PlaybackStateCompat.ACTION_PLAY)
+//                        .setState(PlaybackStateCompat.STATE_STOPPED, PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN, 0)
+//                        .build();
+//                mediaSession.setPlaybackState(state);
+//                mediaSession.setActive(true);
+//
+//                myVolumeProvider = new VolumeProviderCompat(VolumeProviderCompat.VOLUME_CONTROL_RELATIVE, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)) {
+//                    @Override
+//                    public void onAdjustVolume(int direction) {
+//                        // <0 volume down
+//                        // >0 volume up
+//                        LogHelper.i(TAG, "onAdjustVolume");
+//                        MediaButtonReceiver
+//                    }
+//                };
+//                mediaSession.setPlaybackToRemote(myVolumeProvider);
             }
         }
     }
+
+//    private VolumeProviderCompat myVolumeProvider = null;
+//    MediaSessionCompat mediaSession;
 
     SettingsContentObserver mSettingsContentObserver = null;
 
@@ -285,7 +338,7 @@ public class MusicService extends Service implements
             paused = false;
 
             if (mSettingsContentObserver != null) {
-                getApplicationContext().getContentResolver().unregisterContentObserver(mSettingsContentObserver);
+                getContentResolver().unregisterContentObserver(mSettingsContentObserver);
                 mSettingsContentObserver = null;
             }
 
@@ -312,7 +365,7 @@ public class MusicService extends Service implements
             paused = true;
 
             if (mSettingsContentObserver != null) {
-                getApplicationContext().getContentResolver().unregisterContentObserver(mSettingsContentObserver);
+                getContentResolver().unregisterContentObserver(mSettingsContentObserver);
                 mSettingsContentObserver = null;
             }
 
@@ -484,15 +537,18 @@ public class MusicService extends Service implements
 
         @Override
         public boolean deliverSelfNotifications() {
-            return super.deliverSelfNotifications();
+            return false;
         }
 
         @Override
-        public void onChange(boolean selfChange) {
-            super.onChange(selfChange);
+        public void onChange(boolean selfChange, Uri uri) {
+            super.onChange(selfChange, uri);
+//            if (!uri.toString().contains("volume_music_last_audible_speaker"))
+//                return;
 
-            AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-            int currentVolume = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
+            int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+            LogHelper.i(TAG, uri.toString());
 
             if (ignore) {
                 ignore = false;
@@ -521,17 +577,20 @@ public class MusicService extends Service implements
             if (useVolumeButtonsAsPlaybackNavigation) {
                 if (previousVolume > currentVolume)
                     rewind();
-                else
+                else if (previousVolume < currentVolume)
                     fastForward();
 
-                ignore = true; // ignore next volume change which is originated from code
-
                 // undo volume change
-                audio.setStreamVolume(AudioManager.STREAM_MUSIC, previousVolume, 0);
+                if (currentVolume != previousVolume) {
+                    ignore = true; // ignore next volume change which is originated from code
+                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, previousVolume, 0);
+                }
 
-            } else {
-                // reset fixed volume
-                previousVolume = currentVolume;
+            } else if (currentVolume != previousVolume) {
+                // prevent maximum volume
+                previousVolume = Math.min(currentVolume, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC) - 1);
+                ignore = true;
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, previousVolume, 0);
             }
         }
     }
