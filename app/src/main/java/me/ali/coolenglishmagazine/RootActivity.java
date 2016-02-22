@@ -28,7 +28,7 @@ import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFragment.OnFragmentInteractionListener {
+public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFragment.OnFragmentInteractionListener, ReadmeFragment.OnFragmentInteractionListener {
 
     private static final String TAG = LogHelper.makeLogTag(RootActivity.class);
 
@@ -47,7 +47,7 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
      */
     private boolean mTwoPane;
 
-    Fragment galleryOfIssuesFragment;
+    Fragment galleryOfIssuesFragment, readmeFragment;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -98,17 +98,26 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
                     return false;
 
                 Fragment fragment = null;
+                String tag = null;
                 switch (position) {
                     case 1:
                         if (galleryOfIssuesFragment == null)
                             galleryOfIssuesFragment = GalleryOfIssuesFragment.newInstance(0);
                         fragment = galleryOfIssuesFragment;
+                        tag = GalleryOfIssuesFragment.FRAGMENT_TAG;
+                        break;
+                    case 3:
+                        if (readmeFragment == null)
+                            readmeFragment = ReadmeFragment.newInstance(null, null);
+                        fragment = readmeFragment;
+                        tag = ReadmeFragment.FRAGMENT_TAG;
                         break;
                 }
 
                 if (fragment != null) {
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.root_fragment, fragment)
+//                            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                            .replace(R.id.root_fragment, fragment, tag)
                             .commit();
                 } else {
                     Toast.makeText(RootActivity.this, "item clicked: " + position, Toast.LENGTH_SHORT).show();
@@ -161,7 +170,7 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
      */
     int drawer_selection = 1;
 
-    public void onToolbarCreated(Toolbar toolbar) {
+    public void onToolbarCreated(Toolbar toolbar, int titleRes) {
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -169,9 +178,9 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
             actionBar.setDisplayShowTitleEnabled(false);
 
         TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        toolbarTitle.setText(R.string.gallery_of_issues);
+        toolbarTitle.setText(titleRes);
 
-        drawer.setToolbar(this, toolbar);
+        drawer.setToolbar(this, toolbar, true);
     }
 
     @Override
