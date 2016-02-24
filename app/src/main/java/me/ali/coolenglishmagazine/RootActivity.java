@@ -116,7 +116,7 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
 
                 if (fragment != null) {
                     getSupportFragmentManager().beginTransaction()
-//                            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+//                            .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                             .replace(R.id.root_fragment, fragment, tag)
                             .commit();
                 } else {

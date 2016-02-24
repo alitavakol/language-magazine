@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Read Me fragment -->
+    <dimen name="welcome_appbar_height">192dp</dimen> <!-- 4 * ?actionBarSize -->
+    <dimen name="welcome_content_padding_top">144dp</dimen> <!-- 3 * ?actionBarSize -->
+</resources>

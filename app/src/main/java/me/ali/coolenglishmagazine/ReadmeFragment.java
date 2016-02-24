@@ -7,8 +7,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 
 import me.ali.coolenglishmagazine.util.LogHelper;
+import me.ali.coolenglishmagazine.widget.ObservableScrollView;
 
 
 /**
@@ -16,10 +19,10 @@ import me.ali.coolenglishmagazine.util.LogHelper;
  * Activities that contain this fragment must implement the
  * {@link ReadmeFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ReadmeFragment#newInstance} factory method to
+ * * Use the {@link ReadmeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ReadmeFragment extends Fragment {
+public class ReadmeFragment extends Fragment implements ObservableScrollView.Callbacks {
 
     private static final String TAG = LogHelper.makeLogTag(ReadmeFragment.class);
 
@@ -61,19 +64,29 @@ public class ReadmeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        // force determine if toolbar should be hidden or not
+        toolbarVisibility = -1;
     }
 
+    private ObservableScrollView mScrollView;
+    private Toolbar toolbar;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_readme, container, false);
 
-        mListener.onToolbarCreated((Toolbar) view.findViewById(R.id.toolbar_actionbar), R.string.readme);
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar_actionbar);
+        mListener.onToolbarCreated(toolbar, R.string.readme);
+
+        mScrollView = (ObservableScrollView) view.findViewById(R.id.scroll_view);
+        mScrollView.addCallbacks(this);
 
         return view;
     }
@@ -84,8 +97,7 @@ public class ReadmeFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -113,4 +125,32 @@ public class ReadmeFragment extends Fragment {
          */
         void onToolbarCreated(Toolbar toolbar, int titleRes);
     }
+
+    /**
+     * helper to remember visibility of toolbar, and avoid unnecessary computations on scroll change.
+     * if -1, toolbar visibility must be calculated again.
+     */
+    int toolbarVisibility;
+
+    int toolbarHeight, scrollViewPaddingTop;
+
+    @Override
+    public void onScrollChanged(int deltaX, int deltaY) {
+        int scrollY = mScrollView.getScrollY();
+
+        if (scrollViewPaddingTop == 0) {
+            scrollViewPaddingTop = mScrollView.getPaddingTop();
+            toolbarHeight = toolbar.getMeasuredHeight();
+        }
+
+        if (toolbarVisibility != 1 && scrollY > scrollViewPaddingTop - toolbarHeight) {
+            toolbar.animate().translationY(-toolbarHeight).setInterpolator(new AccelerateInterpolator()).start();
+            toolbarVisibility = 1;
+
+        } else if (toolbarVisibility != 0 && scrollY < scrollViewPaddingTop - 2 * toolbarHeight) {
+            toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
+            toolbarVisibility = 0;
+        }
+    }
+
 }

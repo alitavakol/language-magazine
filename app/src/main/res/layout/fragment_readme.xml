@@ -1,35 +1,69 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="me.ali.coolenglishmagazine.RootActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="@dimen/welcome_appbar_height"
+        android:background="?colorAccent"
+        android:paddingBottom="?actionBarSize">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_actionbar"
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="@dimen/welcome_image_width"
+            android:layout_height="@dimen/welcome_image_height"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_launcher" />
+
+    </FrameLayout>
+
+    <me.ali.coolenglishmagazine.widget.ObservableScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/padding_normal"
+        android:paddingTop="@dimen/welcome_content_padding_top"
+        android:scrollbarStyle="outsideOverlay">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/welcome_content"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="@dimen/padding_normal"
+            android:layout_marginStart="@dimen/padding_normal"
+            android:paddingTop="@dimen/spacing_normal">
 
-            <TextView
-                android:id="@+id/toolbar_title"
-                style="@android:style/TextAppearance.Holo.Widget.ActionBar.Title"
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:ellipsize="end"
-                android:foregroundGravity="center_vertical"
-                android:singleLine="true"
-                tools:text="Toolbar Title" />
-        </android.support.v7.widget.Toolbar>
+                android:layout_height="1000dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_launcher" />
+        </android.support.v7.widget.CardView>
 
-    </android.support.design.widget.AppBarLayout>
+    </me.ali.coolenglishmagazine.widget.ObservableScrollView>
 
-</FrameLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            style="@android:style/TextAppearance.Holo.Widget.ActionBar.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:foregroundGravity="center_vertical"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            tools:text="Toolbar Title" />
+    </android.support.v7.widget.Toolbar>
+
+</android.support.design.widget.CoordinatorLayout>

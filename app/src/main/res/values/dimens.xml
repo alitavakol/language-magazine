@@ -17,7 +17,19 @@
     <dimen name="keyline_1">8dp</dimen>
     <dimen name="keyline_2">48dp</dimen>
     <dimen name="keyline_2_session_detail">@dimen/keyline_2</dimen>
-    <dimen name="padding_normal">8dp</dimen>
     <item name="h3_spacing" format="float" type="dimen">1.14285714286</item>
     <item name="body_1_spacing" format="float" type="dimen">1.22448979592</item>
+
+    <!-- Read Me fragment -->
+    <dimen name="welcome_appbar_height">224dp</dimen> <!-- 4 * ?actionBarSize -->
+    <dimen name="welcome_image_width">200dp</dimen>
+    <dimen name="welcome_image_height">80dp</dimen>
+    <dimen name="welcome_content_padding_top">168dp</dimen> <!-- 3 * ?actionBarSize -->
+    <dimen name="welcome_content_padding">@dimen/padding_normal</dimen>
+    <dimen name="welcome_button_bar_elevation">6dp</dimen>
+    <dimen name="welcome_title_size">20sp</dimen>
+
+    <!-- standard metrics -->
+    <dimen name="spacing_normal">8dp</dimen>
+    <dimen name="padding_normal">16dp</dimen>
 </resources>
