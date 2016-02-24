@@ -10,7 +10,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath(FontManager.ROBOTO)
+                .setDefaultFontPath(FontManager.BOOSTER)
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );

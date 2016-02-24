@@ -90,7 +90,7 @@ public class ItemListFragment extends ListFragment {
     public ItemListFragment() {
     }
 
-    Typeface levelTypeface;
+    Typeface levelTypeface, titleTypeface;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,7 +103,8 @@ public class ItemListFragment extends ListFragment {
         } catch (IOException e) {
         }
 
-        levelTypeface = FontManager.getTypeface(getActivity(), FontManager.ROBOTO_ITALIC);
+        levelTypeface = FontManager.getTypeface(getActivity(), FontManager.BOOSTER_ITALIC);
+        titleTypeface = FontManager.getTypeface(getActivity(), FontManager.BOOSTER_BOLD);
 
         // TODO: replace with a real list adapter.
         setListAdapter(new Adapter());
@@ -225,6 +226,7 @@ public class ItemListFragment extends ListFragment {
 
             final TextView textViewTitle = (TextView) vi.findViewById(R.id.title);
             textViewTitle.setText(item.title);
+            textViewTitle.setTypeface(titleTypeface);
 //            textViewTitle.setBackgroundColor(transparentColor);
 
             final TextView textViewType = (TextView) vi.findViewById(R.id.type);

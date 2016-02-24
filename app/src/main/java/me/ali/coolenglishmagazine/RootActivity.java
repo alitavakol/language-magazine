@@ -78,7 +78,7 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
         // manually load drawer header, and apply custom typeface to it.
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         View headerView = inflater.inflate(R.layout.drawer_header, null);
-        ((TextView) headerView).setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.ROBOTO_BOLD));
+        ((TextView) headerView).setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.BOOSTER_BOLD));
 
         final PrimaryDrawerItem galleryOfIssues = new PrimaryDrawerItem().withName(R.string.gallery_of_issues).withIcon(GoogleMaterial.Icon.gmd_playlist_play);
         final PrimaryDrawerItem englishTimes = new PrimaryDrawerItem().withName(R.string.cool_english_times).withIcon(GoogleMaterial.Icon.gmd_alarm);

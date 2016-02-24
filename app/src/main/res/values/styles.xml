@@ -15,7 +15,7 @@
     <style name="AppTheme.Widget"/>
 
     <style name="AppTheme.Widget.TextView" parent="android:Widget.Holo.Light.TextView">
-        <item name="fontPath">RobotoMono-Regular.ttf</item>
+        <item name="fontPath">BoosterNextFY-Regular.otf</item>
     </style>
 
     <style name="AppTheme.FitScreen" parent="AppTheme">

@@ -107,7 +107,7 @@ public class GalleryOfIssuesFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(currentTabIndex).select();
 
-        Typeface typeface = FontManager.getTypeface(getActivity(), FontManager.ROBOTO_LIGHT);
+        Typeface typeface = FontManager.getTypeface(getActivity(), FontManager.BOOSTER_LIGHT);
         FontManager.markAsIconContainer(tabLayout, typeface);
 
         return view;
