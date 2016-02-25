@@ -66,13 +66,12 @@ public class IssueDetailFragment extends Fragment {
             final WebView webView = (WebView) rootView.findViewById(R.id.webView);
             webView.setWebViewClient(new WebViewClient() {
                 public void onPageFinished(WebView view, String url) {
-                    final String command = "javascript:adjustLayout("
-                            + "0, 0, 0, " // top margin, bottom margin, poster height
-                            + ContextCompat.getColor(getActivity(), R.color.colorAccent) // accent color
-                            + ", 0xc5c5c5, " // text color
-                            + ContextCompat.getColor(getActivity(), R.color.colorPrimary) // background color
-                            + ", 0xf8f8f8" // new word color
-                            + ");";
+                    final String command = "javascript:adjustLayout({"
+                            + "accentColor: " + ContextCompat.getColor(getActivity(), R.color.colorAccent) // accent color
+                            + ", textColor: 0xc5c5c5" // text color
+                            + ", backgroundColor: " + ContextCompat.getColor(getActivity(), R.color.colorPrimary) // background color
+                            + ", newWordColor: 0xf8f8f8" // new word color
+                            + "});";
                     webView.loadUrl(command);
 //                    webView.loadUrl("javascript:setInstanceState(" + new JSONArray(Arrays.asList(webViewState)) + ");");
                     webView.loadUrl("javascript:app.onAdjustLayoutComplete();");

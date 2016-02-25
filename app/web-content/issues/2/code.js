@@ -3,23 +3,23 @@ highlight = function(timePoint) {
 	$('[data-start=' + timePoint + ']').addClass('highlight');
 }
 
-adjustLayout = function(topMargin_, bottomMargin_, height_, accentColor_, textColor_, backgroundColor__, newWordColor_) {
-	backgroundColor_ = backgroundColor__;
+adjustLayout = function(options) {
+	backgroundColor_ = (options['backgroundColor'] || 0);
 
-	topMargin = topMargin_ / window.devicePixelRatio;
-	bottomMargin = bottomMargin_ / window.devicePixelRatio;
-	height = height_ / window.devicePixelRatio;
+	topMargin = (options['topMargin'] || 0) / window.devicePixelRatio;
+	bottomMargin = (options['bottomMargin'] || 0) / window.devicePixelRatio;
+	height = (options['height'] || 0) / window.devicePixelRatio;
 
-	textColor = (textColor_ & 0xffffff).toString(16);
+	textColor = ((options['textColor'] || 0) & 0xffffff).toString(16);
 	while(textColor.length < 6) textColor = '0' + textColor;
 
-	accentColor = (accentColor_ & 0xffffff).toString(16);
+	accentColor = ((options['accentColor'] || 0) & 0xffffff).toString(16);
 	while(accentColor.length < 6) accentColor = '0' + accentColor;
 
 	backgroundColor = (backgroundColor_ & 0xffffff).toString(16);
 	while(backgroundColor.length < 6) backgroundColor = '0' + backgroundColor;
 
-	newWordColor = (newWordColor_ & 0xffffff).toString(16);
+	newWordColor = ((options['newWordColor'] || 0) & 0xffffff).toString(16);
 	while(newWordColor.length < 6) newWordColor = '0' + newWordColor;
 
 	highlightColor = tinycolor(accentColor).brighten().toHexString();
@@ -42,7 +42,7 @@ adjustLayout = function(topMargin_, bottomMargin_, height_, accentColor_, textCo
 		.dot.active { background-color: #" + newWordColor + "; } "
 	);
 
-	adjustCustomLayout();
+	adjustCustomLayout(options);
 }
 
 if(typeof(app) == 'undefined') { // on web browser
@@ -58,7 +58,13 @@ if(typeof(app) == 'undefined') { // on web browser
 			$('body').append("<button  style='position: absolute; top: 0; float: right; right: 50px; z-index: 2;' onclick='swipeable.prev()'>Previous</button> <button  style='position: absolute; top: 0; float: right; right: 0; z-index: 2;' onclick='swipeable.next()'>Next</button>");
 
 		//adjustLayout(0, 0, $(window).height(), 0x9688, 0x888888, 0xf5f5f5, 0);
-		adjustLayout(0, 0, $(window).height(), 0x9688, 0xc5c5c5, 0x212121, 0xf8f8f8);
+		adjustLayout({
+			height: $(window).height(), 
+			accentColor: 0x9688, 
+			textColor: 0xc5c5c5, 
+			backgroundColor: 0x212121, 
+			newWordColor: 0xf8f8f8
+		});
 
 		if(typeof(lock) == 'function')
 			lock(false);

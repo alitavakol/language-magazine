@@ -172,15 +172,15 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 theme.resolveAttribute(R.attr.colorAccent, typedValue, true);
                 int accentColor = typedValue.data;
 
-                final String command = "javascript:adjustLayout("
-                        + actionBarSize // HTML content top margin
-                        + ", " + findViewById(R.id.controllers).getMeasuredHeight()
-                        + ", " + webView.getMeasuredHeight() // poster height
-                        + ", " + accentColor // accent color
-                        + ", 0xc5c5c5, " // text color
-                        + ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary) // background color
-                        + ", 0xf8f8f8" // new word color
-                        + ");";
+                final String command = "javascript:adjustLayout({"
+                        + "topMargin: " + actionBarSize // HTML content top margin
+                        + ", bottomMargin: " + findViewById(R.id.controllers).getMeasuredHeight()
+                        + ", height: " + webView.getMeasuredHeight() // poster height
+                        + ", accentColor: " + accentColor // accent color
+                        + ", textColor: 0xc5c5c5" // text color
+                        + ", backgroundColor: " + ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary) // background color
+                        + ", newWordColor: 0xf8f8f8" // new word color
+                        + "});";
                 webView.loadUrl(command);
                 webView.loadUrl("javascript:setInstanceState(" + new JSONArray(Arrays.asList(webViewState)) + ");");
                 webView.loadUrl("javascript:app.onAdjustLayoutComplete();");

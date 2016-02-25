@@ -92,7 +92,7 @@
 		</div>
 
 		<script type="text/javascript">
-			adjustCustomLayout = function() {
+			adjustCustomLayout = function(options) {
 				t = "(#" + backgroundColor + ", " + tinycolor(backgroundColor).setAlpha(0).toRgbString() + ", #" + backgroundColor + "), url('swimming-squirrel.jpg')";
 				$('#local-rules').text("\
 					.poster { background-image: -webkit-linear-gradient" + t + "; background-image: linear-gradient" + t + "; height: " + height + "px; } "
