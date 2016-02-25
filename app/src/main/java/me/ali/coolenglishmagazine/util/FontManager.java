@@ -22,6 +22,8 @@ public class FontManager {
     public static final String BOOSTER_BOLD = "BoosterNextFY-Bold.otf";
     public static final String BOOSTER_LIGHT = "BoosterNextFY-Light.otf";
     public static final String BOOSTER_ITALIC = "BoosterNextFY-Regular.otf";
+    public static final String BADIYA = "Bahij_Badiya-Regular.ttf";
+    public static final String BADIYA_BOLD = "Bahij Badiya-Bold.ttf";
 
     public static Typeface getTypeface(Context context, String font) {
         return Typeface.createFromAsset(context.getAssets(), font);

@@ -653,6 +653,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                     TextView textViewNewWord = (TextView) popupView.findViewById(R.id.new_word);
                     textViewNewWord.setText(phrase);
                     textViewNewWord.setTextColor(getResources().getIntArray(R.array.levelColors)[item.level]);
+                    textViewNewWord.setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.BOOSTER_BOLD));
 
                     ((TextView) popupView.findViewById(R.id.word_type)).setText(newWord.type);
 
@@ -664,6 +665,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                         textViewEn.setVisibility(View.GONE);
 
                     final TextView textViewFa = (TextView) popupView.findViewById(R.id.def_fa);
+                    textViewFa.setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.BADIYA));
                     final String fa = newWord.definition.get("fa");
                     if (fa.length() > 0)
                         textViewFa.setText(fa);
