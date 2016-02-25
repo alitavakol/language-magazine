@@ -9,9 +9,9 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.session.PlaybackState;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -78,7 +78,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     /**
      * music playback state
      */
-    protected int state = PlaybackState.STATE_NONE;
+    protected int state = PlaybackStateCompat.STATE_NONE;
 
     /**
      * array of voice timestamps (start and end of voice snippets)
@@ -188,7 +188,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 lockTranscript(transcriptLocked);
 
                 webView.loadUrl("javascript:highlight(" + currentTimePoint + ");");
-                if (state == PlaybackState.STATE_PLAYING) {
+                if (state == PlaybackStateCompat.STATE_PLAYING) {
                     currentTimePoint = -1; // force redo highlight current snippet when playing
                 }
             }
@@ -447,7 +447,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     public void onMediaStateChanged(int state) {
         LogHelper.i(TAG, "media playback state: ", state);
 
-        if (state != PlaybackState.STATE_NONE) {
+        if (state != PlaybackStateCompat.STATE_NONE) {
             final int duration = musicService.getDuration();
             final int currentPosition = musicService.getCurrentMediaPosition();
 
@@ -457,15 +457,15 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             endText.setText(formatTime(duration));
         }
 
-        findViewById(R.id.play).setEnabled(state != PlaybackState.STATE_NONE);
-        findViewById(R.id.pause).setEnabled(state != PlaybackState.STATE_NONE);
+        findViewById(R.id.play).setEnabled(state != PlaybackStateCompat.STATE_NONE);
+        findViewById(R.id.pause).setEnabled(state != PlaybackStateCompat.STATE_NONE);
 
-        final boolean canSeek = state == PlaybackState.STATE_PAUSED || state == PlaybackState.STATE_PLAYING;
+        final boolean canSeek = state == PlaybackStateCompat.STATE_PAUSED || state == PlaybackStateCompat.STATE_PLAYING;
         findViewById(R.id.prev).setEnabled(canSeek);
         findViewById(R.id.next).setEnabled(canSeek);
         seekBar.setEnabled(canSeek);
 
-        if (state == PlaybackState.STATE_PLAYING) {
+        if (state == PlaybackStateCompat.STATE_PLAYING) {
             findViewById(R.id.play).setVisibility(View.GONE);
             findViewById(R.id.pause).setVisibility(View.VISIBLE);
 
@@ -491,7 +491,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 }
             }, 0, 250);
 
-        } else if (state == PlaybackState.STATE_STOPPED) {
+        } else if (state == PlaybackStateCompat.STATE_STOPPED) {
             findViewById(R.id.play).setVisibility(View.VISIBLE);
             findViewById(R.id.pause).setVisibility(View.GONE);
 
@@ -500,7 +500,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 seekBarTimer = null;
             }
 
-        } else if (state == PlaybackState.STATE_PAUSED) {
+        } else if (state == PlaybackStateCompat.STATE_PAUSED) {
             findViewById(R.id.play).setVisibility(View.VISIBLE);
             findViewById(R.id.pause).setVisibility(View.GONE);
 
@@ -603,6 +603,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
          * This method can be called from Android. @JavascriptInterface
          * required after SDK version 17.
          */
+        @SuppressWarnings("unused")
         @JavascriptInterface
         public void makeToast(String message, boolean lengthLong) {
             Toast.makeText(getApplicationContext(), message, (lengthLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT)).show();
@@ -613,6 +614,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
          *
          * @param state web view state, whose meaning is internal to the web view itself.
          */
+        @SuppressWarnings("unused")
         @JavascriptInterface
         public void saveInstanceState(final String[] state) {
             runOnUiThread(new Runnable() {
@@ -625,6 +627,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         /**
          * shows lock button and media playback controls if on correct slide. and hides them otherwise.
          */
+        @SuppressWarnings("unused")
         @JavascriptInterface
         public void showLockControls(boolean show) {
             useLockControls = show;
@@ -637,6 +640,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             });
         }
 
+        @SuppressWarnings("unused")
         @JavascriptInterface
         public void showGlossary(final String phrase, final int left, final int top, final int height) {
             runOnUiThread(new Runnable() {
@@ -678,16 +682,17 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                     popupWindow.setFocusable(true); // pressing back button will close popup window
 
                     if (top < webView.getHeight() / 2) {
-                        popupWindow.showAtLocation(webView, Gravity.TOP | Gravity.LEFT, left, top + 3 * height + webView.getTop());
+                        popupWindow.showAtLocation(webView, Gravity.TOP | Gravity.START, left, top + 3 * height + webView.getTop());
                     } else {
                         // TODO find correct value for first parameter of this call
                         popupView.measure(View.MeasureSpec.makeMeasureSpec(webView.getWidth(), View.MeasureSpec.AT_MOST), View.MeasureSpec.UNSPECIFIED);
-                        popupWindow.showAtLocation(webView, Gravity.TOP | Gravity.LEFT, left, top + height - popupView.getMeasuredHeight() + webView.getTop());
+                        popupWindow.showAtLocation(webView, Gravity.TOP | Gravity.START, left, top + height - popupView.getMeasuredHeight() + webView.getTop());
                     }
                 }
             });
         }
 
+        @SuppressWarnings("unused")
         @JavascriptInterface
         public void onAdjustLayoutComplete() {
             runOnUiThread(new Runnable() {

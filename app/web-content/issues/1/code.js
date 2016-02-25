@@ -22,7 +22,7 @@ adjustLayout = function(options) {
 	newWordColor = ((options['newWordColor'] || 0) & 0xffffff).toString(16);
 	while(newWordColor.length < 6) newWordColor = '0' + newWordColor;
 
-	highlightColor = tinycolor(accentColor).brighten().toHexString();
+	highlightColor = tinycolor(accentColor).darken().darken().toHexString();
 
 	$('#dynamic-rules').text("\
 		.card { margin-top: " + (topMargin+28) + "px; background-color: #" + accentColor + "; } \

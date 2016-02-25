@@ -1,6 +1,5 @@
 package me.ali.coolenglishmagazine;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -56,7 +55,6 @@ public class IssueDetailFragment extends Fragment {
         }
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -92,11 +90,12 @@ public class IssueDetailFragment extends Fragment {
      * (as long as they have the @JavascriptInterface annotation)
      */
     public class WebViewJavaScriptInterface {
+        @SuppressWarnings("unused")
         @JavascriptInterface
         public void onAdjustLayoutComplete() {
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
-                    ((IssueDetailActivity)getActivity()).setOnScrollViewLayoutChangedListener();
+                    ((IssueDetailActivity) getActivity()).setOnScrollViewLayoutChangedListener();
                     getActivity().findViewById(R.id.hourglass).setVisibility(View.GONE);
                     getView().setVisibility(View.VISIBLE);
                 }

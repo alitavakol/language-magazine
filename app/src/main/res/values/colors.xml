@@ -6,10 +6,10 @@
     <color name="colorAccent">#009688</color>
     <color name="colorAccentOpposite">#002100</color>
 
-    <color name="beginnerLevelColor">#4444bb</color>
-    <color name="intermediateLevelColor">#229922</color>
-    <color name="upperIntermediateLevelColor">#999900</color>
-    <color name="advancedLevelColor">#bb3300</color>
+    <color name="beginnerLevelColor">#009EE0</color>
+    <color name="intermediateLevelColor">#46A32A</color>
+    <color name="upperIntermediateLevelColor">#FAB900</color>
+    <color name="advancedLevelColor">#CD071E</color>
 
     <array name="levelColors">
         <item>@color/beginnerLevelColor</item>

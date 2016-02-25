@@ -14,7 +14,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.session.PlaybackState;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
@@ -22,6 +21,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
 
@@ -231,7 +231,7 @@ public class MusicService extends Service implements
         LogHelper.i(TAG, "Media prepared.");
 
         if (onMediaStateChangedListener != null)
-            onMediaStateChangedListener.onMediaStateChanged(PlaybackState.STATE_STOPPED);
+            onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_STOPPED);
     }
 
     AudioManager audioManager;
@@ -265,7 +265,7 @@ public class MusicService extends Service implements
                 startForeground(PLAYBACK_NOTIFICATION_ID, getNotification(true));
 
                 if (onMediaStateChangedListener != null)
-                    onMediaStateChangedListener.onMediaStateChanged(PlaybackState.STATE_PLAYING);
+                    onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_PLAYING);
 
                 // prevent maximum volume
                 audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, Math.min(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC), audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC) - 1), 0);
@@ -366,7 +366,7 @@ public class MusicService extends Service implements
         }
 
         if (onMediaStateChangedListener != null)
-            onMediaStateChangedListener.onMediaStateChanged(PlaybackState.STATE_STOPPED);
+            onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_STOPPED);
 
         ShakeDetector.stop();
 
@@ -397,7 +397,7 @@ public class MusicService extends Service implements
             notificationManager.notify(PLAYBACK_NOTIFICATION_ID, getNotification(false));
 
             if (onMediaStateChangedListener != null)
-                onMediaStateChangedListener.onMediaStateChanged(PlaybackState.STATE_PAUSED);
+                onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_PAUSED);
         }
     }
 
@@ -420,7 +420,7 @@ public class MusicService extends Service implements
 
     public void setOnMediaStateChangedListener(OnMediaStateChangedListener listener) {
         onMediaStateChangedListener = listener;
-        onMediaStateChangedListener.onMediaStateChanged(mediaPlayer == null ? PlaybackState.STATE_NONE : (mediaPlayer.isPlaying() ? PlaybackState.STATE_PLAYING : (paused ? PlaybackState.STATE_PAUSED : PlaybackState.STATE_STOPPED)));
+        onMediaStateChangedListener.onMediaStateChanged(mediaPlayer == null ? PlaybackStateCompat.STATE_NONE : (mediaPlayer.isPlaying() ? PlaybackStateCompat.STATE_PLAYING : (paused ? PlaybackStateCompat.STATE_PAUSED : PlaybackStateCompat.STATE_STOPPED)));
     }
 
     public void removeOnMediaStateChangedListener(OnMediaStateChangedListener listener) {
