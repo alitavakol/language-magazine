@@ -187,6 +187,11 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
     public void onBackPressed() {
         if (drawer != null && drawer.isDrawerOpen()) {
             drawer.closeDrawer();
+
+        } else if (drawer_selection != 1 && drawer != null) {
+            // when gallery of issues fragment is not active, navigate to it instead of exiting
+            drawer.setSelectionAtPosition(1, true);
+
         } else {
             super.onBackPressed();
         }
