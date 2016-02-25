@@ -25,6 +25,11 @@
 		    android:positiveButtonText="@null"
 		    android:title="@string/pref_title_navigate_audio_with_volume_buttons" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="shake_to_pause_playback"
+            android:title="@string/pref_title_shake_to_pause_playback" />
+
         <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
              dismiss it. -->
         <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->

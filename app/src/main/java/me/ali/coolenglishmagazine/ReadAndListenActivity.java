@@ -402,9 +402,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.play:
-                if (musicService != null && state == PlaybackState.STATE_PAUSED) { // rewind to start of audio snippet
-                    musicService.seekTo(musicService.floorPosition(musicService.getCurrentMediaPosition(), 0, false));
-                }
                 Intent startIntent = new Intent(ReadAndListenActivity.this, MusicService.class);
                 startIntent.setAction(MusicService.ACTION_PLAY);
                 startService(startIntent);

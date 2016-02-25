@@ -73,7 +73,7 @@
     <!-- Example settings for Data & Sync -->
     <string name="pref_header_data_sync">Data &amp; sync</string>
 
-    <string name="pref_title_server_address">Server Address</string>
+    <string name="pref_title_server_address">Server address</string>
     <string name="pref_default_server_address">http://10.0.2.2:3000</string>
 
     <string name="pref_title_sync_frequency">Sync frequency</string>
@@ -100,6 +100,8 @@
     <string name="pref_header_notifications">Notifications</string>
 
     <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_shake_to_pause_playback">Shake to pause/resume playback</string>
 
     <string name="pref_title_ringtone">Ringtone</string>
     <string name="pref_ringtone_silent">Silent</string>
