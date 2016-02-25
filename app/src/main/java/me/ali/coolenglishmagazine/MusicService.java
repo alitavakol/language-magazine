@@ -6,12 +6,9 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
-import android.content.ContentQueryMap;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.ContentObservable;
 import android.database.ContentObserver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,14 +21,11 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.support.v4.media.VolumeProviderCompat;
-import android.support.v4.media.session.MediaButtonReceiver;
-import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
+
+import com.github.tbouron.shakedetector.library.ShakeDetector;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -72,12 +66,24 @@ public class MusicService extends Service implements
     private String dataSource = null;
 
     public void onCreate() {
+        ShakeDetector.create(this, new ShakeDetector.OnShakeListener() {
+            @Override
+            public void OnShake() {
+                boolean shakeToPausePlayback = PreferenceManager.getDefaultSharedPreferences(MusicService.this).getBoolean("shake_to_pause_playback", true);
+                if (shakeToPausePlayback) {
+                    if (mediaPlayer.isPlaying())
+                        handlePauseRequest();
+                    else
+                        handlePlayRequest();
+                }
+            }
+        });
     }
 
     public void onDestroy() {
-        LogHelper.d("onDestroy");
-
+        LogHelper.d("music service onDestroy");
         handleStopRequest();
+        ShakeDetector.destroy();
     }
 
     // TODO implement audio becoming noisy handler
@@ -246,6 +252,10 @@ public class MusicService extends Service implements
             if (requestAudioFocusResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                 audioManager.registerMediaButtonEventReceiver(mediaButtonReceiverComponent);
 
+                if (paused) { // rewind to start of audio snippet
+                    mediaPlayer.seekTo(floorPosition(getCurrentMediaPosition(), 0, false));
+                }
+
                 mediaPlayer.start();
                 paused = false;
 
@@ -262,6 +272,8 @@ public class MusicService extends Service implements
 
                 mSettingsContentObserver = new SettingsContentObserver(new Handler());
                 getContentResolver().registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, mSettingsContentObserver);
+
+                ShakeDetector.start();
 
 //                mediaSession = new MediaSessionCompat(getApplicationContext(), TAG);
 //                mediaSession.setCallback(new MediaSessionCompat.Callback() {
@@ -355,6 +367,8 @@ public class MusicService extends Service implements
 
         if (onMediaStateChangedListener != null)
             onMediaStateChangedListener.onMediaStateChanged(PlaybackState.STATE_STOPPED);
+
+        ShakeDetector.stop();
 
         handlePrepareRequest(dataSource);
     }
