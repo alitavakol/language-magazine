@@ -6,6 +6,14 @@
 	font-family: FiraMonoBold;
 	src: url("file:///android_asset/FiraMono-Bold.otf")
 }
+@font-face {
+	font-family: BoosterNextFY;
+	src: url("file:///android_asset/BoosterNextFY-Regular.otf")
+}
+@font-face {
+	font-family: BoosterNextFY_Bold;
+	src: url("file:///android_asset/BoosterNextFY-Bold.otf")
+}
 body {
 	font-family: FiraMono;
 	margin-left: 0;

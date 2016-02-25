@@ -6,8 +6,16 @@
 	font-family: FiraMonoBold;
 	src: url("file:///android_asset/FiraMono-Bold.otf")
 }
+@font-face {
+	font-family: BoosterNextFY;
+	src: url("file:///android_asset/BoosterNextFY-Regular.otf")
+}
+@font-face {
+	font-family: BoosterNextFY_Bold;
+	src: url("file:///android_asset/BoosterNextFY-Bold.otf")
+}
 body {
-	font-family: FiraMono;
+	font-family: BoosterNextFY;
 	margin-left: 0;
 	margin-right: 0;
 	background-color: #000;
@@ -29,7 +37,7 @@ body {
 }
 .new-word {
 	text-decoration: none;
-	font-family: FiraMonoBold;
+	font-family: BoosterNextFY_Bold;
 }
 header {
 	position: absolute;
@@ -51,6 +59,7 @@ header {
 h1 {
 	margin-top: 0;
 	margin-bottom: 0;
+	font-family: BoosterNextFY_Bold;
 	/*text-shadow: 0 1px 0 black;*/
 }
 h3 {
@@ -80,7 +89,7 @@ h3 {
 }
 .faq dt {
 	position: relative;
-	font-family: FiraMonoBold;
+	font-family: BoosterNextFY_Bold;
 	padding: 4px 0 10px 0;
 }
 .faq dt:before {
@@ -89,8 +98,7 @@ h3 {
 	position: absolute;
 	left: 0;
 	top: 0;
-	/*font-family: FiraMonoBold;*/
-	font: bold 50px/1 FiraMonoBold;
+	font: bold 50px/1 BoosterNextFY_Bold;
 }
 .faq dd {
 	margin: 0 0 32px 0;

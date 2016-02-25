@@ -55,8 +55,7 @@
         android:fontFamily="monospace"
         android:paddingStart="8dp"
         android:text="type"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="12sp" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
         android:id="@+id/level"

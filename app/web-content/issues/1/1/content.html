@@ -19,6 +19,8 @@
 		<script src="../../../jquery-1.11.3.min.js"></script>
 		<script src="file:///android_asset/swipe.min.js"></script>
 		<script src="../../../swipe.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../tinycolor-min.js"></script>
 
 		<script src="../code.js"></script>
 	</head>
@@ -91,7 +93,7 @@
 
 		<script type="text/javascript">
 			adjustCustomLayout = function() {
-				t = "(#" + backgroundColor + ", rgba(" + ((backgroundColor_>>16)&0xff) + "," + ((backgroundColor_>>8)&0xff) + "," + (backgroundColor_&0xff) + ",0), #" + backgroundColor + "), url('swimming-squirrel.jpg')";
+				t = "(#" + backgroundColor + ", " + tinycolor(backgroundColor).setAlpha(0).toRgbString() + ", #" + backgroundColor + "), url('swimming-squirrel.jpg')";
 				$('#local-rules').text("\
 					.poster { background-image: -webkit-linear-gradient" + t + "; background-image: linear-gradient" + t + "; height: " + height + "px; } "
 				);

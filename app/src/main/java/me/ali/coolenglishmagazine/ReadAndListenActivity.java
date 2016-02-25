@@ -4,8 +4,10 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.session.PlaybackState;
 import android.os.IBinder;
@@ -50,11 +52,12 @@ import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import me.ali.coolenglishmagazine.model.MagazineContent;
+import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
-public class ReadAndListenActivity extends AppCompatActivity implements View.OnClickListener, MusicService.OnMediaStateChangedListener, SeekBar.OnSeekBarChangeListener, View.OnLongClickListener {
+public class ReadAndListenActivity extends AppCompatActivity implements View.OnClickListener, MusicService.OnMediaStateChangedListener, SeekBar.OnSeekBarChangeListener {
 
     private static final String TAG = LogHelper.makeLogTag(ReadAndListenActivity.class);
 
@@ -106,6 +109,29 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        try {
+            item = MagazineContent.getItem(new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
+
+            // use appropriate accent color (and more theme styles) regarding the level of the item.
+            switch (item.level) {
+                case 0: // beginner
+                    setTheme(R.style.ReadAndListenTheme_BeginnerLevel);
+                    break;
+                case 1: // intermediate
+                    setTheme(R.style.ReadAndListenTheme_IntermediateLevel);
+                    break;
+                case 2: // upper-intermediate
+                    setTheme(R.style.ReadAndListenTheme_UpperIntermediateLevel);
+                    break;
+                case 3: // advanced
+                    setTheme(R.style.ReadAndListenTheme_AdvancedLevel);
+                    break;
+            }
+
+        } catch (IOException e) {
+            LogHelper.e(TAG, e.getMessage());
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read_and_listen);
 
@@ -126,6 +152,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             ab.setDisplayHomeAsUpEnabled(true); // Enable the Up button
         }
 
+        // set item type as action bar title
+        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        toolbarTitle.setText(item.type);
+
         webView = (WebView) findViewById(R.id.webView);
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
@@ -136,11 +166,17 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 int actionBarSize = a.getDimensionPixelSize(indexOfAttrActionBarSize, -1);
                 a.recycle();
 
+                // get themed accent color
+                TypedValue typedValue = new TypedValue();
+                Resources.Theme theme = getTheme();
+                theme.resolveAttribute(R.attr.colorAccent, typedValue, true);
+                int accentColor = typedValue.data;
+
                 final String command = "javascript:adjustLayout("
                         + actionBarSize // HTML content top margin
                         + ", " + findViewById(R.id.controllers).getMeasuredHeight()
                         + ", " + webView.getMeasuredHeight() // poster height
-                        + ", " + ContextCompat.getColor(getApplicationContext(), R.color.colorAccent) // accent color
+                        + ", " + accentColor // accent color
                         + ", 0xc5c5c5, " // text color
                         + ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary) // background color
                         + ", 0xf8f8f8" // new word color
@@ -163,19 +199,14 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         ((ImageView) findViewById(R.id.hourglass)).setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_hourglass_full).sizeDp(72).color(Color.LTGRAY));
 
-        try {
-            item = MagazineContent.getItem(new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
-
-            TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-            toolbarTitle.setText(item.type);
-
-        } catch (IOException e) {
-            LogHelper.e(TAG, e.getMessage());
-        }
-
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         startText = (TextView) findViewById(R.id.startText);
         endText = (TextView) findViewById(R.id.endText);
+
+        // numbers should be represented in monospace style
+        Typeface monospace = FontManager.getTypeface(getApplicationContext(), FontManager.ROBOTO);
+        startText.setTypeface(monospace);
+        endText.setTypeface(monospace);
 
         findViewById(R.id.play).setEnabled(false);
         findViewById(R.id.pause).setEnabled(false);
@@ -192,7 +223,13 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         ImageView lock = (ImageView) findViewById(R.id.lock);
         lock.setOnClickListener(this);
-        lock.setOnLongClickListener(this);
+        lock.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                lockTranscript(false);
+                return true;
+            }
+        });
         lock.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_vpn_key).sizeDp(72).color(Color.LTGRAY));
 
         try {
@@ -268,6 +305,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
      */
     protected boolean useLockControls = false;
 
+    /**
+     * holds state variables of the web view widget. array size and meaning of them
+     * is internal to and maintained by the web view itself.
+     */
     protected String[] webViewState = new String[0];
 
     @Override
@@ -545,18 +586,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         return newWords;
     }
 
-    @Override
-    public boolean onLongClick(View v) {
-        switch (v.getId()) {
-            case R.id.lock:
-                lockTranscript(false);
-                break;
-        }
-        return true;
-    }
-
     /**
-     * Hide transcript
+     * toggle transcript visibility
+     *
+     * @param lock hide transcript if true
      */
     protected void lockTranscript(boolean lock) {
         transcriptLocked = lock;
@@ -578,6 +611,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             Toast.makeText(getApplicationContext(), message, (lengthLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT)).show();
         }
 
+        /**
+         * called by the web view to deliver its state, and the android app will save it.
+         *
+         * @param state web view state, whose meaning is internal to the web view itself.
+         */
         @JavascriptInterface
         public void saveInstanceState(final String[] state) {
             runOnUiThread(new Runnable() {
@@ -604,18 +642,18 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         @JavascriptInterface
         public void showGlossary(final String phrase, final int left, final int top, final int height) {
-//            Toast.makeText(getApplicationContext(), newWords.get(phrase).definition.get("fa"), Toast.LENGTH_LONG).show();
-
             runOnUiThread(new Runnable() {
                 public void run() {
                     final NewWord newWord = newWords.get(phrase);
 
-                    LayoutInflater layoutInflater
-                            = (LayoutInflater) getBaseContext()
-                            .getSystemService(LAYOUT_INFLATER_SERVICE);
-
+                    LayoutInflater layoutInflater = ReadAndListenActivity.this.getLayoutInflater();//.cloneInContext(new ContextThemeWrapper(ReadAndListenActivity.this, R.style.ReadAndListenTheme_BeginnerLevel));
                     View popupView = layoutInflater.inflate(R.layout.word_definition, null);
-                    ((TextView) popupView.findViewById(R.id.new_word)).setText(phrase);
+
+                    // could not apply level theme to this popup view. do it manually :(
+                    TextView textViewNewWord = (TextView) popupView.findViewById(R.id.new_word);
+                    textViewNewWord.setText(phrase);
+                    textViewNewWord.setTextColor(getResources().getIntArray(R.array.levelColors)[item.level]);
+
                     ((TextView) popupView.findViewById(R.id.word_type)).setText(newWord.type);
 
                     final TextView textViewEn = (TextView) popupView.findViewById(R.id.def_en);
@@ -660,15 +698,5 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             });
         }
     }
-
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        switch (keyCode) {
-//            case KeyEvent.KEYCODE_VOLUME_UP:
-//            case KeyEvent.KEYCODE_VOLUME_DOWN:
-//                return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
 
 }

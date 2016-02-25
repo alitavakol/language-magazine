@@ -12,6 +12,19 @@
         <item name="android:textViewStyle">@style/AppTheme.Widget.TextView</item>
     </style>
 
+    <style name="ReadAndListenTheme.BeginnerLevel" parent="AppTheme">
+        <item name="colorAccent">@color/beginnerLevelColor</item>
+    </style>
+    <style name="ReadAndListenTheme.IntermediateLevel" parent="AppTheme">
+        <item name="colorAccent">@color/intermediateLevelColor</item>
+    </style>
+    <style name="ReadAndListenTheme.UpperIntermediateLevel" parent="AppTheme">
+        <item name="colorAccent">@color/upperIntermediateLevelColor</item>
+    </style>
+    <style name="ReadAndListenTheme.AdvancedLevel" parent="AppTheme">
+        <item name="colorAccent">@color/advancedLevelColor</item>
+    </style>
+
     <style name="AppTheme.Widget"/>
 
     <style name="AppTheme.Widget.TextView" parent="android:Widget.Holo.Light.TextView">

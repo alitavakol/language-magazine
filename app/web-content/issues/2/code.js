@@ -22,13 +22,11 @@ adjustLayout = function(topMargin_, bottomMargin_, height_, accentColor_, textCo
 	newWordColor = (newWordColor_ & 0xffffff).toString(16);
 	while(newWordColor.length < 6) newWordColor = '0' + newWordColor;
 
-	highlihtColor = Math.floor((accentColor_ & 0xffffff) / 1.5).toString(16);
-	while(highlihtColor.length < 6) highlihtColor = '0' + highlihtColor;
-	highlihtColor = '#' + highlihtColor;
+	highlightColor = tinycolor(accentColor).brighten().toHexString();
 
 	$('#dynamic-rules').text("\
 		.card { margin-top: " + (topMargin+28) + "px; background-color: #" + accentColor + "; } \
-		.highlight { background-color: " + highlihtColor + "; } \
+		.highlight { background-color: " + highlightColor + "; } \
 		body { background-color: #" + backgroundColor + "; color: #" + textColor + "; } \
 		.accent { color: #" + accentColor + "; } \
 		.new-word, dd, dt { color: #" + newWordColor + "; } \
@@ -38,7 +36,7 @@ adjustLayout = function(topMargin_, bottomMargin_, height_, accentColor_, textCo
 		h1.alt { color: #" + accentColor + "; } \
 		h3.alt { color: #" + accentColor + "; } \
 		.swipe-wrap > div { height: " + height + "px; } \
-		#properties { background-color: " + highlihtColor + "; } \
+		#properties { background-color: " + highlightColor + "; } \
 		.card-content { color: #" + newWordColor + "; } \
 		.dot { background-color: #" + textColor + "; } \
 		.dot.active { background-color: #" + newWordColor + "; } "
