@@ -18,7 +18,7 @@ public class FontManager {
     public static final String ROBOTO_ITALIC = "RobotoMono-Italic.ttf";
     public static final String FIRA = "FiraMono-Regular.otf";
     public static final String FIRA_BOLD = "FiraMono-Bold.otf";
-    public static final String BOOSTER = "BoosterNextFY-Regular.otf";
+    public static final String BOOSTER = "BoosterNextFY-Medium.otf";
     public static final String BOOSTER_BOLD = "BoosterNextFY-Bold.otf";
     public static final String BOOSTER_LIGHT = "BoosterNextFY-Light.otf";
     public static final String BOOSTER_ITALIC = "BoosterNextFY-Regular.otf";
