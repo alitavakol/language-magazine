@@ -1,64 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="1dp"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <me.ali.coolenglishmagazine.widget.AspectRatioView
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/time"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:aspectRatio="0.75">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:textSize="48sp"
+        tools:text="10:54" />
 
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            tools:src="@mipmap/ic_launcher" />
+    <TextView
+        android:id="@+id/am_pm"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/time"
+        android:layout_toEndOf="@id/time"
+        tools:text="PM" />
 
-        <com.github.rahatarmanahmed.cpv.CircularProgressView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/progress"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            app:cpv_animAutostart="true"
-            app:cpv_indeterminate="false"
-            android:layout_gravity="center" />
+    <Switch
+        android:id="@+id/on_off_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/time"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/time"
+        android:gravity="center_vertical" />
 
-    </me.ali.coolenglishmagazine.widget.AspectRatioView>
+    <ImageView
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/on_off_switch"
+        android:src="@android:drawable/ic_menu_delete" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:background="@color/colorAccent"
-        android:padding="@dimen/activity_horizontal_margin">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:fontFamily="monospace"
-            android:lines="1"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textColor="@color/colorAccentOpposite"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/title"
-            android:layout_marginTop="2dp"
-            android:ellipsize="end"
-            android:fontFamily="monospace"
-            android:lines="2"
-            android:textColor="@color/colorPrimary"
-            android:textSize="12sp" />
-
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>

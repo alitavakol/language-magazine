@@ -1,5 +1,6 @@
 package me.ali.coolenglishmagazine;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
+
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import me.ali.coolenglishmagazine.util.LogHelper;
 
@@ -72,6 +84,9 @@ public class AlarmsTabFragment extends Fragment {
         final View recyclerView = v.findViewById(R.id.alarm_list);
         setupRecyclerView((RecyclerView) recyclerView);
 
+        alarms.add(new Alarm());
+        adapter.notifyDataSetChanged();
+
         return v;
     }
 
@@ -85,6 +100,17 @@ public class AlarmsTabFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
     }
 
+    public class Alarm {
+        public Alarm() {
+            time = new Date();
+        }
+
+        Date time;
+        boolean enabled;
+    }
+
+    ArrayList<Alarm> alarms = new ArrayList<>();
+
     public class AlarmsRecyclerViewAdapter extends RecyclerView.Adapter<AlarmsRecyclerViewAdapter.ViewHolder> {
 
         @Override
@@ -93,18 +119,30 @@ public class AlarmsTabFragment extends Fragment {
             return new ViewHolder(view);
         }
 
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat amPmFormat = new SimpleDateFormat("a");
+
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
+//            ((ImageView) holder.itemView.findViewById(R.id.delete)).setImageDrawable(new IconicsDrawable(getContext()).icon(GoogleMaterial.Icon.gmd_delete).sizeDp(72).color(Color.LTGRAY));
+            Alarm alarm = alarms.get(position);
+            holder.timeTextView.setText(timeFormat.format(alarm.time));
+            holder.amPmTextView.setText(amPmFormat.format(alarm.time));
         }
 
         @Override
         public int getItemCount() {
-            return 0;
+            return alarms.size();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
+            TextView timeTextView, amPmTextView;
+
             public ViewHolder(View view) {
                 super(view);
+
+                timeTextView = (TextView) view.findViewById(R.id.time);
+                amPmTextView = (TextView) view.findViewById(R.id.am_pm);
             }
         }
     }

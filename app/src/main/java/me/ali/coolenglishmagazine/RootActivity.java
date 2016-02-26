@@ -28,7 +28,7 @@ import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFragment.OnFragmentInteractionListener {
+public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFragment.OnFragmentInteractionListener, CoolEnglishTimesFragment.OnFragmentInteractionListener {
 
     private static final String TAG = LogHelper.makeLogTag(RootActivity.class);
 
@@ -64,7 +64,7 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
 
         } else {
             // show the gallery of issues fragment by default
-            galleryOfIssuesFragment = GalleryOfIssuesFragment.newInstance(ACTION_SHOW_DOWNLOADS.equals(getIntent().getAction()) ? 1 : 0);
+            galleryOfIssuesFragment = CoolEnglishTimesFragment.newInstance(ACTION_SHOW_DOWNLOADS.equals(getIntent().getAction()) ? 1 : 0);
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.root_fragment, galleryOfIssuesFragment, GalleryOfIssuesFragment.FRAGMENT_TAG)
