@@ -139,6 +139,15 @@
         <item>@string/completed_issues</item>
     </array>
 
+    <string name="alarms">Times</string>
+    <string name="lessons">Waiting Lessons</string>
+
+    <!-- cool english times fragment tab titles -->
+    <array name="cool_times_tab_titles">
+        <item>@string/alarms</item>
+        <item>@string/lessons</item>
+    </array>
+
     <string name="active_issue">Currently Learning</string>
     <string name="saved_issues">Other Saved Issues</string>
     <string name="downloading_issues">Downloading</string>

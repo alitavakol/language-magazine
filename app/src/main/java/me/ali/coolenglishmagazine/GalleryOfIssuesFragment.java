@@ -50,8 +50,6 @@ public class GalleryOfIssuesFragment extends Fragment {
 
     public Magazines magazines;
 
-    private TabLayout tabLayout;
-
     /**
      * current view pager tab
      */
@@ -103,7 +101,7 @@ public class GalleryOfIssuesFragment extends Fragment {
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.view_pager);
         setupViewPager(viewPager);
 
-        tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
+        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(currentTabIndex).select();
 
