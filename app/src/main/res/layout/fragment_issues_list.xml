@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        app:layoutManager="LinearLayoutManager"
         tools:listitem="@layout/issue_list_row" />
 
 </android.support.v4.widget.SwipeRefreshLayout>

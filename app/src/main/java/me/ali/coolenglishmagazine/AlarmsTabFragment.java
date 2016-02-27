@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,7 +40,7 @@ public class AlarmsTabFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment IssuesTabFragment.
+     * @return A new instance of fragment AlarmsTabFragment.
      */
     public static AlarmsTabFragment newInstance() {
         AlarmsTabFragment fragment = new AlarmsTabFragment();
@@ -95,14 +96,14 @@ public class AlarmsTabFragment extends Fragment {
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(adapter);
 
-        GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
-        recyclerView.setLayoutManager(manager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
     }
 
     public class Alarm {
         public Alarm() {
             time = new Date();
+            new Date(22);
         }
 
         Date time;

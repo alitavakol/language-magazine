@@ -1,6 +1,49 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="First Category">
+    <PreferenceCategory android:title="Audio Playback Options">
+        <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
+             dismiss it. -->
+        <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/pref_volume_buttons_behaviour_list_titles"
+            android:entryValues="@array/pref_volume_buttons_behaviour_list_values"
+            android:key="volume_controls_behaviour"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/pref_title_navigate_audio_with_volume_buttons" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="shake_to_pause_playback"
+            android:title="@string/pref_title_shake_to_pause_playback" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Notification Options">
+        <!-- A 'parent' preference, which enables/disables child preferences (below)
+             when checked/unchecked. -->
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="notification_sound_enabled"
+            android:title="@string/pref_title_sound_enabled" />
+
+        <!-- Allows the user to choose a ringtone in the 'notification' category. -->
+        <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
+        <!-- NOTE: RingtonePreference's summary should be set to its value by the activity code. -->
+        <RingtonePreference
+            android:defaultValue="content://settings/system/notification_sound"
+            android:dependency="notification_sound_enabled"
+            android:key="notification_ringtone"
+            android:ringtoneType="notification"
+            android:title="@string/pref_title_ringtone" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="notification_vibrate_enabled"
+            android:title="@string/pref_title_vibrate_enabled" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Advanced Settings">
         <!-- NOTE: EditTextPreference accepts EditText attributes. -->
         <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
         <EditTextPreference
@@ -11,24 +54,9 @@
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="@string/pref_title_server_address" />
+    </PreferenceCategory>
 
-
-		<!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
-		     dismiss it. -->
-		<!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
-		<ListPreference
-		    android:defaultValue="1"
-		    android:entries="@array/pref_volume_buttons_behaviour_list_titles"
-		    android:entryValues="@array/pref_volume_buttons_behaviour_list_values"
-		    android:key="volume_controls_behaviour"
-		    android:negativeButtonText="@null"
-		    android:positiveButtonText="@null"
-		    android:title="@string/pref_title_navigate_audio_with_volume_buttons" />
-
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="shake_to_pause_playback"
-            android:title="@string/pref_title_shake_to_pause_playback" />
+    <PreferenceCategory android:title="Dummy">
 
         <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
              dismiss it. -->
