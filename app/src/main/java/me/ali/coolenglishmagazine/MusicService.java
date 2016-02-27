@@ -66,6 +66,9 @@ public class MusicService extends Service implements
     private String dataSource = null;
 
     public void onCreate() {
+        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AudioPlaybackWakelockTag");
+
         ShakeDetector.create(this, new ShakeDetector.OnShakeListener() {
             @Override
             public void OnShake() {
@@ -237,6 +240,8 @@ public class MusicService extends Service implements
     AudioManager audioManager;
     private ComponentName mediaButtonReceiverComponent;
 
+    PowerManager.WakeLock wakeLock;
+
     private void handlePlayRequest() {
         if (mediaPlayer != null) {
             audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -273,6 +278,7 @@ public class MusicService extends Service implements
                 mSettingsContentObserver = new SettingsContentObserver(new Handler());
                 getContentResolver().registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, mSettingsContentObserver);
 
+                wakeLock.acquire();
                 ShakeDetector.start();
 
 //                mediaSession = new MediaSessionCompat(getApplicationContext(), TAG);
@@ -363,12 +369,14 @@ public class MusicService extends Service implements
                 unregisterReceiver(noisyAudioStreamReceiver);
                 noisyAudioStreamReceiver = null;
             }
+
+            ShakeDetector.stop();
+            if (wakeLock.isHeld())
+                wakeLock.release();
         }
 
         if (onMediaStateChangedListener != null)
             onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_STOPPED);
-
-        ShakeDetector.stop();
 
         handlePrepareRequest(dataSource);
     }
