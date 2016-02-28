@@ -31,7 +31,14 @@
 
     <!-- for issue download notification -->
     <string name="issue_downloaded_notification">New issue is ready. Let\'s start<![CDATA[!]]></string>
+
+    <!-- for cool english times -->
+    <string name="cool_english_time_notification_text">Time to learn cool english<![CDATA[!]]></string>
+    <string name="alarm_already_exists">Alarm for this time already exists.</string>
+
     <string name="title_activity_settings">Preferences</string>
+
+    <string name="select_time">Pick a cool english time</string>
 
     <!-- Strings related to Settings -->
 

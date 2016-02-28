@@ -89,13 +89,18 @@
         <activity android:name=".SettingsActivity" />
 
         <receiver
-            android:name=".BootReceiver"
-            android:enabled="false"
+            android:name=".broadcast_receivers.BootReceiver"
+            android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".broadcast_receivers.AlarmBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>
