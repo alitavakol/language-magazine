@@ -9,8 +9,11 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v7.widget.PopupMenu;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -250,14 +252,33 @@ public class ItemListFragment extends ListFragment {
             textViewLevel.setBackgroundColor(transparentColor);
             textViewLevel.setTypeface(levelTypeface);
 
-            vi.findViewById(R.id.overflowMenu).setOnClickListener(new View.OnClickListener() {
+            final View overflowButton = vi.findViewById(R.id.overflowMenu);
+            overflowButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(ItemListFragment.this.getActivity(), "Overflow of " + item.title, Toast.LENGTH_SHORT).show();
+                    PopupMenu popup = new PopupMenu(getActivity(), v);
+                    MenuInflater inflater = popup.getMenuInflater();
+                    inflater.inflate(R.menu.read_and_listen, popup.getMenu());
+                    popup.show();
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            int id = menuItem.getItemId();
+
+                            switch (id) {
+                                case R.id.add_to_waiting_list:
+                                    WaitingListFragment.appendToWaitingList(getActivity(), item);
+                                    return true;
+                            }
+
+                            return false;
+                        }
+                    });
                 }
             });
 
             return vi;
         }
     }
+
 }

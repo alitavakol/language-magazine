@@ -252,6 +252,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.read_and_listen, menu);
+        getMenuInflater().inflate(R.menu.common, menu);
         lockActionButton = menu.findItem(R.id.action_lock);
         return true;
     }

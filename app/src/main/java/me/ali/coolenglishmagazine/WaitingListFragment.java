@@ -1,18 +1,24 @@
 package me.ali.coolenglishmagazine;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -70,10 +76,13 @@ public class WaitingListFragment extends Fragment {
         super.onStart();
 
         waitingItems = importWaitingItems(getActivity());
+
         adapter.notifyDataSetChanged();
     }
 
     protected WaitingListRecyclerViewAdapter adapter = new WaitingListRecyclerViewAdapter();
+
+    private ItemTouchHelper itemTouchHelper;
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(adapter);
@@ -82,8 +91,8 @@ public class WaitingListFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         ItemTouchHelper.Callback callback = new WaitingItemTouchHelper();
-        ItemTouchHelper helper = new ItemTouchHelper(callback);
-        helper.attachToRecyclerView(recyclerView);
+        itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     /**
@@ -150,24 +159,27 @@ public class WaitingListFragment extends Fragment {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.waiting_list_row, parent, false);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getActivity(), R.string.drag_hint, Toast.LENGTH_SHORT).show();
-                }
-            });
             return new ViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, final int position) {
+        public void onBindViewHolder(final ViewHolder holder, int position) {
             final WaitingItem waitingItem = waitingItems.get(position);
 
             holder.titleTextView.setText(waitingItem.itemRootDirectory);
             holder.deleteImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    adapter.remove(position);
+                    adapter.remove(holder.getAdapterPosition());
+                }
+            });
+            holder.handleView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                        itemTouchHelper.startDrag(holder);
+                    }
+                    return false;
                 }
             });
         }
@@ -180,12 +192,22 @@ public class WaitingListFragment extends Fragment {
         public class ViewHolder extends RecyclerView.ViewHolder {
             TextView titleTextView;
             ImageView deleteImageView;
+            ImageView handleView;
 
             public ViewHolder(View view) {
                 super(view);
 
                 titleTextView = (TextView) view.findViewById(R.id.title);
                 deleteImageView = (ImageView) view.findViewById(R.id.delete);
+
+                handleView = (ImageView) view.findViewById(R.id.handle);
+                handleView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_reorder).sizeDp(20).color(Color.LTGRAY));
+                handleView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getActivity(), R.string.drag_hint, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         }
 
