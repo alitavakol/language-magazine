@@ -15,6 +15,8 @@
     <string name="unlock">Reveal Transcript</string>
     <string name="unlock_hint">Tap and hold to reveal transcript.</string>
 
+    <string name="add_to_waiting_list">Add to cool english times</string>
+
     <string name="drag_hint">Long press and move to change order.</string>
 
     <string name="action_settings">Preferences</string>

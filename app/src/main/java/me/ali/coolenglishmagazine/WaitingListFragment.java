@@ -1,5 +1,6 @@
 package me.ali.coolenglishmagazine;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import me.ali.coolenglishmagazine.model.MagazineContent;
 
 
 public class WaitingListFragment extends Fragment {
@@ -66,14 +69,7 @@ public class WaitingListFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        waitingItems = importWaitingItems();
-
-        for (int i = 0; i < 25; i++) {
-            WaitingItem waitingItem = new WaitingItem();
-            waitingItem.itemRootDirectory = "Item Root Directory " + i;
-            waitingItems.add(waitingItem);
-        }
-
+        waitingItems = importWaitingItems(getActivity());
         adapter.notifyDataSetChanged();
     }
 
@@ -90,6 +86,9 @@ public class WaitingListFragment extends Fragment {
         helper.attachToRecyclerView(recyclerView);
     }
 
+    /**
+     * represent one lesson item that is in the waiting list of the Cool English Times.
+     */
     public static class WaitingItem implements Serializable {
         String itemRootDirectory;
     }
@@ -101,9 +100,9 @@ public class WaitingListFragment extends Fragment {
      */
     public static final String WAITING_LIST_FILE_NAME = "waiting_list";
 
-    public void saveWaitingItems() {
+    public static void saveWaitingItems(Context context, ArrayList<WaitingItem> waitingItems) {
         try {
-            FileOutputStream fileOut = new FileOutputStream(new File(getContext().getFilesDir(), WAITING_LIST_FILE_NAME));
+            FileOutputStream fileOut = new FileOutputStream(new File(context.getFilesDir(), WAITING_LIST_FILE_NAME));
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(waitingItems);
             out.close();
@@ -113,11 +112,17 @@ public class WaitingListFragment extends Fragment {
         }
     }
 
-    public ArrayList<WaitingItem> importWaitingItems() {
+    /**
+     * loads list of waiting lesson items from {@code WAITING_LIST_FILE_NAME}
+     *
+     * @param context context
+     * @return an array list of {@link me.ali.coolenglishmagazine.WaitingListFragment.WaitingItem}
+     */
+    public static ArrayList<WaitingItem> importWaitingItems(Context context) {
         ArrayList<WaitingItem> waitingItems = new ArrayList<>();
 
         try {
-            FileInputStream fileIn = new FileInputStream(new File(getActivity().getFilesDir(), WAITING_LIST_FILE_NAME));
+            FileInputStream fileIn = new FileInputStream(new File(context.getFilesDir(), WAITING_LIST_FILE_NAME));
             ObjectInputStream in = new ObjectInputStream(fileIn);
             waitingItems = (ArrayList<WaitingItem>) in.readObject();
             in.close();
@@ -128,6 +133,16 @@ public class WaitingListFragment extends Fragment {
         }
 
         return waitingItems;
+    }
+
+    public static void appendToWaitingList(Context context, MagazineContent.Item item) {
+        ArrayList<WaitingItem> waitingItems = importWaitingItems(context);
+
+        WaitingItem waitingItem = new WaitingItem();
+        waitingItem.itemRootDirectory = item.rootDirectory.getAbsolutePath();
+
+        waitingItems.add(waitingItem);
+        saveWaitingItems(context, waitingItems);
     }
 
     public class WaitingListRecyclerViewAdapter extends RecyclerView.Adapter<WaitingListRecyclerViewAdapter.ViewHolder> {
@@ -177,11 +192,13 @@ public class WaitingListFragment extends Fragment {
         public void remove(int position) {
             waitingItems.remove(position);
             notifyItemRemoved(position);
+            saveWaitingItems(getActivity(), waitingItems);
         }
 
         public void swap(int firstPosition, int secondPosition) {
             Collections.swap(waitingItems, firstPosition, secondPosition);
             adapter.notifyItemMoved(firstPosition, secondPosition);
+            saveWaitingItems(getActivity(), waitingItems);
         }
     }
 

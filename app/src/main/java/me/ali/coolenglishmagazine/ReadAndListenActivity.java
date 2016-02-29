@@ -290,6 +290,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
+
+            case R.id.add_to_waiting_list:
+                WaitingListFragment.appendToWaitingList(this, this.item);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
