@@ -124,8 +124,11 @@ public class CoolEnglishTimesFragment extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
 
-        AlarmsTabFragment fragment = AlarmsTabFragment.newInstance();
-        adapter.addFragment(fragment, getResources().obtainTypedArray(R.array.cool_times_tab_titles).getResourceId(0, 0));
+        AlarmsTabFragment alarmsTabFragment = AlarmsTabFragment.newInstance();
+        adapter.addFragment(alarmsTabFragment, getResources().obtainTypedArray(R.array.cool_times_tab_titles).getResourceId(0, 0));
+
+        WaitingListFragment waitingListFragment = WaitingListFragment.newInstance();
+        adapter.addFragment(waitingListFragment, getResources().obtainTypedArray(R.array.cool_times_tab_titles).getResourceId(1, 0));
 
         viewPager.setAdapter(adapter);
     }

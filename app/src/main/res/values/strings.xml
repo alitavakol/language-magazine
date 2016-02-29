@@ -15,6 +15,8 @@
     <string name="unlock">Reveal Transcript</string>
     <string name="unlock_hint">Tap and hold to reveal transcript.</string>
 
+    <string name="drag_hint">Long press and move to change order.</string>
+
     <string name="action_settings">Preferences</string>
 
     <string name="title_item_list">Table of Contents</string>
@@ -150,12 +152,12 @@
     </array>
 
     <string name="alarms">Times</string>
-    <string name="lessons">Waiting Lessons</string>
+    <string name="waiting_list">Waiting List</string>
 
     <!-- cool english times fragment tab titles -->
     <array name="cool_times_tab_titles">
         <item>@string/alarms</item>
-        <item>@string/lessons</item>
+        <item>@string/waiting_list</item>
     </array>
 
     <string name="active_issue">Currently Learning</string>
@@ -170,4 +172,7 @@
         <item>@string/downloading_issues</item>
         <item>@string/more_available_issues</item>
     </array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
