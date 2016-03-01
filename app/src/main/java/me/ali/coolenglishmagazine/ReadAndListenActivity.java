@@ -35,7 +35,6 @@ import android.widget.Toast;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
-import org.json.JSONArray;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -44,7 +43,6 @@ import org.jsoup.select.Elements;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -138,7 +136,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         if (savedInstanceState != null) {
             transcriptLocked = savedInstanceState.getBoolean("transcriptLocked");
             useLockControls = savedInstanceState.getBoolean("useLockControls");
-            webViewState = savedInstanceState.getStringArray("webViewState");
+            webViewState = savedInstanceState.getString("webViewState");
         }
 
         // TODO read http://javarticles.com/2015/09/android-toolbar-example.html to add toolbar
@@ -182,8 +180,9 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                         + ", newWordColor: 0xf8f8f8" // new word color
                         + "});";
                 webView.loadUrl(command);
-                webView.loadUrl("javascript:setInstanceState(" + new JSONArray(Arrays.asList(webViewState)) + ");");
-                webView.loadUrl("javascript:app.onAdjustLayoutComplete();");
+                if (webViewState != null)
+                    webView.loadUrl("javascript:setInstanceState('" + webViewState + "');");
+                webView.loadUrl("javascript:setTimeout(function() { app.onAdjustLayoutComplete(); }, 200);");
 
                 lockTranscript(transcriptLocked);
 
@@ -306,16 +305,16 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     protected boolean useLockControls = false;
 
     /**
-     * holds state variables of the web view widget. array size and meaning of them
+     * holds state variables of the web view widget as a JSON string. meaning of them
      * is internal to and maintained by the web view itself.
      */
-    protected String[] webViewState = new String[0];
+    protected String webViewState;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putBoolean("transcriptLocked", transcriptLocked);
         outState.putBoolean("useLockControls", useLockControls);
-        outState.putStringArray("webViewState", webViewState);
+        outState.putString("webViewState", webViewState);
     }
 
     @Override
@@ -612,11 +611,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         /**
          * called by the web view to deliver its state, and the android app will save it.
          *
-         * @param state web view state, whose meaning is internal to the web view itself.
+         * @param state web view state as a JSON string, whose meaning is internal to the web view itself.
          */
         @SuppressWarnings("unused")
         @JavascriptInterface
-        public void saveInstanceState(final String[] state) {
+        public void saveInstanceState(final String state) {
             runOnUiThread(new Runnable() {
                 public void run() {
                     webViewState = state;

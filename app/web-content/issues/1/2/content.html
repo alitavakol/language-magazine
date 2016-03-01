@@ -156,17 +156,21 @@
 				}).data('Swipe');
 			}
 
-			currentSlide = 0;
-
 			saveInstanceState = function() {
-				app.saveInstanceState([currentSlide.toString()]);
+				outState = {
+					currentSlide: currentSlide,
+				};
+
+				app.saveInstanceState(JSON.stringify(outState));
 			}
 
-			setInstanceState = function(state) {
-				if(state[0])
-					currentSlide = parseInt(state[0]);
-				setCurrentSlide(currentSlide);
+			setInstanceState = function(savedInstanceState) {
+				state = JSON.parse(savedInstanceState);
+
+				setCurrentSlide(state.currentSlide);
 			}
+
+			setCurrentSlide(0);
 		</script>
 
 	</body>

@@ -138,22 +138,24 @@
 				}).data('Swipe');
 			}
 
-			currentSlide = 0;
-			transcriptLocked = true;
-
 			saveInstanceState = function() {
-				app.saveInstanceState([currentSlide.toString(), transcriptLocked.toString()]);
+				outState = {
+					currentSlide: currentSlide,
+					transcriptLocked: transcriptLocked,
+				};
+
+				app.saveInstanceState(JSON.stringify(outState));
 			}
 
-			setInstanceState = function(state) {
-				if(state[0])
-					currentSlide = parseInt(state[0]);
-				setCurrentSlide(currentSlide);
+			setInstanceState = function(savedInstanceState) {
+				state = JSON.parse(savedInstanceState);
 
-				if(state[1])
-					transcriptLocked = JSON.parse(state[1])
-				lock(transcriptLocked);
+				setCurrentSlide(state.currentSlide);
+				lock(state.transcriptLocked);
 			}
+
+			setCurrentSlide(0);
+			lock(true);
 		</script>
 
 	</body>
