@@ -16,12 +16,13 @@
     <string name="unlock_hint">Tap and hold to reveal transcript.</string>
 
     <string name="add_to_waiting_list">Add to cool english times</string>
+    <string name="already_in_waiting_list">Item is already added.</string>
 
     <!-- drag handle click hint toast -->
     <string name="drag_hint">Hold and move to re-order items.</string>
 
     <!-- waiting list row click hint toast -->
-    <string name="action_mode_hint">Long press items for more options.</string>
+    <string name="action_mode_hint">Long press item for more options.</string>
 
     <string name="action_settings">Preferences</string>
 
@@ -47,6 +48,8 @@
     <string name="title_activity_settings">Preferences</string>
 
     <string name="select_time">Pick a cool english time</string>
+
+    <string name="selected_count">Selected Items: %d</string>
 
     <!-- Strings related to Settings -->
 

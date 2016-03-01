@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -267,7 +268,8 @@ public class ItemListFragment extends ListFragment {
 
                             switch (id) {
                                 case R.id.add_to_waiting_list:
-                                    WaitingListFragment.appendToWaitingList(getActivity(), item);
+                                    if (!WaitingListFragment.appendToWaitingList(getActivity(), item))
+                                        Toast.makeText(getActivity(), R.string.already_in_waiting_list, Toast.LENGTH_SHORT).show();
                                     return true;
                             }
 

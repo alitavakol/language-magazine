@@ -1,6 +1,7 @@
 package me.ali.coolenglishmagazine;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -39,6 +40,7 @@ import java.util.Collections;
 import java.util.List;
 
 import me.ali.coolenglishmagazine.model.MagazineContent;
+import me.ali.coolenglishmagazine.util.BitmapHelper;
 
 
 public class WaitingListFragment extends Fragment implements RecyclerView.OnItemTouchListener, ActionMode.Callback {
@@ -92,7 +94,14 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
 
     protected WaitingListRecyclerViewAdapter adapter = new WaitingListRecyclerViewAdapter();
 
+    /**
+     * item drag and swipe helper
+     */
     private ItemTouchHelper itemTouchHelper;
+
+    /**
+     * prevent switching to action mode when user is dragging and item.
+     */
     boolean itemIsDragging = false;
 
     GestureDetectorCompat gestureDetector;
@@ -115,7 +124,7 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
      * represent one lesson item that is in the waiting list of the Cool English Times.
      */
     public static class WaitingItem implements Serializable {
-        String itemRootDirectory;
+        File itemRootDirectory;
     }
 
     ArrayList<WaitingItem> waitingItems;
@@ -125,6 +134,12 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
      */
     public static final String WAITING_LIST_FILE_NAME = "waiting_list";
 
+    /**
+     * save list of waiting items to {@code WAITING_LIST_FILE_NAME}, overwrites the file.
+     *
+     * @param context      app context
+     * @param waitingItems list of items to save
+     */
     public static void saveWaitingItems(Context context, ArrayList<WaitingItem> waitingItems) {
         try {
             FileOutputStream fileOut = new FileOutputStream(new File(context.getFilesDir(), WAITING_LIST_FILE_NAME));
@@ -160,18 +175,32 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
         return waitingItems;
     }
 
-    public static void appendToWaitingList(Context context, MagazineContent.Item item) {
+    /**
+     * adds item to the end of the list of waiting lesson items.
+     *
+     * @param context app context
+     * @param item    lesson item to be added
+     * @return false if item is already in the list, and true otherwise.
+     */
+    public static boolean appendToWaitingList(Context context, MagazineContent.Item item) {
         ArrayList<WaitingItem> waitingItems = importWaitingItems(context);
 
         WaitingItem waitingItem = new WaitingItem();
-        waitingItem.itemRootDirectory = item.rootDirectory.getAbsolutePath();
+        waitingItem.itemRootDirectory = item.rootDirectory;
+
+        for (WaitingItem w : waitingItems) {
+            if (w.itemRootDirectory.equals(waitingItem.itemRootDirectory)) {
+                return false;
+            }
+        }
 
         waitingItems.add(waitingItem);
         saveWaitingItems(context, waitingItems);
+
+        return true;
     }
 
     public class WaitingListRecyclerViewAdapter extends RecyclerView.Adapter<WaitingListRecyclerViewAdapter.ViewHolder> {
-
         private SparseBooleanArray selectedItems = new SparseBooleanArray();
 
         @Override
@@ -184,18 +213,40 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
         public void onBindViewHolder(final ViewHolder holder, int position) {
             final WaitingItem waitingItem = waitingItems.get(position);
 
-            holder.titleTextView.setText(waitingItem.itemRootDirectory);
+            try {
+                MagazineContent.Item item = MagazineContent.getItem(waitingItem.itemRootDirectory);
 
-            holder.handleView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
-                        itemTouchHelper.startDrag(holder);
-                        itemIsDragging = true;
+                holder.titleTextView.setText(item.title);
+
+                // load downsampled poster
+                int w = holder.posterImageView.getMaxWidth();
+                int h = holder.posterImageView.getMaxHeight();
+                // TODO: load bitmap in an async task, http://developer.android.com/training/displaying-bitmaps/process-bitmap.html
+                final Bitmap bitmap = BitmapHelper.decodeSampledBitmapFromFile(new File(item.rootDirectory, item.posterFileName).getAbsolutePath(), w, h);
+                holder.posterImageView.setImageBitmap(bitmap);
+
+                holder.handleView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                            itemTouchHelper.startDrag(holder);
+                            itemIsDragging = true;
+                        }
+                        return false;
                     }
-                    return false;
+                });
+
+                // hide handler in action mode
+                holder.handleView.setVisibility(actionMode == null ? View.VISIBLE : View.INVISIBLE);
+
+                if (selectedItems.get(position, false)) {
+                    holder.checkMarkImageView.setVisibility(View.VISIBLE);
+                } else {
+                    holder.checkMarkImageView.setVisibility(View.INVISIBLE);
                 }
-            });
+
+            } catch (IOException e) {
+            }
         }
 
         @Override
@@ -206,11 +257,14 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
         public class ViewHolder extends RecyclerView.ViewHolder {
             TextView titleTextView;
             ImageView handleView;
+            ImageView checkMarkImageView;
+            ImageView posterImageView;
 
             public ViewHolder(View view) {
                 super(view);
 
                 titleTextView = (TextView) view.findViewById(R.id.title);
+                posterImageView = (ImageView)view.findViewById(R.id.poster);
 
                 handleView = (ImageView) view.findViewById(R.id.handle);
                 handleView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_reorder).sizeDp(20).color(Color.LTGRAY));
@@ -220,12 +274,9 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
                         Toast.makeText(getActivity(), R.string.drag_hint, Toast.LENGTH_SHORT).show();
                     }
                 });
-//                view.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Toast.makeText(getActivity(), R.string.action_mode_hint, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
+
+                checkMarkImageView = (ImageView) view.findViewById(R.id.check_mark);
+                checkMarkImageView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_check).sizeDp(20).color(Color.LTGRAY));
             }
         }
 
@@ -255,7 +306,7 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
             notifyDataSetChanged();
         }
 
-        public int getSelectedItemCount() {
+        public int getSelectedItemsCount() {
             return selectedItems.size();
         }
 
@@ -291,18 +342,23 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
         }
     }
 
+    /**
+     * when user long presses an item, action mode is turned on.
+     */
     ActionMode actionMode;
 
     private class RecyclerViewOnGestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
-        public boolean onSingleTapConfirmed(MotionEvent e) {
-//            View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
-//            onClick(view);
+        public boolean onSingleTapUp(MotionEvent e) {
+            if (actionMode != null) {
+                View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                toggleSelection(recyclerView.getChildAdapterPosition(view));
+            }
             return super.onSingleTapConfirmed(e);
         }
 
         public void onLongPress(MotionEvent e) {
-            if(itemIsDragging) {
+            if (itemIsDragging) {
                 itemIsDragging = false;
                 return;
             }
@@ -314,9 +370,19 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
             // Start the CAB using the ActionMode.Callback defined above
             actionMode = getActivity().startActionMode(WaitingListFragment.this);
             int idx = recyclerView.getChildPosition(view);
-//            myToggleSelection(idx);
+            toggleSelection(idx);
+
+            // hide handler when in action mode
+            adapter.notifyItemRangeChanged(0, adapter.getItemCount());
+
             super.onLongPress(e);
         }
+    }
+
+    private void toggleSelection(int idx) {
+        adapter.toggleSelection(idx);
+        String title = getString(R.string.selected_count, adapter.getSelectedItemsCount());
+        actionMode.setTitle(title);
     }
 
     @Override
@@ -335,19 +401,19 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
     @Override
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-//            case R.id.menu_delete:
-//                List<Integer> selectedItemPositions = adapter.getSelectedItems();
-//                int currPos;
-//                for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
-//                    currPos = selectedItemPositions.get(i);
-//                    RecyclerViewDemoApp.removeItemFromList(currPos);
-//                    adapter.removeData(currPos);
-//                }
-//                actionMode.finish();
-//                return true;
-            default:
-                return false;
+            case R.id.action_delete:
+                List<Integer> selectedItemPositions = adapter.getSelectedItems();
+                int currPos;
+                for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
+                    currPos = selectedItemPositions.get(i);
+                    waitingItems.remove(currPos);
+                    adapter.notifyItemRemoved(currPos);
+                }
+                actionMode.finish();
+                saveWaitingItems(getActivity(), waitingItems);
+                return true;
         }
+        return false;
     }
 
     @Override
@@ -368,6 +434,5 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
 
     @Override
     public void onRequestDisallowInterceptTouchEvent(boolean b) {
-
     }
 }

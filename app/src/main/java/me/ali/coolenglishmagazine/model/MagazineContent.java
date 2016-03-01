@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import me.ali.coolenglishmagazine.util.LogHelper;
@@ -18,9 +19,14 @@ public class MagazineContent {
     private static final String TAG = LogHelper.makeLogTag(MagazineContent.class);
 
     /**
-     * An array of available magazine items.
+     * An array of available magazine items in this issue.
      */
     public List<Item> ITEMS = new ArrayList<>();
+
+    /**
+     * holds items in memory to reference them efficiently.
+     */
+    public static HashMap<File, Item> file2item = new HashMap<>();
 
     public void loadItems(Magazines.Issue issue) {
         File[] files = issue.rootDirectory.listFiles();
@@ -51,24 +57,30 @@ public class MagazineContent {
      * @throws IOException if {@code manifest.xml} file with {@code <item>} root node could not be found
      */
     public static Item getItem(File itemRootDirectory) throws IOException {
-        File input = new File(itemRootDirectory, Item.manifestFileName);
-        final Document doc = Jsoup.parse(input, "UTF-8", "");
+        Item item = file2item.get(itemRootDirectory);
 
-        Element e = doc.getElementsByTag("item").first();
-        if (e == null)
-            throw new IOException("Invalid manifest file.");
+        if (item == null) {
+            File input = new File(itemRootDirectory, Item.manifestFileName);
+            final Document doc = Jsoup.parse(input, "UTF-8", "");
 
-        Item item = new Item();
+            Element e = doc.getElementsByTag("item").first();
+            if (e == null)
+                throw new IOException("Invalid manifest file.");
 
-        item.rootDirectory = itemRootDirectory;
-        item.id = Integer.parseInt(itemRootDirectory.getName());
-        item.title = e.attr("title");
-        item.subtitle = e.attr("subtitle");
-        item.audioFileName = e.attr("audio");
-        item.posterFileName = e.attr("poster");
-        item.flagFileName = e.attr("flag");
-        item.type = e.attr("type");
-        item.level = Integer.parseInt(e.attr("level"));
+            item = new Item();
+
+            item.rootDirectory = itemRootDirectory;
+            item.id = Integer.parseInt(itemRootDirectory.getName());
+            item.title = e.attr("title");
+            item.subtitle = e.attr("subtitle");
+            item.audioFileName = e.attr("audio");
+            item.posterFileName = e.attr("poster");
+            item.flagFileName = e.attr("flag");
+            item.type = e.attr("type");
+            item.level = Integer.parseInt(e.attr("level"));
+
+            file2item.put(itemRootDirectory, item);
+        }
 
         return item;
     }
