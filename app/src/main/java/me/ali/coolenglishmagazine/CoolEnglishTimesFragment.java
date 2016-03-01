@@ -71,7 +71,7 @@ public class CoolEnglishTimesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cool_english_times, container, false);
 
-        mListener.onToolbarCreated((Toolbar) view.findViewById(R.id.toolbar_actionbar));
+        mListener.onToolbarCreated((Toolbar) view.findViewById(R.id.toolbar_actionbar), R.string.cool_english_times);
 
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.view_pager);
         setupViewPager(viewPager);
@@ -118,17 +118,17 @@ public class CoolEnglishTimesFragment extends Fragment {
          *
          * @param toolbar app toolbar
          */
-        void onToolbarCreated(Toolbar toolbar);
+        void onToolbarCreated(Toolbar toolbar, int titleRes);
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
 
         AlarmsTabFragment alarmsTabFragment = AlarmsTabFragment.newInstance();
-        adapter.addFragment(alarmsTabFragment, getResources().obtainTypedArray(R.array.cool_times_tab_titles).getResourceId(0, 0));
+        adapter.addFragment(alarmsTabFragment, R.string.alarms);
 
         WaitingListFragment waitingListFragment = WaitingListFragment.newInstance();
-        adapter.addFragment(waitingListFragment, getResources().obtainTypedArray(R.array.cool_times_tab_titles).getResourceId(1, 0));
+        adapter.addFragment(waitingListFragment, R.string.waiting_list);
 
         viewPager.setAdapter(adapter);
     }

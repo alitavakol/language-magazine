@@ -190,6 +190,7 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
 
         for (WaitingItem w : waitingItems) {
             if (w.itemRootDirectory.equals(waitingItem.itemRootDirectory)) {
+                Toast.makeText(context, R.string.already_in_waiting_list, Toast.LENGTH_SHORT).show();
                 return false;
             }
         }

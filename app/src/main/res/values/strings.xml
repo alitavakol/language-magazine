@@ -15,6 +15,7 @@
     <string name="unlock">Reveal Transcript</string>
     <string name="unlock_hint">Tap and hold to reveal transcript.</string>
 
+    <string name="add_all_to_waiting_list">Add all items to cool english times</string>
     <string name="add_to_waiting_list">Add to cool english times</string>
     <string name="already_in_waiting_list">Item is already added.</string>
 
@@ -162,14 +163,9 @@
         <item>@string/completed_issues</item>
     </array>
 
+    <!-- cool english times fragment tab titles -->
     <string name="alarms">Times</string>
     <string name="waiting_list">Waiting List</string>
-
-    <!-- cool english times fragment tab titles -->
-    <array name="cool_times_tab_titles">
-        <item>@string/alarms</item>
-        <item>@string/waiting_list</item>
-    </array>
 
     <string name="active_issue">Currently Learning</string>
     <string name="saved_issues">Other Saved Issues</string>
