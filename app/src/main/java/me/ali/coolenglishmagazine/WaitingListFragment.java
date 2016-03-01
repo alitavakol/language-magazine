@@ -5,11 +5,18 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +36,12 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import me.ali.coolenglishmagazine.model.MagazineContent;
 
 
-public class WaitingListFragment extends Fragment {
+public class WaitingListFragment extends Fragment implements RecyclerView.OnItemTouchListener, ActionMode.Callback {
 
     public WaitingListFragment() {
         // Required empty public constructor
@@ -59,14 +67,16 @@ public class WaitingListFragment extends Fragment {
         }
     }
 
+    RecyclerView recyclerView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_waiting_list, container, false);
 
-        final View recyclerView = v.findViewById(R.id.waiting_list);
-        setupRecyclerView((RecyclerView) recyclerView);
+        recyclerView = (RecyclerView) v.findViewById(R.id.waiting_list);
+        setupRecyclerView(recyclerView);
 
         return v;
     }
@@ -83,6 +93,9 @@ public class WaitingListFragment extends Fragment {
     protected WaitingListRecyclerViewAdapter adapter = new WaitingListRecyclerViewAdapter();
 
     private ItemTouchHelper itemTouchHelper;
+    boolean itemIsDragging = false;
+
+    GestureDetectorCompat gestureDetector;
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(adapter);
@@ -93,6 +106,9 @@ public class WaitingListFragment extends Fragment {
         ItemTouchHelper.Callback callback = new WaitingItemTouchHelper();
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        recyclerView.addOnItemTouchListener(this);
+        gestureDetector = new GestureDetectorCompat(getActivity(), new RecyclerViewOnGestureListener());
     }
 
     /**
@@ -156,6 +172,8 @@ public class WaitingListFragment extends Fragment {
 
     public class WaitingListRecyclerViewAdapter extends RecyclerView.Adapter<WaitingListRecyclerViewAdapter.ViewHolder> {
 
+        private SparseBooleanArray selectedItems = new SparseBooleanArray();
+
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.waiting_list_row, parent, false);
@@ -167,17 +185,13 @@ public class WaitingListFragment extends Fragment {
             final WaitingItem waitingItem = waitingItems.get(position);
 
             holder.titleTextView.setText(waitingItem.itemRootDirectory);
-            holder.deleteImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    adapter.remove(holder.getAdapterPosition());
-                }
-            });
+
             holder.handleView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
                         itemTouchHelper.startDrag(holder);
+                        itemIsDragging = true;
                     }
                     return false;
                 }
@@ -191,14 +205,12 @@ public class WaitingListFragment extends Fragment {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             TextView titleTextView;
-            ImageView deleteImageView;
             ImageView handleView;
 
             public ViewHolder(View view) {
                 super(view);
 
                 titleTextView = (TextView) view.findViewById(R.id.title);
-                deleteImageView = (ImageView) view.findViewById(R.id.delete);
 
                 handleView = (ImageView) view.findViewById(R.id.handle);
                 handleView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_reorder).sizeDp(20).color(Color.LTGRAY));
@@ -208,6 +220,12 @@ public class WaitingListFragment extends Fragment {
                         Toast.makeText(getActivity(), R.string.drag_hint, Toast.LENGTH_SHORT).show();
                     }
                 });
+//                view.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Toast.makeText(getActivity(), R.string.action_mode_hint, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
             }
         }
 
@@ -222,11 +240,43 @@ public class WaitingListFragment extends Fragment {
             adapter.notifyItemMoved(firstPosition, secondPosition);
             saveWaitingItems(getActivity(), waitingItems);
         }
+
+        public void toggleSelection(int pos) {
+            if (selectedItems.get(pos, false)) {
+                selectedItems.delete(pos);
+            } else {
+                selectedItems.put(pos, true);
+            }
+            notifyItemChanged(pos);
+        }
+
+        public void clearSelections() {
+            selectedItems.clear();
+            notifyDataSetChanged();
+        }
+
+        public int getSelectedItemCount() {
+            return selectedItems.size();
+        }
+
+        public List<Integer> getSelectedItems() {
+            List<Integer> items = new ArrayList<Integer>(selectedItems.size());
+            for (int i = 0; i < selectedItems.size(); i++) {
+                items.add(selectedItems.keyAt(i));
+            }
+            return items;
+        }
     }
 
-    public class WaitingItemTouchHelper extends ItemTouchHelper.SimpleCallback {
-        public WaitingItemTouchHelper() {
-            super(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0);
+    public class WaitingItemTouchHelper extends ItemTouchHelper.Callback {
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            return makeMovementFlags(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0);
+        }
+
+        @Override
+        public boolean isLongPressDragEnabled() {
+            return false;
         }
 
         @Override
@@ -241,4 +291,83 @@ public class WaitingListFragment extends Fragment {
         }
     }
 
+    ActionMode actionMode;
+
+    private class RecyclerViewOnGestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+//            View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
+//            onClick(view);
+            return super.onSingleTapConfirmed(e);
+        }
+
+        public void onLongPress(MotionEvent e) {
+            if(itemIsDragging) {
+                itemIsDragging = false;
+                return;
+            }
+            if (actionMode != null)
+                return;
+
+            View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
+
+            // Start the CAB using the ActionMode.Callback defined above
+            actionMode = getActivity().startActionMode(WaitingListFragment.this);
+            int idx = recyclerView.getChildPosition(view);
+//            myToggleSelection(idx);
+            super.onLongPress(e);
+        }
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+        // Inflate a menu resource providing context menu items
+        MenuInflater inflater = actionMode.getMenuInflater();
+        inflater.inflate(R.menu.waiting_list_action_mode, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+        return false;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+//            case R.id.menu_delete:
+//                List<Integer> selectedItemPositions = adapter.getSelectedItems();
+//                int currPos;
+//                for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
+//                    currPos = selectedItemPositions.get(i);
+//                    RecyclerViewDemoApp.removeItemFromList(currPos);
+//                    adapter.removeData(currPos);
+//                }
+//                actionMode.finish();
+//                return true;
+            default:
+                return false;
+        }
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode actionMode) {
+        this.actionMode = null;
+        adapter.clearSelections();
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+        gestureDetector.onTouchEvent(e);
+        return false;
+    }
+
+    @Override
+    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+    }
+
+    @Override
+    public void onRequestDisallowInterceptTouchEvent(boolean b) {
+
+    }
 }

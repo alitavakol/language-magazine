@@ -17,7 +17,11 @@
 
     <string name="add_to_waiting_list">Add to cool english times</string>
 
+    <!-- drag handle click hint toast -->
     <string name="drag_hint">Hold and move to re-order items.</string>
+
+    <!-- waiting list row click hint toast -->
+    <string name="action_mode_hint">Long press items for more options.</string>
 
     <string name="action_settings">Preferences</string>
 
@@ -139,6 +143,8 @@
     <string name="open">Open</string>
     <string name="delete">Delete</string>
     <string name="retry_download">Retry Download</string>
+
+    <string name="delete_selected">Delete Selected it</string>
 
     <string name="download_failed_msg">Download failed with error code\u0020</string>
 

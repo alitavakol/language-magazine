@@ -49,7 +49,7 @@
         <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
         <EditTextPreference
             android:defaultValue="@string/pref_default_server_address"
-            android:inputType="textNoSuggestions"
+            android:inputType="textUri"
             android:key="server_address"
             android:maxLines="1"
             android:selectAllOnFocus="true"
