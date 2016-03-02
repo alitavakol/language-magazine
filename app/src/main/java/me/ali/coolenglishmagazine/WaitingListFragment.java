@@ -329,7 +329,7 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
         }
 
         public List<Integer> getSelectedItems() {
-            List<Integer> items = new ArrayList<Integer>(selectedItems.size());
+            List<Integer> items = new ArrayList<>(selectedItems.size());
             for (int i = 0; i < selectedItems.size(); i++) {
                 items.add(selectedItems.keyAt(i));
             }

@@ -11,28 +11,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
-        android:orientation="horizontal">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/time"
-            style="@style/TextAppearance.AppCompat.Large"
+        <ImageView
+            android:id="@+id/check_mark"
+            android:layout_width="?listPreferredItemHeight"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="center"
+            android:visibility="invisible" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="10:54" />
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/am_pm"
-            style="@style/TextAppearance.AppCompat.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="PM" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/time"
+                style="@style/TextAppearance.AppCompat.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="10:54" />
+
+            <TextView
+                android:id="@+id/am_pm"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="PM" />
+        </LinearLayout>
+    </FrameLayout>
+
 </LinearLayout>
-
-    <!--<Switch--><!--android:id="@+id/on_off_switch"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_alignBottom="@id/time"--><!--android:layout_alignParentEnd="true"--><!--android:layout_alignTop="@id/time"--><!--android:gravity="center_vertical"--><!--android:visibility="gone" />-->
-
-    <!--<ImageView--><!--android:id="@+id/delete"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_alignParentEnd="true"--><!--android:layout_below="@id/on_off_switch"--><!--android:src="@android:drawable/ic_menu_delete"--><!--android:visibility="gone" />-->
