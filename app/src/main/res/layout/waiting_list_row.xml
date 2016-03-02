@@ -30,19 +30,37 @@
         android:id="@+id/poster"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:maxWidth="64dp"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:maxHeight="64dp"
+        android:maxWidth="64dp"
         android:scaleType="centerCrop"
         tools:src="@mipmap/ic_launcher" />
 
-    <TextView
-        android:id="@+id/title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_margin="@dimen/padding_normal"
         android:layout_toEndOf="@id/poster"
         android:layout_toStartOf="@+id/marker_container"
-        android:padding="@dimen/padding_normal"
-        tools:text="Item Title" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            tools:text="Item Title" />
+
+        <TextView
+            android:id="@+id/hit_count"
+            style="@style/Base.TextAppearance.AppCompat.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            tools:text="hit count" />
+    </LinearLayout>
 
 </RelativeLayout>

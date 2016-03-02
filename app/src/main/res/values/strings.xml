@@ -43,7 +43,11 @@
     <string name="issue_downloaded_notification">New issue is ready. Let\'s start<![CDATA[!]]></string>
 
     <!-- for cool english times -->
-    <string name="cool_english_time_notification_text">Time to learn cool english<![CDATA[!]]></string>
+    <string name="cool_english_time_notification_text_short">Time to learn a lesson<![CDATA[!]]></string>
+    <string name="cool_english_time_notification_text">Time to learn the \"%s\" lesson<![CDATA[!]]></string>
+    <string name="cool_english_time_notification_summary_text">You have learnt this item %d times so far.</string>
+    <string name="cool_english_time_notification_summary_text_1">You have learnt this item 1 time so far.</string>
+    <string name="pending_count">Remaining %d times to learn.</string>
     <string name="alarm_already_exists">Alarm for this time already exists.</string>
 
     <string name="title_activity_settings">Preferences</string>
@@ -75,6 +79,13 @@
         <item>1</item>
         <item>0</item>
         <item>-1</item>
+    </string-array>
+
+    <string name="pref_title_item_learn_repeat_count">Item learn repeat count</string>
+    <string-array name="pref_item_learn_repeat_count">
+        <item>5</item>
+        <item>8</item>
+        <item>11</item>
     </string-array>
 
     <string name="pref_title_navigate_audio_with_volume_buttons">Volume buttons navigate playback</string>

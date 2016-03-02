@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
@@ -124,7 +125,12 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
      * represent one lesson item that is in the waiting list of the Cool English Times.
      */
     public static class WaitingItem implements Serializable {
-        File itemRootDirectory;
+        public File itemRootDirectory;
+
+        /**
+         * count of times the user has learned this item so far.
+         */
+        public int hitCount;
     }
 
     ArrayList<WaitingItem> waitingItems;
@@ -219,6 +225,10 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
 
                 holder.titleTextView.setText(item.title);
 
+                final Context context = getActivity();
+                int repeatCount = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("repeat_count", "8"));
+                holder.hitCountTextView.setText(context.getResources().getString(R.string.pending_count, repeatCount - waitingItem.hitCount));
+
                 // load downsampled poster
                 int w = holder.posterImageView.getMaxWidth();
                 int h = holder.posterImageView.getMaxHeight();
@@ -256,16 +266,15 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            TextView titleTextView;
-            ImageView handleView;
-            ImageView checkMarkImageView;
-            ImageView posterImageView;
+            TextView titleTextView, hitCountTextView;
+            ImageView handleView, checkMarkImageView, posterImageView;
 
             public ViewHolder(View view) {
                 super(view);
 
                 titleTextView = (TextView) view.findViewById(R.id.title);
                 posterImageView = (ImageView)view.findViewById(R.id.poster);
+                hitCountTextView = (TextView)view.findViewById(R.id.hit_count);
 
                 handleView = (ImageView) view.findViewById(R.id.handle);
                 handleView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_reorder).sizeDp(20).color(Color.LTGRAY));
