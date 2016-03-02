@@ -178,6 +178,7 @@ public class AlarmsTabFragment extends Fragment {
 
         // Set the alarm to start at the specified time of day.
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, alarm.hour);
         calendar.set(Calendar.MINUTE, alarm.minute);
 
