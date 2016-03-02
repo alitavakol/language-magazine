@@ -273,8 +273,8 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
                 super(view);
 
                 titleTextView = (TextView) view.findViewById(R.id.title);
-                posterImageView = (ImageView)view.findViewById(R.id.poster);
-                hitCountTextView = (TextView)view.findViewById(R.id.hit_count);
+                posterImageView = (ImageView) view.findViewById(R.id.poster);
+                hitCountTextView = (TextView) view.findViewById(R.id.hit_count);
 
                 handleView = (ImageView) view.findViewById(R.id.handle);
                 handleView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_reorder).sizeDp(20).color(Color.LTGRAY));
@@ -287,6 +287,14 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
 
                 checkMarkImageView = (ImageView) view.findViewById(R.id.check_mark);
                 checkMarkImageView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_check).sizeDp(20).color(Color.LTGRAY));
+
+                view.findViewById(R.id.title_container).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (actionMode == null)
+                            Toast.makeText(getActivity(), R.string.action_mode_hint, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         }
 

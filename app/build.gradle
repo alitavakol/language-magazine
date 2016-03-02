@@ -39,4 +39,5 @@ dependencies {
     dependencies {
         compile 'com.github.tbouron.shakedetector:library:1.0.0@aar'
     }
+    compile 'com.android.support:cardview-v7:23.1.1'
 }

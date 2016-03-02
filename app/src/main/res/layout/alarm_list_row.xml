@@ -1,43 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/padding_normal"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/time"
-        style="@style/TextAppearance.AppCompat.Large"
+    <me.ali.coolenglishmagazine.widget.MyAnalogClock
+        android:id="@+id/clock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:textSize="48sp"
-        tools:text="10:54" />
+        android:layout_gravity="center_horizontal|bottom"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/am_pm"
-        style="@style/TextAppearance.AppCompat.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/time"
-        android:layout_toEndOf="@id/time"
-        tools:text="PM" />
+        <TextView
+            android:id="@+id/time"
+            style="@style/TextAppearance.AppCompat.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="10:54" />
 
-    <Switch
-        android:id="@+id/on_off_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/time"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@id/time"
-        android:gravity="center_vertical" />
+        <TextView
+            android:id="@+id/am_pm"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="PM" />
+    </LinearLayout>
+</LinearLayout>
 
-    <ImageView
-        android:id="@+id/delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/on_off_switch"
-        android:src="@android:drawable/ic_menu_delete" />
+    <!--<Switch--><!--android:id="@+id/on_off_switch"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_alignBottom="@id/time"--><!--android:layout_alignParentEnd="true"--><!--android:layout_alignTop="@id/time"--><!--android:gravity="center_vertical"--><!--android:visibility="gone" />-->
 
-</RelativeLayout>
+    <!--<ImageView--><!--android:id="@+id/delete"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_alignParentEnd="true"--><!--android:layout_below="@id/on_off_switch"--><!--android:src="@android:drawable/ic_menu_delete"--><!--android:visibility="gone" />-->

@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,9 +20,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -48,6 +45,7 @@ import java.util.Locale;
 import me.ali.coolenglishmagazine.broadcast_receivers.AlarmBroadcastReceiver;
 import me.ali.coolenglishmagazine.broadcast_receivers.BootReceiver;
 import me.ali.coolenglishmagazine.util.LogHelper;
+import me.ali.coolenglishmagazine.widget.MyAnalogClock;
 
 
 public class AlarmsTabFragment extends Fragment {
@@ -178,9 +176,13 @@ public class AlarmsTabFragment extends Fragment {
 
         // Set the alarm to start at the specified time of day.
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
+//        calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, alarm.hour);
         calendar.set(Calendar.MINUTE, alarm.minute);
+
+        // increase by one day if the time is in the past on today.
+        if (calendar.getTimeInMillis() < System.currentTimeMillis())
+            calendar.add(Calendar.DATE, 1);
 
         // With setInexactRepeating(), you have to use one of the AlarmManager interval
         // constants--in this case, AlarmManager.INTERVAL_DAY.
@@ -210,7 +212,7 @@ public class AlarmsTabFragment extends Fragment {
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(adapter);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setHasFixedSize(true);
     }
 
@@ -298,39 +300,39 @@ public class AlarmsTabFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
-//            ((ImageView) holder.itemView.findViewById(R.id.delete)).setImageDrawable(new IconicsDrawable(getContext()).icon(GoogleMaterial.Icon.gmd_delete).sizeDp(72).color(Color.LTGRAY));
             final Alarm alarm = alarms.get(position);
 
             Time time = new Time(alarm.hour, alarm.minute, 0);
 
             holder.timeTextView.setText(timeFormat.format(time));
             holder.amPmTextView.setText(amPmFormat.format(time));
+            holder.analogClock.setTime(alarm.hour, alarm.minute, 0);
 
-            holder.onOffswitch.setChecked(alarm.enabled);
-            holder.onOffswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked)
-                        turnOnAlarm(getActivity(), alarm);
-                    else
-                        turnOffAlarm(alarm);
+//            holder.onOffswitch.setChecked(alarm.enabled);
+//            holder.onOffswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                    if (isChecked)
+//                        turnOnAlarm(getActivity(), alarm);
+//                    else
+//                        turnOffAlarm(alarm);
+//
+//                    saveAlarms();
+//                }
+//            });
 
-                    saveAlarms();
-                }
-            });
-
-            holder.deleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    alarms.remove(alarm);
-                    adapter.notifyItemRemoved(holder.getAdapterPosition());
-
-                    // cancel this alarm
-                    turnOffAlarm(alarm);
-
-                    saveAlarms();
-                }
-            });
+//            holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    alarms.remove(alarm);
+//                    adapter.notifyItemRemoved(holder.getAdapterPosition());
+//
+//                    // cancel this alarm
+//                    turnOffAlarm(alarm);
+//
+//                    saveAlarms();
+//                }
+//            });
         }
 
         @Override
@@ -340,16 +342,14 @@ public class AlarmsTabFragment extends Fragment {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             TextView timeTextView, amPmTextView;
-            Switch onOffswitch;
-            ImageView deleteButton;
+            MyAnalogClock analogClock;
 
             public ViewHolder(View view) {
                 super(view);
 
                 timeTextView = (TextView) view.findViewById(R.id.time);
                 amPmTextView = (TextView) view.findViewById(R.id.am_pm);
-                onOffswitch = (Switch) view.findViewById(R.id.on_off_switch);
-                deleteButton = (ImageView) view.findViewById(R.id.delete);
+                analogClock = (MyAnalogClock) view.findViewById(R.id.clock);
             }
         }
     }
