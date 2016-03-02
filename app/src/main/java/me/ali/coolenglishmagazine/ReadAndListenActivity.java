@@ -181,14 +181,14 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                         + "});";
                 webView.loadUrl(command);
                 if (webViewState != null)
-                    webView.loadUrl("javascript:setInstanceState('" + webViewState + "');");
+                    webView.loadUrl("javascript:restoreInstanceState('" + webViewState.replace("'", "\\'") + "');");
                 webView.loadUrl("javascript:setTimeout(function() { app.onAdjustLayoutComplete(); }, 200);");
 
                 lockTranscript(transcriptLocked);
 
                 webView.loadUrl("javascript:highlight(" + currentTimePoint + ");");
                 if (state == PlaybackStateCompat.STATE_PLAYING) {
-                    currentTimePoint = -1; // force redo highlight current snippet when playing
+                    currentTimePoint = -1; // force redo highlight current snippet if playing
                 }
             }
         });

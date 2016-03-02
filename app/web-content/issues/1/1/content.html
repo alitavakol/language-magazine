@@ -124,6 +124,9 @@
 				$('#page-indicator').show();
 				$('#page-indicator .dot').eq(index).addClass('active');
 
+				if(typeof(window.swipeable) == 'object' && typeof(window.swipeable.kill) == 'function')
+					window.swipeable.kill();
+
 				window.swipeable = $('#swipeable').Swipe({
 					startSlide: index,
 					callback: function(index,elem) {
@@ -132,7 +135,8 @@
 						$('#page-indicator .dot').removeClass('active');
 						$('#page-indicator .dot').eq(index).addClass('active');
 
-						app.showLockControls(currentSlide == 1);
+						if(typeof(app) != 'undefined')
+							app.showLockControls(currentSlide == 1);
 						saveInstanceState();
 					},
 				}).data('Swipe');
@@ -144,10 +148,11 @@
 					transcriptLocked: transcriptLocked,
 				};
 
-				app.saveInstanceState(JSON.stringify(outState));
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
 			}
 
-			setInstanceState = function(savedInstanceState) {
+			restoreInstanceState = function(savedInstanceState) {
 				state = JSON.parse(savedInstanceState);
 
 				setCurrentSlide(state.currentSlide);
