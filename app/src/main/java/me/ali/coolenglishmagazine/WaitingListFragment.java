@@ -62,12 +62,12 @@ public class WaitingListFragment extends Fragment implements
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
-    }
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        if (getArguments() != null) {
+//        }
+//    }
 
     RecyclerView recyclerView;
 
@@ -176,6 +176,7 @@ public class WaitingListFragment extends Fragment implements
                 }
 
             } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
@@ -306,7 +307,7 @@ public class WaitingListFragment extends Fragment implements
 
             // Start the CAB using the ActionMode.Callback defined above
             actionMode = getActivity().startActionMode(WaitingListFragment.this);
-            int idx = recyclerView.getChildPosition(view);
+            int idx = recyclerView.getChildAdapterPosition(view);
             toggleSelection(idx);
 
             // hide handler when in action mode

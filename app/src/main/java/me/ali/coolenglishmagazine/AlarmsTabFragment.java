@@ -262,6 +262,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
             fileOut.close();
 
         } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -275,8 +276,8 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
             in.close();
             fileIn.close();
 
-        } catch (ClassNotFoundException e) {
-        } catch (IOException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return alarms;

@@ -15,8 +15,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import me.ali.coolenglishmagazine.R;
+import me.ali.coolenglishmagazine.util.LogHelper;
 
 public class WaitingItems {
+
+    private static final String TAG = LogHelper.makeLogTag(WaitingItems.class);
 
     /**
      * represent one lesson item that is in the waiting list of the Cool English Times.
@@ -51,6 +54,7 @@ public class WaitingItems {
             fileOut.close();
 
         } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -71,8 +75,8 @@ public class WaitingItems {
                 in.close();
                 fileIn.close();
 
-            } catch (ClassNotFoundException e) {
-            } catch (IOException e) {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 

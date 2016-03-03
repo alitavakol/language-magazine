@@ -87,6 +87,7 @@ public class MusicService extends Service implements
             // user has learnt this item. increment hit count if it is in the list of waiting items.
             WaitingItems.incrementHitCount(this, MagazineContent.getItem(new File(dataSource).getParentFile()));
         } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

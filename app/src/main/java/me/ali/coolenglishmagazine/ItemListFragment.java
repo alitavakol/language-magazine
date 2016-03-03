@@ -105,6 +105,7 @@ public class ItemListFragment extends ListFragment {
             magazineContent.loadItems(issue);
 
         } catch (IOException e) {
+            e.printStackTrace();
         }
 
         levelTypeface = FontManager.getTypeface(getActivity(), FontManager.BOOSTER_ITALIC);

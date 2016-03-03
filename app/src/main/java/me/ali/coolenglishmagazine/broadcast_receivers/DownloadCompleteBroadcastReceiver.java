@@ -83,7 +83,9 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
 
             try {
                 return ZipHelper.unzip(f, context.getExternalFilesDir(null));
+
             } catch (IOException e) {
+                e.printStackTrace();
                 return null;
             }
         }

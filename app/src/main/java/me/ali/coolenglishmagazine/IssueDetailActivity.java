@@ -91,6 +91,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             issue = Magazines.getIssue(this, new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
             downloadReference = Magazines.getDownloadReference(this, issue);
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
         buttonOpen.setOnClickListener(new View.OnClickListener() {
