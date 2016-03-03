@@ -46,7 +46,7 @@
     <string name="cool_english_time_notification_text_short">Time to learn a lesson<![CDATA[!]]></string>
     <string name="cool_english_time_notification_text">Time to learn the \"%s\" lesson<![CDATA[!]]></string>
     <string name="cool_english_time_notification_summary_text">You have learnt this item %d times so far.</string>
-    <string name="cool_english_time_notification_summary_text_1">You have learnt this item 1 time so far.</string>
+    <string name="cool_english_time_notification_summary_text_1">You have learnt this item %d time so far.</string>
     <string name="pending_count">Remaining %d times to learn.</string>
     <string name="alarm_already_exists">Alarm for this time already exists.</string>
 
@@ -159,7 +159,7 @@
     <string name="delete">Delete</string>
     <string name="retry_download">Retry Download</string>
 
-    <string name="delete_selected">Delete Selected it</string>
+    <string name="delete_selected">Delete Selected Item(s)</string>
 
     <string name="download_failed_msg">Download failed with error code\u0020</string>
 

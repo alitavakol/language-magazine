@@ -19,6 +19,11 @@ public class MagazineContent {
     private static final String TAG = LogHelper.makeLogTag(MagazineContent.class);
 
     /**
+     * maximum number of items in one issue
+     */
+    public static final int MAX_ITEMS = 10;
+
+    /**
      * An array of available magazine items in this issue.
      */
     public List<Item> ITEMS = new ArrayList<>();
@@ -119,5 +124,15 @@ public class MagazineContent {
         public String type;
         public int level;
         public int id;
+
+        /**
+         * UID of an item is unique across all available items of all issues. this is calculated
+         * using values of {@code MagazineContent.MAX_ITEMS} and {@code Magazines.MAX_ISSUES}.
+         *
+         * @return uid of an item, which is unique across all available items.
+         */
+        public int getUid() {
+            return MAX_ITEMS * Integer.parseInt(rootDirectory.getParentFile().getName()) + id;
+        }
     }
 }

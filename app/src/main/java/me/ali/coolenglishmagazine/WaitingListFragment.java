@@ -30,21 +30,20 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import me.ali.coolenglishmagazine.model.MagazineContent;
+import me.ali.coolenglishmagazine.model.WaitingItems;
 import me.ali.coolenglishmagazine.util.BitmapHelper;
 
 
-public class WaitingListFragment extends Fragment implements RecyclerView.OnItemTouchListener, ActionMode.Callback {
+public class WaitingListFragment extends Fragment implements
+        RecyclerView.OnItemTouchListener,
+        ActionMode.Callback,
+        WaitingItems.OnWaitingItemChangedListener {
 
     public WaitingListFragment() {
         // Required empty public constructor
@@ -88,9 +87,15 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
     public void onStart() {
         super.onStart();
 
-        waitingItems = importWaitingItems(getActivity());
-
+        WaitingItems.importWaitingItems(getActivity());
         adapter.notifyDataSetChanged();
+        WaitingItems.listener = this;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        WaitingItems.listener = null;
     }
 
     protected WaitingListRecyclerViewAdapter adapter = new WaitingListRecyclerViewAdapter();
@@ -121,92 +126,6 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
         gestureDetector = new GestureDetectorCompat(getActivity(), new RecyclerViewOnGestureListener());
     }
 
-    /**
-     * represent one lesson item that is in the waiting list of the Cool English Times.
-     */
-    public static class WaitingItem implements Serializable {
-        public File itemRootDirectory;
-
-        /**
-         * count of times the user has learned this item so far.
-         */
-        public int hitCount;
-    }
-
-    ArrayList<WaitingItem> waitingItems;
-
-    /**
-     * list of waiting items is saved in this file, within the internal files directory.
-     */
-    public static final String WAITING_LIST_FILE_NAME = "waiting_list";
-
-    /**
-     * save list of waiting items to {@code WAITING_LIST_FILE_NAME}, overwrites the file.
-     *
-     * @param context      app context
-     * @param waitingItems list of items to save
-     */
-    public static void saveWaitingItems(Context context, ArrayList<WaitingItem> waitingItems) {
-        try {
-            FileOutputStream fileOut = new FileOutputStream(new File(context.getFilesDir(), WAITING_LIST_FILE_NAME));
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(waitingItems);
-            out.close();
-            fileOut.close();
-
-        } catch (IOException e) {
-        }
-    }
-
-    /**
-     * loads list of waiting lesson items from {@code WAITING_LIST_FILE_NAME}
-     *
-     * @param context context
-     * @return an array list of {@link me.ali.coolenglishmagazine.WaitingListFragment.WaitingItem}
-     */
-    public static ArrayList<WaitingItem> importWaitingItems(Context context) {
-        ArrayList<WaitingItem> waitingItems = new ArrayList<>();
-
-        try {
-            FileInputStream fileIn = new FileInputStream(new File(context.getFilesDir(), WAITING_LIST_FILE_NAME));
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            waitingItems = (ArrayList<WaitingItem>) in.readObject();
-            in.close();
-            fileIn.close();
-
-        } catch (ClassNotFoundException e) {
-        } catch (IOException e) {
-        }
-
-        return waitingItems;
-    }
-
-    /**
-     * adds item to the end of the list of waiting lesson items.
-     *
-     * @param context app context
-     * @param item    lesson item to be added
-     * @return false if item is already in the list, and true otherwise.
-     */
-    public static boolean appendToWaitingList(Context context, MagazineContent.Item item) {
-        ArrayList<WaitingItem> waitingItems = importWaitingItems(context);
-
-        WaitingItem waitingItem = new WaitingItem();
-        waitingItem.itemRootDirectory = item.rootDirectory;
-
-        for (WaitingItem w : waitingItems) {
-            if (w.itemRootDirectory.equals(waitingItem.itemRootDirectory)) {
-                Toast.makeText(context, R.string.already_in_waiting_list, Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        }
-
-        waitingItems.add(waitingItem);
-        saveWaitingItems(context, waitingItems);
-
-        return true;
-    }
-
     public class WaitingListRecyclerViewAdapter extends RecyclerView.Adapter<WaitingListRecyclerViewAdapter.ViewHolder> {
         private SparseBooleanArray selectedItems = new SparseBooleanArray();
 
@@ -218,7 +137,7 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            final WaitingItem waitingItem = waitingItems.get(position);
+            final WaitingItems.WaitingItem waitingItem = WaitingItems.waitingItems.get(position);
 
             try {
                 MagazineContent.Item item = MagazineContent.getItem(waitingItem.itemRootDirectory);
@@ -262,7 +181,7 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
 
         @Override
         public int getItemCount() {
-            return waitingItems.size();
+            return WaitingItems.waitingItems.size();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
@@ -299,15 +218,15 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
         }
 
         public void remove(int position) {
-            waitingItems.remove(position);
+            WaitingItems.waitingItems.remove(position);
+            WaitingItems.saveWaitingItems(getActivity());
             notifyItemRemoved(position);
-            saveWaitingItems(getActivity(), waitingItems);
         }
 
         public void swap(int firstPosition, int secondPosition) {
-            Collections.swap(waitingItems, firstPosition, secondPosition);
+            Collections.swap(WaitingItems.waitingItems, firstPosition, secondPosition);
+            WaitingItems.saveWaitingItems(getActivity());
             adapter.notifyItemMoved(firstPosition, secondPosition);
-            saveWaitingItems(getActivity(), waitingItems);
         }
 
         public void toggleSelection(int pos) {
@@ -424,11 +343,11 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
                 int currPos;
                 for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
                     currPos = selectedItemPositions.get(i);
-                    waitingItems.remove(currPos);
+                    WaitingItems.waitingItems.remove(currPos);
                     adapter.notifyItemRemoved(currPos);
                 }
                 actionMode.finish();
-                saveWaitingItems(getActivity(), waitingItems);
+                WaitingItems.saveWaitingItems(getActivity());
                 return true;
         }
         return false;
@@ -452,5 +371,15 @@ public class WaitingListFragment extends Fragment implements RecyclerView.OnItem
 
     @Override
     public void onRequestDisallowInterceptTouchEvent(boolean b) {
+    }
+
+    @Override
+    public void onWaitingItemHitCountChanged(WaitingItems.WaitingItem waitingItem) {
+        adapter.notifyItemChanged(WaitingItems.waitingItems.indexOf(waitingItem));
+    }
+
+    @Override
+    public void onWaitingItemRemoved(WaitingItems.WaitingItem waitingItem) {
+        adapter.notifyItemRemoved(WaitingItems.waitingItems.indexOf(waitingItem));
     }
 }

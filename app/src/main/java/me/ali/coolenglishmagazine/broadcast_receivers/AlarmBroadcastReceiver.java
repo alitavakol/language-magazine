@@ -9,19 +9,21 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import me.ali.coolenglishmagazine.R;
 import me.ali.coolenglishmagazine.ReadAndListenActivity;
-import me.ali.coolenglishmagazine.WaitingListFragment;
 import me.ali.coolenglishmagazine.model.MagazineContent;
+import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.model.WaitingItems;
 
 public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
-    public static final int COOL_ENGLISH_TIME_NOTIFICATION_ID = 101;
+    /**
+     * it takes up {@code Magazines.MAX_ISSUES} * {@code MagazineContent.MAX_ITEMS} interval
+     */
+    public static final int COOL_ENGLISH_TIME_NOTIFICATION_ID = DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + Magazines.MAX_ISSUES;
 
     public AlarmBroadcastReceiver() {
     }
@@ -33,8 +35,8 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         // TODO: find top item from the waiting list of lessons.
-        ArrayList<WaitingListFragment.WaitingItem> waitingItems = WaitingListFragment.importWaitingItems(context);
-        for (WaitingListFragment.WaitingItem waitingItem : waitingItems) {
+        WaitingItems.importWaitingItems(context);
+        for (WaitingItems.WaitingItem waitingItem : WaitingItems.waitingItems) {
             try {
                 final MagazineContent.Item item = MagazineContent.getItem(waitingItem.itemRootDirectory);
 
@@ -46,7 +48,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 // build notification
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                         .setContentTitle(context.getResources().getString(R.string.cool_english_times))
-                        .setContentText(context.getResources().getString(R.string.cool_english_time_notification_text_short, item.title))
+                        .setContentText(context.getResources().getString(R.string.cool_english_time_notification_text_short))
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentIntent(pIntent)
                         .setAutoCancel(true);
@@ -69,7 +71,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 // Moves the expanded layout object into the notification object.
                 builder.setStyle(textStyle);
 
-                ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(COOL_ENGLISH_TIME_NOTIFICATION_ID, builder.build());
+                ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(COOL_ENGLISH_TIME_NOTIFICATION_ID + item.getUid(), builder.build());
 
                 break;
 

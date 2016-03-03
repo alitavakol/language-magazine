@@ -1,5 +1,6 @@
 package me.ali.coolenglishmagazine;
 
+import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -51,7 +52,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
+import me.ali.coolenglishmagazine.broadcast_receivers.AlarmBroadcastReceiver;
 import me.ali.coolenglishmagazine.model.MagazineContent;
+import me.ali.coolenglishmagazine.model.WaitingItems;
 import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -139,6 +142,13 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             transcriptLocked = savedInstanceState.getBoolean("transcriptLocked");
             useLockControls = savedInstanceState.getBoolean("useLockControls");
             webViewState = savedInstanceState.getStringArray("webViewState");
+
+        } else {
+            // if the item has no audio, suppose user has learnt this item. for items with audio,
+            // music service does this job:
+            // increment hit count if it is in the list of waiting items.
+            if (item.audioFileName.length() == 0)
+                WaitingItems.incrementHitCount(this, item);
         }
 
         // TODO read http://javarticles.com/2015/09/android-toolbar-example.html to add toolbar
@@ -241,6 +251,9 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             newWords = getNewWords(doc);
             timePoints = getTimePoints(doc);
 
+            // cancel alarm notification to learn this item.
+            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel(AlarmBroadcastReceiver.COOL_ENGLISH_TIME_NOTIFICATION_ID + item.getUid());
+
         } catch (IOException e) {
             LogHelper.e(TAG, e.getMessage());
         }
@@ -293,7 +306,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 return true;
 
             case R.id.add_to_waiting_list:
-                WaitingListFragment.appendToWaitingList(this, this.item);
+                WaitingItems.appendToWaitingList(this, this.item);
                 return true;
         }
 

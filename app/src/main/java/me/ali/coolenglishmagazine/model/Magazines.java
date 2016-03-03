@@ -26,6 +26,11 @@ public class Magazines {
     private static final String TAG = LogHelper.makeLogTag(Magazines.class);
 
     /**
+     * maximum number of issues
+     */
+    public static final int MAX_ISSUES = 1000;
+
+    /**
      * An array of magazine issues.
      */
     public final ArrayList<Issue> ISSUES = new ArrayList<>();

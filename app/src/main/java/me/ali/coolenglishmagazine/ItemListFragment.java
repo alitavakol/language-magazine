@@ -29,6 +29,7 @@ import java.io.IOException;
 import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
 import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.model.WaitingItems;
 import me.ali.coolenglishmagazine.util.BitmapHelper;
 import me.ali.coolenglishmagazine.util.FontManager;
 
@@ -185,7 +186,7 @@ public class ItemListFragment extends ListFragment {
         switch (id) {
             case R.id.add_to_waiting_list:
                 for (MagazineContent.Item item : magazineContent.ITEMS)
-                    WaitingListFragment.appendToWaitingList(getActivity(), item);
+                    WaitingItems.appendToWaitingList(getActivity(), item);
                 return true;
         }
 
@@ -293,7 +294,7 @@ public class ItemListFragment extends ListFragment {
 
                             switch (id) {
                                 case R.id.add_to_waiting_list:
-                                    WaitingListFragment.appendToWaitingList(getActivity(), item);
+                                    WaitingItems.appendToWaitingList(getActivity(), item);
                                     return true;
                             }
 
