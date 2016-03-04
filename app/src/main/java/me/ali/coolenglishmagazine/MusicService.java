@@ -79,7 +79,7 @@ public class MusicService extends Service implements
 
     public void onDestroy() {
         LogHelper.d("music service onDestroy");
-        handleStopRequest();
+        mediaController.getTransportControls().stop();
     }
 
     // TODO implement audio becoming noisy handler
@@ -91,7 +91,7 @@ public class MusicService extends Service implements
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        handleStopRequest();
+        mediaController.getTransportControls().stop();
 
         // user has learnt this item. increment hit count if it is in the list of waiting items.
         WaitingItems.incrementHitCount(this, item);
@@ -115,25 +115,19 @@ public class MusicService extends Service implements
             handlePrepareRequest(intent.getStringExtra("dataSource"));
 
         } else if (ACTION_PLAY.equals(action)) {
-            handlePlayRequest();
+            mediaController.getTransportControls().play();
 
         } else if (ACTION_PAUSE.equals(action)) {
-            handlePauseRequest();
+            mediaController.getTransportControls().pause();
 
         } else if (ACTION_STOP.equals(action)) {
-            handleStopRequest();
+            mediaController.getTransportControls().stop();
 
         } else if (ACTION_FAST_FORWARD.equals(action)) {
-            if (mediaPlayer != null) {
-                mediaController.getTransportControls().fastForward();
-                fastForward();
-            }
+            mediaController.getTransportControls().fastForward();
 
         } else if (ACTION_REWIND.equals(action)) {
-            if (mediaPlayer != null) {
-                mediaController.getTransportControls().rewind();
-                rewind();
-            }
+            mediaController.getTransportControls().rewind();
         }
 
         return START_NOT_STICKY;
@@ -159,56 +153,44 @@ public class MusicService extends Service implements
                                      public void onPlay() {
                                          super.onPlay();
                                          LogHelper.i(TAG, "media session onPlay");
-                                         buildNotification(generateAction(android.R.drawable.ic_media_pause, "Pause", ACTION_PAUSE));
+
+                                         handlePlayRequest();
                                      }
 
                                      @Override
                                      public void onPause() {
                                          super.onPause();
                                          LogHelper.i(TAG, "media session onPause");
-                                         buildNotification(generateAction(android.R.drawable.ic_media_play, "Play", ACTION_PLAY));
-                                     }
 
-                                     @Override
-                                     public void onSkipToNext() {
-                                         super.onSkipToNext();
-                                         LogHelper.i(TAG, "media session onSkipToNext");
-                                         //Change media here
-                                         buildNotification(generateAction(android.R.drawable.ic_media_pause, "Pause", ACTION_PAUSE));
-                                     }
-
-                                     @Override
-                                     public void onSkipToPrevious() {
-                                         super.onSkipToPrevious();
-                                         LogHelper.i(TAG, "media session onSkipToPrevious");
-                                         //Change media here
-                                         buildNotification(generateAction(android.R.drawable.ic_media_pause, "Pause", ACTION_PAUSE));
+                                         handlePauseRequest();
                                      }
 
                                      @Override
                                      public void onFastForward() {
                                          super.onFastForward();
                                          LogHelper.i(TAG, "media session onFastForward");
-                                         //Manipulate current media here
+
+                                         if (mediaPlayer != null) {
+                                             fastForward();
+                                         }
                                      }
 
                                      @Override
                                      public void onRewind() {
                                          super.onRewind();
                                          LogHelper.i(TAG, "media session onRewind");
-                                         //Manipulate current media here
+
+                                         if (mediaPlayer != null) {
+                                             rewind();
+                                         }
                                      }
 
                                      @Override
                                      public void onStop() {
                                          super.onStop();
                                          LogHelper.i(TAG, "media session onStop");
-                                         //Stop media player here
-//                                         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-//                                         notificationManager.cancel(PLAYBACK_NOTIFICATION_ID);
-//                                         Intent intent = new Intent(getApplicationContext(), MusicService.class);
-//                                         stopService(intent);
-                                         buildNotification(generateAction(android.R.drawable.ic_media_play, "Play", ACTION_PLAY));
+
+                                         handleStopRequest();
                                      }
 
                                      @Override
@@ -279,7 +261,10 @@ public class MusicService extends Service implements
     private void handlePrepareRequest(String dataSource) {
         if (mediaPlayer != null && !this.dataSource.equals(dataSource)) {
             this.dataSource = dataSource;
-            handleStopRequest();
+            mediaController.getTransportControls().stop();
+
+            // handleStopRequest will call this function later, so do nothing at the moment.
+            return;
         }
 
         if (mediaPlayer == null && dataSource != null && dataSource.length() > 0) {
@@ -365,9 +350,9 @@ public class MusicService extends Service implements
                         boolean shakeToPausePlayback = PreferenceManager.getDefaultSharedPreferences(MusicService.this).getBoolean("shake_to_pause_playback", true);
                         if (shakeToPausePlayback) {
                             if (mediaPlayer != null && mediaPlayer.isPlaying())
-                                handlePauseRequest();
+                                mediaController.getTransportControls().pause();
                             else
-                                handlePlayRequest();
+                                mediaController.getTransportControls().play();
                         }
                     }
                 });
@@ -415,8 +400,6 @@ public class MusicService extends Service implements
 //                };
 //                mediaSession.setPlaybackToRemote(myVolumeProvider);
             }
-
-            mediaController.getTransportControls().play();
         }
     }
 
@@ -429,21 +412,25 @@ public class MusicService extends Service implements
     public void onAudioFocusChange(int focusChange) {
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
             // Pause playback
-            handlePauseRequest();
+            mediaController.getTransportControls().pause();
 
         } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
             // Resume playback
-            handlePlayRequest();
+            mediaController.getTransportControls().play();
 
         } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
             // Stop playback
-            handleStopRequest();
+            mediaController.getTransportControls().stop();
         }
     }
 
     public void handleStopRequest() {
         if (mediaPlayer != null) {
             stopForeground(true);
+
+            if (!mediaPlayer.isPlaying()) // if playback completed by itself
+                // keep notification visible, so user can start playback again.
+                buildNotification(generateAction(android.R.drawable.ic_media_play, "Play", ACTION_PLAY));
 
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -469,8 +456,6 @@ public class MusicService extends Service implements
             ShakeDetector.destroy();
             if (wakeLock.isHeld())
                 wakeLock.release();
-
-            mediaController.getTransportControls().stop();
         }
 
         if (onMediaStateChangedListener != null)
@@ -505,7 +490,7 @@ public class MusicService extends Service implements
             if (onMediaStateChangedListener != null)
                 onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_PAUSED);
 
-            mediaController.getTransportControls().pause();
+            buildNotification(generateAction(android.R.drawable.ic_media_play, "Play", ACTION_PLAY));
         }
     }
 
@@ -553,7 +538,7 @@ public class MusicService extends Service implements
         @Override
         public void onReceive(Context context, Intent intent) {
             if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
-                handlePauseRequest();
+                mediaController.getTransportControls().pause();
             }
         }
     }
