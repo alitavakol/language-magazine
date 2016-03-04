@@ -28,7 +28,7 @@ import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFragment.OnFragmentInteractionListener {
+public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFragment.OnFragmentInteractionListener, CoolEnglishTimesFragment.OnFragmentInteractionListener {
 
     private static final String TAG = LogHelper.makeLogTag(RootActivity.class);
 
@@ -47,7 +47,7 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
      */
     private boolean mTwoPane;
 
-    Fragment galleryOfIssuesFragment;
+    Fragment galleryOfIssuesFragment, coolEnglishTimesFragment;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -98,17 +98,25 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
                     return false;
 
                 Fragment fragment = null;
+                String tag = null;
                 switch (position) {
                     case 1:
                         if (galleryOfIssuesFragment == null)
                             galleryOfIssuesFragment = GalleryOfIssuesFragment.newInstance(0);
                         fragment = galleryOfIssuesFragment;
+                        tag = GalleryOfIssuesFragment.FRAGMENT_TAG;
+                        break;
+                    case 2:
+                        if (coolEnglishTimesFragment == null)
+                            coolEnglishTimesFragment = CoolEnglishTimesFragment.newInstance(0);
+                        fragment = coolEnglishTimesFragment;
+                        tag = CoolEnglishTimesFragment.FRAGMENT_TAG;
                         break;
                 }
 
                 if (fragment != null) {
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.root_fragment, fragment)
+                            .replace(R.id.root_fragment, fragment, tag)
                             .commit();
                 } else {
                     Toast.makeText(RootActivity.this, "item clicked: " + position, Toast.LENGTH_SHORT).show();
@@ -131,7 +139,7 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.issue_list, menu);
+        getMenuInflater().inflate(R.menu.common, menu);
         return true;
     }
 
@@ -161,7 +169,7 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
      */
     int drawer_selection = 1;
 
-    public void onToolbarCreated(Toolbar toolbar) {
+    public void onToolbarCreated(Toolbar toolbar, int titleRes) {
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -169,15 +177,20 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
             actionBar.setDisplayShowTitleEnabled(false);
 
         TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        toolbarTitle.setText(R.string.gallery_of_issues);
+        toolbarTitle.setText(titleRes);
 
-        drawer.setToolbar(this, toolbar);
+        drawer.setToolbar(this, toolbar, true);
     }
 
     @Override
     public void onBackPressed() {
         if (drawer != null && drawer.isDrawerOpen()) {
             drawer.closeDrawer();
+
+        } else if (drawer_selection != 1 && drawer != null) {
+            // when gallery of issues fragment is not active, navigate to it instead of exiting
+            drawer.setSelectionAtPosition(1, true);
+
         } else {
             super.onBackPressed();
         }

@@ -3,4 +3,11 @@
     <declare-styleable name="AspectRatioView">
         <attr name="aspectRatio" format="float" />
     </declare-styleable>
+
+    <!-- http://stackoverflow.com/a/16804506 -->
+    <declare-styleable name="AnalogClock">
+        <attr name="dial" format="reference"/>
+        <attr name="hand_hour" format="reference"/>
+        <attr name="hand_minute" format="reference"/>
+    </declare-styleable>
 </resources>

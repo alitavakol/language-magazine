@@ -9,8 +9,12 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v7.widget.PopupMenu;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +29,7 @@ import java.io.IOException;
 import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
 import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.model.WaitingItems;
 import me.ali.coolenglishmagazine.util.BitmapHelper;
 import me.ali.coolenglishmagazine.util.FontManager;
 
@@ -101,13 +105,16 @@ public class ItemListFragment extends ListFragment {
             magazineContent.loadItems(issue);
 
         } catch (IOException e) {
+            e.printStackTrace();
         }
 
         levelTypeface = FontManager.getTypeface(getActivity(), FontManager.BOOSTER_ITALIC);
         titleTypeface = FontManager.getTypeface(getActivity(), FontManager.BOOSTER_BOLD);
 
-        // TODO: replace with a real list adapter.
         setListAdapter(new Adapter());
+
+        // this fragment wants to add menu items to action bar.
+        setHasOptionsMenu(true);
 
         ((NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
     }
@@ -162,6 +169,29 @@ public class ItemListFragment extends ListFragment {
             // Serialize and persist the activated item position.
             outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.item_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = menuItem.getItemId();
+
+        switch (id) {
+            case R.id.add_to_waiting_list:
+                for (MagazineContent.Item item : magazineContent.ITEMS)
+                    WaitingItems.appendToWaitingList(getActivity(), item);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(menuItem);
     }
 
     /**
@@ -250,14 +280,33 @@ public class ItemListFragment extends ListFragment {
             textViewLevel.setBackgroundColor(transparentColor);
             textViewLevel.setTypeface(levelTypeface);
 
-            vi.findViewById(R.id.overflowMenu).setOnClickListener(new View.OnClickListener() {
+            final View overflowButton = vi.findViewById(R.id.overflowMenu);
+            overflowButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(ItemListFragment.this.getActivity(), "Overflow of " + item.title, Toast.LENGTH_SHORT).show();
+                    PopupMenu popup = new PopupMenu(getActivity(), v);
+                    MenuInflater inflater = popup.getMenuInflater();
+                    inflater.inflate(R.menu.read_and_listen, popup.getMenu());
+                    popup.show();
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            int id = menuItem.getItemId();
+
+                            switch (id) {
+                                case R.id.add_to_waiting_list:
+                                    WaitingItems.appendToWaitingList(getActivity(), item);
+                                    return true;
+                            }
+
+                            return false;
+                        }
+                    });
                 }
             });
 
             return vi;
         }
     }
+
 }

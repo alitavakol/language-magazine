@@ -334,7 +334,7 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
             final Magazines.Issue issue = issues.get(position);
 
             if (isHeader(position)) {
-                ((TextView) holder.view.findViewById(R.id.headerTextView)).setText(getResources().obtainTypedArray(R.array.issue_list_header_titles).getString(issue.getStatusValue() / 2));
+                ((TextView) holder.itemView.findViewById(R.id.headerTextView)).setText(getResources().obtainTypedArray(R.array.issue_list_header_titles).getString(issue.getStatusValue() / 2));
                 return;
             }
 
@@ -354,7 +354,7 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
                     }
                 });
 
-                holder.view.setOnClickListener(new View.OnClickListener() {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         galleryOfIssuesFragment.mListener.onIssueSelected(issue);
@@ -441,8 +441,6 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            public final View view;
-
             public final TextView titleTextView, subtitleTextView;
             public final ImageView posterImageView;
             public final CircularProgressView progressBar;
@@ -452,7 +450,6 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
             public ViewHolder(View view) {
                 super(view);
 
-                this.view = view;
                 titleTextView = (TextView) view.findViewById(R.id.title);
                 subtitleTextView = (TextView) view.findViewById(R.id.subtitle);
                 posterImageView = (ImageView) view.findViewById(R.id.icon);

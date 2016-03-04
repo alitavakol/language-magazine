@@ -51,6 +51,7 @@ public class IssueDetailFragment extends Fragment {
 
             } catch (IOException e) {
                 // TODO: handle error
+                e.printStackTrace();
             }
         }
     }

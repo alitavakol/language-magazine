@@ -91,6 +91,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             issue = Magazines.getIssue(this, new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
             downloadReference = Magazines.getDownloadReference(this, issue);
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
         buttonOpen.setOnClickListener(new View.OnClickListener() {
@@ -217,7 +218,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.issue_detail, menu);
+        getMenuInflater().inflate(R.menu.common, menu);
         return true;
     }
 

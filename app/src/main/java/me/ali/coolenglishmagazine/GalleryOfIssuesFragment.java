@@ -50,8 +50,6 @@ public class GalleryOfIssuesFragment extends Fragment {
 
     public Magazines magazines;
 
-    private TabLayout tabLayout;
-
     /**
      * current view pager tab
      */
@@ -98,12 +96,12 @@ public class GalleryOfIssuesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gallery_of_issues, container, false);
 
-        mListener.onToolbarCreated((Toolbar) view.findViewById(R.id.toolbar_actionbar));
+        mListener.onToolbarCreated((Toolbar) view.findViewById(R.id.toolbar_actionbar), R.string.gallery_of_issues);
 
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.view_pager);
         setupViewPager(viewPager);
 
-        tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
+        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(currentTabIndex).select();
 
@@ -155,7 +153,7 @@ public class GalleryOfIssuesFragment extends Fragment {
          *
          * @param toolbar app toolbar
          */
-        void onToolbarCreated(Toolbar toolbar);
+        void onToolbarCreated(Toolbar toolbar, int titleRes);
 
         /**
          * called when user clicks an issue item from the list of issues.
@@ -166,7 +164,7 @@ public class GalleryOfIssuesFragment extends Fragment {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
 
         for (int i = 0; i < 3; i++) {
             IssuesTabFragment fragment = IssuesTabFragment.newInstance(i);

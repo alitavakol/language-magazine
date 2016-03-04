@@ -28,9 +28,12 @@ import android.widget.RemoteViews;
 import com.github.tbouron.shakedetector.library.ShakeDetector;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import me.ali.coolenglishmagazine.broadcast_receivers.RemoteControlReceiver;
+import me.ali.coolenglishmagazine.model.MagazineContent;
+import me.ali.coolenglishmagazine.model.WaitingItems;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 /**
@@ -68,25 +71,11 @@ public class MusicService extends Service implements
     public void onCreate() {
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AudioPlaybackWakelockTag");
-
-        ShakeDetector.create(this, new ShakeDetector.OnShakeListener() {
-            @Override
-            public void OnShake() {
-                boolean shakeToPausePlayback = PreferenceManager.getDefaultSharedPreferences(MusicService.this).getBoolean("shake_to_pause_playback", true);
-                if (shakeToPausePlayback) {
-                    if (mediaPlayer.isPlaying())
-                        handlePauseRequest();
-                    else
-                        handlePlayRequest();
-                }
-            }
-        });
     }
 
     public void onDestroy() {
         LogHelper.d("music service onDestroy");
         handleStopRequest();
-        ShakeDetector.destroy();
     }
 
     // TODO implement audio becoming noisy handler
@@ -99,6 +88,12 @@ public class MusicService extends Service implements
     @Override
     public void onCompletion(MediaPlayer mp) {
         handleStopRequest();
+        try {
+            // user has learnt this item. increment hit count if it is in the list of waiting items.
+            WaitingItems.incrementHitCount(this, MagazineContent.getItem(new File(dataSource).getParentFile()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -278,6 +273,18 @@ public class MusicService extends Service implements
                 mSettingsContentObserver = new SettingsContentObserver(new Handler());
                 getContentResolver().registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, mSettingsContentObserver);
 
+                ShakeDetector.create(this, new ShakeDetector.OnShakeListener() {
+                    @Override
+                    public void OnShake() {
+                        boolean shakeToPausePlayback = PreferenceManager.getDefaultSharedPreferences(MusicService.this).getBoolean("shake_to_pause_playback", true);
+                        if (shakeToPausePlayback) {
+                            if (mediaPlayer != null && mediaPlayer.isPlaying())
+                                handlePauseRequest();
+                            else
+                                handlePlayRequest();
+                        }
+                    }
+                });
                 wakeLock.acquire();
                 ShakeDetector.start();
 
@@ -371,6 +378,7 @@ public class MusicService extends Service implements
             }
 
             ShakeDetector.stop();
+            ShakeDetector.destroy();
             if (wakeLock.isHeld())
                 wakeLock.release();
         }

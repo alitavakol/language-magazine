@@ -16,10 +16,10 @@
         android:visible="false"
         app:showAsAction="ifRoom" />
 
-    <!-- Settings, should always be in the overflow -->
     <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+        android:id="@+id/add_to_waiting_list"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/add_to_waiting_list"
         app:showAsAction="never" />
 
 </menu>

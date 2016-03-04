@@ -1,5 +1,6 @@
 package me.ali.coolenglishmagazine;
 
+import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -49,7 +50,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
+import me.ali.coolenglishmagazine.broadcast_receivers.AlarmBroadcastReceiver;
 import me.ali.coolenglishmagazine.model.MagazineContent;
+import me.ali.coolenglishmagazine.model.WaitingItems;
 import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -137,6 +140,13 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             transcriptLocked = savedInstanceState.getBoolean("transcriptLocked");
             useLockControls = savedInstanceState.getBoolean("useLockControls");
             webViewState = savedInstanceState.getString("webViewState");
+
+        } else {
+            // if the item has no audio, suppose user has learnt this item. for items with audio,
+            // music service does this job:
+            // increment hit count if it is in the list of waiting items.
+            if (item.audioFileName.length() == 0)
+                WaitingItems.incrementHitCount(this, item);
         }
 
         // TODO read http://javarticles.com/2015/09/android-toolbar-example.html to add toolbar
@@ -240,6 +250,9 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             newWords = getNewWords(doc);
             timePoints = getTimePoints(doc);
 
+            // cancel alarm notification to learn this item.
+            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel(AlarmBroadcastReceiver.COOL_ENGLISH_TIME_NOTIFICATION_ID + item.getUid());
+
         } catch (IOException e) {
             LogHelper.e(TAG, e.getMessage());
         }
@@ -251,6 +264,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.read_and_listen, menu);
+        getMenuInflater().inflate(R.menu.common, menu);
         lockActionButton = menu.findItem(R.id.action_lock);
         return true;
     }
@@ -288,6 +302,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+
+            case R.id.add_to_waiting_list:
+                WaitingItems.appendToWaitingList(this, this.item);
                 return true;
         }
 
