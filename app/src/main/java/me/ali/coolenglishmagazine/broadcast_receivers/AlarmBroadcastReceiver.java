@@ -34,7 +34,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         Intent intent = new Intent(context, ReadAndListenActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        // TODO: find top item from the waiting list of lessons.
+        // find top item from the waiting list of lessons.
         WaitingItems.importWaitingItems(context);
         for (WaitingItems.WaitingItem waitingItem : WaitingItems.waitingItems) {
             try {

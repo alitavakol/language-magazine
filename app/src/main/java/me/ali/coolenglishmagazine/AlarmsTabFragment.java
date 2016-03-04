@@ -80,9 +80,8 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-        }
-
+//        if (getArguments() != null) {
+//        }
         alarms = importAlarms(getContext());
     }
 
@@ -90,19 +89,6 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
         inflater.inflate(R.menu.available_issues_fragment_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        switch (id) {
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     RecyclerView recyclerView;
@@ -132,7 +118,6 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
                         Alarm alarm = new Alarm();
                         alarm.hour = selectedHour;
                         alarm.minute = selectedMinute;
-                        alarm.enabled = true;
 
                         for (Alarm a : alarms) {
                             if (alarm.getId() == a.getId()) {
@@ -185,7 +170,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
 
         // Set the alarm to start at the specified time of day.
         Calendar calendar = Calendar.getInstance();
-//        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, alarm.hour);
         calendar.set(Calendar.MINUTE, alarm.minute);
 
@@ -226,7 +211,6 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setHasFixedSize(true);
 
-
         recyclerView.addOnItemTouchListener(this);
         gestureDetector = new GestureDetectorCompat(getActivity(), new RecyclerViewOnGestureListener());
     }
@@ -234,7 +218,6 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
     public static class Alarm implements Serializable {
         int hour;
         int minute;
-        public boolean enabled;
 
         /**
          * @return an id that is unique for the time specified by this object.
@@ -289,17 +272,11 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
      * @param context a valid context
      */
     public void enableOrDisableBootReceiver(Context context) {
-        int enabledAlarms = 0;
-        for (Alarm alarm : alarms) {
-            if (alarm.enabled)
-                enabledAlarms++;
-        }
-
         ComponentName receiver = new ComponentName(context, BootReceiver.class);
         PackageManager pm = context.getPackageManager();
 
         pm.setComponentEnabledSetting(receiver,
-                enabledAlarms > 0 ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                alarms.size() > 0 ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                 PackageManager.DONT_KILL_APP);
     }
 
@@ -416,7 +393,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
 
             // Start the CAB using the ActionMode.Callback defined above
             actionMode = getActivity().startActionMode(AlarmsTabFragment.this);
-            int idx = recyclerView.getChildPosition(view);
+            int idx = recyclerView.getChildAdapterPosition(view);
             toggleSelection(idx);
 
             // hide handler when in action mode

@@ -99,6 +99,8 @@ public class WaitingItems {
      * @return false if item is already in the list, and true otherwise.
      */
     public static boolean appendToWaitingList(Context context, MagazineContent.Item item) {
+        importWaitingItems(context);
+
         WaitingItem waitingItem = new WaitingItem();
         waitingItem.itemRootDirectory = item.rootDirectory;
 
@@ -123,6 +125,8 @@ public class WaitingItems {
      */
     public static void incrementHitCount(Context context, MagazineContent.Item item) {
         int repeatCount = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("repeat_count", "8"));
+
+        importWaitingItems(context);
 
         Iterator<WaitingItem> i = waitingItems.iterator();
         while (i.hasNext()) {
