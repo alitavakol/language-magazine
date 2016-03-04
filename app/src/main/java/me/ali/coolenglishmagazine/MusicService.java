@@ -62,7 +62,6 @@ public class MusicService extends Service implements
 
     private MediaPlayer mediaPlayer = null;
     private MediaSessionCompat mediaSession;
-    //    private MediaSessionManager mediaSessionManager;
     private MediaControllerCompat mediaController;
 
     private boolean paused = false;
@@ -148,6 +147,13 @@ public class MusicService extends Service implements
             e.printStackTrace();
         }
 
+//        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+//        PlaybackStateCompat state = new PlaybackStateCompat.Builder()
+//                .setActions(PlaybackStateCompat.ACTION_PLAY)
+//                .setState(PlaybackStateCompat.STATE_STOPPED, PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN, 0)
+//                .build();
+//        mediaSession.setPlaybackState(state);
+//        mediaSession.setActive(true);
         mediaSession.setCallback(new MediaSessionCompat.Callback() {
                                      @Override
                                      public void onPlay() {
@@ -202,6 +208,11 @@ public class MusicService extends Service implements
                                      public void onSetRating(RatingCompat rating) {
                                          super.onSetRating(rating);
                                      }
+
+//                                     public boolean onMediaButtonEvent(Intent mediaButtonIntent) {
+//                                         LogHelper.i(TAG, "onMediaButtonEvent called: " + mediaButtonIntent);
+//                                         return false;
+//                                     }
                                  }
         );
     }
@@ -359,7 +370,6 @@ public class MusicService extends Service implements
                 wakeLock.acquire();
                 ShakeDetector.start();
 
-//                mediaSession = new MediaSessionCompat(getApplicationContext(), TAG);
 //                mediaSession.setCallback(new MediaSessionCompat.Callback() {
 //                    public boolean onMediaButtonEvent(Intent mediaButtonIntent) {
 //                        LogHelper.i(TAG, "onMediaButtonEvent called: " + mediaButtonIntent);
@@ -395,7 +405,6 @@ public class MusicService extends Service implements
 //                        // <0 volume down
 //                        // >0 volume up
 //                        LogHelper.i(TAG, "onAdjustVolume");
-//                        MediaButtonReceiver
 //                    }
 //                };
 //                mediaSession.setPlaybackToRemote(myVolumeProvider);
@@ -404,7 +413,6 @@ public class MusicService extends Service implements
     }
 
 //    private VolumeProviderCompat myVolumeProvider = null;
-//    MediaSessionCompat mediaSession;
 
     SettingsContentObserver mSettingsContentObserver = null;
 
@@ -428,9 +436,9 @@ public class MusicService extends Service implements
         if (mediaPlayer != null) {
             stopForeground(true);
 
-            if (!mediaPlayer.isPlaying()) // if playback completed by itself
-                // keep notification visible, so user can start playback again.
-                buildNotification(generateAction(android.R.drawable.ic_media_play, "Play", ACTION_PLAY));
+//            if (!mediaPlayer.isPlaying()) // if playback completed by itself
+//                // keep notification visible, so user can start playback again.
+//                buildNotification(generateAction(android.R.drawable.ic_media_play, "Play", ACTION_PLAY));
 
             mediaPlayer.stop();
             mediaPlayer.release();
