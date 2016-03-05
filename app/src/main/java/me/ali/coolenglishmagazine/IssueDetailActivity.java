@@ -97,10 +97,11 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         buttonOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish(); // remove this activity from back stack
+
                 Intent intent = new Intent(IssueDetailActivity.this, ItemListActivity.class);
                 intent.putExtra(ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
                 startActivity(intent);
-                finish(); // remove this activity from back stack
             }
         });
 

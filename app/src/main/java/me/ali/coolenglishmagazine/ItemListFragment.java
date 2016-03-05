@@ -3,6 +3,7 @@ package me.ali.coolenglishmagazine;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -185,10 +186,17 @@ public class ItemListFragment extends ListFragment {
         int id = menuItem.getItemId();
 
         switch (id) {
-            case R.id.add_to_waiting_list:
+            case R.id.action_add_to_waiting_list:
                 for (MagazineContent.Item item : magazineContent.ITEMS)
                     WaitingItems.appendToWaitingList(getActivity(), item);
                 return true;
+
+            case R.id.action_open_issue_details:
+                getActivity().finish();
+
+                Intent intent = new Intent(getActivity(), IssueDetailActivity.class);
+                intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
+                startActivity(intent);
         }
 
         return super.onOptionsItemSelected(menuItem);
@@ -294,7 +302,7 @@ public class ItemListFragment extends ListFragment {
                             int id = menuItem.getItemId();
 
                             switch (id) {
-                                case R.id.add_to_waiting_list:
+                                case R.id.action_add_to_waiting_list:
                                     WaitingItems.appendToWaitingList(getActivity(), item);
                                     return true;
                             }

@@ -11,13 +11,15 @@
     <string name="skip_next">skip to next</string>
     <string name="skip_prev">skip to previous</string>
 
-    <string name="lock">Hide Transcript</string>
-    <string name="unlock">Reveal Transcript</string>
+    <string name="lock">Hide transcript</string>
+    <string name="unlock">Reveal transcript</string>
     <string name="unlock_hint">Tap and hold to reveal transcript.</string>
 
     <string name="add_all_to_waiting_list">Add all items to cool english times</string>
     <string name="add_to_waiting_list">Add to cool english times</string>
     <string name="already_in_waiting_list">Item is already added.</string>
+
+    <string name="view_issue_details">See magazine introduction</string>
 
     <!-- drag handle click hint toast -->
     <string name="drag_hint">Hold and move to re-order items.</string>
@@ -159,7 +161,7 @@
     <string name="delete">Delete</string>
     <string name="retry_download">Retry Download</string>
 
-    <string name="delete_selected">Delete Selected Item(s)</string>
+    <string name="delete_selected">Delete selected item(s)</string>
 
     <string name="download_failed_msg">Download failed with error code\u0020</string>
 
@@ -190,7 +192,4 @@
         <item>@string/downloading_issues</item>
         <item>@string/more_available_issues</item>
     </array>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
