@@ -101,7 +101,6 @@ public class ItemListActivity extends AppCompatActivity
         super.onNewIntent(intent);
 
         setIntent(intent);
-        // TODO: verify the new intent will be used after recreate
         recreate();
     }
 

@@ -370,6 +370,14 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         MusicService.readAndListenActivityResumed = false;
     }
 
+    @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        setIntent(intent);
+        recreate();
+    }
+
     /**
      * connection to music service
      */
