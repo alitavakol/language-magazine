@@ -71,7 +71,7 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
         }
 
         // force determine if toolbar should be hidden or not
-        toolbarVisibility = -1;
+        isToolbarVisible = -1;
     }
 
     private ObservableScrollView mScrollView;
@@ -130,9 +130,16 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
      * helper to remember visibility of toolbar, and avoid unnecessary computations on scroll change.
      * if -1, toolbar visibility must be calculated again.
      */
-    int toolbarVisibility;
+    int isToolbarVisible;
 
-    int toolbarHeight, scrollViewPaddingTop;
+    int toolbarHeight, scrollViewPaddingTop, revealThreshold, hideThreshold;
+
+    /**
+     * accumulates scroll amount in a contiguous scroll direction
+     */
+    int scrollIntegral;
+
+    int previousScrollDirection = -1;
 
     @Override
     public void onScrollChanged(int deltaX, int deltaY) {
@@ -141,15 +148,27 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
         if (scrollViewPaddingTop == 0) {
             scrollViewPaddingTop = mScrollView.getPaddingTop();
             toolbarHeight = toolbar.getMeasuredHeight();
+            revealThreshold = scrollViewPaddingTop - 2 * toolbarHeight;
+            hideThreshold = scrollViewPaddingTop - toolbarHeight;
         }
 
-        if (toolbarVisibility != 1 && scrollY > scrollViewPaddingTop - toolbarHeight) {
-            toolbar.animate().translationY(-toolbarHeight).setInterpolator(new AccelerateInterpolator()).start();
-            toolbarVisibility = 1;
+        if (previousScrollDirection * deltaY < 0) {
+            scrollIntegral = 0;
+            previousScrollDirection *= -1;
 
-        } else if (toolbarVisibility != 0 && scrollY < scrollViewPaddingTop - 2 * toolbarHeight) {
+        } else {
+            scrollIntegral += deltaY * previousScrollDirection;
+        }
+
+        if (isToolbarVisible != 0 && ((deltaY > 20) || (deltaY > 0 && scrollIntegral > hideThreshold))) {
+            toolbar.animate().translationY(-toolbarHeight).setInterpolator(new AccelerateInterpolator()).start();
+            isToolbarVisible = 0;
+            scrollIntegral = 0;
+
+        } else if (isToolbarVisible != 1 && ((scrollY < revealThreshold) || (deltaY < -20) || (deltaY < 0 && scrollIntegral > hideThreshold))) {
             toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
-            toolbarVisibility = 0;
+            isToolbarVisible = 1;
+            scrollIntegral = 0;
         }
     }
 
