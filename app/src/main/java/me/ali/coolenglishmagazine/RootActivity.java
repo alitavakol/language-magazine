@@ -28,7 +28,10 @@ import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFragment.OnFragmentInteractionListener, CoolEnglishTimesFragment.OnFragmentInteractionListener {
+public class RootActivity extends AppCompatActivity implements
+        GalleryOfIssuesFragment.OnFragmentInteractionListener,
+        CoolEnglishTimesFragment.OnFragmentInteractionListener,
+        AboutFragment.OnFragmentInteractionListener {
 
     private static final String TAG = LogHelper.makeLogTag(RootActivity.class);
 
@@ -47,7 +50,7 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
      */
     private boolean mTwoPane;
 
-    Fragment galleryOfIssuesFragment, coolEnglishTimesFragment;
+    Fragment galleryOfIssuesFragment, coolEnglishTimesFragment, aboutFragment;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -111,6 +114,12 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
                             coolEnglishTimesFragment = CoolEnglishTimesFragment.newInstance(0);
                         fragment = coolEnglishTimesFragment;
                         tag = CoolEnglishTimesFragment.FRAGMENT_TAG;
+                        break;
+                    case 5:
+                        if (aboutFragment == null)
+                            aboutFragment = AboutFragment.newInstance();
+                        fragment = aboutFragment;
+                        tag = AboutFragment.FRAGMENT_TAG;
                         break;
                 }
 

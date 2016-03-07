@@ -180,6 +180,11 @@
     <string name="alarms">Times</string>
     <string name="waiting_list">Waiting List</string>
 
+    <!-- about fragment titles -->
+    <string name="feedback">Feedback</string>
+    <string name="app_info">About this Application</string>
+    <string name="share">Share</string>
+
     <string name="active_issue">Currently Learning</string>
     <string name="saved_issues">Other Saved Issues</string>
     <string name="downloading_issues">Downloading</string>
@@ -192,4 +197,7 @@
         <item>@string/downloading_issues</item>
         <item>@string/more_available_issues</item>
     </array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
