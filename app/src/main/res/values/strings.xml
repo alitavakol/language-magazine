@@ -198,6 +198,6 @@
         <item>@string/more_available_issues</item>
     </array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- https://developers.facebook.com/apps/1288023007880543/ -->
+    <string name="facebook_app_id">1288023007880543</string>
 </resources>

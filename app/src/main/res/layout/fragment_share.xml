@@ -1,14 +1,104 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="me.ali.coolenglishmagazine.ShareFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="SHARE"
-        android:gravity="center"/>
+        android:layout_height="wrap_content"
+        android:paddingTop="48dp"
+        android:paddingBottom="36dp"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:gravity="center_horizontal"
+        android:text="Would you share us?" />
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/facebook_button"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:drawablePadding="@dimen/padding_normal"
+            android:gravity="center_horizontal"
+            android:text="Facebook"
+            tools:drawableTop="@mipmap/ic_launcher" />
+
+        <Button
+            android:id="@+id/twitter_button"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:drawablePadding="@dimen/padding_normal"
+            android:gravity="center_horizontal"
+            android:text="Twitter"
+            tools:drawableTop="@mipmap/ic_launcher" />
+
+        <Button
+            android:id="@+id/google_plus_button"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:drawablePadding="@dimen/padding_normal"
+            android:gravity="center_horizontal"
+            android:text="Google+"
+            tools:drawableTop="@mipmap/ic_launcher" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/email_button"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:drawablePadding="@dimen/padding_normal"
+            android:gravity="center_horizontal"
+            android:text="Email"
+            tools:drawableTop="@mipmap/ic_launcher" />
+
+        <Button
+            android:id="@+id/copy_button"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:drawablePadding="@dimen/padding_normal"
+            android:gravity="center_horizontal"
+            android:text="Copy"
+            tools:drawableTop="@mipmap/ic_launcher" />
+
+        <Button
+            android:id="@+id/more_button"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:drawablePadding="@dimen/padding_normal"
+            android:gravity="center_horizontal"
+            android:text="More"
+            tools:drawableTop="@mipmap/ic_launcher" />
+    </LinearLayout>
+
+</LinearLayout>
