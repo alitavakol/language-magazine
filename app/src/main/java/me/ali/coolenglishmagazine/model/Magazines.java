@@ -13,10 +13,9 @@ import org.jsoup.nodes.Element;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import me.ali.coolenglishmagazine.R;
 import me.ali.coolenglishmagazine.util.LogHelper;
@@ -33,7 +32,7 @@ public class Magazines {
     /**
      * An array of magazine issues.
      */
-    public final ArrayList<Issue> ISSUES = new ArrayList<>();
+    public final Set<Issue> ISSUES = new HashSet<>();
 
     /**
      * populates list of {@code ISSUES} from the specified root directory of device's local storage
@@ -45,8 +44,7 @@ public class Magazines {
             for (File g : files) {
                 if (g.isDirectory()) {
                     try {
-                        Issue issue = getIssue(context, g);
-                        addIssue(issue);
+                        addIssue(getIssue(context, g));
 
                     } catch (IOException e) {
                         LogHelper.e(TAG, e.getMessage());
@@ -54,14 +52,6 @@ public class Magazines {
                 }
             }
         }
-
-        // sorting
-        Collections.sort(ISSUES, new Comparator<Issue>() {
-            @Override
-            public int compare(Issue issue1, Issue issue2) {
-                return issue1.id - issue2.id;
-            }
-        });
     }
 
     /**
@@ -106,9 +96,16 @@ public class Magazines {
         return issue;
     }
 
+    /**
+     * make sure issue is not already added. otherwise bad behaviour
+     * occurs when calling {@link me.ali.coolenglishmagazine.model.Magazines.OnDataSetChangedListener} functions.
+     *
+     * @param issue to add
+     */
     private void addIssue(Issue issue) {
-        if(!ISSUES.contains(issue))
-            ISSUES.add(issue);
+        ISSUES.add(issue);
+        for (OnDataSetChangedListener listener : listeners)
+            listener.onIssueAdded(issue);
     }
 
     /**
@@ -170,7 +167,7 @@ public class Magazines {
             downloading, // downloading or failed downloading
             header_available,
             available,
-            completed_header, // not used, because completed issues are listed in their own tab
+            header_completed, // not used, because completed issues are listed in their own tab
             completed,
         }
 
@@ -181,6 +178,7 @@ public class Magazines {
 
         /**
          * see {@link me.ali.coolenglishmagazine.model.Magazines.Issue.Status} for more information.
+         *
          * @return issue status ordinal
          */
         public int getStatusValue() {
@@ -189,6 +187,7 @@ public class Magazines {
 
         /**
          * see {@link me.ali.coolenglishmagazine.model.Magazines.Issue.Status} for more information.
+         *
          * @return issue status
          */
         public Status getStatus() {
@@ -197,6 +196,7 @@ public class Magazines {
 
         /**
          * changes issue status. see {@link me.ali.coolenglishmagazine.model.Magazines.Issue.Status} for more information.
+         *
          * @param status new {@link me.ali.coolenglishmagazine.model.Magazines.Issue.Status} value
          */
         public void setStatus(Status status) {
@@ -206,8 +206,7 @@ public class Magazines {
         }
 
         public void addOnStatusChangedListener(OnStatusChangedListener listener) {
-            if (!listeners.contains(listener))
-                listeners.add(listener);
+            listeners.add(listener);
         }
 
         public void removeOnStatusChangedListener(OnStatusChangedListener listener) {
@@ -221,7 +220,7 @@ public class Magazines {
             void onIssueStatusChanged(Issue issue);
         }
 
-        protected ArrayList<OnStatusChangedListener> listeners = new ArrayList<>();
+        protected Set<OnStatusChangedListener> listeners = new HashSet<>();
     }
 
     /**
@@ -356,4 +355,19 @@ public class Magazines {
         return result;
     }
 
+    private static Set<OnDataSetChangedListener> listeners = new HashSet<>();
+
+    public interface OnDataSetChangedListener {
+        void onIssueAdded(Issue issue);
+
+        void onIssueRemoved(Issue issue);
+    }
+
+    public static void addOnDataSetChangedListener(OnDataSetChangedListener listener) {
+        listeners.add(listener);
+    }
+
+    public static void removeOnDataSetChangedListener(OnDataSetChangedListener listener) {
+        listeners.remove(listener);
+    }
 }

@@ -252,9 +252,6 @@ public class GalleryOfIssuesFragment extends Fragment {
                 if (firstMissingIssueNumber > GalleryOfIssuesFragment.this.firstMissingIssueNumber) {
                     magazines.loadIssues(getContext());
 
-                    adapter.preNotifyDataSetChanged(true, magazines.ISSUES);
-                    adapter.notifyItemRangeInserted(GalleryOfIssuesFragment.this.firstMissingIssueNumber, firstMissingIssueNumber - GalleryOfIssuesFragment.this.firstMissingIssueNumber);
-
                     GalleryOfIssuesFragment.this.firstMissingIssueNumber = firstMissingIssueNumber;
 
                     // rerun sync, because number of local issues has changed

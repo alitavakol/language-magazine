@@ -24,7 +24,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -33,7 +34,10 @@ import me.ali.coolenglishmagazine.util.BitmapHelper;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 
-public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, Magazines.Issue.OnStatusChangedListener {
+public class IssuesTabFragment extends Fragment implements
+        SwipeRefreshLayout.OnRefreshListener,
+        Magazines.Issue.OnStatusChangedListener,
+        Magazines.OnDataSetChangedListener {
 
     private static final String TAG = LogHelper.makeLogTag(IssuesTabFragment.class);
 
@@ -148,9 +152,11 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
     @Override
     public void onResume() {
         super.onResume();
+
         galleryOfIssuesFragment = (GalleryOfIssuesFragment) getActivity().getSupportFragmentManager().findFragmentByTag(GalleryOfIssuesFragment.FRAGMENT_TAG);
-        if (adapter.preNotifyDataSetChanged(true, galleryOfIssuesFragment.magazines.ISSUES))
-            adapter.notifyDataSetChanged();
+
+        Magazines.addOnDataSetChangedListener(this);
+        adapter.preNotifyDataSetChanged(true, galleryOfIssuesFragment.magazines.ISSUES);
     }
 
     @Override
@@ -162,8 +168,11 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
                 issue2timer.get(issue).cancel();
                 issue2timer.remove(issue);
             }
+        }
+        for (Magazines.Issue issue : galleryOfIssuesFragment.magazines.ISSUES) {
             issue.removeOnStatusChangedListener(this);
         }
+        Magazines.removeOnDataSetChangedListener(this);
     }
 
     protected IssuesRecyclerViewAdapter adapter = new IssuesRecyclerViewAdapter();
@@ -188,9 +197,33 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
     static HashMap<Magazines.Issue, Timer> issue2timer = new HashMap<>();
 
     /**
+     * a {@link ArrayList<me.ali.coolenglishmagazine.model.Magazines.Issue>} inherited class,
+     * which sorts its items just after adding a new item.
+     */
+    private class AutoSortableList extends ArrayList<Magazines.Issue> {
+        @Override
+        public boolean add(Magazines.Issue issue) {
+            boolean b = super.add(issue);
+
+            // sorting with respect to issue status and id
+            Collections.sort(this, new Comparator<Magazines.Issue>() {
+                @Override
+                public int compare(Magazines.Issue issue1, Magazines.Issue issue2) {
+                    int comparison = issue1.getStatusValue() - issue2.getStatusValue();
+                    if (comparison == 0)
+                        comparison = issue1.id - issue2.id;
+                    return comparison;
+                }
+            });
+
+            return b;
+        }
+    }
+
+    /**
      * list of issues shown in this fragment (filtered by value of filter)
      */
-    private List<Magazines.Issue> issues = new ArrayList<>();
+    private AutoSortableList issues = new AutoSortableList();
 
     /**
      * header rows, which are of type {@link me.ali.coolenglishmagazine.model.Magazines.Issue}, but with {@link me.ali.coolenglishmagazine.model.Magazines.Issue.Status} as a header.
@@ -210,56 +243,47 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
          *
          * @param issues_ changed issue(s) that leads to adapter update.
          * @param success if true, data set has changed. if false, only the refresh animation will stop.
-         * @return true if tab issues list has changed
          */
-        public boolean preNotifyDataSetChanged(boolean success, ArrayList<Magazines.Issue> issues_) {
+        public void preNotifyDataSetChanged(boolean success, Set<Magazines.Issue> issues_) {
             if (!success) {
                 swipeContainer.setRefreshing(false);
-                return false;
+                return;
             }
 
-            boolean changed = false;
+            boolean add = false;
 
             for (Magazines.Issue issue : issues_) {
                 issue.addOnStatusChangedListener(IssuesTabFragment.this);
 
                 Magazines.Issue.Status status = issue.getStatus();
+
                 switch (filter) {
                     case MY_ISSUES:
-                        if (status == Magazines.Issue.Status.other_saved || status == Magazines.Issue.Status.active) {
-                            if (!issues.contains(issue)) {
-                                issues.add(issue);
-                                changed = true;
-                            }
-                        } else if (issues.contains(issue)) {
-                            issues.remove(issue);
-                            changed = true;
-                        }
+                        add = status == Magazines.Issue.Status.other_saved || status == Magazines.Issue.Status.active;
                         break;
 
                     case AVAILABLE_ISSUES:
-                        // TODO: this should be set to true if status toggles from/to downloading and available, within the same available issues list.
-                        changed = true;
-                        if (status == Magazines.Issue.Status.downloading || status == Magazines.Issue.Status.available) {
-                            if (!issues.contains(issue)) {
-                                issues.add(issue);
-                            }
-                        } else if (issues.contains(issue)) {
-                            issues.remove(issue);
-                        }
+                        add = status == Magazines.Issue.Status.downloading || status == Magazines.Issue.Status.available;
                         break;
 
                     case COMPLETED_ISSUES:
-                        if (status == Magazines.Issue.Status.completed) {
-                            if (!issues.contains(issue)) {
-                                issues.add(issue);
-                                changed = true;
-                            }
-                        } else if (issues.contains(issue)) {
-                            issues.remove(issue);
-                            changed = true;
-                        }
+                        add = status == Magazines.Issue.Status.completed;
                         break;
+                }
+
+                if (add) {
+                    if (!issues.contains(issue)) {
+                        issues.add(issue);
+                        adapter.notifyItemInserted(issues.indexOf(issue));
+
+                    } else {
+                        adapter.notifyItemChanged(issues.indexOf(issue));
+                    }
+
+                } else if (issues.contains(issue)) {
+                    int idx = issues.indexOf(issue);
+                    issues.remove(issue);
+                    adapter.notifyItemRemoved(idx);
                 }
             }
 
@@ -272,38 +296,51 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
                     headers[i].setStatus(statuses[2 * i]);
                 }
             }
-            for (Magazines.Issue header : headers)
-                issues.remove(header);
 
-            // true if header for the issue with the specified status is included in the array
-            int[] isHeaderAdded = new int[statuses.length];
+            int addedHeaderCount = 0;
+            boolean[] isHeaderAdded = new boolean[headers.length];
+            for (int i = 0; i < headers.length; i++) {
+                if (issues.contains(headers[i])) {
+                    isHeaderAdded[i] = true;
+                    addedHeaderCount++;
+                }
+            }
+
+            int issuesCount = issues.size() - addedHeaderCount; // number of issues excluding headers
+
+            // true if header for the specified status should be included in the array
+            int[] shouldAddHeader = new int[headers.length];
 
             for (Magazines.Issue issue : issues) {
                 int status = issue.getStatusValue();
-                isHeaderAdded[status]++;
+                if (status % 2 == 1)
+                    shouldAddHeader[status / 2]++;
             }
 
             // add header for items (if there is any item with that kind of status)
-            for (Magazines.Issue.Status s : statuses) {
-                int status = s.ordinal();
-                if (isHeaderAdded[status] > 0 && (isHeaderAdded[status] < issues.size() || (s != Magazines.Issue.Status.available && s != Magazines.Issue.Status.other_saved))) {
-                    if (!issues.contains(headers[status / 2]))
-                        issues.add(headers[status / 2]);
+            for (int i = 0; i < headers.length; i++) {
+                Magazines.Issue.Status status = statuses[2 * i];
+
+                if (shouldAddHeader[i] > 0 && (shouldAddHeader[i] < issuesCount || (status != Magazines.Issue.Status.header_available && status != Magazines.Issue.Status.header_other_saved))) {
+                    if (!isHeaderAdded[i]) {
+                        final Magazines.Issue header = headers[i];
+                        issues.add(header);
+                        adapter.notifyItemInserted(issues.indexOf(header));
+                    }
+
+                } else if (isHeaderAdded[i]) {
+                    final Magazines.Issue header = headers[i];
+                    int idx = issues.indexOf(header);
+                    issues.remove(header);
+                    adapter.notifyItemRemoved(idx);
                 }
             }
+        }
 
-            // sorting with respect to issue status and id
-            Collections.sort(issues, new Comparator<Magazines.Issue>() {
-                @Override
-                public int compare(Magazines.Issue issue1, Magazines.Issue issue2) {
-                    int comparison = issue1.getStatusValue() - issue2.getStatusValue();
-                    if (comparison == 0)
-                        comparison = issue1.id - issue2.id;
-                    return comparison;
-                }
-            });
-
-            return changed;
+        public void preNotifyDataSetChanged(Magazines.Issue issue) {
+            Set<Magazines.Issue> issues = new HashSet<>();
+            issues.add(issue);
+            adapter.preNotifyDataSetChanged(true, issues);
         }
 
         @Override
@@ -468,11 +505,20 @@ public class IssuesTabFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     public void onIssueStatusChanged(Magazines.Issue issue) {
-        ArrayList<Magazines.Issue> issues = new ArrayList<>();
-        issues.add(issue);
-        if (adapter.preNotifyDataSetChanged(true, issues)) {
-            adapter.notifyDataSetChanged();
-        }
+        adapter.preNotifyDataSetChanged(issue);
+        int pos = issues.indexOf(issue);
+        if (pos != -1)
+            adapter.notifyItemChanged(pos);
+    }
+
+    @Override
+    public void onIssueAdded(Magazines.Issue issue) {
+        adapter.preNotifyDataSetChanged(issue);
+    }
+
+    @Override
+    public void onIssueRemoved(Magazines.Issue issue) {
+        adapter.preNotifyDataSetChanged(issue);
     }
 
 }
