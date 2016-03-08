@@ -9,10 +9,10 @@
         style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="48dp"
-        android:paddingBottom="36dp"
         android:layout_margin="@dimen/activity_vertical_margin"
         android:gravity="center_horizontal"
+        android:paddingBottom="36dp"
+        android:paddingTop="48dp"
         android:text="Would you share us?" />
 
     <LinearLayout

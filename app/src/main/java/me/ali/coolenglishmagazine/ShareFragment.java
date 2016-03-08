@@ -31,21 +31,10 @@ import io.fabric.sdk.android.Fabric;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShareFragment extends Fragment implements View.OnClickListener {
+public class ShareFragment extends Fragment {
 
     public ShareFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        FacebookSdk.sdkInitialize(getActivity());
-
-        // https://apps.twitter.com/app/12065331/keys
-        TwitterAuthConfig authConfig = new TwitterAuthConfig("RkLSPKHaoinx8HbGPgvK4RIa8", "GLhRzP9yUW7dH1Ixyu5k6Zhn2XzmaxdCC7kxtgn14w3bEivbOu");
-        Fabric.with(getActivity(), new TwitterCore(authConfig), new TweetComposer());
     }
 
     @Override
@@ -55,12 +44,14 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
         View v = inflater.inflate(R.layout.fragment_share, container, false);
 
         Button facebookButton = (Button) v.findViewById(R.id.facebook_button);
-        facebookButton.setCompoundDrawablesRelativeWithIntrinsicBounds(null,
+        facebookButton.setCompoundDrawables(null,
                 new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_facebook_official).sizeDp(48).color(Color.parseColor("#3C5899")),
                 null, null);
         facebookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FacebookSdk.sdkInitialize(getActivity());
+
                 // https://developers.facebook.com/docs/sharing/android
                 final ShareDialog shareDialog = new ShareDialog(getActivity());
 
@@ -78,12 +69,16 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
         });
 
         Button twitterButton = (Button) v.findViewById(R.id.twitter_button);
-        twitterButton.setCompoundDrawablesRelativeWithIntrinsicBounds(null,
+        twitterButton.setCompoundDrawables(null,
                 new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_twitter).sizeDp(48).color(Color.parseColor("#5EA9DD")),
                 null, null);
         twitterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // https://apps.twitter.com/app/12065331/keys
+                TwitterAuthConfig authConfig = new TwitterAuthConfig("RkLSPKHaoinx8HbGPgvK4RIa8", "GLhRzP9yUW7dH1Ixyu5k6Zhn2XzmaxdCC7kxtgn14w3bEivbOu");
+                Fabric.with(getActivity(), new TwitterCore(authConfig), new TweetComposer());
+
                 // https://docs.fabric.io/android/twitter/compose-tweets.html
                 TweetComposer.Builder builder = new TweetComposer.Builder(getActivity())
 //                        .image(myImageUri)
@@ -93,7 +88,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
         });
 
         Button googlePlusButton = (Button) v.findViewById(R.id.google_plus_button);
-        googlePlusButton.setCompoundDrawablesRelativeWithIntrinsicBounds(null,
+        googlePlusButton.setCompoundDrawables(null,
                 new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_google_plus).sizeDp(48).color(Color.parseColor("#DC4A3D")),
                 null, null);
         googlePlusButton.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +107,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
         });
 
         Button emailButton = (Button) v.findViewById(R.id.email_button);
-        emailButton.setCompoundDrawablesRelativeWithIntrinsicBounds(null,
+        emailButton.setCompoundDrawables(null,
                 new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_envelope).sizeDp(48).color(Color.parseColor("#eeaa00")),
                 null, null);
         emailButton.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +123,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
         });
 
         Button copyButton = (Button) v.findViewById(R.id.copy_button);
-        copyButton.setCompoundDrawablesRelativeWithIntrinsicBounds(null,
+        copyButton.setCompoundDrawables(null,
                 new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_clipboard).sizeDp(48).color(Color.parseColor("#22ff77")),
                 null, null);
         copyButton.setOnClickListener(new View.OnClickListener() {
@@ -142,7 +137,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
         });
 
         Button moreButton = (Button) v.findViewById(R.id.more_button);
-        moreButton.setCompoundDrawablesRelativeWithIntrinsicBounds(null,
+        moreButton.setCompoundDrawables(null,
                 new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_ellipsis_h).sizeDp(36).color(Color.LTGRAY),
                 null, null);
         moreButton.setOnClickListener(new View.OnClickListener() {
@@ -158,41 +153,5 @@ public class ShareFragment extends Fragment implements View.OnClickListener {
         });
 
         return v;
-    }
-
-    @Override
-    public void onClick(View v) {
-        String application = null;
-
-        switch (v.getId()) {
-            case R.id.facebook_button:
-                application = "com.facebook.katana";
-                break;
-            case R.id.twitter_button:
-                application = "com.twitter.android";
-                break;
-        }
-
-        if (application != null) {
-            Context context = getActivity();
-
-            Intent intent = context.getPackageManager().getLaunchIntentForPackage(application);
-            if (intent != null) {
-                // The application exists
-                Intent shareIntent = new Intent();
-                shareIntent.setAction(Intent.ACTION_SEND);
-                shareIntent.setPackage(application);
-
-                shareIntent.putExtra(android.content.Intent.EXTRA_TITLE, "title");
-                shareIntent.putExtra(Intent.EXTRA_TEXT, "description");
-
-                // Start the specific social application
-                context.startActivity(shareIntent);
-
-            } else {
-                // The application does not exist
-                Toast.makeText(context, "Application is not installed.", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 }
