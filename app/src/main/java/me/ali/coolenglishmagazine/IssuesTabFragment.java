@@ -201,22 +201,30 @@ public class IssuesTabFragment extends Fragment implements
      * which sorts its items just after adding a new item.
      */
     private class AutoSortableList extends ArrayList<Magazines.Issue> {
-        @Override
-        public boolean add(Magazines.Issue issue) {
-            boolean b = super.add(issue);
 
-            // sorting with respect to issue status and id
-            Collections.sort(this, new Comparator<Magazines.Issue>() {
-                @Override
-                public int compare(Magazines.Issue issue1, Magazines.Issue issue2) {
-                    int comparison = issue1.getStatusValue() - issue2.getStatusValue();
-                    if (comparison == 0)
-                        comparison = issue1.id - issue2.id;
-                    return comparison;
-                }
-            });
+        /**
+         * adds the specified object in the correct position, according to sort rules:
+         * issues with lower status come first. then issues with lower IDs come first,
+         *
+         * @param issue object to insert into list
+         * @return object position in the list
+         */
+        public int addAndSort(Magazines.Issue issue) {
+            int issueStatusValue = issue.getStatusValue();
+            int issueId = issue.id;
+            int i;
 
-            return b;
+            for (i = 0; i < size(); i++) {
+                final Magazines.Issue issue2 = get(i);
+                int issue2StatusValue = issue2.getStatusValue();
+
+                if (issue2StatusValue > issueStatusValue
+                        || (issue2StatusValue == issueStatusValue && issue2.id > issueId))
+                    break;
+            }
+            add(i, issue);
+
+            return i;
         }
     }
 
@@ -273,11 +281,23 @@ public class IssuesTabFragment extends Fragment implements
 
                 if (add) {
                     if (!issues.contains(issue)) {
-                        issues.add(issue);
-                        adapter.notifyItemInserted(issues.indexOf(issue));
+                        int idx = issues.addAndSort(issue);
+                        adapter.notifyItemInserted(idx);
 
                     } else {
-                        adapter.notifyItemChanged(issues.indexOf(issue));
+                        // status change results in change in item order (structural change).
+                        // sort again.
+                        int fromPosition = issues.indexOf(issue);
+                        issues.remove(issue);
+                        int toPosition = issues.addAndSort(issue); // add again, which inserts it in correct sorted position.
+                        if (fromPosition != toPosition)
+                            adapter.notifyItemMoved(fromPosition, toPosition);
+
+                        // notify item status change
+                        adapter.notifyItemChanged(toPosition);
+
+                        if (fromPosition != toPosition)
+                            updateHeaders();
                     }
 
                 } else if (issues.contains(issue)) {
@@ -287,8 +307,25 @@ public class IssuesTabFragment extends Fragment implements
                 }
             }
 
-            Magazines.Issue.Status[] statuses = Magazines.Issue.Status.values();
+            updateHeaders();
+        }
 
+        Magazines.Issue.Status[] statuses = Magazines.Issue.Status.values();
+
+        /**
+         * shows whether or not each header is added and visible.
+         */
+        boolean[] isHeaderAdded;
+
+        /**
+         * number of header rows currently added to list and visible.
+         */
+        int addedHeaderCount;
+
+        /**
+         * adds/removes header rows to the list, according to the structure and status values.
+         */
+        protected void updateHeaders() {
             if (headers == null) {
                 headers = new Magazines.Issue[statuses.length / 2];
                 for (int i = 0; i < headers.length; i++) {
@@ -297,12 +334,13 @@ public class IssuesTabFragment extends Fragment implements
                 }
             }
 
-            int addedHeaderCount = 0;
-            boolean[] isHeaderAdded = new boolean[headers.length];
-            for (int i = 0; i < headers.length; i++) {
-                if (issues.contains(headers[i])) {
-                    isHeaderAdded[i] = true;
-                    addedHeaderCount++;
+            if (isHeaderAdded == null) {
+                isHeaderAdded = new boolean[headers.length];
+                for (int i = 0; i < headers.length; i++) {
+                    if (issues.contains(headers[i])) {
+                        isHeaderAdded[i] = true;
+                        addedHeaderCount++;
+                    }
                 }
             }
 
@@ -324,8 +362,11 @@ public class IssuesTabFragment extends Fragment implements
                 if (shouldAddHeader[i] > 0 && (shouldAddHeader[i] < issuesCount || (status != Magazines.Issue.Status.header_available && status != Magazines.Issue.Status.header_other_saved))) {
                     if (!isHeaderAdded[i]) {
                         final Magazines.Issue header = headers[i];
-                        issues.add(header);
-                        adapter.notifyItemInserted(issues.indexOf(header));
+                        int idx = issues.addAndSort(header);
+                        adapter.notifyItemInserted(idx);
+
+                        isHeaderAdded[i] = true;
+                        addedHeaderCount++;
                     }
 
                 } else if (isHeaderAdded[i]) {
@@ -333,6 +374,9 @@ public class IssuesTabFragment extends Fragment implements
                     int idx = issues.indexOf(header);
                     issues.remove(header);
                     adapter.notifyItemRemoved(idx);
+
+                    isHeaderAdded[i] = false;
+                    addedHeaderCount--;
                 }
             }
         }
@@ -506,9 +550,6 @@ public class IssuesTabFragment extends Fragment implements
 
     public void onIssueStatusChanged(Magazines.Issue issue) {
         adapter.preNotifyDataSetChanged(issue);
-        int pos = issues.indexOf(issue);
-        if (pos != -1)
-            adapter.notifyItemChanged(pos);
     }
 
     @Override
