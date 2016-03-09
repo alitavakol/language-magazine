@@ -20,4 +20,6 @@
     <dimen name="padding_normal">8dp</dimen>
     <item name="h3_spacing" format="float" type="dimen">1.14285714286</item>
     <item name="body_1_spacing" format="float" type="dimen">1.22448979592</item>
+
+    <dimen name="about_horizontal_margin">24dp</dimen>
 </resources>

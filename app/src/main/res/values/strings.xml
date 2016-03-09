@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Cool English Magazine</string>
+    <string name="app_name_styled">COOL ENGLISH MAGAZINE</string>
 
     <string name="gallery_of_issues">Gallery of Issues</string>
     <string name="cool_english_times">Cool English Times</string>
@@ -180,6 +181,11 @@
     <string name="alarms">Times</string>
     <string name="waiting_list">Waiting List</string>
 
+    <!-- about fragment titles -->
+    <string name="feedback">Feedback</string>
+    <string name="app_info">About this Application</string>
+    <string name="share">Share</string>
+
     <string name="active_issue">Currently Learning</string>
     <string name="saved_issues">Other Saved Issues</string>
     <string name="downloading_issues">Downloading</string>
@@ -192,4 +198,19 @@
         <item>@string/downloading_issues</item>
         <item>@string/more_available_issues</item>
     </array>
+
+    <!-- share fragment -->
+    <string name="share_title">Would you share us?</string>
+    <!-- https://developers.facebook.com/apps/1288023007880543/ -->
+    <string name="facebook_app_id">1288023007880543</string>
+
+    <string name="feedback_title">Love it? Hate it? Would you like to suggest a new feature, or report a bug? We would love to hear from you.</string>
+
+    <!-- feedback fragment -->
+    <string name="bug">Bug</string>
+    <string name="question">Question</string>
+    <string name="idea">Idea</string>
+    <string name="feedback_hint">Enter your message here&#8230;</string>
+    <string name="thanks">Thank you!</string>
+    <string name="error_empty_message">Please write a message!</string>
 </resources>
