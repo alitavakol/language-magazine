@@ -25,21 +25,21 @@
             tools:text="Toolbar Title" />
     </android.support.v7.widget.Toolbar>
 
-    <com.viewpagerindicator.LinePageIndicator
-        android:id="@+id/view_pager_indicator"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        app:lineWidth="30dp"
-        app:selectedColor="@color/accent"
-        app:strokeWidth="4dp"
-        app:unselectedColor="@color/material_drawer_primary_text" />
-
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <com.viewpagerindicator.LinePageIndicator
+        android:id="@+id/view_pager_indicator"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/material_drawer_vertical_padding"
+        app:lineWidth="30dp"
+        app:selectedColor="@color/accent"
+        app:strokeWidth="4dp"
+        app:unselectedColor="@color/material_drawer_primary_text" />
 
 </LinearLayout>

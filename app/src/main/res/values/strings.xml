@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Cool English Magazine</string>
+    <string name="app_name_styled">COOL ENGLISH MAGAZINE</string>
 
     <string name="gallery_of_issues">Gallery of Issues</string>
     <string name="cool_english_times">Cool English Times</string>
@@ -198,6 +199,8 @@
         <item>@string/more_available_issues</item>
     </array>
 
+    <!-- share fragment -->
+    <string name="share_title">Would you share us?</string>
     <!-- https://developers.facebook.com/apps/1288023007880543/ -->
     <string name="facebook_app_id">1288023007880543</string>
 
