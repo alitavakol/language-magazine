@@ -79,6 +79,7 @@
         <activity
             android:name=".RootActivity"
             android:label="@string/title_issue_list"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme.FitScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

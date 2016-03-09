@@ -200,4 +200,14 @@
 
     <!-- https://developers.facebook.com/apps/1288023007880543/ -->
     <string name="facebook_app_id">1288023007880543</string>
+
+    <string name="feedback_title">Love it? Hate it? Would you like to suggest a new feature, or report a bug? We would love to hear from you.</string>
+
+    <!-- feedback fragment -->
+    <string name="bug">Bug</string>
+    <string name="question">Question</string>
+    <string name="idea">Idea</string>
+    <string name="feedback_hint">Enter your message here&#8230;</string>
+    <string name="thanks">Thank you!</string>
+    <string name="error_empty_message">Please write a message!</string>
 </resources>
