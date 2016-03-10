@@ -21,8 +21,6 @@ import com.github.rahatarmanahmed.cpv.CircularProgressView;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -128,10 +126,7 @@ public class IssuesTabFragment extends Fragment implements
         View v = inflater.inflate(R.layout.fragment_issues_list, container, false);
 
         swipeContainer = (SwipeRefreshLayout) v.findViewById(R.id.swipeContainer);
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+        swipeContainer.setColorSchemeResources(R.color.accent);
         swipeContainer.setOnRefreshListener(this);
         swipeContainer.setEnabled(filter == AVAILABLE_ISSUES);
 
@@ -156,7 +151,9 @@ public class IssuesTabFragment extends Fragment implements
         galleryOfIssuesFragment = (GalleryOfIssuesFragment) getActivity().getSupportFragmentManager().findFragmentByTag(GalleryOfIssuesFragment.FRAGMENT_TAG);
 
         Magazines.addOnDataSetChangedListener(this);
-        adapter.preNotifyDataSetChanged(true, galleryOfIssuesFragment.magazines.ISSUES);
+        while (adapter.preNotifyDataSetChanged(true, galleryOfIssuesFragment.magazines.ISSUES))
+            adapter.ignoreItemChanged = true;
+        adapter.ignoreItemChanged = false;
     }
 
     @Override
@@ -247,18 +244,25 @@ public class IssuesTabFragment extends Fragment implements
         }
 
         /**
+         * prevents redundantly notifying update of the same item from onResume()
+         */
+        boolean ignoreItemChanged = false;
+
+        /**
          * calculates filtered list of issues, and then calls notifyDataSetChanged()
          *
          * @param issues_ changed issue(s) that leads to adapter update.
          * @param success if true, data set has changed. if false, only the refresh animation will stop.
+         * @return true if a structural change occurs in items (excluding headers)
          */
-        public void preNotifyDataSetChanged(boolean success, Set<Magazines.Issue> issues_) {
+        public boolean preNotifyDataSetChanged(boolean success, Set<Magazines.Issue> issues_) {
             if (!success) {
                 swipeContainer.setRefreshing(false);
-                return;
+                return false;
             }
 
             boolean add = false;
+            boolean changed = false;
 
             for (Magazines.Issue issue : issues_) {
                 issue.addOnStatusChangedListener(IssuesTabFragment.this);
@@ -283,31 +287,37 @@ public class IssuesTabFragment extends Fragment implements
                     if (!issues.contains(issue)) {
                         int idx = issues.addAndSort(issue);
                         adapter.notifyItemInserted(idx);
+                        changed = true;
 
                     } else {
+                        int fromPosition = issues.indexOf(issue);
+
+                        if (!ignoreItemChanged)
+                            // notify item status change
+                            adapter.notifyItemChanged(fromPosition);
+
                         // status change results in change in item order (structural change).
                         // sort again.
-                        int fromPosition = issues.indexOf(issue);
-                        issues.remove(issue);
+                        issues.remove(fromPosition);
                         int toPosition = issues.addAndSort(issue); // add again, which inserts it in correct sorted position.
-                        if (fromPosition != toPosition)
+
+                        if (fromPosition != toPosition) {
                             adapter.notifyItemMoved(fromPosition, toPosition);
-
-                        // notify item status change
-                        adapter.notifyItemChanged(toPosition);
-
-                        if (fromPosition != toPosition)
-                            updateHeaders();
+                            changed = true;
+                        }
                     }
 
                 } else if (issues.contains(issue)) {
                     int idx = issues.indexOf(issue);
                     issues.remove(issue);
                     adapter.notifyItemRemoved(idx);
+                    changed = true;
                 }
             }
 
             updateHeaders();
+
+            return changed;
         }
 
         Magazines.Issue.Status[] statuses = Magazines.Issue.Status.values();
@@ -334,15 +344,8 @@ public class IssuesTabFragment extends Fragment implements
                 }
             }
 
-            if (isHeaderAdded == null) {
+            if (isHeaderAdded == null)
                 isHeaderAdded = new boolean[headers.length];
-                for (int i = 0; i < headers.length; i++) {
-                    if (issues.contains(headers[i])) {
-                        isHeaderAdded[i] = true;
-                        addedHeaderCount++;
-                    }
-                }
-            }
 
             int issuesCount = issues.size() - addedHeaderCount; // number of issues excluding headers
 

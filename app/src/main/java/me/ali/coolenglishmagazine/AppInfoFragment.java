@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +37,11 @@ public class AppInfoFragment extends Fragment {
 
         TextView titleTextView = (TextView) view.findViewById(R.id.title);
         titleTextView.setTypeface(FontManager.getTypeface(context, FontManager.FOFER));
+        titleTextView.setTextColor(ContextCompat.getColor(context, R.color.accent));
 
-        ((ImageView) view.findViewById(R.id.logo)).setImageDrawable(new IconicsDrawable(context).icon(FontAwesome.Icon.faw_sun_o).sizeDp(72).color(Color.LTGRAY));
+        final ImageView logoImageView = (ImageView) view.findViewById(R.id.logo);
+        logoImageView.setImageDrawable(new IconicsDrawable(context).icon(FontAwesome.Icon.faw_sun_o).sizeDp(72).color(Color.LTGRAY));
+        logoImageView.setColorFilter(Color.YELLOW);
 
         ((TextView) view.findViewById(R.id.versionTextView)).setText(BuildConfig.VERSION_NAME);
 
