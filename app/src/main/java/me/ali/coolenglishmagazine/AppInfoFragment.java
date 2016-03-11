@@ -1,19 +1,16 @@
 package me.ali.coolenglishmagazine;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.mikepenz.fontawesome_typeface_library.FontAwesome;
-import com.mikepenz.iconics.IconicsDrawable;
 
 import me.ali.coolenglishmagazine.util.FontManager;
 
@@ -40,8 +37,9 @@ public class AppInfoFragment extends Fragment {
         titleTextView.setTextColor(ContextCompat.getColor(context, R.color.accent));
 
         final ImageView logoImageView = (ImageView) view.findViewById(R.id.logo);
-        logoImageView.setImageDrawable(new IconicsDrawable(context).icon(FontAwesome.Icon.faw_sun_o).sizeDp(72).color(Color.LTGRAY));
-        logoImageView.setColorFilter(Color.YELLOW);
+        logoImageView.setImageDrawable(getResources().getDrawableForDensity(R.mipmap.ic_launcher, DisplayMetrics.DENSITY_XXXHIGH));
+//        logoImageView.setImageDrawable(new IconicsDrawable(context).icon(FontAwesome.Icon.faw_sun_o).sizeDp(72).color(Color.LTGRAY));
+//        logoImageView.setColorFilter(Color.YELLOW);
 
         ((TextView) view.findViewById(R.id.versionTextView)).setText(BuildConfig.VERSION_NAME);
 
