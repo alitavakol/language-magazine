@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.GridLayoutManager;
@@ -80,30 +79,26 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        if (getArguments() != null) {
-//        }
+        setHasOptionsMenu(true);
         alarms = importAlarms(getContext());
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        inflater.inflate(R.menu.available_issues_fragment_menu, menu);
+        inflater.inflate(R.menu.alarms_fragment_menu, menu);
+        menu.findItem(R.id.action_add).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_add).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text));
     }
 
-    RecyclerView recyclerView;
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_alarms_list, container, false);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-        final FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab);
-        fab.setImageDrawable(new IconicsDrawable(getContext()).icon(GoogleMaterial.Icon.gmd_add).color(Color.LTGRAY));
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        switch (id) {
+            case R.id.action_add:
                 Calendar currentTime = Calendar.getInstance();
                 int hour = currentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = currentTime.get(Calendar.MINUTE);
@@ -147,8 +142,19 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
 
                 timePickerDialog.setTitle(R.string.select_time);
                 timePickerDialog.show();
-            }
-        });
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    RecyclerView recyclerView;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_alarms_list, container, false);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.alarm_list);
         setupRecyclerView(recyclerView);
