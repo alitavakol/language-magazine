@@ -10,8 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.ContentObserver;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -20,15 +18,17 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.os.RemoteException;
 import android.preference.PreferenceManager;
+import android.support.v4.media.RatingCompat;
+import android.support.v4.media.session.MediaControllerCompat;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.support.v7.app.NotificationCompat;
-import android.widget.RemoteViews;
 
 import com.github.tbouron.shakedetector.library.ShakeDetector;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import me.ali.coolenglishmagazine.broadcast_receivers.RemoteControlReceiver;
@@ -61,6 +61,9 @@ public class MusicService extends Service implements
     private final IBinder binder = new MusicBinder();
 
     private MediaPlayer mediaPlayer = null;
+    private MediaSessionCompat mediaSession;
+    private MediaControllerCompat mediaController;
+
     private boolean paused = false;
 
     /**
@@ -75,7 +78,7 @@ public class MusicService extends Service implements
 
     public void onDestroy() {
         LogHelper.d("music service onDestroy");
-        handleStopRequest();
+        mediaController.getTransportControls().stop();
     }
 
     // TODO implement audio becoming noisy handler
@@ -87,13 +90,10 @@ public class MusicService extends Service implements
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        handleStopRequest();
-        try {
-            // user has learnt this item. increment hit count if it is in the list of waiting items.
-            WaitingItems.incrementHitCount(this, MagazineContent.getItem(new File(dataSource).getParentFile()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        mediaController.getTransportControls().stop();
+
+        // user has learnt this item. increment hit count if it is in the list of waiting items.
+        WaitingItems.incrementHitCount(this, item);
     }
 
     @Override
@@ -101,89 +101,164 @@ public class MusicService extends Service implements
         return false;
     }
 
+    protected MagazineContent.Item item;
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         final String action = intent != null ? intent.getAction() : null;
+
+        if (mediaSession == null)
+            initMediaSessions();
 
         if (ACTION_PREPARE.equals(action)) {
             handlePrepareRequest(intent.getStringExtra("dataSource"));
 
         } else if (ACTION_PLAY.equals(action)) {
-            LogHelper.i(TAG, "Received start foreground intent ");
-
-            handlePlayRequest();
+            mediaController.getTransportControls().play();
 
         } else if (ACTION_PAUSE.equals(action)) {
-            LogHelper.i(TAG, "Received pause foreground intent ");
-
-            handlePauseRequest();
+            mediaController.getTransportControls().pause();
 
         } else if (ACTION_STOP.equals(action)) {
-            handleStopRequest();
+            mediaController.getTransportControls().stop();
 
         } else if (ACTION_FAST_FORWARD.equals(action)) {
-            if (mediaPlayer != null) {
-                fastForward();
-            }
+            mediaController.getTransportControls().fastForward();
 
         } else if (ACTION_REWIND.equals(action)) {
-            if (mediaPlayer != null) {
-                rewind();
-            }
+            mediaController.getTransportControls().rewind();
         }
 
         return START_NOT_STICKY;
     }
 
-    private Notification getNotification(boolean isPlaying) {
+    @Override
+    public boolean onUnbind(Intent intent) {
+        mediaSession.release();
+        return super.onUnbind(intent);
+    }
+
+    private void initMediaSessions() {
+        mediaSession = new MediaSessionCompat(getApplicationContext(), "Cool English Magazine Player Session");
+
+        try {
+            mediaController = new MediaControllerCompat(getApplicationContext(), mediaSession.getSessionToken());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+//        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+//        PlaybackStateCompat state = new PlaybackStateCompat.Builder()
+//                .setActions(PlaybackStateCompat.ACTION_PLAY)
+//                .setState(PlaybackStateCompat.STATE_STOPPED, PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN, 0)
+//                .build();
+//        mediaSession.setPlaybackState(state);
+//        mediaSession.setActive(true);
+        mediaSession.setCallback(new MediaSessionCompat.Callback() {
+                                     @Override
+                                     public void onPlay() {
+                                         super.onPlay();
+                                         LogHelper.i(TAG, "media session onPlay");
+
+                                         handlePlayRequest();
+                                     }
+
+                                     @Override
+                                     public void onPause() {
+                                         super.onPause();
+                                         LogHelper.i(TAG, "media session onPause");
+
+                                         handlePauseRequest();
+                                     }
+
+                                     @Override
+                                     public void onFastForward() {
+                                         super.onFastForward();
+                                         LogHelper.i(TAG, "media session onFastForward");
+
+                                         if (mediaPlayer != null) {
+                                             fastForward();
+                                         }
+                                     }
+
+                                     @Override
+                                     public void onRewind() {
+                                         super.onRewind();
+                                         LogHelper.i(TAG, "media session onRewind");
+
+                                         if (mediaPlayer != null) {
+                                             rewind();
+                                         }
+                                     }
+
+                                     @Override
+                                     public void onStop() {
+                                         super.onStop();
+                                         LogHelper.i(TAG, "media session onStop");
+
+                                         handleStopRequest();
+                                     }
+
+                                     @Override
+                                     public void onSeekTo(long pos) {
+                                         super.onSeekTo(pos);
+                                     }
+
+                                     @Override
+                                     public void onSetRating(RatingCompat rating) {
+                                         super.onSetRating(rating);
+                                     }
+
+//                                     public boolean onMediaButtonEvent(Intent mediaButtonIntent) {
+//                                         LogHelper.i(TAG, "onMediaButtonEvent called: " + mediaButtonIntent);
+//                                         return false;
+//                                     }
+                                 }
+        );
+    }
+
+    private Notification buildNotification(NotificationCompat.Action action) {
+        // when user clicks on the notification, lesson activity should open.
         Intent notificationIntent = new Intent(this, ReadAndListenActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        final String itemRootDirectory = new File(dataSource).getParent();
-        notificationIntent.putExtra(ReadAndListenActivity.ARG_ROOT_DIRECTORY, itemRootDirectory);
+        notificationIntent.putExtra(ReadAndListenActivity.ARG_ROOT_DIRECTORY, item.rootDirectory.getAbsolutePath());
 
         // http://stackoverflow.com/a/31445004
-        // killed me :(
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 100, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-//        // add the back stack
-//        stackBuilder.addParentStack(ReadAndListenActivity.class);
-//        // add the Intent to the top of the stack
-//        stackBuilder.addNextIntent(notificationIntent);
-//        // get a PendingIntent containing the entire back stack
-//        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Intent previousIntent = new Intent(this, MusicService.class);
-        previousIntent.setAction("PREV_ACTION");
-        PendingIntent previousPendingIntent = PendingIntent.getService(this, 0, previousIntent, 0);
-
-        Intent playIntent = new Intent(this, MusicService.class);
-        playIntent.setAction(isPlaying ? ACTION_PAUSE : ACTION_PLAY);
-        PendingIntent playPendingIntent = PendingIntent.getService(this, 0, playIntent, 0);
-
-        Intent nextIntent = new Intent(this, MusicService.class);
-        nextIntent.setAction("NEXT_ACTION");
-        PendingIntent nextPendingIntent = PendingIntent.getService(this, 0, nextIntent, 0);
-
-        // Using RemoteViews to bind custom layouts into Notification
-        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.playback_notification);
-        remoteViews.setTextViewText(R.id.textViewTitle, isPlaying ? "playing..." : "paused");
-
-        // TODO design a more sophisticated notification layout with close (X) on top-right corner and media control buttons
-        // see http://stackoverflow.com/a/18558404 for details
-
-        return new NotificationCompat.Builder(this)
-                .setContentTitle("title")
-                .setTicker("ticker")
-                .setContent(remoteViews)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher), 128, 128, false))
-                .setContentIntent(pendingIntent)
-                .setOngoing(true)
-//                .addAction(android.R.drawable.ic_media_previous, "", previousPendingIntent)
-//                .addAction(R.id.play_pause, "", playPendingIntent)
-//                .addAction(android.R.drawable.ic_media_next, "", nextPendingIntent)
-                .build();
+//                .setLargeIcon(BitmapHelper.decodeSampledBitmapFromFile(new File(issue.rootDirectory, Magazines.Issue.posterFileName).getAbsolutePath(), w, h))
+                .setContentTitle(item.title)
+                .setContentText(getResources().getString(R.string.app_name))
+                .setContentIntent(pendingIntent);
+
+//        Intent intent = new Intent(getApplicationContext(), MusicService.class);
+//        intent.setAction(ACTION_STOP);
+//        PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 1, intent, 0);
+//        builder.setDeleteIntent(pendingIntent)
+
+        android.support.v7.app.NotificationCompat.MediaStyle style = new android.support.v7.app.NotificationCompat.MediaStyle();
+        builder.setStyle(style);
+
+        builder.addAction(generateAction(android.R.drawable.ic_media_rew, "Rewind", ACTION_REWIND));
+        builder.addAction(action);
+        builder.addAction(generateAction(android.R.drawable.ic_media_ff, "Fast Forward", ACTION_FAST_FORWARD));
+        style.setShowActionsInCompactView(0, 1, 2);
+
+        final Notification notification = builder.build();
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(PLAYBACK_NOTIFICATION_ID, notification);
+
+        return notification;
+    }
+
+    private NotificationCompat.Action generateAction(int icon, String title, String intentAction) {
+        Intent intent = new Intent(getApplicationContext(), MusicService.class);
+        intent.setAction(intentAction);
+        PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 1, intent, 0);
+        return new NotificationCompat.Action.Builder(icon, title, pendingIntent).build();
     }
 
     public int getDuration() {
@@ -197,7 +272,10 @@ public class MusicService extends Service implements
     private void handlePrepareRequest(String dataSource) {
         if (mediaPlayer != null && !this.dataSource.equals(dataSource)) {
             this.dataSource = dataSource;
-            handleStopRequest();
+            mediaController.getTransportControls().stop();
+
+            // handleStopRequest will call this function later, so do nothing at the moment.
+            return;
         }
 
         if (mediaPlayer == null && dataSource != null && dataSource.length() > 0) {
@@ -213,8 +291,11 @@ public class MusicService extends Service implements
 
             try {
                 this.dataSource = dataSource;
+
                 mediaPlayer.setDataSource(dataSource);
                 mediaPlayer.prepareAsync(); // prepare async to not block main thread
+
+                item = MagazineContent.getItem(new File(dataSource).getParentFile());
 
             } catch (java.io.IOException e) {
                 LogHelper.e(TAG, e.getMessage());
@@ -262,7 +343,8 @@ public class MusicService extends Service implements
                 noisyAudioStreamReceiver = new NoisyAudioStreamReceiver();
                 registerReceiver(noisyAudioStreamReceiver, intentFilter);
 
-                startForeground(PLAYBACK_NOTIFICATION_ID, getNotification(true));
+                startForeground(PLAYBACK_NOTIFICATION_ID,
+                        buildNotification(generateAction(android.R.drawable.ic_media_pause, "Pause", ACTION_PAUSE)));
 
                 if (onMediaStateChangedListener != null)
                     onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_PLAYING);
@@ -279,16 +361,15 @@ public class MusicService extends Service implements
                         boolean shakeToPausePlayback = PreferenceManager.getDefaultSharedPreferences(MusicService.this).getBoolean("shake_to_pause_playback", true);
                         if (shakeToPausePlayback) {
                             if (mediaPlayer != null && mediaPlayer.isPlaying())
-                                handlePauseRequest();
+                                mediaController.getTransportControls().pause();
                             else
-                                handlePlayRequest();
+                                mediaController.getTransportControls().play();
                         }
                     }
                 });
                 wakeLock.acquire();
                 ShakeDetector.start();
 
-//                mediaSession = new MediaSessionCompat(getApplicationContext(), TAG);
 //                mediaSession.setCallback(new MediaSessionCompat.Callback() {
 //                    public boolean onMediaButtonEvent(Intent mediaButtonIntent) {
 //                        LogHelper.i(TAG, "onMediaButtonEvent called: " + mediaButtonIntent);
@@ -324,7 +405,6 @@ public class MusicService extends Service implements
 //                        // <0 volume down
 //                        // >0 volume up
 //                        LogHelper.i(TAG, "onAdjustVolume");
-//                        MediaButtonReceiver
 //                    }
 //                };
 //                mediaSession.setPlaybackToRemote(myVolumeProvider);
@@ -333,7 +413,6 @@ public class MusicService extends Service implements
     }
 
 //    private VolumeProviderCompat myVolumeProvider = null;
-//    MediaSessionCompat mediaSession;
 
     SettingsContentObserver mSettingsContentObserver = null;
 
@@ -341,21 +420,25 @@ public class MusicService extends Service implements
     public void onAudioFocusChange(int focusChange) {
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
             // Pause playback
-            handlePauseRequest();
+            mediaController.getTransportControls().pause();
 
         } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
             // Resume playback
-            handlePlayRequest();
+            mediaController.getTransportControls().play();
 
         } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
             // Stop playback
-            handleStopRequest();
+            mediaController.getTransportControls().stop();
         }
     }
 
     public void handleStopRequest() {
         if (mediaPlayer != null) {
             stopForeground(true);
+
+//            if (!mediaPlayer.isPlaying()) // if playback completed by itself
+//                // keep notification visible, so user can start playback again.
+//                buildNotification(generateAction(android.R.drawable.ic_media_play, "Play", ACTION_PLAY));
 
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -409,11 +492,13 @@ public class MusicService extends Service implements
                 noisyAudioStreamReceiver = null;
             }
 
-            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(PLAYBACK_NOTIFICATION_ID, getNotification(false));
+//            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//            notificationManager.notify(PLAYBACK_NOTIFICATION_ID, getNotification(false));
 
             if (onMediaStateChangedListener != null)
                 onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_PAUSED);
+
+            buildNotification(generateAction(android.R.drawable.ic_media_play, "Play", ACTION_PLAY));
         }
     }
 
@@ -461,7 +546,7 @@ public class MusicService extends Service implements
         @Override
         public void onReceive(Context context, Intent intent) {
             if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
-                handlePauseRequest();
+                mediaController.getTransportControls().pause();
             }
         }
     }
