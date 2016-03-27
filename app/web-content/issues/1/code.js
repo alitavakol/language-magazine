@@ -24,6 +24,11 @@ adjustLayout = function(options) {
 
 	highlightColor = tinycolor(accentColor).darken().darken().toHexString();
 
+	if(typeof(setCurrentSlide) == 'function')
+		viewPagerHeight = 28;
+	else
+		viewPagerHeight = 0;
+
 	$('#dynamic-rules').text("\
 		.card { margin-top: " + (topMargin+28) + "px; background-color: #" + accentColor + "; } \
 		.highlight { background-color: " + highlightColor + "; } \
@@ -31,7 +36,7 @@ adjustLayout = function(options) {
 		.accent { color: #" + accentColor + "; } \
 		.new-word, dd, dt { color: #" + newWordColor + "; } \
 		#page-indicator { margin-top: " + topMargin + "px; } \
-		.container { margin-top: " + (topMargin+28) + "px; height: " + (height-topMargin-bottomMargin-28) + "px; } \
+		.container { margin-top: " + (topMargin+viewPagerHeight) + "px; height: " + (height-topMargin-bottomMargin-viewPagerHeight) + "px; } \
 		h1 { color: #" + newWordColor + "; } \
 		h1.alt { color: #" + accentColor + "; } \
 		h3.alt { color: #" + accentColor + "; } \
@@ -50,7 +55,7 @@ if(typeof(app) == 'undefined') { // on web browser
 		if(typeof(lock) == 'function') {
 				$('body').append('<button id="buttonToggleLock" style="position: absolute; top: 0; z-index: 2;">Toggle Show/Hide</button>');
 				$('#buttonToggleLock').click(function() {
-					lock(!transcriptLocked);
+					lock(!window.transcriptLocked);
 				});
 		}
 
@@ -72,13 +77,16 @@ if(typeof(app) == 'undefined') { // on web browser
 		if(typeof(setCurrentSlide) == 'function')
 			setCurrentSlide(0);
 	});
+}
 
-} else { // on mobile app
-	$(document).ready(function() {
-		$('a').click(function() {
+$(document).ready(function() {
+	$('a').click(function() {
+		if(typeof(app) != 'undefined') {
 			var rect = this.getBoundingClientRect();
 			app.showGlossary($(this).data('word'), rect.left  * window.devicePixelRatio, rect.top * window.devicePixelRatio, $(this).height() * window.devicePixelRatio);
-			return false;
-		});
+		} else {
+			alert($(this).data('en') + "\n" + $(this).data('fa'));
+		}
+		return false;
 	});
-}
+});

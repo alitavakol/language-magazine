@@ -1,6 +1,7 @@
 package me.ali.coolenglishmagazine;
 
 
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -102,7 +103,11 @@ public class ShareFragment extends Fragment {
                         .setContentUrl(Uri.parse("https://developers.google.com/+/web/snippet/examples/restaurant"))
                         .getIntent();
 
-                startActivityForResult(shareIntent, 0);
+                try {
+                    startActivityForResult(shareIntent, 0);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(getContext(), R.string.activit_not_found, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

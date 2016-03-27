@@ -1,5 +1,6 @@
 package me.ali.coolenglishmagazine;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -56,6 +57,20 @@ public class IssueDetailFragment extends Fragment {
         }
     }
 
+    boolean isAttached = false;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        isAttached = true;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        isAttached = false;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,15 +80,17 @@ public class IssueDetailFragment extends Fragment {
             final WebView webView = (WebView) rootView.findViewById(R.id.webView);
             webView.setWebViewClient(new WebViewClient() {
                 public void onPageFinished(WebView view, String url) {
-                    final String command = "javascript:adjustLayout({"
-                            + "accentColor: " + ContextCompat.getColor(getActivity(), R.color.colorAccent) // accent color
-                            + ", textColor: 0xc5c5c5" // text color
-                            + ", backgroundColor: " + ContextCompat.getColor(getActivity(), R.color.colorPrimary) // background color
-                            + ", newWordColor: 0xf8f8f8" // new word color
-                            + "});";
-                    webView.loadUrl(command);
+                    if (isAttached) { // when activity is finished/finishing, becomes null
+                        final String command = "javascript:adjustLayout({"
+                                + "accentColor: " + ContextCompat.getColor(getActivity(), R.color.colorAccent) // accent color
+                                + ", textColor: 0xc5c5c5" // text color
+                                + ", backgroundColor: " + ContextCompat.getColor(getActivity(), R.color.colorPrimary) // background color
+                                + ", newWordColor: 0xf8f8f8" // new word color
+                                + "});";
+                        webView.loadUrl(command);
 //                    webView.loadUrl("javascript:restoreInstanceState(" + new JSONArray(Arrays.asList(webViewState)) + ");");
-                    webView.loadUrl("javascript:app.onAdjustLayoutComplete();");
+                        webView.loadUrl("javascript:app.onAdjustLayoutComplete();");
+                    }
                 }
             });
             webView.getSettings().setJavaScriptEnabled(true);
@@ -96,9 +113,11 @@ public class IssueDetailFragment extends Fragment {
         public void onAdjustLayoutComplete() {
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
-                    ((IssueDetailActivity) getActivity()).setOnScrollViewLayoutChangedListener();
-                    getActivity().findViewById(R.id.hourglass).setVisibility(View.GONE);
-                    getView().setVisibility(View.VISIBLE);
+                    if(isAttached) {
+                        ((IssueDetailActivity) getActivity()).setOnScrollViewLayoutChangedListener();
+                        getActivity().findViewById(R.id.hourglass).setVisibility(View.GONE);
+                        getView().setVisibility(View.VISIBLE);
+                    }
                 }
             });
         }
