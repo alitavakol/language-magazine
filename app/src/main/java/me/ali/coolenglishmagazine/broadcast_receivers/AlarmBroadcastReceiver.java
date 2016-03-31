@@ -64,9 +64,9 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
                 textStyle.setBigContentTitle(context.getResources().getString(R.string.cool_english_times));
                 textStyle.bigText(context.getResources().getString(R.string.cool_english_time_notification_text, item.title));
-                textStyle.setSummaryText(context.getResources().getString(
-                        waitingItem.hitCount == 1 ? R.string.cool_english_time_notification_summary_text_1 : R.string.cool_english_time_notification_summary_text,
-                        waitingItem.hitCount));
+                textStyle.setSummaryText(context.getResources().getQuantityString(
+                        R.plurals.cool_english_time_notification_summary_text,
+                        waitingItem.hitCount, waitingItem.hitCount));
 
                 // Moves the expanded layout object into the notification object.
                 builder.setStyle(textStyle);

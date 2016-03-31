@@ -50,8 +50,12 @@
     <!-- for cool english times -->
     <string name="cool_english_time_notification_text_short">Time to learn a lesson<![CDATA[!]]></string>
     <string name="cool_english_time_notification_text">Time to learn the \"%s\" lesson<![CDATA[!]]></string>
-    <string name="cool_english_time_notification_summary_text">You have learnt this item %d times so far.</string>
-    <string name="cool_english_time_notification_summary_text_1">You have learnt this item %d time so far.</string>
+
+    <plurals name="cool_english_time_notification_summary_text">
+        <item quantity="one">You have learnt this item %d time so far.</item>
+        <item quantity="other">You have learnt this item %d times so far.</item>
+    </plurals>
+
     <string name="pending_count">Remaining %d times to learn.</string>
     <string name="alarm_already_exists">Alarm for this time already exists.</string>
 
