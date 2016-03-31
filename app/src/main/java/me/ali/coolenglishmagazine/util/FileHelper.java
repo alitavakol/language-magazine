@@ -10,7 +10,19 @@ public class FileHelper {
                 deleteRecursive(child);
             }
         }
-        fileOrDirectory.delete();
+        delete(fileOrDirectory);
+    }
+
+    /**
+     * delete file and kill references.
+     * see <a href="http://stackoverflow.com/a/11776458">here</a> for more information.
+     *
+     * @param file file to delete
+     */
+    public static void delete(File file) {
+        final File to = new File(file.getAbsolutePath() + System.currentTimeMillis());
+        if (file.renameTo(to))
+            to.delete();
     }
 
 }

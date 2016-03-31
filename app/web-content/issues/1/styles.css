@@ -203,12 +203,12 @@ dl.inline dd {
 	color: white;
 	font-weight: bold;
 	text-transform: capitalize;
+	position: relative;
+	transform: rotate(4deg);
 }
-.label.attached {
-	position: absolute;
-	background-color: rgba(0,255,0,.5);
-	font-weight: inherit;
-	margin: 0;
-	color: black;
-	font-size: small;
+.figcaption {
+	padding: 6px;
+	font-weight: bold;
+	text-transform: capitalize;
+	text-align: center;
 }

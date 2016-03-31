@@ -13,8 +13,42 @@
 		</style>
 
 		<style type="text/css">
-			.free-wall {
-				margin: 15px;
+			#pinterest {
+				margin: 0 auto;
+				/*padding-bottom: 15px;*/
+			}
+			#list {
+				width: 100%;
+				overflow: hidden;
+				margin-bottom: 15px;
+				-webkit-column-count: 3;
+				-webkit-column-gap: 15px;
+				-webkit-column-fill: auto;
+				column-count: 3;
+				column-gap: 15px;
+				column-fill: auto;
+			}
+			.brick {
+				margin-bottom: 15px;
+				-webkit-column-break-inside: avoid;
+				-moz-column-break-inside: avoid;
+				column-break-inside: avoid;
+			}
+			@media only screen and ( max-width: 640px ) {
+				#list
+				{
+					-webkit-column-count: 2;
+					-webkit-column-gap: 15px;
+					column-count: 2;
+					column-gap: 15px;
+				}
+			}
+			@media only screen and ( max-width: 320px ) {
+				#list
+				{
+					-webkit-column-count: auto;
+					column-count: auto;
+				}
 			}
 		</style>
 
@@ -23,7 +57,7 @@
 		<script src="swipe.modified.js"></script>
 		<script src="file:///android_asset/tinycolor-min.js"></script>
 		<script src="../../../tinycolor-min.js"></script>
-		<script src="freewall.js"></script>
+		<script src="masonry.pkgd.min.js"></script>
 		<script src="jquery-ui.min.js"></script>
 		<script src="jquery.ui.touch-punch.min.js"></script>
 
@@ -42,10 +76,12 @@
 					<div id="pre-reading" class="container">
 						<div id="label-container">
 							<h4>Match each form of transport with its corresponding picture. Drag names and drop them into correct pictures.</h4>
-							<ul style="padding: 10px;" />
+							<ul style="padding: 10px; text-align: center;" />
 						</div>
 
-						<div id="freewall" class="free-wall"></div>
+						<div id="pinterest">
+							<div id="list"></div>
+						</div>
 						<h4>Now swipe right, and listen to the article. Then read transcript to verify your listening skills. ➜</h4>
 					</div>
 				</div>
@@ -73,32 +109,15 @@
 			var mix = [2,5,1,7,0,6,4,3];
 			var baseWidth = $(window).width() / 8;
 			var widths = [6, 4, 6, 4, 2, 2, 6, 4];
-			var temp = "<div class='brick rounded-corners droppable' data-label='{index}' style='width: {width}px;'><img src='{index}.jpg' width='100%'></div>";
+			var temp = "<div class='brick rounded-corners droppable' data-label='{index}'><img src='{index}.jpg' width='100%'><div class='figcaption'>‌</div></div>";
 			var temp2 = "<li class='label draggable'>{index}</li>";
 			var html = '', html2 = '';
 			for (var i = 0; i < 8; ++i) {
 				html += temp.replace(/\{width\}/g, widths[i] * baseWidth).replace(/\{index\}/g, pics[i]);
 				html2 += temp2.replace(/\{index\}/g, pics[mix[i]]);
 			}
-			$("#freewall").html(html);
+			$("#pinterest #list").html(html);
 			$("#label-container > ul").html(html2);
-
-			var wall = new Freewall("#freewall");
-			wall.reset({
-				selector: '.brick',
-				animate: true,
-				cellW: baseWidth*2,
-				cellH: 'auto',
-				onResize: function() {
-					wall.fitWidth();
-				}
-			});
-
-			var images = wall.container.find('.brick');
-			images.find('img').load(function() {
-				wall.fitWidth();
-			});
-
 
 			$('.draggable').draggable({
 				scroll: true,
@@ -121,9 +140,7 @@
 				},
 				drop: function( event, ui ) {
 					if($(this).data('label') == ui.draggable.html()) {
-						$(this).append(ui.draggable.remove().css('position', '').addClass('attached'));
-						if(typeof(app) != 'undefined')
-							app.makeToast('Yes!', false);
+						$(this).find('.figcaption').html(ui.draggable.css('visibility', 'hidden').html());
 					} else {
 						if(typeof(app) != 'undefined')
 							app.makeToast('That\'s not right.', false);
@@ -137,6 +154,8 @@
 				$('#local-rules').text("\
 					#label-container { background-color: #" + backgroundColor + "; } \
 					.label { background-color: #" + accentColor + "; } \
+					.figcaption { color: #" + newWordColor + "; } \
+					.brick { border: solid 1px #" + textColor + "; } \
 					.poster { background-image: -webkit-linear-gradient" + t + "; background-image: linear-gradient" + t + "; height: " + height + "px; } "
 				);
 			}
