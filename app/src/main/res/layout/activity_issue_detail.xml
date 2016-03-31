@@ -63,7 +63,7 @@
                 android:layout_marginStart="@dimen/keyline_2_session_detail"
                 android:ellipsize="end"
                 android:maxLines="4"
-                android:text="You want me to measure what!? Turning qualitative information into quantitative data"
+                tools:text="You want me to measure what!?"
                 android:textAlignment="viewStart" />
 
             <TextView
@@ -75,7 +75,7 @@
                 android:layout_marginStart="@dimen/keyline_2_session_detail"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="Test Session Subtitle"
+                tools:text="Test Session Subtitle"
                 android:textAlignment="viewStart" />
 
             <LinearLayout

@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -94,6 +95,9 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             e.printStackTrace();
         }
 
+        ((TextView)findViewById(R.id.session_title)).setText(issue.description);
+        ((TextView)findViewById(R.id.session_subtitle)).setText(issue.subtitle);
+
         buttonOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,6 +134,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             @Override
             public void onClick(View v) {
                 ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
+
                 File[] files = issue.rootDirectory.listFiles();
                 if (files != null) {
                     for (File g : files) {
@@ -138,7 +143,8 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
                         }
                     }
                 }
-                new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).delete();
+                FileHelper.delete(new File(issue.rootDirectory, Magazines.Issue.downloadedFileName));
+
                 issue.setStatus(Magazines.Issue.Status.available);
                 updateFab();
             }
@@ -363,7 +369,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
                         }
                     });
                 }
-            }, 0, 2000);
+            }, 0, 1000);
             LogHelper.i(TAG, "timer created.");
         }
     }

@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.FileHelper;
 import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.InputStreamVolleyRequest;
 import me.ali.coolenglishmagazine.util.LogHelper;
@@ -236,7 +237,7 @@ public class GalleryOfIssuesFragment extends Fragment {
 
                 ZipHelper.unzip(zipFile, getContext().getExternalFilesDir(null));
 
-                zipFile.delete();
+                FileHelper.delete(zipFile);
                 return true;
 
             } catch (IOException e) {

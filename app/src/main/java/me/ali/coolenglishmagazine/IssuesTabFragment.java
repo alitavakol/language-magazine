@@ -424,7 +424,7 @@ public class IssuesTabFragment extends Fragment implements
 
             if (!holder.titleTextView.getText().equals(issue.title)) {
                 holder.titleTextView.setText(issue.title);
-                holder.subtitleTextView.setText(issue.title);
+                holder.subtitleTextView.setText(issue.subtitle);
 
                 // http://stackoverflow.com/a/31162004
                 holder.itemView.post(new Runnable() {

@@ -19,6 +19,7 @@ import me.ali.coolenglishmagazine.IssueDetailActivity;
 import me.ali.coolenglishmagazine.ItemListActivity;
 import me.ali.coolenglishmagazine.R;
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.FileHelper;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.util.ZipHelper;
 
@@ -48,7 +49,7 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
         query.setFilterById(reference);
 
         Cursor cursor = ((DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE)).query(query);
-        if(cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             // get the status of the download
             int status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
 
@@ -93,7 +94,7 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
         @Override
         protected void onPostExecute(File rootFile) {
             try {
-                f.delete();
+                FileHelper.delete(f);
 
                 final Magazines.Issue issue = Magazines.getIssueFromFile(context, rootFile);
 
@@ -108,7 +109,7 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
                 // build notification
                 // the addAction re-use the same intent to keep the example short
                 Notification n = new Notification.Builder(context)
-                        .setContentTitle(issue.title)
+                        .setContentTitle(issue.subtitle)
                         .setContentText(context.getResources().getString(R.string.issue_downloaded_notification))
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentIntent(pIntent)

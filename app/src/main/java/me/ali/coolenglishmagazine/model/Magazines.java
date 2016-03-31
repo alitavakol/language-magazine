@@ -75,6 +75,8 @@ public class Magazines {
 
             issue.rootDirectory = issueRootDirectory;
             issue.title = e.attr("title");
+            issue.subtitle = e.attr("subtitle");
+            issue.description = e.attr("description");
             issue.id = Integer.parseInt(issueRootDirectory.getName());
 
             int downloadStatus = getDownloadStatus(context, issue);
@@ -146,7 +148,17 @@ public class Magazines {
          * an string representation of this issue, combination of year and week number.
          * e.g. "Cool English Magazine #1 (2016, Week #1)
          */
+        public String subtitle;
+
+        /**
+         * featured title, which attracts reader to download it!
+         */
         public String title;
+
+        /**
+         * short description of the issue. displayed in a maximum of three lines.
+         */
+        public String description;
 
         public File rootDirectory;
 
@@ -237,7 +249,7 @@ public class Magazines {
      */
     public static long download(Context context, Issue issue) throws IOException {
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(getIssueDownloadUrl(context, issue)))
-                .setDescription(issue.title)
+                .setDescription(issue.subtitle)
                 .setTitle(context.getResources().getString(R.string.app_name))
                 .setDestinationUri(Uri.fromFile(getIssueLocalDownloadUri(context, issue)))
                 .setVisibleInDownloadsUi(false)

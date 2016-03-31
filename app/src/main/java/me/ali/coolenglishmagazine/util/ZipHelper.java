@@ -10,15 +10,16 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * Created by hamed on 1/11/16.
+ * Zip file extractor
+ * Created by Ali on 1/11/16.
  */
 public class ZipHelper {
 
     /**
      * This code is based on <a href="http://stackoverflow.com/a/27050680">this link</a>.
      *
-     * @param zipFile
-     * @param targetDirectory
+     * @param zipFile         file to extract
+     * @param targetDirectory destination
      * @return first encountered file/folder
      * @throws IOException
      */
@@ -26,43 +27,43 @@ public class ZipHelper {
         ZipInputStream zis = new ZipInputStream(new BufferedInputStream(new FileInputStream(zipFile)));
         File rootFile = null;
 
-        try {
-            ZipEntry ze;
-            int count;
-            byte[] buffer = new byte[8192];
+//        try {
+        ZipEntry ze;
+        int count;
+        byte[] buffer = new byte[8192];
 
-            while ((ze = zis.getNextEntry()) != null) {
-                File file = new File(targetDirectory, ze.getName());
-                File dir = ze.isDirectory() ? file : file.getParentFile();
+        while ((ze = zis.getNextEntry()) != null) {
+            File file = new File(targetDirectory, ze.getName());
+            File dir = ze.isDirectory() ? file : file.getParentFile();
 
-                if(rootFile == null)
-                    rootFile = file;
+            if (rootFile == null)
+                rootFile = file;
 
-                if (!dir.isDirectory() && !dir.mkdirs())
-                    throw new FileNotFoundException("Failed to ensure directory: " +
-                            dir.getAbsolutePath());
+            if (!dir.isDirectory() && !dir.mkdirs())
+                throw new FileNotFoundException("Failed to ensure directory: " +
+                        dir.getAbsolutePath());
 
-                if (ze.isDirectory())
-                    continue;
+            if (ze.isDirectory())
+                continue;
 
-                FileOutputStream fout = new FileOutputStream(file);
+            FileOutputStream fout = new FileOutputStream(file);
 
-                try {
-                    while ((count = zis.read(buffer)) != -1)
-                        fout.write(buffer, 0, count);
-                } finally {
-                    fout.close();
-                }
+//                try {
+            while ((count = zis.read(buffer)) != -1)
+                fout.write(buffer, 0, count);
+//                } finally {
+            fout.close();
+//                }
 
-                // if time should be restored as well
-                long time = ze.getTime();
-                if (time > 0)
-                    file.setLastModified(time);
-            }
-
-        } finally {
-            zis.close();
+            // if time should be restored as well
+            long time = ze.getTime();
+            if (time > 0)
+                file.setLastModified(time);
         }
+
+//        } finally {
+        zis.close();
+//        }
 
         return rootFile;
     }
