@@ -2,6 +2,7 @@ package me.ali.coolenglishmagazine;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -84,9 +85,15 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
             public void onClick(View v) {
                 ((FrameLayout) view.findViewById(R.id.card_container)).getChildAt(currentCardIndex).setVisibility(View.GONE);
                 currentCardIndex++;
-                ((FrameLayout) view.findViewById(R.id.card_container)).getChildAt(currentCardIndex).setVisibility(View.VISIBLE);
-                buttonPrevious.setClickable(currentCardIndex > 0);
-                buttonNext.setClickable(currentCardIndex < 1);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((FrameLayout) view.findViewById(R.id.card_container)).getChildAt(currentCardIndex).setVisibility(View.VISIBLE);
+                    }
+                }, 200);
+                buttonPrevious.setEnabled(currentCardIndex > 0);
+                buttonNext.setEnabled(currentCardIndex < 1);
+                mScrollView.fullScroll(View.FOCUS_UP);
             }
         });
         buttonPrevious.setOnClickListener(new View.OnClickListener() {
@@ -94,15 +101,21 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
             public void onClick(View v) {
                 ((FrameLayout) view.findViewById(R.id.card_container)).getChildAt(currentCardIndex).setVisibility(View.GONE);
                 currentCardIndex--;
-                ((FrameLayout) view.findViewById(R.id.card_container)).getChildAt(currentCardIndex).setVisibility(View.VISIBLE);
-                buttonPrevious.setClickable(currentCardIndex > 0);
-                buttonNext.setClickable(currentCardIndex < 1);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((FrameLayout) view.findViewById(R.id.card_container)).getChildAt(currentCardIndex).setVisibility(View.VISIBLE);
+                    }
+                }, 200);
+                buttonPrevious.setEnabled(currentCardIndex > 0);
+                buttonNext.setEnabled(currentCardIndex < 1);
+                mScrollView.fullScroll(View.FOCUS_UP);
             }
         });
 
         ((FrameLayout) view.findViewById(R.id.card_container)).getChildAt(currentCardIndex).setVisibility(View.VISIBLE);
-        buttonPrevious.setClickable(currentCardIndex > 0);
-        buttonNext.setClickable(currentCardIndex < 1);
+        buttonPrevious.setEnabled(currentCardIndex > 0);
+        buttonNext.setEnabled(currentCardIndex < 1);
 
         return view;
     }
