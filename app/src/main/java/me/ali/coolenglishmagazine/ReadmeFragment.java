@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.widget.ObservableScrollView;
@@ -28,15 +29,6 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
 
     public static final String FRAGMENT_TAG = ReadmeFragment.class.getName();
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
 
     public ReadmeFragment() {
@@ -47,16 +39,12 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment ReadmeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ReadmeFragment newInstance(String param1, String param2) {
+    public static ReadmeFragment newInstance() {
         ReadmeFragment fragment = new ReadmeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -65,9 +53,8 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        if (savedInstanceState != null) {
+            currentCardIndex = savedInstanceState.getInt("currentCardIndex");
         }
 
         // force determine if toolbar should be hidden or not
@@ -77,16 +64,45 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
     private ObservableScrollView mScrollView;
     private Toolbar toolbar;
 
+    protected int currentCardIndex = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_readme, container, false);
+        final View view = inflater.inflate(R.layout.fragment_readme, container, false);
 
         toolbar = (Toolbar) view.findViewById(R.id.toolbar_actionbar);
         mListener.onToolbarCreated(toolbar, R.string.readme);
 
         mScrollView = (ObservableScrollView) view.findViewById(R.id.scroll_view);
         mScrollView.addCallbacks(this);
+
+        final View buttonPrevious = view.findViewById(R.id.button_previous);
+        final View buttonNext = view.findViewById(R.id.button_next);
+        buttonNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((FrameLayout) view.findViewById(R.id.card_container)).getChildAt(currentCardIndex).setVisibility(View.GONE);
+                currentCardIndex++;
+                ((FrameLayout) view.findViewById(R.id.card_container)).getChildAt(currentCardIndex).setVisibility(View.VISIBLE);
+                buttonPrevious.setClickable(currentCardIndex > 0);
+                buttonNext.setClickable(currentCardIndex < 1);
+            }
+        });
+        buttonPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((FrameLayout) view.findViewById(R.id.card_container)).getChildAt(currentCardIndex).setVisibility(View.GONE);
+                currentCardIndex--;
+                ((FrameLayout) view.findViewById(R.id.card_container)).getChildAt(currentCardIndex).setVisibility(View.VISIBLE);
+                buttonPrevious.setClickable(currentCardIndex > 0);
+                buttonNext.setClickable(currentCardIndex < 1);
+            }
+        });
+
+        ((FrameLayout) view.findViewById(R.id.card_container)).getChildAt(currentCardIndex).setVisibility(View.VISIBLE);
+        buttonPrevious.setClickable(currentCardIndex > 0);
+        buttonNext.setClickable(currentCardIndex < 1);
 
         return view;
     }
@@ -172,4 +188,9 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("currentCardIndex", currentCardIndex);
+    }
 }

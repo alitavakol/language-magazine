@@ -108,7 +108,7 @@ public class RootActivity extends AppCompatActivity implements GalleryOfIssuesFr
                         break;
                     case 3:
                         if (readmeFragment == null)
-                            readmeFragment = ReadmeFragment.newInstance(null, null);
+                            readmeFragment = ReadmeFragment.newInstance();
                         fragment = readmeFragment;
                         tag = ReadmeFragment.FRAGMENT_TAG;
                         break;

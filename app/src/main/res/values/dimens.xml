@@ -32,4 +32,7 @@
     <!-- standard metrics -->
     <dimen name="spacing_normal">8dp</dimen>
     <dimen name="padding_normal">16dp</dimen>
+
+    <item name="welcome_content_width" format="integer" type="dimen">-1</item>
+
 </resources>
