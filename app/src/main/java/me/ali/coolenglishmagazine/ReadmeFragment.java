@@ -66,6 +66,7 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
     private Toolbar toolbar;
 
     protected int currentCardIndex = 0;
+    protected int cardCount;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,44 +79,47 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
         mScrollView = (ObservableScrollView) view.findViewById(R.id.scroll_view);
         mScrollView.addCallbacks(this);
 
+        final FrameLayout cardContainer = (FrameLayout) view.findViewById(R.id.card_container);
+        cardCount = cardContainer.getChildCount();
+
         final View buttonPrevious = view.findViewById(R.id.button_previous);
         final View buttonNext = view.findViewById(R.id.button_next);
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((FrameLayout) view.findViewById(R.id.card_container)).getChildAt(currentCardIndex).setVisibility(View.GONE);
+                cardContainer.getChildAt(currentCardIndex).setVisibility(View.GONE);
                 currentCardIndex++;
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        ((FrameLayout) view.findViewById(R.id.card_container)).getChildAt(currentCardIndex).setVisibility(View.VISIBLE);
+                        cardContainer.getChildAt(currentCardIndex).setVisibility(View.VISIBLE);
                     }
                 }, 200);
                 buttonPrevious.setEnabled(currentCardIndex > 0);
-                buttonNext.setEnabled(currentCardIndex < 1);
+                buttonNext.setEnabled(currentCardIndex < cardCount - 1);
                 mScrollView.fullScroll(View.FOCUS_UP);
             }
         });
         buttonPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((FrameLayout) view.findViewById(R.id.card_container)).getChildAt(currentCardIndex).setVisibility(View.GONE);
+                cardContainer.getChildAt(currentCardIndex).setVisibility(View.GONE);
                 currentCardIndex--;
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        ((FrameLayout) view.findViewById(R.id.card_container)).getChildAt(currentCardIndex).setVisibility(View.VISIBLE);
+                        cardContainer.getChildAt(currentCardIndex).setVisibility(View.VISIBLE);
                     }
                 }, 200);
                 buttonPrevious.setEnabled(currentCardIndex > 0);
-                buttonNext.setEnabled(currentCardIndex < 1);
+                buttonNext.setEnabled(currentCardIndex < cardCount - 1);
                 mScrollView.fullScroll(View.FOCUS_UP);
             }
         });
 
-        ((FrameLayout) view.findViewById(R.id.card_container)).getChildAt(currentCardIndex).setVisibility(View.VISIBLE);
+        cardContainer.getChildAt(currentCardIndex).setVisibility(View.VISIBLE);
         buttonPrevious.setEnabled(currentCardIndex > 0);
-        buttonNext.setEnabled(currentCardIndex < 1);
+        buttonNext.setEnabled(currentCardIndex < cardCount - 1);
 
         return view;
     }
