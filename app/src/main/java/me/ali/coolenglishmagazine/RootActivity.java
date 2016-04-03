@@ -31,6 +31,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class RootActivity extends AppCompatActivity implements
         GalleryOfIssuesFragment.OnFragmentInteractionListener,
         CoolEnglishTimesFragment.OnFragmentInteractionListener,
+        ReadmeFragment.OnFragmentInteractionListener,
         AboutFragment.OnFragmentInteractionListener {
 
     private static final String TAG = LogHelper.makeLogTag(RootActivity.class);
@@ -50,7 +51,7 @@ public class RootActivity extends AppCompatActivity implements
      */
     private boolean mTwoPane;
 
-    Fragment galleryOfIssuesFragment, coolEnglishTimesFragment, aboutFragment;
+    Fragment galleryOfIssuesFragment, coolEnglishTimesFragment, aboutFragment, readmeFragment;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -115,6 +116,12 @@ public class RootActivity extends AppCompatActivity implements
                         fragment = coolEnglishTimesFragment;
                         tag = CoolEnglishTimesFragment.FRAGMENT_TAG;
                         break;
+                    case 3:
+                        if (readmeFragment == null)
+                            readmeFragment = ReadmeFragment.newInstance();
+                        fragment = readmeFragment;
+                        tag = ReadmeFragment.FRAGMENT_TAG;
+                        break;
                     case 5:
                         if (aboutFragment == null)
                             aboutFragment = AboutFragment.newInstance();
@@ -125,6 +132,7 @@ public class RootActivity extends AppCompatActivity implements
 
                 if (fragment != null) {
                     getSupportFragmentManager().beginTransaction()
+//                            .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                             .replace(R.id.root_fragment, fragment, tag)
                             .commit();
                 } else {

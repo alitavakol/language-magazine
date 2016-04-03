@@ -5,6 +5,7 @@
     <color name="colorPrimaryLight">#323232</color>
     <color name="colorAccent">#009688</color>
     <color name="colorAccentOpposite">#002100</color>
+    <color name="colorAccentTransparent">#dd009688</color>
 
     <color name="beginnerLevelColor">#009EE0</color>
     <color name="intermediateLevelColor">#46A32A</color>
