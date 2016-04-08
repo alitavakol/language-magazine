@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
-        android:padding="@dimen/activity_vertical_margin"
+        android:padding="@dimen/activity_horizontal_margin"
         android:visibility="gone">
 
         <RelativeLayout
@@ -83,7 +83,7 @@
                 android:layout_marginEnd="@dimen/end_text_margin"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:text="1:16"
+                tools:text="1:16"
                 android:textColor="@android:color/white" />
 
         </RelativeLayout>

@@ -35,25 +35,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/padding_normal"
-            android:layout_marginEnd="@dimen/padding_normal"
-            android:layout_marginStart="@dimen/padding_normal">
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingTop="@dimen/spacing_normal"
-                android:visibility="gone">
+                android:visibility="gone"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingBottom="@dimen/padding_normal"
                         android:text="@string/readme_intro_1"
                         android:textColor="@android:color/black" />
 
@@ -61,9 +64,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -83,9 +84,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -105,9 +104,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -127,16 +124,15 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingBottom="@dimen/padding_normal"
+                        android:paddingTop="@dimen/padding_normal"
                         android:text="@string/readme_intro_5"
                         android:textColor="@android:color/black" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -156,9 +152,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -178,16 +172,15 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingBottom="@dimen/padding_normal"
+                        android:paddingTop="@dimen/padding_normal"
                         android:text="@string/readme_intro_8"
                         android:textColor="@android:color/black" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -207,9 +200,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -229,9 +220,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -251,9 +240,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -273,7 +260,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingTop="@dimen/padding_normal"
                         android:text="@string/readme_intro_13"
                         android:textColor="@android:color/black" />
 
@@ -284,18 +271,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingTop="@dimen/spacing_normal"
-                android:visibility="gone">
+                android:visibility="gone"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingBottom="@dimen/padding_normal"
                         android:text="@string/readme_rule_1_1"
                         android:textColor="@android:color/black" />
 
@@ -303,9 +293,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -325,9 +313,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -347,10 +333,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/padding_normal"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -373,13 +356,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingTop="@dimen/spacing_normal"
-                android:visibility="gone">
+                android:visibility="gone"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_normal"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
                     android:text="@string/readme_rule_2"
                     android:textColor="@android:color/black" />
             </android.support.v7.widget.CardView>
@@ -388,13 +373,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingTop="@dimen/spacing_normal"
-                android:visibility="gone">
+                android:visibility="gone"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_normal"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
                     android:text="@string/readme_rule_3"
                     android:textColor="@android:color/black" />
             </android.support.v7.widget.CardView>
@@ -403,27 +390,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingTop="@dimen/spacing_normal"
-                android:visibility="gone">
+                android:visibility="gone"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingBottom="@dimen/padding_normal"
                         android:text="@string/readme_rule_4_1"
                         android:textColor="@android:color/black" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -443,16 +431,15 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingBottom="@dimen/padding_normal"
+                        android:paddingTop="@dimen/padding_normal"
                         android:text="@string/readme_rule_4_3"
                         android:textColor="@android:color/black" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -472,9 +459,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -494,7 +479,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingTop="@dimen/padding_normal"
                         android:text="@string/readme_rule_4_5"
                         android:textColor="@android:color/black" />
                 </LinearLayout>
@@ -504,27 +489,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingTop="@dimen/spacing_normal"
-                android:visibility="gone">
+                android:visibility="gone"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingBottom="@dimen/padding_normal"
                         android:text="@string/readme_rule_5_1"
                         android:textColor="@android:color/black" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -544,16 +530,15 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingBottom="@dimen/padding_normal"
+                        android:paddingTop="@dimen/padding_normal"
                         android:text="@string/readme_rule_5_3"
                         android:textColor="@android:color/black" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -573,7 +558,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingTop="@dimen/padding_normal"
                         android:text="@string/readme_rule_5_5"
                         android:textColor="@android:color/black" />
                 </LinearLayout>
@@ -583,27 +568,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingTop="@dimen/spacing_normal"
-                android:visibility="gone">
+                android:visibility="gone"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingBottom="@dimen/padding_normal"
                         android:text="@string/readme_rule_6_1"
                         android:textColor="@android:color/black" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -623,16 +609,15 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingBottom="@dimen/padding_normal"
+                        android:paddingTop="@dimen/padding_normal"
                         android:text="@string/readme_rule_6_3"
                         android:textColor="@android:color/black" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -652,7 +637,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingTop="@dimen/padding_normal"
                         android:text="@string/readme_rule_6_5"
                         android:textColor="@android:color/black" />
                 </LinearLayout>
@@ -662,27 +647,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingTop="@dimen/spacing_normal"
-                android:visibility="gone">
+                android:visibility="gone"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingBottom="@dimen/padding_normal"
                         android:text="@string/readme_rule_7_1"
                         android:textColor="@android:color/black" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -702,16 +688,15 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingBottom="@dimen/padding_normal"
+                        android:paddingTop="@dimen/padding_normal"
                         android:text="@string/readme_rule_7_3"
                         android:textColor="@android:color/black" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -731,7 +716,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingTop="@dimen/padding_normal"
                         android:text="@string/readme_rule_7_5"
                         android:textColor="@android:color/black" />
                 </LinearLayout>
@@ -741,27 +726,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingTop="@dimen/spacing_normal"
-                android:visibility="gone">
+                android:visibility="gone"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingBottom="@dimen/padding_normal"
                         android:text="@string/readme_slogan_1"
                         android:textColor="@android:color/black" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -781,9 +767,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -803,9 +787,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -825,16 +807,15 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingBottom="@dimen/padding_normal"
+                        android:paddingTop="@dimen/padding_normal"
                         android:text="@string/readme_slogan_5"
                         android:textColor="@android:color/black" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -854,9 +835,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -876,9 +855,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -898,16 +875,15 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_normal"
+                        android:paddingBottom="@dimen/padding_normal"
+                        android:paddingTop="@dimen/padding_normal"
                         android:text="@string/readme_slogan_9"
                         android:textColor="@android:color/black" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -927,9 +903,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -949,9 +923,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -971,9 +943,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -993,9 +963,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1015,9 +983,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1037,10 +1003,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/padding_normal"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/padding_normal"
-                        android:paddingStart="@dimen/padding_normal">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
