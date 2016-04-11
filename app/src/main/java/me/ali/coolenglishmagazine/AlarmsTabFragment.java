@@ -207,6 +207,16 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
         alarmIntent.cancel();
     }
 
+    /**
+     * starts all alarms
+     */
+    public static void startAllAlarms(Context context) {
+        ArrayList<AlarmsTabFragment.Alarm> alarms = AlarmsTabFragment.importAlarms(context);
+        for (AlarmsTabFragment.Alarm alarm : alarms) {
+            AlarmsTabFragment.turnOnAlarm(context, alarm);
+        }
+    }
+
     protected AlarmsRecyclerViewAdapter adapter = new AlarmsRecyclerViewAdapter();
 
     GestureDetectorCompat gestureDetector;

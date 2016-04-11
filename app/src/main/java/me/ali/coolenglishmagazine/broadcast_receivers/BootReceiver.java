@@ -14,11 +14,6 @@ public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
-            ArrayList<AlarmsTabFragment.Alarm> alarms = AlarmsTabFragment.importAlarms(context);
-            for (AlarmsTabFragment.Alarm alarm : alarms) {
-                AlarmsTabFragment.turnOnAlarm(context, alarm);
-            }
-        }
+        AlarmsTabFragment.startAllAlarms(context);
     }
 }

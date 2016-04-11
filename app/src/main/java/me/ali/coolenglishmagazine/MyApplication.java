@@ -14,5 +14,8 @@ public class MyApplication extends Application {
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
+
+        // restart alarms if they have not started
+        AlarmsTabFragment.startAllAlarms(this);
     }
 }
