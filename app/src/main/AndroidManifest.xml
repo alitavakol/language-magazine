@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
 
     <application
@@ -20,7 +21,8 @@
         <activity
             android:name=".ReadAndListenActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".ItemListActivity">
+            android:parentActivityName=".ItemListActivity"
+            android:theme="@style/ReadAndListenTheme.Default">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ItemListActivity" />

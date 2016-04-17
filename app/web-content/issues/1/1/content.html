@@ -39,9 +39,12 @@
 
 		<script type="text/javascript">
 			adjustCustomLayout = function(options) {
-				t = "(#" + backgroundColor + ", " + tinycolor(backgroundColor).setAlpha(0).toRgbString() + ", #" + backgroundColor + "), url('download.jpg')";
+				t = "(rgba(18,18,18,0.8), rgba(18,18,18,0), rgba(18,18,18,0.8)), url('download.jpg')";
+				horizontalMargin = (options['horizontalMargin'] || 0) / window.devicePixelRatio;
+
 				$('#local-rules').text("\
-					.poster { background-image: -webkit-linear-gradient" + t + "; background-image: linear-gradient" + t + "; height: " + height + "px; } "
+					.container { margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+					.poster { background-image: linear-gradient" + t + "; height: " + height + "px; } "
 				);
 			}
 
@@ -57,8 +60,8 @@
 				} else {
 					$('.transcript').removeClass('hidden');
 					$('.poster').addClass('hidden');
-					$('h1').eq(1).addClass('alt');
-					$('h3').eq(1).addClass('alt');
+					$('h1').addClass('alt');
+					$('h3').addClass('alt');
 				}
 
 				if(typeof(app) != 'undefined') {

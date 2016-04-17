@@ -18,7 +18,7 @@ body {
 	font-family: BoosterNextFY;
 	margin-left: 0;
 	margin-right: 0;
-	background-color: #000;
+	background-color: transparent;
 	margin: 0;
 	overflow: hidden;
 }
@@ -51,9 +51,6 @@ header {
 	display: none;
 }
 .container {
-	margin-left: 10px;
-	margin-right: 10px;
-	/*margin-top: 100px;*/
 	overflow-y: auto;
 }
 h1 {

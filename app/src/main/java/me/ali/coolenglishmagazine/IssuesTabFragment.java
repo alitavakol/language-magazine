@@ -2,6 +2,7 @@ package me.ali.coolenglishmagazine;
 
 import android.app.DownloadManager;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -186,6 +187,7 @@ public class IssuesTabFragment extends Fragment implements
         });
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin)));
     }
 
     /**
@@ -565,4 +567,19 @@ public class IssuesTabFragment extends Fragment implements
         adapter.preNotifyDataSetChanged(issue);
     }
 
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        public SpacesItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view,
+                                   RecyclerView parent, RecyclerView.State state) {
+            outRect.left = space / 2;
+            outRect.right = space / 2;
+            outRect.top = space;
+        }
+    }
 }

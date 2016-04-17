@@ -1,166 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_layout"
+    android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="me.ali.coolenglishmagazine.ReadAndListenActivity">
 
-    <ImageView
-        android:id="@+id/hourglass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
-
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true"
-        android:visibility="invisible" />
-
-    <ImageView
-        android:id="@+id/gradient_edge"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/gradient_edge_height"
-        android:layout_above="@+id/controllers"
-        android:src="@drawable/half_gradient"
-        android:visibility="gone" />
-
-    <ImageView
-        android:id="@+id/gradient_edge_up"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/gradient_edge_height"
-        android:layout_below="@+id/toolbar_actionbar"
-        android:src="@drawable/half_gradient_up"
-        android:visibility="gone" />
-
-    <LinearLayout
-        android:id="@+id/controllers"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:padding="@dimen/activity_horizontal_margin"
-        android:visibility="gone">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <RelativeLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_actionbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/transparent"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <TextView
-                android:id="@+id/startText"
-                android:layout_width="wrap_content"
+                android:id="@+id/toolbar_title"
+                style="@android:style/TextAppearance.Holo.Widget.ActionBar.Title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/text_view_margin"
+                android:ellipsize="end"
                 android:gravity="center_vertical"
-                android:maxLines="1"
-                android:text="0:00"
-                android:textColor="@android:color/white" />
+                android:singleLine="true"
+                android:textColor="@android:color/primary_text_dark"
+                tools:text="Toolbar Title" />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
-            <SeekBar
-                android:id="@+id/seekBar"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_toEndOf="@+id/startText"
-                android:layout_toStartOf="@+id/endText" />
-
-            <TextView
-                android:id="@+id/endText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignWithParentIfMissing="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/end_text_margin"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                tools:text="1:16"
-                android:textColor="@android:color/white" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/prev"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:contentDescription="@string/skip_prev"
-                android:src="@android:drawable/ic_media_rew" />
-
-            <ImageView
-                android:id="@+id/play"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:background="?android:attr/selectableItemBackground"
-                android:contentDescription="@string/play_pause"
-                android:src="@android:drawable/ic_media_play" />
-
-            <ImageView
-                android:id="@+id/pause"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:background="?android:attr/selectableItemBackground"
-                android:contentDescription="@string/play_pause"
-                android:src="@android:drawable/ic_media_pause"
-                android:visibility="gone" />
-
-            <ImageView
-                android:id="@+id/next"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:contentDescription="@string/skip_next"
-                android:src="@android:drawable/ic_media_ff" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/lock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/controllers"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/lock_bg"
-        android:padding="@dimen/gradient_edge_height"
-        android:visibility="invisible" />
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_actionbar"
+    <RelativeLayout
+        android:id="@+id/main_layout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentTop="true"
-        android:background="@android:color/transparent"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/toolbar_title"
-            style="@android:style/TextAppearance.Holo.Widget.ActionBar.Title"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/hourglass"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:ellipsize="end"
-            android:singleLine="true"
-            tools:text="Toolbar Title" />
-    </android.support.v7.widget.Toolbar>
+            android:layout_centerInParent="true" />
 
-</RelativeLayout>
+        <!-- http://stackoverflow.com/a/35234309 -->
+        <me.ali.coolenglishmagazine.util.NestedWebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:visibility="invisible" />
+
+        <include
+            android:id="@+id/controllers"
+            layout="@layout/media_controller" />
+
+        <ImageView
+            android:id="@+id/lock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/controllers"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@drawable/lock_bg"
+            android:padding="@dimen/activity_vertical_margin"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -130,8 +129,9 @@ public class ItemListFragment extends ListFragment {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
 
-        getListView().setDivider(null);
-        getListView().setDividerHeight(16);
+        final ListView listView = getListView();
+        listView.setDivider(null);
+        listView.setDividerHeight((int) getResources().getDimension(R.dimen.spacing_normal));
     }
 
     @Override
@@ -247,11 +247,17 @@ public class ItemListFragment extends ListFragment {
             final MagazineContent.Item item = magazineContent.ITEMS.get(position);
 
             View vi = convertView;
-            if (convertView == null)
+            if (convertView == null) {
                 vi = inflater.inflate(R.layout.item_list_row, null);
 
+                final int h = (int) getResources().getDimension(R.dimen.activity_horizontal_margin);
+                final int v = position != 0 ? 0 : (int) getResources().getDimension(R.dimen.activity_vertical_margin);
+                final int w = position != magazineContent.ITEMS.size() - 1 ? 0 : (int) getResources().getDimension(R.dimen.activity_vertical_margin);
+                vi.setPadding(h, v, h, w);
+            }
+
             int color = getResources().getIntArray(R.array.levelColors)[item.level];
-            int transparentColor = Color.argb(200, Color.red(color), Color.green(color), Color.blue(color));
+//            int transparentColor = Color.argb(200, Color.red(color), Color.green(color), Color.blue(color));
 //            int moreTransparentColor = Color.argb(100, Color.red(color), Color.green(color), Color.blue(color));
 //            int levelColor = getResources().getIntArray(R.array.levelColors)[item.level];
 
@@ -285,7 +291,7 @@ public class ItemListFragment extends ListFragment {
             final String level = getResources().getStringArray(R.array.levels)[item.level];
             textViewLevel.setText(level);
 //            textViewLevel.setTextColor(levelColor);
-            textViewLevel.setBackgroundColor(transparentColor);
+            textViewLevel.setBackgroundColor(color);
             textViewLevel.setTypeface(levelTypeface);
 
             final View overflowButton = vi.findViewById(R.id.overflowMenu);

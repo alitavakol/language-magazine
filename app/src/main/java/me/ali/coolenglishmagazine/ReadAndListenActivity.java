@@ -5,12 +5,16 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.ActionBar;
@@ -24,6 +28,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -33,6 +39,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
@@ -103,6 +110,9 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
     WebViewJavaScriptInterface webViewJavaScriptInterface = new WebViewJavaScriptInterface();
 
+    protected ViewGroup mediaControllerButtons;
+    private Animation slide_down, slide_up;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -114,20 +124,20 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             item = MagazineContent.getItem(new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
 
             // use appropriate accent color (and more theme styles) regarding the level of the item.
-            switch (item.level) {
-                case 0: // beginner
-                    setTheme(R.style.ReadAndListenTheme_BeginnerLevel);
-                    break;
-                case 1: // intermediate
-                    setTheme(R.style.ReadAndListenTheme_IntermediateLevel);
-                    break;
-                case 2: // upper-intermediate
-                    setTheme(R.style.ReadAndListenTheme_UpperIntermediateLevel);
-                    break;
-                case 3: // advanced
-                    setTheme(R.style.ReadAndListenTheme_AdvancedLevel);
-                    break;
-            }
+//            switch (item.level) {
+//                case 0: // beginner
+//            setTheme(R.style.ReadAndListenTheme_BeginnerLevel);
+//                    break;
+//                case 1: // intermediate
+//                    setTheme(R.style.ReadAndListenTheme_IntermediateLevel);
+//                    break;
+//                case 2: // upper-intermediate
+//                    setTheme(R.style.ReadAndListenTheme_UpperIntermediateLevel);
+//                    break;
+//                case 3: // advanced
+//                    setTheme(R.style.ReadAndListenTheme_AdvancedLevel);
+//                    break;
+//            }
 
         } catch (IOException e) {
             LogHelper.e(TAG, e.getMessage());
@@ -135,6 +145,13 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read_and_listen);
+
+        // get themed accent color
+//        TypedValue typedValue = new TypedValue();
+//        Resources.Theme theme = getTheme();
+//        theme.resolveAttribute(R.attr.colorAccent, typedValue, true);
+//        accentColor = typedValue.data;
+        accentColor = getResources().getIntArray(R.array.levelColors)[item.level];
 
         if (savedInstanceState != null) {
             transcriptLocked = savedInstanceState.getBoolean("transcriptLocked");
@@ -149,15 +166,39 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 WaitingItems.incrementHitCount(this, item);
         }
 
-        // TODO read http://javarticles.com/2015/09/android-toolbar-example.html to add toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            getWindow().setStatusBarColor(getResources().getIntArray(R.array.darkLevelColors)[item.level]);
+//        int transparentAccentColor = Color.argb(200, Color.red(accentColor), Color.green(accentColor), Color.blue(accentColor));
+        findViewById(R.id.app_bar).setBackgroundColor(accentColor);
+        mediaControllerButtons = (ViewGroup) findViewById(R.id.controllers);
+        mediaControllerButtons.getChildAt(0).setBackgroundColor(accentColor);
+
+        slide_up = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
+        slide_down = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
+        slide_down.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if(!useLockControls)
+                    mediaControllerButtons.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+
         // Get a support ActionBar corresponding to this toolbar
-        ActionBar ab = getSupportActionBar();
-        if (ab != null) {
-            ab.setDisplayShowTitleEnabled(false); // hide action bar title
-            ab.setDisplayHomeAsUpEnabled(true); // Enable the Up button
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false); // hide action bar title
+            actionBar.setDisplayHomeAsUpEnabled(true); // Enable the Up button
         }
 
         // set item type as action bar title
@@ -174,20 +215,16 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 int actionBarSize = a.getDimensionPixelSize(indexOfAttrActionBarSize, -1);
                 a.recycle();
 
-                // get themed accent color
-                TypedValue typedValue = new TypedValue();
-                Resources.Theme theme = getTheme();
-                theme.resolveAttribute(R.attr.colorAccent, typedValue, true);
-                int accentColor = typedValue.data;
-
                 final String command = "javascript:adjustLayout({"
                         + "topMargin: " + actionBarSize // HTML content top margin
-                        + ", bottomMargin: " + findViewById(R.id.controllers).getMeasuredHeight()
+                        + ", horizontalMargin: " + getResources().getDimension(R.dimen.activity_horizontal_margin)
+                        + ", bottomMargin: " + getResources().getDimension(R.dimen.activity_vertical_margin)
+                        + ", backgroundColor: " + ContextCompat.getColor(getApplicationContext(), android.R.color.background_light)
+                        + ", bottomPadding: " + mediaControllerButtons.getMeasuredHeight()
                         + ", height: " + webView.getMeasuredHeight() // poster height
                         + ", accentColor: " + accentColor // accent color
-                        + ", textColor: 0xc5c5c5" // text color
-                        + ", backgroundColor: " + ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary) // background color
-                        + ", newWordColor: 0xf8f8f8" // new word color
+                        + ", primaryColor: " + ContextCompat.getColor(getApplicationContext(), R.color.primary) // accent color
+                        + ", textColor: " + ContextCompat.getColor(getApplicationContext(), android.R.color.secondary_text_light) // text color
                         + "});";
                 webView.loadUrl(command);
                 if (webViewState != null)
@@ -206,7 +243,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         webView.addJavascriptInterface(webViewJavaScriptInterface, "app");
         webView.setVerticalScrollBarEnabled(false);
 
-        ((ImageView) findViewById(R.id.hourglass)).setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_hourglass_full).sizeDp(72).color(Color.LTGRAY));
+        ((ImageView) findViewById(R.id.hourglass)).setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_hourglass_full).sizeDp(72).color(accentColor));
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         startText = (TextView) findViewById(R.id.startText);
@@ -217,18 +254,28 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         startText.setTypeface(monospace);
         endText.setTypeface(monospace);
 
-        findViewById(R.id.play).setEnabled(false);
-        findViewById(R.id.pause).setEnabled(false);
-        findViewById(R.id.prev).setEnabled(false);
-        findViewById(R.id.next).setEnabled(false);
-        seekBar.setEnabled(false);
-        findViewById(R.id.controllers).setVisibility(item.audioFileName.length() > 0 ? View.VISIBLE : View.GONE);
+        final ImageView playButton = (ImageView) findViewById(R.id.play);
+        final ImageView pauseButton = (ImageView) findViewById(R.id.pause);
+        final ImageView prevButton = (ImageView) findViewById(R.id.prev);
+        final ImageView nextButton = (ImageView) findViewById(R.id.next);
 
-        findViewById(R.id.play).setOnClickListener(this);
-        findViewById(R.id.pause).setOnClickListener(this);
-        findViewById(R.id.prev).setOnClickListener(this);
-        findViewById(R.id.next).setOnClickListener(this);
+        prevButton.setEnabled(false);
+        playButton.setEnabled(false);
+        pauseButton.setEnabled(false);
+        nextButton.setEnabled(false);
+        seekBar.setEnabled(false);
+        mediaControllerButtons.setVisibility(item.audioFileName.length() > 0 ? View.VISIBLE : View.GONE);
+
+        playButton.setOnClickListener(this);
+        pauseButton.setOnClickListener(this);
+        prevButton.setOnClickListener(this);
+        nextButton.setOnClickListener(this);
         seekBar.setOnSeekBarChangeListener(this);
+
+        playButton.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_play_arrow).sizeDp(24).colorRes(android.R.color.primary_text_dark));
+        pauseButton.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_pause).sizeDp(24).colorRes(android.R.color.primary_text_dark));
+        prevButton.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_fast_rewind).sizeDp(24).colorRes(android.R.color.primary_text_dark));
+        nextButton.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_fast_forward).sizeDp(24).colorRes(android.R.color.primary_text_dark));
 
         ImageView lock = (ImageView) findViewById(R.id.lock);
         lock.setOnClickListener(this);
@@ -239,7 +286,17 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 return true;
             }
         });
-        lock.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_vpn_key).sizeDp(72).color(Color.LTGRAY));
+        lock.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_vpn_key).sizeDp(72).colorRes(android.R.color.primary_text_dark).alpha(200));
+
+        // change lock background color to accent color with transparency
+        int accentColorDark = getResources().getIntArray(R.array.darkLevelColors)[item.level];
+        LayerDrawable lockBg = (LayerDrawable) ContextCompat.getDrawable(this, R.drawable.lock_bg);
+        GradientDrawable lockFill = (GradientDrawable) lockBg.findDrawableByLayerId(R.id.lock_fill);
+        lockFill.setColor(accentColorDark);
+        GradientDrawable lockBorder = (GradientDrawable) lockBg.findDrawableByLayerId(R.id.lock_border);
+        lockBorder.setStroke((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics()), accentColorDark);
+        lockBg.setAlpha(200);
+        lock.setBackground(lockBg);
 
         try {
             File input = new File(item.rootDirectory, MagazineContent.Item.contentFileName);
@@ -258,14 +315,21 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    private MenuItem lockActionButton;
+    private MenuItem lockActionButton, unlockActionButton;
+    protected int accentColor;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.read_and_listen, menu);
         getMenuInflater().inflate(R.menu.common, menu);
+
         lockActionButton = menu.findItem(R.id.action_lock);
+        lockActionButton.setIcon(new IconicsDrawable(this, FontAwesome.Icon.faw_lock).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text));
+
+        unlockActionButton = menu.findItem(R.id.action_unlock);
+        unlockActionButton.setIcon(new IconicsDrawable(this, FontAwesome.Icon.faw_unlock).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text));
+
         return true;
     }
 
@@ -617,6 +681,24 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         transcriptLocked = lock;
         webViewJavaScriptInterface.showLockControls(useLockControls);
         webView.loadUrl("javascript:lock(" + transcriptLocked + ");");
+        resetToolbarScrollFlags();
+    }
+
+    protected void resetToolbarScrollFlags() {
+        // enable/disable toolbar hide on scroll
+        final boolean toolbarFixed = transcriptLocked && useLockControls;
+
+        AppBarLayout.LayoutParams layoutParams = (AppBarLayout.LayoutParams) findViewById(R.id.toolbar_actionbar).getLayoutParams();
+        layoutParams.setScrollFlags(toolbarFixed ? 0 : AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
+
+        // http://stackoverflow.com/questions/30554824/how-to-reset-the-toolbar-position-controlled-by-the-coordinatorlayout
+        final AppBarLayout appBar = (AppBarLayout) findViewById(R.id.app_bar);
+        appBar.setExpanded(true);
+        if (!toolbarFixed) {
+            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBar.getLayoutParams();
+            AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
+            behavior.onNestedFling((CoordinatorLayout) findViewById(R.id.coordinator_layout), appBar, null, 0, -1000, true);
+        }
     }
 
     /**
@@ -659,8 +741,28 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             runOnUiThread(new Runnable() {
                 public void run() {
                     findViewById(R.id.lock).setVisibility(useLockControls && transcriptLocked ? View.VISIBLE : View.INVISIBLE);
-                    if (lockActionButton != null)
+                    if (lockActionButton != null) {
                         lockActionButton.setVisible(useLockControls && !transcriptLocked);
+                        unlockActionButton.setVisible(useLockControls && transcriptLocked);
+                    }
+                    resetToolbarScrollFlags();
+                    if (item.audioFileName.length() > 0) {
+                        if (useLockControls) {
+                            if (mediaControllerButtons.getVisibility() == View.INVISIBLE) {
+                                mediaControllerButtons.startAnimation(slide_up);
+                                mediaControllerButtons.setVisibility(View.VISIBLE);
+                            }
+
+                        } else if (mediaControllerButtons.getVisibility() == View.VISIBLE) {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (!useLockControls && mediaControllerButtons.getVisibility() == View.VISIBLE)
+                                        mediaControllerButtons.startAnimation(slide_down);
+                                }
+                            }, 2000);
+                        }
+                    }
                 }
             });
         }

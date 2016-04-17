@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +15,7 @@ import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -62,6 +62,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
     ImageButton buttonCancel;
     Button buttonDownload, buttonOpen, buttonDelete;
     ProgressBar progressBar;
+    ViewGroup progressContainer, buttonContainer;
     private ObservableScrollView mScrollView;
     private View mPhotoViewContainer;
     private LinearLayout mHeaderSession;
@@ -87,6 +88,8 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         buttonOpen = (Button) findViewById(R.id.buttonOpen);
         buttonDelete = (Button) findViewById(R.id.buttonDelete);
         progressBar = (ProgressBar) findViewById(R.id.progress);
+        buttonContainer = (ViewGroup) findViewById(R.id.button_container);
+        progressContainer = (ViewGroup) findViewById(R.id.progress_container);
 
         try {
             issue = Magazines.getIssue(this, new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
@@ -95,8 +98,8 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             e.printStackTrace();
         }
 
-        ((TextView)findViewById(R.id.session_title)).setText(issue.description);
-        ((TextView)findViewById(R.id.session_subtitle)).setText(issue.subtitle);
+        ((TextView) findViewById(R.id.session_title)).setText(issue.description);
+        ((TextView) findViewById(R.id.session_subtitle)).setText(issue.subtitle);
 
         buttonOpen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +132,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
                 updateFab();
             }
         });
+        buttonCancel.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_clear).sizeRes(R.dimen.tw__login_btn_text_size).colorRes(R.color.accent));
 
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,8 +175,6 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         mPhotoViewContainer = findViewById(R.id.session_photo_container);
         mHeaderSession = (LinearLayout) findViewById(R.id.header_session);
         issueDetailsContainer = (FrameLayout) findViewById(R.id.issue_detail_container);
-
-        ((ImageView) findViewById(R.id.hourglass)).setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_hourglass_full).sizeDp(72).color(Color.LTGRAY));
 
         mScrollView.addCallbacks(this);
         setOnScrollViewLayoutChangedListener();
@@ -305,36 +307,30 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         switch (status) {
             case DownloadManager.STATUS_PENDING:
             case DownloadManager.STATUS_PAUSED:
-                buttonDownload.setVisibility(View.GONE);
-                buttonOpen.setVisibility(View.GONE);
+                buttonContainer.setVisibility(View.INVISIBLE);
+                progressContainer.setVisibility(View.VISIBLE);
                 buttonCancel.setVisibility(View.VISIBLE);
-                buttonDelete.setVisibility(View.GONE);
-                progressBar.setVisibility(View.VISIBLE);
                 progressBar.setIndeterminate(true);
                 break;
 
             case DownloadManager.STATUS_RUNNING:
-                buttonDownload.setVisibility(View.GONE);
-                buttonOpen.setVisibility(View.GONE);
+                buttonContainer.setVisibility(View.INVISIBLE);
+                progressContainer.setVisibility(View.VISIBLE);
                 buttonCancel.setVisibility(View.VISIBLE);
-                buttonDelete.setVisibility(View.GONE);
-                progressBar.setVisibility(View.VISIBLE);
                 progressBar.setIndeterminate(false);
                 progressBar.setProgress(dl_progress);
                 break;
 
             case -3: // the issue is being extracted
-                buttonDownload.setVisibility(View.GONE);
-                buttonOpen.setVisibility(View.GONE);
+                buttonContainer.setVisibility(View.INVISIBLE);
+                progressContainer.setVisibility(View.VISIBLE);
                 buttonCancel.setVisibility(View.GONE);
-                buttonDelete.setVisibility(View.GONE);
-                progressBar.setVisibility(View.VISIBLE);
                 progressBar.setIndeterminate(true);
                 break;
 
             default:
-                buttonCancel.setVisibility(View.GONE);
-                progressBar.setVisibility(View.GONE);
+                buttonContainer.setVisibility(View.VISIBLE);
+                progressContainer.setVisibility(View.INVISIBLE);
 
                 if (new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists()) {
                     buttonDownload.setVisibility(View.GONE);
@@ -400,6 +396,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
 
             issueDetailsContainer.setTranslationY(headerTranslation + headerHeight);
 
+            mScrollView.fullScroll(View.FOCUS_UP);
             onScrollChanged(0, 0);
 
             mScrollView.getViewTreeObserver().removeGlobalOnLayoutListener(mGlobalLayoutListener);

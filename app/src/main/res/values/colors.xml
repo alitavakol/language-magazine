@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#212121</color>
-    <color name="colorPrimaryDark">#000</color>
-    <color name="colorPrimaryLight">#323232</color>
-    <color name="colorAccent">#009688</color>
-    <color name="colorAccentOpposite">#002100</color>
-    <color name="colorAccentTransparent">#dd009688</color>
+    <color name="colorPrimary">#FF9800</color>
+    <color name="colorPrimaryDark">#F57C00</color>
+    <color name="colorPrimaryLight">#FFE0B2</color>
+    <color name="colorAccent">#282828</color>
+    <color name="colorAccentOpposite">#F5F5F5</color>
+    <color name="colorAccentTransparent">#dd282828</color>
 
-    <color name="beginnerLevelColor">#009EE0</color>
-    <color name="intermediateLevelColor">#46A32A</color>
-    <color name="upperIntermediateLevelColor">#FAB900</color>
-    <color name="advancedLevelColor">#CD071E</color>
+    <color name="beginnerLevelColor">#03A9F4</color>
+    <color name="beginnerLevelColorDark">#0288D1</color>
+    <color name="intermediateLevelColor">#8BC34A</color>
+    <color name="intermediateLevelColorDark">#689F38</color>
+    <color name="upperIntermediateLevelColor">#f44336</color>
+    <color name="upperIntermediateLevelColorDark">#d32f2f</color>
+    <color name="advancedLevelColor">#607D8B</color>
+    <color name="advancedLevelColorDark">#455A64</color>
 
     <array name="levelColors">
         <item>@color/beginnerLevelColor</item>
         <item>@color/intermediateLevelColor</item>
         <item>@color/upperIntermediateLevelColor</item>
         <item>@color/advancedLevelColor</item>
+    </array>
+
+    <array name="darkLevelColors">
+        <item>@color/beginnerLevelColorDark</item>
+        <item>@color/intermediateLevelColorDark</item>
+        <item>@color/upperIntermediateLevelColorDark</item>
+        <item>@color/advancedLevelColorDark</item>
     </array>
 
     <!-- https://github.com/mikepenz/MaterialDrawer -->

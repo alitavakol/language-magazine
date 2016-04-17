@@ -73,7 +73,7 @@
 		<div id='swipeable' style='margin:0 auto;' class='swipe'>
 			<div class='swipe-wrap'>
 				<div>
-					<div id="pre-reading" class="container">
+					<div id="pre-reading" class="container full-height">
 						<div id="label-container">
 							<h4>Match each form of transport with its corresponding picture. Drag names and drop them into correct pictures.</h4>
 							<ul style="padding: 10px; text-align: center;" />
@@ -150,13 +150,16 @@
 			$(".draggable").mousedown(function(e){ e.stopPropagation();return false;});
 
 			adjustCustomLayout = function(options) {
-				t = "(#" + backgroundColor + ", " + tinycolor(backgroundColor).setAlpha(0).toRgbString() + ", #" + backgroundColor + "), url('angry-doctor.jpg')";
+				t = "(rgba(18,18,18,0.8), rgba(18,18,18,0), rgba(18,18,18,0.8)), url('angry-doctor.jpg')";
+				horizontalMargin = (options['horizontalMargin'] || 0) / window.devicePixelRatio;
+
 				$('#local-rules').text("\
-					#label-container { background-color: #" + backgroundColor + "; } \
+					.container { margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
 					.label { background-color: #" + accentColor + "; } \
 					.figcaption { color: #" + newWordColor + "; } \
 					.brick { border: solid 1px #" + textColor + "; } \
-					.poster { background-image: -webkit-linear-gradient" + t + "; background-image: linear-gradient" + t + "; height: " + height + "px; } "
+					.poster { background-image: linear-gradient" + t + "; height: " + height + "px; } \
+					.full-height { padding-bottom: 0; height: " + (height-topMargin-bottomMargin-viewPagerHeight) + "px; }"
 				);
 			}
 
@@ -172,8 +175,8 @@
 				} else {
 					$('.transcript').removeClass('hidden');
 					$('.poster').addClass('hidden');
-					$('h1').eq(1).addClass('alt');
-					$('h3').eq(1).addClass('alt');
+					$('h1').addClass('alt');
+					$('h3').addClass('alt');
 				}
 
 				if(typeof(app) != 'undefined') {

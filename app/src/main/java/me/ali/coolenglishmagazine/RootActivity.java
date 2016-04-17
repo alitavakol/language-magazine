@@ -84,12 +84,13 @@ public class RootActivity extends AppCompatActivity implements
         View headerView = inflater.inflate(R.layout.drawer_header, null);
         ((TextView) headerView).setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.BOOSTER_BOLD));
 
-        final PrimaryDrawerItem galleryOfIssues = new PrimaryDrawerItem().withName(R.string.gallery_of_issues).withIcon(GoogleMaterial.Icon.gmd_playlist_play);
-        final PrimaryDrawerItem englishTimes = new PrimaryDrawerItem().withName(R.string.cool_english_times).withIcon(GoogleMaterial.Icon.gmd_alarm);
-        final PrimaryDrawerItem readme = new PrimaryDrawerItem().withName(R.string.readme).withIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied);
-        final PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info_outline);
+        final PrimaryDrawerItem galleryOfIssues = new PrimaryDrawerItem().withName(R.string.gallery_of_issues).withIcon(GoogleMaterial.Icon.gmd_playlist_play).withSelectedColorRes(R.color.primary);
+        final PrimaryDrawerItem englishTimes = new PrimaryDrawerItem().withName(R.string.cool_english_times).withIcon(GoogleMaterial.Icon.gmd_alarm).withSelectedColorRes(R.color.primary);
+        final PrimaryDrawerItem readme = new PrimaryDrawerItem().withName(R.string.readme).withIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied).withSelectedColorRes(R.color.primary);
+        final PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info_outline).withSelectedColorRes(R.color.primary);
 
-        drawer = new DrawerBuilder().withHeaderDivider(false).withActivity(this).withHeader(headerView).addDrawerItems(
+        drawer = new DrawerBuilder().withSliderBackgroundColorRes(R.color.accent)
+                .withHeaderDivider(false).withActivity(this).withHeader(headerView).addDrawerItems(
                 galleryOfIssues,
                 englishTimes,
                 readme,

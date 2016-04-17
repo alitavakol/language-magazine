@@ -1,17 +1,23 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">#212121</item>
+        <item name="android:textColorSecondary">#323232</item>
+        <!--<item name="android:windowBackground">@color/colorPrimary</item>-->
         <!--<item name="android:typeface">monospace</item>-->
         <item name="windowActionModeOverlay">true</item>
         <item name="android:textViewStyle">@style/AppTheme.Widget.TextView</item>
+        <item name="colorButtonNormal">@color/accent</item>
     </style>
 
+    <style name="ReadAndListenTheme.Default" parent="AppTheme">
+        <item name="colorAccent">@android:color/primary_text_dark</item>
+    </style>
     <style name="ReadAndListenTheme.BeginnerLevel" parent="AppTheme">
         <item name="colorAccent">@color/beginnerLevelColor</item>
     </style>

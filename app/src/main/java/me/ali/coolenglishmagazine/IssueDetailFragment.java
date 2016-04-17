@@ -1,6 +1,7 @@
 package me.ali.coolenglishmagazine;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -10,6 +11,10 @@ import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,7 +56,6 @@ public class IssueDetailFragment extends Fragment {
                 issue = Magazines.getIssue(getActivity(), new File(getArguments().getString(IssueDetailActivity.ARG_ROOT_DIRECTORY)));
 
             } catch (IOException e) {
-                // TODO: handle error
                 e.printStackTrace();
             }
         }
@@ -76,6 +80,8 @@ public class IssueDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_issue_detail, container, false);
 
+        ((ImageView) rootView.findViewById(R.id.hourglass)).setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_hourglass_full).sizeDp(72).colorRes(R.color.accent));
+
         if (issue != null) {
             final WebView webView = (WebView) rootView.findViewById(R.id.webView);
             webView.setWebViewClient(new WebViewClient() {
@@ -83,17 +89,17 @@ public class IssueDetailFragment extends Fragment {
                     if (isAttached) { // when activity is finished/finishing, becomes null
                         final String command = "javascript:adjustLayout({"
                                 + "accentColor: " + ContextCompat.getColor(getActivity(), R.color.colorAccent) // accent color
-                                + ", textColor: 0xc5c5c5" // text color
-                                + ", backgroundColor: " + ContextCompat.getColor(getActivity(), R.color.colorPrimary) // background color
+                                + ", textColor: " + ContextCompat.getColor(getActivity(), android.R.color.primary_text_light) // text color
                                 + ", newWordColor: 0xf8f8f8" // new word color
                                 + "});";
                         webView.loadUrl(command);
-//                    webView.loadUrl("javascript:restoreInstanceState(" + new JSONArray(Arrays.asList(webViewState)) + ");");
+//                      webView.loadUrl("javascript:restoreInstanceState(" + new JSONArray(Arrays.asList(webViewState)) + ");");
                         webView.loadUrl("javascript:app.onAdjustLayoutComplete();");
                     }
                 }
             });
             webView.getSettings().setJavaScriptEnabled(true);
+            webView.setBackgroundColor(Color.TRANSPARENT);
             webView.addJavascriptInterface(new WebViewJavaScriptInterface(), "app");
 
             final File input = new File(issue.rootDirectory, Magazines.Issue.contentFileName);
@@ -113,10 +119,13 @@ public class IssueDetailFragment extends Fragment {
         public void onAdjustLayoutComplete() {
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
-                    if(isAttached) {
+                    if (isAttached) {
                         ((IssueDetailActivity) getActivity()).setOnScrollViewLayoutChangedListener();
-                        getActivity().findViewById(R.id.hourglass).setVisibility(View.GONE);
-                        getView().setVisibility(View.VISIBLE);
+                        final View view = getView();
+                        if (view != null) {
+                            view.findViewById(R.id.hourglass).setVisibility(View.GONE);
+                            view.findViewById(R.id.webView).setVisibility(View.VISIBLE);
+                        }
                     }
                 }
             });

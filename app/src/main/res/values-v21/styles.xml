@@ -2,6 +2,7 @@
 
     <style name="AppTheme.FitScreen" parent="AppTheme">
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:colorButtonNormal">@color/accent</item>
     </style>
 
 </resources>

@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher" />
+                tools:src="@mipmap/ic_launcher" />
         </FrameLayout>
 
         <FrameLayout
@@ -42,8 +42,8 @@
             android:background="@color/colorPrimary"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/keyline_1">
+            android:elevation="4dp"
+            android:orientation="vertical">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_actionbar"
@@ -63,8 +63,8 @@
                 android:layout_marginStart="@dimen/keyline_2_session_detail"
                 android:ellipsize="end"
                 android:maxLines="4"
-                tools:text="You want me to measure what!?"
-                android:textAlignment="viewStart" />
+                android:textAlignment="viewStart"
+                tools:text="You want me to measure what!?" />
 
             <TextView
                 android:id="@+id/session_subtitle"
@@ -75,75 +75,89 @@
                 android:layout_marginStart="@dimen/keyline_2_session_detail"
                 android:ellipsize="end"
                 android:maxLines="2"
-                tools:text="Test Session Subtitle"
-                android:textAlignment="viewStart" />
+                android:textAlignment="viewStart"
+                tools:text="Test Session Subtitle" />
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="end"
-                android:orientation="horizontal"
-                android:padding="@dimen/activity_horizontal_margin">
+                android:paddingEnd="@dimen/activity_horizontal_margin"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin">
 
-                <Button
-                    android:id="@+id/buttonDownload"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/button_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/buttonDownload"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:minHeight="0dp"
+                        android:text="@string/download"
+                        android:textColor="@color/colorPrimaryLight" />
+
+                    <Button
+                        android:id="@+id/buttonOpen"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:minHeight="0dp"
+                        android:text="@string/open"
+                        android:textColor="@color/colorPrimaryLight" />
+
+                    <Button
+                        android:id="@+id/buttonDelete"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:minHeight="0dp"
+                        android:text="@string/delete"
+                        android:textColor="@color/colorPrimaryLight" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/progress_container"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:minHeight="0dp"
-                    android:text="@string/download" />
+                    android:orientation="horizontal">
 
-                <ProgressBar
-                    android:id="@+id/progress"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="@dimen/activity_horizontal_margin"
-                    android:layout_weight="1"
-                    android:indeterminate="true"
-                    android:indeterminateBehavior="repeat"
-                    android:max="100" />
+                    <ProgressBar
+                        android:id="@+id/progress"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:layout_weight="1"
+                        android:indeterminate="true"
+                        android:indeterminateBehavior="repeat"
+                        android:max="100" />
 
-                <ImageButton
-                    android:id="@+id/buttonCancel"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@android:color/transparent"
-                    android:minHeight="0dp"
-                    android:minWidth="0dp"
-                    android:src="@android:drawable/ic_menu_close_clear_cancel" />
+                    <ImageButton
+                        android:id="@+id/buttonCancel"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/activity_horizontal_margin"
+                        android:background="@android:color/transparent"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        tools:src="@android:drawable/ic_menu_close_clear_cancel" />
 
-                <Button
-                    android:id="@+id/buttonOpen"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:minHeight="0dp"
-                    android:text="@string/open" />
-
-                <Button
-                    android:id="@+id/buttonDelete"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:minHeight="0dp"
-                    android:text="@string/delete" />
-
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/hourglass"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:padding="@dimen/keyline_2" />
-
+                </LinearLayout>
+            </FrameLayout>
         </LinearLayout>
 
     </FrameLayout>
