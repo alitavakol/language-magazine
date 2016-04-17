@@ -7,7 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -149,6 +149,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
     }
 
     RecyclerView recyclerView;
+    int nColumns;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -157,6 +158,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
         View v = inflater.inflate(R.layout.fragment_alarms_list, container, false);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.alarm_list);
+        nColumns = getResources().getInteger(R.integer.alarm_column_count);
         setupRecyclerView(recyclerView);
 
         // alarms was imported in onCreate()
@@ -224,8 +226,9 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(adapter);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), nColumns));
         recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new SpacesItemDecoration());
 
         recyclerView.addOnItemTouchListener(this);
         gestureDetector = new GestureDetectorCompat(getActivity(), new RecyclerViewOnGestureListener());
@@ -347,7 +350,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
                 analogClock = (MyAnalogClock) view.findViewById(R.id.clock);
 
                 checkMarkImageView = (ImageView) view.findViewById(R.id.check_mark);
-                checkMarkImageView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_check).sizeDp(20).color(Color.LTGRAY));
+                checkMarkImageView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_check).sizeDp(20).colorRes(R.color.accent));
 
                 analogClock.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -481,4 +484,23 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
     public void onRequestDisallowInterceptTouchEvent(boolean b) {
     }
 
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int spacing;
+        private  int hMargin, vMargin;
+
+        public SpacesItemDecoration() {
+            hMargin = (int) getResources().getDimension(R.dimen.activity_horizontal_margin);
+            vMargin = (int) getResources().getDimension(R.dimen.activity_vertical_margin);
+            spacing = (int) getResources().getDimension(R.dimen.spacing_normal);
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view,
+                                   RecyclerView parent, RecyclerView.State state) {
+            int idx = recyclerView.getChildAdapterPosition(view);
+            outRect.right = ((idx % nColumns) != nColumns - 1) ? hMargin / 2 : hMargin;
+            outRect.left = idx % nColumns == 0 ? hMargin : hMargin / 2;
+            outRect.top = idx < nColumns ? vMargin : spacing;
+        }
+    }
 }

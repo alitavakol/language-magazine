@@ -7,6 +7,5 @@
         android:id="@+id/alarm_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark"
         tools:listitem="@layout/alarm_list_row" />
 </FrameLayout>

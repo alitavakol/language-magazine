@@ -26,10 +26,12 @@
     <dimen name="about_horizontal_margin">24dp</dimen>
 
     <!-- Read Me fragment -->
-    <dimen name="welcome_appbar_height">224dp</dimen> <!-- 4 * ?actionBarSize -->
+    <dimen name="welcome_appbar_height">224dp</dimen>
+    <!-- 4 * ?actionBarSize -->
     <dimen name="welcome_image_width">200dp</dimen>
     <dimen name="welcome_image_height">80dp</dimen>
-    <dimen name="welcome_content_padding_top">168dp</dimen> <!-- 3 * ?actionBarSize -->
+    <dimen name="welcome_content_padding_top">168dp</dimen>
+    <!-- 3 * ?actionBarSize -->
     <dimen name="welcome_content_padding">@dimen/padding_normal</dimen>
     <dimen name="welcome_button_bar_elevation">6dp</dimen>
     <dimen name="welcome_title_size">20sp</dimen>
@@ -37,6 +39,9 @@
     <!-- standard metrics -->
     <dimen name="spacing_normal">8dp</dimen>
     <!--<dimen name="padding_normal">16dp</dimen>-->
+
+    <integer name="alarm_column_count">2</integer>
+    <integer name="issues_column_count">2</integer>
 
     <item name="welcome_content_width" format="integer" type="dimen">-1</item>
 

@@ -1,69 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:selectableItemBackground">
+    app:cardBackgroundColor="@android:color/primary_text_dark"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true">
 
-    <FrameLayout
-        android:id="@+id/marker_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true">
-
-        <ImageView
-            android:id="@+id/handle"
-            android:layout_width="?listPreferredItemHeight"
-            android:layout_height="match_parent"
-            android:scaleType="center" />
-
-        <ImageView
-            android:id="@+id/check_mark"
-            android:layout_width="?listPreferredItemHeight"
-            android:layout_height="match_parent"
-            android:scaleType="center"
-            android:visibility="invisible" />
-    </FrameLayout>
-
-    <ImageView
-        android:id="@+id/poster"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:maxHeight="64dp"
-        android:maxWidth="64dp"
-        android:scaleType="centerCrop"
-        tools:src="@mipmap/ic_launcher" />
-
-    <LinearLayout
-        android:id="@+id/title_container"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_margin="@dimen/padding_normal"
-        android:layout_toEndOf="@id/poster"
-        android:layout_toStartOf="@+id/marker_container"
-        android:orientation="vertical">
+        android:padding="@dimen/padding_normal"
+        android:paddingEnd="0dp">
 
-        <TextView
-            android:id="@+id/title"
-            style="@style/Base.TextAppearance.AppCompat.Large"
+        <FrameLayout
+            android:id="@+id/marker_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/handle"
+                android:layout_width="?listPreferredItemHeight"
+                android:layout_height="match_parent"
+                android:scaleType="center" />
+
+            <ImageView
+                android:id="@+id/check_mark"
+                android:layout_width="?listPreferredItemHeight"
+                android:layout_height="match_parent"
+                android:scaleType="center"
+                android:visibility="invisible" />
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/poster"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:maxHeight="64dp"
+            android:maxWidth="64dp"
+            android:scaleType="centerCrop"
+            tools:src="@mipmap/ic_launcher" />
+
+        <LinearLayout
+            android:id="@+id/title_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            tools:text="Item Title" />
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/poster"
+            android:layout_toStartOf="@+id/marker_container"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_normal">
 
-        <TextView
-            android:id="@+id/hit_count"
-            style="@style/Base.TextAppearance.AppCompat.Small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            tools:text="hit count" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/title"
+                style="@style/Base.TextAppearance.AppCompat.Large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/primary"
+                tools:text="Item Title" />
 
-</RelativeLayout>
+            <TextView
+                android:id="@+id/hit_count"
+                style="@style/Base.TextAppearance.AppCompat.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/accent"
+                tools:text="hit count" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

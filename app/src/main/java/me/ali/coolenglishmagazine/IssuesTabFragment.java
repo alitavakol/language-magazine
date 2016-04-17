@@ -132,6 +132,7 @@ public class IssuesTabFragment extends Fragment implements
         swipeContainer.setEnabled(filter == AVAILABLE_ISSUES);
 
         final View recyclerView = v.findViewById(R.id.issue_list);
+        nColumns = getResources().getInteger(R.integer.issues_column_count);
         setupRecyclerView((RecyclerView) recyclerView);
 
         return v;
@@ -174,11 +175,12 @@ public class IssuesTabFragment extends Fragment implements
     }
 
     protected IssuesRecyclerViewAdapter adapter = new IssuesRecyclerViewAdapter();
+    int nColumns;
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(adapter);
 
-        GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
+        GridLayoutManager manager = new GridLayoutManager(getContext(), nColumns);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {

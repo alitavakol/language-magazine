@@ -2,7 +2,7 @@ package me.ali.coolenglishmagazine;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -117,6 +117,7 @@ public class WaitingListFragment extends Fragment implements
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new SpacesItemDecoration());
 
         ItemTouchHelper.Callback callback = new WaitingItemTouchHelper();
         itemTouchHelper = new ItemTouchHelper(callback);
@@ -197,7 +198,7 @@ public class WaitingListFragment extends Fragment implements
                 hitCountTextView = (TextView) view.findViewById(R.id.hit_count);
 
                 handleView = (ImageView) view.findViewById(R.id.handle);
-                handleView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_reorder).sizeDp(20).color(Color.LTGRAY));
+                handleView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_reorder).sizeDp(20).colorRes(R.color.accent));
                 handleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -206,7 +207,7 @@ public class WaitingListFragment extends Fragment implements
                 });
 
                 checkMarkImageView = (ImageView) view.findViewById(R.id.check_mark);
-                checkMarkImageView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_check).sizeDp(20).color(Color.LTGRAY));
+                checkMarkImageView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_check).sizeDp(20).colorRes(R.color.accent));
 
                 view.findViewById(R.id.title_container).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -382,5 +383,25 @@ public class WaitingListFragment extends Fragment implements
     @Override
     public void onWaitingItemRemoved(WaitingItems.WaitingItem waitingItem) {
         adapter.notifyItemRemoved(WaitingItems.waitingItems.indexOf(waitingItem));
+    }
+
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int hMargin, vSpacing, vMargin;
+
+        public SpacesItemDecoration() {
+            hMargin = (int) getResources().getDimension(R.dimen.activity_horizontal_margin);
+            vSpacing = (int) getResources().getDimension(R.dimen.spacing_normal);
+            vMargin = (int) getResources().getDimension(R.dimen.activity_vertical_margin);
+
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view,
+                                   RecyclerView parent, RecyclerView.State state) {
+            outRect.left = hMargin;
+            outRect.right = hMargin;
+            outRect.top = recyclerView.getChildAdapterPosition(view) == 0 ? vMargin : 0;
+            outRect.bottom = vSpacing;
+        }
     }
 }

@@ -129,6 +129,7 @@ public class GalleryOfIssuesFragment extends Fragment {
         if (requestQueue != null) {
             requestQueue.cancelAll(this);
             requestQueue = null;
+            syncing = false;
         }
     }
 
