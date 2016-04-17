@@ -32,9 +32,9 @@ public class AppInfoFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_app_info, container, false);
 
-        TextView titleTextView = (TextView) view.findViewById(R.id.title);
-        titleTextView.setTypeface(FontManager.getTypeface(context, FontManager.FOFER));
-        titleTextView.setTextColor(ContextCompat.getColor(context, R.color.accent));
+//        TextView titleTextView = (TextView) view.findViewById(R.id.title);
+//        titleTextView.setTypeface(FontManager.getTypeface(context, FontManager.FOFER));
+//        titleTextView.setTextColor(ContextCompat.getColor(context, R.color.accent));
 
         final ImageView logoImageView = (ImageView) view.findViewById(R.id.logo);
         logoImageView.setImageDrawable(getResources().getDrawableForDensity(R.mipmap.ic_launcher, DisplayMetrics.DENSITY_XXXHIGH));

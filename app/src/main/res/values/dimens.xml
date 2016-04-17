@@ -30,6 +30,7 @@
     <!-- 4 * ?actionBarSize -->
     <dimen name="welcome_image_width">200dp</dimen>
     <dimen name="welcome_image_height">80dp</dimen>
+    <dimen name="welcome_image_padding">48dp</dimen>
     <dimen name="welcome_content_padding_top">168dp</dimen>
     <!-- 3 * ?actionBarSize -->
     <dimen name="welcome_content_padding">@dimen/padding_normal</dimen>

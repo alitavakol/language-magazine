@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="me.ali.coolenglishmagazine.RootActivity">
+    tools:context="me.ali.coolenglishmagazine.ReadmeFragment">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/welcome_appbar_height"
+        android:layout_height="wrap_content"
         android:background="?colorAccent"
-        android:paddingBottom="?actionBarSize">
+        android:paddingBottom="?actionBarSize"
+        android:paddingTop="?actionBarSize">
 
         <ImageView
             android:id="@+id/logo"
@@ -1045,7 +1046,7 @@
                 android:layout_height="match_parent"
                 android:text="@string/previous"
                 android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                android:textColor="@color/md_black_1000" />
+                android:textColor="@color/primary_dark" />
 
             <Button
                 android:id="@+id/button_next"
@@ -1054,29 +1055,35 @@
                 android:layout_height="match_parent"
                 android:text="@string/next"
                 android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@color/primary_dark" />
 
         </LinearLayout>
 
     </FrameLayout>
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_actionbar"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_scrollFlags="scroll|enterAlways"
-        app:popupTheme="@style/AppTheme.PopupOverlay">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <TextView
-            android:id="@+id/toolbar_title"
-            style="@android:style/TextAppearance.Holo.Widget.ActionBar.Title"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_actionbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:foregroundGravity="center_vertical"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            tools:text="Toolbar Title" />
-    </android.support.v7.widget.Toolbar>
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                style="@android:style/TextAppearance.Holo.Widget.ActionBar.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:foregroundGravity="center_vertical"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                tools:text="Toolbar Title" />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
 </android.support.design.widget.CoordinatorLayout>

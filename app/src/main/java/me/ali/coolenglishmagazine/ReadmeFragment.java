@@ -1,9 +1,11 @@
 package me.ali.coolenglishmagazine;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.widget.ObservableScrollView;
@@ -68,6 +71,8 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
     protected int currentCardIndex = 0;
     protected int cardCount;
 
+    private TextView buttonPrevious, buttonNext;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -77,13 +82,14 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
         mListener.onToolbarCreated(toolbar, R.string.readme);
 
         mScrollView = (ObservableScrollView) view.findViewById(R.id.scroll_view);
-        mScrollView.addCallbacks(this);
+//        mScrollView.addCallbacks(this);
 
         final FrameLayout cardContainer = (FrameLayout) view.findViewById(R.id.card_container);
         cardCount = cardContainer.getChildCount();
 
-        final View buttonPrevious = view.findViewById(R.id.button_previous);
-        final View buttonNext = view.findViewById(R.id.button_next);
+        buttonPrevious = (TextView) view.findViewById(R.id.button_previous);
+        buttonNext = (TextView) view.findViewById(R.id.button_next);
+
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,11 +101,11 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
                         cardContainer.getChildAt(currentCardIndex).setVisibility(View.VISIBLE);
                     }
                 }, 200);
-                buttonPrevious.setEnabled(currentCardIndex > 0);
-                buttonNext.setEnabled(currentCardIndex < cardCount - 1);
+                updateButtons();
                 mScrollView.fullScroll(View.FOCUS_UP);
             }
         });
+
         buttonPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,17 +117,33 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
                         cardContainer.getChildAt(currentCardIndex).setVisibility(View.VISIBLE);
                     }
                 }, 200);
-                buttonPrevious.setEnabled(currentCardIndex > 0);
-                buttonNext.setEnabled(currentCardIndex < cardCount - 1);
+                updateButtons();
                 mScrollView.fullScroll(View.FOCUS_UP);
             }
         });
 
         cardContainer.getChildAt(currentCardIndex).setVisibility(View.VISIBLE);
-        buttonPrevious.setEnabled(currentCardIndex > 0);
-        buttonNext.setEnabled(currentCardIndex < cardCount - 1);
+        updateButtons();
 
         return view;
+    }
+
+    private void updateButtons() {
+        if (currentCardIndex > 0) {
+            buttonPrevious.setClickable(true);
+            buttonPrevious.setTextColor(ContextCompat.getColor(getContext(), R.color.primary_dark));
+        } else {
+            buttonPrevious.setClickable(false);
+            buttonPrevious.setTextColor(Color.GRAY);
+        }
+
+        if (currentCardIndex < cardCount - 1) {
+            buttonNext.setClickable(true);
+            buttonNext.setTextColor(ContextCompat.getColor(getContext(), R.color.primary_dark));
+        } else {
+            buttonNext.setClickable(false);
+            buttonNext.setTextColor(Color.GRAY);
+        }
     }
 
     @Override

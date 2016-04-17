@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">Cool English Magazine</string>
-    <string name="app_name_styled">COOL ENGLISH MAGAZINE</string>
+    <string name="app_name">Hot English Magazine</string>
 
     <string name="gallery_of_issues">Gallery of Issues</string>
     <string name="cool_english_times">Cool English Times</string>
