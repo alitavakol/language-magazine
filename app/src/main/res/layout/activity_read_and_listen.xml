@@ -23,7 +23,7 @@
 
             <TextView
                 android:id="@+id/toolbar_title"
-                style="@android:style/TextAppearance.Holo.Widget.ActionBar.Title"
+                android:textAppearance="@style/AppTheme.Widget.TextView.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"

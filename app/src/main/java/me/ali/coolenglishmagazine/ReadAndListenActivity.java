@@ -6,12 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.TypedArray;
-import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
-import android.os.Handler;
 import android.os.IBinder;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -112,6 +110,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
     protected ViewGroup mediaControllerButtons;
     private Animation slide_down, slide_up;
+    private boolean slideUpAnimating, isSlideDownAnimating;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -177,6 +176,21 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         mediaControllerButtons.getChildAt(0).setBackgroundColor(accentColor);
 
         slide_up = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
+        slide_up.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                slideUpAnimating = false;
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+
         slide_down = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
         slide_down.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -185,8 +199,9 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                if(!useLockControls)
+                if (mediaControllerHiddenForSpace)
                     mediaControllerButtons.setVisibility(View.INVISIBLE);
+                isSlideDownAnimating = false;
             }
 
             @Override
@@ -218,7 +233,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 final String command = "javascript:adjustLayout({"
                         + "topMargin: " + actionBarSize // HTML content top margin
                         + ", horizontalMargin: " + getResources().getDimension(R.dimen.activity_horizontal_margin)
-                        + ", bottomMargin: " + getResources().getDimension(R.dimen.activity_vertical_margin)
+//                        + ", bottomMargin: " + getResources().getDimension(R.dimen.activity_vertical_margin)
                         + ", backgroundColor: " + ContextCompat.getColor(getApplicationContext(), android.R.color.background_light)
                         + ", bottomPadding: " + mediaControllerButtons.getMeasuredHeight()
                         + ", height: " + webView.getMeasuredHeight() // poster height
@@ -250,9 +265,9 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         endText = (TextView) findViewById(R.id.endText);
 
         // numbers should be represented in monospace style
-        Typeface monospace = FontManager.getTypeface(getApplicationContext(), FontManager.ROBOTO);
-        startText.setTypeface(monospace);
-        endText.setTypeface(monospace);
+//        Typeface monospace = FontManager.getTypeface(getApplicationContext(), FontManager.UBUNTU);
+//        startText.setTypeface(monospace);
+//        endText.setTypeface(monospace);
 
         final ImageView playButton = (ImageView) findViewById(R.id.play);
         final ImageView pauseButton = (ImageView) findViewById(R.id.pause);
@@ -681,24 +696,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         transcriptLocked = lock;
         webViewJavaScriptInterface.showLockControls(useLockControls);
         webView.loadUrl("javascript:lock(" + transcriptLocked + ");");
-        resetToolbarScrollFlags();
-    }
-
-    protected void resetToolbarScrollFlags() {
-        // enable/disable toolbar hide on scroll
-        final boolean toolbarFixed = transcriptLocked && useLockControls;
-
-        AppBarLayout.LayoutParams layoutParams = (AppBarLayout.LayoutParams) findViewById(R.id.toolbar_actionbar).getLayoutParams();
-        layoutParams.setScrollFlags(toolbarFixed ? 0 : AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
-
-        // http://stackoverflow.com/questions/30554824/how-to-reset-the-toolbar-position-controlled-by-the-coordinatorlayout
-        final AppBarLayout appBar = (AppBarLayout) findViewById(R.id.app_bar);
-        appBar.setExpanded(true);
-        if (!toolbarFixed) {
-            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBar.getLayoutParams();
-            AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
-            behavior.onNestedFling((CoordinatorLayout) findViewById(R.id.coordinator_layout), appBar, null, 0, -1000, true);
-        }
     }
 
     /**
@@ -745,24 +742,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                         lockActionButton.setVisible(useLockControls && !transcriptLocked);
                         unlockActionButton.setVisible(useLockControls && transcriptLocked);
                     }
-                    resetToolbarScrollFlags();
-                    if (item.audioFileName.length() > 0) {
-                        if (useLockControls) {
-                            if (mediaControllerButtons.getVisibility() == View.INVISIBLE) {
-                                mediaControllerButtons.startAnimation(slide_up);
-                                mediaControllerButtons.setVisibility(View.VISIBLE);
-                            }
-
-                        } else if (mediaControllerButtons.getVisibility() == View.VISIBLE) {
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (!useLockControls && mediaControllerButtons.getVisibility() == View.VISIBLE)
-                                        mediaControllerButtons.startAnimation(slide_down);
-                                }
-                            }, 2000);
-                        }
-                    }
                 }
             });
         }
@@ -781,7 +760,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                     TextView textViewNewWord = (TextView) popupView.findViewById(R.id.new_word);
                     textViewNewWord.setText(phrase);
                     textViewNewWord.setTextColor(getResources().getIntArray(R.array.levelColors)[item.level]);
-                    textViewNewWord.setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.BOOSTER_BOLD));
+                    textViewNewWord.setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.UBUNTU_BOLD));
 
                     ((TextView) popupView.findViewById(R.id.word_type)).setText(newWord.type);
 
@@ -793,7 +772,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                         textViewEn.setVisibility(View.GONE);
 
                     final TextView textViewFa = (TextView) popupView.findViewById(R.id.def_fa);
-                    textViewFa.setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.BADIYA));
                     final String fa = newWord.definition.get("fa");
                     if (fa.length() > 0)
                         textViewFa.setText(fa);
@@ -828,6 +806,57 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 }
             });
         }
+
+        @SuppressWarnings("unused")
+        @JavascriptInterface
+        public void autoHideToolbarOnScroll(final boolean largeSpaceRequired) {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    AppBarLayout.LayoutParams layoutParams = (AppBarLayout.LayoutParams) findViewById(R.id.toolbar_actionbar).getLayoutParams();
+                    layoutParams.setScrollFlags(largeSpaceRequired ? AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS : 0);
+
+                    // http://stackoverflow.com/questions/30554824/how-to-reset-the-toolbar-position-controlled-by-the-coordinatorlayout
+                    final AppBarLayout appBar = (AppBarLayout) findViewById(R.id.app_bar);
+                    appBar.setExpanded(true);
+                    if (largeSpaceRequired) {
+                        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBar.getLayoutParams();
+                        AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
+                        behavior.onNestedFling((CoordinatorLayout) findViewById(R.id.coordinator_layout), appBar, null, 0, -1000, true);
+                    }
+                }
+            });
+        }
+
+        /**
+         * hides media controller buttons to gain space for content.
+         */
+        @SuppressWarnings("unused")
+        @JavascriptInterface
+        public void hideMediaControllerForSpace(final boolean hide) {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    mediaControllerHiddenForSpace = hide;
+
+                    if (hide) {
+                        // hide media controller buttons if not currently playing
+                        if (mediaControllerButtons.getVisibility() == View.VISIBLE && state != PlaybackStateCompat.STATE_PLAYING && state != PlaybackStateCompat.STATE_PAUSED && !isSlideDownAnimating) {
+                            isSlideDownAnimating = true;
+                            mediaControllerButtons.startAnimation(slide_down);
+                        }
+
+                    } else {
+                        if (mediaControllerButtons.getVisibility() == View.INVISIBLE) {
+                            if (!slideUpAnimating) {
+                                slideUpAnimating = true;
+                                mediaControllerButtons.startAnimation(slide_up);
+                            }
+                            mediaControllerButtons.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            });
+        }
     }
 
+    protected boolean mediaControllerHiddenForSpace;
 }

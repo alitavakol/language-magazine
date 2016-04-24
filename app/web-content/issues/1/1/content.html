@@ -65,8 +65,10 @@
 				}
 
 				if(typeof(app) != 'undefined') {
-					saveInstanceState();
+					app.autoHideToolbarOnScroll(!transcriptLocked);
 				}
+
+				saveInstanceState();
 			}
 
 			saveInstanceState = function() {

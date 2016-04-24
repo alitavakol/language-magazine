@@ -41,7 +41,7 @@ public class AppInfoFragment extends Fragment {
 //        logoImageView.setImageDrawable(new IconicsDrawable(context).icon(FontAwesome.Icon.faw_sun_o).sizeDp(72).color(Color.LTGRAY));
 //        logoImageView.setColorFilter(Color.YELLOW);
 
-        ((TextView) view.findViewById(R.id.versionTextView)).setText(BuildConfig.VERSION_NAME);
+        ((TextView) view.findViewById(R.id.versionTextView)).setText(getString(R.string.version, BuildConfig.VERSION_NAME));
 
         return view;
     }

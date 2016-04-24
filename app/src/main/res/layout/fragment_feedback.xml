@@ -17,8 +17,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_vertical_margin"
             android:gravity="center_horizontal"
-            android:paddingBottom="36dp"
-            android:paddingTop="48dp"
+            android:paddingBottom="@dimen/about_title_padding_bottom"
+            android:paddingTop="@dimen/about_title_padding_top"
             android:text="@string/feedback" />
 
         <TextView
@@ -26,52 +26,67 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/feedback_title"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/primary_dark" />
 
-        <EditText
-            android:id="@+id/edit_text"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:ems="10"
-            android:hint="@string/feedback_hint"
-            android:inputType="textMultiLine|textCapSentences|textLongMessage|textAutoComplete|textAutoCorrect"
-            android:minLines="2" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/spacing_normal">
 
-        <RadioGroup
-            android:id="@+id/radio_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:checkedButton="@+id/bug_radio"
-            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <RadioButton
-                android:id="@+id/bug_radio"
+                <EditText
+                    android:id="@+id/edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:ems="10"
+                    android:hint="@string/feedback_hint"
+                    android:inputType="textMultiLine|textCapSentences|textLongMessage|textAutoComplete|textAutoCorrect"
+                    android:minLines="3" />
+
+                <RadioGroup
+                    android:id="@+id/radio_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:checkedButton="@+id/bug_radio"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/bug_radio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/bug" />
+
+                    <RadioButton
+                        android:id="@+id/idea_radio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/idea" />
+
+                    <RadioButton
+                        android:id="@+id/question_radio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/question" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/send_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/bug" />
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:background="?android:attr/selectableItemBackground"
+                tools:src="@mipmap/ic_launcher" />
 
-            <RadioButton
-                android:id="@+id/idea_radio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/idea" />
-
-            <RadioButton
-                android:id="@+id/question_radio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/question" />
-        </RadioGroup>
-
-        <ImageButton
-            android:id="@+id/send_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="48dp"
-            android:background="@android:color/transparent"
-            tools:src="@mipmap/ic_launcher" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

@@ -26,6 +26,10 @@ import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+
 import io.fabric.sdk.android.Fabric;
 
 
@@ -58,10 +62,9 @@ public class ShareFragment extends Fragment {
 
                 if (ShareDialog.canShow(ShareLinkContent.class)) {
                     ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                            .setContentTitle("The Cool English Magazine Android App")
-                            .setContentDescription(
-                                    "This application helps you learn English language, in a cool and easy way. And of course with fun!")
-                            .setContentUrl(Uri.parse("http://alitavakol.me"))
+                            .setContentTitle(getString(R.string.facebook_share_title))
+                            .setContentDescription(getString(R.string.facebook_share_description))
+                            .setContentUrl(Uri.parse(getString(R.string.app_website)))
                             .build();
 
                     shareDialog.show(linkContent);
@@ -80,11 +83,16 @@ public class ShareFragment extends Fragment {
                 TwitterAuthConfig authConfig = new TwitterAuthConfig("RkLSPKHaoinx8HbGPgvK4RIa8", "GLhRzP9yUW7dH1Ixyu5k6Zhn2XzmaxdCC7kxtgn14w3bEivbOu");
                 Fabric.with(getActivity(), new TwitterCore(authConfig), new TweetComposer());
 
-                // https://docs.fabric.io/android/twitter/compose-tweets.html
-                TweetComposer.Builder builder = new TweetComposer.Builder(getActivity())
-//                        .image(myImageUri)
-                        .text("just setting up my Fabric.");
-                builder.show();
+                try {
+                    // https://docs.fabric.io/android/twitter/compose-tweets.html
+                    TweetComposer.Builder builder = new TweetComposer.Builder(getActivity())
+                            .text(getString(R.string.facebook_share_description))
+                            .url(new URL(getString(R.string.app_website)));
+                    // TODO: add .image to this builder
+                    builder.show();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -99,14 +107,14 @@ public class ShareFragment extends Fragment {
                 // https://developers.google.com/+/mobile/android/share/prefill
                 Intent shareIntent = new PlusShare.Builder(getActivity())
                         .setType("text/plain")
-                        .setText("Just tried this new restaurant! #nomnomnom #myappname")
-                        .setContentUrl(Uri.parse("https://developers.google.com/+/web/snippet/examples/restaurant"))
+                        .setText(getString(R.string.facebook_share_description))
+                        .setContentUrl(Uri.parse(getString(R.string.app_website)))
                         .getIntent();
 
                 try {
                     startActivityForResult(shareIntent, 0);
                 } catch (ActivityNotFoundException e) {
-                    Toast.makeText(getContext(), R.string.activit_not_found, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.activity_not_found, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -119,9 +127,9 @@ public class ShareFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"));
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "subject");
-                emailIntent.putExtra(Intent.EXTRA_TEXT, "body");
-                emailIntent.putExtra(Intent.EXTRA_HTML_TEXT, "body"); // if you are using HTML in your body text
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+                emailIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.facebook_share_description));
+                emailIntent.putExtra(Intent.EXTRA_HTML_TEXT, getString(R.string.share_description_html)); // if you are using HTML in your body text
 
                 startActivity(Intent.createChooser(emailIntent, "Share this app via"));
             }
@@ -129,29 +137,28 @@ public class ShareFragment extends Fragment {
 
         Button copyButton = (Button) v.findViewById(R.id.copy_button);
         copyButton.setCompoundDrawables(null,
-                new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_clipboard).sizeDp(48).color(Color.parseColor("#22ff77")),
+                new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_clipboard).sizeDp(48).color(Color.argb(255, 50, 220, 20)),
                 null, null);
         copyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("label", "text");
+                ClipData clip = ClipData.newPlainText(getString(R.string.facebook_share_title), getString(R.string.facebook_share_description));
                 clipboard.setPrimaryClip(clip);
-                Toast.makeText(getActivity(), "Copied to clipboard!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
             }
         });
 
         Button moreButton = (Button) v.findViewById(R.id.more_button);
         moreButton.setCompoundDrawables(null,
-                new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_ellipsis_h).sizeDp(36).color(Color.LTGRAY),
+                new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_ellipsis_h).sizeDp(32).colorRes(R.color.accent),
                 null, null);
         moreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT,
-                        "Hey check out my app at: https://play.google.com/store/apps/details?id=com.google.android.apps.plus");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_description));
                 sendIntent.setType("text/plain");
                 startActivity(sendIntent);
             }

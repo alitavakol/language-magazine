@@ -179,9 +179,8 @@
 					$('h3').addClass('alt');
 				}
 
-				if(typeof(app) != 'undefined') {
-					saveInstanceState();
-				}
+				onSlideChanged();
+				saveInstanceState();
 			}
 
 			setCurrentSlide = function(index) {
@@ -197,14 +196,21 @@
 					continuous: false,
 					callback: function(index,elem) {
 						currentSlide = index;
-
 						$('#page-indicator .dot').removeClass('active').eq(index).addClass('active');
-
-						if(typeof(app) != 'undefined')
-							app.showLockControls(currentSlide == 1);
+						onSlideChanged();
 						saveInstanceState();
 					},
 				}).data('Swipe');				
+			}
+
+			onSlideChanged = function() {
+				if(typeof(app) != 'undefined') {
+					app.showLockControls(currentSlide == 1);
+					app.autoHideToolbarOnScroll(currentSlide != 1 || !transcriptLocked);
+					setTimeout(function() {
+						app.hideMediaControllerForSpace(currentSlide != 1);
+					}, currentSlide == 1 ? 0 : 2000);
+				}
 			}
 
 			saveInstanceState = function() {

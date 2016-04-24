@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clipToPadding="false">
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true">
 
@@ -37,15 +38,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/poster"
-                android:fontFamily="monospace"
                 android:maxLines="2"
                 android:paddingBottom="4dp"
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
                 android:paddingTop="2dp"
                 android:textColor="@color/colorPrimary"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:textSize="16sp"
                 tools:text="Item Title" />
 
             <ImageView
@@ -66,10 +65,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title"
                 android:layout_toEndOf="@id/flag"
-                android:fontFamily="monospace"
                 android:paddingStart="@dimen/spacing_normal"
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textAppearance="@style/AppTheme.Widget.TextView.Light"
                 android:textColor="@color/colorPrimaryLight"
+                android:textSize="12sp"
                 tools:text="type" />
 
             <TextView
@@ -82,21 +81,22 @@
                 android:paddingBottom="2dp"
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textAppearance="@style/AppTheme.Widget.TextView.Italic"
                 android:textColor="@color/accent"
-                android:textStyle="bold|italic"
                 tools:text="level" />
 
             <ImageButton
                 android:id="@+id/overflowMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/type"
+                android:layout_alignBottom="@id/type"
                 android:layout_alignParentEnd="true"
+                android:layout_alignTop="@id/title"
                 android:background="@android:color/transparent"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:paddingEnd="@dimen/spacing_normal"
+                android:scaleType="center"
                 tools:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha" />
 
         </RelativeLayout>

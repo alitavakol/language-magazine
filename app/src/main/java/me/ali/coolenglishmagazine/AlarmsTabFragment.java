@@ -350,9 +350,9 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
                 analogClock = (MyAnalogClock) view.findViewById(R.id.clock);
 
                 checkMarkImageView = (ImageView) view.findViewById(R.id.check_mark);
-                checkMarkImageView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_check).sizeDp(20).colorRes(R.color.accent));
+                checkMarkImageView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_check).sizeDp(24).paddingDp(4).colorRes(R.color.accent));
 
-                analogClock.setOnClickListener(new View.OnClickListener() {
+                view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (actionMode == null)
@@ -489,9 +489,9 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
         private  int hMargin, vMargin;
 
         public SpacesItemDecoration() {
-            hMargin = (int) getResources().getDimension(R.dimen.activity_horizontal_margin);
-            vMargin = (int) getResources().getDimension(R.dimen.activity_vertical_margin);
-            spacing = (int) getResources().getDimension(R.dimen.spacing_normal);
+            hMargin = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
+            vMargin = getResources().getDimensionPixelSize(R.dimen.activity_vertical_margin);
+            spacing = getResources().getDimensionPixelSize(R.dimen.spacing_normal);
         }
 
         @Override

@@ -4,17 +4,17 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.widget.ObservableScrollView;
 
@@ -27,7 +27,7 @@ import me.ali.coolenglishmagazine.widget.ObservableScrollView;
  * * Use the {@link ReadmeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ReadmeFragment extends Fragment implements ObservableScrollView.Callbacks {
+public class ReadmeFragment extends Fragment {
 
     private static final String TAG = LogHelper.makeLogTag(ReadmeFragment.class);
 
@@ -60,32 +60,30 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
         if (savedInstanceState != null) {
             currentCardIndex = savedInstanceState.getInt("currentCardIndex");
         }
-
-        // force determine if toolbar should be hidden or not
-        isToolbarVisible = -1;
     }
-
-    private ObservableScrollView mScrollView;
-    private Toolbar toolbar;
 
     protected int currentCardIndex = 0;
     protected int cardCount;
 
     private TextView buttonPrevious, buttonNext;
+    protected ObservableScrollView scrollView;
+    protected AppBarLayout appBarLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_readme, container, false);
 
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar_actionbar);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar_actionbar);
         mListener.onToolbarCreated(toolbar, R.string.readme);
 
-        mScrollView = (ObservableScrollView) view.findViewById(R.id.scroll_view);
-//        mScrollView.addCallbacks(this);
+        scrollView = (ObservableScrollView) view.findViewById(R.id.scroll_view);
+        appBarLayout = (AppBarLayout) view.findViewById(R.id.app_bar);
 
         final FrameLayout cardContainer = (FrameLayout) view.findViewById(R.id.card_container);
         cardCount = cardContainer.getChildCount();
+
+//        FontManager.markAsIconContainer(cardContainer, FontManager.getTypeface(getActivity(), FontManager.UBUNTU));
 
         buttonPrevious = (TextView) view.findViewById(R.id.button_previous);
         buttonNext = (TextView) view.findViewById(R.id.button_next);
@@ -102,7 +100,6 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
                     }
                 }, 200);
                 updateButtons();
-                mScrollView.fullScroll(View.FOCUS_UP);
             }
         });
 
@@ -118,7 +115,6 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
                     }
                 }, 200);
                 updateButtons();
-                mScrollView.fullScroll(View.FOCUS_UP);
             }
         });
 
@@ -136,6 +132,9 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
             buttonPrevious.setClickable(false);
             buttonPrevious.setTextColor(Color.GRAY);
         }
+
+        scrollView.fullScroll(View.FOCUS_UP);
+        appBarLayout.setExpanded(false);
 
         if (currentCardIndex < cardCount - 1) {
             buttonNext.setClickable(true);
@@ -179,52 +178,6 @@ public class ReadmeFragment extends Fragment implements ObservableScrollView.Cal
          * @param toolbar app toolbar
          */
         void onToolbarCreated(Toolbar toolbar, int titleRes);
-    }
-
-    /**
-     * helper to remember visibility of toolbar, and avoid unnecessary computations on scroll change.
-     * if -1, toolbar visibility must be calculated again.
-     */
-    int isToolbarVisible;
-
-    int toolbarHeight, scrollViewPaddingTop, revealThreshold, hideThreshold;
-
-    /**
-     * accumulates scroll amount in a contiguous scroll direction
-     */
-    int scrollIntegral;
-
-    int previousScrollDirection = -1;
-
-    @Override
-    public void onScrollChanged(int deltaX, int deltaY) {
-        int scrollY = mScrollView.getScrollY();
-
-        if (scrollViewPaddingTop == 0) {
-            scrollViewPaddingTop = mScrollView.getPaddingTop();
-            toolbarHeight = toolbar.getMeasuredHeight();
-            revealThreshold = scrollViewPaddingTop - 2 * toolbarHeight;
-            hideThreshold = scrollViewPaddingTop - toolbarHeight;
-        }
-
-        if (previousScrollDirection * deltaY < 0) {
-            scrollIntegral = 0;
-            previousScrollDirection *= -1;
-
-        } else {
-            scrollIntegral += deltaY * previousScrollDirection;
-        }
-
-        if (isToolbarVisible != 0 && ((deltaY > 20) || (deltaY > 0 && scrollIntegral > hideThreshold))) {
-            toolbar.animate().translationY(-toolbarHeight).setInterpolator(new AccelerateInterpolator()).start();
-            isToolbarVisible = 0;
-            scrollIntegral = 0;
-
-        } else if (isToolbarVisible != 1 && ((scrollY < revealThreshold) || (deltaY < -20) || (deltaY < 0 && scrollIntegral > hideThreshold))) {
-            toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
-            isToolbarVisible = 1;
-            scrollIntegral = 0;
-        }
     }
 
     @Override

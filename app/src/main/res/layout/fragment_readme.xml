@@ -8,7 +8,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?colorAccent"
+        android:background="?colorPrimary"
         android:paddingBottom="?actionBarSize"
         android:paddingTop="?actionBarSize">
 
@@ -426,6 +426,7 @@
                             android:layout_weight="1"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_rule_4_2"
+                            android:textAppearance="@style/AppTheme.Widget.TextView.Italic"
                             android:textColor="@android:color/black" />
                     </LinearLayout>
 
@@ -525,6 +526,7 @@
                             android:layout_weight="1"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_rule_5_2"
+                            android:textAppearance="@style/AppTheme.Widget.TextView.Italic"
                             android:textColor="@android:color/black" />
                     </LinearLayout>
 
@@ -604,6 +606,7 @@
                             android:layout_weight="1"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_rule_6_2"
+                            android:textAppearance="@style/AppTheme.Widget.TextView.Italic"
                             android:textColor="@android:color/black" />
                     </LinearLayout>
 
@@ -683,6 +686,7 @@
                             android:layout_weight="1"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_rule_7_2"
+                            android:textAppearance="@style/AppTheme.Widget.TextView.Italic"
                             android:textColor="@android:color/black" />
                     </LinearLayout>
 
@@ -1065,23 +1069,25 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_actionbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <TextView
                 android:id="@+id/toolbar_title"
-                style="@android:style/TextAppearance.Holo.Widget.ActionBar.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:foregroundGravity="center_vertical"
                 android:gravity="center_vertical"
                 android:singleLine="true"
+                android:textAppearance="@style/AppTheme.Widget.TextView.Title"
                 tools:text="Toolbar Title" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>

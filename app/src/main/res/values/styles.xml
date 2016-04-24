@@ -18,27 +18,51 @@
     <style name="ReadAndListenTheme.Default" parent="AppTheme">
         <item name="colorAccent">@android:color/primary_text_dark</item>
     </style>
+
     <style name="ReadAndListenTheme.BeginnerLevel" parent="AppTheme">
         <item name="colorAccent">@color/beginnerLevelColor</item>
     </style>
+
     <style name="ReadAndListenTheme.IntermediateLevel" parent="AppTheme">
         <item name="colorAccent">@color/intermediateLevelColor</item>
     </style>
+
     <style name="ReadAndListenTheme.UpperIntermediateLevel" parent="AppTheme">
         <item name="colorAccent">@color/upperIntermediateLevelColor</item>
     </style>
+
     <style name="ReadAndListenTheme.AdvancedLevel" parent="AppTheme">
         <item name="colorAccent">@color/advancedLevelColor</item>
     </style>
 
-    <style name="AppTheme.Widget"/>
+    <style name="AppTheme.Widget" />
 
     <style name="AppTheme.Widget.TextView" parent="android:Widget.Holo.Light.TextView">
-        <item name="fontPath">BoosterNextFY-Medium.otf</item>
+        <item name="fontPath">Ubuntu-Regular.ttf</item>
     </style>
 
-    <style name="AppTheme.FitScreen" parent="AppTheme">
+    <style name="AppTheme.Widget.TextView.Title" parent="android:TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="fontPath">Ubuntu-Medium.ttf</item>
     </style>
+
+    <style name="AppTheme.Widget.TextView.Medium" parent="android:Widget.Holo.Light.TextView">
+        <item name="fontPath">Ubuntu-Medium.ttf</item>
+    </style>
+
+    <style name="AppTheme.Widget.TextView.Light" parent="android:Widget.Holo.Light.TextView">
+        <item name="fontPath">Ubuntu-Light.ttf</item>
+    </style>
+
+    <style name="AppTheme.Widget.TextView.Bold" parent="android:Widget.Holo.Light.TextView">
+        <item name="fontPath">Ubuntu-Bold.ttf</item>
+    </style>
+
+    <style name="AppTheme.Widget.TextView.Italic" parent="android:Widget.Holo.Light.TextView">
+        <item name="fontPath">Ubuntu-Italic.ttf</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="AppTheme.FitScreen" parent="AppTheme"></style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
@@ -51,10 +75,11 @@
     </style>
 
     <style name="SessionDetailsTitle">
-        <item name="android:textAppearance">@style/TextAppearance.Title</item>
+        <item name="android:textAppearance">@style/AppTheme.Widget.TextView.Title</item>
         <!--<item name="android:textColor">?android:textColorPrimary</item>-->
         <item name="android:textSize">18sp</item>
         <item name="android:lineSpacingMultiplier">@dimen/h3_spacing</item>
+        <item name="android:paddingBottom">@dimen/spacing_normal</item>
     </style>
 
     <style name="TextAppearance.Body1" parent="TextAppearance.AppCompat.Body1">

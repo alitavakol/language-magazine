@@ -20,12 +20,12 @@
 
             <TextView
                 android:id="@+id/toolbar_title"
-                style="@android:style/TextAppearance.Holo.Widget.ActionBar.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:singleLine="true"
+                android:textAppearance="@style/AppTheme.Widget.TextView.Title"
                 tools:text="Toolbar Title" />
         </android.support.v7.widget.Toolbar>
 
@@ -35,15 +35,8 @@
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email"
-        android:visibility="gone" />
 
 </android.support.design.widget.CoordinatorLayout>

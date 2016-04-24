@@ -10,7 +10,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath(FontManager.BOOSTER)
+                .setDefaultFontPath(FontManager.UBUNTU)
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );

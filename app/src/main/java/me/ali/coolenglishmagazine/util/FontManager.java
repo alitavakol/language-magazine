@@ -11,20 +11,11 @@ import android.widget.TextView;
  */
 public class FontManager {
 
-//    public static final String FONTAWESOME = "fontawesome-webfont.ttf";
-    public static final String ROBOTO = "RobotoMono-Regular.ttf";
-    public static final String ROBOTO_BOLD = "RobotoMono-Bold.ttf";
-    public static final String ROBOTO_LIGHT = "RobotoMono-Light.ttf";
-    public static final String ROBOTO_ITALIC = "RobotoMono-Italic.ttf";
-    public static final String FIRA = "FiraMono-Regular.otf";
-    public static final String FIRA_BOLD = "FiraMono-Bold.otf";
-    public static final String BOOSTER = "BoosterNextFY-Medium.otf";
-    public static final String BOOSTER_BOLD = "BoosterNextFY-Bold.otf";
-    public static final String BOOSTER_LIGHT = "BoosterNextFY-Light.otf";
-    public static final String BOOSTER_ITALIC = "BoosterNextFY-Regular.otf";
-    public static final String BADIYA = "Bahij_Badiya-Regular.ttf";
-    public static final String BADIYA_BOLD = "Bahij Badiya-Bold.ttf";
-    public static final String FOFER = "Fofer.otf";
+    public static final String UBUNTU = "Ubuntu-Regular.ttf";
+    public static final String UBUNTU_BOLD = "Ubuntu-Bold.ttf";
+    public static final String UBUNTU_LIGHT = "Ubuntu-Light.ttf";
+    public static final String UBUNTU_ITALIC = "Ubuntu-Italic.ttf";
+    public static final String UBUNTU_MEDIUM = "Ubuntu-Medium.ttf";
 
     public static Typeface getTypeface(Context context, String font) {
         return Typeface.createFromAsset(context.getAssets(), font);

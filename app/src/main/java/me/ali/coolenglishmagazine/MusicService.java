@@ -139,7 +139,7 @@ public class MusicService extends Service implements
     }
 
     private void initMediaSessions() {
-        mediaSession = new MediaSessionCompat(getApplicationContext(), "Cool English Magazine Player Session");
+        mediaSession = new MediaSessionCompat(getApplicationContext(), "Hot English Magazine Player Session");
 
         try {
             mediaController = new MediaControllerCompat(getApplicationContext(), mediaSession.getSessionToken());

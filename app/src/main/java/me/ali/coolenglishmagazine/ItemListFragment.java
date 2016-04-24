@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v7.widget.PopupMenu;
@@ -18,10 +17,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +36,6 @@ import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.model.WaitingItems;
 import me.ali.coolenglishmagazine.util.BitmapHelper;
-import me.ali.coolenglishmagazine.util.FontManager;
 
 /**
  * A list fragment representing a list of magazine items. This fragment
@@ -94,8 +98,6 @@ public class ItemListFragment extends ListFragment {
     public ItemListFragment() {
     }
 
-    Typeface levelTypeface, titleTypeface;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,9 +109,6 @@ public class ItemListFragment extends ListFragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        levelTypeface = FontManager.getTypeface(getActivity(), FontManager.BOOSTER_ITALIC);
-        titleTypeface = FontManager.getTypeface(getActivity(), FontManager.BOOSTER_BOLD);
 
         setListAdapter(new Adapter());
 
@@ -131,7 +130,14 @@ public class ItemListFragment extends ListFragment {
 
         final ListView listView = getListView();
         listView.setDivider(null);
-        listView.setDividerHeight((int) getResources().getDimension(R.dimen.spacing_normal));
+        listView.setDividerHeight(getResources().getDimensionPixelSize(R.dimen.spacing_normal));
+        listView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+
+//        View padding = new View(getActivity());
+//        padding.setLayoutParams(new ViewGroup.LayoutParams(0, getResources().getDimensionPixelOffset(R.dimen.spacing_normal)));
+//        listView.setHeaderDividersEnabled(false);
+//        listView.addHeaderView(padding);
+//        listView.addFooterView(padding);
     }
 
     @Override
@@ -154,14 +160,14 @@ public class ItemListFragment extends ListFragment {
         mCallbacks = sDummyCallbacks;
     }
 
-    @Override
-    public void onListItemClick(ListView listView, View view, int position, long id) {
-        super.onListItemClick(listView, view, position, id);
-
-        // Notify the active callbacks interface (the activity, if the
-        // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(magazineContent.ITEMS.get(position));
-    }
+//    @Override
+//    public void onListItemClick(ListView listView, View view, int position, long id) {
+//        super.onListItemClick(listView, view, position, id);
+//
+//        // Notify the active callbacks interface (the activity, if the
+//        // fragment is attached to one) that an item has been selected.
+//        mCallbacks.onItemSelected(magazineContent.ITEMS.get(position));
+//    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -243,17 +249,22 @@ public class ItemListFragment extends ListFragment {
             return magazineContent.ITEMS.get(position).id;
         }
 
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             final MagazineContent.Item item = magazineContent.ITEMS.get(position);
 
             View vi = convertView;
             if (convertView == null) {
                 vi = inflater.inflate(R.layout.item_list_row, null);
 
-                final int h = (int) getResources().getDimension(R.dimen.activity_horizontal_margin);
-                final int v = position != 0 ? 0 : (int) getResources().getDimension(R.dimen.activity_vertical_margin);
-                final int w = position != magazineContent.ITEMS.size() - 1 ? 0 : (int) getResources().getDimension(R.dimen.activity_vertical_margin);
-                vi.setPadding(h, v, h, w);
+                if (position == 0 || position == magazineContent.ITEMS.size() - 1) {
+                    final int vMargin = getResources().getDimensionPixelSize(R.dimen.activity_vertical_margin);
+                    FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) ((ViewGroup) vi).getChildAt(0).getLayoutParams();
+                    if (position == 0)
+                        params.topMargin = vMargin;
+                    else
+                        params.bottomMargin = vMargin;
+                    vi.setLayoutParams(params);
+                }
             }
 
             int color = getResources().getIntArray(R.array.levelColors)[item.level];
@@ -270,7 +281,6 @@ public class ItemListFragment extends ListFragment {
 
             final TextView textViewTitle = (TextView) vi.findViewById(R.id.title);
             textViewTitle.setText(item.title);
-            textViewTitle.setTypeface(titleTypeface);
 //            textViewTitle.setBackgroundColor(transparentColor);
 
             final TextView textViewType = (TextView) vi.findViewById(R.id.type);
@@ -292,10 +302,10 @@ public class ItemListFragment extends ListFragment {
             textViewLevel.setText(level);
 //            textViewLevel.setTextColor(levelColor);
             textViewLevel.setBackgroundColor(color);
-            textViewLevel.setTypeface(levelTypeface);
 
-            final View overflowButton = vi.findViewById(R.id.overflowMenu);
-            overflowButton.setOnClickListener(new View.OnClickListener() {
+            final ImageButton overflow = (ImageButton) vi.findViewById(R.id.overflowMenu);
+            overflow.setImageDrawable(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_more_vert).sizeDp(24).paddingDp(4).colorRes(R.color.primary_light));
+            overflow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     PopupMenu popup = new PopupMenu(getActivity(), v);
@@ -316,6 +326,13 @@ public class ItemListFragment extends ListFragment {
                             return false;
                         }
                     });
+                }
+            });
+
+            ((ViewGroup) vi).getChildAt(0).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCallbacks.onItemSelected(magazineContent.ITEMS.get(position));
                 }
             });
 

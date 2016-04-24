@@ -4,7 +4,10 @@
     <dimen name="welcome_appbar_height">192dp</dimen> <!-- 4 * ?actionBarSize -->
     <dimen name="welcome_content_padding_top">144dp</dimen> <!-- 3 * ?actionBarSize -->
 
+    <!-- about fragments -->
     <dimen name="about_horizontal_margin">48dp</dimen>
+    <dimen name="about_title_padding_top">16dp</dimen>
+    <dimen name="about_title_padding_bottom">8dp</dimen>
 
     <integer name="alarm_column_count">4</integer>
     <integer name="issues_column_count">4</integer>

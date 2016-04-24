@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     android:orientation="vertical">
 
     <me.ali.coolenglishmagazine.widget.MyAnalogClock
@@ -30,7 +32,8 @@
 
             <TextView
                 android:id="@+id/time"
-                style="@style/TextAppearance.AppCompat.Large"
+                android:textSize="20sp"
+                android:textAppearance="@style/AppTheme.Widget.TextView.Bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="10:54" />

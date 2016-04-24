@@ -198,7 +198,7 @@ public class WaitingListFragment extends Fragment implements
                 hitCountTextView = (TextView) view.findViewById(R.id.hit_count);
 
                 handleView = (ImageView) view.findViewById(R.id.handle);
-                handleView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_reorder).sizeDp(20).colorRes(R.color.accent));
+                handleView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_reorder).sizeDp(24).paddingDp(4).colorRes(R.color.accent));
                 handleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -207,9 +207,9 @@ public class WaitingListFragment extends Fragment implements
                 });
 
                 checkMarkImageView = (ImageView) view.findViewById(R.id.check_mark);
-                checkMarkImageView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_check).sizeDp(20).colorRes(R.color.accent));
+                checkMarkImageView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_check).sizeDp(24).paddingDp(4).colorRes(R.color.accent));
 
-                view.findViewById(R.id.title_container).setOnClickListener(new View.OnClickListener() {
+                view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (actionMode == null)
@@ -389,10 +389,9 @@ public class WaitingListFragment extends Fragment implements
         private int hMargin, vSpacing, vMargin;
 
         public SpacesItemDecoration() {
-            hMargin = (int) getResources().getDimension(R.dimen.activity_horizontal_margin);
-            vSpacing = (int) getResources().getDimension(R.dimen.spacing_normal);
-            vMargin = (int) getResources().getDimension(R.dimen.activity_vertical_margin);
-
+            hMargin = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
+            vSpacing = getResources().getDimensionPixelSize(R.dimen.spacing_normal);
+            vMargin = getResources().getDimensionPixelSize(R.dimen.activity_vertical_margin);
         }
 
         @Override

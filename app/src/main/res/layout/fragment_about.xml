@@ -21,13 +21,13 @@
 
             <TextView
                 android:id="@+id/toolbar_title"
-                style="@android:style/TextAppearance.Holo.Widget.ActionBar.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:foregroundGravity="center_vertical"
                 android:gravity="center_vertical"
                 android:singleLine="true"
+                android:textAppearance="@style/AppTheme.Widget.TextView.Title"
                 tools:text="Toolbar Title" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
@@ -47,6 +47,6 @@
         app:lineWidth="30dp"
         app:selectedColor="@color/accent"
         app:strokeWidth="4dp"
-        app:unselectedColor="@color/material_drawer_primary_text" />
+        app:unselectedColor="@android:color/darker_gray" />
 
 </LinearLayout>
