@@ -24,7 +24,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
@@ -132,12 +131,6 @@ public class ItemListFragment extends ListFragment {
         listView.setDivider(null);
         listView.setDividerHeight(getResources().getDimensionPixelSize(R.dimen.spacing_normal));
         listView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
-
-//        View padding = new View(getActivity());
-//        padding.setLayoutParams(new ViewGroup.LayoutParams(0, getResources().getDimensionPixelOffset(R.dimen.spacing_normal)));
-//        listView.setHeaderDividersEnabled(false);
-//        listView.addHeaderView(padding);
-//        listView.addFooterView(padding);
     }
 
     @Override
@@ -160,15 +153,6 @@ public class ItemListFragment extends ListFragment {
         mCallbacks = sDummyCallbacks;
     }
 
-//    @Override
-//    public void onListItemClick(ListView listView, View view, int position, long id) {
-//        super.onListItemClick(listView, view, position, id);
-//
-//        // Notify the active callbacks interface (the activity, if the
-//        // fragment is attached to one) that an item has been selected.
-//        mCallbacks.onItemSelected(magazineContent.ITEMS.get(position));
-//    }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -182,6 +166,13 @@ public class ItemListFragment extends ListFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
         inflater.inflate(R.menu.item_list, menu);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        final Magazines.Issue.Status status = issue.getStatus();
+        menu.findItem(R.id.action_mark_complete).setVisible(status != Magazines.Issue.Status.completed);
+        menu.findItem(R.id.action_mark_incomplete).setVisible(status == Magazines.Issue.Status.completed);
     }
 
     @Override
@@ -203,6 +194,15 @@ public class ItemListFragment extends ListFragment {
                 Intent intent = new Intent(getActivity(), IssueDetailActivity.class);
                 intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
                 startActivity(intent);
+                return true;
+
+            case R.id.action_mark_complete:
+                Magazines.markCompleted(issue);
+                return true;
+
+            case R.id.action_mark_incomplete:
+                Magazines.reopen(getActivity(), issue);
+                return true;
         }
 
         return super.onOptionsItemSelected(menuItem);

@@ -23,7 +23,7 @@
         <ListPreference
             android:defaultValue="8"
             android:entries="@array/pref_item_learn_repeat_count"
-            android:entryValues="@array/pref_item_learn_repeat_count"
+            android:entryValues="@array/pref_item_learn_repeat_count_values"
             android:key="repeat_count"
             android:title="@string/pref_title_item_learn_repeat_count" />
 

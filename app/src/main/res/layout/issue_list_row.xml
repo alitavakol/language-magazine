@@ -39,6 +39,14 @@
                     app:cpv_animAutostart="true"
                     app:cpv_indeterminate="false" />
 
+                <ImageView
+                    android:id="@+id/check_mark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:background="@color/accent"
+                    android:scaleType="center"
+                    android:visibility="invisible" />
             </FrameLayout>
 
             <LinearLayout

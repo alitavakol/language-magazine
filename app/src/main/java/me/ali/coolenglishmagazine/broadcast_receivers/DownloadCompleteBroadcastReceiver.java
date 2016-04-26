@@ -63,7 +63,7 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
                 case DownloadManager.STATUS_FAILED:
                     // get the reason - more detail on the status
                     int reason = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_REASON));
-                    Toast.makeText(context, context.getResources().getString(R.string.download_failed_msg) + reason, Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, context.getResources().getString(R.string.download_failed_msg, reason), Toast.LENGTH_LONG).show();
                     break;
             }
         }

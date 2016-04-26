@@ -1,7 +1,6 @@
 package me.ali.coolenglishmagazine;
 
 import android.app.DownloadManager;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +35,6 @@ import java.util.TimerTask;
 import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
 import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.util.BitmapHelper;
-import me.ali.coolenglishmagazine.util.FileHelper;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.widget.ObservableScrollView;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -47,7 +45,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * item details are presented side-by-side with a list of items
  * in a {@link RootActivity}.
  */
-public class IssueDetailActivity extends AppCompatActivity implements ObservableScrollView.Callbacks {
+public class IssueDetailActivity extends AppCompatActivity implements ObservableScrollView.Callbacks, Magazines.Issue.OnStatusChangedListener {
 
     private static final String TAG = LogHelper.makeLogTag(IssueDetailActivity.class);
 
@@ -60,7 +58,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
     Magazines.Issue issue;
 
     ImageButton buttonCancel;
-    Button buttonDownload, buttonOpen, buttonDelete;
+    Button buttonDownload, buttonOpen, buttonDelete, buttonComplete, buttonIncomplete;
     ProgressBar progressBar;
     ViewGroup progressContainer, buttonContainer;
     private ObservableScrollView mScrollView;
@@ -86,6 +84,8 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         buttonCancel = (ImageButton) findViewById(R.id.buttonCancel);
         buttonDownload = (Button) findViewById(R.id.buttonDownload);
         buttonOpen = (Button) findViewById(R.id.buttonOpen);
+        buttonComplete = (Button) findViewById(R.id.buttonComplete);
+        buttonIncomplete = (Button) findViewById(R.id.buttonIncomplete);
         buttonDelete = (Button) findViewById(R.id.buttonDelete);
         progressBar = (ProgressBar) findViewById(R.id.progress);
         buttonContainer = (ViewGroup) findViewById(R.id.button_container);
@@ -93,7 +93,9 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
 
         try {
             issue = Magazines.getIssue(this, new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
+            issue.addOnStatusChangedListener(this);
             downloadReference = Magazines.getDownloadReference(this, issue);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -109,6 +111,23 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
                 Intent intent = new Intent(IssueDetailActivity.this, ItemListActivity.class);
                 intent.putExtra(ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
                 startActivity(intent);
+            }
+        });
+
+        // update visibility of complete and incomplete buttons
+        onIssueStatusChanged(issue);
+
+        buttonComplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Magazines.markCompleted(issue);
+            }
+        });
+
+        buttonIncomplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Magazines.reopen(IssueDetailActivity.this, issue);
             }
         });
 
@@ -137,19 +156,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
-
-                File[] files = issue.rootDirectory.listFiles();
-                if (files != null) {
-                    for (File g : files) {
-                        if (g.isDirectory()) { // delete item folders only
-                            FileHelper.deleteRecursive(g);
-                        }
-                    }
-                }
-                FileHelper.delete(new File(issue.rootDirectory, Magazines.Issue.downloadedFileName));
-
-                issue.setStatus(Magazines.Issue.Status.available);
+                Magazines.deleteIssue(IssueDetailActivity.this, issue);
                 updateFab();
             }
         });
@@ -205,15 +212,11 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         }
     }
 
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//
-//        ViewTreeObserver vto = mScrollView.getViewTreeObserver();
-//        if (vto.isAlive()) {
-//            vto.removeGlobalOnLayoutListener(mGlobalLayoutListener);
-//        }
-//    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        issue.removeOnStatusChangedListener(this);
+    }
 
     public void setOnScrollViewLayoutChangedListener() {
         ViewTreeObserver vto = mScrollView.getViewTreeObserver();
@@ -402,4 +405,17 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             mScrollView.getViewTreeObserver().removeGlobalOnLayoutListener(mGlobalLayoutListener);
         }
     };
+
+    public void onIssueStatusChanged(Magazines.Issue issue) {
+        final Magazines.Issue.Status status = issue.getStatus();
+
+        if (status == Magazines.Issue.Status.downloading || status == Magazines.Issue.Status.available) {
+            buttonComplete.setVisibility(View.GONE);
+            buttonIncomplete.setVisibility(View.GONE);
+
+        } else {
+            buttonIncomplete.setVisibility(status == Magazines.Issue.Status.completed ? View.VISIBLE : View.GONE);
+            buttonComplete.setVisibility(status == Magazines.Issue.Status.completed ? View.GONE : View.VISIBLE);
+        }
+    }
 }

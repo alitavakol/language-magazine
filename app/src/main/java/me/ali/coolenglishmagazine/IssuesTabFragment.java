@@ -4,26 +4,35 @@ import android.app.DownloadManager;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -36,7 +45,9 @@ import me.ali.coolenglishmagazine.util.LogHelper;
 public class IssuesTabFragment extends Fragment implements
         SwipeRefreshLayout.OnRefreshListener,
         Magazines.Issue.OnStatusChangedListener,
-        Magazines.OnDataSetChangedListener {
+        Magazines.OnDataSetChangedListener,
+        RecyclerView.OnItemTouchListener,
+        ActionMode.Callback {
 
     private static final String TAG = LogHelper.makeLogTag(IssuesTabFragment.class);
 
@@ -131,12 +142,14 @@ public class IssuesTabFragment extends Fragment implements
         swipeContainer.setOnRefreshListener(this);
         swipeContainer.setEnabled(filter == AVAILABLE_ISSUES);
 
-        final View recyclerView = v.findViewById(R.id.issue_list);
+        recyclerView = (RecyclerView) v.findViewById(R.id.issue_list);
         nColumns = getResources().getInteger(R.integer.issues_column_count);
-        setupRecyclerView((RecyclerView) recyclerView);
+        setupRecyclerView();
 
         return v;
     }
+
+    private RecyclerView recyclerView;
 
     @Override
     public void onStart() {
@@ -175,21 +188,28 @@ public class IssuesTabFragment extends Fragment implements
     }
 
     protected IssuesRecyclerViewAdapter adapter = new IssuesRecyclerViewAdapter();
+
+    /**
+     * grid layout column count
+     */
     int nColumns;
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+    private void setupRecyclerView() {
         recyclerView.setAdapter(adapter);
 
         GridLayoutManager manager = new GridLayoutManager(getContext(), nColumns);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return adapter.isHeader(position) ? 2 : 1;
+                return adapter.isHeader(position) ? nColumns : 1;
             }
         });
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin)));
+
+        recyclerView.addOnItemTouchListener(this);
+        gestureDetector = new GestureDetectorCompat(getActivity(), new RecyclerViewOnGestureListener());
     }
 
     /**
@@ -240,6 +260,8 @@ public class IssuesTabFragment extends Fragment implements
     private static Magazines.Issue[] headers;
 
     public class IssuesRecyclerViewAdapter extends RecyclerView.Adapter<IssuesRecyclerViewAdapter.ViewHolder> {
+        private SparseBooleanArray selectedItems = new SparseBooleanArray();
+
         // http://blog.sqisland.com/2014/12/recyclerview-grid-with-header.html
         private static final int ITEM_VIEW_TYPE_HEADER = 0;
         private static final int ITEM_VIEW_TYPE_ITEM = 1;
@@ -366,7 +388,7 @@ public class IssuesTabFragment extends Fragment implements
             for (int i = 0; i < headers.length; i++) {
                 Magazines.Issue.Status status = statuses[2 * i];
 
-                if (shouldAddHeader[i] > 0 && (shouldAddHeader[i] < issuesCount || (status != Magazines.Issue.Status.header_available && status != Magazines.Issue.Status.header_other_saved))) {
+                if (shouldAddHeader[i] > 0 && (shouldAddHeader[i] < issuesCount || (status != Magazines.Issue.Status.header_available && status != Magazines.Issue.Status.header_other_saved && status != Magazines.Issue.Status.header_completed))) {
                     if (!isHeaderAdded[i]) {
                         final Magazines.Issue header = headers[i];
                         int idx = issues.addAndSort(header);
@@ -445,7 +467,8 @@ public class IssuesTabFragment extends Fragment implements
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        galleryOfIssuesFragment.mListener.onIssueSelected(issue);
+                        if (galleryOfIssuesFragment.actionMode == null)
+                            galleryOfIssuesFragment.mListener.onIssueSelected(issue);
                     }
                 });
             }
@@ -521,6 +544,12 @@ public class IssuesTabFragment extends Fragment implements
                     LogHelper.i(TAG, "timer for ", issue.title, " cancelled");
                 }
             }
+
+            if (selectedItems.get(position, false)) {
+                holder.checkMarkImageView.setVisibility(View.VISIBLE);
+            } else {
+                holder.checkMarkImageView.setVisibility(View.GONE);
+            }
         }
 
         @Override
@@ -532,6 +561,7 @@ public class IssuesTabFragment extends Fragment implements
             public final TextView titleTextView, subtitleTextView;
             public final ImageView posterImageView;
             public final CircularProgressView progressBar;
+            public final ImageView checkMarkImageView;
 
             public int dl_progress;
 
@@ -542,8 +572,172 @@ public class IssuesTabFragment extends Fragment implements
                 subtitleTextView = (TextView) view.findViewById(R.id.subtitle);
                 posterImageView = (ImageView) view.findViewById(R.id.icon);
                 progressBar = (CircularProgressView) view.findViewById(R.id.progress);
+
+                checkMarkImageView = (ImageView) view.findViewById(R.id.check_mark);
+                if (checkMarkImageView != null)
+                    checkMarkImageView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_check).sizeDp(36).paddingRes(R.dimen.padding_normal).colorRes(R.color.primary));
             }
         }
+
+        public void toggleSelection(int pos) {
+            if (selectedItems.get(pos, false)) {
+                selectedItems.delete(pos);
+            } else {
+                selectedItems.put(pos, true);
+            }
+            notifyItemChanged(pos);
+        }
+
+        public void clearSelections() {
+            selectedItems.clear();
+            notifyDataSetChanged();
+        }
+
+        public int getSelectedItemsCount() {
+            return selectedItems.size();
+        }
+
+        public List<Integer> getSelectedItems() {
+            List<Integer> items = new ArrayList<>(selectedItems.size());
+            for (int i = 0; i < selectedItems.size(); i++) {
+                items.add(selectedItems.keyAt(i));
+            }
+            return items;
+        }
+    }
+
+    private class RecyclerViewOnGestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            if (galleryOfIssuesFragment.actionMode != null) {
+                View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                final int position = recyclerView.getChildAdapterPosition(view);
+                if (position != RecyclerView.NO_POSITION && adapter.getItemViewType(position) != IssuesRecyclerViewAdapter.ITEM_VIEW_TYPE_HEADER)
+                    toggleSelection(position);
+            }
+            return super.onSingleTapConfirmed(e);
+        }
+
+        public void onLongPress(MotionEvent e) {
+            if (galleryOfIssuesFragment.actionMode != null)
+                return;
+
+            View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
+            int idx = recyclerView.getChildAdapterPosition(view);
+            if (idx == RecyclerView.NO_POSITION || adapter.getItemViewType(idx) == IssuesRecyclerViewAdapter.ITEM_VIEW_TYPE_HEADER)
+                return;
+
+            // Start the CAB using the ActionMode.Callback defined above
+            galleryOfIssuesFragment.actionMode = getActivity().startActionMode(IssuesTabFragment.this);
+            toggleSelection(idx);
+
+            // hide handler when in action mode
+            adapter.notifyItemRangeChanged(0, adapter.getItemCount());
+
+            super.onLongPress(e);
+        }
+    }
+
+    private void toggleSelection(int idx) {
+        adapter.toggleSelection(idx);
+        final int selectedItemsCount = adapter.getSelectedItemsCount();
+        if (selectedItemsCount > 0) {
+            String title = getString(R.string.selected_count, selectedItemsCount);
+            galleryOfIssuesFragment.actionMode.setTitle(title);
+        } else {
+            galleryOfIssuesFragment.actionMode.finish();
+        }
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+        // Inflate a menu resource providing context menu items
+        MenuInflater inflater = actionMode.getMenuInflater();
+        inflater.inflate(R.menu.issues_list_action_mode, menu);
+
+        if (filter == 1)
+            menu.findItem(R.id.action_download).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_file_download).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
+        else if (filter == 0)
+            menu.findItem(R.id.action_mark_complete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_thumb_up).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
+        else if (filter == 2)
+            menu.findItem(R.id.action_mark_incomplete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_thumb_down).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
+
+        menu.findItem(R.id.action_delete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
+
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+        return false;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+        List<Integer> selectedItemPositions = adapter.getSelectedItems();
+        int currPos;
+
+        switch (menuItem.getItemId()) {
+            case R.id.action_delete:
+                for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
+                    currPos = selectedItemPositions.get(i);
+                    Magazines.deleteIssue(getActivity(), issues.get(currPos));
+                }
+                break;
+
+            case R.id.action_mark_complete:
+                for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
+                    currPos = selectedItemPositions.get(i);
+                    Magazines.markCompleted(issues.get(currPos));
+                }
+                break;
+
+            case R.id.action_mark_incomplete:
+                for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
+                    currPos = selectedItemPositions.get(i);
+                    Magazines.reopen(getActivity(), issues.get(currPos));
+                }
+                break;
+
+            case R.id.action_download:
+                for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
+                    currPos = selectedItemPositions.get(i);
+                    final Magazines.Issue issue = issues.get(currPos);
+                    try {
+                        if (!(new File(issue.rootDirectory, issue.downloadedFileName).exists()))
+                            Magazines.download(getActivity(), issue);
+                    } catch (IOException e) {
+                        LogHelper.e(TAG, e.getMessage());
+                    }
+                }
+                break;
+
+            default:
+                return false;
+        }
+
+        actionMode.finish();
+        return true;
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode actionMode) {
+        galleryOfIssuesFragment.actionMode = null;
+        adapter.clearSelections();
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+        gestureDetector.onTouchEvent(e);
+        return false;
+    }
+
+    @Override
+    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+    }
+
+    @Override
+    public void onRequestDisallowInterceptTouchEvent(boolean b) {
     }
 
     /**
@@ -584,4 +778,6 @@ public class IssuesTabFragment extends Fragment implements
             outRect.top = space;
         }
     }
+
+    GestureDetectorCompat gestureDetector;
 }

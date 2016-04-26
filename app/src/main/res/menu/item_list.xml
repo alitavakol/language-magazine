@@ -8,8 +8,17 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_mark_complete"
+        android:title="@string/mark_complete"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_mark_incomplete"
+        android:title="@string/mark_incomplete"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_open_issue_details"
-        android:icon="@android:drawable/ic_menu_agenda"
         android:title="@string/view_issue_details"
         app:showAsAction="never" />
 

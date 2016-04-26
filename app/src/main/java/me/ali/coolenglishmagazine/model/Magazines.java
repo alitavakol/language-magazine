@@ -1,6 +1,7 @@
 package me.ali.coolenglishmagazine.model;
 
 import android.app.DownloadManager;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -18,6 +19,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import me.ali.coolenglishmagazine.R;
+import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
+import me.ali.coolenglishmagazine.util.FileHelper;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 public class Magazines {
@@ -79,23 +82,27 @@ public class Magazines {
             issue.description = e.attr("description");
             issue.id = Integer.parseInt(issueRootDirectory.getName());
 
-            int downloadStatus = getDownloadStatus(context, issue);
-
-            if (new File(issue.rootDirectory, Issue.completedFileName).exists())
-                issue.status = Issue.Status.completed;
-            else if (new File(issue.rootDirectory, Issue.activeFileName).exists())
-                issue.status = Issue.Status.active;
-            else if (new File(issue.rootDirectory, Issue.downloadedFileName).exists())
-                issue.status = Issue.Status.other_saved;
-            else if (downloadStatus != -1 && downloadStatus != DownloadManager.STATUS_SUCCESSFUL)
-                issue.status = Issue.Status.downloading;
-            else
-                issue.status = Issue.Status.available;
+            computeIssueStatus(context, issue);
 
             file2issue.put(issueRootDirectory, issue);
         }
 
         return issue;
+    }
+
+    protected static void computeIssueStatus(Context context, Issue issue) {
+        int downloadStatus = getDownloadStatus(context, issue);
+
+        if (new File(issue.rootDirectory, Issue.completedFileName).exists())
+            issue.status = Issue.Status.completed;
+        else if (new File(issue.rootDirectory, Issue.activeFileName).exists())
+            issue.status = Issue.Status.active;
+        else if (new File(issue.rootDirectory, Issue.downloadedFileName).exists())
+            issue.status = Issue.Status.other_saved;
+        else if (downloadStatus != -1 && downloadStatus != DownloadManager.STATUS_SUCCESSFUL)
+            issue.status = Issue.Status.downloading;
+        else
+            issue.status = Issue.Status.available;
     }
 
     /**
@@ -245,9 +252,17 @@ public class Magazines {
     /**
      * downloads a single issue.
      *
-     * @return download reference number
+     * @return download reference number, or -1 if issue is already downloaded/downloading
      */
     public static long download(Context context, Issue issue) throws IOException {
+        final int status = getDownloadStatus(context, issue);
+        if (status == DownloadManager.STATUS_PENDING
+                || status == DownloadManager.STATUS_PAUSED
+                || status == DownloadManager.STATUS_RUNNING
+                || status == -3 // extracting
+                || new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists())
+            return -1;
+
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(getIssueDownloadUrl(context, issue)))
                 .setDescription(issue.subtitle)
                 .setTitle(context.getResources().getString(R.string.app_name))
@@ -381,5 +396,59 @@ public class Magazines {
 
     public static void removeOnDataSetChangedListener(OnDataSetChangedListener listener) {
         listeners.remove(listener);
+    }
+
+    /**
+     * deletes issue. it remains in available issues, and need to be downloaded again by user.
+     *
+     * @param context activity context
+     * @param issue   issue to delete content and make available for download
+     */
+    public static void deleteIssue(Context context, Issue issue) {
+        ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
+
+        // delete download if it is downloading
+        final long downloadReference = getDownloadReference(context, issue);
+        if (downloadReference != -1)
+            ((DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE)).remove(downloadReference);
+
+        File[] files = issue.rootDirectory.listFiles();
+        if (files != null) {
+            for (File g : files) {
+                if (g.isDirectory()) { // delete item folders only
+                    FileHelper.deleteRecursive(g);
+                }
+            }
+        }
+        FileHelper.delete(new File(issue.rootDirectory, Magazines.Issue.downloadedFileName));
+
+        issue.setStatus(Magazines.Issue.Status.available);
+    }
+
+    /**
+     * marks issue as complete.
+     *
+     * @param issue issue to be marked as complete.
+     */
+    public static void markCompleted(Issue issue) {
+        File f = new File(issue.rootDirectory, Issue.completedFileName);
+        try {
+            f.createNewFile();
+            issue.setStatus(Issue.Status.completed);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * un-completes an issue.
+     *
+     * @param context application or activity context
+     * @param issue   issue to be marked as incomplete
+     */
+    public static void reopen(Context context, Issue issue) {
+        FileHelper.delete(new File(issue.rootDirectory, Issue.completedFileName));
+        computeIssueStatus(context, issue);
+        issue.setStatus(issue.status);
     }
 }

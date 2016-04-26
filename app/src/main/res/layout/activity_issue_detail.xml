@@ -101,6 +101,16 @@
                         android:textColor="@color/colorPrimaryLight" />
 
                     <Button
+                        android:id="@+id/buttonIncomplete"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|start"
+                        android:minHeight="0dp"
+                        android:text="@string/reopen"
+                        android:textColor="@color/colorPrimaryLight" />
+
+                    <Button
                         android:id="@+id/buttonOpen"
                         style="?android:attr/buttonStyleSmall"
                         android:layout_width="wrap_content"
@@ -108,6 +118,16 @@
                         android:layout_gravity="center_vertical"
                         android:minHeight="0dp"
                         android:text="@string/open"
+                        android:textColor="@color/colorPrimaryLight" />
+
+                    <Button
+                        android:id="@+id/buttonComplete"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|start"
+                        android:minHeight="0dp"
+                        android:text="@string/complete"
                         android:textColor="@color/colorPrimaryLight" />
 
                     <Button

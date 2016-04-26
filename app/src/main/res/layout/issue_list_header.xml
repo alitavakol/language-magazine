@@ -9,13 +9,15 @@
         android:id="@+id/headerTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_normal"
-        android:textStyle="italic"
+        android:paddingBottom="@dimen/spacing_normal"
+        android:paddingTop="@dimen/spacing_normal"
+        android:textAppearance="@style/AppTheme.Widget.TextView.Italic"
+        android:textColor="@color/accent"
         tools:text="Issues List Header" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorAccent" />
+        android:background="@color/accent" />
 
 </LinearLayout>

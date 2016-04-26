@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,8 +100,8 @@ public class GalleryOfIssuesFragment extends Fragment {
 
         mListener.onToolbarCreated((Toolbar) view.findViewById(R.id.toolbar_actionbar), R.string.gallery_of_issues);
 
-        final ViewPager viewPager = (ViewPager) view.findViewById(R.id.view_pager);
-        setupViewPager(viewPager);
+        viewPager = (ViewPager) view.findViewById(R.id.view_pager);
+        setupViewPager();
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
@@ -131,6 +132,8 @@ public class GalleryOfIssuesFragment extends Fragment {
             requestQueue = null;
             syncing = false;
         }
+
+        finishActionMode();
     }
 
     @Override
@@ -165,8 +168,10 @@ public class GalleryOfIssuesFragment extends Fragment {
         void onIssueSelected(Magazines.Issue issue);
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+    protected ViewPager viewPager;
+
+    private void setupViewPager() {
+        final ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
 
         for (int i = 0; i < 3; i++) {
             IssuesTabFragment fragment = IssuesTabFragment.newInstance(i);
@@ -174,10 +179,36 @@ public class GalleryOfIssuesFragment extends Fragment {
         }
 
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(adapter.getCount() - 1);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                finishActionMode();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+    }
+
+    /**
+     * when user long presses an item, action mode is turned on.
+     */
+    public ActionMode actionMode;
+
+    protected void finishActionMode() {
+        if (actionMode != null)
+            actionMode.finish();
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
+        public final List<IssuesTabFragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager) {
@@ -194,7 +225,7 @@ public class GalleryOfIssuesFragment extends Fragment {
             return mFragmentList.size();
         }
 
-        public void addFragment(Fragment fragment, int titleId) {
+        public void addFragment(IssuesTabFragment fragment, int titleId) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(getResources().getString(titleId));
         }
