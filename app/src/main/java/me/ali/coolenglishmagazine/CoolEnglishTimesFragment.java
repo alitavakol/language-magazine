@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,12 @@ public class CoolEnglishTimesFragment extends Fragment {
         if (getArguments() != null) {
             currentTabIndex = getArguments().getInt(ARG_TAB_INDEX);
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        finishActionMode();
     }
 
     @Override
@@ -131,6 +138,31 @@ public class CoolEnglishTimesFragment extends Fragment {
         adapter.addFragment(waitingListFragment, R.string.waiting_list);
 
         viewPager.setAdapter(adapter);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                finishActionMode();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+    }
+
+    /**
+     * when user long presses an item, action mode is turned on.
+     */
+    public ActionMode actionMode;
+
+    protected void finishActionMode() {
+        if (actionMode != null)
+            actionMode.finish();
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

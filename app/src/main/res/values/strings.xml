@@ -56,7 +56,11 @@
         <item quantity="other">You have learnt this item %d times so far.</item>
     </plurals>
 
-    <string name="pending_count">Remaining %d times to learn.</string>
+    <plurals name="pending_count">
+        <item quantity="one">Remaining %d time to learn.</item>
+        <item quantity="other">Remaining %d times to learn.</item>
+    </plurals>
+
     <string name="alarm_already_exists">Alarm for this time already exists.</string>
 
     <string name="title_activity_settings">Preferences</string>

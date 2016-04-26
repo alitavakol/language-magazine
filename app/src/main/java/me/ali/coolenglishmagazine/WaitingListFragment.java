@@ -93,6 +93,12 @@ public class WaitingListFragment extends Fragment implements
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        coolEnglishTimesFragment = (CoolEnglishTimesFragment) getActivity().getSupportFragmentManager().findFragmentByTag(CoolEnglishTimesFragment.FRAGMENT_TAG);
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         WaitingItems.listener = null;
@@ -147,7 +153,8 @@ public class WaitingListFragment extends Fragment implements
 
                 final Context context = getActivity();
                 int repeatCount = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("repeat_count", "8"));
-                holder.hitCountTextView.setText(context.getResources().getString(R.string.pending_count, repeatCount - waitingItem.hitCount));
+                final int remainingCount = repeatCount - waitingItem.hitCount;
+                holder.hitCountTextView.setText(context.getResources().getQuantityString(R.plurals.pending_count, remainingCount, remainingCount));
 
                 // load downsampled poster
                 int w = holder.posterImageView.getMaxWidth();
@@ -168,7 +175,7 @@ public class WaitingListFragment extends Fragment implements
                 });
 
                 // hide handler in action mode
-                holder.handleView.setVisibility(actionMode == null ? View.VISIBLE : View.INVISIBLE);
+                holder.handleView.setVisibility(coolEnglishTimesFragment.actionMode == null ? View.VISIBLE : View.INVISIBLE);
 
                 if (selectedItems.get(position, false)) {
                     holder.checkMarkImageView.setVisibility(View.VISIBLE);
@@ -212,7 +219,7 @@ public class WaitingListFragment extends Fragment implements
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (actionMode == null)
+                        if (coolEnglishTimesFragment.actionMode == null)
                             Toast.makeText(getActivity(), R.string.action_mode_hint, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -281,17 +288,16 @@ public class WaitingListFragment extends Fragment implements
         }
     }
 
-    /**
-     * when user long presses an item, action mode is turned on.
-     */
-    ActionMode actionMode;
+    private CoolEnglishTimesFragment coolEnglishTimesFragment;
 
     private class RecyclerViewOnGestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-            if (actionMode != null) {
+            if (coolEnglishTimesFragment.actionMode != null) {
                 View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
-                toggleSelection(recyclerView.getChildAdapterPosition(view));
+                final int position = recyclerView.getChildAdapterPosition(view);
+                if (position != RecyclerView.NO_POSITION)
+                    toggleSelection(position);
             }
             return super.onSingleTapConfirmed(e);
         }
@@ -301,14 +307,16 @@ public class WaitingListFragment extends Fragment implements
                 itemIsDragging = false;
                 return;
             }
-            if (actionMode != null)
+            if (coolEnglishTimesFragment.actionMode != null)
                 return;
 
             View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
+            int idx = recyclerView.getChildAdapterPosition(view);
+            if (idx == RecyclerView.NO_POSITION)
+                return;
 
             // Start the CAB using the ActionMode.Callback defined above
-            actionMode = getActivity().startActionMode(WaitingListFragment.this);
-            int idx = recyclerView.getChildAdapterPosition(view);
+            coolEnglishTimesFragment.actionMode = getActivity().startActionMode(WaitingListFragment.this);
             toggleSelection(idx);
 
             // hide handler when in action mode
@@ -320,8 +328,14 @@ public class WaitingListFragment extends Fragment implements
 
     private void toggleSelection(int idx) {
         adapter.toggleSelection(idx);
-        String title = getString(R.string.selected_count, adapter.getSelectedItemsCount());
-        actionMode.setTitle(title);
+
+        final int selectedItemsCount = adapter.getSelectedItemsCount();
+        if (selectedItemsCount > 0) {
+            String title = getString(R.string.selected_count, selectedItemsCount);
+            coolEnglishTimesFragment.actionMode.setTitle(title);
+        } else {
+            coolEnglishTimesFragment.actionMode.finish();
+        }
     }
 
     @Override
@@ -329,6 +343,7 @@ public class WaitingListFragment extends Fragment implements
         // Inflate a menu resource providing context menu items
         MenuInflater inflater = actionMode.getMenuInflater();
         inflater.inflate(R.menu.waiting_list_action_mode, menu);
+        menu.findItem(R.id.action_delete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
         return true;
     }
 
@@ -357,7 +372,7 @@ public class WaitingListFragment extends Fragment implements
 
     @Override
     public void onDestroyActionMode(ActionMode actionMode) {
-        this.actionMode = null;
+        coolEnglishTimesFragment.actionMode = null;
         adapter.clearSelections();
     }
 

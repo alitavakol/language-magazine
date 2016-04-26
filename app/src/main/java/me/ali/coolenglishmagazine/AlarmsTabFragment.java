@@ -84,6 +84,12 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        coolEnglishTimesFragment = (CoolEnglishTimesFragment) getActivity().getSupportFragmentManager().findFragmentByTag(CoolEnglishTimesFragment.FRAGMENT_TAG);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
         inflater.inflate(R.menu.alarms_fragment_menu, menu);
@@ -355,7 +361,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (actionMode == null)
+                        if (coolEnglishTimesFragment.actionMode == null)
                             Toast.makeText(getActivity(), R.string.action_mode_hint, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -389,30 +395,31 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
         }
     }
 
-    /**
-     * when user long presses an item, action mode is turned on.
-     */
-    ActionMode actionMode;
+    private CoolEnglishTimesFragment coolEnglishTimesFragment;
 
     private class RecyclerViewOnGestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-            if (actionMode != null) {
+            if (coolEnglishTimesFragment.actionMode != null) {
                 View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
-                toggleSelection(recyclerView.getChildAdapterPosition(view));
+                final int position = recyclerView.getChildAdapterPosition(view);
+                if (position != RecyclerView.NO_POSITION)
+                    toggleSelection(position);
             }
             return super.onSingleTapConfirmed(e);
         }
 
         public void onLongPress(MotionEvent e) {
-            if (actionMode != null)
+            if (coolEnglishTimesFragment.actionMode != null)
                 return;
 
             View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
+            int idx = recyclerView.getChildAdapterPosition(view);
+            if (idx == RecyclerView.NO_POSITION)
+                return;
 
             // Start the CAB using the ActionMode.Callback defined above
-            actionMode = getActivity().startActionMode(AlarmsTabFragment.this);
-            int idx = recyclerView.getChildAdapterPosition(view);
+            coolEnglishTimesFragment.actionMode = getActivity().startActionMode(AlarmsTabFragment.this);
             toggleSelection(idx);
 
             // hide handler when in action mode
@@ -424,8 +431,13 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
 
     private void toggleSelection(int idx) {
         adapter.toggleSelection(idx);
-        String title = getString(R.string.selected_count, adapter.getSelectedItemsCount());
-        actionMode.setTitle(title);
+        final int selectedItemsCount = adapter.getSelectedItemsCount();
+        if (selectedItemsCount > 0) {
+            String title = getString(R.string.selected_count, selectedItemsCount);
+            coolEnglishTimesFragment.actionMode.setTitle(title);
+        } else {
+            coolEnglishTimesFragment.actionMode.finish();
+        }
     }
 
     @Override
@@ -433,6 +445,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
         // Inflate a menu resource providing context menu items
         MenuInflater inflater = actionMode.getMenuInflater();
         inflater.inflate(R.menu.waiting_list_action_mode, menu);
+        menu.findItem(R.id.action_delete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
         return true;
     }
 
@@ -466,7 +479,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
 
     @Override
     public void onDestroyActionMode(ActionMode actionMode) {
-        this.actionMode = null;
+        coolEnglishTimesFragment.actionMode = null;
         adapter.clearSelections();
     }
 
@@ -486,7 +499,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
 
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int spacing;
-        private  int hMargin, vMargin;
+        private int hMargin, vMargin;
 
         public SpacesItemDecoration() {
             hMargin = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
