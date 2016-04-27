@@ -3,16 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center_horizontal"
     android:paddingEnd="@dimen/about_horizontal_margin"
     android:paddingStart="@dimen/about_horizontal_margin"
     tools:context="me.ali.coolenglishmagazine.ShareFragment">
 
     <TextView
         style="@style/TextAppearance.AppCompat.Large"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_vertical_margin"
-        android:gravity="center_horizontal"
         android:paddingBottom="@dimen/about_title_padding_bottom"
         android:paddingTop="@dimen/about_title_padding_top"
         android:text="@string/share_title" />
