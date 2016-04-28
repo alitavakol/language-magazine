@@ -5,10 +5,12 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -35,7 +37,7 @@ import me.ali.coolenglishmagazine.util.NetworkHelper;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FeedbackFragment extends Fragment {
+public class FeedbackFragment extends DialogFragment {
 
     public FeedbackFragment() {
         // Required empty public constructor
@@ -59,7 +61,7 @@ public class FeedbackFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_feedback, container, false);
 
         final ImageButton sendButton = (ImageButton) view.findViewById(R.id.send_button);
-        sendButton.setImageDrawable(new IconicsDrawable(context).icon(FontAwesome.Icon.faw_paper_plane).sizeDp(48).colorRes(R.color.accent));
+        sendButton.setImageDrawable(new IconicsDrawable(context).icon(FontAwesome.Icon.faw_paper_plane).sizeDp(48).paddingDp(4).colorRes(R.color.accent));
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,6 +94,8 @@ public class FeedbackFragment extends Fragment {
                             editText.setText("");
                             sendButton.setClickable(true);
                             Toast.makeText(context, R.string.thanks, Toast.LENGTH_SHORT).show();
+                            dismiss();
+
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -110,6 +114,9 @@ public class FeedbackFragment extends Fragment {
                 }
             }
         });
+
+//        getDialog().setTitle(R.string.feedback_title);
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         return view;
     }

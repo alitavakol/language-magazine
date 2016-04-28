@@ -1,92 +1,72 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/constant_margin"
+    android:paddingEnd="@dimen/constant_margin"
+    android:paddingStart="@dimen/constant_margin"
+    android:paddingTop="@dimen/constant_margin"
+    tools:context="me.ali.coolenglishmagazine.FeedbackFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="@dimen/spacing_normal"
+        android:text="@string/feedback_title"
+        android:textColor="@color/primary_dark" />
+
+    <EditText
+        android:id="@+id/edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="@string/feedback_hint"
+        android:inputType="textMultiLine|textCapSentences|textLongMessage|textAutoComplete|textAutoCorrect" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:paddingEnd="@dimen/about_horizontal_margin"
-        android:paddingStart="@dimen/about_horizontal_margin"
-        tools:context="me.ali.coolenglishmagazine.FeedbackFragment">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-        <TextView
-            style="@style/TextAppearance.AppCompat.Large"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_vertical_margin"
-            android:paddingBottom="@dimen/about_title_padding_bottom"
-            android:paddingTop="@dimen/about_title_padding_top"
-            android:text="@string/feedback" />
+            android:layout_weight="1"
+            android:checkedButton="@+id/bug_radio"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/feedback_title"
-            android:textColor="@color/primary_dark" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingTop="@dimen/spacing_normal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <EditText
-                    android:id="@+id/edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:ems="10"
-                    android:hint="@string/feedback_hint"
-                    android:inputType="textMultiLine|textCapSentences|textLongMessage|textAutoComplete|textAutoCorrect"
-                    android:minLines="3" />
-
-                <RadioGroup
-                    android:id="@+id/radio_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:checkedButton="@+id/bug_radio"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/bug_radio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/bug" />
-
-                    <RadioButton
-                        android:id="@+id/idea_radio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/idea" />
-
-                    <RadioButton
-                        android:id="@+id/question_radio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/question" />
-                </RadioGroup>
-            </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/send_button"
+            <RadioButton
+                android:id="@+id/bug_radio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:background="?android:attr/selectableItemBackground"
-                tools:src="@mipmap/ic_launcher" />
+                android:text="@string/bug" />
 
-        </LinearLayout>
+            <RadioButton
+                android:id="@+id/idea_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/idea" />
+
+            <RadioButton
+                android:id="@+id/question_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/question" />
+        </RadioGroup>
+
+        <ImageButton
+            android:id="@+id/send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:background="?android:attr/selectableItemBackground"
+            tools:src="@mipmap/ic_launcher" />
+
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

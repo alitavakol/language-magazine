@@ -39,6 +39,8 @@
     <dimen name="spacing_normal">8dp</dimen>
     <!--<dimen name="padding_normal">16dp</dimen>-->
 
+    <dimen name="constant_margin">16dp</dimen>
+
     <integer name="alarm_column_count">2</integer>
     <integer name="issues_column_count">2</integer>
 

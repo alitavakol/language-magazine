@@ -4,20 +4,20 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 
-
-import com.viewpagerindicator.LinePageIndicator;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
+import com.mikepenz.aboutlibraries.LibsConfiguration;
+import com.mikepenz.aboutlibraries.entity.Library;
+import com.mikepenz.aboutlibraries.ui.item.HeaderItem;
+import com.mikepenz.aboutlibraries.ui.item.LibraryItem;
 
 import me.ali.coolenglishmagazine.util.LogHelper;
 
@@ -40,18 +40,7 @@ public class AboutFragment extends Fragment {
      * @return A new instance of fragment GalleryOfIssuesFragment.
      */
     public static AboutFragment newInstance() {
-        AboutFragment fragment = new AboutFragment();
-//        Bundle args = new Bundle();
-//        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-//        if (getArguments() != null) {
-//        }
+        return new AboutFragment();
     }
 
     @Override
@@ -62,15 +51,111 @@ public class AboutFragment extends Fragment {
 
         mListener.onToolbarCreated((Toolbar) view.findViewById(R.id.toolbar_actionbar), R.string.about);
 
-        final ViewPager viewPager = (ViewPager) view.findViewById(R.id.view_pager);
-        setupViewPager(viewPager);
+        LibsConfiguration.LibsListener libsListener = new LibsConfiguration.LibsListener() {
+            @Override
+            public void onIconClicked(View v) {
+            }
 
-        // Bind the view pager indicator to the adapter
-        LinePageIndicator indicator = (LinePageIndicator) view.findViewById(R.id.view_pager_indicator);
-        indicator.setViewPager(viewPager);
+            @Override
+            public boolean onLibraryAuthorClicked(View v, Library library) {
+                return false;
+            }
+
+            @Override
+            public boolean onLibraryContentClicked(View v, Library library) {
+                return false;
+            }
+
+            @Override
+            public boolean onLibraryBottomClicked(View v, Library library) {
+                return false;
+            }
+
+            @Override
+            public boolean onExtraClicked(View v, Libs.SpecialButton specialButton) {
+                if (specialButton == Libs.SpecialButton.SPECIAL2) { // feedback
+                    FragmentManager fm = getChildFragmentManager();
+                    FeedbackFragment fragment = new FeedbackFragment();
+                    fragment.show(fm, "feedbackFragment");
+
+                } else if (specialButton == Libs.SpecialButton.SPECIAL3) { // share
+                    FragmentManager fm = getChildFragmentManager();
+                    ShareFragment fragment = new ShareFragment();
+                    fragment.show(fm, "shareFragment");
+
+                } else { // changelog
+                    return false;
+                }
+
+                return true;
+            }
+
+            @Override
+            public boolean onIconLongClicked(View v) {
+                return false;
+            }
+
+            @Override
+            public boolean onLibraryAuthorLongClicked(View v, Library library) {
+                return false;
+            }
+
+            @Override
+            public boolean onLibraryContentLongClicked(View v, Library library) {
+                return false;
+            }
+
+            @Override
+            public boolean onLibraryBottomLongClicked(View v, Library library) {
+                return false;
+            }
+        };
+
+        LibsBuilder f = new LibsBuilder()
+                .withAutoDetect(false)
+                .withLibraries("aboutlibraries", "design", "appcompat_v7", "calligraphy", "facebook", "support_v4", "recyclerview")
+                .withExcludedLibraries("materialize", "fastadapter")
+                .withAboutIconShown(true)
+                .withLibsRecyclerViewListener(new LibsConfiguration.LibsRecyclerViewListener() {
+                    @Override
+                    public void onBindViewHolder(HeaderItem.ViewHolder headerViewHolder) {
+                        final int color = ContextCompat.getColor(getActivity(), R.color.primary_light);
+
+                        final Button special1 = (Button) headerViewHolder.itemView.findViewById(com.mikepenz.aboutlibraries.R.id.aboutSpecial1);
+                        special1.setTextColor(color);
+                        special1.setMinimumHeight(0);
+                        special1.setAllCaps(true);
+
+                        final Button special2 = (Button) headerViewHolder.itemView.findViewById(com.mikepenz.aboutlibraries.R.id.aboutSpecial2);
+                        special2.setTextColor(color);
+                        special2.setMinimumHeight(0);
+                        special2.setAllCaps(true);
+
+                        final Button special3 = (Button) headerViewHolder.itemView.findViewById(com.mikepenz.aboutlibraries.R.id.aboutSpecial3);
+                        special3.setTextColor(color);
+                        special3.setMinimumHeight(0);
+                        special3.setAllCaps(true);
+                    }
+
+                    @Override
+                    public void onBindViewHolder(LibraryItem.ViewHolder viewHolder) {
+                    }
+                })
+                .withAboutAppName(getString(R.string.app_name))
+                .withListener(libsListener)
+                .withActivityTheme(R.style.AppTheme)
+                .withAboutVersionShownName(true);
+
+        libsFragment = f.supportFragment();
+
+        getChildFragmentManager().beginTransaction()
+                .replace(R.id.about_container, libsFragment)
+                .commit();
 
         return view;
     }
+
+    protected Fragment libsFragment;
 
     @Override
     public void onAttach(Context context) {
@@ -107,67 +192,9 @@ public class AboutFragment extends Fragment {
         void onToolbarCreated(Toolbar toolbar, int titleRes);
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-
-        AppInfoFragment appInfoFragment = new AppInfoFragment();
-        adapter.addFragment(appInfoFragment, R.string.app_info);
-
-        FeedbackFragment feedbackFragment = new FeedbackFragment();
-        adapter.addFragment(feedbackFragment, R.string.feedback);
-
-        ShareFragment shareFragment = new ShareFragment();
-        adapter.addFragment(shareFragment, R.string.share);
-
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                hideKeyboard();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-    }
-
     protected void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), 0);
-    }
-
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, int titleId) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(getResources().getString(titleId));
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
     }
 
     @Override

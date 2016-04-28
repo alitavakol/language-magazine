@@ -325,7 +325,19 @@
     <string name="thanks">Thank you!</string>
     <string name="error_empty_message">Please write a message!</string>
 
-    <!-- app info fragment -->
-    <string name="version">Version %s</string>
-
+    <!-- about libraries -->
+    <string name="aboutLibraries_description_text"><![CDATA[Development of the <b>Hot English Magazine</b> android application is made possible by including these libraries:]]></string>
+    <string name="aboutLibraries_description_special2_name">Feedback</string>
+    <string name="aboutLibraries_description_special3_name">Share</string>
+    <string name="aboutLibraries_description_special1_name">Changelog</string>
+    <string name="aboutLibraries_description_special1_text">
+        <![CDATA[
+        <i>Version 1.1.0</i><br/>
+        - Something nice ;)<br/>
+        - Something awesome<br/>
+        <br/>
+        <i>Version 1.0.0</i><br/>
+        - Something new ;)<br/>
+        - Oo text :D]]>
+    </string>
 </resources>

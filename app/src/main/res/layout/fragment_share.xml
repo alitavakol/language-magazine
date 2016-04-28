@@ -1,123 +1,108 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingEnd="@dimen/about_horizontal_margin"
-    android:paddingStart="@dimen/about_horizontal_margin"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:paddingBottom="@dimen/constant_margin"
+    android:paddingEnd="@dimen/constant_margin"
+    android:paddingStart="@dimen/constant_margin"
+    android:paddingTop="@dimen/constant_margin"
     tools:context="me.ali.coolenglishmagazine.ShareFragment">
 
-    <TextView
-        style="@style/TextAppearance.AppCompat.Large"
+    <LinearLayout
+        android:id="@+id/row0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:gravity="center_horizontal"
-        android:paddingBottom="@dimen/about_title_padding_bottom"
-        android:paddingTop="@dimen/about_title_padding_top"
-        android:text="@string/share_title" />
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/facebook_button"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin_2"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawablePadding="@dimen/padding_normal"
+            android:gravity="center_horizontal"
+            android:text="Facebook"
+            tools:drawableTop="@mipmap/ic_launcher" />
+
+        <Button
+            android:id="@+id/twitter_button"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin_2"
+            android:layout_marginStart="@dimen/activity_horizontal_margin_2"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawablePadding="@dimen/padding_normal"
+            android:gravity="center_horizontal"
+            android:text="Twitter"
+            tools:drawableTop="@mipmap/ic_launcher" />
+
+        <Button
+            android:id="@+id/google_plus_button"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin_2"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawablePadding="@dimen/padding_normal"
+            android:gravity="center_horizontal"
+            android:text="Google+"
+            tools:drawableTop="@mipmap/ic_launcher" />
+    </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_alignLeft="@+id/row0"
+        android:layout_alignRight="@+id/row0"
+        android:layout_below="@+id/row0"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/email_button"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:orientation="horizontal">
+            android:layout_marginEnd="@dimen/activity_horizontal_margin_2"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawablePadding="@dimen/padding_normal"
+            android:gravity="center_horizontal"
+            android:text="Email"
+            tools:drawableTop="@mipmap/ic_launcher" />
 
-            <Button
-                android:id="@+id/facebook_button"
-                style="@style/TextAppearance.AppCompat.Small"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin_2"
-                android:layout_marginStart="@dimen/activity_horizontal_margin_2"
-                android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawablePadding="@dimen/padding_normal"
-                android:gravity="center_horizontal"
-                android:text="Facebook"
-                tools:drawableTop="@mipmap/ic_launcher" />
-
-            <Button
-                android:id="@+id/twitter_button"
-                style="@style/TextAppearance.AppCompat.Small"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin_2"
-                android:layout_marginStart="@dimen/activity_horizontal_margin_2"
-                android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawablePadding="@dimen/padding_normal"
-                android:gravity="center_horizontal"
-                android:text="Twitter"
-                tools:drawableTop="@mipmap/ic_launcher" />
-
-            <Button
-                android:id="@+id/google_plus_button"
-                style="@style/TextAppearance.AppCompat.Small"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin_2"
-                android:layout_marginStart="@dimen/activity_horizontal_margin_2"
-                android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawablePadding="@dimen/padding_normal"
-                android:gravity="center_horizontal"
-                android:text="Google+"
-                tools:drawableTop="@mipmap/ic_launcher" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/copy_button"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginEnd="@dimen/activity_horizontal_margin_2"
+            android:layout_marginStart="@dimen/activity_horizontal_margin_2"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawablePadding="@dimen/padding_normal"
+            android:gravity="center_horizontal"
+            android:text="Copy"
+            tools:drawableTop="@mipmap/ic_launcher" />
 
-            <Button
-                android:id="@+id/email_button"
-                style="@style/TextAppearance.AppCompat.Small"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin_2"
-                android:layout_marginStart="@dimen/activity_horizontal_margin_2"
-                android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawablePadding="@dimen/padding_normal"
-                android:gravity="center_horizontal"
-                android:text="Email"
-                tools:drawableTop="@mipmap/ic_launcher" />
-
-            <Button
-                android:id="@+id/copy_button"
-                style="@style/TextAppearance.AppCompat.Small"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin_2"
-                android:layout_marginStart="@dimen/activity_horizontal_margin_2"
-                android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawablePadding="@dimen/padding_normal"
-                android:gravity="center_horizontal"
-                android:text="Copy"
-                tools:drawableTop="@mipmap/ic_launcher" />
-
-            <Button
-                android:id="@+id/more_button"
-                style="@style/TextAppearance.AppCompat.Small"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin_2"
-                android:layout_marginStart="@dimen/activity_horizontal_margin_2"
-                android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawablePadding="@dimen/padding_normal"
-                android:gravity="center_horizontal"
-                android:text="More"
-                tools:drawableTop="@mipmap/ic_launcher" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/more_button"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin_2"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawablePadding="@dimen/padding_normal"
+            android:gravity="center_horizontal"
+            android:text="More"
+            tools:drawableTop="@mipmap/ic_launcher" />
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

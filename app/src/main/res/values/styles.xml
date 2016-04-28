@@ -13,6 +13,7 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="android:textViewStyle">@style/AppTheme.Widget.TextView</item>
         <item name="colorButtonNormal">@color/accent</item>
+        <item name="android:buttonStyle">?android:attr/buttonStyleSmall</item>
     </style>
 
     <style name="ReadAndListenTheme.Default" parent="AppTheme">
