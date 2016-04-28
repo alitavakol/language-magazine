@@ -704,7 +704,7 @@ public class IssuesTabFragment extends Fragment implements
                     currPos = selectedItemPositions.get(i);
                     final Magazines.Issue issue = issues.get(currPos);
                     try {
-                        if (!(new File(issue.rootDirectory, issue.downloadedFileName).exists()))
+                        if (!(new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists()))
                             Magazines.download(getActivity(), issue);
                     } catch (IOException e) {
                         LogHelper.e(TAG, e.getMessage());

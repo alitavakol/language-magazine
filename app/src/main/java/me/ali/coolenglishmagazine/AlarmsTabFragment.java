@@ -444,8 +444,8 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
         // Inflate a menu resource providing context menu items
         MenuInflater inflater = actionMode.getMenuInflater();
-        inflater.inflate(R.menu.waiting_list_action_mode, menu);
-        menu.findItem(R.id.action_delete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
+        inflater.inflate(R.menu.alarms_list_action_mode, menu);
+        menu.findItem(R.id.action_delete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text));
         return true;
     }
 

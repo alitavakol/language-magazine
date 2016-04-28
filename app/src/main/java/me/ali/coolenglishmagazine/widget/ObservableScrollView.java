@@ -19,7 +19,6 @@ package me.ali.coolenglishmagazine.widget;
 import android.content.Context;
 import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
-import android.widget.ScrollView;
 
 import java.util.ArrayList;
 
@@ -27,7 +26,7 @@ import java.util.ArrayList;
  * A custom ScrollView that can accept a scroll listener.
  */
 public class ObservableScrollView extends NestedScrollView {
-    private ArrayList<Callbacks> mCallbacks = new ArrayList<Callbacks>();
+    private ArrayList<Callbacks> mCallbacks = new ArrayList<>();
 
     public ObservableScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -52,7 +51,7 @@ public class ObservableScrollView extends NestedScrollView {
         }
     }
 
-    public static interface Callbacks {
-        public void onScrollChanged(int deltaX, int deltaY);
+    public interface Callbacks {
+        void onScrollChanged(int deltaX, int deltaY);
     }
 }

@@ -182,10 +182,13 @@
     <string name="mark_complete">Mark issue as completed</string>
     <string name="mark_incomplete">Re-open this issue</string>
 
-    <string name="delete_selected">Delete selected issues</string>
-    <string name="download_selected">Download selected magazine issues</string>
-    <string name="complete_selected">Mark selected issues as completed</string>
-    <string name="incomplete_selected">Mark selected issues as incomplete</string>
+    <string name="delete_selected_alarms">Delete selected alarms</string>
+    <string name="delete_selected_waiting_items">Remove selected items</string>
+
+    <string name="delete_selected_issues">Delete selected issues</string>
+    <string name="download_selected_issues">Download selected magazine issues</string>
+    <string name="complete_selected_issues">Mark selected issues as completed</string>
+    <string name="incomplete_selected_issues">Mark selected issues as incomplete</string>
 
     <string name="download_failed_msg">Download failed with error code %d</string>
 

@@ -26,15 +26,9 @@
                 android:layout_height="150dp"
                 android:scaleType="centerCrop" />
 
-            <!--<ImageView
-                android:id="@+id/gradient_edge"
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:layout_below="@id/poster"
-                android:src="@drawable/half_gradient_up" />-->
-
             <TextView
                 android:id="@+id/title"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/poster"
@@ -42,9 +36,9 @@
                 android:paddingBottom="4dp"
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
-                android:paddingTop="2dp"
+                android:paddingTop="@dimen/spacing_normal"
+                android:textAppearance="@style/AppTheme.Widget.TextView.Bold"
                 android:textColor="@color/colorPrimary"
-                android:textSize="16sp"
                 tools:text="Item Title" />
 
             <ImageView
@@ -61,14 +55,13 @@
 
             <TextView
                 android:id="@+id/type"
+                style="@style/Base.TextAppearance.AppCompat.Small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title"
                 android:layout_toEndOf="@id/flag"
                 android:paddingStart="@dimen/spacing_normal"
-                android:textAppearance="@style/AppTheme.Widget.TextView.Light"
                 android:textColor="@color/colorPrimaryLight"
-                android:textSize="12sp"
                 tools:text="type" />
 
             <TextView

@@ -1,6 +1,7 @@
 package me.ali.coolenglishmagazine;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -183,6 +184,17 @@ public class WaitingListFragment extends Fragment implements
                     holder.checkMarkImageView.setVisibility(View.INVISIBLE);
                 }
 
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (coolEnglishTimesFragment.actionMode == null) {
+                            Intent intent = new Intent(getActivity(), ReadAndListenActivity.class);
+                            intent.putExtra(ReadAndListenActivity.ARG_ROOT_DIRECTORY, waitingItem.itemRootDirectory.getAbsolutePath());
+                            startActivity(intent);
+                        }
+                    }
+                });
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -215,14 +227,6 @@ public class WaitingListFragment extends Fragment implements
 
                 checkMarkImageView = (ImageView) view.findViewById(R.id.check_mark);
                 checkMarkImageView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_check).sizeDp(24).paddingDp(4).colorRes(R.color.accent));
-
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (coolEnglishTimesFragment.actionMode == null)
-                            Toast.makeText(getActivity(), R.string.action_mode_hint, Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
         }
 
@@ -343,7 +347,7 @@ public class WaitingListFragment extends Fragment implements
         // Inflate a menu resource providing context menu items
         MenuInflater inflater = actionMode.getMenuInflater();
         inflater.inflate(R.menu.waiting_list_action_mode, menu);
-        menu.findItem(R.id.action_delete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
+        menu.findItem(R.id.action_delete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text));
         return true;
     }
 
