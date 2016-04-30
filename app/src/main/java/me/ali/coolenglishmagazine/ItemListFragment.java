@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -25,6 +24,7 @@ import android.widget.TextView;
 
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +33,6 @@ import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastR
 import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.model.WaitingItems;
-import me.ali.coolenglishmagazine.util.BitmapHelper;
 
 /**
  * A list fragment representing a list of magazine items. This fragment
@@ -152,9 +151,13 @@ public class ItemListFragment extends Fragment {
                 public void run() {
                     int w = holder.itemView.getWidth();
                     int h = w / 2;
-                    // TODO: load bitmap in an async task, http://developer.android.com/training/displaying-bitmaps/process-bitmap.html
-                    final Bitmap bitmap = BitmapHelper.decodeSampledBitmapFromFile(new File(item.rootDirectory, item.posterFileName).getAbsolutePath(), w, h);
-                    holder.posterImageView.setImageBitmap(bitmap);
+
+                    Picasso
+                            .with(getActivity())
+                            .load(new File(item.rootDirectory, item.posterFileName))
+                            .resize(w, h)
+                            .centerCrop()
+                            .into(holder.posterImageView);
                 }
             });
 

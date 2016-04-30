@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
@@ -26,6 +25,7 @@ import android.widget.TextView;
 
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +34,6 @@ import java.util.TimerTask;
 
 import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
 import me.ali.coolenglishmagazine.model.Magazines;
-import me.ali.coolenglishmagazine.util.BitmapHelper;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.widget.ObservableScrollView;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -169,14 +168,13 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         }
 
         final ImageView coverImageView = (ImageView) findViewById(R.id.cover);
-        coverImageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                final Bitmap coverImage = BitmapHelper.decodeSampledBitmapFromFile(new File(issue.rootDirectory, Magazines.Issue.posterFileName).getAbsolutePath(), coverImageView.getWidth(), coverImageView.getHeight());
-                coverImageView.setImageBitmap(coverImage);
-                coverImageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
+        Picasso
+                .with(IssueDetailActivity.this)
+                .load(new File(issue.rootDirectory, Magazines.Issue.posterFileName))
+//                .resize(coverImageView.getWidth(), coverImageView.getHeight())
+                .centerCrop()
+                .fit()
+                .into(coverImageView);
 
         mScrollView = (ObservableScrollView) findViewById(R.id.scroll_view);
         mPhotoViewContainer = findViewById(R.id.session_photo_container);

@@ -1,11 +1,7 @@
 package me.ali.coolenglishmagazine;
 
 import android.app.DownloadManager;
-import android.graphics.Bitmap;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
@@ -28,10 +24,10 @@ import android.widget.TextView;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -41,7 +37,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import me.ali.coolenglishmagazine.model.Magazines;
-import me.ali.coolenglishmagazine.util.BitmapHelper;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 
@@ -348,7 +343,8 @@ public class IssuesTabFragment extends Fragment implements
                 }
             }
 
-            updateHeaders();
+            if (updateHeaders() || changed)
+                recyclerView.invalidateItemDecorations();
 
             return changed;
         }
@@ -372,8 +368,10 @@ public class IssuesTabFragment extends Fragment implements
 
         /**
          * adds/removes header rows to the list, according to the structure and status values.
+         *
+         * @return true if headers changed
          */
-        protected void updateHeaders() {
+        protected boolean updateHeaders() {
             if (headers == null) {
                 headers = new Magazines.Issue[statuses.length / 2];
                 for (int i = 0; i < headers.length; i++) {
@@ -396,6 +394,8 @@ public class IssuesTabFragment extends Fragment implements
                     shouldAddHeader[status / 2]++;
             }
 
+            boolean changed = false;
+
             // add header for items (if there is any item with that kind of status)
             for (int i = 0; i < headers.length; i++) {
                 Magazines.Issue.Status status = statuses[2 * i];
@@ -405,6 +405,7 @@ public class IssuesTabFragment extends Fragment implements
                         final Magazines.Issue header = headers[i];
                         int idx = issues.addAndSort(header);
                         adapter.notifyItemInserted(idx);
+                        changed = true;
 
                         isHeaderAdded[i] = true;
                         addedHeaderCount++;
@@ -415,11 +416,14 @@ public class IssuesTabFragment extends Fragment implements
                     int idx = issues.indexOf(header);
                     issues.remove(header);
                     adapter.notifyItemRemoved(idx);
+                    changed = true;
 
                     isHeaderAdded[i] = false;
                     addedHeaderCount--;
                 }
             }
+
+            return changed;
         }
 
         public void preNotifyDataSetChanged(Magazines.Issue issue) {
@@ -469,26 +473,24 @@ public class IssuesTabFragment extends Fragment implements
                 holder.itemView.post(new Runnable() {
                     @Override
                     public void run() {
-                        final String filePath = new File(issue.rootDirectory, Magazines.Issue.posterFileName).getAbsolutePath();
-                        if (cancelPotentialWork(filePath, holder.posterImageView)) {
-                            int w = holder.itemView.getWidth();
-                            int h = 4 * w / 3;
+                        int w = holder.itemView.getWidth();
+                        int h = 4 * w / 3;
 
-                            BitmapWorkerTask task = new BitmapWorkerTask(holder.posterImageView);
-
-                            final AsyncDrawable asyncDrawable = new AsyncDrawable(task);
-                            holder.posterImageView.setImageDrawable(asyncDrawable);
-
-                            task.execute(filePath, w, h);
-                        }
+                        Picasso
+                                .with(getActivity())
+                                .load(new File(issue.rootDirectory, Magazines.Issue.posterFileName))
+                                .resize(w, h)
+                                .centerCrop()
+                                .into(holder.posterImageView);
                     }
                 });
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (galleryOfIssuesFragment.actionMode == null)
+                        if (galleryOfIssuesFragment.actionMode == null && !preventOnItemClickListener)
                             galleryOfIssuesFragment.mListener.onIssueSelected(issue);
+                        preventOnItemClickListener = false;
                     }
                 });
             }
@@ -609,8 +611,10 @@ public class IssuesTabFragment extends Fragment implements
         }
 
         public void clearSelections() {
-            selectedItems.clear();
-            notifyDataSetChanged();
+            SparseBooleanArray selectedItems = this.selectedItems.clone();
+            this.selectedItems.clear();
+            for (int i = selectedItems.size() - 1; i >= 0; i--)
+                notifyItemChanged(selectedItems.keyAt(i));
         }
 
         public int getSelectedItemsCount() {
@@ -651,23 +655,28 @@ public class IssuesTabFragment extends Fragment implements
             galleryOfIssuesFragment.actionMode = getActivity().startActionMode(IssuesTabFragment.this);
             toggleSelection(idx);
 
-            // hide handler when in action mode
-            adapter.notifyItemRangeChanged(0, adapter.getItemCount());
-
             super.onLongPress(e);
         }
     }
 
     private void toggleSelection(int idx) {
         adapter.toggleSelection(idx);
+
         final int selectedItemsCount = adapter.getSelectedItemsCount();
         if (selectedItemsCount > 0) {
             String title = getString(R.string.selected_count, selectedItemsCount);
             galleryOfIssuesFragment.actionMode.setTitle(title);
-        } else {
+
+        } else { // last selected item just unselected. finish action mode.
+            preventOnItemClickListener = true;
             galleryOfIssuesFragment.actionMode.finish();
         }
     }
+
+    /**
+     * prevents listening to onItemClick when action mode is finishing
+     */
+    boolean preventOnItemClickListener;
 
     @Override
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
@@ -818,77 +827,4 @@ public class IssuesTabFragment extends Fragment implements
 
     GestureDetectorCompat gestureDetector;
 
-
-    class BitmapWorkerTask extends AsyncTask<Object, Void, Bitmap> {
-        private final WeakReference<ImageView> imageViewReference;
-        String filePath;
-
-        public BitmapWorkerTask(ImageView imageView) {
-            // Use a WeakReference to ensure the ImageView can be garbage collected
-            imageViewReference = new WeakReference<>(imageView);
-        }
-
-        // Decode image in background.
-        @Override
-        protected Bitmap doInBackground(Object... params) {
-            filePath = (String) params[0];
-            int width = (int) params[1];
-            int height = (int) params[2];
-            return BitmapHelper.decodeSampledBitmapFromFile(filePath, width, height);
-        }
-
-        // Once complete, see if ImageView is still around and set bitmap.
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            if (!isCancelled()) {
-                final ImageView imageView = imageViewReference.get();
-                if (imageView != null) {
-                    final BitmapWorkerTask bitmapWorkerTask = getBitmapWorkerTask(imageView);
-                    if (this == bitmapWorkerTask)
-                        imageView.setImageBitmap(bitmap);
-                }
-            }
-        }
-    }
-
-    static class AsyncDrawable extends BitmapDrawable {
-        private final WeakReference<BitmapWorkerTask> bitmapWorkerTaskReference;
-
-        public AsyncDrawable(BitmapWorkerTask bitmapWorkerTask) {
-            bitmapWorkerTaskReference = new WeakReference<>(bitmapWorkerTask);
-        }
-
-        public BitmapWorkerTask getBitmapWorkerTask() {
-            return bitmapWorkerTaskReference.get();
-        }
-    }
-
-    public static boolean cancelPotentialWork(String filePath, ImageView imageView) {
-        final BitmapWorkerTask bitmapWorkerTask = getBitmapWorkerTask(imageView);
-
-        if (bitmapWorkerTask != null) {
-            final String bitmapFilePath = bitmapWorkerTask.filePath;
-            // If bitmapFilePath is not yet set or it differs from the new filePath
-            if (bitmapFilePath == null || !bitmapFilePath.equals(filePath)) {
-                // Cancel previous task
-                bitmapWorkerTask.cancel(true);
-            } else {
-                // The same work is already in progress
-                return false;
-            }
-        }
-        // No task associated with the ImageView, or an existing task was cancelled
-        return true;
-    }
-
-    private static BitmapWorkerTask getBitmapWorkerTask(ImageView imageView) {
-        if (imageView != null) {
-            final Drawable drawable = imageView.getDrawable();
-            if (drawable instanceof AsyncDrawable) {
-                final AsyncDrawable asyncDrawable = (AsyncDrawable) drawable;
-                return asyncDrawable.getBitmapWorkerTask();
-            }
-        }
-        return null;
-    }
 }

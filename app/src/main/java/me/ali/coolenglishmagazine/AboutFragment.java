@@ -113,7 +113,7 @@ public class AboutFragment extends Fragment {
 
         LibsBuilder f = new LibsBuilder()
                 .withAutoDetect(false)
-                .withLibraries("aboutlibraries", "design", "appcompat_v7", "calligraphy", "facebook", "support_v4", "recyclerview")
+                .withLibraries("aboutlibraries", "design", "appcompat_v7", "calligraphy", "facebook", "support_v4", "recyclerview", "picasso")
                 .withExcludedLibraries("materialize", "fastadapter")
                 .withAboutIconShown(true)
                 .withLibsRecyclerViewListener(new LibsConfiguration.LibsRecyclerViewListener() {

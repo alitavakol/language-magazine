@@ -264,8 +264,8 @@ public class Magazines {
             return -1;
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(getIssueDownloadUrl(context, issue)))
-                .setDescription(issue.subtitle)
-                .setTitle(context.getResources().getString(R.string.app_name))
+                .setDescription(issue.title)
+                .setTitle(issue.subtitle)
                 .setDestinationUri(Uri.fromFile(getIssueLocalDownloadUri(context, issue)))
                 .setVisibleInDownloadsUi(false)
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)

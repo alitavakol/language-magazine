@@ -2,7 +2,6 @@ package me.ali.coolenglishmagazine;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -29,6 +28,7 @@ import android.widget.Toast;
 
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +38,6 @@ import java.util.List;
 
 import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.model.WaitingItems;
-import me.ali.coolenglishmagazine.util.BitmapHelper;
 
 
 public class WaitingListFragment extends Fragment implements
@@ -157,12 +156,15 @@ public class WaitingListFragment extends Fragment implements
                 final int remainingCount = repeatCount - waitingItem.hitCount;
                 holder.hitCountTextView.setText(context.getResources().getQuantityString(R.plurals.pending_count, remainingCount, remainingCount));
 
-                // load downsampled poster
+                // load down-sampled poster
                 int w = holder.posterImageView.getMaxWidth();
                 int h = holder.posterImageView.getMaxHeight();
-                // TODO: load bitmap in an async task, http://developer.android.com/training/displaying-bitmaps/process-bitmap.html
-                final Bitmap bitmap = BitmapHelper.decodeSampledBitmapFromFile(new File(item.rootDirectory, item.posterFileName).getAbsolutePath(), w, h);
-                holder.posterImageView.setImageBitmap(bitmap);
+                Picasso
+                        .with(getActivity())
+                        .load(new File(item.rootDirectory, item.posterFileName))
+                        .resize(w, h)
+                        .centerCrop()
+                        .into(holder.posterImageView);
 
                 holder.handleView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
@@ -322,9 +324,6 @@ public class WaitingListFragment extends Fragment implements
             // Start the CAB using the ActionMode.Callback defined above
             coolEnglishTimesFragment.actionMode = getActivity().startActionMode(WaitingListFragment.this);
             toggleSelection(idx);
-
-            // hide handler when in action mode
-            adapter.notifyItemRangeChanged(0, adapter.getItemCount());
 
             super.onLongPress(e);
         }
