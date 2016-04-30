@@ -6,21 +6,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.PopupMenu;
-import android.util.TypedValue;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -46,7 +45,7 @@ import me.ali.coolenglishmagazine.util.BitmapHelper;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class ItemListFragment extends ListFragment {
+public class ItemListFragment extends Fragment {
 
     protected MagazineContent magazineContent = new MagazineContent();
     protected Magazines.Issue issue;
@@ -61,12 +60,7 @@ public class ItemListFragment extends ListFragment {
      * The fragment's current callback object, which is notified of list item
      * clicks.
      */
-    private Callbacks mCallbacks = sDummyCallbacks;
-
-    /**
-     * The current activated item position. Only used on tablets.
-     */
-    private int mActivatedPosition = ListView.INVALID_POSITION;
+    private Callbacks mCallbacks;
 
     /**
      * A callback interface that all activities containing this fragment must
@@ -79,16 +73,6 @@ public class ItemListFragment extends ListFragment {
          */
         void onItemSelected(MagazineContent.Item item);
     }
-
-    /**
-     * A dummy implementation of the {@link Callbacks} interface that does
-     * nothing. Used only when this fragment is not attached to an activity.
-     */
-    private static Callbacks sDummyCallbacks = new Callbacks() {
-        @Override
-        public void onItemSelected(MagazineContent.Item item) {
-        }
-    };
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -109,8 +93,6 @@ public class ItemListFragment extends ListFragment {
             e.printStackTrace();
         }
 
-        setListAdapter(new Adapter());
-
         // this fragment wants to add menu items to action bar.
         setHasOptionsMenu(true);
 
@@ -118,19 +100,156 @@ public class ItemListFragment extends ListFragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_item_list, container, false);
 
-        // Restore the previously serialized activated item position.
-        if (savedInstanceState != null
-                && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
-            setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
+        recyclerView = (RecyclerView) v.findViewById(R.id.item_list);
+        nColumns = getResources().getInteger(R.integer.items_column_count);
+        setupRecyclerView();
+
+        return v;
+    }
+
+    private RecyclerView recyclerView;
+
+    /**
+     * grid layout column count
+     */
+    private int nColumns;
+
+    protected ItemsRecyclerViewAdapter adapter = new ItemsRecyclerViewAdapter();
+
+    private void setupRecyclerView() {
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), nColumns));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new SpacesItemDecoration());
+    }
+
+    public class ItemsRecyclerViewAdapter extends RecyclerView.Adapter<ItemsRecyclerViewAdapter.ViewHolder> {
+        public ItemsRecyclerViewAdapter() {
+
         }
 
-        final ListView listView = getListView();
-        listView.setDivider(null);
-        listView.setDividerHeight(getResources().getDimensionPixelSize(R.dimen.spacing_normal));
-        listView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_row, parent, false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(final ViewHolder holder, int position) {
+            final MagazineContent.Item item = magazineContent.ITEMS.get(position);
+
+            int levelColor = getResources().getIntArray(R.array.levelColors)[item.level];
+            final String level = getResources().getStringArray(R.array.levels)[item.level];
+
+            // load down-sampled poster
+            holder.itemView.post(new Runnable() {
+                @Override
+                public void run() {
+                    int w = holder.itemView.getWidth();
+                    int h = w / 2;
+                    // TODO: load bitmap in an async task, http://developer.android.com/training/displaying-bitmaps/process-bitmap.html
+                    final Bitmap bitmap = BitmapHelper.decodeSampledBitmapFromFile(new File(item.rootDirectory, item.posterFileName).getAbsolutePath(), w, h);
+                    holder.posterImageView.setImageBitmap(bitmap);
+                }
+            });
+
+            holder.textViewTitle.setText(item.title);
+            holder.textViewType.setText(item.type);
+
+            if (item.flagFileName != null && item.flagFileName.length() > 0) { // item has audio, so it has accent
+                holder.flagImageView.setImageBitmap(BitmapFactory.decodeFile(new File(item.rootDirectory, item.flagFileName).getAbsolutePath()));
+
+            } else { // no audio, hence accent flag becomes invisible
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.textViewType.getLayoutParams();
+                params.removeRule(RelativeLayout.END_OF);
+                params.addRule(RelativeLayout.ALIGN_START, R.id.title);
+                holder.textViewType.setLayoutParams(params);
+            }
+
+            holder.textViewLevel.setText(level);
+            holder.textViewLevel.setBackgroundColor(levelColor);
+
+            holder.overflowImageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PopupMenu popup = new PopupMenu(getActivity(), v);
+                    MenuInflater inflater = popup.getMenuInflater();
+                    inflater.inflate(R.menu.read_and_listen, popup.getMenu());
+                    popup.show();
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            int id = menuItem.getItemId();
+
+                            switch (id) {
+                                case R.id.action_add_to_waiting_list:
+                                    WaitingItems.appendToWaitingList(getActivity(), item);
+                                    return true;
+                            }
+
+                            return false;
+                        }
+                    });
+                }
+            });
+
+            ((ViewGroup) holder.itemView).getChildAt(0).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCallbacks.onItemSelected(magazineContent.ITEMS.get(recyclerView.getChildAdapterPosition(holder.itemView)));
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return magazineContent.ITEMS.size();
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            final TextView textViewTitle, textViewType, textViewLevel;
+            final ImageView flagImageView, posterImageView;
+            final ImageButton overflowImageButton;
+
+            public ViewHolder(View view) {
+                super(view);
+
+                textViewTitle = (TextView) view.findViewById(R.id.title);
+                textViewType = (TextView) view.findViewById(R.id.type);
+                flagImageView = (ImageView) view.findViewById(R.id.flag);
+                textViewLevel = (TextView) view.findViewById(R.id.level);
+                overflowImageButton = (ImageButton) view.findViewById(R.id.overflowMenu);
+                posterImageView = (ImageView) view.findViewById(R.id.poster);
+
+                overflowImageButton.setImageDrawable(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_more_vert).sizeDp(24).paddingDp(4).colorRes(R.color.primary_light));
+            }
+        }
+    }
+
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int hMargin, vMargin, spacing;
+
+        public SpacesItemDecoration() {
+            hMargin = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
+            vMargin = getResources().getDimensionPixelSize(R.dimen.activity_vertical_margin);
+            spacing = getResources().getDimensionPixelSize(R.dimen.spacing_normal);
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int spanIndex = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getSpanIndex();
+            final int position = recyclerView.getChildAdapterPosition(view);
+
+            outRect.left = spanIndex == 0 ? hMargin : spacing / 2;
+            outRect.right = spanIndex == nColumns - 1 ? hMargin : spacing / 2;
+            outRect.top = position < nColumns ? vMargin : spacing / 2;
+            outRect.bottom = position >= nColumns * (adapter.getItemCount() / nColumns) ? vMargin : spacing / 2;
+        }
     }
 
     @Override
@@ -150,16 +269,7 @@ public class ItemListFragment extends ListFragment {
         super.onDetach();
 
         // Reset the active callbacks interface to the dummy implementation.
-        mCallbacks = sDummyCallbacks;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (mActivatedPosition != ListView.INVALID_POSITION) {
-            // Serialize and persist the activated item position.
-            outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
-        }
+        mCallbacks = null;
     }
 
     @Override
@@ -206,138 +316,6 @@ public class ItemListFragment extends ListFragment {
         }
 
         return super.onOptionsItemSelected(menuItem);
-    }
-
-    /**
-     * Turns on activate-on-click mode. When this mode is on, list items will be
-     * given the 'activated' state when touched.
-     */
-    public void setActivateOnItemClick(boolean activateOnItemClick) {
-        // When setting CHOICE_MODE_SINGLE, ListView will automatically
-        // give items the 'activated' state when touched.
-        getListView().setChoiceMode(activateOnItemClick
-                ? ListView.CHOICE_MODE_SINGLE
-                : ListView.CHOICE_MODE_NONE);
-    }
-
-    private void setActivatedPosition(int position) {
-        if (position == ListView.INVALID_POSITION) {
-            getListView().setItemChecked(mActivatedPosition, false);
-        } else {
-            getListView().setItemChecked(position, true);
-        }
-
-        mActivatedPosition = position;
-    }
-
-    public class Adapter extends BaseAdapter {
-        private LayoutInflater inflater = null;
-
-        public Adapter() {
-            inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
-
-        public int getCount() {
-            return magazineContent.ITEMS.size();
-        }
-
-        public Object getItem(int position) {
-            return magazineContent.ITEMS.get(position);
-        }
-
-        public long getItemId(int position) {
-            return magazineContent.ITEMS.get(position).id;
-        }
-
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            final MagazineContent.Item item = magazineContent.ITEMS.get(position);
-
-            View vi = convertView;
-            if (convertView == null) {
-                vi = inflater.inflate(R.layout.item_list_row, null);
-
-                if (position == 0 || position == magazineContent.ITEMS.size() - 1) {
-                    final int vMargin = getResources().getDimensionPixelSize(R.dimen.activity_vertical_margin);
-                    FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) ((ViewGroup) vi).getChildAt(0).getLayoutParams();
-                    if (position == 0)
-                        params.topMargin = vMargin;
-                    else
-                        params.bottomMargin = vMargin;
-                    vi.setLayoutParams(params);
-                }
-            }
-
-            int color = getResources().getIntArray(R.array.levelColors)[item.level];
-//            int transparentColor = Color.argb(200, Color.red(color), Color.green(color), Color.blue(color));
-//            int moreTransparentColor = Color.argb(100, Color.red(color), Color.green(color), Color.blue(color));
-//            int levelColor = getResources().getIntArray(R.array.levelColors)[item.level];
-
-            // load downsampled poster
-            int w = parent.getMinimumWidth();
-            int h = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
-            // TODO: load bitmap in an async task, http://developer.android.com/training/displaying-bitmaps/process-bitmap.html
-            final Bitmap bitmap = BitmapHelper.decodeSampledBitmapFromFile(new File(item.rootDirectory, item.posterFileName).getAbsolutePath(), w, h);
-            ((ImageView) vi.findViewById(R.id.poster)).setImageBitmap(bitmap);
-
-            final TextView textViewTitle = (TextView) vi.findViewById(R.id.title);
-            textViewTitle.setText(item.title);
-//            textViewTitle.setBackgroundColor(transparentColor);
-
-            final TextView textViewType = (TextView) vi.findViewById(R.id.type);
-            textViewType.setText(item.type);
-//            textViewType.setTextColor(levelColor);
-
-            final ImageView flagImageView = (ImageView) vi.findViewById(R.id.flag);
-            if (item.flagFileName != null && item.flagFileName.length() > 0) {
-                flagImageView.setImageBitmap(BitmapFactory.decodeFile(new File(item.rootDirectory, item.flagFileName).getAbsolutePath()));
-            } else {
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) textViewType.getLayoutParams();
-                params.removeRule(RelativeLayout.END_OF);
-                params.addRule(RelativeLayout.ALIGN_START, R.id.title);
-                textViewType.setLayoutParams(params);
-            }
-
-            final TextView textViewLevel = (TextView) vi.findViewById(R.id.level);
-            final String level = getResources().getStringArray(R.array.levels)[item.level];
-            textViewLevel.setText(level);
-//            textViewLevel.setTextColor(levelColor);
-            textViewLevel.setBackgroundColor(color);
-
-            final ImageButton overflow = (ImageButton) vi.findViewById(R.id.overflowMenu);
-            overflow.setImageDrawable(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_more_vert).sizeDp(24).paddingDp(4).colorRes(R.color.primary_light));
-            overflow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PopupMenu popup = new PopupMenu(getActivity(), v);
-                    MenuInflater inflater = popup.getMenuInflater();
-                    inflater.inflate(R.menu.read_and_listen, popup.getMenu());
-                    popup.show();
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem menuItem) {
-                            int id = menuItem.getItemId();
-
-                            switch (id) {
-                                case R.id.action_add_to_waiting_list:
-                                    WaitingItems.appendToWaitingList(getActivity(), item);
-                                    return true;
-                            }
-
-                            return false;
-                        }
-                    });
-                }
-            });
-
-            ((ViewGroup) vi).getChildAt(0).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mCallbacks.onItemSelected(magazineContent.ITEMS.get(position));
-                }
-            });
-
-            return vi;
-        }
     }
 
 }

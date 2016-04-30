@@ -358,20 +358,28 @@ public class WaitingListFragment extends Fragment implements
 
     @Override
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+        List<Integer> selectedItemPositions = adapter.getSelectedItems();
+
+        WaitingItems.WaitingItem[] selectedWaitingItems = new WaitingItems.WaitingItem[selectedItemPositions.size()];
+        for (int i = selectedItemPositions.size() - 1; i >= 0; i--)
+            selectedWaitingItems[i] = WaitingItems.waitingItems.get(selectedItemPositions.get(i));
+
         switch (menuItem.getItemId()) {
             case R.id.action_delete:
-                List<Integer> selectedItemPositions = adapter.getSelectedItems();
-                int currPos;
-                for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
-                    currPos = selectedItemPositions.get(i);
-                    WaitingItems.waitingItems.remove(currPos);
-                    adapter.notifyItemRemoved(currPos);
+                for (WaitingItems.WaitingItem waitingItem : selectedWaitingItems) {
+                    final int position = WaitingItems.waitingItems.indexOf(waitingItem);
+                    WaitingItems.waitingItems.remove(waitingItem);
+                    adapter.notifyItemRemoved(position);
                 }
-                actionMode.finish();
                 WaitingItems.saveWaitingItems(getActivity());
-                return true;
+                break;
+
+            default:
+                return false;
         }
-        return false;
+
+        actionMode.finish();
+        return true;
     }
 
     @Override
@@ -405,21 +413,22 @@ public class WaitingListFragment extends Fragment implements
     }
 
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int hMargin, vSpacing, vMargin;
+        private int hMargin, vMargin, spacing;
 
         public SpacesItemDecoration() {
             hMargin = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
-            vSpacing = getResources().getDimensionPixelSize(R.dimen.spacing_normal);
             vMargin = getResources().getDimensionPixelSize(R.dimen.activity_vertical_margin);
+            spacing = getResources().getDimensionPixelSize(R.dimen.spacing_normal);
         }
 
         @Override
-        public void getItemOffsets(Rect outRect, View view,
-                                   RecyclerView parent, RecyclerView.State state) {
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            final int position = recyclerView.getChildAdapterPosition(view);
+
             outRect.left = hMargin;
             outRect.right = hMargin;
-            outRect.top = recyclerView.getChildAdapterPosition(view) == 0 ? vMargin : 0;
-            outRect.bottom = vSpacing;
+            outRect.top = position == 0 ? vMargin : spacing / 2;
+            outRect.bottom = position == adapter.getItemCount() - 1 ? vMargin : spacing / 2;
         }
     }
 }

@@ -238,6 +238,10 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
 
         recyclerView.addOnItemTouchListener(this);
         gestureDetector = new GestureDetectorCompat(getActivity(), new RecyclerViewOnGestureListener());
+
+        int hMargin = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
+        int spacing = getResources().getDimensionPixelSize(R.dimen.spacing_normal);
+        recyclerView.setPadding(hMargin - spacing / 2, 0, hMargin - spacing / 2, 0);
     }
 
     public static class Alarm implements Serializable {
@@ -456,25 +460,31 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
 
     @Override
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+        List<Integer> selectedItemPositions = adapter.getSelectedItems();
+
+        Alarm[] selectedAlarms = new Alarm[selectedItemPositions.size()];
+        for (int i = selectedItemPositions.size() - 1; i >= 0; i--)
+            selectedAlarms[i] = alarms.get(selectedItemPositions.get(i));
+
         switch (menuItem.getItemId()) {
             case R.id.action_delete:
-                List<Integer> selectedItemPositions = adapter.getSelectedItems();
-                int currPos;
-                for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
-                    currPos = selectedItemPositions.get(i);
-                    Alarm alarm = alarms.get(currPos);
-
-                    alarms.remove(currPos);
-                    adapter.notifyItemRemoved(currPos);
+                for (Alarm alarm : selectedAlarms) {
+                    int position = alarms.indexOf(alarm);
+                    alarms.remove(alarm);
+                    adapter.notifyItemRemoved(position);
 
                     // cancel this alarm
                     turnOffAlarm(alarm);
                 }
-                actionMode.finish();
                 saveAlarms();
-                return true;
+                break;
+
+            default:
+                return false;
         }
-        return false;
+
+        actionMode.finish();
+        return true;
     }
 
     @Override
@@ -498,22 +508,21 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
     }
 
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int spacing;
-        private int hMargin, vMargin;
+        private int vMargin, spacing;
 
         public SpacesItemDecoration() {
-            hMargin = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
             vMargin = getResources().getDimensionPixelSize(R.dimen.activity_vertical_margin);
             spacing = getResources().getDimensionPixelSize(R.dimen.spacing_normal);
         }
 
         @Override
-        public void getItemOffsets(Rect outRect, View view,
-                                   RecyclerView parent, RecyclerView.State state) {
-            int idx = recyclerView.getChildAdapterPosition(view);
-            outRect.right = ((idx % nColumns) != nColumns - 1) ? hMargin / 2 : hMargin;
-            outRect.left = idx % nColumns == 0 ? hMargin : hMargin / 2;
-            outRect.top = idx < nColumns ? vMargin : spacing;
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            final int position = recyclerView.getChildAdapterPosition(view);
+
+            outRect.left = spacing / 2;
+            outRect.right = spacing / 2;
+            outRect.top = position < nColumns ? vMargin : spacing / 2;
+            outRect.bottom = position >= nColumns * (adapter.getItemCount() / nColumns) ? vMargin : spacing / 2;
         }
     }
 }

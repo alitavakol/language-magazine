@@ -11,4 +11,5 @@
 
     <integer name="alarm_column_count">4</integer>
     <integer name="issues_column_count">4</integer>
+    <integer name="items_column_count">2</integer>
 </resources>

@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
-import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
@@ -206,10 +205,14 @@ public class IssuesTabFragment extends Fragment implements
         });
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin)));
+        recyclerView.addItemDecoration(new SpacesItemDecoration());
 
         recyclerView.addOnItemTouchListener(this);
         gestureDetector = new GestureDetectorCompat(getActivity(), new RecyclerViewOnGestureListener());
+
+        int hMargin = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
+        int spacing = getResources().getDimensionPixelSize(R.dimen.spacing_normal);
+        recyclerView.setPadding(hMargin - spacing / 2, 0, hMargin - spacing / 2, 0);
     }
 
     /**
@@ -359,6 +362,11 @@ public class IssuesTabFragment extends Fragment implements
         int addedHeaderCount;
 
         /**
+         * count of issues of some status value
+         */
+        int[] shouldAddHeader = new int[Magazines.Issue.Status.values().length / 2];
+
+        /**
          * adds/removes header rows to the list, according to the structure and status values.
          */
         protected void updateHeaders() {
@@ -375,9 +383,9 @@ public class IssuesTabFragment extends Fragment implements
 
             int issuesCount = issues.size() - addedHeaderCount; // number of issues excluding headers
 
-            // true if header for the specified status should be included in the array
-            int[] shouldAddHeader = new int[headers.length];
-
+            // count issues with the same status value
+            for (int i = shouldAddHeader.length - 1; i >= 0; i--)
+                shouldAddHeader[i] = 0;
             for (Magazines.Issue issue : issues) {
                 int status = issue.getStatusValue();
                 if (status % 2 == 1)
@@ -440,7 +448,7 @@ public class IssuesTabFragment extends Fragment implements
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, final int position) {
+        public void onBindViewHolder(final ViewHolder holder, int position) {
             final Magazines.Issue issue = issues.get(position);
 
             if (isHeader(position)) {
@@ -675,34 +683,29 @@ public class IssuesTabFragment extends Fragment implements
     @Override
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
         List<Integer> selectedItemPositions = adapter.getSelectedItems();
-        int currPos;
+
+        Magazines.Issue[] selectedIssues = new Magazines.Issue[selectedItemPositions.size()];
+        for (int i = selectedItemPositions.size() - 1; i >= 0; i--)
+            selectedIssues[i] = issues.get(selectedItemPositions.get(i));
 
         switch (menuItem.getItemId()) {
             case R.id.action_delete:
-                for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
-                    currPos = selectedItemPositions.get(i);
-                    Magazines.deleteIssue(getActivity(), issues.get(currPos));
-                }
+                for (Magazines.Issue issue : selectedIssues)
+                    Magazines.deleteIssue(getActivity(), issue);
                 break;
 
             case R.id.action_mark_complete:
-                for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
-                    currPos = selectedItemPositions.get(i);
-                    Magazines.markCompleted(issues.get(currPos));
-                }
+                for (Magazines.Issue issue : selectedIssues)
+                    Magazines.markCompleted(issue);
                 break;
 
             case R.id.action_mark_incomplete:
-                for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
-                    currPos = selectedItemPositions.get(i);
-                    Magazines.reopen(getActivity(), issues.get(currPos));
-                }
+                for (Magazines.Issue issue : selectedIssues)
+                    Magazines.reopen(getActivity(), issue);
                 break;
 
             case R.id.action_download:
-                for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
-                    currPos = selectedItemPositions.get(i);
-                    final Magazines.Issue issue = issues.get(currPos);
+                for (Magazines.Issue issue : selectedIssues) {
                     try {
                         if (!(new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists()))
                             Magazines.download(getActivity(), issue);
@@ -764,18 +767,34 @@ public class IssuesTabFragment extends Fragment implements
     }
 
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
+        private int vMargin, spacing2;
 
-        public SpacesItemDecoration(int space) {
-            this.space = space;
+        public SpacesItemDecoration() {
+            vMargin = getResources().getDimensionPixelSize(R.dimen.activity_vertical_margin);
+            spacing2 = getResources().getDimensionPixelSize(R.dimen.spacing_normal) / 2;
         }
 
         @Override
-        public void getItemOffsets(Rect outRect, View view,
-                                   RecyclerView parent, RecyclerView.State state) {
-            outRect.left = space / 2;
-            outRect.right = space / 2;
-            outRect.top = space;
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            final int position = recyclerView.getChildAdapterPosition(view);
+
+            final GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) view.getLayoutParams();
+            int spanSize = params.getSpanSize();
+
+            outRect.left = spacing2;
+            outRect.right = spacing2;
+
+            if (spanSize == nColumns) {
+                outRect.bottom = spacing2;
+                outRect.top = position == 0 ? vMargin : 0;
+
+            } else {
+                outRect.top = adapter.addedHeaderCount > 0 || position >= nColumns ? spacing2 : vMargin;
+
+                final int headerStatus = issues.get(position).getStatusValue() / 2;
+                int positionInGroup = position - Math.max(issues.indexOf(headers[headerStatus]), 0) - 1; // position within issues with the same status value
+                outRect.bottom = positionInGroup >= nColumns * (adapter.shouldAddHeader[headerStatus] / nColumns) ? vMargin : spacing2;
+            }
         }
     }
 
