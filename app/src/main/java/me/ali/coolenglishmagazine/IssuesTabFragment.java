@@ -3,6 +3,9 @@ package me.ali.coolenglishmagazine;
 import android.app.DownloadManager;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
@@ -28,6 +31,7 @@ import com.mikepenz.iconics.IconicsDrawable;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -460,15 +464,23 @@ public class IssuesTabFragment extends Fragment implements
                 holder.titleTextView.setText(issue.title);
                 holder.subtitleTextView.setText(issue.subtitle);
 
-                // http://stackoverflow.com/a/31162004
+                // postpone image setup to be done later in main thread,
+                // because we need width and height of the posterImageView,
                 holder.itemView.post(new Runnable() {
                     @Override
                     public void run() {
-                        // FIXME: load bitmap in an async task, http://developer.android.com/training/displaying-bitmaps/process-bitmap.html
-                        int w = holder.itemView.getWidth();
-                        int h = 4 * w / 3;
-                        final Bitmap bitmap = BitmapHelper.decodeSampledBitmapFromFile(new File(issue.rootDirectory, Magazines.Issue.posterFileName).getAbsolutePath(), w, h);
-                        holder.posterImageView.setImageBitmap(bitmap);
+                        final String filePath = new File(issue.rootDirectory, Magazines.Issue.posterFileName).getAbsolutePath();
+                        if (cancelPotentialWork(filePath, holder.posterImageView)) {
+                            int w = holder.itemView.getWidth();
+                            int h = 4 * w / 3;
+
+                            BitmapWorkerTask task = new BitmapWorkerTask(holder.posterImageView);
+
+                            final AsyncDrawable asyncDrawable = new AsyncDrawable(task);
+                            holder.posterImageView.setImageDrawable(asyncDrawable);
+
+                            task.execute(filePath, w, h);
+                        }
                     }
                 });
 
@@ -805,4 +817,78 @@ public class IssuesTabFragment extends Fragment implements
     }
 
     GestureDetectorCompat gestureDetector;
+
+
+    class BitmapWorkerTask extends AsyncTask<Object, Void, Bitmap> {
+        private final WeakReference<ImageView> imageViewReference;
+        String filePath;
+
+        public BitmapWorkerTask(ImageView imageView) {
+            // Use a WeakReference to ensure the ImageView can be garbage collected
+            imageViewReference = new WeakReference<>(imageView);
+        }
+
+        // Decode image in background.
+        @Override
+        protected Bitmap doInBackground(Object... params) {
+            filePath = (String) params[0];
+            int width = (int) params[1];
+            int height = (int) params[2];
+            return BitmapHelper.decodeSampledBitmapFromFile(filePath, width, height);
+        }
+
+        // Once complete, see if ImageView is still around and set bitmap.
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            if (!isCancelled()) {
+                final ImageView imageView = imageViewReference.get();
+                if (imageView != null) {
+                    final BitmapWorkerTask bitmapWorkerTask = getBitmapWorkerTask(imageView);
+                    if (this == bitmapWorkerTask)
+                        imageView.setImageBitmap(bitmap);
+                }
+            }
+        }
+    }
+
+    static class AsyncDrawable extends BitmapDrawable {
+        private final WeakReference<BitmapWorkerTask> bitmapWorkerTaskReference;
+
+        public AsyncDrawable(BitmapWorkerTask bitmapWorkerTask) {
+            bitmapWorkerTaskReference = new WeakReference<>(bitmapWorkerTask);
+        }
+
+        public BitmapWorkerTask getBitmapWorkerTask() {
+            return bitmapWorkerTaskReference.get();
+        }
+    }
+
+    public static boolean cancelPotentialWork(String filePath, ImageView imageView) {
+        final BitmapWorkerTask bitmapWorkerTask = getBitmapWorkerTask(imageView);
+
+        if (bitmapWorkerTask != null) {
+            final String bitmapFilePath = bitmapWorkerTask.filePath;
+            // If bitmapFilePath is not yet set or it differs from the new filePath
+            if (bitmapFilePath == null || !bitmapFilePath.equals(filePath)) {
+                // Cancel previous task
+                bitmapWorkerTask.cancel(true);
+            } else {
+                // The same work is already in progress
+                return false;
+            }
+        }
+        // No task associated with the ImageView, or an existing task was cancelled
+        return true;
+    }
+
+    private static BitmapWorkerTask getBitmapWorkerTask(ImageView imageView) {
+        if (imageView != null) {
+            final Drawable drawable = imageView.getDrawable();
+            if (drawable instanceof AsyncDrawable) {
+                final AsyncDrawable asyncDrawable = (AsyncDrawable) drawable;
+                return asyncDrawable.getBitmapWorkerTask();
+            }
+        }
+        return null;
+    }
 }

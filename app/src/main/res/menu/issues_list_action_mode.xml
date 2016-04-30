@@ -14,6 +14,12 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/action_cancel"
+        android:title="@string/cancel_selected_issues"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_download"
         android:title="@string/download_selected_issues"
         android:visible="false"
@@ -22,12 +28,6 @@
     <item
         android:id="@+id/action_free"
         android:title="@string/free_selected_issues"
-        android:visible="false"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/action_cancel"
-        android:title="@string/cancel_selected_issues"
         android:visible="false"
         app:showAsAction="ifRoom" />
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.ali.coolenglishmagazine.util;
+package me.ali.coolenglishmagazine.widget;
 
 import android.content.Context;
 import android.support.v4.view.MotionEventCompat;

@@ -23,7 +23,7 @@
 
             <TextView
                 android:id="@+id/toolbar_title"
-                android:textAppearance="@style/AppTheme.Widget.TextView.Title"
+                style="@android:style/TextAppearance.Holo.Widget.ActionBar.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -46,7 +46,7 @@
             android:layout_centerInParent="true" />
 
         <!-- http://stackoverflow.com/a/35234309 -->
-        <me.ali.coolenglishmagazine.util.NestedWebView
+        <me.ali.coolenglishmagazine.widget.NestedWebView
             android:id="@+id/webView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
