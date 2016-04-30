@@ -130,6 +130,7 @@ public class AboutFragment extends Fragment {
                         special2.setTextColor(color);
                         special2.setMinimumHeight(0);
                         special2.setAllCaps(true);
+                        special2.setMinimumWidth(0);
 
                         final Button special3 = (Button) headerViewHolder.itemView.findViewById(com.mikepenz.aboutlibraries.R.id.aboutSpecial3);
                         special3.setTextColor(color);

@@ -248,7 +248,7 @@ public class ItemListFragment extends Fragment {
             outRect.left = spanIndex == 0 ? hMargin : spacing / 2;
             outRect.right = spanIndex == nColumns - 1 ? hMargin : spacing / 2;
             outRect.top = position < nColumns ? vMargin : spacing / 2;
-            outRect.bottom = position >= nColumns * (adapter.getItemCount() / nColumns) ? vMargin : spacing / 2;
+            outRect.bottom = position == adapter.getItemCount() - 1 ? vMargin : spacing / 2;
         }
     }
 

@@ -182,13 +182,15 @@
     <string name="mark_complete">Mark issue as completed</string>
     <string name="mark_incomplete">Re-open this issue</string>
 
-    <string name="delete_selected_alarms">Delete selected alarms</string>
-    <string name="delete_selected_waiting_items">Remove selected items</string>
+    <string name="delete_selected_alarms">Delete</string>
+    <string name="delete_selected_waiting_items">Remove</string>
 
-    <string name="delete_selected_issues">Delete selected issues</string>
-    <string name="download_selected_issues">Download selected magazine issues</string>
-    <string name="complete_selected_issues">Mark selected issues as completed</string>
-    <string name="incomplete_selected_issues">Mark selected issues as incomplete</string>
+    <string name="delete_selected_issues">Delete</string>
+    <string name="cancel_selected_issues">Cancel downloading</string>
+    <string name="free_selected_issues">Free up space</string>
+    <string name="download_selected_issues">Download</string>
+    <string name="complete_selected_issues">Mark as complete</string>
+    <string name="incomplete_selected_issues">Mark as incomplete</string>
 
     <string name="download_failed_msg">Download failed with error code %d</string>
 
@@ -206,11 +208,6 @@
     <!-- cool english times fragment tab titles -->
     <string name="alarms">Times</string>
     <string name="waiting_list">Waiting List</string>
-
-    <!-- about fragment titles -->
-    <string name="feedback">Feedback</string>
-    <string name="app_info">About this Application</string>
-    <string name="share">Share</string>
 
     <string name="active_issue">Currently Learning</string>
     <string name="saved_issues">Other Saved Issues</string>
@@ -329,7 +326,7 @@
     <string name="aboutLibraries_description_text"><![CDATA[Development of the <b>Hot English Magazine</b> android application is made possible by including these libraries:]]></string>
     <string name="aboutLibraries_description_special2_name">Feedback</string>
     <string name="aboutLibraries_description_special3_name">Share</string>
-    <string name="aboutLibraries_description_special1_name">Changelog</string>
+    <string name="aboutLibraries_description_special1_name">Changes</string>
     <string name="aboutLibraries_description_special1_text">
         <![CDATA[
         <i>Version 1.1.0</i><br/>

@@ -663,14 +663,21 @@ public class IssuesTabFragment extends Fragment implements
         MenuInflater inflater = actionMode.getMenuInflater();
         inflater.inflate(R.menu.issues_list_action_mode, menu);
 
-        if (filter == 1)
+        if (filter == 1 || filter == 2)
             menu.findItem(R.id.action_download).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_file_download).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
-        else if (filter == 0)
-            menu.findItem(R.id.action_mark_complete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_thumb_up).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
-        else if (filter == 2)
-            menu.findItem(R.id.action_mark_incomplete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_thumb_down).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
 
-        menu.findItem(R.id.action_delete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
+        if (filter == 0) {
+            menu.findItem(R.id.action_mark_complete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_thumb_up).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
+            menu.findItem(R.id.action_delete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
+        }
+
+        if (filter == 2) {
+            menu.findItem(R.id.action_mark_incomplete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_thumb_down).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
+            menu.findItem(R.id.action_free).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
+        }
+
+        if (filter == 1)
+            menu.findItem(R.id.action_cancel).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_clear).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
 
         return true;
     }
@@ -690,6 +697,8 @@ public class IssuesTabFragment extends Fragment implements
 
         switch (menuItem.getItemId()) {
             case R.id.action_delete:
+            case R.id.action_cancel:
+            case R.id.action_free:
                 for (Magazines.Issue issue : selectedIssues)
                     Magazines.deleteIssue(getActivity(), issue);
                 break;
@@ -790,10 +799,7 @@ public class IssuesTabFragment extends Fragment implements
 
             } else {
                 outRect.top = adapter.addedHeaderCount > 0 || position >= nColumns ? spacing2 : vMargin;
-
-                final int headerStatus = issues.get(position).getStatusValue() / 2;
-                int positionInGroup = position - Math.max(issues.indexOf(headers[headerStatus]), 0) - 1; // position within issues with the same status value
-                outRect.bottom = positionInGroup >= nColumns * (adapter.shouldAddHeader[headerStatus] / nColumns) ? vMargin : spacing2;
+                outRect.bottom = position == adapter.getItemCount() - 1 || issues.get(position + 1).getStatusValue() % 2 == 0 ? vMargin : spacing2;
             }
         }
     }

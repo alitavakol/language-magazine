@@ -90,7 +90,7 @@ public class Magazines {
         return issue;
     }
 
-    protected static void computeIssueStatus(Context context, Issue issue) {
+    public static void computeIssueStatus(Context context, Issue issue) {
         int downloadStatus = getDownloadStatus(context, issue);
 
         if (new File(issue.rootDirectory, Issue.completedFileName).exists())
@@ -422,7 +422,8 @@ public class Magazines {
         }
         FileHelper.delete(new File(issue.rootDirectory, Magazines.Issue.downloadedFileName));
 
-        issue.setStatus(Magazines.Issue.Status.available);
+        computeIssueStatus(context, issue);
+        issue.setStatus(issue.status);
     }
 
     /**

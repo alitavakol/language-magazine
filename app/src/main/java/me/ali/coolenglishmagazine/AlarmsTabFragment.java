@@ -522,7 +522,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
             outRect.left = spacing / 2;
             outRect.right = spacing / 2;
             outRect.top = position < nColumns ? vMargin : spacing / 2;
-            outRect.bottom = position >= nColumns * (adapter.getItemCount() / nColumns) ? vMargin : spacing / 2;
+            outRect.bottom = position == adapter.getItemCount() - 1 ? vMargin : spacing / 2;
         }
     }
 }

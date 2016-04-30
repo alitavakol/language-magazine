@@ -118,7 +118,8 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
 
                 ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id, n);
 
-                issue.setStatus(Magazines.Issue.Status.other_saved);
+                Magazines.computeIssueStatus(context, issue);
+                issue.setStatus(issue.getStatus());
                 LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(DownloadCompleteBroadcastReceiver.ACTION_DOWNLOAD_EXTRACTED));
 
             } catch (IOException e) {
