@@ -58,8 +58,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/keyline_2_session_detail"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/keyline_2_session_detail"
                 android:ellipsize="end"
+                android:gravity="start"
                 android:maxLines="4"
                 android:textAlignment="viewStart"
                 tools:text="You want me to measure what!?" />
@@ -70,8 +73,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/keyline_2_session_detail"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/keyline_2_session_detail"
                 android:ellipsize="end"
+                android:gravity="start"
                 android:maxLines="2"
                 android:textAlignment="viewStart"
                 tools:text="Test Session Subtitle" />
@@ -80,6 +86,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingStart="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin">
 
@@ -168,6 +176,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         android:layout_marginStart="@dimen/activity_horizontal_margin"
                         android:background="@android:color/transparent"
                         android:minHeight="0dp"

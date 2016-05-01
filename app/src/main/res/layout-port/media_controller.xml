@@ -23,8 +23,10 @@
                 android:id="@+id/startText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/text_view_margin"
                 android:layout_marginStart="@dimen/text_view_margin"
                 android:gravity="center_vertical"
                 android:maxLines="1"
@@ -40,6 +42,8 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_toEndOf="@+id/startText"
+                android:layout_toLeftOf="@+id/endText"
+                android:layout_toRightOf="@+id/startText"
                 android:layout_toStartOf="@+id/endText" />
 
             <TextView
@@ -47,9 +51,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_alignWithParentIfMissing="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/end_text_margin"
+                android:layout_marginRight="@dimen/end_text_margin"
                 android:gravity="center_vertical"
                 android:maxLines="1"
                 android:textColor="@android:color/primary_text_dark"
@@ -70,6 +76,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="@string/skip_prev"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
                 tools:src="@android:drawable/ic_media_rew" />
 
             <ImageView
@@ -99,6 +106,7 @@
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="@string/skip_next"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingStart="@dimen/activity_horizontal_margin"
                 tools:src="@android:drawable/ic_media_ff" />
 

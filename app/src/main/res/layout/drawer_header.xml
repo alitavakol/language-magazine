@@ -5,6 +5,8 @@
     android:layout_gravity="bottom"
     android:paddingBottom="20dp"
     android:paddingEnd="10dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="10dp"
     android:paddingStart="20dp"
     android:paddingTop="50dp"
     android:text="@string/app_name"

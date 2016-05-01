@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "me.ali.coolenglishmagazine"
-        minSdkVersion 17
+        minSdkVersion 16 // Android 4.1 (JELLY_BEAN)
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"

@@ -16,13 +16,15 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:padding="@dimen/padding_normal"
-        android:paddingEnd="0dp">
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp">
 
         <FrameLayout
             android:id="@+id/marker_container"
             android:layout_width="?listPreferredItemHeightSmall"
             android:layout_height="?listPreferredItemHeightSmall"
-            android:layout_alignParentEnd="true">
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true">
 
             <ImageView
                 android:id="@+id/handle"
@@ -52,9 +54,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/poster"
+            android:layout_toLeftOf="@+id/marker_container"
+            android:layout_toRightOf="@id/poster"
             android:layout_toStartOf="@+id/marker_container"
             android:orientation="vertical"
             android:paddingEnd="@dimen/padding_normal"
+            android:paddingLeft="@dimen/padding_normal"
+            android:paddingRight="@dimen/padding_normal"
             android:paddingStart="@dimen/padding_normal">
 
             <TextView

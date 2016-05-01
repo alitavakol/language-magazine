@@ -6,6 +6,8 @@
     android:orientation="vertical"
     android:paddingBottom="@dimen/constant_margin"
     android:paddingEnd="@dimen/constant_margin"
+    android:paddingLeft="@dimen/constant_margin"
+    android:paddingRight="@dimen/constant_margin"
     android:paddingStart="@dimen/constant_margin"
     android:paddingTop="@dimen/constant_margin"
     tools:context="me.ali.coolenglishmagazine.FeedbackFragment">
@@ -64,6 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:background="?android:attr/selectableItemBackground"
             tools:src="@mipmap/ic_launcher" />

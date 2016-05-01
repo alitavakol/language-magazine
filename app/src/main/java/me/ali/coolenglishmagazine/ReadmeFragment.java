@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.widget.ObservableScrollView;
 

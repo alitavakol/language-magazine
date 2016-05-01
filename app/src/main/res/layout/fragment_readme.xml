@@ -77,6 +77,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_intro_2"
                             android:textColor="@android:color/black" />
@@ -97,6 +98,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_intro_3"
                             android:textColor="@android:color/black" />
@@ -117,6 +119,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_intro_4"
                             android:textColor="@android:color/black" />
@@ -145,6 +148,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_intro_6"
                             android:textColor="@android:color/black" />
@@ -165,6 +169,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_intro_7"
                             android:textColor="@android:color/black" />
@@ -193,6 +198,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_intro_9"
                             android:textColor="@android:color/black" />
@@ -213,6 +219,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_intro_10"
                             android:textColor="@android:color/black" />
@@ -233,6 +240,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_intro_11"
                             android:textColor="@android:color/black" />
@@ -253,6 +261,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_intro_12"
                             android:textColor="@android:color/black" />
@@ -306,6 +315,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_rule_1_2"
                             android:textColor="@android:color/black" />
@@ -326,6 +336,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_rule_1_3"
                             android:textColor="@android:color/black" />
@@ -346,6 +357,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_rule_1_4"
                             android:textColor="@android:color/black" />
@@ -424,6 +436,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_rule_4_2"
                             android:textAppearance="@style/AppTheme.Widget.TextView.Italic"
@@ -453,6 +466,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_rule_4_4"
                             android:textColor="@android:color/black" />
@@ -473,6 +487,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_rule_4_4"
                             android:textColor="@android:color/black" />
@@ -524,6 +539,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_rule_5_2"
                             android:textAppearance="@style/AppTheme.Widget.TextView.Italic"
@@ -553,6 +569,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_rule_5_4"
                             android:textColor="@android:color/black" />
@@ -604,6 +621,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_rule_6_2"
                             android:textAppearance="@style/AppTheme.Widget.TextView.Italic"
@@ -633,6 +651,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_rule_6_4"
                             android:textColor="@android:color/black" />
@@ -684,6 +703,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_rule_7_2"
                             android:textAppearance="@style/AppTheme.Widget.TextView.Italic"
@@ -713,6 +733,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_rule_7_4"
                             android:textColor="@android:color/black" />
@@ -764,6 +785,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_slogan_2"
                             android:textColor="@android:color/black" />
@@ -784,6 +806,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_slogan_3"
                             android:textColor="@android:color/black" />
@@ -804,6 +827,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_slogan_4"
                             android:textColor="@android:color/black" />
@@ -832,6 +856,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_slogan_6"
                             android:textColor="@android:color/black" />
@@ -852,6 +877,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_slogan_7"
                             android:textColor="@android:color/black" />
@@ -872,6 +898,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_slogan_8"
                             android:textColor="@android:color/black" />
@@ -900,6 +927,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_slogan_10"
                             android:textColor="@android:color/black" />
@@ -920,6 +948,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_slogan_11"
                             android:textColor="@android:color/black" />
@@ -940,6 +969,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_slogan_12"
                             android:textColor="@android:color/black" />
@@ -960,6 +990,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_slogan_13"
                             android:textColor="@android:color/black" />
@@ -980,6 +1011,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_slogan_14"
                             android:textColor="@android:color/black" />
@@ -1000,6 +1032,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_slogan_15"
                             android:textColor="@android:color/black" />
@@ -1020,6 +1053,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:paddingLeft="@dimen/spacing_normal"
                             android:paddingStart="@dimen/spacing_normal"
                             android:text="@string/readme_slogan_16"
                             android:textColor="@android:color/black" />

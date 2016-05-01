@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -169,7 +170,8 @@ public class ItemListFragment extends Fragment {
 
             } else { // no audio, hence accent flag becomes invisible
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.textViewType.getLayoutParams();
-                params.removeRule(RelativeLayout.END_OF);
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+//                    params.removeRule(RelativeLayout.END_OF);
                 params.addRule(RelativeLayout.ALIGN_START, R.id.title);
                 holder.textViewType.setLayoutParams(params);
             }
