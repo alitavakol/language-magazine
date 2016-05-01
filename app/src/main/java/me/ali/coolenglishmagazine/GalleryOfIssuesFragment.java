@@ -288,7 +288,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                     GalleryOfIssuesFragment.this.firstMissingIssueNumber = firstMissingIssueNumber;
 
                     // rerun sync, because number of local issues has changed
-                    if (firstMissingIssueNumber % 10 == 0) { // if first missing issue number is not a multiple of 10, then we are already up to date.
+                    if (firstMissingIssueNumber % CHUNK_SIZE == 0) { // if first missing issue number is not a multiple of CHUNK_SIZE, then we are already up to date.
                         syncAvailableIssuesList(firstMissingIssueNumber, adapter);
 
                     } else {
@@ -309,6 +309,8 @@ public class GalleryOfIssuesFragment extends Fragment {
             }
         }
     }
+
+    protected static final int CHUNK_SIZE = 3;
 
     /**
      * gets list of available issues from server.
