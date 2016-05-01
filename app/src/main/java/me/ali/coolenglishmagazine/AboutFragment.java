@@ -113,8 +113,8 @@ public class AboutFragment extends Fragment {
 
         LibsBuilder f = new LibsBuilder()
                 .withAutoDetect(false)
-                .withLibraries("aboutlibraries", "design", "appcompat_v7", "calligraphy", "facebook", "support_v4", "recyclerview", "picasso")
-                .withExcludedLibraries("materialize", "fastadapter")
+                .withLibraries("aboutlibraries", "design", "appcompat_v7", "calligraphy", "facebook", "support_v4", "picasso", "jsoup", "recyclerview_v7")
+                .withExcludedLibraries("materialize", "fastadapter", "AndroidIconics")
                 .withAboutIconShown(true)
                 .withLibsRecyclerViewListener(new LibsConfiguration.LibsRecyclerViewListener() {
                     @Override
@@ -145,6 +145,7 @@ public class AboutFragment extends Fragment {
                 .withAboutAppName(getString(R.string.app_name))
                 .withListener(libsListener)
                 .withActivityTheme(R.style.AppTheme)
+                .withAutoDetect(false)
                 .withAboutVersionShownName(true);
 
         libsFragment = f.supportFragment();

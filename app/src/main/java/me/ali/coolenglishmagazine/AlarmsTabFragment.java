@@ -426,9 +426,6 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
             coolEnglishTimesFragment.actionMode = getActivity().startActionMode(AlarmsTabFragment.this);
             toggleSelection(idx);
 
-            // hide handler when in action mode
-            adapter.notifyItemRangeChanged(0, adapter.getItemCount());
-
             super.onLongPress(e);
         }
     }
@@ -437,7 +434,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
         adapter.toggleSelection(idx);
         final int selectedItemsCount = adapter.getSelectedItemsCount();
         if (selectedItemsCount > 0) {
-            String title = getString(R.string.selected_count, selectedItemsCount);
+            final String title = getString(R.string.selected_count, selectedItemsCount);
             coolEnglishTimesFragment.actionMode.setTitle(title);
         } else {
             coolEnglishTimesFragment.actionMode.finish();

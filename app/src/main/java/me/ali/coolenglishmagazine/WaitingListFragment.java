@@ -325,6 +325,9 @@ public class WaitingListFragment extends Fragment implements
             coolEnglishTimesFragment.actionMode = getActivity().startActionMode(WaitingListFragment.this);
             toggleSelection(idx);
 
+            // hide handler when in action mode
+            adapter.notifyItemRangeChanged(0, adapter.getItemCount());
+
             super.onLongPress(e);
         }
     }
@@ -334,7 +337,7 @@ public class WaitingListFragment extends Fragment implements
 
         final int selectedItemsCount = adapter.getSelectedItemsCount();
         if (selectedItemsCount > 0) {
-            String title = getString(R.string.selected_count, selectedItemsCount);
+            final String title = getString(R.string.selected_count, selectedItemsCount);
             coolEnglishTimesFragment.actionMode.setTitle(title);
         } else {
             coolEnglishTimesFragment.actionMode.finish();

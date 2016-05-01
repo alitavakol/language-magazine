@@ -664,7 +664,7 @@ public class IssuesTabFragment extends Fragment implements
 
         final int selectedItemsCount = adapter.getSelectedItemsCount();
         if (selectedItemsCount > 0) {
-            String title = getString(R.string.selected_count, selectedItemsCount);
+            final String title = getString(R.string.selected_count, selectedItemsCount);
             galleryOfIssuesFragment.actionMode.setTitle(title);
 
         } else { // last selected item just unselected. finish action mode.
