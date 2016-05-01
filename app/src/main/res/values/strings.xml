@@ -152,7 +152,7 @@
 
     <string name="pref_title_new_message_notifications">New message notifications</string>
 
-    <string name="pref_title_shake_to_pause_playback">Shake to pause/resume playback</string>
+    <string name="pref_title_shake_to_pause_playback">Shake to pause/resume playback (experimental)</string>
 
     <string name="pref_title_ringtone">Notification ringtone</string>
     <string name="pref_ringtone_silent">Silent</string>

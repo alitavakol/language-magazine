@@ -62,13 +62,6 @@ public class WaitingListFragment extends Fragment implements
         return fragment;
     }
 
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//        }
-//    }
-
     RecyclerView recyclerView;
 
     @Override

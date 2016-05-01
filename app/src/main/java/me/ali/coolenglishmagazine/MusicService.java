@@ -71,6 +71,11 @@ public class MusicService extends Service implements
      */
     private String dataSource = null;
 
+    /**
+     * helps us to keep playback notification visible unless media source changes,
+     */
+    private String previousDataSource;
+
     public void onCreate() {
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AudioPlaybackWakelockTag");
@@ -78,10 +83,12 @@ public class MusicService extends Service implements
 
     public void onDestroy() {
         LogHelper.d("music service onDestroy");
-        mediaController.getTransportControls().stop();
+        if (mediaSession != null) {
+            mediaController.getTransportControls().stop();
+            mediaSession.release();
+            mediaSession = null;
+        }
     }
-
-    // TODO implement audio becoming noisy handler
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -132,12 +139,6 @@ public class MusicService extends Service implements
         return START_NOT_STICKY;
     }
 
-    @Override
-    public boolean onUnbind(Intent intent) {
-        mediaSession.release();
-        return super.onUnbind(intent);
-    }
-
     private void initMediaSessions() {
         mediaSession = new MediaSessionCompat(getApplicationContext(), "Hot English Magazine Player Session");
 
@@ -147,13 +148,8 @@ public class MusicService extends Service implements
             e.printStackTrace();
         }
 
-//        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
-//        PlaybackStateCompat state = new PlaybackStateCompat.Builder()
-//                .setActions(PlaybackStateCompat.ACTION_PLAY)
-//                .setState(PlaybackStateCompat.STATE_STOPPED, PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN, 0)
-//                .build();
-//        mediaSession.setPlaybackState(state);
-//        mediaSession.setActive(true);
+        mediaSession.setActive(true);
+
         mediaSession.setCallback(new MediaSessionCompat.Callback() {
                                      @Override
                                      public void onPlay() {
@@ -271,6 +267,8 @@ public class MusicService extends Service implements
 
     private void handlePrepareRequest(String dataSource) {
         if (mediaPlayer != null && !this.dataSource.equals(dataSource)) {
+            previousDataSource = this.dataSource;
+
             this.dataSource = dataSource;
             mediaController.getTransportControls().stop();
 
@@ -278,7 +276,13 @@ public class MusicService extends Service implements
             return;
         }
 
-        if (mediaPlayer == null && dataSource != null && dataSource.length() > 0) {
+        if (!dataSource.equals(previousDataSource)) {
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.cancel(PLAYBACK_NOTIFICATION_ID);
+            previousDataSource = dataSource;
+        }
+
+        if (mediaPlayer == null && dataSource.length() > 0) {
             mediaPlayer = new MediaPlayer();
 
             mediaPlayer.setWakeMode(getApplicationContext(),
@@ -316,6 +320,9 @@ public class MusicService extends Service implements
     AudioManager audioManager;
     private ComponentName mediaButtonReceiverComponent;
 
+    /**
+     * prevents device from sleeping, so we can detect shake.
+     */
     PowerManager.WakeLock wakeLock;
 
     private void handlePlayRequest() {
@@ -355,59 +362,20 @@ public class MusicService extends Service implements
                 mSettingsContentObserver = new SettingsContentObserver(new Handler());
                 getContentResolver().registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, mSettingsContentObserver);
 
-                ShakeDetector.create(this, new ShakeDetector.OnShakeListener() {
-                    @Override
-                    public void OnShake() {
-                        boolean shakeToPausePlayback = PreferenceManager.getDefaultSharedPreferences(MusicService.this).getBoolean("shake_to_pause_playback", true);
-                        if (shakeToPausePlayback) {
-                            if (mediaPlayer != null && mediaPlayer.isPlaying())
-                                mediaController.getTransportControls().pause();
-                            else
-                                mediaController.getTransportControls().play();
-                        }
-                    }
-                });
-                wakeLock.acquire();
-                ShakeDetector.start();
-
-//                mediaSession.setCallback(new MediaSessionCompat.Callback() {
-//                    public boolean onMediaButtonEvent(Intent mediaButtonIntent) {
-//                        LogHelper.i(TAG, "onMediaButtonEvent called: " + mediaButtonIntent);
-//                        return false;
-//                    }
-//
-//                    public void onPause() {
-//                        LogHelper.i(TAG, "onPause called (media button pressed)");
-//                        super.onPause();
-//                    }
-//
-//                    public void onPlay() {
-//                        LogHelper.i(TAG, "onPlay called (media button pressed)");
-//                        super.onPlay();
-//                    }
-//
-//                    public void onStop() {
-//                        LogHelper.i(TAG, "onStop called (media button pressed)");
-//                        super.onStop();
+//                ShakeDetector.create(this, new ShakeDetector.OnShakeListener() {
+//                    @Override
+//                    public void OnShake() {
+//                        boolean shakeToPausePlayback = PreferenceManager.getDefaultSharedPreferences(MusicService.this).getBoolean("shake_to_pause_playback", false);
+//                        if (shakeToPausePlayback) {
+//                            if (mediaPlayer != null && mediaPlayer.isPlaying())
+//                                mediaController.getTransportControls().pause();
+//                            else
+//                                mediaController.getTransportControls().play();
+//                        }
 //                    }
 //                });
-//                mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
-//                PlaybackStateCompat state = new PlaybackStateCompat.Builder()
-//                        .setActions(PlaybackStateCompat.ACTION_PLAY)
-//                        .setState(PlaybackStateCompat.STATE_STOPPED, PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN, 0)
-//                        .build();
-//                mediaSession.setPlaybackState(state);
-//                mediaSession.setActive(true);
-//
-//                myVolumeProvider = new VolumeProviderCompat(VolumeProviderCompat.VOLUME_CONTROL_RELATIVE, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)) {
-//                    @Override
-//                    public void onAdjustVolume(int direction) {
-//                        // <0 volume down
-//                        // >0 volume up
-//                        LogHelper.i(TAG, "onAdjustVolume");
-//                    }
-//                };
-//                mediaSession.setPlaybackToRemote(myVolumeProvider);
+                wakeLock.acquire();
+//                ShakeDetector.start();
             }
         }
     }
@@ -434,11 +402,9 @@ public class MusicService extends Service implements
 
     public void handleStopRequest() {
         if (mediaPlayer != null) {
-            stopForeground(true);
+            stopForeground(false);
 
-//            if (!mediaPlayer.isPlaying()) // if playback completed by itself
-//                // keep notification visible, so user can start playback again.
-//                buildNotification(generateAction(android.R.drawable.ic_media_play, "Play", ACTION_PLAY));
+            buildNotification(generateAction(android.R.drawable.ic_media_play, "Play", ACTION_PLAY));
 
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -460,8 +426,8 @@ public class MusicService extends Service implements
                 noisyAudioStreamReceiver = null;
             }
 
-            ShakeDetector.stop();
-            ShakeDetector.destroy();
+//            ShakeDetector.stop();
+//            ShakeDetector.destroy();
             if (wakeLock.isHeld())
                 wakeLock.release();
         }
