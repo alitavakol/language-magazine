@@ -301,7 +301,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 return true;
             }
         });
-        lock.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_vpn_key).sizeDp(72).colorRes(android.R.color.primary_text_dark).alpha(200));
+        lock.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_vpn_key).sizeRes(R.dimen.lock_button_size).paddingRes(R.dimen.constant_margin).colorRes(android.R.color.primary_text_dark).alpha(200));
 
         // change lock background color to accent color with transparency
         int accentColorDark = getResources().getIntArray(R.array.darkLevelColors)[item.level];
