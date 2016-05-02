@@ -85,8 +85,8 @@
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="@string/play_pause"
-                android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
                 tools:src="@android:drawable/ic_media_play" />
 
             <ImageView
@@ -95,8 +95,8 @@
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="@string/play_pause"
-                android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
                 android:visibility="gone"
                 tools:src="@android:drawable/ic_media_pause" />
 

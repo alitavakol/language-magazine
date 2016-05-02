@@ -6,15 +6,6 @@
         android:left="4dp"
         android:right="4dp"
         android:top="4dp">
-        <shape android:shape="oval">
-            <solid android:color="#88000000" />
-        </shape>
-    </item>
-    <item android:id="@+id/lock_border">
-        <shape android:shape="oval">
-            <stroke
-                android:width="2dp"
-                android:color="#88000000" />
-        </shape>
+        <shape android:shape="oval" />
     </item>
 </layer-list>

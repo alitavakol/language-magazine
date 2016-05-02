@@ -54,6 +54,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/poster"
+            android:layout_alignTop="@id/poster"
+            android:layout_alignBottom="@id/poster"
+
             android:layout_toLeftOf="@+id/marker_container"
             android:layout_toRightOf="@id/poster"
             android:layout_toStartOf="@+id/marker_container"
@@ -65,11 +68,12 @@
 
             <TextView
                 android:id="@+id/title"
-                style="@style/Base.TextAppearance.AppCompat.Large"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:textAppearance="@style/AppTheme.Widget.TextView.Bold"
                 android:textColor="@color/primary"
                 tools:text="Item Title" />
 

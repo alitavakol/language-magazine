@@ -5,8 +5,8 @@
     android:gravity="center_horizontal"
     android:orientation="horizontal"
     android:paddingBottom="@dimen/constant_margin"
-    android:paddingEnd="@dimen/constant_margin"
-    android:paddingStart="@dimen/constant_margin"
+    android:paddingLeft="@dimen/constant_margin"
+    android:paddingRight="@dimen/constant_margin"
     android:paddingTop="@dimen/constant_margin"
     tools:context="me.ali.coolenglishmagazine.ShareFragment">
 

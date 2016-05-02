@@ -308,8 +308,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         LayerDrawable lockBg = (LayerDrawable) ContextCompat.getDrawable(this, R.drawable.lock_bg);
         GradientDrawable lockFill = (GradientDrawable) lockBg.findDrawableByLayerId(R.id.lock_fill);
         lockFill.setColor(accentColorDark);
-        GradientDrawable lockBorder = (GradientDrawable) lockBg.findDrawableByLayerId(R.id.lock_border);
-        lockBorder.setStroke((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics()), accentColorDark);
         lockBg.setAlpha(200);
         lock.setBackground(lockBg);
 
@@ -737,7 +735,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             useLockControls = show;
             runOnUiThread(new Runnable() {
                 public void run() {
-                    findViewById(R.id.lock).setVisibility(useLockControls && transcriptLocked ? View.VISIBLE : View.INVISIBLE);
+                    findViewById(R.id.lock).setVisibility(useLockControls && transcriptLocked ? View.VISIBLE : View.GONE);
                     if (lockActionButton != null) {
                         lockActionButton.setVisible(useLockControls && !transcriptLocked);
                         unlockActionButton.setVisible(useLockControls && transcriptLocked);
@@ -803,6 +801,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             runOnUiThread(new Runnable() {
                 public void run() {
                     webView.setVisibility(View.VISIBLE);
+                    findViewById(R.id.hourglass).setVisibility(View.GONE);
                 }
             });
         }

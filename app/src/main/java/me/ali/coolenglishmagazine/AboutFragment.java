@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
@@ -111,7 +112,7 @@ public class AboutFragment extends Fragment {
             }
         };
 
-        LibsBuilder f = new LibsBuilder()
+        LibsBuilder libsBuilder = new LibsBuilder()
                 .withAutoDetect(false)
                 .withLibraries("aboutlibraries", "design", "appcompat_v7", "calligraphy", "facebook", "support_v4", "picasso", "jsoup", "recyclerview_v7")
                 .withExcludedLibraries("materialize", "fastadapter", "AndroidIconics")
@@ -125,17 +126,26 @@ public class AboutFragment extends Fragment {
                         special1.setTextColor(color);
                         special1.setMinimumHeight(0);
                         special1.setAllCaps(true);
+                        LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) special1.getLayoutParams();
+                        params1.weight = 0.95f;
+                        special1.setLayoutParams(params1);
 
                         final Button special2 = (Button) headerViewHolder.itemView.findViewById(com.mikepenz.aboutlibraries.R.id.aboutSpecial2);
                         special2.setTextColor(color);
                         special2.setMinimumHeight(0);
                         special2.setAllCaps(true);
                         special2.setMinimumWidth(0);
+                        LinearLayout.LayoutParams params2 = (LinearLayout.LayoutParams) special2.getLayoutParams();
+                        params2.weight = 1.1f;
+                        special2.setLayoutParams(params2);
 
                         final Button special3 = (Button) headerViewHolder.itemView.findViewById(com.mikepenz.aboutlibraries.R.id.aboutSpecial3);
                         special3.setTextColor(color);
                         special3.setMinimumHeight(0);
                         special3.setAllCaps(true);
+                        LinearLayout.LayoutParams params3 = (LinearLayout.LayoutParams) special3.getLayoutParams();
+                        params3.weight = 0.95f;
+                        special3.setLayoutParams(params3);
                     }
 
                     @Override
@@ -148,16 +158,12 @@ public class AboutFragment extends Fragment {
                 .withAutoDetect(false)
                 .withAboutVersionShownName(true);
 
-        libsFragment = f.supportFragment();
-
         getChildFragmentManager().beginTransaction()
-                .replace(R.id.about_container, libsFragment)
+                .replace(R.id.about_container, libsBuilder.supportFragment())
                 .commit();
 
         return view;
     }
-
-    protected Fragment libsFragment;
 
     @Override
     public void onAttach(Context context) {

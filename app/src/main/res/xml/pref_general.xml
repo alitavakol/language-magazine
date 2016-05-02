@@ -1,6 +1,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Audio Playback Options">
+    <PreferenceCategory android:title="@string/pref_category_playback_options">
         <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
              dismiss it. -->
         <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
@@ -19,14 +19,16 @@
             android:title="@string/pref_title_shake_to_pause_playback" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Notification Options">
+    <PreferenceCategory android:title="@string/pref_category_program">
         <ListPreference
             android:defaultValue="8"
             android:entries="@array/pref_item_learn_repeat_count"
             android:entryValues="@array/pref_item_learn_repeat_count_values"
             android:key="repeat_count"
             android:title="@string/pref_title_item_learn_repeat_count" />
+    </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_category_notification_options">
         <!-- A 'parent' preference, which enables/disables child preferences (below)
              when checked/unchecked. -->
         <SwitchPreference

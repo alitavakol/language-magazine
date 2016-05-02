@@ -158,7 +158,7 @@
 					.label { background-color: #" + accentColor + "; } \
 					.figcaption { color: #" + newWordColor + "; } \
 					.brick { border: solid 1px #" + textColor + "; } \
-					.poster { background-image: linear-gradient" + t + "; height: " + height + "px; } \
+					.poster { background-image: -webkit-linear-gradient" + t + "; background-image: linear-gradient" + t + "; height: " + height + "px; } \
 					.full-height { padding-bottom: 0; height: " + (height-topMargin-bottomMargin-viewPagerHeight) + "px; }"
 				);
 			}
@@ -201,6 +201,8 @@
 						saveInstanceState();
 					},
 				}).data('Swipe');				
+
+				//currentSlide = index;
 			}
 
 			onSlideChanged = function() {

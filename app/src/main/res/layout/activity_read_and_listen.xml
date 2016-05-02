@@ -38,8 +38,8 @@
             android:layout_above="@+id/controllers"
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            android:background="@drawable/lock_bg"
-            android:visibility="invisible" />
+            tools:background="@drawable/lock_bg"
+            android:visibility="gone" />
 
     </RelativeLayout>
 
