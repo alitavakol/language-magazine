@@ -45,7 +45,7 @@
     <string name="unzip_error">Unknown error occurred.</string>
 
     <!-- for issue download notification -->
-    <string name="issue_downloaded_notification">New issue is ready. Let\'s start<![CDATA[!]]></string>
+    <string name="issue_downloaded_notification">New issue downloaded. Let’s start<![CDATA[!]]></string>
 
     <!-- for cool english times -->
     <string name="cool_english_time_notification_text_short">Time to learn a lesson<![CDATA[!]]></string>

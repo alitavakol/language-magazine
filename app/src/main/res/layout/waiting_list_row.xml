@@ -53,10 +53,9 @@
             android:id="@+id/title_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/poster"
-            android:layout_alignTop="@id/poster"
             android:layout_alignBottom="@id/poster"
-
+            android:layout_alignTop="@id/poster"
+            android:layout_toEndOf="@id/poster"
             android:layout_toLeftOf="@+id/marker_container"
             android:layout_toRightOf="@id/poster"
             android:layout_toStartOf="@+id/marker_container"

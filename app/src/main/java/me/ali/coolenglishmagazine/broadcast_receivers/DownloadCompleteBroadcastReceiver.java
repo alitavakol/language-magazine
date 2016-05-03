@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
@@ -111,7 +112,8 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
                 Notification n = new Notification.Builder(context)
                         .setContentTitle(issue.subtitle)
                         .setContentText(context.getResources().getString(R.string.issue_downloaded_notification))
-                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
+                        .setSmallIcon(R.drawable.sunglasses)
                         .setContentIntent(pIntent)
                         .setAutoCancel(true)
                         .build();

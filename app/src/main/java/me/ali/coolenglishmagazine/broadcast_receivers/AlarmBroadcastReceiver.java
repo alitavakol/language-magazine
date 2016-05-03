@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -49,7 +50,8 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                         .setContentTitle(context.getResources().getString(R.string.cool_english_times))
                         .setContentText(context.getResources().getString(R.string.cool_english_time_notification_text_short))
-                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
+                        .setSmallIcon(R.drawable.sunglasses)
                         .setContentIntent(pIntent)
                         .setAutoCancel(true);
 
