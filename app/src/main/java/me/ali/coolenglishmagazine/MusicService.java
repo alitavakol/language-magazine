@@ -50,6 +50,12 @@ public class MusicService extends Service implements
     public static final String ACTION_PLAY = "me.ali.coolenglishmagazine.ACTION_PLAY";
     public static final String ACTION_PAUSE = "me.ali.coolenglishmagazine.ACTION_PAUSE";
     public static final String ACTION_STOP = "me.ali.coolenglishmagazine.ACTION_STOP";
+
+    /**
+     * sent when user swipes notification to stop playback
+     */
+    public static final String ACTION_STOP_BY_USER = "me.ali.coolenglishmagazine.ACTION_STOP_BY_USER";
+
     public static final String ACTION_PREPARE = "me.ali.coolenglishmagazine.ACTION_PREPARE";
     public static final String ACTION_FAST_FORWARD = "me.ali.coolenglishmagazine.ACTION_FAST_FORWARD";
     public static final String ACTION_REWIND = "me.ali.coolenglishmagazine.ACTION_REWIND";
@@ -76,6 +82,11 @@ public class MusicService extends Service implements
      * helps us to keep playback notification visible unless media source changes,
      */
     private String previousDataSource;
+
+    /**
+     * if set to true, removes notification after playback completion.
+     */
+    private boolean removeNotification;
 
     public void onCreate() {
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
@@ -128,6 +139,10 @@ public class MusicService extends Service implements
             mediaController.getTransportControls().pause();
 
         } else if (ACTION_STOP.equals(action)) {
+            mediaController.getTransportControls().stop();
+
+        } else if (ACTION_STOP_BY_USER.equals(action)) {
+            removeNotification = true;
             mediaController.getTransportControls().stop();
 
         } else if (ACTION_FAST_FORWARD.equals(action)) {
@@ -226,15 +241,10 @@ public class MusicService extends Service implements
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                 .setSmallIcon(R.drawable.sunglasses)
-//                .setLargeIcon(BitmapHelper.decodeSampledBitmapFromFile(new File(issue.rootDirectory, Magazines.Issue.posterFileName).getAbsolutePath(), w, h))
                 .setContentTitle(item.title)
                 .setContentText(getResources().getString(R.string.app_name))
+                .setDeleteIntent(PendingIntent.getService(this, 1, new Intent(getApplicationContext(), MusicService.class).setAction(ACTION_STOP_BY_USER), 0)) // stop playback when notification is cancelled.
                 .setContentIntent(pendingIntent);
-
-//        Intent intent = new Intent(getApplicationContext(), MusicService.class);
-//        intent.setAction(ACTION_STOP);
-//        PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 1, intent, 0);
-//        builder.setDeleteIntent(pendingIntent)
 
         android.support.v7.app.NotificationCompat.MediaStyle style = new android.support.v7.app.NotificationCompat.MediaStyle();
         builder.setStyle(style);
@@ -248,6 +258,7 @@ public class MusicService extends Service implements
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(PLAYBACK_NOTIFICATION_ID, notification);
+        removeNotification = false;
 
         return notification;
     }
@@ -278,7 +289,7 @@ public class MusicService extends Service implements
             return;
         }
 
-        if (!dataSource.equals(previousDataSource)) {
+        if (!dataSource.equals(previousDataSource)) { // remove notification if data source has changed.
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.cancel(PLAYBACK_NOTIFICATION_ID);
             previousDataSource = dataSource;
@@ -352,8 +363,9 @@ public class MusicService extends Service implements
                 noisyAudioStreamReceiver = new NoisyAudioStreamReceiver();
                 registerReceiver(noisyAudioStreamReceiver, intentFilter);
 
-                startForeground(PLAYBACK_NOTIFICATION_ID,
-                        buildNotification(generateAction(android.R.drawable.ic_media_pause, "Pause", ACTION_PAUSE)));
+//                startForeground(PLAYBACK_NOTIFICATION_ID,
+//                        buildNotification(generateAction(android.R.drawable.ic_media_pause, "Pause", ACTION_PAUSE)));
+                buildNotification(generateAction(android.R.drawable.ic_media_pause, "Pause", ACTION_PAUSE));
 
                 if (onMediaStateChangedListener != null)
                     onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_PLAYING);
@@ -406,7 +418,8 @@ public class MusicService extends Service implements
         if (mediaPlayer != null) {
             stopForeground(false);
 
-            buildNotification(generateAction(android.R.drawable.ic_media_play, "Play", ACTION_PLAY));
+            if (!removeNotification) // keep notification shown unless it is swiped out by user.
+                buildNotification(generateAction(android.R.drawable.ic_media_play, "Play", ACTION_PLAY));
 
             mediaPlayer.stop();
             mediaPlayer.release();
