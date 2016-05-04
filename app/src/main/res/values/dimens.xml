@@ -56,4 +56,7 @@
     <dimen name="about_title_padding_top">36dp</dimen>
     <dimen name="about_title_padding_bottom">24dp</dimen>
     <dimen name="about_horizontal_margin">24dp</dimen>
+
+    <dimen name="detail_button_container_padding_top">@dimen/activity_vertical_margin_2</dimen>
+    <integer name="issue_details_title_lines">3</integer>
 </resources>

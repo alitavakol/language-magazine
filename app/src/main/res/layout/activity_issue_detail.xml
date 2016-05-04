@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scroll_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:fillViewport="true"
     android:overScrollMode="ifContentScrolls"
     tools:context="me.ali.coolenglishmagazine.IssueDetailActivity"
@@ -24,7 +24,7 @@
             <ImageView
                 android:id="@+id/cover"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
                 tools:src="@mipmap/ic_launcher" />
         </FrameLayout>
@@ -63,7 +63,7 @@
                 android:layout_marginStart="@dimen/keyline_2_session_detail"
                 android:ellipsize="end"
                 android:gravity="start"
-                android:maxLines="4"
+                android:maxLines="@integer/issue_details_title_lines"
                 android:textAlignment="viewStart"
                 tools:text="You want me to measure what!?" />
 
@@ -78,7 +78,7 @@
                 android:layout_marginStart="@dimen/keyline_2_session_detail"
                 android:ellipsize="end"
                 android:gravity="start"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:textAlignment="viewStart"
                 tools:text="Test Session Subtitle" />
 
@@ -89,14 +89,15 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingStart="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin">
+                android:paddingTop="@dimen/detail_button_container_padding_top">
 
                 <LinearLayout
                     android:id="@+id/button_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:minHeight="0dp">
 
                     <Button
                         android:id="@+id/buttonDownload"

@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
@@ -166,15 +167,6 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             actionBar.setDisplayShowTitleEnabled(false); // hide action bar title
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        final ImageView coverImageView = (ImageView) findViewById(R.id.cover);
-        Picasso
-                .with(IssueDetailActivity.this)
-                .load(new File(issue.rootDirectory, Magazines.Issue.posterFileName))
-//                .resize(coverImageView.getWidth(), coverImageView.getHeight())
-                .centerCrop()
-                .fit()
-                .into(coverImageView);
 
         mScrollView = (ObservableScrollView) findViewById(R.id.scroll_view);
         mPhotoViewContainer = findViewById(R.id.session_photo_container);
@@ -388,7 +380,25 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
         public void onGlobalLayout() {
-            headerTranslation = mPhotoViewContainer.getHeight();
+            // render cover image with its real aspect ratio; but if its height exceeds 5/7 of available height, centerCrop it.
+            File coverImageFile = new File(issue.rootDirectory, Magazines.Issue.posterFileName);
+            final BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(coverImageFile.getAbsolutePath(), options);
+            float aspectRatio = (float) options.outHeight / (float) options.outWidth;
+
+            final ImageView coverImageView = (ImageView) findViewById(R.id.cover);
+            int targetWidth = mScrollView.getMeasuredWidth();
+            int targetHeight = Math.min((int) (targetWidth * aspectRatio), 5 * mScrollView.getMeasuredHeight() / 7);
+
+            Picasso
+                    .with(IssueDetailActivity.this)
+                    .load(coverImageFile)
+                    .resize(targetWidth, targetHeight)
+                    .centerCrop()
+                    .into(coverImageView);
+
+            headerTranslation = targetHeight;
             int headerHeight = mHeaderSession.getHeight();
 
             FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) issueDetailsContainer.getLayoutParams();
