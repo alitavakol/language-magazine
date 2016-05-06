@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 
 import org.jsoup.Jsoup;
@@ -409,8 +410,16 @@ public class Magazines {
 
         // delete download if it is downloading
         final long downloadReference = getDownloadReference(context, issue);
-        if (downloadReference != -1)
-            ((DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE)).remove(downloadReference);
+        if (downloadReference != -1) {
+            final DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+            downloadManager.remove(downloadReference);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    downloadManager.remove(downloadReference); // http://stackoverflow.com/a/34797980
+                }
+            }, 1000);
+        }
 
         File[] files = issue.rootDirectory.listFiles();
         if (files != null) {

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -147,6 +148,12 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             @Override
             public void onClick(View v) {
                 downloadManager.remove(downloadReference);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        downloadManager.remove(downloadReference); // http://stackoverflow.com/a/34797980
+                    }
+                }, 1000);
                 issue.setStatus(Magazines.Issue.Status.available);
                 updateFab();
             }

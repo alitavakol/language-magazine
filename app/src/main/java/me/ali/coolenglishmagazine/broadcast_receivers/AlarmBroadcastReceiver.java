@@ -52,6 +52,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                         .setContentText(context.getResources().getString(R.string.cool_english_time_notification_text_short))
                         .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
                         .setSmallIcon(R.drawable.sunglasses)
+                        .setColor(context.getResources().getColor(R.color.primary_dark))
                         .setContentIntent(pIntent)
                         .setAutoCancel(true);
 

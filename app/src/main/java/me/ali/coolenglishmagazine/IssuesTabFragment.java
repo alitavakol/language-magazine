@@ -343,8 +343,10 @@ public class IssuesTabFragment extends Fragment implements
                 }
             }
 
-            if (updateHeaders() || changed)
+            if (updateHeaders() || changed) {
                 recyclerView.invalidateItemDecorations();
+                galleryOfIssuesFragment.finishActionMode();
+            }
 
             return changed;
         }

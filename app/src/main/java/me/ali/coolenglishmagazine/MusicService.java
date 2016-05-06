@@ -241,6 +241,7 @@ public class MusicService extends Service implements
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                 .setSmallIcon(R.drawable.sunglasses)
+                .setColor(getResources().getColor(R.color.primary_dark))
                 .setContentTitle(item.title)
                 .setContentText(getResources().getString(R.string.app_name))
                 .setDeleteIntent(PendingIntent.getService(this, 1, new Intent(getApplicationContext(), MusicService.class).setAction(ACTION_STOP_BY_USER), 0)) // stop playback when notification is cancelled.
@@ -379,7 +380,7 @@ public class MusicService extends Service implements
 //                ShakeDetector.create(this, new ShakeDetector.OnShakeListener() {
 //                    @Override
 //                    public void OnShake() {
-//                        boolean shakeToPausePlayback = PreferenceManager.getDefaultSharedPreferences(MusicService.this).getBoolean("shake_to_pause_playback", false);
+//                        boolean shakeToPausePlayback = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(MusicService.this).getString("shake_behaviour", "0")) == 1;
 //                        if (shakeToPausePlayback) {
 //                            if (mediaPlayer != null && mediaPlayer.isPlaying())
 //                                mediaController.getTransportControls().pause();

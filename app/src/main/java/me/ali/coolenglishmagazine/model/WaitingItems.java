@@ -106,7 +106,7 @@ public class WaitingItems {
 
         for (WaitingItem w : waitingItems) {
             if (w.itemRootDirectory.equals(waitingItem.itemRootDirectory)) {
-                Toast.makeText(context, R.string.already_in_waiting_list, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.already_in_waiting_list, item.title), Toast.LENGTH_SHORT).show();
                 return false;
             }
         }

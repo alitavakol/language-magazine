@@ -405,6 +405,7 @@ public class WaitingListFragment extends Fragment implements
     @Override
     public void onWaitingItemRemoved(WaitingItems.WaitingItem waitingItem) {
         adapter.notifyItemRemoved(WaitingItems.waitingItems.indexOf(waitingItem));
+        coolEnglishTimesFragment.finishActionMode();
     }
 
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {

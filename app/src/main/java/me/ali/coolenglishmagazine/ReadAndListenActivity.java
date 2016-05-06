@@ -12,7 +12,6 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.ActionBar;
@@ -122,22 +121,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         try {
             item = MagazineContent.getItem(new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
 
-            // use appropriate accent color (and more theme styles) regarding the level of the item.
-//            switch (item.level) {
-//                case 0: // beginner
-//            setTheme(R.style.ReadAndListenTheme_BeginnerLevel);
-//                    break;
-//                case 1: // intermediate
-//                    setTheme(R.style.ReadAndListenTheme_IntermediateLevel);
-//                    break;
-//                case 2: // upper-intermediate
-//                    setTheme(R.style.ReadAndListenTheme_UpperIntermediateLevel);
-//                    break;
-//                case 3: // advanced
-//                    setTheme(R.style.ReadAndListenTheme_AdvancedLevel);
-//                    break;
-//            }
-
         } catch (IOException e) {
             LogHelper.e(TAG, e.getMessage());
         }
@@ -231,12 +214,12 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 a.recycle();
 
                 final String command = "javascript:adjustLayout({"
-                        + "topMargin: " + actionBarSize // HTML content top margin
+                        + "topMargin: " + actionBarSize // HTML content top margin for content
+                        + ", bottomMargin: " + mediaControllerButtons.getMeasuredHeight()
                         + ", horizontalMargin: " + getResources().getDimension(R.dimen.activity_horizontal_margin)
-//                        + ", bottomMargin: " + getResources().getDimension(R.dimen.activity_vertical_margin)
+                        + ", verticalMargin: " + getResources().getDimension(R.dimen.activity_vertical_margin)
                         + ", backgroundColor: " + ContextCompat.getColor(getApplicationContext(), android.R.color.background_light)
-                        + ", bottomPadding: " + mediaControllerButtons.getMeasuredHeight()
-                        + ", height: " + webView.getMeasuredHeight() // poster height
+                        + ", height: " + webView.getMeasuredHeight() // window height
                         + ", accentColor: " + accentColor // accent color
                         + ", primaryColor: " + ContextCompat.getColor(getApplicationContext(), R.color.primary) // accent color
                         + ", textColor: " + ContextCompat.getColor(getApplicationContext(), android.R.color.secondary_text_light) // text color
@@ -806,28 +789,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             });
         }
 
-        @SuppressWarnings("unused")
-        @JavascriptInterface
-        public void autoHideToolbarOnScroll(final boolean largeSpaceRequired) {
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    AppBarLayout.LayoutParams layoutParams = (AppBarLayout.LayoutParams) findViewById(R.id.toolbar_actionbar).getLayoutParams();
-                    layoutParams.setScrollFlags(largeSpaceRequired ? AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS : 0);
-
-                    // http://stackoverflow.com/questions/30554824/how-to-reset-the-toolbar-position-controlled-by-the-coordinatorlayout
-                    final AppBarLayout appBar = (AppBarLayout) findViewById(R.id.app_bar);
-                    appBar.setExpanded(true);
-                    if (largeSpaceRequired) {
-                        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBar.getLayoutParams();
-                        AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
-                        behavior.onNestedFling((CoordinatorLayout) findViewById(R.id.coordinator_layout), appBar, null, 0, -1000, true);
-                    }
-                }
-            });
-        }
-
         /**
          * hides media controller buttons to gain space for content.
+         *
+         * @param hide if true, toolbar goes hidden.
          */
         @SuppressWarnings("unused")
         @JavascriptInterface
@@ -854,6 +819,20 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                     }
                 }
             });
+        }
+
+        /**
+         * hides toolbar to gain space for web content
+         *
+         * @param hide if true, toolbar goes hidden.
+         */
+        @SuppressWarnings("unused")
+        @JavascriptInterface
+        public void hideToolbarForSpace(final boolean hide) {
+            // http://stackoverflow.com/questions/30554824/how-to-reset-the-toolbar-position-controlled-by-the-coordinatorlayout
+            final AppBarLayout appBar = (AppBarLayout) findViewById(R.id.app_bar);
+            if (appBar != null)
+                appBar.setExpanded(!hide);
         }
     }
 

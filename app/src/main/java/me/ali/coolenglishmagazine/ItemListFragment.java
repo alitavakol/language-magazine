@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -126,6 +125,10 @@ public class ItemListFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), nColumns));
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new SpacesItemDecoration());
+
+        int hMargin = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
+        int spacing = getResources().getDimensionPixelSize(R.dimen.spacing_normal);
+        recyclerView.setPadding(hMargin - spacing / 2, 0, hMargin - spacing / 2, 0);
     }
 
     public class ItemsRecyclerViewAdapter extends RecyclerView.Adapter<ItemsRecyclerViewAdapter.ViewHolder> {
@@ -237,21 +240,19 @@ public class ItemListFragment extends Fragment {
     }
 
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int hMargin, vMargin, spacing;
+        private int vMargin, spacing;
 
         public SpacesItemDecoration() {
-            hMargin = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
             vMargin = getResources().getDimensionPixelSize(R.dimen.activity_vertical_margin);
             spacing = getResources().getDimensionPixelSize(R.dimen.spacing_normal);
         }
 
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int spanIndex = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getSpanIndex();
             final int position = recyclerView.getChildAdapterPosition(view);
 
-            outRect.left = spanIndex == 0 ? hMargin : spacing / 2;
-            outRect.right = spanIndex == nColumns - 1 ? hMargin : spacing / 2;
+            outRect.left = spacing / 2;
+            outRect.right = spacing / 2;
             outRect.top = position < nColumns ? vMargin : spacing / 2;
             outRect.bottom = position == adapter.getItemCount() - 1 ? vMargin : spacing / 2;
         }

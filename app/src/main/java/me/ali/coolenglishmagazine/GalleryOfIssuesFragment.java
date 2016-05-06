@@ -6,7 +6,9 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -126,13 +128,7 @@ public class GalleryOfIssuesFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-
-        if (requestQueue != null) {
-            requestQueue.cancelAll(this);
-            requestQueue = null;
-            syncing = false;
-        }
-
+        cancelSync(getActivity(), null);
         finishActionMode();
     }
 
@@ -247,6 +243,11 @@ public class GalleryOfIssuesFragment extends Fragment {
     boolean syncing = false;
 
     /**
+     * an snack bar which enables user to cancel syncing
+     */
+    Snackbar snackbar;
+
+    /**
      * volley network request queue
      */
     RequestQueue requestQueue = null;
@@ -287,15 +288,24 @@ public class GalleryOfIssuesFragment extends Fragment {
 
                     GalleryOfIssuesFragment.this.firstMissingIssueNumber = firstMissingIssueNumber;
 
-                    // rerun sync, because number of local issues has changed
+                    // rerun sync to see if there are more, because number of local issues has changed
                     if (firstMissingIssueNumber % CHUNK_SIZE == 0) { // if first missing issue number is not a multiple of CHUNK_SIZE, then we are already up to date.
-                        syncAvailableIssuesList(firstMissingIssueNumber, adapter);
+                        // do it in a moment later
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (snackbar != null) // if user has not cancelled sync
+                                    syncAvailableIssuesList(firstMissingIssueNumber, adapter);
+                            }
+                        }, 1000);
 
                     } else {
+                        Toast.makeText(getActivity(), R.string.sync_complete, Toast.LENGTH_SHORT).show();
                         success = false; // force jump into the following if block
                     }
 
                 } else {
+                    Toast.makeText(getActivity(), R.string.sync_complete, Toast.LENGTH_SHORT).show();
                     success = false; // force jump into the following if block
                 }
 
@@ -303,10 +313,8 @@ public class GalleryOfIssuesFragment extends Fragment {
                 Toast.makeText(getActivity(), R.string.unzip_error, Toast.LENGTH_SHORT).show();
             }
 
-            if (!success) {
-                syncing = false;
-                adapter.preNotifyDataSetChanged(false, null);
-            }
+            if (!success)
+                cancelSync(getActivity(), adapter);
         }
     }
 
@@ -319,6 +327,7 @@ public class GalleryOfIssuesFragment extends Fragment {
         if (firstMissingIssueNumber == -1) {
             if (syncing)
                 return;
+
             firstMissingIssueNumber = this.firstMissingIssueNumber;
         }
 
@@ -330,6 +339,16 @@ public class GalleryOfIssuesFragment extends Fragment {
             requestQueue = Volley.newRequestQueue(context);
 
         if (NetworkHelper.isOnline(context)) {
+            snackbar = Snackbar
+                    .make(getView(), R.string.syncing, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.cancel_syncing, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            cancelSync(getActivity(), adapter);
+                        }
+                    }).setActionTextColor(getResources().getColor(R.color.primary_light));
+            snackbar.show();
+
             final Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(context).getString("server_address", getResources().getString(R.string.pref_default_server_address)));
             // http://docs.oracle.com/javase/tutorial/networking/urls/urlInfo.html
             final String url = uri.toString() + "/api/issues?min_issue_number=" + firstMissingIssueNumber;
@@ -343,17 +362,14 @@ public class GalleryOfIssuesFragment extends Fragment {
 
                     } else {
                         // received success with status code 204 (no content)
-                        syncing = false;
-                        adapter.preNotifyDataSetChanged(false, null);
+                        cancelSync(context, adapter);
                         Toast.makeText(context, R.string.update_success, Toast.LENGTH_SHORT).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    requestQueue.cancelAll(context);
-                    syncing = false;
-                    adapter.preNotifyDataSetChanged(false, null);
+                    cancelSync(context, adapter);
                     Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
                 }
             }, null);
@@ -364,11 +380,26 @@ public class GalleryOfIssuesFragment extends Fragment {
             requestQueue.add(request);
 
         } else {
-            requestQueue.cancelAll(this);
-            syncing = false;
-            adapter.preNotifyDataSetChanged(false, null);
+            cancelSync(context, adapter);
             Toast.makeText(context, R.string.check_connection, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    protected void cancelSync(Context context, IssuesTabFragment.IssuesRecyclerViewAdapter adapter) {
+        if (requestQueue != null) {
+            requestQueue.cancelAll(context);
+            requestQueue = null;
+        }
+
+        if (snackbar != null) {
+            snackbar.dismiss();
+            snackbar = null;
+        }
+
+        if (adapter != null)
+            adapter.preNotifyDataSetChanged(false, null);
+
+        syncing = false;
     }
 
     /**

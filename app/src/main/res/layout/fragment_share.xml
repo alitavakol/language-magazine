@@ -28,7 +28,9 @@
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:drawablePadding="@dimen/padding_normal"
+            android:ellipsize="end"
             android:gravity="center_horizontal"
+            android:lines="1"
             android:text="Facebook"
             tools:drawableTop="@mipmap/ic_launcher" />
 
@@ -42,7 +44,9 @@
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:drawablePadding="@dimen/padding_normal"
+            android:ellipsize="end"
             android:gravity="center_horizontal"
+            android:lines="1"
             android:text="Twitter"
             tools:drawableTop="@mipmap/ic_launcher" />
 
@@ -56,7 +60,9 @@
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:drawablePadding="@dimen/padding_normal"
+            android:ellipsize="end"
             android:gravity="center_horizontal"
+            android:lines="1"
             android:text="Google+"
             tools:drawableTop="@mipmap/ic_launcher" />
     </LinearLayout>
@@ -79,7 +85,9 @@
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:drawablePadding="@dimen/padding_normal"
+            android:ellipsize="end"
             android:gravity="center_horizontal"
+            android:lines="1"
             android:text="Email"
             tools:drawableTop="@mipmap/ic_launcher" />
 
@@ -93,7 +101,9 @@
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:drawablePadding="@dimen/padding_normal"
+            android:ellipsize="end"
             android:gravity="center_horizontal"
+            android:lines="1"
             android:text="Copy"
             tools:drawableTop="@mipmap/ic_launcher" />
 
@@ -107,7 +117,9 @@
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:drawablePadding="@dimen/padding_normal"
+            android:ellipsize="end"
             android:gravity="center_horizontal"
+            android:lines="1"
             android:text="More"
             tools:drawableTop="@mipmap/ic_launcher" />
     </LinearLayout>

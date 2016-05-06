@@ -18,7 +18,7 @@
 
     <string name="add_all_to_waiting_list">Add all items to hot english times</string>
     <string name="add_to_waiting_list">Add to hot english times</string>
-    <string name="already_in_waiting_list">Item is already added.</string>
+    <string name="already_in_waiting_list">Item “%s” is already added.</string>
 
     <string name="view_issue_details">See magazine introduction</string>
 
@@ -49,7 +49,7 @@
 
     <!-- for cool english times -->
     <string name="cool_english_time_notification_text_short">Time to learn a lesson<![CDATA[!]]></string>
-    <string name="cool_english_time_notification_text">Time to learn the \"%s\" lesson<![CDATA[!]]></string>
+    <string name="cool_english_time_notification_text">Time to learn the “%s” lesson<![CDATA[!]]></string>
 
     <plurals name="cool_english_time_notification_summary_text">
         <item quantity="one">You have learnt this item %d time so far.</item>
@@ -114,7 +114,6 @@
     </string-array>
     <string-array name="pref_volume_buttons_behaviour_list_values">
         <item>1</item>
-        <!--<item>2</item>-->
         <item>0</item>
     </string-array>
 
@@ -198,6 +197,9 @@
     <string name="incomplete_selected_issues">Mark as incomplete</string>
 
     <string name="download_failed_msg">Download failed with error code %d</string>
+    <string name="sync_complete">Update complete!</string>
+    <string name="syncing">Syncing&#8230;</string>
+    <string name="cancel_syncing">Cancel</string>
 
     <string name="my_issues">On My Device</string>
     <string name="available_issues">Available for Download</string>
@@ -298,7 +300,7 @@
     <string name="readme_rule_4_2">“I’m a very serious student. When studying English in Korea, I memorized 10,000 English words for a big national test. Ten Thousand! My problem was&#8212; I couldn’t USE them. I could pass an English test. But I could not understand native speakers.”</string>
     <string name="readme_rule_4_3">\n<b>Slow, Deep Learning Is Best</b>\n\nHyun learned a lot of words in a short time. Her learning was short and shallow. That’s why she quickly forgot the words. That’s why she could not use them.\n\nThe secret to speaking easily is to learn every word &amp; phrase DEEPLY.\n\nIt’s not enough to know a definition. It’s not enough to remember for a test. You must put the word deep into your brain.\n\nTo speak English easily, you must repeat each lesson many times. You must learn English deeply.</string>
     <string name="readme_rule_4_4">Learn deeply, speak easily.</string>
-    <string name="readme_rule_4_5">How do you learn deeply? Easy&#8212; just repeat all lessons or listening many times. For example, if you have an audio book, listen to the first chapter 30 times before you go to the second chapter. You could listen to the first chapter 3 times each day, for 10 days.\n\nStop trying to hurry&#8211; this isn’t a race!  \"Learning\" a lot of words is useless if you can’t <b>UNDERSTAND</b> and USE them in real conversation.</string>
+    <string name="readme_rule_4_5">How do you learn deeply? Easy&#8212; just repeat all lessons or listening many times. For example, if you have an audio book, listen to the first chapter 30 times before you go to the second chapter. You could listen to the first chapter 3 times each day, for 10 days.\n\nStop trying to hurry&#8211; this isn’t a race!  “Learning” a lot of words is useless if you can’t <b>UNDERSTAND</b> and USE them in real conversation.</string>
 
     <string name="readme_rule_5_1"><b>Rule 5: Use Point Of View Stories</b>\n\nYou remember that on Rule No. 2, I told you never to study grammar rules. But, of course, you want to use correct English grammar.\n\nMaybe you are thinking, “How can I learn English grammar if I don’t study English grammar rules?” Well, Now I will tell you.\n\nSome people may be thinking, “But I love studying grammar rules!” These people also enjoy going to the dentist ;)\n\nFor everyone else, grammar rules are both boring and useless. Grammar books are for children!\n\n\n<b>A Story</b>\n\nMiyuki did very well on grammar tests. She knew all of the grammar rules. She knew English verbs.\n\nBut Miyuki had a problem. She couldn’t USE the grammar in a real conversation. She could explain the past tense, but when speaking, she would say “Yesterday I GO to school”.\n\nMiyuki was confused.  How could her grammar tests be so good, but her speaking so bad?\n\nMiyuki said:</string>
     <string name="readme_rule_5_2">“I knew all the grammar rules, but I couldn’t speak correctly. I couldn’t feel English grammar. After using Point of View stories, I feel it and use it correctly.\nNow my grammar is great when I speak. I never think about it, I just automatically use correct grammar. Thank you!”</string>

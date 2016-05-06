@@ -208,7 +208,7 @@
 			onSlideChanged = function() {
 				if(typeof(app) != 'undefined') {
 					app.showLockControls(currentSlide == 1);
-					app.autoHideToolbarOnScroll(currentSlide != 1 || !transcriptLocked);
+					// app.autoHideToolbarOnScroll(currentSlide != 1 || !transcriptLocked);
 					setTimeout(function() {
 						app.hideMediaControllerForSpace(currentSlide != 1);
 					}, currentSlide == 1 ? 0 : 2000);

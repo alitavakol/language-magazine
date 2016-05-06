@@ -1,7 +1,6 @@
 package me.ali.coolenglishmagazine.broadcast_receivers;
 
 import android.app.DownloadManager;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -10,6 +9,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
@@ -109,16 +109,16 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
 
                 // build notification
                 // the addAction re-use the same intent to keep the example short
-                Notification n = new Notification.Builder(context)
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                         .setContentTitle(issue.subtitle)
                         .setContentText(context.getResources().getString(R.string.issue_downloaded_notification))
                         .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
                         .setSmallIcon(R.drawable.sunglasses)
+                        .setColor(context.getResources().getColor(R.color.primary_dark))
                         .setContentIntent(pIntent)
-                        .setAutoCancel(true)
-                        .build();
+                        .setAutoCancel(true);
 
-                ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id, n);
+                ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id, builder.build());
 
                 Magazines.computeIssueStatus(context, issue);
                 issue.setStatus(issue.getStatus());
