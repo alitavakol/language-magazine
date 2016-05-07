@@ -7,8 +7,6 @@ adjustLayout = function(options) {
 	topMargin = (options['topMargin'] || 0) / window.devicePixelRatio;
 	bottomMargin = (options['bottomMargin'] || 0) / window.devicePixelRatio;
 	height = (options['height'] || 0) / window.devicePixelRatio;
-	verticalMargin = (options['verticalMargin'] || 0) / window.devicePixelRatio;
-	horizontalMargin = (options['horizontalMargin'] || 0) / window.devicePixelRatio;
 
 	textColor = ((options['textColor'] || 0) & 0xffffff).toString(16);
 	while(textColor.length < 6) textColor = '0' + textColor;
@@ -23,13 +21,25 @@ adjustLayout = function(options) {
 	}
 	newWordColor = tinycolor(textColor).saturate().saturate().toHexString();
 
+	if(typeof(setCurrentSlide) == 'function')
+		viewPagerHeight = 28;
+	else
+		viewPagerHeight = 0;
+
 	css = "\
+		.card { margin-top: " + (topMargin+28) + "px; background-color: #" + accentColor + "; } \
 		.highlight { background-color: " + highlightColor + "; } \
 		body { color: #" + textColor + "; } \
 		.accent { color: #" + accentColor + "; } \
 		.new-word, dd, dt { color: " + newWordColor + "; } \
+		#page-indicator { margin-top: " + topMargin + "px; } \
+		.container { padding-bottom: " + bottomMargin + "px; padding-top: " + (topMargin+viewPagerHeight) + "px; height: " + (height-topMargin-bottomMargin-viewPagerHeight) + "px; } \
 		h1.alt { color: " + newWordColor + "; } \
 		h3.alt { color: " + newWordColor + "; } \
+		.swipe-wrap > div { height: " + height + "px; } \
+		.card-content { color: " + newWordColor + "; } \
+		.dot { background-color: #" + textColor + "; } \
+		.dot.active { background-color: " + newWordColor + "; } \
 	"
 
 	if(options['backgroundColor']) {
@@ -64,7 +74,6 @@ if(typeof(app) == 'undefined') { // on web browser
 		adjustLayout({
 			topMargin: 20,
 			horizontalMargin: 10,
-			verticalMargin: 10,
 			bottomMargin: 0,
 			height: $(window).height(), 
 			accentColor: 0x9688, 

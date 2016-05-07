@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.res.TypedArray;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -18,7 +17,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -153,8 +151,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             getWindow().setStatusBarColor(getResources().getIntArray(R.array.darkLevelColors)[item.level]);
-//        int transparentAccentColor = Color.argb(200, Color.red(accentColor), Color.green(accentColor), Color.blue(accentColor));
-        findViewById(R.id.app_bar).setBackgroundColor(accentColor);
+
+        appBar = (AppBarLayout) findViewById(R.id.app_bar);
+        if (appBar != null)
+            appBar.setBackgroundColor(accentColor);
+
         mediaControllerButtons = (ViewGroup) findViewById(R.id.controllers);
         mediaControllerButtons.getChildAt(0).setBackgroundColor(accentColor);
 
@@ -206,15 +207,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         webView = (WebView) findViewById(R.id.webView);
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
-                // show html content below action bar, keeping background untouched
-                int[] actionBarSizeAttr = new int[]{android.R.attr.actionBarSize};
-                int indexOfAttrActionBarSize = 0;
-                TypedArray a = obtainStyledAttributes(new TypedValue().data, actionBarSizeAttr);
-                int actionBarSize = a.getDimensionPixelSize(indexOfAttrActionBarSize, -1);
-                a.recycle();
-
                 final String command = "javascript:adjustLayout({"
-                        + "topMargin: " + actionBarSize // HTML content top margin for content
+                        + "topMargin: " + appBar.getMeasuredHeight() // HTML content top margin for content
                         + ", bottomMargin: " + mediaControllerButtons.getMeasuredHeight()
                         + ", horizontalMargin: " + getResources().getDimension(R.dimen.activity_horizontal_margin)
                         + ", verticalMargin: " + getResources().getDimension(R.dimen.activity_vertical_margin)
@@ -246,11 +240,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         startText = (TextView) findViewById(R.id.startText);
         endText = (TextView) findViewById(R.id.endText);
-
-        // numbers should be represented in monospace style
-//        Typeface monospace = FontManager.getTypeface(getApplicationContext(), FontManager.UBUNTU);
-//        startText.setTypeface(monospace);
-//        endText.setTypeface(monospace);
 
         final ImageView playButton = (ImageView) findViewById(R.id.play);
         final ImageView pauseButton = (ImageView) findViewById(R.id.pause);
@@ -834,14 +823,13 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             // http://stackoverflow.com/questions/30554824/how-to-reset-the-toolbar-position-controlled-by-the-coordinatorlayout
             runOnUiThread(new Runnable() {
                 public void run() {
-                    final AppBarLayout appBar = (AppBarLayout) findViewById(R.id.app_bar);
-                    if (appBar != null) {
-                        appBar.setVisibility(hide ? View.INVISIBLE : View.VISIBLE);
-                    }
+                    appBar.setVisibility(hide ? View.INVISIBLE : View.VISIBLE);
                 }
             });
         }
     }
 
     protected boolean mediaControllerHiddenForSpace;
+
+    protected AppBarLayout appBar;
 }

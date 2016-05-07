@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>News Stories</title>
+		<title>Useful Verbs and Expressions</title>
 		<meta charset="utf-8">
 
 		<link rel="stylesheet" type="text/css" href="../styles.css">
@@ -9,63 +9,122 @@
 		<style id="dynamic-rules">
 		</style>
 
-		<style id="local-rules">
+		<style type="text/css">
+			#page-indicator {
+				width: 100%;
+				position: absolute;
+				z-index: 1;
+				text-align: center;
+				display: none;
+			}
+			.dot {
+				display: inline-block;
+				width: 8px;
+				height: 8px;
+				border-radius: 4px;
+				/* background-color: #8999A6; */
+			}
+			.dot.active {
+				/* background-color: azure; */
+			}
+
+			.card {
+				position: relative;
+				transition: box-shadow .25s;
+				border-radius: 2px;
+				box-shadow: 0 6px 10px 0 rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.2);
+				max-width: 100%;
+			}
+			.card .card-image {
+				position: relative;
+			}
+			.card .card-image img {
+				display: block;
+				border-radius: 2px 2px 0 0;
+				position: relative;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+			}
+			.card .card-image .card-title {
+				color: #fff;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				padding: 20px;
+				text-transform: uppercase;
+				background-color: black;
+				opacity: 0.7;
+			}
+			.card .card-title {
+				font-size: 24px;
+				font-weight: 300;
+			}
+			.card .card-content {
+				border-radius: 0 0 2px 2px;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-bottom: 10px;
+				font-family: Ubuntu_Italic;
+			}
+			.card .card-action {
+				border-top: 1px solid rgba(0,0,0,0.2);
+				padding: 20px;
+				padding-bottom: 0;
+				transition: color .3s ease;
+				text-transform: uppercase;
+				text-decoration: none;
+				-webkit-tap-highlight-color: transparent;
+				font-family: Ubuntu_Bold;
+			}
+			.illustrate {
+				width: 100%;
+				height: 300px;
+				overflow: hidden;
+				background-position: center center;
+				background-repeat: no-repeat;
+				background-size: cover;
+			}
+
+			.swipe {
+				overflow: hidden;
+				visibility: hidden;
+				position: relative;
+			}
+			.swipe-wrap {
+				overflow: hidden;
+				position: relative;
+			}
+			.swipe-wrap > div {
+				float: left;
+				width: 20px;
+				position: relative;
+				overflow: hidden;
+				overflow-y: auto;
+			}
 		</style>
 
-		<style type="text/css">
-			#pinterest {
-				margin: 0 auto;
-				/*padding-bottom: 15px;*/
-			}
-			#list {
-				width: 100%;
-				overflow: hidden;
-				margin-bottom: 15px;
-				-webkit-column-count: 3;
-				-webkit-column-gap: 15px;
-				-webkit-column-fill: auto;
-				column-count: 3;
-				column-gap: 15px;
-				column-fill: auto;
-			}
-			.brick {
-				margin-bottom: 15px;
-				-webkit-column-break-inside: avoid;
-				-moz-column-break-inside: avoid;
-				column-break-inside: avoid;
-			}
-			@media only screen and ( max-width: 480px ) {
-				#list
-				{
-					-webkit-column-count: 2;
-					-webkit-column-gap: 15px;
-					column-count: 2;
-					column-gap: 15px;
-				}
-			}
-			@media only screen and ( max-width: 240px ) {
-				#list
-				{
-					-webkit-column-count: auto;
-					column-count: auto;
-				}
-			}
+		<style id="local-rules">
 		</style>
 
 		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
 		<script src="../../../jquery-1.11.3.min.js"></script>
-		<script src="swipe.modified.js"></script>
+		<script src="file:///android_asset/swipe.min.js"></script>
+		<script src="../../../swipe.min.js"></script>
 		<script src="file:///android_asset/tinycolor-min.js"></script>
 		<script src="../../../tinycolor-min.js"></script>
-		<script src="masonry.pkgd.min.js"></script>
-		<script src="jquery-ui.min.js"></script>
-		<script src="jquery.ui.touch-punch.min.js"></script>
 
 		<script src="../code.js"></script>
 	</head>
 
 	<body>
-		<div id="page-indicator">
+		<div id="page-indicator" style="position: absolute; z-index: 1;">
+			<span class="dot"></span>
+			<span class="dot"></span>
+			<span class="dot"></span>
+			<span class="dot"></span>
 			<span class="dot"></span>
 			<span class="dot"></span>
 		</div>
@@ -73,31 +132,91 @@
 		<div id='swipeable' style='margin:0 auto;' class='swipe'>
 			<div class='swipe-wrap'>
 				<div>
-					<div id="pre-reading" class="container full-height">
-						<div id="label-container">
-							<h4>Match each form of transport with its corresponding picture. Drag names and drop them into correct pictures.</h4>
-							<ul style="padding: 10px; text-align: center;" />
+					<div class="card">
+						<div class="card-image">
+							<div class="illustrate" style="background-image: url('1.jpg');"></div>
+							<span class="card-title">To pitch a tent</span>
 						</div>
-
-						<div id="pinterest">
-							<div id="list"></div>
+						<div class="card-action">
+							To assemble a tent.
 						</div>
-						<h4>Now swipe right, and listen to the article. Then read transcript to verify your listening skills. ➜</h4>
+						<div class="card-content">
+							<p>“The first thing we did when we got to the campsite was pitch our tent.”</p>
+						</div>
 					</div>
 				</div>
 
 				<div>
-					<div class="poster hidden"></div>
+					<div class="card">
+						<div class="card-image">
+							<div class="illustrate" style="background-image: url('2.jpg');"></div>
+							<span class="card-title">To go on a hike</span>
+						</div>
+						<div class="card-action">
+							To go for a long walk in the country.
+						</div>
+						<div class="card-content">
+							<p>“We plan to go on a hike in Fisher Canyon.”</p>
+						</div>
+					</div>
+				</div>
 
-					<div class="container">
-						<h1>Train Anger</h1>
-						<h3>A doctor gets angry on a train.</h3>
+				<div>
+					<div class="card">
+						<div class="card-image">
+							<div class="illustrate" style="background-image: url('3.jpg');"></div>
+							<span class="card-title">To build a fire</span>
+						</div>
+						<div class="card-action">
+							To make a fire from materials such as wood and sticks.
+						</div>
+						<div class="card-content">
+							<p>“If we want to eat dinner, we should probably build a fire first.”</p>
+						</div>
+					</div>
+				</div>
 
-				 		<div class="transcript hidden">
-							<p><span data-start="14428" data-end="23390">A doctor was on a train. He ordered some food. But when the food came, he got very angry. Why?</span></p>
-							<p><span data-start="23391" data-end="28805">Dr. Russell Walshaw was on a train. He was travelling to London.</span> <span data-start="28806" data-end="33810">At the time of the incident, he was in the first class <a class="new-word" data-word="a dining carriage" data-type="n" data-en="a special car/carriage in a train where people eat and there is a restaurant" data-fa="واگن اختصاصی به عنوان رستوران">dining carriage</a>.</span> <span data-start="33811" data-end="39440">The 66-year-old doctor was sitting there when a <a class="new-word" data-word="a steward" data-type="n" data-en="a person who works on a train/airplane serving food, helping passengers, etc" data-fa="خدمت‌کار قطار یا هواپیما">steward</a> came to talk to him.</span> <span data-start="39441" data-end="42619">The steward wanted to prepare the tables for lunch.</span> <span data-start="42620" data-end="47320">So, he asked the doctor <a class="new-word" data-word="politely" data-type="adv" data-en="with respect; considerately; not rudely" data-fa="محترمانه">politely</a>, “Would you mind moving, please?”</span> <span data-start="47321" data-end="54988">However, the doctor didn’t want to move. He had just finished eating breakfast and he was working on his <a class="new-word" data-word="a laptop" data-type="n" data-en="a small, portable computer that opens and closes like a book" data-fa="لپ‌تاپ">laptop</a>.</span> <span data-start="54989" data-end="58988">“You can <a class="new-word" data-word="to lay the table" data-type="exp" data-en="to prepare a table for eating: to put plates, glasses, forks, knives, etc on it" data-fa="چیدن و آماده کردن میز غذاخوری">lay the table</a> around me,” the doctor said.</span></p>
-							<p><span data-start="58989" data-end="63590">The doctor continued working until the steward came back to lay the table.</span> <span data-start="63591" data-end="66210">But then the problems started.</span> <span data-start="66211" data-end="72540">“The steward put the <a class="new-word" data-word="a plate" data-type="n" data-en="a round, flat ceramic object on which you put food to eat" data-fa="بشقاب">plate</a> down on the table very <a class="new-word" data-word="forcefully" data-type="adv" data-en="with a lot of force" data-fa="با فشار">forcefully</a>,” the doctor explained.</span> <span data-start="72541" data-end="79643">“I shouted at the steward. But he just walked away. I was so angry that I threw a plate.”</span></p>
-							<p><span data-start="79644" data-end="86020">The doctor was given a <a class="new-word" data-word="a warning" data-type="n" data-en="if you give someone a “warning”, you tell them of a possible danger in the future" data-fa="هشدار نسبت به خطر پیش رو">warning</a> from the General Medical Council in London (The GMC).</span> <span data-start="86021" data-end="90049">They said that the doctor’s actions were “unacceptable”.</span> <span data-start="90050" data-end="95733">In his defence, the doctor said that he had been responding to the steward’s aggression.</span> <span data-start="95734" data-end="102400">“The steward <a class="new-word" data-word="to drop" data-type="vb" data-en="to let something fall from your hands; if something “drops”, it falls accidentally" data-fa="ناگهان انداختن">dropped</a> the plate on my table and showed <a class="new-word" data-word="bad manners" data-type="exp" data-en="if you have “bad manners”, you are not polite to someone; you say/do rude things" data-fa="اخلاق بد و نا ملایم">bad manners</a>,” the doctor explained.</span> <span data-start="102401" data-end="114800">“Also, I didn’t throw the plate at him, I threw the plate in his general direction. I’m sorry that it hit him. Perhaps I should have just shouted at him instead.”</span> <span class="accent"> ★</span></p>
+				<div>
+					<div class="card">
+						<div class="card-image">
+							<div class="illustrate" style="background-image: url('4.jpg');"></div>
+							<span class="card-title">To catch fish</span>
+						</div>
+						<div class="card-action">
+							To use a fishing rod and/or line to get fish.
+						</div>
+						<div class="card-content">
+							<p>“My mum and I caught seven fish in three hours down at the lake.”</p>
+						</div>
+					</div>
+				</div>
+
+				<div>
+					<div class="card">
+						<div class="card-image">
+							<div class="illustrate" style="background-image: url('5.jpg');"></div>
+							<span class="card-title">To roast marshmallows</span>
+						</div>
+						<div class="card-action">
+							To cook marshmallows over a fire.
+						</div>
+						<div class="card-content">
+							<p>“Sean loves to roast marshmallows when we go camping.”</p>
+						</div>
+					</div>
+				</div>
+
+				<div>
+					<div class="card">
+						<div class="card-image">
+							<div class="illustrate" style="background-image: url('6.jpg');"></div>
+							<span class="card-title">To set up camp</span>
+						</div>
+						<div class="card-action">
+							If you “set up camp”, you organise your campsite by putting your tent, supplies and food in order.
+						</div>
+						<div class="card-content">
+							<p>“My friends and I left home in the morning because we wanted to set up camp before dark.”</p>
 						</div>
 					</div>
 				</div>
@@ -105,135 +224,55 @@
 		</div>
 
 		<script type="text/javascript">
-			var pics = ['balloon', 'bus', 'train', 'helicopter', 'motorbike', 'bicycle', 'ship', 'car'];
-			var mix = [2,5,1,7,0,6,4,3];
-			var baseWidth = $(window).width() / 8;
-			var widths = [6, 4, 6, 4, 2, 2, 6, 4];
-			var temp = "<div class='brick rounded-corners droppable' data-label='{index}'><img src='{index}.jpg' width='100%'><div class='figcaption'>‌</div></div>";
-			var temp2 = "<li class='label draggable'>{index}</li>";
-			var html = '', html2 = '';
-			for (var i = 0; i < 8; ++i) {
-				html += temp.replace(/\{width\}/g, widths[i] * baseWidth).replace(/\{index\}/g, pics[i]);
-				html2 += temp2.replace(/\{index\}/g, pics[mix[i]]);
-			}
-			$("#pinterest #list").html(html);
-			$("#label-container > ul").html(html2);
-
-			$('.draggable').draggable({
-				scroll: true,
-				stack: '#freewall',
-				revert: true,
-				revertDuration: 0,
-				scrollSpeed: 10,
-				containment: '#pre-reading',
-				start: function(ev, ui) {
-					disableSwipe = true;
-				},
-				stop: function(ev, ui) {
-					disableSwipe = false;
-				},
-			});
-			$('.droppable').droppable({
-				activate: function(ev, ui) {
-				},
-				deactivate: function(ev, ui) {
-				},
-				drop: function( event, ui ) {
-					if($(this).data('label') == ui.draggable.html()) {
-						$(this).find('.figcaption').html(ui.draggable.css('visibility', 'hidden').html());
-					} else {
-						if(typeof(app) != 'undefined')
-							app.makeToast('That\'s not right.', false);
-					}
-				}
-			});
-			$(".draggable").mousedown(function(e){ e.stopPropagation();return false;});
-
 			adjustCustomLayout = function(options) {
-				t = "(rgba(18,18,18,0.8), rgba(18,18,18,0), rgba(18,18,18,0.8)), url('angry-doctor.jpg')";
-				horizontalMargin = (options['horizontalMargin'] || 0) / window.devicePixelRatio;
-
 				$('#local-rules').text("\
-					.container { margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
-					.label { background-color: #" + accentColor + "; } \
-					.figcaption { color: #" + newWordColor + "; } \
-					.brick { border: solid 1px #" + textColor + "; } \
-					.poster { background-image: -webkit-linear-gradient" + t + "; background-image: linear-gradient" + t + "; height: " + height + "px; } \
-					.full-height { padding-bottom: 0; height: " + (height-topMargin-bottomMargin-viewPagerHeight) + "px; }"
-				);
+					.card { margin-top: " + (topMargin+verticalMargin) + "px; margin-bottom: " + verticalMargin + "px; margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; background-color: #" + accentColor + "; } \
+					.card-content { color: " + newWordColor + "; } \
+					#page-indicator { margin-top: " + (topMargin+2*verticalMargin-8) + "px; } \
+					.swipe-wrap > div { height: " + height + "px; } \
+					.dot { background-color: " + tinycolor(accentColor).brighten().brighten().toHexString() + "; } \
+					.dot.active { background-color: " + tinycolor(accentColor).darken().darken().toHexString() + "; } \
+				");
 			}
 
 			lock = function(b) {
-				transcriptLocked = b;
-
-				if(b) {
-					$('.transcript').addClass('hidden');
-					$('.poster').removeClass('hidden');
-					$('h1').removeClass('alt');
-					$('h3').removeClass('alt');
-
-				} else {
-					$('.transcript').removeClass('hidden');
-					$('.poster').addClass('hidden');
-					$('h1').addClass('alt');
-					$('h3').addClass('alt');
-				}
-
-				onSlideChanged();
-				saveInstanceState();
 			}
 
 			setCurrentSlide = function(index) {
 				$('#page-indicator').show();
 				$('#page-indicator .dot').eq(index).addClass('active');
 
-				if(typeof(swipeable) == 'object' && typeof(swipeable.kill) == 'function')
-					swipeable.kill();
+				if(typeof(window.swipeable) == 'object' && typeof(window.swipeable.kill) == 'function')
+					window.swipeable.kill();
 
-				swipeable = $('#swipeable').Swipe({
+				window.swipeable = $('#swipeable').Swipe({
 					startSlide: index,
-					stopPropagation: true,
-					continuous: false,
 					callback: function(index,elem) {
+						$('#page-indicator .dot').removeClass('active');
+						$('#page-indicator .dot').eq(index).addClass('active');
+
 						currentSlide = index;
-						$('#page-indicator .dot').removeClass('active').eq(index).addClass('active');
-						onSlideChanged();
 						saveInstanceState();
 					},
-				}).data('Swipe');				
-
-				//currentSlide = index;
-			}
-
-			onSlideChanged = function() {
-				if(typeof(app) != 'undefined') {
-					app.showLockControls(currentSlide == 1);
-					app.hideToolbarForSpace(currentSlide != 1 || !transcriptLocked);
-					setTimeout(function() {
-						app.hideMediaControllerForSpace(currentSlide != 1);
-					}, currentSlide == 1 ? 0 : 2000);
-				}
+				}).data('Swipe');
 			}
 
 			saveInstanceState = function() {
 				outState = {
 					currentSlide: currentSlide,
-					transcriptLocked: transcriptLocked,
 				};
 
 				if(typeof(app) != 'undefined')
-					app.saveInstanceState(JSON.stringify(outState));
+    				app.saveInstanceState(JSON.stringify(outState));
 			}
 
 			restoreInstanceState = function(savedInstanceState) {
 				state = JSON.parse(savedInstanceState);
 
 				setCurrentSlide(state.currentSlide);
-				lock(state.transcriptLocked);
 			}
 
 			setCurrentSlide(0);
-			lock(true);
 		</script>
 
 	</body>

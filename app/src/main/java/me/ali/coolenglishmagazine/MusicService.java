@@ -288,13 +288,13 @@ public class MusicService extends Service implements
             return;
         }
 
-        if (!dataSource.equals(previousDataSource)) { // remove notification if data source has changed.
+        if (dataSource != null && !dataSource.equals(previousDataSource)) { // remove notification if data source has changed.
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.cancel(PLAYBACK_NOTIFICATION_ID);
             previousDataSource = dataSource;
         }
 
-        if (mediaPlayer == null && dataSource.length() > 0) {
+        if (dataSource != null && mediaPlayer == null && dataSource.length() > 0) {
             mediaPlayer = new MediaPlayer();
 
             mediaPlayer.setWakeMode(getApplicationContext(),

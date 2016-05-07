@@ -9,16 +9,14 @@
 		<style id="dynamic-rules">
 		</style>
 
-		<style id="local-rules">
+		<style type="text/css">
 		</style>
 
-		<style type="text/css">
+		<style id="local-rules">
 		</style>
 
 		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
 		<script src="../../../jquery-1.11.3.min.js"></script>
-		<script src="file:///android_asset/swipe.min.js"></script>
-		<script src="../../../swipe.min.js"></script>
 		<script src="file:///android_asset/tinycolor-min.js"></script>
 		<script src="../../../tinycolor-min.js"></script>
 
@@ -40,10 +38,9 @@
 		<script type="text/javascript">
 			adjustCustomLayout = function(options) {
 				t = "(rgba(18,18,18,0.8), rgba(18,18,18,0), rgba(18,18,18,0.8)), url('download.jpg')";
-				horizontalMargin = (options['horizontalMargin'] || 0) / window.devicePixelRatio;
 
 				$('#local-rules').text("\
-					.container { margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+					.container { padding-bottom: " + bottomMargin + "px; padding-top: " + (topMargin+verticalMargin) + "px; height: " + (height-topMargin-verticalMargin-bottomMargin) + "px; margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
 					.poster { background-image: -webkit-linear-gradient" + t + "; background-image: linear-gradient" + t + "; height: " + height + "px; } "
 				);
 			}
