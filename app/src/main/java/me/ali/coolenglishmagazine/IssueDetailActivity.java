@@ -94,125 +94,128 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
 
         try {
             issue = Magazines.getIssue(this, new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
+
             issue.addOnStatusChangedListener(this);
             downloadReference = Magazines.getDownloadReference(this, issue);
 
+            ((TextView) findViewById(R.id.session_title)).setText(issue.description);
+            ((TextView) findViewById(R.id.session_subtitle)).setText(issue.subtitle);
+
+            buttonOpen.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish(); // remove this activity from back stack
+
+                    Intent intent = new Intent(IssueDetailActivity.this, ItemListActivity.class);
+                    intent.putExtra(ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
+                    startActivity(intent);
+                }
+            });
+
+            // update visibility of complete and incomplete buttons
+            onIssueStatusChanged(issue);
+
+            buttonComplete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Magazines.markCompleted(issue);
+                }
+            });
+
+            buttonIncomplete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Magazines.reopen(IssueDetailActivity.this, issue);
+                }
+            });
+
+            buttonDownload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        downloadReference = Magazines.download(IssueDetailActivity.this, issue);
+                        updateFab();
+                    } catch (IOException e) {
+                        LogHelper.e(TAG, e.getMessage());
+                    }
+                }
+            });
+
+            buttonCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    downloadManager.remove(downloadReference);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            downloadManager.remove(downloadReference); // http://stackoverflow.com/a/34797980
+                        }
+                    }, 1000);
+                    issue.setStatus(Magazines.Issue.Status.available);
+                    updateFab();
+                }
+            });
+            buttonCancel.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_clear).sizeRes(R.dimen.tw__login_btn_text_size).colorRes(R.color.accent));
+
+            buttonDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Magazines.deleteIssue(IssueDetailActivity.this, issue);
+                    updateFab();
+                }
+            });
+
+            // Show the Up button in the action bar.
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayShowTitleEnabled(false); // hide action bar title
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
+
+            mScrollView = (ObservableScrollView) findViewById(R.id.scroll_view);
+            mPhotoViewContainer = findViewById(R.id.session_photo_container);
+            mHeaderSession = (LinearLayout) findViewById(R.id.header_session);
+            issueDetailsContainer = (FrameLayout) findViewById(R.id.issue_detail_container);
+
+            mScrollView.addCallbacks(this);
+            setOnScrollViewLayoutChangedListener();
+
+            // savedInstanceState is non-null when there is fragment state
+            // saved from previous configurations of this activity
+            // (e.g. when rotating the screen from portrait to landscape).
+            // In this case, the fragment will automatically be re-added
+            // to its container so we don't need to manually add it.
+            // For more information, see the Fragments API guide at:
+            //
+            // http://developer.android.com/guide/components/fragments.html
+            //
+            if (savedInstanceState == null) {
+                // Create the detail fragment and add it to the activity
+                // using a fragment transaction.
+                Bundle arguments = new Bundle();
+
+                final String issueRootDirectory = getIntent().getStringExtra(ARG_ROOT_DIRECTORY);
+                arguments.putString(ARG_ROOT_DIRECTORY, issueRootDirectory);
+
+                IssueDetailFragment fragment = new IssueDetailFragment();
+                fragment.setArguments(arguments);
+
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.issue_detail_container, fragment)
+                        .commit();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
-        }
-
-        ((TextView) findViewById(R.id.session_title)).setText(issue.description);
-        ((TextView) findViewById(R.id.session_subtitle)).setText(issue.subtitle);
-
-        buttonOpen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish(); // remove this activity from back stack
-
-                Intent intent = new Intent(IssueDetailActivity.this, ItemListActivity.class);
-                intent.putExtra(ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
-                startActivity(intent);
-            }
-        });
-
-        // update visibility of complete and incomplete buttons
-        onIssueStatusChanged(issue);
-
-        buttonComplete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Magazines.markCompleted(issue);
-            }
-        });
-
-        buttonIncomplete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Magazines.reopen(IssueDetailActivity.this, issue);
-            }
-        });
-
-        buttonDownload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    downloadReference = Magazines.download(IssueDetailActivity.this, issue);
-                    updateFab();
-                } catch (IOException e) {
-                    LogHelper.e(TAG, e.getMessage());
-                }
-            }
-        });
-
-        buttonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                downloadManager.remove(downloadReference);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        downloadManager.remove(downloadReference); // http://stackoverflow.com/a/34797980
-                    }
-                }, 1000);
-                issue.setStatus(Magazines.Issue.Status.available);
-                updateFab();
-            }
-        });
-        buttonCancel.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_clear).sizeRes(R.dimen.tw__login_btn_text_size).colorRes(R.color.accent));
-
-        buttonDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Magazines.deleteIssue(IssueDetailActivity.this, issue);
-                updateFab();
-            }
-        });
-
-        // Show the Up button in the action bar.
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayShowTitleEnabled(false); // hide action bar title
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-
-        mScrollView = (ObservableScrollView) findViewById(R.id.scroll_view);
-        mPhotoViewContainer = findViewById(R.id.session_photo_container);
-        mHeaderSession = (LinearLayout) findViewById(R.id.header_session);
-        issueDetailsContainer = (FrameLayout) findViewById(R.id.issue_detail_container);
-
-        mScrollView.addCallbacks(this);
-        setOnScrollViewLayoutChangedListener();
-
-        // savedInstanceState is non-null when there is fragment state
-        // saved from previous configurations of this activity
-        // (e.g. when rotating the screen from portrait to landscape).
-        // In this case, the fragment will automatically be re-added
-        // to its container so we don't need to manually add it.
-        // For more information, see the Fragments API guide at:
-        //
-        // http://developer.android.com/guide/components/fragments.html
-        //
-        if (savedInstanceState == null) {
-            // Create the detail fragment and add it to the activity
-            // using a fragment transaction.
-            Bundle arguments = new Bundle();
-
-            final String issueRootDirectory = getIntent().getStringExtra(ARG_ROOT_DIRECTORY);
-            arguments.putString(ARG_ROOT_DIRECTORY, issueRootDirectory);
-
-            IssueDetailFragment fragment = new IssueDetailFragment();
-            fragment.setArguments(arguments);
-
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.issue_detail_container, fragment)
-                    .commit();
+            finish();
         }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        issue.removeOnStatusChangedListener(this);
+        if (issue != null)
+            issue.removeOnStatusChangedListener(this);
     }
 
     public void setOnScrollViewLayoutChangedListener() {

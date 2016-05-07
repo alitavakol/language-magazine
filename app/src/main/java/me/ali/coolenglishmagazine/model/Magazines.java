@@ -63,8 +63,17 @@ public class Magazines {
      */
     static HashMap<File, Issue> file2issue = new HashMap<>();
 
-    public static Issue getIssue(Context context, File issueRootDirectory) throws IOException {
+    public static Issue getIssue(Context context, File issueRootDirectory) throws IOException, NumberFormatException {
         Issue issue = file2issue.get(issueRootDirectory);
+
+        // verify issue integrity,
+        // and delete issue on error
+        boolean ok = new File(issueRootDirectory, Issue.contentFileName).exists()
+                && new File(issueRootDirectory, Issue.posterFileName).exists();
+        if (!ok) {
+            FileHelper.deleteRecursive(issueRootDirectory);
+            throw new IOException("Cannot find issue introduction file.");
+        }
 
         if (issue == null) {
             File input = new File(issueRootDirectory, Issue.manifestFileName);

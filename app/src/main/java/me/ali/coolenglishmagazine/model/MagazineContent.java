@@ -64,6 +64,12 @@ public class MagazineContent {
     public static Item getItem(File itemRootDirectory) throws IOException {
         Item item = file2item.get(itemRootDirectory);
 
+        // verify issue integrity,
+        // and delete issue on error
+        if (!new File(itemRootDirectory, Item.contentFileName).exists()) {
+            throw new IOException("Cannot find item content file.");
+        }
+
         if (item == null) {
             File input = new File(itemRootDirectory, Item.manifestFileName);
             final Document doc = Jsoup.parse(input, "UTF-8", "");
@@ -86,6 +92,9 @@ public class MagazineContent {
 
             file2item.put(itemRootDirectory, item);
         }
+
+        if (item.audioFileName.length() > 0 && !new File(itemRootDirectory, item.audioFileName).exists())
+            throw new IOException("Cannot not find item audio file.");
 
         return item;
     }

@@ -116,174 +116,165 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         try {
             item = MagazineContent.getItem(new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
 
-        } catch (IOException e) {
-            LogHelper.e(TAG, e.getMessage());
-        }
+            setContentView(R.layout.activity_read_and_listen);
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_read_and_listen);
+            accentColor = getResources().getIntArray(R.array.levelColors)[item.level];
 
-        // get themed accent color
-//        TypedValue typedValue = new TypedValue();
-//        Resources.Theme theme = getTheme();
-//        theme.resolveAttribute(R.attr.colorAccent, typedValue, true);
-//        accentColor = typedValue.data;
-        accentColor = getResources().getIntArray(R.array.levelColors)[item.level];
+            if (savedInstanceState != null) {
+                transcriptLocked = savedInstanceState.getBoolean("transcriptLocked");
+                useLockControls = savedInstanceState.getBoolean("useLockControls");
+                webViewState = savedInstanceState.getString("webViewState");
 
-        if (savedInstanceState != null) {
-            transcriptLocked = savedInstanceState.getBoolean("transcriptLocked");
-            useLockControls = savedInstanceState.getBoolean("useLockControls");
-            webViewState = savedInstanceState.getString("webViewState");
-
-        } else {
-            // if the item has no audio, suppose user has learnt this item. for items with audio,
-            // music service does this job:
-            // increment hit count if it is in the list of waiting items.
-            if (item.audioFileName.length() == 0)
-                WaitingItems.incrementHitCount(this, item);
-        }
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-        setSupportActionBar(toolbar);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            getWindow().setStatusBarColor(getResources().getIntArray(R.array.darkLevelColors)[item.level]);
-
-        appBar = (AppBarLayout) findViewById(R.id.app_bar);
-        if (appBar != null)
-            appBar.setBackgroundColor(accentColor);
-
-        mediaControllerButtons = (ViewGroup) findViewById(R.id.controllers);
-        mediaControllerButtons.getChildAt(0).setBackgroundColor(accentColor);
-
-        slide_up = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
-        slide_up.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
+            } else {
+                // if the item has no audio, suppose user has learnt this item. for items with audio,
+                // music service does this job:
+                // increment hit count if it is in the list of waiting items.
+                if (item.audioFileName.length() == 0)
+                    WaitingItems.incrementHitCount(this, item);
             }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                slideUpAnimating = false;
-            }
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+            setSupportActionBar(toolbar);
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        });
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                getWindow().setStatusBarColor(getResources().getIntArray(R.array.darkLevelColors)[item.level]);
 
-        slide_down = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
-        slide_down.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
+            appBar = (AppBarLayout) findViewById(R.id.app_bar);
+            if (appBar != null)
+                appBar.setBackgroundColor(accentColor);
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                if (mediaControllerHiddenForSpace)
-                    mediaControllerButtons.setVisibility(View.INVISIBLE);
-                isSlideDownAnimating = false;
-            }
+            mediaControllerButtons = (ViewGroup) findViewById(R.id.controllers);
+            mediaControllerButtons.getChildAt(0).setBackgroundColor(accentColor);
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        });
-
-        // Get a support ActionBar corresponding to this toolbar
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayShowTitleEnabled(false); // hide action bar title
-            actionBar.setDisplayHomeAsUpEnabled(true); // Enable the Up button
-        }
-
-        // set item type as action bar title
-        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        toolbarTitle.setText(item.type);
-
-        webView = (WebView) findViewById(R.id.webView);
-        webView.setWebViewClient(new WebViewClient() {
-            public void onPageFinished(WebView view, String url) {
-                final String command = "javascript:adjustLayout({"
-                        + "topMargin: " + appBar.getMeasuredHeight() // HTML content top margin for content
-                        + ", bottomMargin: " + mediaControllerButtons.getMeasuredHeight()
-                        + ", horizontalMargin: " + getResources().getDimension(R.dimen.activity_horizontal_margin)
-                        + ", verticalMargin: " + getResources().getDimension(R.dimen.activity_vertical_margin)
-                        + ", backgroundColor: " + ContextCompat.getColor(getApplicationContext(), android.R.color.background_light)
-                        + ", height: " + webView.getMeasuredHeight() // window height
-                        + ", accentColor: " + accentColor // accent color
-                        + ", primaryColor: " + ContextCompat.getColor(getApplicationContext(), R.color.primary) // accent color
-                        + ", textColor: " + ContextCompat.getColor(getApplicationContext(), android.R.color.secondary_text_light) // text color
-                        + "});";
-                webView.loadUrl(command);
-                if (webViewState != null)
-                    webView.loadUrl("javascript:restoreInstanceState('" + webViewState.replace("'", "\\'") + "');");
-                webView.loadUrl("javascript:setTimeout(function() { app.onAdjustLayoutComplete(); }, 200);");
-
-                lockTranscript(transcriptLocked);
-
-                webView.loadUrl("javascript:highlight(" + currentTimePoint + ");");
-                if (state == PlaybackStateCompat.STATE_PLAYING) {
-                    currentTimePoint = -1; // force redo highlight current snippet if playing
+            slide_up = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
+            slide_up.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
                 }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    slideUpAnimating = false;
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+
+            slide_down = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
+            slide_down.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    if (mediaControllerHiddenForSpace)
+                        mediaControllerButtons.setVisibility(View.INVISIBLE);
+                    isSlideDownAnimating = false;
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+
+            // Get a support ActionBar corresponding to this toolbar
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayShowTitleEnabled(false); // hide action bar title
+                actionBar.setDisplayHomeAsUpEnabled(true); // Enable the Up button
             }
-        });
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.addJavascriptInterface(webViewJavaScriptInterface, "app");
-        webView.setVerticalScrollBarEnabled(false);
 
-        ((ImageView) findViewById(R.id.hourglass)).setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_hourglass_full).sizeDp(72).color(accentColor));
+            // set item type as action bar title
+            TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+            toolbarTitle.setText(item.type);
 
-        seekBar = (SeekBar) findViewById(R.id.seekBar);
-        startText = (TextView) findViewById(R.id.startText);
-        endText = (TextView) findViewById(R.id.endText);
+            webView = (WebView) findViewById(R.id.webView);
+            webView.setWebViewClient(new WebViewClient() {
+                public void onPageFinished(WebView view, String url) {
+                    final String command = "javascript:adjustLayout({"
+                            + "topMargin: " + appBar.getMeasuredHeight() // HTML content top margin for content
+                            + ", bottomMargin: " + mediaControllerButtons.getMeasuredHeight()
+                            + ", horizontalMargin: " + getResources().getDimension(R.dimen.activity_horizontal_margin)
+                            + ", verticalMargin: " + getResources().getDimension(R.dimen.activity_vertical_margin)
+                            + ", backgroundColor: " + ContextCompat.getColor(getApplicationContext(), android.R.color.background_light)
+                            + ", height: " + webView.getMeasuredHeight() // window height
+                            + ", accentColor: " + accentColor // accent color
+                            + ", primaryColor: " + ContextCompat.getColor(getApplicationContext(), R.color.primary) // accent color
+                            + ", textColor: " + ContextCompat.getColor(getApplicationContext(), android.R.color.secondary_text_light) // text color
+                            + "});";
+                    webView.loadUrl(command);
+                    if (webViewState != null)
+                        webView.loadUrl("javascript:restoreInstanceState('" + webViewState.replace("'", "\\'") + "');");
+                    webView.loadUrl("javascript:setTimeout(function() { app.onAdjustLayoutComplete(); }, 200);");
 
-        final ImageView playButton = (ImageView) findViewById(R.id.play);
-        final ImageView pauseButton = (ImageView) findViewById(R.id.pause);
-        final ImageView prevButton = (ImageView) findViewById(R.id.prev);
-        final ImageView nextButton = (ImageView) findViewById(R.id.next);
+                    lockTranscript(transcriptLocked);
 
-        prevButton.setEnabled(false);
-        playButton.setEnabled(false);
-        pauseButton.setEnabled(false);
-        nextButton.setEnabled(false);
-        seekBar.setEnabled(false);
-        mediaControllerButtons.setVisibility(item.audioFileName.length() > 0 ? View.VISIBLE : View.GONE);
+                    webView.loadUrl("javascript:highlight(" + currentTimePoint + ");");
+                    if (state == PlaybackStateCompat.STATE_PLAYING) {
+                        currentTimePoint = -1; // force redo highlight current snippet if playing
+                    }
+                }
+            });
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.addJavascriptInterface(webViewJavaScriptInterface, "app");
+            webView.setVerticalScrollBarEnabled(false);
 
-        playButton.setOnClickListener(this);
-        pauseButton.setOnClickListener(this);
-        prevButton.setOnClickListener(this);
-        nextButton.setOnClickListener(this);
-        seekBar.setOnSeekBarChangeListener(this);
+            ((ImageView) findViewById(R.id.hourglass)).setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_hourglass_full).sizeDp(72).color(accentColor));
 
-        playButton.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_play_arrow).sizeDp(24).colorRes(android.R.color.primary_text_dark));
-        pauseButton.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_pause).sizeDp(24).colorRes(android.R.color.primary_text_dark));
-        prevButton.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_fast_rewind).sizeDp(24).colorRes(android.R.color.primary_text_dark));
-        nextButton.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_fast_forward).sizeDp(24).colorRes(android.R.color.primary_text_dark));
+            seekBar = (SeekBar) findViewById(R.id.seekBar);
+            startText = (TextView) findViewById(R.id.startText);
+            endText = (TextView) findViewById(R.id.endText);
 
-        ImageView lock = (ImageView) findViewById(R.id.lock);
-        lock.setOnClickListener(this);
-        lock.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                lockTranscript(false);
-                return true;
-            }
-        });
-        lock.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_vpn_key).sizeRes(R.dimen.lock_button_size).paddingRes(R.dimen.constant_margin).colorRes(android.R.color.primary_text_dark).alpha(200));
+            final ImageView playButton = (ImageView) findViewById(R.id.play);
+            final ImageView pauseButton = (ImageView) findViewById(R.id.pause);
+            final ImageView prevButton = (ImageView) findViewById(R.id.prev);
+            final ImageView nextButton = (ImageView) findViewById(R.id.next);
 
-        // change lock background color to accent color with transparency
-        int accentColorDark = getResources().getIntArray(R.array.darkLevelColors)[item.level];
-        LayerDrawable lockBg = (LayerDrawable) ContextCompat.getDrawable(this, R.drawable.lock_bg);
-        GradientDrawable lockFill = (GradientDrawable) lockBg.findDrawableByLayerId(R.id.lock_fill);
-        lockFill.setColor(accentColorDark);
-        lockBg.setAlpha(200);
-        lock.setBackground(lockBg);
+            prevButton.setEnabled(false);
+            playButton.setEnabled(false);
+            pauseButton.setEnabled(false);
+            nextButton.setEnabled(false);
+            seekBar.setEnabled(false);
+            mediaControllerButtons.setVisibility(item.audioFileName.length() > 0 ? View.VISIBLE : View.GONE);
 
-        try {
+            playButton.setOnClickListener(this);
+            pauseButton.setOnClickListener(this);
+            prevButton.setOnClickListener(this);
+            nextButton.setOnClickListener(this);
+            seekBar.setOnSeekBarChangeListener(this);
+
+            playButton.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_play_arrow).sizeDp(24).colorRes(android.R.color.primary_text_dark));
+            pauseButton.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_pause).sizeDp(24).colorRes(android.R.color.primary_text_dark));
+            prevButton.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_fast_rewind).sizeDp(24).colorRes(android.R.color.primary_text_dark));
+            nextButton.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_fast_forward).sizeDp(24).colorRes(android.R.color.primary_text_dark));
+
+            ImageView lock = (ImageView) findViewById(R.id.lock);
+            lock.setOnClickListener(this);
+            lock.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    lockTranscript(false);
+                    return true;
+                }
+            });
+            lock.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_vpn_key).sizeRes(R.dimen.lock_button_size).paddingRes(R.dimen.constant_margin).colorRes(android.R.color.primary_text_dark).alpha(200));
+
+            // change lock background color to accent color with transparency
+            int accentColorDark = getResources().getIntArray(R.array.darkLevelColors)[item.level];
+            LayerDrawable lockBg = (LayerDrawable) ContextCompat.getDrawable(this, R.drawable.lock_bg);
+            GradientDrawable lockFill = (GradientDrawable) lockBg.findDrawableByLayerId(R.id.lock_fill);
+            lockFill.setColor(accentColorDark);
+            lockBg.setAlpha(200);
+            lock.setBackground(lockBg);
+
             File input = new File(item.rootDirectory, MagazineContent.Item.contentFileName);
             final Document doc = Jsoup.parse(input, "UTF-8", "");
 
@@ -296,7 +287,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel(AlarmBroadcastReceiver.COOL_ENGLISH_TIME_NOTIFICATION_ID + item.getUid());
 
         } catch (IOException e) {
-            LogHelper.e(TAG, e.getMessage());
+            e.printStackTrace();
+            finish();
         }
     }
 
