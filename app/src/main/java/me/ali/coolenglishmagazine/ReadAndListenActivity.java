@@ -326,6 +326,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         unlockActionButton = menu.findItem(R.id.action_unlock);
         unlockActionButton.setIcon(new IconicsDrawable(this, FontAwesome.Icon.faw_unlock).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text));
 
+        menu.findItem(R.id.action_add_to_waiting_list).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_add).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text));
+
         return true;
     }
 
@@ -830,9 +832,14 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         @JavascriptInterface
         public void hideToolbarForSpace(final boolean hide) {
             // http://stackoverflow.com/questions/30554824/how-to-reset-the-toolbar-position-controlled-by-the-coordinatorlayout
-            final AppBarLayout appBar = (AppBarLayout) findViewById(R.id.app_bar);
-            if (appBar != null)
-                appBar.setExpanded(!hide);
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    final AppBarLayout appBar = (AppBarLayout) findViewById(R.id.app_bar);
+                    if (appBar != null) {
+                        appBar.setVisibility(hide ? View.INVISIBLE : View.VISIBLE);
+                    }
+                }
+            });
         }
     }
 

@@ -112,7 +112,7 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                         .setContentTitle(issue.subtitle)
                         .setContentText(context.getResources().getString(R.string.issue_downloaded_notification))
-                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
+                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.notification_large_icon))
                         .setSmallIcon(R.drawable.sunglasses)
                         .setColor(context.getResources().getColor(R.color.primary_dark))
                         .setContentIntent(pIntent)

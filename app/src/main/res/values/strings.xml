@@ -198,8 +198,8 @@
 
     <string name="download_failed_msg">Download failed with error code %d</string>
     <string name="sync_complete">Update complete!</string>
-    <string name="syncing">Syncing&#8230;</string>
-    <string name="cancel_syncing">Cancel</string>
+    <string name="syncing">Updating&#8230;</string>
+    <string name="cancel_syncing">Stop</string>
 
     <string name="my_issues">On My Device</string>
     <string name="available_issues">Available for Download</string>

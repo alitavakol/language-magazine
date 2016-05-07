@@ -1,6 +1,5 @@
 package me.ali.coolenglishmagazine;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -11,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -88,10 +88,12 @@ public class GalleryOfIssuesFragment extends Fragment {
             currentTabIndex = getArguments().getInt(ARG_TAB_INDEX);
         }
 
-        magazines = new Magazines();
-        magazines.loadIssues(getActivity());
+        Context context = getActivity().getApplicationContext();
 
-        firstMissingIssueNumber = findFirstMissingIssueNumber();
+        magazines = new Magazines();
+        magazines.loadIssues(context);
+
+        firstMissingIssueNumber = findFirstMissingIssueNumber(context);
     }
 
     @Override
@@ -143,7 +145,7 @@ public class GalleryOfIssuesFragment extends Fragment {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p/>
+     * <p>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
@@ -254,21 +256,23 @@ public class GalleryOfIssuesFragment extends Fragment {
 
     private class UnzipOperation extends AsyncTask<Object, Void, Boolean> {
         IssuesTabFragment.IssuesRecyclerViewAdapter adapter;
+        Context context;
 
         @Override
         protected Boolean doInBackground(Object... obj) {
-            byte[] response = (byte[]) obj[0];
-            adapter = (IssuesTabFragment.IssuesRecyclerViewAdapter) obj[1];
+            context = (Context) obj[0];
+            byte[] response = (byte[]) obj[1];
+            adapter = (IssuesTabFragment.IssuesRecyclerViewAdapter) obj[2];
 
             try {
-                final File cacheDir = getContext().getExternalCacheDir();
+                final File cacheDir = context.getExternalCacheDir();
                 final File zipFile = File.createTempFile("issues-preview", ".zip", cacheDir);
 
                 FileOutputStream f = new FileOutputStream(zipFile);
                 f.write(response, 0, response.length);
                 f.close();
 
-                ZipHelper.unzip(zipFile, getContext().getExternalFilesDir(null));
+                ZipHelper.unzip(zipFile, context.getExternalFilesDir(null));
 
                 FileHelper.delete(zipFile);
                 return true;
@@ -281,10 +285,10 @@ public class GalleryOfIssuesFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean success) {
             if (success) {
-                final int firstMissingIssueNumber = findFirstMissingIssueNumber();
+                final int firstMissingIssueNumber = findFirstMissingIssueNumber(context);
 
                 if (firstMissingIssueNumber > GalleryOfIssuesFragment.this.firstMissingIssueNumber) {
-                    magazines.loadIssues(getContext());
+                    magazines.loadIssues(context);
 
                     GalleryOfIssuesFragment.this.firstMissingIssueNumber = firstMissingIssueNumber;
 
@@ -295,7 +299,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                             @Override
                             public void run() {
                                 if (snackbar != null) // if user has not cancelled sync
-                                    syncAvailableIssuesList(firstMissingIssueNumber, adapter);
+                                    syncAvailableIssuesList(context, firstMissingIssueNumber, adapter);
                             }
                         }, 1000);
 
@@ -323,7 +327,7 @@ public class GalleryOfIssuesFragment extends Fragment {
     /**
      * gets list of available issues from server.
      */
-    void syncAvailableIssuesList(int firstMissingIssueNumber, final IssuesTabFragment.IssuesRecyclerViewAdapter adapter) {
+    void syncAvailableIssuesList(final Context context, int firstMissingIssueNumber, final IssuesTabFragment.IssuesRecyclerViewAdapter adapter) {
         if (firstMissingIssueNumber == -1) {
             if (syncing)
                 return;
@@ -331,7 +335,6 @@ public class GalleryOfIssuesFragment extends Fragment {
             firstMissingIssueNumber = this.firstMissingIssueNumber;
         }
 
-        final Activity context = getActivity();
         syncing = true;
 
         // Instantiate the RequestQueue.
@@ -339,15 +342,17 @@ public class GalleryOfIssuesFragment extends Fragment {
             requestQueue = Volley.newRequestQueue(context);
 
         if (NetworkHelper.isOnline(context)) {
-            snackbar = Snackbar
-                    .make(getView(), R.string.syncing, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.cancel_syncing, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            cancelSync(getActivity(), adapter);
-                        }
-                    }).setActionTextColor(getResources().getColor(R.color.primary_light));
-            snackbar.show();
+            if (snackbar == null) {
+                snackbar = Snackbar
+                        .make(getView(), R.string.syncing, Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.cancel_syncing, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                cancelSync(getActivity(), adapter);
+                            }
+                        }).setActionTextColor(getResources().getColor(R.color.primary_light));
+                snackbar.show();
+            }
 
             final Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(context).getString("server_address", getResources().getString(R.string.pref_default_server_address)));
             // http://docs.oracle.com/javase/tutorial/networking/urls/urlInfo.html
@@ -358,7 +363,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                 @Override
                 public void onResponse(byte[] response) {
                     if (response.length > 0) {
-                        new UnzipOperation().execute(response, adapter);
+                        new UnzipOperation().execute(context, response, adapter);
 
                     } else {
                         // received success with status code 204 (no content)
@@ -409,9 +414,9 @@ public class GalleryOfIssuesFragment extends Fragment {
      *
      * @return issue number of the first missing magazine
      */
-    protected int findFirstMissingIssueNumber() {
+    protected int findFirstMissingIssueNumber(Context context) {
         int i = Math.max(1, firstMissingIssueNumber); // count up from last found value
-        while (new File(getContext().getExternalFilesDir(null), Integer.toString(i)).exists())
+        while (new File(context.getExternalFilesDir(null), Integer.toString(i)).exists())
             i++;
         return i;
     }

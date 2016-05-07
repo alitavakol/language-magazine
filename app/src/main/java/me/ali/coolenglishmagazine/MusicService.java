@@ -27,8 +27,6 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
-import com.github.tbouron.shakedetector.library.ShakeDetector;
-
 import java.io.File;
 import java.util.ArrayList;
 
@@ -239,7 +237,7 @@ public class MusicService extends Service implements
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 100, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.notification_large_icon))
                 .setSmallIcon(R.drawable.sunglasses)
                 .setColor(getResources().getColor(R.color.primary_dark))
                 .setContentTitle(item.title)
