@@ -195,6 +195,7 @@
     <string name="download_selected_issues">Download</string>
     <string name="complete_selected_issues">Mark as complete</string>
     <string name="incomplete_selected_issues">Mark as incomplete</string>
+    <string name="permanently_delete_selected_issues">Delete permanently</string>
 
     <string name="download_failed_msg">Download failed with error code %d</string>
     <string name="sync_complete">Update complete!</string>

@@ -160,7 +160,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             buttonDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Magazines.deleteIssue(IssueDetailActivity.this, issue);
+                    Magazines.deleteIssue(IssueDetailActivity.this, issue, false);
                     updateFab();
                 }
             });

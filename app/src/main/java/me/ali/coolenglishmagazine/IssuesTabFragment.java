@@ -688,7 +688,7 @@ public class IssuesTabFragment extends Fragment implements
         inflater.inflate(R.menu.issues_list_action_mode, menu);
 
         if (filter == 1 || filter == 2)
-            menu.findItem(R.id.action_download).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_file_download).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
+            menu.findItem(R.id.action_download).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_file_download).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true).setVisible(true).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         if (filter == 0) {
             menu.findItem(R.id.action_mark_complete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_thumb_up).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
@@ -700,8 +700,10 @@ public class IssuesTabFragment extends Fragment implements
             menu.findItem(R.id.action_free).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
         }
 
-        if (filter == 1)
-            menu.findItem(R.id.action_cancel).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_clear).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
+        if (filter == 1) {
+            menu.findItem(R.id.action_cancel).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_clear).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true).setVisible(true).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            menu.findItem(R.id.action_delete_permanently).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete_forever).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
+        }
 
         return true;
     }
@@ -724,7 +726,12 @@ public class IssuesTabFragment extends Fragment implements
             case R.id.action_cancel:
             case R.id.action_free:
                 for (Magazines.Issue issue : selectedIssues)
-                    Magazines.deleteIssue(getActivity(), issue);
+                    Magazines.deleteIssue(getActivity(), issue, false);
+                break;
+
+            case R.id.action_delete_permanently:
+                for (Magazines.Issue issue : selectedIssues)
+                    Magazines.deleteIssue(getActivity(), issue, true);
                 break;
 
             case R.id.action_mark_complete:
@@ -791,11 +798,6 @@ public class IssuesTabFragment extends Fragment implements
 
     @Override
     public void onIssueAdded(Magazines.Issue issue) {
-        adapter.preNotifyDataSetChanged(issue);
-    }
-
-    @Override
-    public void onIssueRemoved(Magazines.Issue issue) {
         adapter.preNotifyDataSetChanged(issue);
     }
 

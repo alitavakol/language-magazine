@@ -71,7 +71,6 @@ public class Magazines {
         boolean ok = new File(issueRootDirectory, Issue.contentFileName).exists()
                 && new File(issueRootDirectory, Issue.posterFileName).exists();
         if (!ok) {
-            FileHelper.deleteRecursive(issueRootDirectory);
             throw new IOException("Cannot find issue introduction file.");
         }
 
@@ -100,6 +99,12 @@ public class Magazines {
         return issue;
     }
 
+    /**
+     * sets issue {@link Issue.Status} value. it does not trigger {@link Issue.OnStatusChangedListener}.
+     *
+     * @param context application context
+     * @param issue   issue whose status we want to update
+     */
     public static void computeIssueStatus(Context context, Issue issue) {
         int downloadStatus = getDownloadStatus(context, issue);
 
@@ -198,6 +203,8 @@ public class Magazines {
             available,
             header_completed, // not used, because completed issues are listed in their own tab
             completed,
+            header_dummy,
+            deleted,
         }
 
         private Status status;
@@ -396,8 +403,6 @@ public class Magazines {
 
     public interface OnDataSetChangedListener {
         void onIssueAdded(Issue issue);
-
-        void onIssueRemoved(Issue issue);
     }
 
     public static void addOnDataSetChangedListener(OnDataSetChangedListener listener) {
@@ -411,10 +416,11 @@ public class Magazines {
     /**
      * deletes issue. it remains in available issues, and need to be downloaded again by user.
      *
-     * @param context activity context
-     * @param issue   issue to delete content and make available for download
+     * @param context   activity context
+     * @param issue     issue to delete content and make available for download
+     * @param permanent if true, deletes root folder completely, so it won't be visible in available issues list.
      */
-    public static void deleteIssue(Context context, Issue issue) {
+    public static void deleteIssue(Context context, Issue issue, boolean permanent) {
         ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
 
         // delete download if it is downloading
@@ -430,18 +436,25 @@ public class Magazines {
             }, 1000);
         }
 
-        File[] files = issue.rootDirectory.listFiles();
-        if (files != null) {
-            for (File g : files) {
-                if (g.isDirectory()) { // delete item folders only
-                    FileHelper.deleteRecursive(g);
+        if (!permanent) {
+            File[] files = issue.rootDirectory.listFiles();
+            if (files != null) {
+                for (File g : files) {
+                    if (g.isDirectory()) { // delete item folders only
+                        FileHelper.deleteRecursive(g);
+                    }
                 }
             }
-        }
-        FileHelper.delete(new File(issue.rootDirectory, Magazines.Issue.downloadedFileName));
+            FileHelper.delete(new File(issue.rootDirectory, Magazines.Issue.downloadedFileName));
 
-        computeIssueStatus(context, issue);
-        issue.setStatus(issue.status);
+            computeIssueStatus(context, issue);
+            issue.setStatus(issue.status);
+
+        } else {
+            issue.setStatus(Issue.Status.deleted);
+            FileHelper.deleteRecursive(issue.rootDirectory);
+            file2issue.remove(issue.rootDirectory);
+        }
     }
 
     /**

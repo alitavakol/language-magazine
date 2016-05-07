@@ -10,7 +10,6 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -92,8 +91,6 @@ public class GalleryOfIssuesFragment extends Fragment {
 
         magazines = new Magazines();
         magazines.loadIssues(context);
-
-        firstMissingIssueNumber = findFirstMissingIssueNumber(context);
     }
 
     @Override
@@ -145,7 +142,7 @@ public class GalleryOfIssuesFragment extends Fragment {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
+     * <p/>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
@@ -293,20 +290,14 @@ public class GalleryOfIssuesFragment extends Fragment {
                     GalleryOfIssuesFragment.this.firstMissingIssueNumber = firstMissingIssueNumber;
 
                     // rerun sync to see if there are more, because number of local issues has changed
-                    if (firstMissingIssueNumber % CHUNK_SIZE == 0) { // if first missing issue number is not a multiple of CHUNK_SIZE, then we are already up to date.
-                        // do it in a moment later
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (snackbar != null) // if user has not cancelled sync
-                                    syncAvailableIssuesList(context, firstMissingIssueNumber, adapter);
-                            }
-                        }, 1000);
-
-                    } else {
-                        Toast.makeText(getActivity(), R.string.sync_complete, Toast.LENGTH_SHORT).show();
-                        success = false; // force jump into the following if block
-                    }
+                    // do it in a moment later
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (snackbar != null) // if user has not cancelled sync
+                                syncAvailableIssuesList(context, firstMissingIssueNumber, adapter);
+                        }
+                    }, 1000);
 
                 } else {
                     Toast.makeText(getActivity(), R.string.sync_complete, Toast.LENGTH_SHORT).show();
@@ -332,6 +323,8 @@ public class GalleryOfIssuesFragment extends Fragment {
             if (syncing)
                 return;
 
+            this.firstMissingIssueNumber = 1;
+            this.firstMissingIssueNumber = findFirstMissingIssueNumber(context);
             firstMissingIssueNumber = this.firstMissingIssueNumber;
         }
 
