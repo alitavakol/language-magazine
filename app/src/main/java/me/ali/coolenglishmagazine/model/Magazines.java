@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -42,7 +43,13 @@ public class Magazines {
      * populates list of {@code ISSUES} from the specified root directory of device's local storage
      */
     public void loadIssues(Context context) {
-        File f = new File(context.getExternalFilesDir(null).getAbsolutePath());
+        final File filesDir = context.getExternalFilesDir(null);
+        if (filesDir == null) {
+            Toast.makeText(context, R.string.media_error, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        File f = new File(filesDir.getAbsolutePath());
         File[] files = f.listFiles();
         if (files != null) {
             for (File g : files) {

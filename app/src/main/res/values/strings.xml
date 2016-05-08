@@ -213,6 +213,8 @@
         <item>@string/completed_issues</item>
     </array>
 
+    <string name="media_error">Cannot access device storage.</string>
+
     <!-- cool english times fragment tab titles -->
     <string name="alarms">Times</string>
     <string name="waiting_list">Waiting List</string>
