@@ -22,7 +22,7 @@ import me.ali.coolenglishmagazine.model.WaitingItems;
 public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
     /**
-     * it takes up {@code Magazines.MAX_ISSUES} * {@code MagazineContent.MAX_ITEMS} interval
+     * it takes up {@link Magazines#MAX_ISSUES} * {@link MagazineContent#MAX_ITEMS} interval
      */
     public static final int COOL_ENGLISH_TIME_NOTIFICATION_ID = DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + Magazines.MAX_ISSUES;
 

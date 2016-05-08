@@ -169,13 +169,17 @@ public class ItemListFragment extends Fragment {
             holder.textViewTitle.setText(item.title);
             holder.textViewType.setText(item.type);
 
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.textViewType.getLayoutParams();
             if (item.flagFileName != null && item.flagFileName.length() > 0) { // item has audio, so it has accent
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    params.addRule(RelativeLayout.END_OF, R.id.flag);
+                } else {
+                    params.addRule(RelativeLayout.RIGHT_OF, R.id.flag);
+                }
                 holder.flagImageView.setImageBitmap(BitmapFactory.decodeFile(new File(item.rootDirectory, item.flagFileName).getAbsolutePath()));
 
             } else { // no audio, hence accent flag becomes invisible
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.textViewType.getLayoutParams();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    params.removeRule(RelativeLayout.END_OF);
                     params.addRule(RelativeLayout.ALIGN_START, R.id.title);
                 } else {
                     params.addRule(RelativeLayout.ALIGN_LEFT, R.id.title);

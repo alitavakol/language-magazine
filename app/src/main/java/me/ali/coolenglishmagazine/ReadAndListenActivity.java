@@ -47,6 +47,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -247,10 +248,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         startText = (TextView) findViewById(R.id.startText);
         endText = (TextView) findViewById(R.id.endText);
 
-        final ImageView playButton = (ImageView) findViewById(R.id.play);
-        final ImageView pauseButton = (ImageView) findViewById(R.id.pause);
-        final ImageView prevButton = (ImageView) findViewById(R.id.prev);
-        final ImageView nextButton = (ImageView) findViewById(R.id.next);
+        playButton = (ImageView) findViewById(R.id.play);
+        pauseButton = (ImageView) findViewById(R.id.pause);
+        prevButton = (ImageView) findViewById(R.id.prev);
+        nextButton = (ImageView) findViewById(R.id.next);
 
         prevButton.setEnabled(false);
         playButton.setEnabled(false);
@@ -297,6 +298,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
     private MenuItem lockActionButton, unlockActionButton;
     protected int accentColor;
+
+    protected ImageView playButton, pauseButton, prevButton, nextButton;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -512,7 +515,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     protected WebView webView = null;
 
     protected String formatTime(int time) {
-        return String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(time),
+        return String.format(Locale.US, "%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(time),
                 TimeUnit.MILLISECONDS.toSeconds(time) % TimeUnit.MINUTES.toSeconds(1));
     }
 
@@ -530,17 +533,17 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             endText.setText(formatTime(duration));
         }
 
-        findViewById(R.id.play).setEnabled(state != PlaybackStateCompat.STATE_NONE);
-        findViewById(R.id.pause).setEnabled(state != PlaybackStateCompat.STATE_NONE);
+        playButton.setEnabled(state != PlaybackStateCompat.STATE_NONE);
+        pauseButton.setEnabled(state != PlaybackStateCompat.STATE_NONE);
 
         final boolean canSeek = state == PlaybackStateCompat.STATE_PAUSED || state == PlaybackStateCompat.STATE_PLAYING;
-        findViewById(R.id.prev).setEnabled(canSeek);
-        findViewById(R.id.next).setEnabled(canSeek);
+        prevButton.setEnabled(canSeek);
+        nextButton.setEnabled(canSeek);
         seekBar.setEnabled(canSeek);
 
         if (state == PlaybackStateCompat.STATE_PLAYING) {
-            findViewById(R.id.play).setVisibility(View.GONE);
-            findViewById(R.id.pause).setVisibility(View.VISIBLE);
+            playButton.setVisibility(View.GONE);
+            pauseButton.setVisibility(View.VISIBLE);
 
             seekBarTimer = new Timer();
             seekBarTimer.schedule(new TimerTask() {
@@ -565,8 +568,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             }, 0, 250);
 
         } else if (state == PlaybackStateCompat.STATE_STOPPED) {
-            findViewById(R.id.play).setVisibility(View.VISIBLE);
-            findViewById(R.id.pause).setVisibility(View.GONE);
+            playButton.setVisibility(View.VISIBLE);
+            pauseButton.setVisibility(View.GONE);
 
             if (seekBarTimer != null) {
                 seekBarTimer.cancel();
@@ -574,8 +577,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             }
 
         } else if (state == PlaybackStateCompat.STATE_PAUSED) {
-            findViewById(R.id.play).setVisibility(View.VISIBLE);
-            findViewById(R.id.pause).setVisibility(View.GONE);
+            playButton.setVisibility(View.VISIBLE);
+            pauseButton.setVisibility(View.GONE);
 
             if (seekBarTimer != null) {
                 seekBarTimer.cancel();

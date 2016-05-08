@@ -41,7 +41,7 @@ public class WaitingItems {
     public static final String WAITING_LIST_FILE_NAME = "waiting_list";
 
     /**
-     * save list of waiting items to {@code WAITING_LIST_FILE_NAME}, overwrites the file.
+     * save list of waiting items to {@link #WAITING_LIST_FILE_NAME}, overwrites the file.
      *
      * @param context app context
      */
@@ -59,7 +59,7 @@ public class WaitingItems {
     }
 
     /**
-     * loads list of waiting lesson items from {@code WAITING_LIST_FILE_NAME}, and
+     * loads list of waiting lesson items from {@link #WAITING_LIST_FILE_NAME}, and
      * removes waiting items whose lesson directories are not found.
      *
      * @param context context

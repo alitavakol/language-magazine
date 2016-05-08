@@ -29,7 +29,7 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = LogHelper.makeLogTag(DownloadCompleteBroadcastReceiver.class);
 
     /**
-     * it takes up {@code Magazines.MAX_ISSUES} interval.
+     * it takes up {@link Magazines#MAX_ISSUES} interval.
      */
     public static final int ISSUE_DOWNLOADED_NOTIFICATION_ID = 200;
 

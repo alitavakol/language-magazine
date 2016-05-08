@@ -10,6 +10,7 @@ Material is extracted from [the Effortless English by A. J. Hoge](http://effortl
 # Parts
 
 The solution consists of three projects:
-* A Ruby on Rails web server, which provides weekly magazine issues,
-* A Java project that generates compressed bundle of issues preview, 
-* And this project, which is the end-user android application. 
+* A Ruby on Rails web server, which provides weekly magazine issues: `cem-server.git`,
+* ~~A Java project that generates compressed bundle of issues preview,~~
+* And this project, which is the end-user android application: `CoolEnglishMagazine.git`,
+

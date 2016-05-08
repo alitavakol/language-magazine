@@ -251,6 +251,11 @@ public class GalleryOfIssuesFragment extends Fragment {
      */
     RequestQueue requestQueue = null;
 
+    /**
+     * saves received data into a temporary zip file, extracts it.
+     * then if latest available issue number has changed, it
+     * invokes {@link #syncAvailableIssuesList} sync process again.
+     */
     private class UnzipOperation extends AsyncTask<Object, Void, Boolean> {
         IssuesTabFragment.IssuesRecyclerViewAdapter adapter;
         Context context;

@@ -40,7 +40,7 @@ public class Magazines {
     public final Set<Issue> ISSUES = new HashSet<>();
 
     /**
-     * populates list of {@code ISSUES} from the specified root directory of device's local storage
+     * populates list of {@link #ISSUES} from the specified root directory of device's local storage
      */
     public void loadIssues(Context context) {
         final File filesDir = context.getExternalFilesDir(null);

@@ -59,7 +59,7 @@ public class MagazineContent {
      *
      * @param itemRootDirectory should end with a slash '/' character
      * @return the corresponding {@link Item} instance
-     * @throws IOException if {@code manifest.xml} file with {@code <item>} root node could not be found
+     * @throws IOException if a valid {@link me.ali.coolenglishmagazine.model.Magazines.Issue#manifestFileName} with {@code <item>} root node could not be found
      */
     public static Item getItem(File itemRootDirectory) throws IOException {
         Item item = file2item.get(itemRootDirectory);
@@ -136,7 +136,7 @@ public class MagazineContent {
 
         /**
          * UID of an item is unique across all available items of all issues. this is calculated
-         * using values of {@code MagazineContent.MAX_ITEMS} and {@code Magazines.MAX_ISSUES}.
+         * using values of {@link MagazineContent#MAX_ITEMS} and {@link Magazines#MAX_ISSUES}.
          *
          * @return uid of an item, which is unique across all available items.
          */

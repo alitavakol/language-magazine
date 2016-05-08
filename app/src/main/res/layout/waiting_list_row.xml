@@ -68,7 +68,7 @@
             <TextView
                 android:id="@+id/title"
                 style="@style/Base.TextAppearance.AppCompat.Medium"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
@@ -79,7 +79,7 @@
             <TextView
                 android:id="@+id/hit_count"
                 style="@style/Base.TextAppearance.AppCompat.Small"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
