@@ -134,9 +134,10 @@ public class Magazines {
      * @param issue to add
      */
     private void addIssue(Issue issue) {
-        ISSUES.add(issue);
-        for (OnDataSetChangedListener listener : listeners)
-            listener.onIssueAdded(issue);
+        if (ISSUES.add(issue)) {
+            for (OnDataSetChangedListener listener : listeners)
+                listener.onIssueAdded(issue);
+        }
     }
 
     /**
@@ -210,7 +211,7 @@ public class Magazines {
             available,
             header_completed, // not used, because completed issues are listed in their own tab
             completed,
-            header_dummy,
+            header_deleted,
             deleted,
         }
 

@@ -318,8 +318,6 @@ public class GalleryOfIssuesFragment extends Fragment {
         }
     }
 
-    protected static final int CHUNK_SIZE = 3;
-
     /**
      * gets list of available issues from server.
      */

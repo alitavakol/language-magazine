@@ -258,7 +258,7 @@ public class IssuesTabFragment extends Fragment implements
     private AutoSortableList issues = new AutoSortableList();
 
     /**
-     * header rows, which are of type {@link me.ali.coolenglishmagazine.model.Magazines.Issue}, but with {@link me.ali.coolenglishmagazine.model.Magazines.Issue.Status} as a header.
+     * header rows, which are of type {@link me.ali.coolenglishmagazine.model.Magazines.Issue}, but with an even {@link Magazines.Issue#status} value.
      */
     private static Magazines.Issue[] headers;
 
