@@ -38,8 +38,8 @@
             android:layout_above="@+id/controllers"
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            tools:background="@drawable/lock_bg"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:background="@drawable/lock_bg" />
 
     </RelativeLayout>
 
@@ -59,12 +59,12 @@
 
             <TextView
                 android:id="@+id/toolbar_title"
-                style="@android:style/TextAppearance.Holo.Widget.ActionBar.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:singleLine="true"
+                android:textAppearance="@style/AppTheme.Widget.TextView.Title"
                 android:textColor="@android:color/primary_text_dark"
                 tools:text="Toolbar Title" />
         </android.support.v7.widget.Toolbar>

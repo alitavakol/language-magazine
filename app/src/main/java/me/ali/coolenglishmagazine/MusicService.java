@@ -188,6 +188,8 @@ public class MusicService extends Service implements
 
                                          if (mediaPlayer != null) {
                                              fastForward();
+                                             if (onMediaStateChangedListener != null)
+                                                 onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_FAST_FORWARDING);
                                          }
                                      }
 
@@ -198,6 +200,8 @@ public class MusicService extends Service implements
 
                                          if (mediaPlayer != null) {
                                              rewind();
+                                             if (onMediaStateChangedListener != null)
+                                                 onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_REWINDING);
                                          }
                                      }
 

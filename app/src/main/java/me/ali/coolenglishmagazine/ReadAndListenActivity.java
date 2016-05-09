@@ -523,6 +523,9 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     public void onMediaStateChanged(int state) {
         LogHelper.i(TAG, "media playback state: ", state);
 
+        if (state == PlaybackStateCompat.STATE_FAST_FORWARDING || state == PlaybackStateCompat.STATE_REWINDING)
+            state = this.state;
+
         if (state != PlaybackStateCompat.STATE_NONE) {
             final int duration = musicService.getDuration();
             final int currentPosition = musicService.getCurrentMediaPosition();
