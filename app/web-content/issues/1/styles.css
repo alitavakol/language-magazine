@@ -1,22 +1,10 @@
-@font-face {
-	font-family: Ubuntu;
-	src: url("file:///android_asset/Ubuntu-Regular.ttf")
-}
-@font-face {
-	font-family: Ubuntu_Bold;
-	src: url("file:///android_asset/Ubuntu-Bold.ttf")
-}
-@font-face {
-	font-family: Ubuntu_Italic;
-	src: url("file:///android_asset/Ubuntu-Italic.ttf")
-}
 body {
-	font-family: Ubuntu;
 	margin-left: 0;
 	margin-right: 0;
-	background-color: transparent;
+	/*background-color: transparent;*/
 	margin: 0;
 	overflow: hidden;
+	font-family: "Ubuntu"
 }
 .poster {
 	width: 100%;
@@ -28,12 +16,9 @@ body {
 	background-repeat: no-repeat;
 	background-size: cover;
 }
-.transcript {
-	line-height: 1.4;
-}
-.new-word {
+.new-word, .new-word:hover {
 	text-decoration: none;
-	font-family: Ubuntu_Bold;
+	font-weight: bold;
 }
 header {
 	position: absolute;
@@ -46,13 +31,13 @@ header {
 	visibility: hidden;
 	display: none;
 }
-.container {
+.cem-container {
 	overflow-y: auto;
 }
 h1 {
 	margin-top: 0;
 	margin-bottom: 0;
-	font-family: Ubuntu_Bold;
+	font-weight: bold;
 	/*text-shadow: 0 1px 0 black;*/
 }
 h3 {

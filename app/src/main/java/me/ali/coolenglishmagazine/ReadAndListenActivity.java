@@ -230,7 +230,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                     webView.loadUrl("javascript:restoreInstanceState('" + webViewState.replace("'", "\\'") + "');");
                 webView.loadUrl("javascript:setTimeout(function() { app.onAdjustLayoutComplete(); }, 200);");
 
-                lockTranscript(transcriptLocked);
+                webViewJavaScriptInterface.lockTranscript(transcriptLocked);
 
                 webView.loadUrl("javascript:highlight(" + currentTimePoint + ");");
                 if (state == PlaybackStateCompat.STATE_PLAYING) {
@@ -241,6 +241,13 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         webView.getSettings().setJavaScriptEnabled(true);
         webView.addJavascriptInterface(webViewJavaScriptInterface, "app");
         webView.setVerticalScrollBarEnabled(false);
+        webView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return true;
+            }
+        });
+        webView.setLongClickable(false);
 
         ((ImageView) findViewById(R.id.hourglass)).setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_hourglass_full).sizeDp(72).color(accentColor));
 
@@ -276,7 +283,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         lock.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                lockTranscript(false);
+                webViewJavaScriptInterface.lockTranscript(false);
                 return true;
             }
         });
@@ -327,11 +334,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         switch (id) {
             case R.id.action_lock:
-                lockTranscript(true);
+                webViewJavaScriptInterface.lockTranscript(true);
                 return true;
 
             case R.id.action_unlock:
-                lockTranscript(false);
+                webViewJavaScriptInterface.lockTranscript(false);
                 return true;
 
             case android.R.id.home:
@@ -663,17 +670,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     }
 
     /**
-     * toggle transcript visibility
-     *
-     * @param lock hide transcript if true
-     */
-    protected void lockTranscript(boolean lock) {
-        transcriptLocked = lock;
-        webViewJavaScriptInterface.showLockControls(useLockControls);
-        webView.loadUrl("javascript:lock(" + transcriptLocked + ");");
-    }
-
-    /**
      * JavaScript Interface. Web code can access methods in here
      * (as long as they have the @JavascriptInterface annotation)
      */
@@ -712,11 +708,27 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             useLockControls = show;
             runOnUiThread(new Runnable() {
                 public void run() {
-                    findViewById(R.id.lock).setVisibility(useLockControls && transcriptLocked ? View.VISIBLE : View.GONE);
+//                    findViewById(R.id.lock).setVisibility(useLockControls && transcriptLocked ? View.VISIBLE : View.GONE);
                     if (lockActionButton != null) {
                         lockActionButton.setVisible(useLockControls && !transcriptLocked);
                         unlockActionButton.setVisible(useLockControls && transcriptLocked);
                     }
+                }
+            });
+        }
+
+        /**
+         * toggle transcript visibility
+         *
+         * @param lock hide transcript if true
+         */
+        @JavascriptInterface
+        public void lockTranscript(final boolean lock) {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    transcriptLocked = lock;
+                    webViewJavaScriptInterface.showLockControls(useLockControls);
+                    webView.loadUrl("javascript:lock(" + transcriptLocked + ");");
                 }
             });
         }

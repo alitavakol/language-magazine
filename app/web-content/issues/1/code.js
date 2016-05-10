@@ -62,10 +62,10 @@ if(typeof(app) == 'undefined') { // on web browser
 
 		//adjustLayout(0, 0, $(window).height(), 0x9688, 0x888888, 0xf5f5f5, 0);
 		adjustLayout({
-			topMargin: 20,
+			topMargin: 12,
 			horizontalMargin: 10,
-			verticalMargin: 10,
-			bottomMargin: 0,
+			verticalMargin: 16,
+			bottomMargin: 30,
 			height: $(window).height(), 
 			accentColor: 0x9688, 
 			textColor: 0xc5c5c5, 
