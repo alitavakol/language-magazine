@@ -4,6 +4,10 @@
 		<title>Useful Verbs and Expressions</title>
 		<meta charset="utf-8">
 
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
 		<style id="dynamic-rules">
@@ -67,7 +71,7 @@
 				padding-left: 20px;
 				padding-right: 20px;
 				padding-bottom: 10px;
-				font-family: Ubuntu_Italic;
+				font-style: italic;
 			}
 			.card .card-action {
 				border-top: 1px solid rgba(0,0,0,0.2);
@@ -77,7 +81,7 @@
 				text-transform: uppercase;
 				text-decoration: none;
 				-webkit-tap-highlight-color: transparent;
-				font-family: Ubuntu_Bold;
+				font-weight: bold;
 			}
 			.illustrate {
 				width: 100%;
@@ -110,11 +114,10 @@
 		</style>
 
 		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
-		<script src="../../../jquery-1.11.3.min.js"></script>
-		<script src="file:///android_asset/swipe.min.js"></script>
-		<script src="../../../swipe.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="swipe.min.js"></script>
 		<script src="file:///android_asset/tinycolor-min.js"></script>
-		<script src="../../../tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
 
 		<script src="../code.js"></script>
 	</head>
@@ -269,10 +272,8 @@
 			restoreInstanceState = function(savedInstanceState) {
 				state = JSON.parse(savedInstanceState);
 
-				setCurrentSlide(state.currentSlide);
+				setCurrentSlide(state.currentSlide || 0);
 			}
-
-			setCurrentSlide(0);
 		</script>
 
 	</body>

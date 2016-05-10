@@ -226,8 +226,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                         + ", textColor: " + ContextCompat.getColor(getApplicationContext(), android.R.color.secondary_text_light) // text color
                         + "});";
                 webView.loadUrl(command);
-                if (webViewState != null)
-                    webView.loadUrl("javascript:restoreInstanceState('" + webViewState.replace("'", "\\'") + "');");
+                webView.loadUrl("javascript:restoreInstanceState('" + (webViewState != null ? webViewState.replace("'", "\\'") : "{}") + "');");
                 webView.loadUrl("javascript:setTimeout(function() { app.onAdjustLayoutComplete(); }, 200);");
 
                 webViewJavaScriptInterface.lockTranscript(transcriptLocked);
@@ -241,6 +240,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         webView.getSettings().setJavaScriptEnabled(true);
         webView.addJavascriptInterface(webViewJavaScriptInterface, "app");
         webView.setVerticalScrollBarEnabled(false);
+        // prevent long click, because jquery mobile handles it to unlock transcript.
         webView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
