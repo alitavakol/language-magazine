@@ -94,7 +94,7 @@ public class MagazineContent {
         }
 
         if (item.audioFileName.length() > 0 && !new File(itemRootDirectory, item.audioFileName).exists())
-            throw new IOException("Cannot not find item audio file.");
+            throw new IOException("Cannot find item audio file.");
 
         return item;
     }

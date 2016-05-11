@@ -23,10 +23,26 @@
 		<style type="text/css">
 			#title-container {
 				background-color: rgba(50,50,50,.4);
-				/*padding: 10px;*/
 				display: inline-block;
-				/*position: absolute;*/
-				/*z-index: -1;*/
+			}
+			tr > td:first-child {
+				font-weight: bold;
+			}
+			tr > td:last-child {
+				padding-left: 16px;
+			}
+			td {
+				vertical-align: top;
+			}
+			.list-group-item {
+				padding: 0 !important;
+			}
+			.row-picture img {
+				width: 80px !important;
+				height: 80px !important;
+			}
+			.list-group-item .row-content {
+				width: calc(100% - 100px) !important;
 			}
 		</style>
 
@@ -49,12 +65,19 @@
 		<div class="cem-container">
 			<div id="top-margin"></div>
 
-			<div class="panel panel-default lockable">
+			<div id="title-container" class="panel panel-default">
+				<div class="panel-body">
+					<h1>The swimming pool</h1>
+					<h3>Learn some useful words and expressions to talk about the swimming pool.</h3>
+				</div>
+			</div>
+
+			<div class="panel panel-info">
 				<div class="panel-heading">
-					<h3 class="panel-title">Vocabulary</h3>
+					<h3 class="panel-title">VOCABULARY</h3>
 				</div>
 
-				<div class="panel-body container-fluid" style="position: relative; background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<div class="panel-body container-fluid" style="position: relative;">
 
 					<div class="list-group row" style="margin-bottom: 0;">
 
@@ -178,7 +201,7 @@
 						<div class="col-sm-6 col-md-4 col-lg-3">
 							<div class="list-group-item">
 								<div class="row-picture">
-									<img class="circle" src="footbath-to-pool.jpg">
+									<img class="circle" src="arm-bands.jpg">
 								</div>
 								<div class="row-content">
 									<h4 class="list-group-item-heading">Arm bands</h4>
@@ -191,7 +214,7 @@
 						<div class="col-sm-6 col-md-4 col-lg-3">
 							<div class="list-group-item">
 								<div class="row-picture">
-									<img class="circle" src="footbath-to-pool.jpg">
+									<img class="circle" src="TS2_diving_board.jpg">
 								</div>
 								<div class="row-content">
 									<h4 class="list-group-item-heading">Diving board</h4>
@@ -204,7 +227,7 @@
 						<div class="col-sm-6 col-md-4 col-lg-3">
 							<div class="list-group-item">
 								<div class="row-picture">
-									<img class="circle" src="footbath-to-pool.jpg">
+									<img class="circle" src="front-crawl.jpg">
 								</div>
 								<div class="row-content">
 									<h4 class="list-group-item-heading">Crawl / front crawl</h4>
@@ -217,7 +240,7 @@
 						<div class="col-sm-6 col-md-4 col-lg-3">
 							<div class="list-group-item">
 								<div class="row-picture">
-									<img class="circle" src="footbath-to-pool.jpg">
+									<img class="circle" src="ded.jpg">
 								</div>
 								<div class="row-content">
 									<h4 class="list-group-item-heading">Breaststroke</h4>
@@ -230,7 +253,7 @@
 						<div class="col-sm-6 col-md-4 col-lg-3">
 							<div class="list-group-item">
 								<div class="row-picture">
-									<img class="circle" src="footbath-to-pool.jpg">
+									<img class="circle" src="backstroke.jpg">
 								</div>
 								<div class="row-content">
 									<h4 class="list-group-item-heading">Backstroke</h4>
@@ -243,7 +266,7 @@
 						<div class="col-sm-6 col-md-4 col-lg-3">
 							<div class="list-group-item">
 								<div class="row-picture">
-									<img class="circle" src="footbath-to-pool.jpg">
+									<img class="circle" src="doggy-paddle.jpg">
 								</div>
 								<div class="row-content">
 									<h4 class="list-group-item-heading">Doggy paddling</h4>
@@ -256,7 +279,7 @@
 						<div class="col-sm-6 col-md-4 col-lg-3">
 							<div class="list-group-item">
 								<div class="row-picture">
-									<img class="circle" src="footbath-to-pool.jpg">
+									<img class="circle" src="butterfly-stroke.jpg">
 								</div>
 								<div class="row-content">
 									<h4 class="list-group-item-heading">The butterfly</h4>
@@ -271,12 +294,141 @@
 				</div>
 			</div>
 
+			<div class="panel panel-info lockable">
+				<div class="panel-heading">
+					<h3 class="panel-title">(NOT SO) TYPICAL DIALOGUES</h3>
+				</div>
+
+				<div class="panel-body" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+					<div id="transcript">
+						<p><span data-start="8000" data-end="13000">In this conversation, alan is buying a ticket to go swimming.</span></p>
+						
+						<table>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="19940" data-end="23450">Good morning. I’d like a ticket for the pool, please.</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="23451" data-end="24500">Can you swim?</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="24501" data-end="25130">Yes.</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="25131" data-end="27400">Let’s see then. Do the breaststroke.</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="27401" data-end="28750">What? Here?</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="28751" data-end="36380">Yes. Come on. Show me how you do the breaststroke. (He does.) Well, that’s not very good, is it? Move your legs a bit.</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="36381" data-end="37400">I can’t.</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="37401" data-end="39210">Why? Can’t you swim?</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="39211" data-end="41310">Well, no. Not on land.</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="41311" data-end="48450">Right. Show me the crawl. (He does.) Ah, that’s better. Very fine. Now, did you bring a gun?</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="48451" data-end="50340">No. Do I need one?</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="50341" data-end="54000">Do you need one? Of course you need one. There are sharks in there.</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="54001" data-end="54700">Sharks?</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="54701" data-end="58500">No, only joking. Right, have you got a wet suit?</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="58501" data-end="60000">No, is it cold?</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="60001" data-end="63280">Of course it’s cold. (He gives him a wet suit.) And a mask?</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="63281" data-end="64200">No.</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="64201" data-end="65360">Here you are. (He gives him a mask.)</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="65361" data-end="67000">What do I need a mask for?</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="67001" data-end="70860">Well, the water is very dirty. Have you got a pair of trunks?</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="70861" data-end="72210">Oh, yes, I’ve got a pair of trunks.</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="72211" data-end="77700">Well, that’s good. OK. Now here’s your ticket. (He gives him a ticket.) Have fun, and one last thing.</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="77701" data-end="78320">What?</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="78321" data-end="79600">Don’t stop.</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="79601" data-end="80900">Don’t stop what?</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="80901" data-end="82080">Don’t stop swimming.</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="82081" data-end="82660">Why?</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="82661" data-end="86000">Because the crocodiles are very fast.</span></td>
+							</tr>
+						</table>
+
+						<img src="crocodile-wedding.jpg" style="width: 70%; display: block; margin: auto; margin-top: 20px;">
+					</div>
+				</div>
+			</div>
+
 			<div id="bottom-margin"></div>
 		</div>
 
 		<script type="text/javascript">
 			adjustCustomLayout = function(options) {
-				t = "(rgba(18,18,18,0.8), rgba(18,18,18,0), rgba(18,18,18,0.8)), url('s.png')";
+				t = "(rgba(18,18,18,0.8), rgba(18,18,18,0), rgba(18,18,18,0.8)), url('111.jpg')";
 
 				$('#local-rules').text("\
 					.cem-container { height: " + height + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
@@ -284,7 +436,8 @@
 					#bottom-margin { height: " + (bottomMargin-verticalMargin) + "px; } \
 					#title-container { margin-top: " + (height-topMargin-bottomMargin-2*verticalMargin)/2 + "px; } \
 					.panel-tip { background-color: " + highlightColor + "; } \
-					.poster { background-image: url('s.png'); height: " + height + "px; } "
+					tr:nth-child(odd) { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
+					.poster { background-image: url('111.jpg'); height: " + height + "px; } "
 				);
 			}
 
