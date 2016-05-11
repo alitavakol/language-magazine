@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Read &amp; Listen</title>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+		<link rel="stylesheet" type="text/css" href="ripples.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#title-container {
+				background-color: rgba(50,50,50,.4);
+				/*padding: 10px;*/
+				display: inline-block;
+				/*position: absolute;*/
+				/*z-index: -1;*/
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+	</head>
+
+	<body>
+		<div class="poster"></div>
+
+		<div class="cem-container">
+			<div id="top-margin"></div>
+
+			<div class="panel panel-default lockable">
+				<div class="panel-heading">
+					<h3 class="panel-title">Vocabulary</h3>
+				</div>
+
+				<div class="panel-body container-fluid" style="position: relative; background-size: contain; background-repeat: no-repeat; background-position: center;">
+
+					<div class="list-group row" style="margin-bottom: 0;">
+
+						<div class="col-sm-6 col-md-4 col-lg-3">
+							<div class="list-group-item">
+								<div class="row-picture">
+									<img class="circle" src="pool.jpg">
+								</div>
+								<div class="row-content">
+									<h4 class="list-group-item-heading">Swimming pool</h4>
+									<p class="list-group-item-text">the place where you swim.</p>
+								</div>
+							</div>
+							<div class="list-group-separator"></div>
+						</div>
+
+						<div class="col-sm-6 col-md-4 col-lg-3">
+							<div class="list-group-item">
+								<div class="row-picture">
+									<img class="circle" src="91018B.jpg">
+								</div>
+								<div class="row-content">
+									<h4 class="list-group-item-heading">Baby pool (also known as the wading pool)</h4>
+									<p class="list-group-item-text">a shallow pool for children.</p>
+								</div>
+							</div>
+							<div class="list-group-separator"></div>
+						</div>
+
+						<div class="col-sm-6 col-md-4 col-lg-3">
+							<div class="list-group-item">
+								<div class="row-picture">
+									<img class="circle" src="Lifeguard.jpg">
+								</div>
+								<div class="row-content">
+									<h4 class="list-group-item-heading">Lifeguard</h4>
+									<p class="list-group-item-text">the person who is there to protect the swimmers.</p>
+								</div>
+							</div>
+							<div class="list-group-separator"></div>
+						</div>
+
+						<div class="col-sm-6 col-md-4 col-lg-3">
+							<div class="list-group-item">
+								<div class="row-picture">
+									<img class="circle" src="2000s_8_Large.jpg">
+								</div>
+								<div class="row-content">
+									<h4 class="list-group-item-heading">Changing rooms</h4>
+									<p class="list-group-item-text">the place where you get changed and put on your swimming costume.</p>
+								</div>
+							</div>
+							<div class="list-group-separator"></div>
+						</div>
+
+						<div class="col-sm-6 col-md-4 col-lg-3">
+							<div class="list-group-item">
+								<div class="row-picture">
+									<img class="circle" src="footbath-to-pool.jpg">
+								</div>
+								<div class="row-content">
+									<h4 class="list-group-item-heading">The footbath</h4>
+									<p class="list-group-item-text">a little area of water designed to clean your feet.</p>
+								</div>
+							</div>
+							<div class="list-group-separator"></div>
+						</div>
+
+						<div class="col-sm-6 col-md-4 col-lg-3">
+							<div class="list-group-item">
+								<div class="row-picture">
+									<img class="circle" src="towel.jpg">
+								</div>
+								<div class="row-content">
+									<h4 class="list-group-item-heading">Towel</h4>
+									<p class="list-group-item-text">the object you use to dry yourself.</p>
+								</div>
+							</div>
+							<div class="list-group-separator"></div>
+						</div>
+
+						<div class="col-sm-6 col-md-4 col-lg-3">
+							<div class="list-group-item">
+								<div class="row-picture">
+									<img class="circle" src="gog.jpg">
+								</div>
+								<div class="row-content">
+									<h4 class="list-group-item-heading">Goggles</h4>
+									<p class="list-group-item-text">the glasses you can use so you can see under the water.</p>
+								</div>
+							</div>
+							<div class="list-group-separator"></div>
+						</div>
+
+						<div class="col-sm-6 col-md-4 col-lg-3">
+							<div class="list-group-item">
+								<div class="row-picture">
+									<img class="circle" src="IMG_3757.gif">
+								</div>
+								<div class="row-content">
+									<h4 class="list-group-item-heading">Swimming caps</h4>
+									<p class="list-group-item-text">tight rubber hats that you are obliged to wear in some swimming pools.</p>
+								</div>
+							</div>
+							<div class="list-group-separator"></div>
+						</div>
+
+						<div class="col-sm-6 col-md-4 col-lg-3">
+							<div class="list-group-item">
+								<div class="row-picture">
+									<img class="circle" src="sqwd.jpg">
+								</div>
+								<div class="row-content">
+									<h4 class="list-group-item-heading">Swimwear</h4>
+									<p class="list-group-item-text">clothing you wear at the swimming pool. Men generally wear swimming trunks (or simply “trunks”), and women wear a swimming costume or a bikini.</p>
+								</div>
+							</div>
+							<div class="list-group-separator"></div>
+						</div>
+
+						<div class="col-sm-6 col-md-4 col-lg-3">
+							<div class="list-group-item">
+								<div class="row-picture">
+									<img class="circle" src="footbath-to-pool.jpg">
+								</div>
+								<div class="row-content">
+									<h4 class="list-group-item-heading">Arm bands</h4>
+									<p class="list-group-item-text">the plastic inflatable objects young swimmers wear around their arms.</p>
+								</div>
+							</div>
+							<div class="list-group-separator"></div>
+						</div>
+
+						<div class="col-sm-6 col-md-4 col-lg-3">
+							<div class="list-group-item">
+								<div class="row-picture">
+									<img class="circle" src="footbath-to-pool.jpg">
+								</div>
+								<div class="row-content">
+									<h4 class="list-group-item-heading">Diving board</h4>
+									<p class="list-group-item-text">a high concrete or plastic board that you can jump off.</p>
+								</div>
+							</div>
+							<div class="list-group-separator"></div>
+						</div>
+
+						<div class="col-sm-6 col-md-4 col-lg-3">
+							<div class="list-group-item">
+								<div class="row-picture">
+									<img class="circle" src="footbath-to-pool.jpg">
+								</div>
+								<div class="row-content">
+									<h4 class="list-group-item-heading">Crawl / front crawl</h4>
+									<p class="list-group-item-text">this method of swimming consists of moving your arms over your head while kicking with your legs.</p>
+								</div>
+							</div>
+							<div class="list-group-separator"></div>
+						</div>
+
+						<div class="col-sm-6 col-md-4 col-lg-3">
+							<div class="list-group-item">
+								<div class="row-picture">
+									<img class="circle" src="footbath-to-pool.jpg">
+								</div>
+								<div class="row-content">
+									<h4 class="list-group-item-heading">Breaststroke</h4>
+									<p class="list-group-item-text">this consists of outward movements with your arms and legs.</p>
+								</div>
+							</div>
+							<div class="list-group-separator"></div>
+						</div>
+
+						<div class="col-sm-6 col-md-4 col-lg-3">
+							<div class="list-group-item">
+								<div class="row-picture">
+									<img class="circle" src="footbath-to-pool.jpg">
+								</div>
+								<div class="row-content">
+									<h4 class="list-group-item-heading">Backstroke</h4>
+									<p class="list-group-item-text">this method consists of moving your arms backwards while kicking with your legs</p>
+								</div>
+							</div>
+							<div class="list-group-separator"></div>
+						</div>
+
+						<div class="col-sm-6 col-md-4 col-lg-3">
+							<div class="list-group-item">
+								<div class="row-picture">
+									<img class="circle" src="footbath-to-pool.jpg">
+								</div>
+								<div class="row-content">
+									<h4 class="list-group-item-heading">Doggy paddling</h4>
+									<p class="list-group-item-text">his consists of moving your hands and legs in the water as a dog does.</p>
+								</div>
+							</div>
+							<div class="list-group-separator"></div>
+						</div>
+
+						<div class="col-sm-6 col-md-4 col-lg-3">
+							<div class="list-group-item">
+								<div class="row-picture">
+									<img class="circle" src="footbath-to-pool.jpg">
+								</div>
+								<div class="row-content">
+									<h4 class="list-group-item-heading">The butterfly</h4>
+									<p class="list-group-item-text">this method consists of moving your arms in circular movements.</p>
+								</div>
+							</div>
+							<div class="list-group-separator"></div>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			adjustCustomLayout = function(options) {
+				t = "(rgba(18,18,18,0.8), rgba(18,18,18,0), rgba(18,18,18,0.8)), url('s.png')";
+
+				$('#local-rules').text("\
+					.cem-container { height: " + height + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + (bottomMargin-verticalMargin) + "px; } \
+					#title-container { margin-top: " + (height-topMargin-bottomMargin-2*verticalMargin)/2 + "px; } \
+					.panel-tip { background-color: " + highlightColor + "; } \
+					.poster { background-image: url('s.png'); height: " + height + "px; } "
+				);
+			}
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('visibility', 'hidden');
+					$('.lockable').css('background-color', highlightColor);
+					$('.lockable .panel-body').css('background-image', "url('key-enter-access-door-place-512.png')");
+
+				} else {
+					$('#transcript').css('visibility', '');
+					$('.lockable').css('background-color', '');
+					$('.lockable .panel-body').css('background-image', '');
+				}
+
+				saveInstanceState();
+			}
+
+			saveInstanceState = function() {
+				outState = {
+					transcriptLocked: transcriptLocked,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+			}
+
+			taphold = false;
+			$('.lockable .panel-body').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable .panel-body').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+		</script>
+
+	</body>
+</html>
