@@ -66,10 +66,11 @@ if(typeof(app) == 'undefined') { // on web browser
 			horizontalMargin: 10,
 			verticalMargin: 16,
 			bottomMargin: 30,
-			height: $(window).height(), 
-			accentColor: 0x9688, 
-			textColor: 0xc5c5c5, 
-			newWordColor: 0xf8f8f8
+			height: $(window).height(),
+			backgroundColor: -1,
+			accentColor: -16537100,
+			primaryColor: -26624,
+			textColor: -13487566
 		});
 
 		if(typeof(lock) == 'function')
