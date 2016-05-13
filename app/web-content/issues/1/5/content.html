@@ -56,15 +56,14 @@
 				padding: 8px;
 			}
 			#images {
-				padding-left: 10px;
-				padding-right: 10px;
+				padding: 10px;
+				padding-top: 16px;
 			}
 			#images img {
 				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
 				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
 			}
 			#labels {
-				margin-bottom: 16px;
 				margin-left: -10px;
 			}
 			body {
@@ -236,9 +235,12 @@
 				);
 			}
 
+			prevScroll = 0;
+
 			saveInstanceState = function() {
 				outState = {
 					dropped_elements: dropped_elements,
+					scroll: prevScroll,
 				};
 
 				if(typeof(app) != 'undefined')
@@ -252,7 +254,17 @@
 				dropped_elements.forEach(function(label) {
 					drop($(".label-container[data-label='" + label + "']"), $(".image-container[data-label='" + label + "']"));
 				});
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
 			}
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
 		</script>
 
 	</body>

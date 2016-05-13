@@ -75,6 +75,8 @@ public class IssueDetailFragment extends Fragment {
         isAttached = false;
     }
 
+    protected WebView webView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,8 +84,11 @@ public class IssueDetailFragment extends Fragment {
 
         ((ImageView) rootView.findViewById(R.id.hourglass)).setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_hourglass_full).sizeDp(72).colorRes(R.color.accent));
 
-        if (issue != null) {
-            final WebView webView = (WebView) rootView.findViewById(R.id.webView);
+        if (issue == null)
+            webView = null;
+
+        else {
+            webView = (WebView) rootView.findViewById(R.id.webView);
             webView.setWebViewClient(new WebViewClient() {
                 public void onPageFinished(WebView view, String url) {
                     if (isAttached) { // when activity is finished/finishing, becomes null
@@ -107,6 +112,13 @@ public class IssueDetailFragment extends Fragment {
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (webView != null)
+            webView.removeJavascriptInterface("app");
     }
 
     /**

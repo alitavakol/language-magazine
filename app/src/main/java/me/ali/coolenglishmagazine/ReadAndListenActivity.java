@@ -104,7 +104,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
      */
     protected HashMap<String, NewWord> newWords;
 
-    WebViewJavaScriptInterface webViewJavaScriptInterface = new WebViewJavaScriptInterface();
+    WebViewJavaScriptInterface webViewJavaScriptInterface;
 
     protected ViewGroup mediaControllerButtons;
     private Animation slide_down, slide_up;
@@ -227,9 +227,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                         + "});";
                 webView.loadUrl(command);
                 webView.loadUrl("javascript:restoreInstanceState('" + (webViewState != null ? webViewState.replace("'", "\\'") : "{}") + "');");
-                webView.loadUrl("javascript:setTimeout(function() { app.onAdjustLayoutComplete(); }, 200);");
+                webView.loadUrl("javascript:setTimeout(function() { app.onAdjustLayoutComplete(); }, 300);");
 
-                webViewJavaScriptInterface.lockTranscript(transcriptLocked);
+                if (webViewJavaScriptInterface != null)
+                    webViewJavaScriptInterface.lockTranscript(transcriptLocked);
 
                 webView.loadUrl("javascript:highlight(" + currentTimePoint + ");");
                 if (state == PlaybackStateCompat.STATE_PLAYING) {
@@ -238,6 +239,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             }
         });
         webView.getSettings().setJavaScriptEnabled(true);
+        webViewJavaScriptInterface = new WebViewJavaScriptInterface();
         webView.addJavascriptInterface(webViewJavaScriptInterface, "app");
         webView.setVerticalScrollBarEnabled(false);
         // prevent long click, because jquery mobile handles it to unlock transcript.
@@ -283,7 +285,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         lock.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                webViewJavaScriptInterface.lockTranscript(false);
+                if (webViewJavaScriptInterface != null)
+                    webViewJavaScriptInterface.lockTranscript(false);
                 return true;
             }
         });
@@ -301,6 +304,16 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         // cancel alarm notification to learn this item.
         ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel(AlarmBroadcastReceiver.COOL_ENGLISH_TIME_NOTIFICATION_ID + item.getUid());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (webViewJavaScriptInterface != null) {
+            webView.removeJavascriptInterface("app");
+            webViewJavaScriptInterface = null;
+        }
     }
 
     private MenuItem lockActionButton, unlockActionButton;
@@ -334,11 +347,13 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         switch (id) {
             case R.id.action_lock:
-                webViewJavaScriptInterface.lockTranscript(true);
+                if (webViewJavaScriptInterface != null)
+                    webViewJavaScriptInterface.lockTranscript(true);
                 return true;
 
             case R.id.action_unlock:
-                webViewJavaScriptInterface.lockTranscript(false);
+                if (webViewJavaScriptInterface != null)
+                    webViewJavaScriptInterface.lockTranscript(false);
                 return true;
 
             case android.R.id.home:
@@ -727,7 +742,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             runOnUiThread(new Runnable() {
                 public void run() {
                     transcriptLocked = lock;
-                    webViewJavaScriptInterface.showLockControls(useLockControls);
+                    if (webViewJavaScriptInterface != null)
+                        webViewJavaScriptInterface.showLockControls(useLockControls);
                     webView.loadUrl("javascript:lock(" + transcriptLocked + ");");
                 }
             });

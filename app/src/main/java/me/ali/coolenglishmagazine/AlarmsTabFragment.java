@@ -93,7 +93,8 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
         inflater.inflate(R.menu.alarms_fragment_menu, menu);
-        menu.findItem(R.id.action_add).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_add).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text));
+        if (isAdded())
+            menu.findItem(R.id.action_add).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_add).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text));
     }
 
     @Override

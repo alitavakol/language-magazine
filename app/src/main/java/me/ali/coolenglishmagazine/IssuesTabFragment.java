@@ -109,7 +109,8 @@ public class IssuesTabFragment extends Fragment implements
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
         inflater.inflate(R.menu.available_issues_fragment_menu, menu);
-        menu.findItem(R.id.action_refresh).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_refresh).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text));
+        if (isAdded())
+            menu.findItem(R.id.action_refresh).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_refresh).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text));
     }
 
     @Override

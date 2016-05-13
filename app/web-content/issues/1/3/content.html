@@ -199,9 +199,13 @@
 				saveInstanceState();
 			}
 
+			container = $('.cem-container')[0];
+			prevScroll = 0;
+
 			saveInstanceState = function() {
 				outState = {
 					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
 				};
 
 				if(typeof(app) != 'undefined')
@@ -212,6 +216,7 @@
 				state = JSON.parse(savedInstanceState);
 
 				lock(state.transcriptLocked || true);
+				container.scrollTop = ((state['scroll'] || 0) * container.scrollHeight);
 			}
 
 			taphold = false;
@@ -228,6 +233,14 @@
 
 			if(typeof(app) != 'undefined')
 				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = container.scrollTop / container.scrollHeight;
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
 		</script>
 
 	</body>
