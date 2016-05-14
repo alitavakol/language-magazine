@@ -39,6 +39,8 @@
 			}
 			.label-container.gone {
 				opacity: .2;
+				-webkit-box-shadow: inherit;
+				box-shadow: inherit;
 			}
 			.label-container.attached {
 				position: absolute;
@@ -256,6 +258,7 @@
 				});
 
 				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
 			}
 
 			setInterval(function() {

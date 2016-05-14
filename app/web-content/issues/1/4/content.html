@@ -481,6 +481,7 @@
 
 				lock(state.transcriptLocked || true);
 				container.scrollTop = ((state['scroll'] || 0) * container.scrollHeight);
+				prevScroll = container.scrollTop / container.scrollHeight;
 
 				restoringInstanceState = false;
 			}
