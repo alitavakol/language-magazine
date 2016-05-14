@@ -91,59 +91,59 @@ public class RootActivity extends AppCompatActivity implements
 
         drawer = new DrawerBuilder().withSliderBackgroundColorRes(R.color.accent)
                 .withHeaderDivider(false).withActivity(this).withHeader(headerView).addDrawerItems(
-                galleryOfIssues,
-                englishTimes,
-                readme,
-                new DividerDrawerItem(),
-                about
-        ).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-            @Override
-            public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                if (drawer_selection == position)
-                    return false;
+                        galleryOfIssues,
+                        englishTimes,
+                        readme,
+                        new DividerDrawerItem(),
+                        about
+                ).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        if (drawer_selection == position)
+                            return false;
 
-                Fragment fragment = null;
-                String tag = null;
-                switch (position) {
-                    case 1:
-                        if (galleryOfIssuesFragment == null)
-                            galleryOfIssuesFragment = GalleryOfIssuesFragment.newInstance(0);
-                        fragment = galleryOfIssuesFragment;
-                        tag = GalleryOfIssuesFragment.FRAGMENT_TAG;
-                        break;
-                    case 2:
-                        if (coolEnglishTimesFragment == null)
-                            coolEnglishTimesFragment = CoolEnglishTimesFragment.newInstance(0);
-                        fragment = coolEnglishTimesFragment;
-                        tag = CoolEnglishTimesFragment.FRAGMENT_TAG;
-                        break;
-                    case 3:
-                        if (readmeFragment == null)
-                            readmeFragment = ReadmeFragment.newInstance();
-                        fragment = readmeFragment;
-                        tag = ReadmeFragment.FRAGMENT_TAG;
-                        break;
-                    case 5:
-                        if (aboutFragment == null)
-                            aboutFragment = AboutFragment.newInstance();
-                        fragment = aboutFragment;
-                        tag = AboutFragment.FRAGMENT_TAG;
-                        break;
-                }
+                        Fragment fragment = null;
+                        String tag = null;
+                        switch (position) {
+                            case 1:
+                                if (galleryOfIssuesFragment == null)
+                                    galleryOfIssuesFragment = GalleryOfIssuesFragment.newInstance(0);
+                                fragment = galleryOfIssuesFragment;
+                                tag = GalleryOfIssuesFragment.FRAGMENT_TAG;
+                                break;
+                            case 2:
+                                if (coolEnglishTimesFragment == null)
+                                    coolEnglishTimesFragment = CoolEnglishTimesFragment.newInstance(0);
+                                fragment = coolEnglishTimesFragment;
+                                tag = CoolEnglishTimesFragment.FRAGMENT_TAG;
+                                break;
+                            case 3:
+                                if (readmeFragment == null)
+                                    readmeFragment = ReadmeFragment.newInstance();
+                                fragment = readmeFragment;
+                                tag = ReadmeFragment.FRAGMENT_TAG;
+                                break;
+                            case 5:
+                                if (aboutFragment == null)
+                                    aboutFragment = AboutFragment.newInstance();
+                                fragment = aboutFragment;
+                                tag = AboutFragment.FRAGMENT_TAG;
+                                break;
+                        }
 
-                if (fragment != null) {
-                    getSupportFragmentManager().beginTransaction()
+                        if (fragment != null) {
+                            getSupportFragmentManager().beginTransaction()
 //                            .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                            .replace(R.id.root_fragment, fragment, tag)
-                            .commit();
-                } else {
-                    Toast.makeText(RootActivity.this, "item clicked: " + position, Toast.LENGTH_SHORT).show();
-                }
+                                    .replace(R.id.root_fragment, fragment, tag)
+                                    .commit();
+                        } else {
+                            Toast.makeText(RootActivity.this, "item clicked: " + position, Toast.LENGTH_SHORT).show();
+                        }
 
-                drawer_selection = position;
-                return false;
-            }
-        }).withSelectedItemByPosition(drawer_selection).build();
+                        drawer_selection = position;
+                        return false;
+                    }
+                }).withSelectedItemByPosition(drawer_selection).build();
     }
 
     @Override

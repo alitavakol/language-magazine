@@ -227,6 +227,8 @@
 		</div>
 
 		<script type="text/javascript">
+			restoringInstanceState = false;
+
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
 					.card { margin-top: " + (topMargin+verticalMargin) + "px; margin-bottom: " + verticalMargin + "px; margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; background-color: #" + accentColor + "; } \
@@ -236,9 +238,6 @@
 					.dot { background-color: " + tinycolor(accentColor).brighten().brighten().toHexString() + "; } \
 					.dot.active { background-color: " + tinycolor(accentColor).darken().darken().toHexString() + "; } \
 				");
-			}
-
-			lock = function(b) {
 			}
 
 			setCurrentSlide = function(index) {
@@ -261,6 +260,9 @@
 			}
 
 			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
 				outState = {
 					currentSlide: currentSlide,
 				};
@@ -270,9 +272,12 @@
 			}
 
 			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
 				state = JSON.parse(savedInstanceState);
 
 				setCurrentSlide(state.currentSlide || 0);
+
+				restoringInstanceState = false;
 			}
 		</script>
 

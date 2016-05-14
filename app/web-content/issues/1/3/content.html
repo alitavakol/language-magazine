@@ -167,6 +167,8 @@
 		</div>
 
 		<script type="text/javascript">
+			restoringInstanceState = false;
+
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
 					.cem-container { height: " + height + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
@@ -192,10 +194,6 @@
 					$('.lockable .panel-body').css('background-image', '');
 				}
 
-				// if(typeof(app) != 'undefined') {
-				// 	app.autoHideToolbarOnScroll(!transcriptLocked);
-				// }
-
 				saveInstanceState();
 			}
 
@@ -203,6 +201,9 @@
 			prevScroll = 0;
 
 			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
 				outState = {
 					transcriptLocked: transcriptLocked,
 					scroll: prevScroll,
@@ -213,10 +214,13 @@
 			}
 
 			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
 				state = JSON.parse(savedInstanceState);
 
 				lock(state.transcriptLocked || true);
 				container.scrollTop = ((state['scroll'] || 0) * container.scrollHeight);
+			
+				restoringInstanceState = false;
 			}
 
 			taphold = false;
