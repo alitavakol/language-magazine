@@ -49,7 +49,7 @@
 
     <!-- for cool english times -->
     <string name="cool_english_time_notification_text_short">Time to learn a lesson<![CDATA[!]]></string>
-    <string name="cool_english_time_notification_text">Time to learn the “%s” lesson<![CDATA[!]]></string>
+    <string name="cool_english_time_notification_text">You have to learn “%s” now<![CDATA[!]]></string>
 
     <plurals name="cool_english_time_notification_summary_text">
         <item quantity="one">You have learnt this item %d time so far.</item>

@@ -13,7 +13,6 @@
 
 		<!-- Bootstrap Material Design -->
 		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
-		<link rel="stylesheet" type="text/css" href="ripples.min.css">
 
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
@@ -64,7 +63,7 @@
 	<body>
 		<div class="poster"></div>
 
-		<div class="cem-container container-fluid">
+		<div class="cem-container">
 			<div id="top-margin"></div>
 
 			<div class="row"><div class="col-xs-12">
@@ -191,7 +190,7 @@
 
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
-					.cem-container { height: " + height + "px; } \
+					.cem-container { height: " + height + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
 					.row { margin-left: -" + horizontalMargin + "px; margin-right: -" + horizontalMargin + "px; } \
 					.col-xs-12 { padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
 					.col-sm-6 { padding-right: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; } \

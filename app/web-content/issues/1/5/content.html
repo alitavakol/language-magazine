@@ -15,7 +15,6 @@
 
 		<!-- Bootstrap Material Design -->
 		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
-		<link rel="stylesheet" type="text/css" href="ripples.min.css">
 
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
@@ -105,7 +104,7 @@
 		<script src="../code.js"></script>
 	</head>
 
-	<body class="container-fluid">
+	<body>
 		<div id="top-margin"></div>
 
 		<div id="title-container" class="panel panel-default">
@@ -151,7 +150,7 @@
 		<script type="text/javascript">
 			var mixed_label_ids = [2, 7, 1, 5, 10, 0, 6, 9, 3, 8, 4];
 			var images = [['church-05.jpg', 'church'], ['Philadephia_Museum_of_Art.jpg', 'museum'], ['Nanjing_Olympic_Sports_Center_main_gym.jpg', 'sports centre'], ['restaurant-05.jpg', 'restaurant'], ['Mall-Stock-Photo.jpg', 'shopping centre'], ['995592-cinema.jpg', 'cinema'], ['pool.jpg', 'swimming pool'], ['gallery_friday_harbour_marina_village_2.jpg', 'harbour'], ['Supermarket_Maxi.JPG', 'supermarket'], ['isfahan_lotfo_mosque2.jpg', 'mosque'], ['park-6.jpg', 'park']];
-			var image_template = "<div class='image-container col-xs-6 col-sm-3 col-md-2' data-label='{label}'><img src='{img}' class='img-circle img-responsive'><div class='label-container attached'>{label}</div></div>";
+			var image_template = "<div class='image-container col-xs-6 col-sm-4 col-md-3 col-lg-2' data-label='{label}'><img src='{img}' class='img-circle img-responsive'><div class='label-container attached'>{label}</div></div>";
 			var label_template = "<div class='label-container draggable' data-label='{label}'>{label}</div>";
 
 			container = $('#images');

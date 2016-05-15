@@ -8,6 +8,12 @@
 		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
 		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
 
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
 		<style id="dynamic-rules">
@@ -16,33 +22,35 @@
 		<style type="text/css">
 			#page-indicator {
 				width: 100%;
-				position: absolute;
+				position: flex;
 				z-index: 1;
 				text-align: center;
 				display: none;
 			}
 			.dot {
 				display: inline-block;
-				width: 8px;
-				height: 8px;
-				border-radius: 4px;
+				width: 10px;
+				height: 10px;
+				border-radius: 5px;
+				margin: 3px;
 				/* background-color: #8999A6; */
 			}
 			.dot.active {
 				/* background-color: azure; */
 			}
 
-			.card {
+			.cem-card {
 				position: relative;
 				transition: box-shadow .25s;
 				border-radius: 2px;
-				box-shadow: 0 6px 10px 0 rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.2);
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+		    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
 				max-width: 100%;
 			}
-			.card .card-image {
+			.cem-card .card-image {
 				position: relative;
 			}
-			.card .card-image img {
+			.cem-card .card-image img {
 				display: block;
 				border-radius: 2px 2px 0 0;
 				position: relative;
@@ -52,28 +60,32 @@
 				bottom: 0;
 				width: 100%;
 			}
-			.card .card-image .card-title {
+			.cem-card .card-image .card-title {
 				color: #fff;
 				position: absolute;
 				bottom: 0;
 				left: 0;
-				padding: 20px;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-top: 10px;
+				padding-bottom: 10px;
 				text-transform: uppercase;
 				background-color: black;
 				opacity: 0.7;
 			}
-			.card .card-title {
-				font-size: 24px;
+			.cem-card .card-title {
+				font-size: 20px;
 				font-weight: 300;
 			}
-			.card .card-content {
+			.cem-card .card-content {
 				border-radius: 0 0 2px 2px;
 				padding-left: 20px;
 				padding-right: 20px;
 				padding-bottom: 10px;
+				padding-top: 10px;
 				font-style: italic;
 			}
-			.card .card-action {
+			.cem-card .card-action {
 				border-top: 1px solid rgba(0,0,0,0.2);
 				padding: 20px;
 				padding-bottom: 0;
@@ -83,14 +95,6 @@
 				-webkit-tap-highlight-color: transparent;
 				font-weight: bold;
 			}
-			.illustrate {
-				width: 100%;
-				height: 300px;
-				overflow: hidden;
-				background-position: center center;
-				background-repeat: no-repeat;
-				background-size: cover;
-			}
 
 			.swipe {
 				overflow: hidden;
@@ -98,7 +102,6 @@
 				position: relative;
 			}
 			.swipe-wrap {
-				overflow: hidden;
 				position: relative;
 			}
 			.swipe-wrap > div {
@@ -115,129 +118,59 @@
 
 		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
 		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
-		<script src="swipe.min.js"></script>
 		<script src="file:///android_asset/tinycolor-min.js"></script>
 		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="swipe.min.js"></script>
 
 		<script src="../code.js"></script>
 	</head>
 
 	<body>
-		<div id="page-indicator" style="position: absolute; z-index: 1;">
-			<span class="dot"></span>
-			<span class="dot"></span>
-			<span class="dot"></span>
-			<span class="dot"></span>
-			<span class="dot"></span>
-			<span class="dot"></span>
-		</div>
+		<div id="page-indicator" style="position: absolute; z-index: 1;"></div>
 
 		<div id='swipeable' style='margin:0 auto;' class='swipe'>
-			<div class='swipe-wrap'>
-				<div>
-					<div class="card">
-						<div class="card-image">
-							<div class="illustrate" style="background-image: url('1.jpg');"></div>
-							<span class="card-title">To pitch a tent</span>
-						</div>
-						<div class="card-action">
-							To assemble a tent.
-						</div>
-						<div class="card-content">
-							<p>“The first thing we did when we got to the campsite was pitch our tent.”</p>
-						</div>
-					</div>
-				</div>
-
-				<div>
-					<div class="card">
-						<div class="card-image">
-							<div class="illustrate" style="background-image: url('2.jpg');"></div>
-							<span class="card-title">To go on a hike</span>
-						</div>
-						<div class="card-action">
-							To go for a long walk in the country.
-						</div>
-						<div class="card-content">
-							<p>“We plan to go on a hike in Fisher Canyon.”</p>
-						</div>
-					</div>
-				</div>
-
-				<div>
-					<div class="card">
-						<div class="card-image">
-							<div class="illustrate" style="background-image: url('3.jpg');"></div>
-							<span class="card-title">To build a fire</span>
-						</div>
-						<div class="card-action">
-							To make a fire from materials such as wood and sticks.
-						</div>
-						<div class="card-content">
-							<p>“If we want to eat dinner, we should probably build a fire first.”</p>
-						</div>
-					</div>
-				</div>
-
-				<div>
-					<div class="card">
-						<div class="card-image">
-							<div class="illustrate" style="background-image: url('4.jpg');"></div>
-							<span class="card-title">To catch fish</span>
-						</div>
-						<div class="card-action">
-							To use a fishing rod and/or line to get fish.
-						</div>
-						<div class="card-content">
-							<p>“My mum and I caught seven fish in three hours down at the lake.”</p>
-						</div>
-					</div>
-				</div>
-
-				<div>
-					<div class="card">
-						<div class="card-image">
-							<div class="illustrate" style="background-image: url('5.jpg');"></div>
-							<span class="card-title">To roast marshmallows</span>
-						</div>
-						<div class="card-action">
-							To cook marshmallows over a fire.
-						</div>
-						<div class="card-content">
-							<p>“Sean loves to roast marshmallows when we go camping.”</p>
-						</div>
-					</div>
-				</div>
-
-				<div>
-					<div class="card">
-						<div class="card-image">
-							<div class="illustrate" style="background-image: url('6.jpg');"></div>
-							<span class="card-title">To set up camp</span>
-						</div>
-						<div class="card-action">
-							If you “set up camp”, you organise your campsite by putting your tent, supplies and food in order.
-						</div>
-						<div class="card-content">
-							<p>“My friends and I left home in the morning because we wanted to set up camp before dark.”</p>
-						</div>
-					</div>
-				</div>
-			</div>
+			<div class='swipe-wrap'></div>
 		</div>
 
 		<script type="text/javascript">
 			restoringInstanceState = false;
 
+			card_template = "\
+				<div>\
+					<div class='top-margin'></div>\
+					<div class='cem-card'>\
+						<div class='card-image'>\
+							<img class='img-responsive' src='{img}'>\
+							<span class='card-title'>{verb}</span>\
+						</div>\
+						<div class='card-action'>{def}</div>\
+						<div class='card-content'><p>{example}</p></div>\
+					</div>\
+					<div class='bottom-margin'></div>\
+				</div>\
+			";
+			verbs = ['To pitch a tent', 'To go on a hike', 'To build a fire', 'To catch fish', 'To roast marshmallows', 'To set up camp'];
+			defs = ['To assemble a tent.', 'To go for a long walk in the country.', 'To make a fire from materials such as wood and sticks.', 'To use a fishing rod and/or line to get fish.', 'To cook marshmallows over a fire.', 'If you “set up camp”, you organise your campsite by putting your tent, supplies and food in order.'];
+			images = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg'];
+			examples = ['“The first thing we did when we got to the campsite was pitch our tent.”', '“We plan to go on a hike in Fisher Canyon.”', '“If we want to eat dinner, we should probably build a fire first.”', '“My mum and I caught seven fish in three hours down at the lake.”', '“Sean loves to roast marshmallows when we go camping.”', '“My friends and I left home in the morning because we wanted to set up camp before dark.”'];
+			var i = 0;
+			verbs.forEach(function(verb) {
+				$('.swipe-wrap').append(card_template.replace(/\{verb\}/g, verb).replace(/\{img\}/g, images[i]).replace(/\{def\}/g, defs[i]).replace(/\{example\}/, examples[i]));
+				$('#page-indicator').append('<span class="dot"></span>');
+				i++;
+			});
+
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
-					.card { margin-top: " + (topMargin+verticalMargin) + "px; margin-bottom: " + verticalMargin + "px; margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; background-color: #" + accentColor + "; } \
+					.cem-card { background-color: #" + accentColor + "; margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
 					.card-content { color: " + newWordColor + "; } \
+					.top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.bottom-margin { height: " + (bottomMargin+verticalMargin) + "px; } \
 					#page-indicator { margin-top: " + (topMargin+2*verticalMargin-8) + "px; } \
 					.swipe-wrap > div { height: " + height + "px; } \
 					.dot { background-color: " + tinycolor(accentColor).brighten().brighten().toHexString() + "; } \
-					.dot.active { background-color: " + tinycolor(accentColor).darken().darken().toHexString() + "; } \
-				");
+					.dot.active { background-color: " + tinycolor(accentColor).darken().darken().toHexString() + "; }"
+				);
 			}
 
 			setCurrentSlide = function(index) {

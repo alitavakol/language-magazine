@@ -13,7 +13,6 @@
 
 		<!-- Bootstrap Material Design -->
 		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
-		<link rel="stylesheet" type="text/css" href="ripples.min.css">
 
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
@@ -39,13 +38,48 @@
 				padding: 0 !important;
 			}
 			.row-picture img {
-				width: 80px !important;
-				height: 80px !important;
+				width: 86px !important;
+				height: 86px !important;
 			}
 			.list-group-item .row-content {
-				width: calc(100% - 100px) !important;
+				width: calc(100% - 112px) !important;
 			}
-		</style>
+
+.row.is-flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+.row.is-flex > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+}
+
+/*
+* And with max cross-browser enabled.
+* Nobody should ever write this by hand. 
+* Use a preprocesser with autoprefixing.
+*/
+.row.is-flex {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.row.is-flex > [class*='col-'] {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}		</style>
 
 		<style id="local-rules">
 		</style>
@@ -78,220 +112,9 @@
 					<h3 class="panel-title">VOCABULARY</h3>
 				</div>
 
-				<div class="panel-body container-fluid" style="position: relative;">
-
-					<div class="list-group row" style="margin-bottom: 0;">
-
-						<div class="col-sm-6 col-md-4 col-lg-3">
-							<div class="list-group-item">
-								<div class="row-picture">
-									<img class="circle" src="pool.jpg">
-								</div>
-								<div class="row-content">
-									<h4 class="list-group-item-heading">Swimming pool</h4>
-									<p class="list-group-item-text">the place where you swim.</p>
-								</div>
-							</div>
-							<div class="list-group-separator"></div>
-						</div>
-
-						<div class="col-sm-6 col-md-4 col-lg-3">
-							<div class="list-group-item">
-								<div class="row-picture">
-									<img class="circle" src="91018B.jpg">
-								</div>
-								<div class="row-content">
-									<h4 class="list-group-item-heading">Baby pool (also known as the wading pool)</h4>
-									<p class="list-group-item-text">a shallow pool for children.</p>
-								</div>
-							</div>
-							<div class="list-group-separator"></div>
-						</div>
-
-						<div class="col-sm-6 col-md-4 col-lg-3">
-							<div class="list-group-item">
-								<div class="row-picture">
-									<img class="circle" src="Lifeguard.jpg">
-								</div>
-								<div class="row-content">
-									<h4 class="list-group-item-heading">Lifeguard</h4>
-									<p class="list-group-item-text">the person who is there to protect the swimmers.</p>
-								</div>
-							</div>
-							<div class="list-group-separator"></div>
-						</div>
-
-						<div class="col-sm-6 col-md-4 col-lg-3">
-							<div class="list-group-item">
-								<div class="row-picture">
-									<img class="circle" src="2000s_8_Large.jpg">
-								</div>
-								<div class="row-content">
-									<h4 class="list-group-item-heading">Changing rooms</h4>
-									<p class="list-group-item-text">the place where you get changed and put on your swimming costume.</p>
-								</div>
-							</div>
-							<div class="list-group-separator"></div>
-						</div>
-
-						<div class="col-sm-6 col-md-4 col-lg-3">
-							<div class="list-group-item">
-								<div class="row-picture">
-									<img class="circle" src="footbath-to-pool.jpg">
-								</div>
-								<div class="row-content">
-									<h4 class="list-group-item-heading">The footbath</h4>
-									<p class="list-group-item-text">a little area of water designed to clean your feet.</p>
-								</div>
-							</div>
-							<div class="list-group-separator"></div>
-						</div>
-
-						<div class="col-sm-6 col-md-4 col-lg-3">
-							<div class="list-group-item">
-								<div class="row-picture">
-									<img class="circle" src="towel.jpg">
-								</div>
-								<div class="row-content">
-									<h4 class="list-group-item-heading">Towel</h4>
-									<p class="list-group-item-text">the object you use to dry yourself.</p>
-								</div>
-							</div>
-							<div class="list-group-separator"></div>
-						</div>
-
-						<div class="col-sm-6 col-md-4 col-lg-3">
-							<div class="list-group-item">
-								<div class="row-picture">
-									<img class="circle" src="gog.jpg">
-								</div>
-								<div class="row-content">
-									<h4 class="list-group-item-heading">Goggles</h4>
-									<p class="list-group-item-text">the glasses you can use so you can see under the water.</p>
-								</div>
-							</div>
-							<div class="list-group-separator"></div>
-						</div>
-
-						<div class="col-sm-6 col-md-4 col-lg-3">
-							<div class="list-group-item">
-								<div class="row-picture">
-									<img class="circle" src="IMG_3757.gif">
-								</div>
-								<div class="row-content">
-									<h4 class="list-group-item-heading">Swimming caps</h4>
-									<p class="list-group-item-text">tight rubber hats that you are obliged to wear in some swimming pools.</p>
-								</div>
-							</div>
-							<div class="list-group-separator"></div>
-						</div>
-
-						<div class="col-sm-6 col-md-4 col-lg-3">
-							<div class="list-group-item">
-								<div class="row-picture">
-									<img class="circle" src="sqwd.jpg">
-								</div>
-								<div class="row-content">
-									<h4 class="list-group-item-heading">Swimwear</h4>
-									<p class="list-group-item-text">clothing you wear at the swimming pool. Men generally wear swimming trunks (or simply “trunks”), and women wear a swimming costume or a bikini.</p>
-								</div>
-							</div>
-							<div class="list-group-separator"></div>
-						</div>
-
-						<div class="col-sm-6 col-md-4 col-lg-3">
-							<div class="list-group-item">
-								<div class="row-picture">
-									<img class="circle" src="arm-bands.jpg">
-								</div>
-								<div class="row-content">
-									<h4 class="list-group-item-heading">Arm bands</h4>
-									<p class="list-group-item-text">the plastic inflatable objects young swimmers wear around their arms.</p>
-								</div>
-							</div>
-							<div class="list-group-separator"></div>
-						</div>
-
-						<div class="col-sm-6 col-md-4 col-lg-3">
-							<div class="list-group-item">
-								<div class="row-picture">
-									<img class="circle" src="TS2_diving_board.jpg">
-								</div>
-								<div class="row-content">
-									<h4 class="list-group-item-heading">Diving board</h4>
-									<p class="list-group-item-text">a high concrete or plastic board that you can jump off.</p>
-								</div>
-							</div>
-							<div class="list-group-separator"></div>
-						</div>
-
-						<div class="col-sm-6 col-md-4 col-lg-3">
-							<div class="list-group-item">
-								<div class="row-picture">
-									<img class="circle" src="front-crawl.jpg">
-								</div>
-								<div class="row-content">
-									<h4 class="list-group-item-heading">Crawl / front crawl</h4>
-									<p class="list-group-item-text">this method of swimming consists of moving your arms over your head while kicking with your legs.</p>
-								</div>
-							</div>
-							<div class="list-group-separator"></div>
-						</div>
-
-						<div class="col-sm-6 col-md-4 col-lg-3">
-							<div class="list-group-item">
-								<div class="row-picture">
-									<img class="circle" src="ded.jpg">
-								</div>
-								<div class="row-content">
-									<h4 class="list-group-item-heading">Breaststroke</h4>
-									<p class="list-group-item-text">this consists of outward movements with your arms and legs.</p>
-								</div>
-							</div>
-							<div class="list-group-separator"></div>
-						</div>
-
-						<div class="col-sm-6 col-md-4 col-lg-3">
-							<div class="list-group-item">
-								<div class="row-picture">
-									<img class="circle" src="backstroke.jpg">
-								</div>
-								<div class="row-content">
-									<h4 class="list-group-item-heading">Backstroke</h4>
-									<p class="list-group-item-text">this method consists of moving your arms backwards while kicking with your legs</p>
-								</div>
-							</div>
-							<div class="list-group-separator"></div>
-						</div>
-
-						<div class="col-sm-6 col-md-4 col-lg-3">
-							<div class="list-group-item">
-								<div class="row-picture">
-									<img class="circle" src="doggy-paddle.jpg">
-								</div>
-								<div class="row-content">
-									<h4 class="list-group-item-heading">Doggy paddling</h4>
-									<p class="list-group-item-text">this consists of moving your hands and legs in the water as a dog does.</p>
-								</div>
-							</div>
-							<div class="list-group-separator"></div>
-						</div>
-
-						<div class="col-sm-6 col-md-4 col-lg-3">
-							<div class="list-group-item">
-								<div class="row-picture">
-									<img class="circle" src="butterfly-stroke.jpg">
-								</div>
-								<div class="row-content">
-									<h4 class="list-group-item-heading">The butterfly</h4>
-									<p class="list-group-item-text">this method consists of moving your arms in circular movements.</p>
-								</div>
-							</div>
-							<div class="list-group-separator"></div>
-						</div>
-
-					</div>
-
+				<div class="panel-body" style="position: relative;">
+					<!-- https://scotch.io/bar-talk/different-tricks-on-how-to-make-bootstrap-columns-all-the-same-height -->
+					<div id="images" class="list-group row is-flex" style="margin-bottom: 0;"></div>
 				</div>
 			</div>
 
@@ -429,6 +252,28 @@
 
 		<script type="text/javascript">
 			restoringInstanceState = false;
+
+			var template = "\
+				<div class='col-md-6'>\
+					<div class='list-group-item'>\
+						<div class='row-picture'>\
+							<img class='circle' src='{img}'>\
+						</div>\
+						<div class='row-content'>\
+							<h4 class='list-group-item-heading'>{title}</h4>\
+							<p class='list-group-item-text'>{def}</p>\
+						</div>\
+					</div>\
+					<div class='list-group-separator'></div>\
+				</div>";
+			var images = ['pool.jpg', '91018B.jpg', 'Lifeguard.jpg', '2000s_8_Large.jpg', 'footbath-to-pool.jpg', 'towel.jpg', 'gog.jpg', 'IMG_3757.gif', 'sqwd.jpg', 'arm-bands.jpg', 'TS2_diving_board.jpg', 'front-crawl.jpg', 'ded.jpg', 'backstroke.jpg', 'doggy-paddle.jpg', 'butterfly-stroke.jpg'];
+			var titles = ['Swimming pool', 'Baby pool (also known as the wading pool)', 'Lifeguard', 'Changing rooms', 'The footbath', 'Towel', 'Goggles', 'Swimming caps', 'Swimwear', 'Arm bands', 'Diving board', 'Crawl / front crawl', 'Breaststroke', 'Backstroke', 'Doggy paddling', 'The butterfly'];
+			var defs = ['the place where you swim.', 'a shallow pool for children.', 'the person who is there to protect the swimmers.', 'the place where you get changed and put on your swimming costume.', 'a little area of water designed to clean your feet.', 'the object you use to dry yourself.', 'the glasses you can use so you can see under the water.', 'tight rubber hats that you are obliged to wear in some swimming pools.', 'clothing you wear at the swimming pool. Men generally wear swimming trunks (or simply “trunks”), ', 'the plastic inflatable objects young swimmers wear around their arms.', 'a high concrete or plastic board that you can jump off.', 'this method of swimming consists of moving your arms over your head while kicking with your legs.', 'this consists of outward movements with your arms and legs.', 'this method consists of moving your arms backwards while kicking with your legs', 'this consists of moving your hands and legs in the water as a dog does.', 'this method consists of moving your arms in circular movements.'];
+			var i = 0;
+			images.forEach(function(img) {
+				$('#images').append(template.replace(/\{img\}/g, img).replace(/\{title\}/g, titles[i]).replace(/\{def\}/g, defs[i]));
+				i++;
+			});
 
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\

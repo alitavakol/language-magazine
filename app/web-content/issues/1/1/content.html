@@ -8,6 +8,12 @@
 		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
 		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
 
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
 		<style id="dynamic-rules">
@@ -51,8 +57,6 @@
 		</div>
 
 		<script type="text/javascript">
-			restoringInstanceState = false;
-
 			adjustCustomLayout = function(options) {
 				t = "(rgba(18,18,18,0.8), rgba(18,18,18,0), rgba(18,18,18,0.8)), url('download.jpg')";
 
@@ -82,13 +86,14 @@
 					$('h3').addClass('alt');
 				}
 
+				// if(typeof(app) != 'undefined') {
+				// 	app.autoHideToolbarOnScroll(!transcriptLocked);
+				// }
+
 				saveInstanceState();
 			}
 
 			saveInstanceState = function() {
-				if(restoringInstanceState)
-					return;
-
 				outState = {
 					transcriptLocked: transcriptLocked,
 				};
@@ -98,12 +103,9 @@
 			}
 
 			restoreInstanceState = function(savedInstanceState) {
-				restoringInstanceState = true;
 				state = JSON.parse(savedInstanceState);
 
 				lock(state.transcriptLocked || true);
-
-				restoringInstanceState = false;
 			}
 
 			taphold = false;

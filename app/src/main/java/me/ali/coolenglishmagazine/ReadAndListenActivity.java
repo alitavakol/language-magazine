@@ -778,8 +778,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                     final String fa = newWord.definition.get("fa");
                     if (fa.length() > 0)
                         textViewFa.setText(fa);
-                    else
+                    else {
                         textViewFa.setVisibility(View.GONE);
+                        popupView.findViewById(R.id.separator).setVisibility(View.GONE);
+                    }
 
                     final PopupWindow popupWindow = new PopupWindow(
                             popupView,
