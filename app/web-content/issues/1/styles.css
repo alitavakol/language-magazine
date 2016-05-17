@@ -22,11 +22,9 @@ body {
 	font-weight: 700;
 }
 header {
-	position: absolute;
-	/*top: 0;*/
-	left: 0;
-	width: 100%;
-	/*padding: 20px 10px;*/
+	/*position: absolute;*/
+	/*left: 0;*/
+	/*width: 100%;*/
 }
 .hidden {
 	visibility: hidden;
@@ -36,9 +34,9 @@ header {
 	overflow-y: auto;
 }
 h1 {
-	margin-bottom: 0;
-	font-weight: bold;
+	/*margin-bottom: 0;*/
+	/*font-weight: bold;*/
 }
 h1, h2, h3, h4 {
-	margin-top: 0;
+	/*margin-top: 0;*/
 }
