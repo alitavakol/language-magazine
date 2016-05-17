@@ -37,6 +37,7 @@ adjustLayout = function(options) {
 		while(backgroundColor.length < 6) backgroundColor = '0' + backgroundColor;
 		css += "h1 { color: #" + backgroundColor + "; }"
 		css += "h3 { color: #" + backgroundColor + "; }"
+		// css += "body { background-color: #" + backgroundColor + " }"
 
 	} else {
 		css += "h1 { color: #" + accentColor + "; }"
