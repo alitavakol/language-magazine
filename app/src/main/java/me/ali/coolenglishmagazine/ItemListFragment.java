@@ -172,20 +172,26 @@ public class ItemListFragment extends Fragment {
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.textViewType.getLayoutParams();
             if (item.flagFileName != null && item.flagFileName.length() > 0) { // item has audio, so it has accent
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    params.removeRule(RelativeLayout.ALIGN_START);
                     params.addRule(RelativeLayout.END_OF, R.id.flag);
                 } else {
+                    params.addRule(RelativeLayout.ALIGN_LEFT, 0); // http://stackoverflow.com/a/19916380
                     params.addRule(RelativeLayout.RIGHT_OF, R.id.flag);
                 }
                 holder.flagImageView.setImageBitmap(BitmapFactory.decodeFile(new File(item.rootDirectory, item.flagFileName).getAbsolutePath()));
+                holder.flagImageView.setVisibility(View.VISIBLE);
 
             } else { // no audio, hence accent flag becomes invisible
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    params.removeRule(RelativeLayout.END_OF);
                     params.addRule(RelativeLayout.ALIGN_START, R.id.title);
                 } else {
+                    params.addRule(RelativeLayout.RIGHT_OF, 0); // http://stackoverflow.com/a/19916380
                     params.addRule(RelativeLayout.ALIGN_LEFT, R.id.title);
                 }
-                holder.textViewType.setLayoutParams(params);
+                holder.flagImageView.setVisibility(View.GONE);
             }
+            holder.textViewType.setLayoutParams(params);
 
             holder.textViewLevel.setText(level);
             holder.textViewLevel.setBackgroundColor(levelColor);

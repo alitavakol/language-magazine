@@ -35,6 +35,9 @@
     <dimen name="readme_button_bar_elevation">6dp</dimen>
     <dimen name="welcome_title_size">20sp</dimen>
 
+    <dimen name="media_controller_padding_top">6dp</dimen>
+    <dimen name="media_controller_padding_bottom">6dp</dimen>
+
     <!-- standard metrics -->
     <dimen name="spacing_normal">8dp</dimen>
     <!--<dimen name="padding_normal">16dp</dimen>-->
