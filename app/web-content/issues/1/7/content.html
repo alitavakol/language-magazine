@@ -31,6 +31,7 @@
 				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
 				/*padding: 5px;*/
 				margin: 15px;
+				margin-top: 28px;
 				margin-bottom: 4px;
 				float: right;
 				max-width: 50%;
@@ -53,6 +54,9 @@
 			p {
 				margin: 0 0 0px;
 			}
+			h1 {
+				margin-top: 0;
+			}
 		</style>
 
 		<style id="local-rules">
@@ -62,7 +66,6 @@
 		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
 		<script src="file:///android_asset/tinycolor-min.js"></script>
 		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
-		<script src="jquery.slickwrap.js"></script>
 
 		<script src="../code.js"></script>
 	</head>
@@ -111,7 +114,7 @@
 					h4 { color: #" + accentColor + "; } \
 					.acnt { color: " + tinycolor(accentColor).darken().darken() + "; } \
 					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
-					#bottom-margin { height: " + (bottomMargin-verticalMargin) + "px; }"
+					#bottom-margin { height: " + (bottomMargin) + "px; }"
 				);
 			}
 
@@ -147,6 +150,20 @@
 					saveInstanceState();
 				}
 			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$('.cem-container').scroll(function() {
+					if(container.scrollTop < topMargin) {
+						if(container.scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = container.scrollTop;
+				});
+			}
 
 			// var t = $('#broken-finger');
 			// var w = Math.min(t.width(), t.parent().width() / 3);

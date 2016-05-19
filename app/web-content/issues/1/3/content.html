@@ -191,9 +191,9 @@
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
 					.cem-container { height: " + height + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
-					.row { margin-left: -" + horizontalMargin + "px; margin-right: -" + horizontalMargin + "px; } \
-					.col-xs-12 { padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
-					.col-sm-6 { padding-right: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; } \
+					.row { margin-left: -" + spacing + "px; margin-right: -" + spacing + "px; } \
+					.col-xs-12 { padding-left: " + spacing + "px; padding-right: " + spacing + "px; } \
+					.col-sm-6 { padding-right: " + spacing + "px; padding-left: " + spacing + "px; } \
 					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
 					#bottom-margin { height: " + (bottomMargin-verticalMargin) + "px; } \
 					#title-container { margin-top: " + (height-topMargin-bottomMargin-2*verticalMargin)/2 + "px; } \
@@ -268,6 +268,20 @@
 					saveInstanceState();
 				}
 			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$('.cem-container').scroll(function() {
+					if(container.scrollTop < topMargin) {
+						if(container.scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = container.scrollTop;
+				});
+			}
 		</script>
 
 	</body>

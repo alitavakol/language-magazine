@@ -350,4 +350,7 @@
         - Something new ;)<br/>
         - Oo text :D]]>
     </string>
+
+    <!-- content descriptions -->
+    <string name="wait">Please wait.</string>
 </resources>

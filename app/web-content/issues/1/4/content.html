@@ -41,35 +41,19 @@
 				width: 86px !important;
 				height: 86px !important;
 			}
+			.list-group-item {
+				padding-bottom: 16px !important;
+			}
 			.list-group-item .row-content {
-				width: calc(100% - 112px) !important;
+				width: inherit !important;
 			}
-
-			/*
-			* And with max cross-browser enabled.
-			* Nobody should ever write this by hand. 
-			* Use a preprocesser with autoprefixing.
-			*/
-			.row.is-flex {
-				display: -webkit-box;
-				display: -webkit-flex;
-				display: -ms-flexbox;
-				display: flex;
-				-webkit-flex-wrap: wrap;
-				-ms-flex-wrap: wrap;
-				flex-wrap: wrap;
+			.list-group-item .row-picture {
+				padding-right: 16px;
+				float: left;
+				padding-bottom: 16px;
 			}
-
-			.row.is-flex > [class*='col-'] {
-				display: -webkit-box;
-				display: -webkit-flex;
-				display: -ms-flexbox;
-				display: flex;
-				-webkit-box-orient: vertical;
-				-webkit-box-direction: normal;
-				-webkit-flex-direction: column;
-				-ms-flex-direction: column;
-				flex-direction: column;
+			.list-group .list-group-item .my-list-group-item-heading {
+				font-weight: bold;
 			}
 		</style>
 
@@ -251,12 +235,11 @@
 						<div class='row-picture'>\
 							<img class='circle' src='{img}'>\
 						</div>\
-						<div class='row-content'>\
-							<h4 class='list-group-item-heading'>{title}</h4>\
+						<div>\
+							<h4 class='my-list-group-item-heading'>{title}</h4>\
 							<p class='list-group-item-text'>{def}</p>\
 						</div>\
 					</div>\
-					<div class='list-group-separator'></div>\
 				</div>";
 			var images = ['pool.jpg', '91018B.jpg', 'Lifeguard.jpg', '2000s_8_Large.jpg', 'footbath-to-pool.jpg', 'towel.jpg', 'gog.jpg', 'IMG_3757.gif', 'sqwd.jpg', 'arm-bands.jpg', 'TS2_diving_board.jpg', 'front-crawl.jpg', 'ded.jpg', 'backstroke.jpg', 'doggy-paddle.jpg', 'butterfly-stroke.jpg'];
 			var titles = ['Swimming pool', 'Baby pool (also known as the wading pool)', 'Lifeguard', 'Changing rooms', 'The footbath', 'Towel', 'Goggles', 'Swimming caps', 'Swimwear', 'Arm bands', 'Diving board', 'Crawl / front crawl', 'Breaststroke', 'Backstroke', 'Doggy paddling', 'The butterfly'];
@@ -345,6 +328,20 @@
 					saveInstanceState();
 				}
 			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$('.cem-container').scroll(function() {
+					if(container.scrollTop < topMargin) {
+						if(container.scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = container.scrollTop;
+				});
+			}
 		</script>
 
 	</body>

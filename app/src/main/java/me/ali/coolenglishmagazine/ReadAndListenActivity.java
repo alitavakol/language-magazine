@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.design.widget.AppBarLayout;
@@ -153,7 +151,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 WaitingItems.incrementHitCount(this, item);
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -219,6 +217,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                         + ", bottomMargin: " + mediaControllerButtons.getMeasuredHeight()
                         + ", horizontalMargin: " + getResources().getDimension(R.dimen.activity_horizontal_margin)
                         + ", verticalMargin: " + getResources().getDimension(R.dimen.activity_vertical_margin)
+                        + ", spacing: " + getResources().getDimension(R.dimen.spacing_normal)
                         + ", backgroundColor: " + ContextCompat.getColor(getApplicationContext(), android.R.color.background_light)
                         + ", height: " + webView.getMeasuredHeight() // window height
                         + ", accentColor: " + accentColor // accent color
@@ -279,26 +278,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         pauseButton.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_pause).sizeDp(24).colorRes(android.R.color.primary_text_dark));
         prevButton.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_fast_rewind).sizeDp(24).colorRes(android.R.color.primary_text_dark));
         nextButton.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_fast_forward).sizeDp(24).colorRes(android.R.color.primary_text_dark));
-
-        ImageView lock = (ImageView) findViewById(R.id.lock);
-        lock.setOnClickListener(this);
-        lock.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (webViewJavaScriptInterface != null)
-                    webViewJavaScriptInterface.lockTranscript(false);
-                return true;
-            }
-        });
-        lock.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_vpn_key).sizeRes(R.dimen.lock_button_size).paddingRes(R.dimen.constant_margin).colorRes(android.R.color.primary_text_dark).alpha(200));
-
-        // change lock background color to accent color with transparency
-        int accentColorDark = getResources().getIntArray(R.array.darkLevelColors)[item.level];
-        LayerDrawable lockBg = (LayerDrawable) ContextCompat.getDrawable(this, R.drawable.lock_bg);
-        GradientDrawable lockFill = (GradientDrawable) lockBg.findDrawableByLayerId(R.id.lock_fill);
-        lockFill.setColor(accentColorDark);
-        lockBg.setAlpha(200);
-        lock.setBackground(lockBg);
 
         webView.loadUrl(webContentFile.toURI().toString());
 
@@ -520,10 +499,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 seekBar.setProgress(musicService.fastForward());
                 break;
             }
-
-            case R.id.lock:
-                Toast.makeText(this, R.string.unlock_hint, Toast.LENGTH_SHORT).show();
-                break;
 
             default:
                 break;
@@ -846,17 +821,21 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         }
 
         /**
-         * hides toolbar to gain space for web content
+         * makes toolbar auto hide (slide up) on scroll.
          *
-         * @param hide if true, toolbar goes hidden.
+         * @param scrollable if true, toolbar will automatically slide up on scroll down,
+         *                   and come back on scroll up.
          */
         @SuppressWarnings("unused")
         @JavascriptInterface
-        public void hideToolbarForSpace(final boolean hide) {
-            // http://stackoverflow.com/questions/30554824/how-to-reset-the-toolbar-position-controlled-by-the-coordinatorlayout
+        public void setToolbarScrollable(final boolean scrollable) {
             runOnUiThread(new Runnable() {
                 public void run() {
-                    appBar.setVisibility(hide ? View.INVISIBLE : View.VISIBLE);
+                    AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+                    params.setScrollFlags(scrollable ? AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS : 0);
+                    toolbar.setLayoutParams(params);
+                    if(scrollable)
+                        appBar.setExpanded(false);
                 }
             });
         }
@@ -865,4 +844,5 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     protected boolean mediaControllerHiddenForSpace;
 
     protected AppBarLayout appBar;
+    protected Toolbar toolbar;
 }

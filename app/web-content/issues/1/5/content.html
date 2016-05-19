@@ -229,7 +229,7 @@
 				$('#local-rules').text("\
 					body { padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
 					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
-					#bottom-margin { height: " + (bottomMargin-verticalMargin) + "px; } \
+					#bottom-margin { height: " + (verticalMargin/3) + "px; } \
 					tr:nth-child(odd) { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
 					.label-container { background-color: " + highlightColor + "; } \
 					.label-container.selected { background-color: #" + accentColor + "; } "
@@ -267,6 +267,21 @@
 					saveInstanceState();
 				}
 			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				body = $('body')[0];
+				$(document).scroll(function() {
+					if(body.scrollTop < topMargin) {
+						if(body.scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = body.scrollTop;
+				});
+			}
 		</script>
 
 	</body>

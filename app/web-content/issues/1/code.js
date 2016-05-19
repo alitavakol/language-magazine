@@ -9,6 +9,7 @@ adjustLayout = function(options) {
 	height = (options['height'] || 0) / window.devicePixelRatio;
 	verticalMargin = (options['verticalMargin'] || 0) / window.devicePixelRatio;
 	horizontalMargin = (options['horizontalMargin'] || 0) / window.devicePixelRatio;
+	spacing = (options['spacing'] || 8) / window.devicePixelRatio;
 
 	textColor = ((options['textColor'] || 0) & 0xffffff).toString(16);
 	while(textColor.length < 6) textColor = '0' + textColor;

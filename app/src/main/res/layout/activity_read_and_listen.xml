@@ -7,41 +7,28 @@
     android:layout_height="match_parent"
     tools:context="me.ali.coolenglishmagazine.ReadAndListenActivity">
 
-    <RelativeLayout
-        android:id="@+id/main_layout"
+    <ImageView
+        android:id="@+id/hourglass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:contentDescription="@string/wait" />
+
+    <!-- http://stackoverflow.com/a/35234309 -->
+    <me.ali.coolenglishmagazine.widget.NestedWebView
+        android:id="@+id/webView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:visibility="invisible" />
 
-        <ImageView
-            android:id="@+id/hourglass"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
-
-        <!-- http://stackoverflow.com/a/35234309 -->
-        <me.ali.coolenglishmagazine.widget.NestedWebView
-            android:id="@+id/webView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentTop="true"
-            android:visibility="invisible" />
-
-        <include
-            android:id="@+id/controllers"
-            layout="@layout/media_controller" />
-
-        <ImageView
-            android:id="@+id/lock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/controllers"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:visibility="gone"
-            tools:background="@drawable/lock_bg" />
-
-    </RelativeLayout>
+    <include
+        android:id="@+id/controllers"
+        layout="@layout/media_controller"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
