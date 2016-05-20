@@ -66,6 +66,7 @@
 			#images img {
 				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
 				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				width: 100%;
 			}
 			#labels {
 				margin-left: -10px;
@@ -75,20 +76,13 @@
 				background-size: cover;
 				background-repeat: no-repeat;
 				background-position: center;
-				background-image: url('jpo.jpg');
+				background-image: url('cover.jpg');
 			}
-			h3 {
-				margin: 6px;
+			.no-padding {
+				-webkit-padding-start: 16px;
 			}
-			tr > td:first-child {
-				font-weight: bold;
-				text-align: right;
-			}
-			tr > td:last-child {
-				padding-left: 16px;
-			}
-			td {
-				vertical-align: top;
+			h4 {
+				color: white;
 			}
 		</style>
 
@@ -112,17 +106,18 @@
 
 		<div id="title-container" class="panel panel-default">
 			<div class="panel-body">
-				<h3>Neighbourhood Places</h3>
+				<h3>Extreme Yoga</h3>
+				<h4 class="alt">Yoga in the air.</h4>
 			</div>
 		</div>
 
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				Match the words
+				Pre listening
 			</div>
 
 			<div class="panel-body">
-				<p>Match the words below to the pictures.</p>
+				<p>Match the words to the pictures.</p>
 				<div id="labels"></div>
 				<div id="images" class="row"></div>
 			</div>
@@ -130,29 +125,85 @@
 
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				Guess the word
+				Discussion
 			</div>
 
 			<div class="panel-body">
-				<p>Make a sentence with each place. Ask your partner to guess the word. For example:</p>
-				<table>
-					<tr>
-						<td>You:</td>
-						<td>It’s a place where you can eat.</td>
-					</tr>
-					<tr>
-						<td>Your Partner:</td>
-						<td>The restaurant.</td>
-					</tr>
-				</table>
+				<ol class="no-padding">
+					<li>Do you do any of the activities from above? Which ones?</li>
+					<li>What are the beneits of these activities?</li>
+					<li>Which activities from above would you like to try? Why? Why not?</li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				Listening I
+			</div>
+
+			<div class="panel-body">
+				<p>You are going to listen to an article about a new form of physical exercise. Listen once. Which activity is it?</p>
+				<ol class="no-padding">
+					<li>jogging</li>
+					<li>yoga</li>
+					<li>aerobics</li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				Listening II
+			</div>
+
+			<div class="panel-body">
+				<p>Listen again. True or false?</p>
+				<ol class="no-padding">
+					<li>Slackline Yoga is a type of yoga practised in the circus.</li>
+					<li>Slackline Yoga was invented by rock climbers.</li>
+					<li>Acroyoga is yoga in water.</li>
+					<li>David lives in a big house with lots of land.</li>
+					<li>If you can’t go to one of his workshops, you can buy the DVD.</li>
+				</ol>
 			</div>
 		</div>
 
 		<div id="bottom-margin"></div>
 
+		<div style="display: none;">
+			<span data-start="0" data-end="7000"></span>
+			<span data-start="7001" data-end="9700"></span>
+			<span data-start="9701" data-end="14000"></span>
+			<span data-start="14001" data-end="16500"></span>
+			<span data-start="16501" data-end="19300"></span>
+			<span data-start="19301" data-end="23750"></span>
+			<span data-start="23751" data-end="26950"></span>
+			<span data-start="26951" data-end="30700"></span>
+			<span data-start="30701" data-end="34400"></span>
+			<span data-start="34401" data-end="36960"></span>
+			<span data-start="36961" data-end="44100"></span>
+			<span data-start="44101" data-end="46160"></span>
+			<span data-start="46161" data-end="49600"></span>
+			<span data-start="49601" data-end="53100"></span>
+			<span data-start="53101" data-end="55550"></span>
+			<span data-start="55551" data-end="58660"></span>
+			<span data-start="58661" data-end="60230"></span>
+			<span data-start="60231" data-end="62270"></span>
+			<span data-start="62271" data-end="67350"></span>
+			<span data-start="67351" data-end="71200"></span>
+			<span data-start="71201" data-end="74770"></span>
+			<span data-start="74771" data-end="77700"></span>
+			<span data-start="77701" data-end="79550"></span>
+			<span data-start="79551" data-end="81900"></span>
+			<span data-start="81901" data-end="85560"></span>
+		</div>
+
 		<script type="text/javascript">
-			var mixed_label_ids = [2, 7, 1, 5, 10, 0, 6, 9, 3, 8, 4];
-			var images = [['church-05.jpg', 'church'], ['Philadephia_Museum_of_Art.jpg', 'museum'], ['Nanjing_Olympic_Sports_Center_main_gym.jpg', 'sports centre'], ['restaurant-05.jpg', 'restaurant'], ['Mall-Stock-Photo.jpg', 'shopping centre'], ['995592-cinema.jpg', 'cinema'], ['pool.jpg', 'swimming pool'], ['gallery_friday_harbour_marina_village_2.jpg', 'harbour'], ['Supermarket_Maxi.JPG', 'supermarket'], ['isfahan_lotfo_mosque2.jpg', 'mosque'], ['park-6.jpg', 'park']];
+			restoringInstanceState = false;
+
+			var mixed_label_ids = [3, 5, 1, 4, 0, 2];
+			var images = [['pilates.jpg', 'pilates'], ['step.jpg', 'step'], ['yoga.jpg', 'yoga'], ['jog.jpg', 'jogging'], ['gym.jpg', 'working out at the gym'], ['aerobics.jpg', 'aerobics']];
 			var image_template = "<div class='image-container col-xs-6 col-sm-4 col-md-3 col-lg-2' data-label='{label}'><img src='{img}' class='img-circle img-responsive'><div class='label-base'><div class='label-container attached'>{label}</div></div></div>";
 			var label_template = "<div class='label-container draggable' data-label='{label}'>{label}</div>";
 
@@ -232,8 +283,7 @@
 				$('#local-rules').text("\
 					body { padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
 					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
-					#bottom-margin { height: " + (verticalMargin/3) + "px; } \
-					tr:nth-child(odd) { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
 					.label-container { background-color: " + highlightColor + "; } \
 					.label-container.selected { background-color: #" + accentColor + "; } "
 				);
@@ -242,6 +292,9 @@
 			prevScroll = 0;
 
 			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
 				outState = {
 					dropped_elements: dropped_elements,
 					scroll: prevScroll,
@@ -252,6 +305,7 @@
 			}
 
 			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
 				state = JSON.parse(savedInstanceState);
 
 				dropped_elements = state['dropped_elements'] || [];
@@ -261,6 +315,8 @@
 
 				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
 				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
 			}
 
 			setInterval(function() {
