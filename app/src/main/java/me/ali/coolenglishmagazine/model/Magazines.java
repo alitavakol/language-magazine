@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import me.ali.coolenglishmagazine.BuildConfig;
 import me.ali.coolenglishmagazine.R;
 import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
 import me.ali.coolenglishmagazine.util.FileHelper;
@@ -307,7 +308,7 @@ public class Magazines {
     public static String getIssueDownloadUrl(Context context, Issue issue) {
         final Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(context).getString("server_address", context.getResources().getString(R.string.pref_default_server_address)));
         // http://docs.oracle.com/javase/tutorial/networking/urls/urlInfo.html
-        return uri.toString() + "/api/issues/" + Integer.parseInt(issue.rootDirectory.getName());
+        return uri.toString() + "/api/issues/" + Integer.parseInt(issue.rootDirectory.getName()) + "?app_version=" + BuildConfig.VERSION_CODE;
     }
 
     /**

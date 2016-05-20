@@ -352,7 +352,7 @@ public class GalleryOfIssuesFragment extends Fragment {
 
             final Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(context).getString("server_address", getResources().getString(R.string.pref_default_server_address)));
             // http://docs.oracle.com/javase/tutorial/networking/urls/urlInfo.html
-            final String url = uri.toString() + "/api/issues?min_issue_number=" + firstMissingIssueNumber;
+            final String url = uri.toString() + "/api/issues?min_issue_number=" + firstMissingIssueNumber + "&app_version=" + BuildConfig.VERSION_CODE;
 
             // Request a string response from the provided URL.
             InputStreamVolleyRequest request = new InputStreamVolleyRequest(Request.Method.GET, url, new Response.Listener<byte[]>() {
@@ -370,8 +370,14 @@ public class GalleryOfIssuesFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    if (error.networkResponse.statusCode == 426) { // 426 Upgrade Required
+                        NetworkHelper.showUpgradeDialog(getActivity());
+
+                    } else {
+                        Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
+                    }
+
                     cancelSync(context, adapter);
-                    Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
                 }
             }, null);
 

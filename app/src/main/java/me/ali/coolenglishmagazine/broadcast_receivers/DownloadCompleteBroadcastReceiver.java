@@ -22,6 +22,7 @@ import me.ali.coolenglishmagazine.R;
 import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.util.FileHelper;
 import me.ali.coolenglishmagazine.util.LogHelper;
+import me.ali.coolenglishmagazine.util.NetworkHelper;
 import me.ali.coolenglishmagazine.util.ZipHelper;
 
 public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
@@ -64,7 +65,13 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
                 case DownloadManager.STATUS_FAILED:
                     // get the reason - more detail on the status
                     int reason = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_REASON));
-                    Toast.makeText(context, context.getResources().getString(R.string.download_failed_msg, reason), Toast.LENGTH_LONG).show();
+
+                    if (reason == 426) { // 426 Upgrade Required
+                        NetworkHelper.showUpgradeDialog(context);
+
+                    } else {
+                        Toast.makeText(context, context.getResources().getString(R.string.download_failed_msg, reason), Toast.LENGTH_LONG).show();
+                    }
                     break;
             }
         }

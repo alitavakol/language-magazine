@@ -19,6 +19,11 @@ package me.ali.coolenglishmagazine.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v7.app.AlertDialog;
+import android.view.ContextThemeWrapper;
+import android.view.WindowManager;
+
+import me.ali.coolenglishmagazine.R;
 
 /**
  * Generic reusable network methods.
@@ -33,5 +38,20 @@ public class NetworkHelper {
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
+    }
+
+    /**
+     * presents the server message in a dialog.
+     *
+     * @param context activity context
+     */
+    public static void showUpgradeDialog(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AppTheme));
+        builder.setMessage(R.string.upgrade_message)
+                .setTitle(R.string.server_message_dialog_title)
+                .setCancelable(true);
+        AlertDialog alert = builder.create();
+        alert.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        alert.show();
     }
 }
