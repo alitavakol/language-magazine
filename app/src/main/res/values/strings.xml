@@ -344,13 +344,9 @@
     <string name="aboutLibraries_description_special1_name">Changes</string>
     <string name="aboutLibraries_description_special1_text">
         <![CDATA[
-        <i>Version 1.1.0</i><br/>
-        - Something nice ;)<br/>
-        - Something awesome<br/>
-        <br/>
-        <i>Version 1.0.0</i><br/>
-        - Something new ;)<br/>
-        - Oo text :D]]>
+        <b>Version 1.0</b><br/>
+        - First release on 1395/3/2
+        ]]>
     </string>
 
     <!-- content descriptions -->
