@@ -8,8 +8,8 @@ android {
         applicationId "me.ali.coolenglishmagazine"
         minSdkVersion 16 // Android 4.1 (JELLY_BEAN)
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
     }
     buildTypes {
         release {
