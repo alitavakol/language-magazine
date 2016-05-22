@@ -1,11 +1,101 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">#212121</item>
+        <item name="android:textColorSecondary">#323232</item>
+        <!--<item name="android:windowBackground">@color/colorPrimary</item>-->
+        <!--<item name="android:typeface">monospace</item>-->
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:textViewStyle">@style/AppTheme.Widget.TextView</item>
+        <item name="colorButtonNormal">@color/accent</item>
+        <item name="android:buttonStyle">?android:attr/buttonStyleSmall</item>
+    </style>
+
+    <style name="ReadAndListenTheme.Default" parent="AppTheme">
+        <item name="colorAccent">@android:color/primary_text_dark</item>
+    </style>
+
+    <style name="ReadAndListenTheme.BeginnerLevel" parent="AppTheme">
+        <item name="colorAccent">@color/beginnerLevelColor</item>
+    </style>
+
+    <style name="ReadAndListenTheme.IntermediateLevel" parent="AppTheme">
+        <item name="colorAccent">@color/intermediateLevelColor</item>
+    </style>
+
+    <style name="ReadAndListenTheme.UpperIntermediateLevel" parent="AppTheme">
+        <item name="colorAccent">@color/upperIntermediateLevelColor</item>
+    </style>
+
+    <style name="ReadAndListenTheme.AdvancedLevel" parent="AppTheme">
+        <item name="colorAccent">@color/advancedLevelColor</item>
+    </style>
+
+    <style name="AppTheme.Widget" />
+
+    <style name="AppTheme.Widget.TextView" parent="android:Widget.Holo.Light.TextView">
+        <item name="fontPath">Ubuntu-Regular.ttf</item>
+    </style>
+
+    <style name="AppTheme.Widget.TextView.Title" parent="android:TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="fontPath">Ubuntu-Medium.ttf</item>
+    </style>
+
+    <style name="AppTheme.Widget.TextView.Medium" parent="android:Widget.Holo.Light.TextView">
+        <item name="fontPath">Ubuntu-Medium.ttf</item>
+    </style>
+
+    <style name="AppTheme.Widget.TextView.Light" parent="android:Widget.Holo.Light.TextView">
+        <item name="fontPath">Ubuntu-Light.ttf</item>
+    </style>
+
+    <style name="AppTheme.Widget.TextView.Bold" parent="android:Widget.Holo.Light.TextView">
+        <item name="fontPath">Ubuntu-Bold.ttf</item>
+    </style>
+
+    <style name="AppTheme.Widget.TextView.Italic" parent="android:Widget.Holo.Light.TextView">
+        <item name="fontPath">Ubuntu-Italic.ttf</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="AppTheme.FitScreen" parent="AppTheme"></style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <!-- issue details (from Google IO) -->
+    <style name="TextAppearance.Title" parent="TextAppearance.AppCompat.Title">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="SessionDetailsTitle">
+        <item name="android:textAppearance">@style/AppTheme.Widget.TextView.Title</item>
+        <!--<item name="android:textColor">?android:textColorPrimary</item>-->
+        <item name="android:textSize">18sp</item>
+        <item name="android:lineSpacingMultiplier">@dimen/h3_spacing</item>
+        <item name="android:paddingBottom">@dimen/spacing_normal</item>
+    </style>
+
+    <style name="TextAppearance.Body1" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">14sp
+        </item> <!-- bug in AppCompat, can remove this when it's fixed -->
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+    <style name="Body1Text">
+        <item name="android:textAppearance">@style/TextAppearance.Body1</item>
+        <item name="android:lineSpacingMultiplier">@dimen/body_1_spacing</item>
+    </style>
+
+    <style name="SessionDetailsSubtitle" parent="@style/Body1Text">
+        <item name="android:textColor">?android:textColorSecondary</item>
     </style>
 
 </resources>

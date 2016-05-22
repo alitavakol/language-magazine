@@ -1,0 +1,42 @@
+body {
+	margin-left: 0;
+	margin-right: 0;
+	/*background-color: transparent;*/
+	margin: 0;
+	overflow: hidden;
+	font-family: "Ubuntu";
+	font-weight: 400;
+}
+.poster {
+	width: 100%;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	z-index: -1;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.new-word, .new-word:hover {
+	text-decoration: none;
+	font-weight: 700;
+}
+header {
+	/*position: absolute;*/
+	/*left: 0;*/
+	/*width: 100%;*/
+}
+.hidden {
+	visibility: hidden;
+	display: none;
+}
+.cem-container {
+	overflow-y: auto;
+}
+h1 {
+	/*margin-bottom: 0;*/
+	/*font-weight: bold;*/
+}
+h1, h2, h3, h4 {
+	/*margin-top: 0;*/
+}

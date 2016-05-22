@@ -1,0 +1,107 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/constant_margin"
+    android:paddingLeft="@dimen/constant_margin"
+    android:paddingRight="@dimen/constant_margin"
+    android:paddingTop="@dimen/constant_margin"
+    tools:context="me.ali.coolenglishmagazine.ShareFragment">
+
+    <Button
+        android:id="@+id/facebook_button"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginRight="@dimen/spacing_normal"
+        android:layout_weight=".7"
+        android:background="?android:attr/selectableItemBackground"
+        android:drawablePadding="@dimen/padding_normal"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:lines="1"
+        android:text="Facebook"
+        tools:drawableTop="@mipmap/ic_launcher" />
+
+    <Button
+        android:id="@+id/email_button"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginRight="@dimen/spacing_normal"
+        android:layout_weight="1"
+        android:background="?android:attr/selectableItemBackground"
+        android:drawablePadding="@dimen/padding_normal"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:lines="1"
+        android:text="Email"
+        tools:drawableTop="@mipmap/ic_launcher" />
+
+    <Button
+        android:id="@+id/twitter_button"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginRight="@dimen/spacing_normal"
+        android:layout_weight=".8"
+        android:background="?android:attr/selectableItemBackground"
+        android:drawablePadding="@dimen/padding_normal"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:lines="1"
+        android:text="Twitter"
+        tools:drawableTop="@mipmap/ic_launcher" />
+
+    <Button
+        android:id="@+id/copy_button"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginRight="@dimen/spacing_normal"
+        android:layout_weight="1"
+        android:background="?android:attr/selectableItemBackground"
+        android:drawablePadding="@dimen/padding_normal"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:lines="1"
+        android:text="Copy"
+        tools:drawableTop="@mipmap/ic_launcher" />
+
+
+    <Button
+        android:id="@+id/google_plus_button"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginRight="@dimen/spacing_normal"
+        android:layout_weight=".8"
+        android:background="?android:attr/selectableItemBackground"
+        android:drawablePadding="@dimen/padding_normal"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:lines="1"
+        android:text="Google+"
+        tools:drawableTop="@mipmap/ic_launcher" />
+
+    <Button
+        android:id="@+id/more_button"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="?android:attr/selectableItemBackground"
+        android:drawablePadding="@dimen/padding_normal"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:lines="1"
+        android:text="More"
+        tools:drawableTop="@mipmap/ic_launcher" />
+</LinearLayout>

@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_add_to_waiting_list"
+        android:title="@string/add_all_to_waiting_list"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_open_issue_details"
+        android:title="@string/view_issue_details"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_mark_complete"
+        android:title="@string/mark_complete"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_mark_incomplete"
+        android:title="@string/mark_incomplete"
+        app:showAsAction="never" />
+
+</menu>

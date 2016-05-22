@@ -1,3 +1,354 @@
 <resources>
-    <string name="app_name">Cool English Magazine</string>
+    <string name="app_name">Hot English Magazine</string>
+    <string name="app_website">http://www.alitavakol.me</string>
+
+    <string name="gallery_of_issues">Gallery of Issues</string>
+    <string name="cool_english_times">Hot English Times</string>
+    <string name="readme">Read Me</string>
+    <string name="about">About</string>
+
+    <!-- media playback controls -->
+    <string name="play_pause">play or pause</string>
+    <string name="skip_next">skip to next</string>
+    <string name="skip_prev">skip to previous</string>
+
+    <string name="lock">Hide transcript</string>
+    <string name="unlock">Reveal transcript</string>
+    <string name="unlock_hint">Tap and hold to reveal transcript.</string>
+
+    <string name="add_all_to_waiting_list">Add all items to hot english times</string>
+    <string name="add_to_waiting_list">Add to hot english times</string>
+    <string name="already_in_waiting_list">Item “%s” is already added.</string>
+
+    <string name="view_issue_details">See magazine introduction</string>
+
+    <!-- drag handle click hint toast -->
+    <string name="drag_hint">Hold and move to re-order items.</string>
+
+    <!-- waiting list row click hint toast -->
+    <string name="action_mode_hint">Long press item for more options.</string>
+
+    <string name="action_settings">Preferences</string>
+
+    <string name="title_item_list">Table of Contents</string>
+    <string name="title_item_detail">Item Details</string>
+
+    <string name="title_issue_list">Gallery of Issues</string>
+    <string name="title_issue_detail">Issue Details</string>
+
+    <string name="refresh">Refresh</string>
+    <string name="add_alarm">Add new alarm</string>
+
+    <string name="check_connection">Make sure your device is online.</string>
+    <string name="network_error">Could not connect to server.</string>
+    <string name="server_message_dialog_title">Server message:</string>
+    <string name="upgrade_message">The “Hot English Magazine” app is old. Please upgrade to a more recent version.</string>
+    <string name="update_success">Sync completed successfully.</string>
+    <string name="unzip_error">Unknown error occurred.</string>
+
+    <!-- for issue download notification -->
+    <string name="issue_downloaded_notification">New issue downloaded. Let’s start<![CDATA[!]]></string>
+
+    <!-- for cool english times -->
+    <string name="cool_english_time_notification_text_short">Time to learn a lesson<![CDATA[!]]></string>
+    <string name="cool_english_time_notification_text">You have to learn “%s” now<![CDATA[!]]></string>
+
+    <plurals name="cool_english_time_notification_summary_text">
+        <item quantity="one">You have learnt this item %d time so far.</item>
+        <item quantity="other">You have learnt this item %d times so far.</item>
+    </plurals>
+
+    <plurals name="pending_count">
+        <item quantity="one">Remaining %d time to learn.</item>
+        <item quantity="other">Remaining %d times to learn.</item>
+    </plurals>
+
+    <string name="alarm_already_exists">Alarm for this time already exists.</string>
+
+    <string name="title_activity_settings">Preferences</string>
+
+    <string name="select_time">Pick a hot english time</string>
+
+    <string name="selected_count">Selected: %d</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <string name="pref_title_item_learn_repeat_count">Repeat reading &amp; listening</string>
+    <string-array name="pref_item_learn_repeat_count">
+        <item>5 times per lesson</item>
+        <item>8 times per lesson (recommended)</item>
+        <item>11 times per lesson</item>
+    </string-array>
+    <string-array name="pref_item_learn_repeat_count_values">
+        <item>5</item>
+        <item>8</item>
+        <item>11</item>
+    </string-array>
+
+    <string name="pref_title_navigate_audio_with_volume_buttons">Volume buttons navigate playback</string>
+    <string-array name="pref_volume_buttons_behaviour_list_titles">
+        <item>When screen is off</item>
+        <!--<item>When playing in background</item>-->
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_volume_buttons_behaviour_list_values">
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+
+    <!-- preferences category titles -->
+    <string name="pref_category_playback_options">Audio Playback Options</string>
+    <string name="pref_category_program">The Hot English Program</string>
+    <string name="pref_category_notification_options">Notification Options</string>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_server_address">Server address</string>
+    <string name="pref_default_server_address">http://10.0.2.2:3000</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_sound_enabled">Sound</string>
+    <string name="pref_title_vibrate_enabled">Vibrate</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_shake_to_pause_playback">Shake to pause/resume playback (experimental)</string>
+
+    <string name="pref_title_ringtone">Notification ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+
+    <string name="beginnerLevel">Beginner</string>
+    <string name="intermediateLevel">Intermediate</string>
+    <string name="upperIntermediateLevel">Upper-Intermediate</string>
+    <string name="advancedLevel">Advanced</string>
+
+    <array name="levels">
+        <item>@string/beginnerLevel</item>
+        <item>@string/intermediateLevel</item>
+        <item>@string/upperIntermediateLevel</item>
+        <item>@string/advancedLevel</item>
+    </array>
+
+    <string name="download">Download</string>
+    <string name="cancel">Cancel</string>
+    <string name="open">Open</string>
+    <string name="delete">Delete</string>
+    <string name="retry_download">Retry Download</string>
+    <string name="complete">Complete</string>
+    <string name="reopen">Incomplete</string>
+
+    <string name="mark_complete">Mark issue as completed</string>
+    <string name="mark_incomplete">Re-open this issue</string>
+
+    <string name="delete_selected_alarms">Delete</string>
+    <string name="delete_selected_waiting_items">Remove</string>
+
+    <string name="delete_selected_issues">Delete</string>
+    <string name="cancel_selected_issues">Cancel downloading</string>
+    <string name="free_selected_issues">Free up space</string>
+    <string name="download_selected_issues">Download</string>
+    <string name="complete_selected_issues">Mark as complete</string>
+    <string name="incomplete_selected_issues">Mark as incomplete</string>
+    <string name="permanently_delete_selected_issues">Delete permanently</string>
+
+    <string name="download_failed_msg">Download failed with error code %d</string>
+    <string name="sync_complete">Update complete!</string>
+    <string name="syncing">Updating&#8230;</string>
+    <string name="cancel_syncing">Stop</string>
+
+    <string name="my_issues">On My Device</string>
+    <string name="available_issues">Available for Download</string>
+    <string name="completed_issues">Completed</string>
+
+    <!-- issues list tab titles -->
+    <array name="issue_list_tab_titles">
+        <item>@string/my_issues</item>
+        <item>@string/available_issues</item>
+        <item>@string/completed_issues</item>
+    </array>
+
+    <string name="media_error">Cannot access device storage.</string>
+
+    <!-- cool english times fragment tab titles -->
+    <string name="alarms">Times</string>
+    <string name="waiting_list">Waiting List</string>
+
+    <string name="active_issue">Currently Learning</string>
+    <string name="saved_issues">Other Saved Issues</string>
+    <string name="downloading_issues">Downloading</string>
+    <string name="more_available_issues">More Available Magazines</string>
+    <string name="deleted_issues">Deleted Magazines</string>
+
+    <!-- issues list fragments section header titles -->
+    <array name="issue_list_header_titles">
+        <item>@string/active_issue</item>
+        <item>@string/saved_issues</item>
+        <item>@string/downloading_issues</item>
+        <item>@string/more_available_issues</item>
+        <item>@string/completed_issues</item>
+        <item>@string/deleted_issues</item>
+    </array>
+
+    <!-- share fragment -->
+    <string name="share_title">Would you share us?</string>
+    <string name="activity_not_found">Action is not supported by device.</string>
+
+    <!-- https://developers.facebook.com/apps/1288023007880543/ -->
+    <string name="facebook_app_id">1288023007880543</string>
+
+    <string name="facebook_share_description">The Hot English Magazine android app guides you in English language learning, in a hot and easy way. And of course with fun!</string>
+    <string name="facebook_share_title">The Hot English Magazine Android App</string>
+
+    <string name="share_description">The Hot English Magazine android app (http://www.alitavakol.me) guides you in English language learning, in a hot and easy way. And of course with fun!</string>
+    <string name="share_description_html">The <a href='http://www.alitavakol.me'>Hot English Magazine android app</a> guides you in English language learning, in a hot and easy way. And of course with fun!</string>
+
+    <string name="copied_to_clipboard">Copied to clipboard!</string>
+
+
+    <!-- Readme fragment -->
+    <string name="bullet">&#8226;</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="readme_intro_1">Hi,\n\nDo you want to <b>speak English confidently in 6 months or less?</b></string>
+    <string name="readme_intro_2">Can you read English but <b>cannot speak well</b>?</string>
+    <string name="readme_intro_3">Do you feel <b>stressed or nervous</b> when speaking English?</string>
+    <string name="readme_intro_4">Are you <b>bored</b> with English grammar, textbooks and classes?</string>
+    <string name="readme_intro_5">You are not alone. Most English learners have the same problems.\n\nThis Readme will teach you the basic parts of the system that the <b>Hot English Magazine</b> application uses to train successful business leaders and government officials to speak English powerfully, confidently and successfully.\n\n\n<b>Why Are You Embarrassed By Your English Speaking?</b>\n\nWhy can’t you speak English well yet? What is the problem? The problem is the school teaching system: textbooks, grammar study, vocabulary lists and translation.\nEnglish classes prepare you for tests but they do not teach you to speak quickly, easily, and automatically.\nThat’s why, even after many years of study, you still have trouble speaking English.\n\n\n<b>Better Results Require A Better Learning Method.</b>\n\nTo get better results you must change the way you learn English. The <b>Hot English Magazine</b> system helps students speak English fluently.\n\nYou can speak English quickly, easily and automatically. You can use English to get protect your job, travel internationally, and make international friends. You can feel relaxed and strong when speaking English.\n\nUsing powerful techniques, the <b>Hot English Magazine</b> system trains you to <b>think in English</b>. Rather than using school methods, you will learn English in a natural and enjoyable way.</string>
+    <string name="readme_intro_6">You will learn how to understand English instantly.</string>
+    <string name="readme_intro_7">You will learn how to speak quickly, easily and automatically.</string>
+    <string name="readme_intro_8">\n<b>Rules of the Hot English Magazine system</b>\n\nThis Readme teaches you the method and rules of the <b>Hot English Magazine</b> System. There are seven <b>rules</b>. Each rule teaches you a new method for learning and studying English.\n\nWhen you use all seven rules, you will completely change the way you learn English. You will improve faster.</string>
+    <string name="readme_intro_9">Your listening will improve faster.</string>
+    <string name="readme_intro_10">Your speaking will improve faster.</string>
+    <string name="readme_intro_11">Your spoken grammar will improve faster.</string>
+    <string name="readme_intro_12">You will learn new vocabulary words more easily and more quickly.</string>
+    <string name="readme_intro_13">Use the rules and change the way you learn English.</string>
+
+    <string name="readme_rule_1_1" formatted="false"><b>Rule 1: Learn phrases, not individual words!</b>\n\nDid you know that the failure rate for English schools is 95%. Only 5% of students who join an English school actually learn to speak easily and naturally.  Only 5%. That is a 95% failure rate.\n\nYou have probably spent a lot of time trying to memorize word lists. With <b>Hot English Magazine</b> you are not going to do that anymore. Why? Because <b>vocabulary lists are a waste of time</b>.\n\nYes, you heard me right! Trying to memorize individual words is not an effective way to learn. Instead, you’re going to use the first rule of the <b>Hot English Magazine</b> method and <b>learn phrases, not words</b>.\n\n\n<b>Stop studying English words!</b>\n\nThat’s right, do not memorize single words. Native speakers (ex. Americans) do not learn English by remembering single words. <b>Native speakers mostly learn phrases</b>.\n\nPhrases are GROUPS of words that naturally go together. In fact, when you learn phrases you learn both vocabulary and grammar&#8212; in a natural way.\n\n\n<b>Learn Vocabulary Faster</b>\n\nResearch by Dr. James Asher shows that learning phrases is 4 times faster than learning individual words.\n\nIn other words, when you learn phrases you learn new vocabulary faster.\n\nAlso, his research found that students who learn phrases have <b>better spoken grammar</b> (than students who learned single words).\n\n\n<b>Better Pronunciation</b>\n\nNative speakers (Americans, British,..) speak in phrases, not word by word.\n\nThe rhythm of English is created by the natural pattern of pauses. <b>Native speakers naturally pause between phrases.</b> They speak the language in phrases, in short pieces of English.\n\nBecause they learned English mostly from phrases, their pronunciation is clear and easy to understand.\n\nTo have <b>good pronunciation</b>, you too must learn to speak in phrases too.\n\n<b>Rule 1:  Always Study and Review Phrases, Not Individual Words</b>\n\nNever study a single, individual word. Never!\n\nWhen you find a new word, always write down the other words with it. Always! When you review, always review all of the phrase,.. not just the single word.\n\nAlways study natural GROUPS of words&#8212; phrases and sentences.\n\nI guarantee this simple change will:</string>
+    <string name="readme_rule_1_2">Improve your spoken grammar</string>
+    <string name="readme_rule_1_3">Improve your vocabulary</string>
+    <string name="readme_rule_1_4">Improve your pronunciation</string>
+
+    <string name="readme_rule_2" formatted="false"><b>Rule 2: Don’t study grammar!</b>\n\nThis is rule No. 2&#8212; and this is a big one! Are you surprised?\n\nRule 2 is a key part of the system that has helped business leaders, government officials, and <b>people like you</b> finally <b>speak English confidently in 6 months or less</b>!\n\nPut away your grammar books. <b>Grammar books are for children!</b> Grammar rules teach you to think about English, you want to speak automatically&#8212; without thinking!\n\nWith Effortless English, you learn English without grammar study. You speak English naturally. English speaking isn’t a formula you memorize&#8212; it’s a skill you must use instantly and effortlessly.\n\nSo, Rule No. 2 is <b>Don’t Study Grammar!</b></string>
+
+    <string name="one">1.</string>
+    <string name="two">2.</string>
+    <string name="three">3.</string>
+    <string name="four">4.</string>
+    <string name="five">5.</string>
+    <string name="six">6.</string>
+    <string name="seven">7.</string>
+    <string name="readme_slogan_1"><b>The Hot English Magazine Code</b></string>
+    <string name="readme_slogan_2">We Do The Best We Can.</string>
+    <string name="readme_slogan_3">We Do The Right Thing.</string>
+    <string name="readme_slogan_4">We Show Each Other We Care.</string>
+    <string name="readme_slogan_5">\n<b>The Mission</b></string>
+    <string name="readme_slogan_6">To Explore New Opportunities For Growth.</string>
+    <string name="readme_slogan_7">To Bring Confidence, Vitality, and Happiness To People All Over The World.</string>
+    <string name="readme_slogan_8">To Boldly Go Where We Have Never Gone Before.</string>
+    <string name="readme_slogan_9">\n<b>Hot English Magazine Values</b></string>
+    <string name="readme_slogan_10">Devotion To The Mission</string>
+    <string name="readme_slogan_11">Enthusiasm</string>
+    <string name="readme_slogan_12">Constant And Never-ending Improvement</string>
+    <string name="readme_slogan_13">Contribution</string>
+    <string name="readme_slogan_14">Self Reliance</string>
+    <string name="readme_slogan_15">Persistence</string>
+    <string name="readme_slogan_16">Positive Leadership</string>
+
+    <string name="readme_rule_3"><b>Rule 3: The Most Important Rule&#8212; Listen First</b>\n\nThis is the most important rule to help you <b>speak English confidently in 6 months or less</b>. Most schools ignore it.\n\nListening, listening, listening.\n\nYou must listen to <b>understandable</b> English. You must listen to English <b>everyday</b>. Don’t read textbooks. Textbooks are for children. You are an adult!\n\nListen to English. Its simple. That is the key to your English success. Stop reading textbooks. Start listening everyday.\n\n\n<b>Learn With Your Ears, Not Your Eyes</b>\n\nIn most schools, you learn English with your eyes. You read textbooks. You study grammar rules.\n\nHot English Magazine is a listening system. <b>You learn English with your ears</b>, not your eyes. You listen 1&#8211;3 hours every day. Your speaking improves quickly. You speak English easily.\n\nSpend most of your study time listening&#8211; that is the key to great speaking.</string>
+
+    <string name="readme_rule_4_1"><b>Rule 4: Slow, Deep Learning Is Best</b>\n\nHyun, a student from Korea, said:</string>
+    <string name="readme_rule_4_2">“I’m a very serious student. When studying English in Korea, I memorized 10,000 English words for a big national test. Ten Thousand! My problem was&#8212; I couldn’t USE them. I could pass an English test. But I could not understand native speakers.”</string>
+    <string name="readme_rule_4_3">\n<b>Slow, Deep Learning Is Best</b>\n\nHyun learned a lot of words in a short time. Her learning was short and shallow. That’s why she quickly forgot the words. That’s why she could not use them.\n\nThe secret to speaking easily is to learn every word &amp; phrase DEEPLY.\n\nIt’s not enough to know a definition. It’s not enough to remember for a test. You must put the word deep into your brain.\n\nTo speak English easily, you must repeat each lesson many times. You must learn English deeply.</string>
+    <string name="readme_rule_4_4">Learn deeply, speak easily.</string>
+    <string name="readme_rule_4_5">How do you learn deeply? Easy&#8212; just repeat all lessons or listening many times. For example, if you have an audio book, listen to the first chapter 30 times before you go to the second chapter. You could listen to the first chapter 3 times each day, for 10 days.\n\nStop trying to hurry&#8211; this isn’t a race!  “Learning” a lot of words is useless if you can’t <b>UNDERSTAND</b> and USE them in real conversation.</string>
+
+    <string name="readme_rule_5_1"><b>Rule 5: Use Point Of View Stories</b>\n\nYou remember that on Rule No. 2, I told you never to study grammar rules. But, of course, you want to use correct English grammar.\n\nMaybe you are thinking, “How can I learn English grammar if I don’t study English grammar rules?” Well, Now I will tell you.\n\nSome people may be thinking, “But I love studying grammar rules!” These people also enjoy going to the dentist ;)\n\nFor everyone else, grammar rules are both boring and useless. Grammar books are for children!\n\n\n<b>A Story</b>\n\nMiyuki did very well on grammar tests. She knew all of the grammar rules. She knew English verbs.\n\nBut Miyuki had a problem. She couldn’t USE the grammar in a real conversation. She could explain the past tense, but when speaking, she would say “Yesterday I GO to school”.\n\nMiyuki was confused.  How could her grammar tests be so good, but her speaking so bad?\n\nMiyuki said:</string>
+    <string name="readme_rule_5_2">“I knew all the grammar rules, but I couldn’t speak correctly. I couldn’t feel English grammar. After using Point of View stories, I feel it and use it correctly.\nNow my grammar is great when I speak. I never think about it, I just automatically use correct grammar. Thank you!”</string>
+    <string name="readme_rule_5_3">Miyuki learned this grammar naturally. She never studied grammar rules. How did she do it?\n\nFirst she listened to a short story in the present tense. She listened to it everyday.\n\nThen, she listened to the exact SAME story&#8212; but this time it started with “10 years ago&#8230;” She learned to “feel” the past tense by listening to this story.\n\nNext time, she started with “Since 2004&#8230;” Miyuki learned to FEEL the perfect tenses by listening to this story.\n\nFinally, she was given the exact same story&#8230; beginning with “Next year”. She learned to FEEL the future tense simply by listening to this story.\n\n<b>Rule 5: Use Point Of View Stories</b>\n\nI call these stories “Point Of View Stories”. They are the most powerful way to learn and use English grammar automatically.</string>
+    <string name="readme_rule_5_4">Use Point of View Stories for Automatic Grammar.</string>
+    <string name="readme_rule_5_5">You must learn grammar by listening to real English. The best way is to listen to the same story&#8230; told in different times (points of view): Past, Perfect, Present, Future.\n\nHow do you do this? Easy! Find a story or article in the present tense. Then ask your tutor to write it again in the Past, with Perfect tenses, and in the Future. Finally, ask him to read and record these stories for you.\n\nYou can also use my Point of View lessons and use them to learn grammar automatically. It is powerful. It is simple. It is successful. You will succeed.\n\nYou will use correct grammar naturally and automatically.</string>
+
+    <string name="readme_rule_6_1"><b>Rule 6: Listen Only to Real English</b>\n\nMegdelio studied English for 5 years in Venezuela. Teachers said he was an advanced student.\n\nWhen he came to the USA, he felt good. He was excited to meet Americans. He was ready. He wrote:</string>
+    <string name="readme_rule_6_2">“One day I tried to talk to an American woman and everything changed. The woman started talking&#8212; and I couldn’t understand her. Not at all!\nHer pronunciation was totally different than the textbook tapes and CDs I listened to. She used idioms, slang, and many casual phrases. I  was totally confused. That’s when I realized I needed to learn real English!”</string>
+    <string name="readme_rule_6_3">\n<b>You Must Learn Real English</b>\n\nMegdelio was taught to learn with real English materials&#8212; learning the English we use everyday in conversations, books, movies, TV shows, comic books, audio books, articles, newspapers, magazines, and podcasts.\n\n\n<b>Stop Learning Textbook English</b>\n\nWhen you want to understand native speakers, you must stop learning English from textbook tapes and CDs.\n\nTo learn real English, you must listen to English that native speakers listen to. You must watch what they watch. You must read what they read.</string>
+    <string name="readme_rule_6_4">Listen only to real English.</string>
+    <string name="readme_rule_6_5">How do you learn Real English? It’s easy. Stop using textbooks.\n\nInstead, listen only to real English movies, TV shows, audio books, audio articles, stories, and talk radio shows. Use real English materials.\n\nAfter 6 months of real English, Megdelio could speak easily. He could understand real English from real native speakers. You will too.</string>
+
+    <string name="readme_rule_7_1"><b>Rule 7: Listen and Answer Mini-Stories (not Listen and Repeat)</b>\n\nThis is the last rule!\n\nSuccessful English speakers <b>think</b> in English. This is the key for you to <b>speak English confidently in 6 months or less</b>.\n\nSuccessful speakers do not translate. They do not <b>think</b> about grammar rules. They naturally and <b>quickly think</b> in English.\n\n\n<b>A Story</b>\n\nEmi, a Japanese woman, had a problem. Her speaking was <b>SLOW</b>. She could not answer questions quickly.\n\nEmi listened to many English tapes and CDs. She listened. She repeated what the speaker said.\n\nShe was told NOT to use “listen and repeat”. “You are not a bird!”, I said.\n\nI told her to use “Listen &amp; Answer” Mini-Story lessons.\n\nI told her that “listen and repeat” is not enough&#8212;  when you repeat, you only copy the speaker&#8230; like some weird pirate-bird.\n\nBut when you hear a question and you ANSWER it&#8212; you must think in English&#8230; especially if you must answer fast!\n\nAfter using listen &amp; ANSWER Mini-Story lessons for just 6 months, her speaking became fast, easy, and automatic.\n\nEmi was excited. She wrote:</string>
+    <string name="readme_rule_7_2">“The Mini-Story lessons are FANTASTIC! I love them. My speaking is so much faster now. I understand quickly and I can now speak English without thinking. I can’t believe it!”</string>
+    <string name="readme_rule_7_3"><b>Rule 7: Listen and Answer Mini-Stories (not Listen and Repeat)</b></string>
+    <string name="readme_rule_7_4">Use Listen &amp; Answer Mini-Story Lessons.</string>
+    <string name="readme_rule_7_5">What, exactly, is a “Listen &amp; Answer Mini-Story”? In each Mini-Story Lesson, a teacher asks a short simple story.\n\nNotice I didn’t say “tell”. The teacher does NOT “tell” the story, he “asks” the story. In other words, he creates a story using a lot of questions.\n\nQuestions, questions, questions,&#8230; and more questions!\n\nEvery question is very easy. Constantly answering these questions QUICKLY causes you to think in English.\n\nBecause the teacher constantly and quickly asks easy questions, you don’t have time to think about grammar. You just immediately shout a couple of words&#8212; which teaches you to respond faster, and faster, and faster.\n\nYou learn to answer questions very fast&#8212; without thinking. Your English becomes automatic. You learn to speak and respond quickly and effortlessly.\n\nHow can you use Listen &amp; Answer Stories? Easy! Find a native speaker tutor. Ask him to use this method: Ask him to tell a story&#8230; and to constantly ask you easy questions about it. This will teach you to think quickly in English!</string>
+
+    <!-- feedback fragment -->
+    <string name="feedback_title">Love it? Hate it? Would you like to suggest a new feature, or report a bug? We would love to hear from you.</string>
+    <string name="bug">Bug</string>
+    <string name="question">Question</string>
+    <string name="idea">Idea</string>
+    <string name="feedback_hint">Enter your message here&#8230;</string>
+    <string name="thanks">Thank you!</string>
+    <string name="error_empty_message">Please write a message!</string>
+
+    <!-- about libraries -->
+    <string name="aboutLibraries_description_text"><![CDATA[Development of the <b>Hot English Magazine</b> android application has been made possible with the help of these libraries:]]></string>
+    <string name="aboutLibraries_description_special2_name">Feedback</string>
+    <string name="aboutLibraries_description_special3_name">Share</string>
+    <string name="aboutLibraries_description_special1_name">Changes</string>
+    <string name="aboutLibraries_description_special1_text">
+        <![CDATA[
+        <b>Version 1.0</b><br/>
+        - First release on 1395/3/2
+        ]]>
+    </string>
+
+    <!-- content descriptions -->
+    <string name="wait">Please wait.</string>
 </resources>

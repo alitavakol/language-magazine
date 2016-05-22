@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#FF9800</color>
+    <color name="colorPrimaryDark">#F57C00</color>
+    <color name="colorPrimaryLight">#FFE0B2</color>
+    <color name="colorAccent">#282828</color>
+    <color name="colorAccentOpposite">#F5F5F5</color>
+    <color name="colorAccentTransparent">#dd282828</color>
+
+    <color name="beginnerLevelColor">#03A9F4</color>
+    <color name="beginnerLevelColorDark">#0288D1</color>
+    <color name="intermediateLevelColor">#8BC34A</color>
+    <color name="intermediateLevelColorDark">#689F38</color>
+    <color name="upperIntermediateLevelColor">#f44336</color>
+    <color name="upperIntermediateLevelColorDark">#d32f2f</color>
+    <color name="advancedLevelColor">#607D8B</color>
+    <color name="advancedLevelColorDark">#455A64</color>
+
+    <array name="levelColors">
+        <item>@color/beginnerLevelColor</item>
+        <item>@color/intermediateLevelColor</item>
+        <item>@color/upperIntermediateLevelColor</item>
+        <item>@color/advancedLevelColor</item>
+    </array>
+
+    <array name="darkLevelColors">
+        <item>@color/beginnerLevelColorDark</item>
+        <item>@color/intermediateLevelColorDark</item>
+        <item>@color/upperIntermediateLevelColorDark</item>
+        <item>@color/advancedLevelColorDark</item>
+    </array>
+
+    <!-- https://github.com/mikepenz/MaterialDrawer -->
+    <!-- MaterialDrawer DEFAULT colors -->
+    <color name="material_drawer_background">@color/primary_light</color>
+    <!-- Material DEFAULT text / items colors -->
+    <color name="material_drawer_primary_text">@android:color/secondary_text_dark</color>
+    <color name="material_drawer_primary_icon">@android:color/secondary_text_dark</color>
+    <color name="material_drawer_secondary_text">#8A000000</color>
+    <color name="material_drawer_hint_text">#42000000</color>
+    <color name="material_drawer_divider">@android:color/tertiary_text_dark</color>
+    <!-- Material DEFAULT drawer colors -->
+    <color name="material_drawer_selected">@color/colorAccent</color>
+    <color name="material_drawer_selected_text">@android:color/primary_text_dark</color>
+    <color name="material_drawer_header_selection_text">#FFF</color>
+
+    <!-- about libraries -->
+    <!-- AboutLibraries DEFAULT colors -->
+    <color name="about_libraries_window_background">@android:color/background_light</color>
+    <color name="about_libraries_card">#FAFAFA</color>
+    <color name="about_libraries_title_openSource">@color/primary_dark</color>
+    <color name="about_libraries_text_openSource">#727272</color>
+    <color name="about_libraries_special_button_openSource">@color/primary</color>
+    <color name="about_libraries_dividerDark_openSource">#AAA</color>
+    <color name="about_libraries_dividerLight_openSource">#DADADA</color>
 </resources>
