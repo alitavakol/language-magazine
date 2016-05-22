@@ -4,8 +4,7 @@
     android:id="@+id/controllers"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/dialog_full_holo_dark"
-    android:layoutDirection="ltr">
+    android:background="@drawable/dialog_full_holo_dark">
 
     <LinearLayout
         android:layout_width="match_parent"
