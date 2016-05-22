@@ -203,6 +203,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false); // hide action bar title
             actionBar.setDisplayHomeAsUpEnabled(true); // Enable the Up button
+            actionBar.setHomeAsUpIndicator(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_back).sizeDp(24).paddingDp(4).colorRes(R.color.md_light_appbar));
         }
 
         // set item type as action bar title
