@@ -10,6 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
+
 import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -59,6 +62,7 @@ public class ItemListActivity extends AppCompatActivity
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true); // Enable the Up button
             ab.setDisplayShowTitleEnabled(false);
+            ab.setHomeAsUpIndicator(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_back).sizeDp(24).paddingDp(4).colorRes(R.color.md_light_appbar));
         }
 
         Bundle arguments = new Bundle();

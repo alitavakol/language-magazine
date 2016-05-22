@@ -170,6 +170,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             if (actionBar != null) {
                 actionBar.setDisplayShowTitleEnabled(false); // hide action bar title
                 actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setHomeAsUpIndicator(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_back).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_appbar));
             }
 
             mScrollView = (ObservableScrollView) findViewById(R.id.scroll_view);

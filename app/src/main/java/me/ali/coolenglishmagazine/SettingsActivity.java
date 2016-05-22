@@ -17,6 +17,9 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -37,6 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true); // Enable the Up button
             ab.setDisplayShowTitleEnabled(false);
+            ab.setHomeAsUpIndicator(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_arrow_back).sizeDp(24).paddingDp(4).colorRes(R.color.md_light_appbar));
         }
 
         if (savedInstanceState == null) {
