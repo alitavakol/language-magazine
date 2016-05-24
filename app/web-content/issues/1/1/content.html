@@ -97,6 +97,9 @@
 			}
 
 			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
 				outState = {
 					transcriptLocked: transcriptLocked,
 				};
@@ -106,9 +109,12 @@
 			}
 
 			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
 				state = JSON.parse(savedInstanceState);
 
 				lock(state.transcriptLocked || true);
+
+				restoringInstanceState = false;
 			}
 
 			taphold = false;

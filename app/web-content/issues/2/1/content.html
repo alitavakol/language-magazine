@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Funeral Foibles</title>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<h1 class="accent">Funeral Foibles</h1>
+			<h3 class="accent">Funeral parlour disasters.</h3>
+
+			<p>
+				<span data-start="12000" data-end="19240">Some strange things are happening in the least likely places: <a class="new-word" data-word="a funeral home" data-type="n US" data-en="the American English word for the place where dead people are prepared for burial">funeral homes</a>.</span> <span data-start="19241" data-end="30000">In one incident, local authorities in upstate New York <a class="new-word" data-word="to book" data-type="vb" data-en="if the police “book” you, they oicially record your name and the ofence that they may charge you with">booked</a> a 20-year-old man for <a class="new-word" data-word="to break in" data-type="phr vb" data-en="to enter private property illegally">breaking in</a> and <a class="new-word" data-word="to take nap" data-type="exp" data-en="to sleep for a short period, usually in the middle of the day">taking a nap</a> in a coffin.</span> <span data-start="30001" data-end="39500">The funeral director’s wife woke up to find a pair of trousers on the floor, and feet hanging out of a <a class="new-word" data-word="a coffin" data-type="n" data-en="a box for a dead body">coffin</a>.</span> <span data-start="39501" data-end="46170">The man was drunk, and caused more than $4,000 in damages.</span>
+			</p>
+			<p>
+				<span data-start="46171" data-end="53000">In another incident in Valencia, Spain, a thief broke into a funeral parlour.</span> <span data-start="53001" data-end="59000">When he realised the police had arrived, he <a class="new-word" data-word="to hide" data-type="vb" data-en="to go in a place where others can’t see/find you">hid</a> in a glass-topped coffin.</span> <span data-start="59001" data-end="66550">He tried to <a class="new-word" data-word="to play dead" data-type="exp" data-en="to act as if you are dead">play dead</a>, but his breathing and dirty street clothes <a class="new-word" data-word="to give you away" data-type="exp" data-en="if something “gives you away”, it shows others what you are really doing">gave him away</a>.</span>
+			</p>
+			<p>
+				<span data-start="66551" data-end="71300">A third incident resulted in a happy ending.</span> <span data-start="71301" data-end="78900">A Canadian man’s family was at his funeral when his daughter got a phone call... from her dad.</span> <span data-start="78901" data-end="83200">Thinking she was talking to a ghost, she screamed.</span> <span data-start="83201" data-end="89500">Days earlier, the family were informed that the man had been hit by a train.</span> <span data-start="89501" data-end="95000">However, he had been incorrectly identified as the <a class="new-word" data-word="the deceased" data-type="n" data-en="the dead person">deceased</a>.</span> <span data-start="95001" data-end="99700">Later, the man read his own <a class="new-word" data-word="an obituary" data-type="n" data-en="a report/article/speech about someone (their life, character, etc) after they have died">obituary</a> in the newspaper.</span> <span data-start="99701" data-end="105750">Apparently, he was pleased with it and is saving it for another day.</span> <span class="accent">✪</span>
+			</p>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { height: " + height + "px; background: linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; } \
+					.foundation { margin-left: " + horizontalMargin + "px; } \
+					.foundation { padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					.cem-container { height: " + height + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.foundation { background-color: #" + backgroundColor + "; } \
+					#bottom-margin { height: " + (bottomMargin-verticalMargin) + "px; } \
+				");
+			}
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+				} else {
+				}
+
+				saveInstanceState();
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				restoringInstanceState = false;
+			}
+
+			// taphold = false;
+			// $('#lock').tap(function() {
+			// 	if(transcriptLocked && !taphold)
+			// 		app.makeToast('Tap and hold to reveal transcript.', false);
+			// 	taphold = false;
+			// });
+			// $('#lock').taphold(function() {
+			// 	taphold = true;
+			// 	if(transcriptLocked)
+			// 		app.lockTranscript(!transcriptLocked);
+			// });
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+		</script>
+	</body>
+</html>

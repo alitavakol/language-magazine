@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF9800</color>
-    <color name="colorPrimaryDark">#F57C00</color>
-    <color name="colorPrimaryLight">#FFE0B2</color>
+    <color name="colorPrimary">@color/md_orange_500</color>
+    <color name="colorPrimaryDark">@color/md_orange_700</color>
+    <color name="colorPrimaryLight">@color/md_orange_100</color>
     <color name="colorAccent">#282828</color>
     <color name="colorAccentOpposite">#F5F5F5</color>
     <color name="colorAccentTransparent">#dd282828</color>
 
-    <color name="beginnerLevelColor">#03A9F4</color>
-    <color name="beginnerLevelColorDark">#0288D1</color>
-    <color name="intermediateLevelColor">#8BC34A</color>
-    <color name="intermediateLevelColorDark">#689F38</color>
-    <color name="upperIntermediateLevelColor">#f44336</color>
-    <color name="upperIntermediateLevelColorDark">#d32f2f</color>
-    <color name="advancedLevelColor">#607D8B</color>
-    <color name="advancedLevelColorDark">#455A64</color>
+    <color name="beginnerLevelColor">@color/md_light_blue_500</color>
+    <color name="beginnerLevelColorDark">@color/md_light_blue_700</color>
+    <color name="intermediateLevelColor">@color/md_green_500</color>
+    <color name="intermediateLevelColorDark">@color/md_green_700</color>
+    <color name="upperIntermediateLevelColor">@color/md_red_500</color>
+    <color name="upperIntermediateLevelColorDark">@color/md_red_700</color>
+    <color name="advancedLevelColor">@color/md_blue_grey_500</color>
+    <color name="advancedLevelColorDark">@color/md_blue_grey_700</color>
 
     <array name="levelColors">
         <item>@color/beginnerLevelColor</item>

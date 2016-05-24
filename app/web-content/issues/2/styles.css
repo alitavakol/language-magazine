@@ -1,0 +1,20 @@
+body {
+	margin-left: 0;
+	margin-right: 0;
+	/*background-color: transparent;*/
+	margin: 0;
+	overflow: hidden;
+	font-family: "Ubuntu";
+	font-weight: 400;
+}
+.new-word, .new-word:hover {
+	text-decoration: none;
+	font-weight: 700;
+}
+.hidden {
+	visibility: hidden;
+	display: none;
+}
+.cem-container {
+	overflow-y: auto;
+}
