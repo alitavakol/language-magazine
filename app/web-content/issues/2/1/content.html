@@ -11,6 +11,9 @@
 		<!-- Bootstrap -->
 		<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
 
+		<!-- Bootstrap Material Design -->
+		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
 		<style id="dynamic-rules">
@@ -20,6 +23,55 @@
 			body {
 				overflow-y: scroll;
 			}
+			.cem-label {
+				display: inline-block;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				margin: 4px;
+			}
+			.label-container {
+				margin: -4px;
+				margin-bottom: 12px;
+			}
+			h4 {
+				font-weight: 400;
+				margin-top: 20px;
+			}
+			h5 {
+				padding: 6px;
+				font-weight: bold;
+			}
+			ol {
+				-webkit-padding-start: 16px;
+			}
+			li {
+				font-weight: bold;
+			}
+			h1, h3 {
+				margin-top: 0;
+			}
+			ol > li > span {
+				font-weight: normal;
+			}
+			.lockable {
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+			.box {
+				border: 3px solid;
+			}
+			#broken-finger {
+				-webkit-transform: rotate(-6deg);
+				transform: rotate(-6deg);
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				margin: 15px;
+				float: right;
+				max-width: 50%;
+			}
 		</style>
 
 		<style id="local-rules">
@@ -27,6 +79,8 @@
 
 		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
 		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
 		<script src="file:///android_asset/tinycolor-min.js"></script>
 		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
 
@@ -37,18 +91,78 @@
 		<div class="foundation">
 			<div id="top-margin"></div>
 
-			<h1 class="accent">Funeral Foibles</h1>
-			<h3 class="accent">Funeral parlour disasters.</h3>
+			<h1>Funeral Foibles</h1>
+			<h3>Funeral parlour disasters.</h3>
 
-			<p>
-				<span data-start="12000" data-end="19240">Some strange things are happening in the least likely places: <a class="new-word" data-word="a funeral home" data-type="n US" data-en="the American English word for the place where dead people are prepared for burial">funeral homes</a>.</span> <span data-start="19241" data-end="30000">In one incident, local authorities in upstate New York <a class="new-word" data-word="to book" data-type="vb" data-en="if the police “book” you, they oicially record your name and the ofence that they may charge you with">booked</a> a 20-year-old man for <a class="new-word" data-word="to break in" data-type="phr vb" data-en="to enter private property illegally">breaking in</a> and <a class="new-word" data-word="to take nap" data-type="exp" data-en="to sleep for a short period, usually in the middle of the day">taking a nap</a> in a coffin.</span> <span data-start="30001" data-end="39500">The funeral director’s wife woke up to find a pair of trousers on the floor, and feet hanging out of a <a class="new-word" data-word="a coffin" data-type="n" data-en="a box for a dead body">coffin</a>.</span> <span data-start="39501" data-end="46170">The man was drunk, and caused more than $4,000 in damages.</span>
-			</p>
-			<p>
-				<span data-start="46171" data-end="53000">In another incident in Valencia, Spain, a thief broke into a funeral parlour.</span> <span data-start="53001" data-end="59000">When he realised the police had arrived, he <a class="new-word" data-word="to hide" data-type="vb" data-en="to go in a place where others can’t see/find you">hid</a> in a glass-topped coffin.</span> <span data-start="59001" data-end="66550">He tried to <a class="new-word" data-word="to play dead" data-type="exp" data-en="to act as if you are dead">play dead</a>, but his breathing and dirty street clothes <a class="new-word" data-word="to give you away" data-type="exp" data-en="if something “gives you away”, it shows others what you are really doing">gave him away</a>.</span>
-			</p>
-			<p>
-				<span data-start="66551" data-end="71300">A third incident resulted in a happy ending.</span> <span data-start="71301" data-end="78900">A Canadian man’s family was at his funeral when his daughter got a phone call... from her dad.</span> <span data-start="78901" data-end="83200">Thinking she was talking to a ghost, she screamed.</span> <span data-start="83201" data-end="89500">Days earlier, the family were informed that the man had been hit by a train.</span> <span data-start="89501" data-end="95000">However, he had been incorrectly identified as the <a class="new-word" data-word="the deceased" data-type="n" data-en="the dead person">deceased</a>.</span> <span data-start="95001" data-end="99700">Later, the man read his own <a class="new-word" data-word="an obituary" data-type="n" data-en="a report/article/speech about someone (their life, character, etc) after they have died">obituary</a> in the newspaper.</span> <span data-start="99701" data-end="105750">Apparently, he was pleased with it and is saving it for another day.</span> <span class="accent">✪</span>
-			</p>
+			<h4><span class="accent">❶</span> Pre reading</h4>
+			<p>You are going to read three stories about incidents in <a class="new-word" data-word="a funeral parlour" data-type="n" data-en="the place where dead people are prepared for burial">funeral parlours</a>. Look at the words in each column. What do you think the stories are about?</p>
+
+			<h5>Story 1</h5>
+			<div class="label-container">
+				<div class='cem-label'>taking a nap</div>
+				<div class='cem-label'>damage</div>
+				<div class='cem-label'>feet hanging out</div>
+				<div class='cem-label'>drunk</div>
+			</div>
+
+			<h5>Story 2</h5>
+			<div class="label-container">
+				<div class="cem-label">hid</div>
+				<div class="cem-label">broke into</div>
+				<div class="cem-label">play dead</div>
+			</div>
+
+			<h5>Story 3</h5>
+			<div class="label-container">
+				<div class="cem-label">funeral</div>
+				<div class="cem-label">phone call</div>
+				<div class="cem-label">ghost</div>
+				<div class="cem-label">pleased</div>
+			</div>
+
+			<h4><span class="accent">❷</span> Listening</h4>
+			<p>Listen to the stories and see if your predictions were correct.</p>
+
+			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p>
+					<span data-start="12000" data-end="19240">Some strange things are happening in the least likely places: <a class="new-word" data-word="a funeral home" data-type="n US" data-en="the American English word for the place where dead people are prepared for burial">funeral homes</a>.</span> <span data-start="19241" data-end="30000">In one incident, local authorities in upstate New York <a class="new-word" data-word="to book" data-type="vb" data-en="if the police “book” you, they oicially record your name and the ofence that they may charge you with">booked</a> a 20-year-old man for <a class="new-word" data-word="to break in" data-type="phr vb" data-en="to enter private property illegally">breaking in</a> and <a class="new-word" data-word="to take nap" data-type="exp" data-en="to sleep for a short period, usually in the middle of the day">taking a nap</a> in a coffin.</span> <span data-start="30001" data-end="39500">The funeral director’s wife woke up to find a pair of trousers on the floor, and feet hanging out of a <a class="new-word" data-word="a coffin" data-type="n" data-en="a box for a dead body">coffin</a>.</span> <span data-start="39501" data-end="46170">The man was drunk, and caused more than $4,000 in damages.</span>
+				</p>
+				<p>
+					<span data-start="46171" data-end="53000">In another incident in Valencia, Spain, a thief broke into a funeral parlour.</span> <span data-start="53001" data-end="59000">When he realised the police had arrived, he <a class="new-word" data-word="to hide" data-type="vb" data-en="to go in a place where others can’t see/find you">hid</a> in a glass-topped coffin.</span> <span data-start="59001" data-end="66550">He tried to <a class="new-word" data-word="to play dead" data-type="exp" data-en="to act as if you are dead">play dead</a>, but his breathing and dirty street clothes <a class="new-word" data-word="to give you away" data-type="exp" data-en="if something “gives you away”, it shows others what you are really doing">gave him away</a>.</span>
+				</p>
+				<p>
+					<span data-start="66551" data-end="71300">A third incident resulted in a happy ending.</span> <span data-start="71301" data-end="78900">A Canadian man’s family was at his funeral when his daughter got a phone call... from her dad.</span> <span data-start="78901" data-end="83200">Thinking she was talking to a ghost, she screamed.</span> <span data-start="83201" data-end="89500">Days earlier, the family were informed that the man had been hit by a train.</span> <span data-start="89501" data-end="95000">However, he had been incorrectly identified as the <a class="new-word" data-word="the deceased" data-type="n" data-en="the dead person">deceased</a>.</span> <span data-start="95001" data-end="99700">Later, the man read his own <a class="new-word" data-word="an obituary" data-type="n" data-en="a report/article/speech about someone (their life, character, etc) after they have died">obituary</a> in the newspaper.</span> <span data-start="99701" data-end="105750">Apparently, he was pleased with it and is saving it for another day.</span> <span class="accent">✪</span>
+				</p>
+			</div></div>
+
+			<h4><span class="accent">❸</span> Questions</h4>
+			<p>True or false?</p>
+			<ol style="margin-bottom: 24px;">
+				<li><span>In the first story the man found was a funeral director.</span></li>
+				<li><span>In the second story the man got away with his crime.</span></li>
+				<li><span>In the third story a man disappeared from his coin.</span></li>
+			</ol>
+
+			<div class="box fill-accent">
+				<img id="broken-finger" class="img-responsive" src='break-into.jpg'>
+				<h4 style="margin-top: 0; font-weight: bold;"><i>Phrasal verb alert!</i></h4>
+				<h4><i>break into</i></h4>
+				<p>
+					To “break into” a house or building is to enter it without authority or permission. This is the crime known as 'burglary'. The noun is a “break in”. For example: 
+					<ol>
+						<li><span>They broke into the bank.</span></li>
+						<li><span>There was a break-in last night.</span></li>
+					</ol>
+				</p>
+			</div>
+
+			<div class="box fill-light">
+				<h4 style="margin-top: 0; font-weight: bold;"><i>Discussion</i></h4>
+				<ol>
+					<li><span>Has anyone ever broken into the building where you work? What did they take?</span></li>
+					<li><span>Where’s the worst place in your country/city for break-ins? Why is it so bad?</span></li>
+				</ol>
+			</div>
 
 			<div id="bottom-margin"></div>
 		</div>
@@ -56,21 +170,34 @@
 		<script type="text/javascript">
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
-					body { height: " + height + "px; background: linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; } \
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
 					.foundation { margin-left: " + horizontalMargin + "px; } \
 					.foundation { padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
 					.cem-container { height: " + height + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
 					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
 					.foundation { background-color: #" + backgroundColor + "; } \
-					#bottom-margin { height: " + (bottomMargin-verticalMargin) + "px; } \
+					h1 { color: " + tinycolor(accentColor).darken() + "; font-weight: bold; } \
+					h5 { background-color: #" + accentColor + "; color: #" + backgroundColor + ";} \
+					.cem-label { color: #" + backgroundColor + "; background-color: #" + textColor + "; -webkit-box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; } \
+					.box { padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
+					.fill-accent { background-color: " + highlightColor + "; } \
+					.fill-light { background-color: " + tinycolor(highlightColor).brighten() + "; } \
+					#bottom-margin { height: " + (bottomMargin+verticalMargin) + "px; } \
 				");
 			}
+
+			prevScroll = 0;
 
 			lock = function(b) {
 				transcriptLocked = b;
 
 				if(b) {
+					$('#transcript').css('background-image', 'url("key-enter-access-door-place-512.png")').children().css('visibility', 'hidden');
+					$('.lockable').css('background-image', "url('coffin.jpg')");
+
 				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').css('background-image', '');
 				}
 
 				saveInstanceState();
@@ -82,6 +209,7 @@
 
 				outState = {
 					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
 				};
 
 				if(typeof(app) != 'undefined')
@@ -94,23 +222,50 @@
 
 				lock(state.transcriptLocked || true);
 
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
 				restoringInstanceState = false;
 			}
 
-			// taphold = false;
-			// $('#lock').tap(function() {
-			// 	if(transcriptLocked && !taphold)
-			// 		app.makeToast('Tap and hold to reveal transcript.', false);
-			// 	taphold = false;
-			// });
-			// $('#lock').taphold(function() {
-			// 	taphold = true;
-			// 	if(transcriptLocked)
-			// 		app.lockTranscript(!transcriptLocked);
-			// });
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
 
 			if(typeof(app) != 'undefined')
 				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
 		</script>
 	</body>
 </html>
