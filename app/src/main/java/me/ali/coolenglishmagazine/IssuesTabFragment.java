@@ -481,7 +481,7 @@ public class IssuesTabFragment extends Fragment implements
                         int h = 4 * w / 3;
 
                         Picasso
-                                .with(getActivity())
+                                .with(holder.itemView.getContext())
                                 .load(new File(issue.rootDirectory, Magazines.Issue.posterFileName))
                                 .resize(w, h)
                                 .centerCrop()

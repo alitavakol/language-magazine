@@ -153,7 +153,7 @@ public class WaitingListFragment extends Fragment implements
                 int w = holder.posterImageView.getMaxWidth();
                 int h = holder.posterImageView.getMaxHeight();
                 Picasso
-                        .with(getActivity())
+                        .with(holder.itemView.getContext())
                         .load(new File(item.rootDirectory, item.posterFileName))
                         .resize(w, h)
                         .centerCrop()

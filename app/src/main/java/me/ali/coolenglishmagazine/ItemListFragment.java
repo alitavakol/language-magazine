@@ -158,7 +158,7 @@ public class ItemListFragment extends Fragment {
                     int h = w / 2;
 
                     Picasso
-                            .with(getActivity())
+                            .with(holder.itemView.getContext())
                             .load(new File(item.rootDirectory, item.posterFileName))
                             .resize(w, h)
                             .centerCrop()
