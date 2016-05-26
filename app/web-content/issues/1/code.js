@@ -84,7 +84,7 @@ if(typeof(app) == 'undefined') { // on web browser
 }
 
 $(document).ready(function() {
-	$('a').click(function() {
+	$('a.new-word').click(function() {
 		if(typeof(app) != 'undefined') {
 			var rect = this.getBoundingClientRect();
 			app.showGlossary($(this).data('word'), rect.left  * window.devicePixelRatio, rect.top * window.devicePixelRatio, $(this).height() * window.devicePixelRatio);

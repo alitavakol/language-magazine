@@ -12,7 +12,7 @@
 		<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
 
 		<!-- Bootstrap Material Design -->
-		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
 
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
@@ -40,8 +40,10 @@
 				margin-top: 20px;
 			}
 			h5 {
-				padding: 6px;
+				padding-top: 6px;
+				padding-bottom: 6px;
 				font-weight: bold;
+				border-bottom: 1px solid;
 			}
 			ol {
 				-webkit-padding-start: 16px;
@@ -168,20 +170,19 @@
 		</div>
 
 		<script type="text/javascript">
+			restoringInstanceState = false;
+
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
 					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
-					.foundation { margin-left: " + horizontalMargin + "px; } \
-					.foundation { padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
-					.cem-container { height: " + height + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
 					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
-					.foundation { background-color: #" + backgroundColor + "; } \
 					h1 { color: " + tinycolor(accentColor).darken() + "; font-weight: bold; } \
-					h5 { background-color: #" + accentColor + "; color: #" + backgroundColor + ";} \
+					h5 { border-color: #" + accentColor + "; color: #" + accentColor + "; } \
 					.cem-label { color: #" + backgroundColor + "; background-color: #" + textColor + "; -webkit-box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; } \
 					.box { padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
 					.fill-accent { background-color: " + highlightColor + "; } \
-					.fill-light { background-color: " + tinycolor(highlightColor).brighten() + "; } \
+					.fill-light { background-color: " + tinycolor(highlightColor).lighten() + "; } \
 					#bottom-margin { height: " + (bottomMargin+verticalMargin) + "px; } \
 				");
 			}
