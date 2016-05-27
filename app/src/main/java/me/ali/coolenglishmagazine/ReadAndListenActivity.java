@@ -650,7 +650,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             NewWord newWord = new NewWord();
             newWord.definition = new HashMap<>();
 
-            newWord.type = span.attr("data-type");
+            newWord.type = span.attr("data-type") + ' '; // italic text crop workaround
             newWord.definition.put("en", span.attr("data-en"));
             newWord.definition.put("fa", span.attr("data-fa"));
 
