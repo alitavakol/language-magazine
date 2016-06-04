@@ -10,6 +10,7 @@ adjustLayout = function(options) {
 	verticalMargin = (options['verticalMargin'] || 0) / window.devicePixelRatio;
 	horizontalMargin = (options['horizontalMargin'] || 0) / window.devicePixelRatio;
 	spacing = (options['spacing'] || 8) / window.devicePixelRatio;
+	normalPadding = (options['normalPadding'] || options['verticalMargin']) / window.devicePixelRatio;
 
 	textColor = ((options['textColor'] || 0) & 0xffffff).toString(16);
 	while(textColor.length < 6) textColor = '0' + textColor;
@@ -46,7 +47,7 @@ adjustLayout = function(options) {
 if(typeof(app) == 'undefined') { // on web browser
 	$(document).ready(function() {
 		if(typeof(lock) == 'function') {
-				$('body').append('<button id="buttonToggleLock" style="position: absolute; top: 0; z-index: 2;">Toggle Show/Hide</button>');
+				$('body').append('<button id="buttonToggleLock" style="position: fixed; top: 0; z-index: 2;">Toggle Show/Hide</button>');
 				$('#buttonToggleLock').click(function() {
 					lock(!window.transcriptLocked);
 				});

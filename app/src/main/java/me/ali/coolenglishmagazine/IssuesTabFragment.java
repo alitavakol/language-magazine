@@ -70,7 +70,7 @@ public class IssuesTabFragment extends Fragment implements
     public static final int COMPLETED_ISSUES = 2;
 
     /**
-     * category of issues to include
+     * category of issues to include. (tab index)
      */
     public int filter;
 
@@ -689,21 +689,23 @@ public class IssuesTabFragment extends Fragment implements
         inflater.inflate(R.menu.issues_list_action_mode, menu);
 
         if (filter == 1 || filter == 2)
-            menu.findItem(R.id.action_download).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_file_download).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true).setVisible(true).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            menu.findItem(R.id.action_download).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_file_download).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true).setVisible(true).setShowAsActionFlags(filter == 1 ? MenuItem.SHOW_AS_ACTION_ALWAYS : MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+        if (filter == 0 || filter == 1)
+            menu.findItem(R.id.action_mark_complete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_check_box).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
 
         if (filter == 0) {
-            menu.findItem(R.id.action_mark_complete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_thumb_up).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
             menu.findItem(R.id.action_delete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
         }
 
         if (filter == 2) {
-            menu.findItem(R.id.action_mark_incomplete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_thumb_down).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
-            menu.findItem(R.id.action_free).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
+            menu.findItem(R.id.action_mark_incomplete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_check_box_outline_blank).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
+            menu.findItem(R.id.action_free).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_disc_full).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
         }
 
         if (filter == 1) {
-            menu.findItem(R.id.action_cancel).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_clear).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true).setVisible(true).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             menu.findItem(R.id.action_delete_permanently).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete_forever).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
+            menu.findItem(R.id.action_cancel).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_clear).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true).setVisible(true).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
 
         return true;
