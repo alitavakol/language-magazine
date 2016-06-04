@@ -181,7 +181,7 @@
     <string name="cancel">Cancel</string>
     <string name="open">Open</string>
     <string name="delete">Delete</string>
-    <string name="retry_download">Retry Download</string>
+    <string name="retry_download">Retry download</string>
     <string name="complete">Complete</string>
     <string name="reopen">Incomplete</string>
 
@@ -204,8 +204,8 @@
     <string name="syncing">Updating&#8230;</string>
     <string name="cancel_syncing">Stop</string>
 
-    <string name="my_issues">On My Device</string>
-    <string name="available_issues">Available for Download</string>
+    <string name="my_issues">On my device</string>
+    <string name="available_issues">Available for download</string>
     <string name="completed_issues">Completed</string>
 
     <!-- issues list tab titles -->
@@ -221,11 +221,11 @@
     <string name="alarms">Times</string>
     <string name="waiting_list">Waiting List</string>
 
-    <string name="active_issue">Currently Learning</string>
-    <string name="saved_issues">Other Saved Issues</string>
+    <string name="active_issue">Currently learning</string>
+    <string name="saved_issues">Other saved issues</string>
     <string name="downloading_issues">Downloading</string>
-    <string name="more_available_issues">More Available Magazines</string>
-    <string name="deleted_issues">Deleted Magazines</string>
+    <string name="more_available_issues">More available magazines</string>
+    <string name="deleted_issues">Deleted magazines</string>
 
     <!-- issues list fragments section header titles -->
     <array name="issue_list_header_titles">
@@ -257,6 +257,7 @@
     <string name="bullet">&#8226;</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
+    <string name="toggle_language">Change language</string>
     <string name="readme_intro_1">Hi,\n\nDo you want to <b>speak English confidently in 6 months or less?</b></string>
     <string name="readme_intro_2">Can you read English but <b>cannot speak well</b>?</string>
     <string name="readme_intro_3">Do you feel <b>stressed or nervous</b> when speaking English?</string>
@@ -359,7 +360,7 @@
     <string name="about_waiting_list_3">Add to Hot English Times</string>
     <string name="about_waiting_list_4">رو انتخاب کرده باشی.</string>
 
-    <string name="about_saved_issues">مجله‌های قابل دانلود رو از برگه‌ی سمت راست ببین و هر کدوم که دوست داری رو دانلود کن.</string>
+    <string name="about_saved_issues">فهرست مجله‌ها رو از برگه‌ی سمت راست ببین و هر کدوم که دوست داری رو دانلود کن.</string>
     <string name="about_available_issues">دکمه‌ی بالا رو بزن تا لیست به روز مجله‌ها رو از اینترنت دریافت کنی. شماره‌ی جدید، هر دو هفته یک‌بار به لیست اضافه میشه.</string>
     <string name="about_completed_issues">مجله‌هایی که همه‌ی درس‌هاش رو یاد می‌گیری و به پایان می‌رسونی رو به این‌جا منتقل کن. انگشت رو چند لحظه روی جلد مجله نگه دار تا گزینه‌های بیشتر رو ببینی.</string>
 </resources>

@@ -6,9 +6,9 @@
     tools:context="me.ali.coolenglishmagazine.ReadmeFragment">
 
     <FrameLayout
+        android:id="@+id/logo_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primary_light"
         android:paddingBottom="?actionBarSize"
         android:paddingTop="?actionBarSize">
 
@@ -1103,9 +1103,7 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primary_light"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:elevation="0dp">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
         <include layout="@layout/readme_toolbar" />
     </android.support.design.widget.AppBarLayout>

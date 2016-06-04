@@ -869,7 +869,7 @@ public class IssuesTabFragment extends Fragment implements
                 break;
 
             case 2:
-                imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_check_box).sizeDp(72).colorRes(R.color.colorAccentTransparent));
+                imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_assignment_turned_in).sizeDp(72).colorRes(R.color.colorAccentTransparent));
                 helpTextView.setText(R.string.about_completed_issues);
                 break;
         }
