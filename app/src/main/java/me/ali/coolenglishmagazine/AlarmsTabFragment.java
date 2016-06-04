@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -50,6 +51,7 @@ import java.util.Locale;
 
 import me.ali.coolenglishmagazine.broadcast_receivers.AlarmBroadcastReceiver;
 import me.ali.coolenglishmagazine.broadcast_receivers.BootReceiver;
+import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.widget.MyAnalogClock;
 
@@ -106,72 +108,122 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
 
         switch (id) {
             case R.id.action_add:
-                Calendar currentTime = Calendar.getInstance();
-                int hour = currentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = currentTime.get(Calendar.MINUTE);
-
-                TimePickerDialog timePickerDialog;
-                timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        if (!timePicker.isShown())
-                            return;
-
-                        Alarm alarm = new Alarm();
-                        alarm.hour = selectedHour;
-                        alarm.minute = selectedMinute;
-
-                        for (Alarm a : alarms) {
-                            if (alarm.getId() == a.getId()) {
-                                Toast.makeText(getContext(), R.string.alarm_already_exists, Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                        }
-
-                        alarms.add(alarm);
-
-                        // sorting with respect to time
-                        Collections.sort(alarms, new Comparator<Alarm>() {
-                            @Override
-                            public int compare(Alarm alarm1, Alarm alarm2) {
-                                return alarm1.getId() - alarm2.getId();
-                            }
-                        });
-
-                        adapter.notifyItemInserted(alarms.indexOf(alarm));
-
-                        // turn this alarm on.
-                        turnOnAlarm(getActivity(), alarm);
-
-                        saveAlarms();
-                    }
-                }, hour, minute, false);
-
-                timePickerDialog.setTitle(R.string.select_time);
-                timePickerDialog.show();
+                createAlarm();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    protected void createAlarm() {
+        Calendar currentTime = Calendar.getInstance();
+        int hour = currentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = currentTime.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog;
+        timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                if (!timePicker.isShown())
+                    return;
+
+                Alarm alarm = new Alarm();
+                alarm.hour = selectedHour;
+                alarm.minute = selectedMinute;
+
+                for (Alarm a : alarms) {
+                    if (alarm.getId() == a.getId()) {
+                        Toast.makeText(getContext(), R.string.alarm_already_exists, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+
+                alarms.add(alarm);
+
+                // sorting with respect to time
+                Collections.sort(alarms, new Comparator<Alarm>() {
+                    @Override
+                    public int compare(Alarm alarm1, Alarm alarm2) {
+                        return alarm1.getId() - alarm2.getId();
+                    }
+                });
+
+                adapter.notifyItemInserted(alarms.indexOf(alarm));
+
+                // turn this alarm on.
+                turnOnAlarm(getActivity(), alarm);
+
+                saveAlarms();
+            }
+        }, hour, minute, false);
+
+        timePickerDialog.setTitle(R.string.select_time);
+        timePickerDialog.show();
+    }
+
     RecyclerView recyclerView;
     int nColumns;
+
+    RecyclerView.AdapterDataObserver adapterDataObserver;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_alarms_list, container, false);
+        final View v = inflater.inflate(R.layout.fragment_alarms_list, container, false);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.alarm_list);
         nColumns = getResources().getInteger(R.integer.alarm_column_count);
         setupRecyclerView(recyclerView);
 
+        adapterDataObserver = new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                updateHelpContainer(v);
+            }
+
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                updateHelpContainer(v);
+            }
+        };
+        adapter.registerAdapterDataObserver(adapterDataObserver);
+
         // alarms was imported in onCreate()
         adapter.notifyDataSetChanged();
+        updateHelpContainer(v);
 
         return v;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        adapter.unregisterAdapterDataObserver(adapterDataObserver);
+    }
+
+    protected void updateHelpContainer(View layoutView) {
+        final View helpContainer = layoutView.findViewById(R.id.help_container);
+
+        if (adapter.getItemCount() > 0) {
+            helpContainer.setVisibility(View.GONE);
+            return;
+        }
+
+        helpContainer.setVisibility(View.VISIBLE);
+
+        FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC_REGULAR));
+
+        ImageButton add = (ImageButton) layoutView.findViewById(R.id.add);
+        add.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_alarm_add).sizeDp(72).colorRes(R.color.colorAccentTransparent));
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createAlarm();
+            }
+        });
     }
 
     /**

@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +38,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 
@@ -169,6 +171,8 @@ public class IssuesTabFragment extends Fragment implements
         while (adapter.preNotifyDataSetChanged(true, galleryOfIssuesFragment.magazines.ISSUES))
             adapter.ignoreItemChanged = true;
         adapter.ignoreItemChanged = false;
+
+        updateHelpContainer();
     }
 
     @Override
@@ -348,6 +352,7 @@ public class IssuesTabFragment extends Fragment implements
             if (updateHeaders() || changed) {
                 recyclerView.invalidateItemDecorations();
                 galleryOfIssuesFragment.finishActionMode();
+                updateHelpContainer();
             }
 
             return changed;
@@ -832,5 +837,56 @@ public class IssuesTabFragment extends Fragment implements
     }
 
     GestureDetectorCompat gestureDetector;
+
+    protected void updateHelpContainer() {
+        final View layoutView = getView();
+        if (layoutView == null)
+            return;
+
+        final View helpContainer = layoutView.findViewById(R.id.help_container);
+
+        if (adapter.getItemCount() > 0) {
+            helpContainer.setVisibility(View.GONE);
+            return;
+        }
+
+        helpContainer.setVisibility(View.VISIBLE);
+
+        FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC_REGULAR));
+
+        final ImageButton imageButton = (ImageButton) layoutView.findViewById(R.id.add);
+        final TextView helpTextView = (TextView) layoutView.findViewById(R.id.help);
+
+        switch (filter) {
+            case 0:
+                imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_file_download).sizeDp(72).colorRes(R.color.colorAccentTransparent));
+                helpTextView.setText(R.string.about_saved_issues);
+                break;
+
+            case 1:
+                imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_refresh).sizeDp(72).colorRes(R.color.colorAccentTransparent));
+                helpTextView.setText(R.string.about_available_issues);
+                break;
+
+            case 2:
+                imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_check_box).sizeDp(72).colorRes(R.color.colorAccentTransparent));
+                helpTextView.setText(R.string.about_completed_issues);
+                break;
+        }
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (filter) {
+                    case 0:
+                        galleryOfIssuesFragment.viewPager.setCurrentItem(AVAILABLE_ISSUES, true);
+                        break;
+                    case 1:
+                        onRefresh();
+                        break;
+                }
+            }
+        });
+    }
 
 }

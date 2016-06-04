@@ -163,7 +163,7 @@ public class GalleryOfIssuesFragment extends Fragment {
         void onIssueSelected(Magazines.Issue issue);
     }
 
-    protected ViewPager viewPager;
+    public ViewPager viewPager;
 
     private void setupViewPager() {
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());

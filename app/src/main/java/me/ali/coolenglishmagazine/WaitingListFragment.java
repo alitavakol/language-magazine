@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ import java.util.List;
 
 import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.model.WaitingItems;
+import me.ali.coolenglishmagazine.util.FontManager;
 
 
 public class WaitingListFragment extends Fragment implements
@@ -68,12 +70,52 @@ public class WaitingListFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_waiting_list, container, false);
+        final View v = inflater.inflate(R.layout.fragment_waiting_list, container, false);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.waiting_list);
         setupRecyclerView(recyclerView);
 
+        adapterDataObserver = new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                updateHelpContainer(v);
+            }
+
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                updateHelpContainer(v);
+            }
+        };
+        adapter.registerAdapterDataObserver(adapterDataObserver);
+
         return v;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        adapter.unregisterAdapterDataObserver(adapterDataObserver);
+    }
+
+    RecyclerView.AdapterDataObserver adapterDataObserver;
+
+    protected void updateHelpContainer(View layoutView) {
+        final View helpContainer = layoutView.findViewById(R.id.help_container);
+
+        if (adapter.getItemCount() > 0) {
+            helpContainer.setVisibility(View.GONE);
+            return;
+        }
+
+        helpContainer.setVisibility(View.VISIBLE);
+
+        FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC_REGULAR));
+        ((TextView) layoutView.findViewById(R.id.english_text)).setTypeface(FontManager.getTypeface(getActivity(), FontManager.UBUNTU_BOLD));
+
+        ImageButton imageButton = (ImageButton) layoutView.findViewById(R.id.add);
+        imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_format_list_numbered).sizeDp(72).colorRes(R.color.colorAccentTransparent));
     }
 
     @Override
@@ -82,6 +124,7 @@ public class WaitingListFragment extends Fragment implements
 
         WaitingItems.importWaitingItems(getActivity());
         adapter.notifyDataSetChanged();
+        updateHelpContainer(getView());
         WaitingItems.listener = this;
     }
 
