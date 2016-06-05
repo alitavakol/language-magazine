@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="about_alarms">تعدادی از وقت‌های آزادت در طول شبانه‌روز رو به یادگیری زبان اختصاص بده. مثلاً صبح زود که سوار مترو یا ماشین هستی تا به مقصد برسی، یا قبل از خواب، و یا موقع خوردن عصرونه! توصیه می‌کنم حداقل پنج تا زنگ زبان انگلیسی اضافه کنی.</string>
+    <string name="about_alarms">تعدادی از وقت‌های آزادت در طول شبانه‌روز رو به یادگیری زبان اختصاص بده. مثلاً صبح زود که سوار مترو یا ماشین هستی تا به مقصد برسی، یا قبل از خواب، و یا موقع خوردن عصرونه! توصیه می‌کنم حداقل ۵ تا زنگ زبان انگلیسی ایجاد کن.</string>
 
     <string name="about_waiting_list_1">لیست درس‌هایی که توی زنگ‌های زبان انگلیسی آموزش می‌بینی، این‌جا میاد. هر درسی که دوست داشته باشی عمیقاً یاد بگیری رو می‌تونی به این لیست اضافه کنی:</string>
     <string name="about_waiting_list_2">کافیه از فهرست مجله، یا از داخل درس، منوی </string>
-    <string name="about_waiting_list_3">Add to Hot English Times</string>
+    <string name="about_waiting_list_3">“Add to Hot English Times”</string>
     <string name="about_waiting_list_4">رو انتخاب کرده باشی.</string>
 
-    <string name="about_saved_issues">فهرست مجله‌ها رو از برگه‌ی سمت راست ببین و هر کدوم که خواستی رو دانلود کن.</string>
+    <string name="about_saved_issues">فهرست مجله‌ها رو از برگه‌ی سمت راست ببین و هر کدوم‌ها رو که خواستی دانلود کن.</string>
 
     <string name="about_available_issues">دکمه‌ی بالا رو بزن تا لیست به روز مجله‌ها رو از اینترنت دریافت کنی. هر دو هفته یک‌بار، یه شماره‌ی جدید به لیست اضافه میشه!</string>
 

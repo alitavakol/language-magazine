@@ -1,5 +1,4 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,11 +20,25 @@
 
     </FrameLayout>
 
-    <include
+    <me.ali.coolenglishmagazine.widget.ObservableScrollView
         android:id="@+id/scroll_view"
-        layout="@layout/readme_cards"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:clipToPadding="false"
+        android:paddingBottom="?actionBarSize"
+        android:paddingTop="@dimen/welcome_content_padding_top"
+        android:scrollbarStyle="outsideOverlay">
+
+        <include
+            android:id="@+id/card_container"
+            layout="@layout/readme_cards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin" />
+    </me.ali.coolenglishmagazine.widget.ObservableScrollView>
 
     <FrameLayout
         android:layout_width="match_parent"

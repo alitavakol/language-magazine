@@ -5,7 +5,7 @@
     <color name="colorPrimaryLight">@color/md_orange_100</color>
     <color name="colorAccent">#282828</color>
     <color name="colorAccentOpposite">#F5F5F5</color>
-    <color name="colorAccentTransparent">#AA282828</color>
+    <color name="colorAccentTransparent">#80282828</color>
 
     <color name="beginnerLevelColor">@color/md_light_blue_500</color>
     <color name="beginnerLevelColorDark">@color/md_light_blue_700</color>

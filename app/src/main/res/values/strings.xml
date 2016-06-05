@@ -16,8 +16,8 @@
     <string name="unlock">Reveal transcript</string>
     <string name="unlock_hint">Tap and hold to reveal transcript.</string>
 
-    <string name="add_all_to_waiting_list">Add all items to hot english times</string>
-    <string name="add_to_waiting_list">Add to hot english times</string>
+    <string name="add_all_to_waiting_list">Add all items to Hot English Times</string>
+    <string name="add_to_waiting_list">Add to Hot English Times</string>
     <string name="already_in_waiting_list">Item “%s” is already added.</string>
 
     <string name="view_issue_details">See magazine introduction</string>
@@ -365,14 +365,9 @@
     <!-- content descriptions -->
     <string name="wait">Please wait.</string>
 
-    <string name="about_alarms">About alarms&#8230;</string>
-
-    <string name="about_waiting_list_1">About waiting list&#8230;</string>
-    <string name="about_waiting_list_2"></string>
-    <string name="about_waiting_list_3"></string>
-    <string name="about_waiting_list_4"></string>
-
-    <string name="about_saved_issues">About saved issues&#8230;</string>
-    <string name="about_available_issues">About available issues&#8230;</string>
-    <string name="about_completed_issues">About completed issues&#8230;</string>
+    <string name="about_alarms">Dedicate some of your day’s free times to learning English. With the <b>“Hot English Times”</b> program, I advise you to create at least 5 alarm clocks. Good alarm time examples are: when you commute to work, before sleep, etc.</string>
+    <string name="about_waiting_list">To append a lesson to the Hot English Times program, select <b>“Add to Hot English Times”</b> menu item from issue’s table of contents, or from within the lesson.</string>
+    <string name="about_saved_issues">Browse and download available <b>Hot English Magazine</b> issues from the tab on the right.</string>
+    <string name="about_available_issues">Swipe down to get latest list of available <b>Hot English Magazine</b> issues from the web. New issue is published every two weeks!</string>
+    <string name="about_completed_issues">When you finish learning a magazine, move it here. Tap &amp; hold on issue cover to see available options.</string>
 </resources>

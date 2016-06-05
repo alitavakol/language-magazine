@@ -482,7 +482,7 @@ public class IssuesTabFragment extends Fragment implements
                 holder.itemView.post(new Runnable() {
                     @Override
                     public void run() {
-                        int w = holder.itemView.getWidth();
+                        int w = holder.itemView.getMeasuredWidth();
                         int h = 4 * w / 3;
 
                         Picasso
