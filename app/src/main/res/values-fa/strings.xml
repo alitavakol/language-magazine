@@ -1,276 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Hot English Magazine</string>
-    <string name="app_website">http://www.alitavakol.me</string>
+    <string name="about_alarms">تعدادی از وقت‌های آزادت در طول شبانه‌روز رو به یادگیری زبان اختصاص بده. مثلاً صبح زود که سوار مترو یا ماشین هستی تا به مقصد برسی، یا قبل از خواب، و یا موقع خوردن عصرونه! توصیه می‌کنم حداقل پنج تا زنگ زبان انگلیسی اضافه کنی.</string>
 
-    <string name="gallery_of_issues">Gallery of Issues</string>
-    <string name="cool_english_times">Hot English Times</string>
-    <string name="readme">Read Me</string>
-    <string name="about">About</string>
+    <string name="about_waiting_list_1">لیست درس‌هایی که توی زنگ‌های زبان انگلیسی آموزش می‌بینی، این‌جا میاد. هر درسی که دوست داشته باشی عمیقاً یاد بگیری رو می‌تونی به این لیست اضافه کنی:</string>
+    <string name="about_waiting_list_2">کافیه از فهرست مجله، یا از داخل درس، منوی </string>
+    <string name="about_waiting_list_3">Add to Hot English Times</string>
+    <string name="about_waiting_list_4">رو انتخاب کرده باشی.</string>
 
-    <!-- media playback controls -->
-    <string name="play_pause">play or pause</string>
-    <string name="skip_next">skip to next</string>
-    <string name="skip_prev">skip to previous</string>
+    <string name="about_saved_issues">فهرست مجله‌ها رو از برگه‌ی سمت راست ببین و هر کدوم که خواستی رو دانلود کن.</string>
 
-    <string name="lock">Hide transcript</string>
-    <string name="unlock">Reveal transcript</string>
-    <string name="unlock_hint">Tap and hold to reveal transcript.</string>
+    <string name="about_available_issues">دکمه‌ی بالا رو بزن تا لیست به روز مجله‌ها رو از اینترنت دریافت کنی. هر دو هفته یک‌بار، یه شماره‌ی جدید به لیست اضافه میشه!</string>
 
-    <string name="add_all_to_waiting_list">Add all items to hot english times</string>
-    <string name="add_to_waiting_list">Add to hot english times</string>
-    <string name="already_in_waiting_list">Item “%s” is already added.</string>
-
-    <string name="view_issue_details">See magazine introduction</string>
-
-    <!-- drag handle click hint toast -->
-    <string name="drag_hint">Hold and move to re-order items.</string>
-
-    <!-- waiting list row click hint toast -->
-    <string name="action_mode_hint">Long press item for more options.</string>
-
-    <string name="action_settings">Preferences</string>
-
-    <string name="title_item_list">Table of Contents</string>
-    <string name="title_item_detail">Item Details</string>
-
-    <string name="title_issue_list">Gallery of Issues</string>
-    <string name="title_issue_detail">Issue Details</string>
-
-    <string name="refresh">Refresh</string>
-    <string name="add_alarm">Add new alarm</string>
-
-    <string name="check_connection">Make sure your device is online.</string>
-    <string name="network_error">Could not connect to server.</string>
-    <string name="server_message_dialog_title">Server message:</string>
-    <string name="upgrade_message">The “Hot English Magazine” app is old. Please upgrade to a more recent version.</string>
-    <string name="update_success">Sync completed successfully.</string>
-    <string name="unzip_error">Unknown error occurred.</string>
-
-    <!-- for issue download notification -->
-    <string name="issue_downloaded_notification">New issue downloaded. Let’s start<![CDATA[!]]></string>
-
-    <!-- for cool english times -->
-    <string name="cool_english_time_notification_text_short">Time to learn a lesson<![CDATA[!]]></string>
-    <string name="cool_english_time_notification_text">You have to learn “%s” now<![CDATA[!]]></string>
-
-    <plurals name="cool_english_time_notification_summary_text">
-        <item quantity="one">You have learnt this item %d time so far.</item>
-        <item quantity="other">You have learnt this item %d times so far.</item>
-    </plurals>
-
-    <plurals name="pending_count">
-        <item quantity="one">Remaining %d time to learn.</item>
-        <item quantity="other">Remaining %d times to learn.</item>
-    </plurals>
-
-    <string name="alarm_already_exists">Alarm for this time already exists.</string>
-
-    <string name="title_activity_settings">Preferences</string>
-
-    <string name="select_time">Pick a hot english time</string>
-
-    <string name="selected_count">Selected: %d</string>
-
-    <!-- Strings related to Settings -->
-
-    <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
-
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact
-        based on your message history
-    </string>
-
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
-
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
-    </string-array>
-
-    <string name="pref_title_language">Help display language</string>
-    <string-array name="pref_item_language">
-        <item>English</item>
-        <item>Farsi</item>
-    </string-array>
-    <string-array name="pref_item_language_values">
-        <item>en</item>
-        <item>fa</item>
-    </string-array>
-
-    <string name="pref_title_item_learn_repeat_count">Repeat reading &amp; listening</string>
-    <string-array name="pref_item_learn_repeat_count">
-        <item>5 times per lesson</item>
-        <item>8 times per lesson (recommended)</item>
-        <item>11 times per lesson</item>
-    </string-array>
-    <string-array name="pref_item_learn_repeat_count_values">
-        <item>5</item>
-        <item>8</item>
-        <item>11</item>
-    </string-array>
-
-    <string name="pref_title_navigate_audio_with_volume_buttons">Volume buttons navigate playback</string>
-    <string-array name="pref_volume_buttons_behaviour_list_titles">
-        <item>When screen is off</item>
-        <!--<item>When playing in background</item>-->
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_volume_buttons_behaviour_list_values">
-        <item>1</item>
-        <item>0</item>
-    </string-array>
-
-    <!-- preferences category titles -->
-    <string name="pref_category_playback_options">Audio Playback Options</string>
-    <string name="pref_category_program">The Hot English Program</string>
-    <string name="pref_category_notification_options">Notification Options</string>
-    <string name="pref_category_general">General Options</string>
-
-    <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
-
-    <string name="pref_title_server_address">Server address</string>
-    <string name="pref_default_server_address">http://10.0.2.2:3000</string>
-
-    <string name="pref_title_sync_frequency">Sync frequency</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>3 hours</item>
-        <item>6 hours</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_sync_frequency_values">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>180</item>
-        <item>360</item>
-        <item>-1</item>
-    </string-array>
-
-    <string name="pref_title_system_sync_settings">System sync settings</string>
-
-    <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notifications</string>
-
-    <string name="pref_title_sound_enabled">Sound</string>
-    <string name="pref_title_vibrate_enabled">Vibrate</string>
-
-    <string name="pref_title_new_message_notifications">New message notifications</string>
-
-    <string name="pref_title_shake_to_pause_playback">Shake to pause/resume playback (experimental)</string>
-
-    <string name="pref_title_ringtone">Notification ringtone</string>
-    <string name="pref_ringtone_silent">Silent</string>
-
-    <string name="pref_title_vibrate">Vibrate</string>
-
-    <string name="beginnerLevel">Beginner</string>
-    <string name="intermediateLevel">Intermediate</string>
-    <string name="upperIntermediateLevel">Upper-Intermediate</string>
-    <string name="advancedLevel">Advanced</string>
-
-    <array name="levels">
-        <item>@string/beginnerLevel</item>
-        <item>@string/intermediateLevel</item>
-        <item>@string/upperIntermediateLevel</item>
-        <item>@string/advancedLevel</item>
-    </array>
-
-    <string name="download">Download</string>
-    <string name="cancel">Cancel</string>
-    <string name="open">Open</string>
-    <string name="delete">Delete</string>
-    <string name="retry_download">Retry download</string>
-    <string name="complete">Complete</string>
-    <string name="reopen">Incomplete</string>
-
-    <string name="mark_complete">Mark issue as completed</string>
-    <string name="mark_incomplete">Re-open this issue</string>
-
-    <string name="delete_selected_alarms">Delete</string>
-    <string name="delete_selected_waiting_items">Remove</string>
-
-    <string name="delete_selected_issues">Delete</string>
-    <string name="cancel_selected_issues">Cancel downloading</string>
-    <string name="free_selected_issues">Free up space</string>
-    <string name="download_selected_issues">Download</string>
-    <string name="complete_selected_issues">Mark as complete</string>
-    <string name="incomplete_selected_issues">Mark as incomplete</string>
-    <string name="permanently_delete_selected_issues">Delete permanently</string>
-
-    <string name="download_failed_msg">Download failed with error code %d</string>
-    <string name="sync_complete">Update complete!</string>
-    <string name="syncing">Updating&#8230;</string>
-    <string name="cancel_syncing">Stop</string>
-
-    <string name="my_issues">On my device</string>
-    <string name="available_issues">Available for download</string>
-    <string name="completed_issues">Completed</string>
-
-    <!-- issues list tab titles -->
-    <array name="issue_list_tab_titles">
-        <item>@string/my_issues</item>
-        <item>@string/available_issues</item>
-        <item>@string/completed_issues</item>
-    </array>
-
-    <string name="media_error">Cannot access device storage.</string>
-
-    <!-- cool english times fragment tab titles -->
-    <string name="alarms">Times</string>
-    <string name="waiting_list">Waiting List</string>
-
-    <string name="active_issue">Currently learning</string>
-    <string name="saved_issues">Other saved issues</string>
-    <string name="downloading_issues">Downloading</string>
-    <string name="more_available_issues">More available magazines</string>
-    <string name="deleted_issues">Deleted magazines</string>
-
-    <!-- issues list fragments section header titles -->
-    <array name="issue_list_header_titles">
-        <item>@string/active_issue</item>
-        <item>@string/saved_issues</item>
-        <item>@string/downloading_issues</item>
-        <item>@string/more_available_issues</item>
-        <item>@string/completed_issues</item>
-        <item>@string/deleted_issues</item>
-    </array>
-
-    <!-- share fragment -->
-    <string name="share_title">Would you share us?</string>
-    <string name="activity_not_found">Action is not supported by device.</string>
-
-    <!-- https://developers.facebook.com/apps/1288023007880543/ -->
-    <string name="facebook_app_id">1288023007880543</string>
-
-    <string name="facebook_share_description">The Hot English Magazine android app guides you in English language learning, in a hot and easy way. And of course with fun!</string>
-    <string name="facebook_share_title">The Hot English Magazine Android App</string>
-
-    <string name="share_description">The Hot English Magazine android app (http://www.alitavakol.me) guides you in English language learning, in a hot and easy way. And of course with fun!</string>
-    <string name="share_description_html">The <a href='http://www.alitavakol.me'>Hot English Magazine android app</a> guides you in English language learning, in a hot and easy way. And of course with fun!</string>
-
-    <string name="copied_to_clipboard">Copied to clipboard!</string>
-
+    <string name="about_completed_issues">مجله‌هایی که همه‌ی درس‌هاش رو یاد گرفتی و به پایان رسوندی رو به این‌جا منتقل کن. انگشت رو چند لحظه روی جلد مجله نگه دار تا گزینه‌های بیشتر رو ببینی.</string>
 
     <!-- Readme fragment -->
-    <string name="bullet">&#8226;</string>
-    <string name="previous">Previous</string>
-    <string name="next">Next</string>
-    <string name="toggle_language">Change language</string>
+    <string name="previous">قبلی</string>
+    <string name="next">بعدی</string>
 
-    <string name="readme_intro_1">Hi,\n\nDo you want to <b>speak English confidently in 6 months or less?</b></string>
+    <string name="readme_intro_1">سلام,\n\nDo you want to <b>speak English confidently in 6 months or less?</b></string>
     <string name="readme_intro_2">Can you read English but <b>cannot speak well</b>?</string>
     <string name="readme_intro_3">Do you feel <b>stressed or nervous</b> when speaking English?</string>
     <string name="readme_intro_4">Are you <b>bored</b> with English grammar, textbooks and classes?</string>
@@ -291,13 +38,13 @@
 
     <string name="readme_rule_2" formatted="false"><b>Rule 2: Don’t study grammar!</b>\n\nThis is rule No. 2&#8212; and this is a big one! Are you surprised?\n\nRule 2 is a key part of the system that has helped business leaders, government officials, and <b>people like you</b> finally <b>speak English confidently in 6 months or less</b>!\n\nPut away your grammar books. <b>Grammar books are for children!</b> Grammar rules teach you to think about English, you want to speak automatically&#8212; without thinking!\n\nWith Effortless English, you learn English without grammar study. You speak English naturally. English speaking isn’t a formula you memorize&#8212; it’s a skill you must use instantly and effortlessly.\n\nSo, Rule No. 2 is <b>Don’t Study Grammar!</b></string>
 
-    <string name="one">1.</string>
-    <string name="two">2.</string>
-    <string name="three">3.</string>
-    <string name="four">4.</string>
-    <string name="five">5.</string>
-    <string name="six">6.</string>
-    <string name="seven">7.</string>
+    <string name="one">۱.</string>
+    <string name="two">۲.</string>
+    <string name="three">۳.</string>
+    <string name="four">۴.</string>
+    <string name="five">۵.</string>
+    <string name="six">۶.</string>
+    <string name="seven">۷.</string>
     <string name="readme_slogan_1"><b>The Hot English Magazine Code</b></string>
     <string name="readme_slogan_2">We Do The Best We Can.</string>
     <string name="readme_slogan_3">We Do The Right Thing.</string>
@@ -340,39 +87,4 @@
     <string name="readme_rule_7_3"><b>Rule 7: Listen and Answer Mini-Stories (not Listen and Repeat)</b></string>
     <string name="readme_rule_7_4">Use Listen &amp; Answer Mini-Story Lessons.</string>
     <string name="readme_rule_7_5">What, exactly, is a “Listen &amp; Answer Mini-Story”? In each Mini-Story Lesson, a teacher asks a short simple story.\n\nNotice I didn’t say “tell”. The teacher does NOT “tell” the story, he “asks” the story. In other words, he creates a story using a lot of questions.\n\nQuestions, questions, questions,&#8230; and more questions!\n\nEvery question is very easy. Constantly answering these questions QUICKLY causes you to think in English.\n\nBecause the teacher constantly and quickly asks easy questions, you don’t have time to think about grammar. You just immediately shout a couple of words&#8212; which teaches you to respond faster, and faster, and faster.\n\nYou learn to answer questions very fast&#8212; without thinking. Your English becomes automatic. You learn to speak and respond quickly and effortlessly.\n\nHow can you use Listen &amp; Answer Stories? Easy! Find a native speaker tutor. Ask him to use this method: Ask him to tell a story&#8230; and to constantly ask you easy questions about it. This will teach you to think quickly in English!</string>
-
-    <!-- feedback fragment -->
-    <string name="feedback_title">Love it? Hate it? Would you like to suggest a new feature, or report a bug? We would love to hear from you.</string>
-    <string name="bug">Bug</string>
-    <string name="question">Question</string>
-    <string name="idea">Idea</string>
-    <string name="feedback_hint">Enter your message here&#8230;</string>
-    <string name="thanks">Thank you!</string>
-    <string name="error_empty_message">Please write a message!</string>
-
-    <!-- about libraries -->
-    <string name="aboutLibraries_description_text"><![CDATA[Development of the <b>Hot English Magazine</b> android application has been made possible with the help of these libraries:]]></string>
-    <string name="aboutLibraries_description_special2_name">Feedback</string>
-    <string name="aboutLibraries_description_special3_name">Share</string>
-    <string name="aboutLibraries_description_special1_name">Changes</string>
-    <string name="aboutLibraries_description_special1_text">
-        <![CDATA[
-        <b>Version 1.0</b><br/>
-        - First release on 1395/3/2
-        ]]>
-    </string>
-
-    <!-- content descriptions -->
-    <string name="wait">Please wait.</string>
-
-    <string name="about_alarms">About alarms&#8230;</string>
-
-    <string name="about_waiting_list_1">About waiting list&#8230;</string>
-    <string name="about_waiting_list_2"></string>
-    <string name="about_waiting_list_3"></string>
-    <string name="about_waiting_list_4"></string>
-
-    <string name="about_saved_issues">About saved issues&#8230;</string>
-    <string name="about_available_issues">About available issues&#8230;</string>
-    <string name="about_completed_issues">About completed issues&#8230;</string>
 </resources>

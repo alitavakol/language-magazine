@@ -1,9 +1,11 @@
 package me.ali.coolenglishmagazine;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -222,6 +224,10 @@ public class ReadmeFragment extends Fragment {
 
         switch (id) {
             case R.id.action_toggle_language:
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                String language = preferences.getString("locale", "fa");
+                language = language.equals("fa") ? "en" : "fa";
+                preferences.edit().putString("locale", language).apply();
                 return true;
         }
 

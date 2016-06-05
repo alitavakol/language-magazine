@@ -2,6 +2,9 @@ package me.ali.coolenglishmagazine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +25,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.io.File;
+import java.util.Locale;
 
 import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.util.FontManager;
@@ -61,6 +65,19 @@ public class RootActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // force change locale based on value of "locale" preference
+        String languageToLoad = preferences.getString("locale", "fa");
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        preferences.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+
         setContentView(R.layout.activity_root);
 
         if (savedInstanceState != null) {
@@ -77,6 +94,20 @@ public class RootActivity extends AppCompatActivity implements
 
         setupNavigationDrawer();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+    }
+
+    protected SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if (key.equals("locale"))
+                recreate();
+        }
+    };
 
     protected void setupNavigationDrawer() {
         // manually load drawer header, and apply custom typeface to it.

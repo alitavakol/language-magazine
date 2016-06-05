@@ -1,5 +1,14 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <PreferenceCategory android:title="@string/pref_category_general">
+        <ListPreference
+            android:defaultValue="fa"
+            android:entries="@array/pref_item_language"
+            android:entryValues="@array/pref_item_language_values"
+            android:key="locale"
+            android:title="@string/pref_title_language" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_category_playback_options">
         <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
              dismiss it. -->

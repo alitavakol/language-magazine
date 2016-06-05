@@ -214,7 +214,8 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
 
         helpContainer.setVisibility(View.VISIBLE);
 
-        FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC_REGULAR));
+        if (getResources().getConfiguration().locale.getLanguage().equals("fa"))
+            FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC_REGULAR));
 
         ImageButton add = (ImageButton) layoutView.findViewById(R.id.add);
         add.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_alarm_add).sizeDp(72).colorRes(R.color.colorAccentTransparent));

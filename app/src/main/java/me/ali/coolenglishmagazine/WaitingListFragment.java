@@ -111,8 +111,10 @@ public class WaitingListFragment extends Fragment implements
 
         helpContainer.setVisibility(View.VISIBLE);
 
-        FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC_REGULAR));
-        ((TextView) layoutView.findViewById(R.id.english_text)).setTypeface(FontManager.getTypeface(getActivity(), FontManager.UBUNTU_BOLD));
+        if (getResources().getConfiguration().locale.getLanguage().equals("fa")) {
+            FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC_REGULAR));
+            ((TextView) layoutView.findViewById(R.id.english_text)).setTypeface(FontManager.getTypeface(getActivity(), FontManager.UBUNTU_BOLD));
+        }
 
         ImageButton imageButton = (ImageButton) layoutView.findViewById(R.id.add);
         imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_format_list_numbered).sizeDp(72).colorRes(R.color.colorAccentTransparent));

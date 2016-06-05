@@ -694,7 +694,7 @@ public class IssuesTabFragment extends Fragment implements
         inflater.inflate(R.menu.issues_list_action_mode, menu);
 
         if (filter == 1 || filter == 2)
-            menu.findItem(R.id.action_download).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_file_download).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true).setVisible(true).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            menu.findItem(R.id.action_download).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_file_download).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true).setVisible(true).setShowAsActionFlags(filter == 2 ? MenuItem.SHOW_AS_ACTION_IF_ROOM : MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         if (filter == 0) {
             menu.findItem(R.id.action_mark_complete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_thumb_up).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
@@ -703,7 +703,7 @@ public class IssuesTabFragment extends Fragment implements
 
         if (filter == 2) {
             menu.findItem(R.id.action_mark_incomplete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_thumb_down).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
-            menu.findItem(R.id.action_free).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
+            menu.findItem(R.id.action_free).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_disc_full).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
         }
 
         if (filter == 1) {
@@ -838,6 +838,9 @@ public class IssuesTabFragment extends Fragment implements
 
     GestureDetectorCompat gestureDetector;
 
+    /**
+     * shows help if adapter has no items
+     */
     protected void updateHelpContainer() {
         final View layoutView = getView();
         if (layoutView == null)
@@ -852,7 +855,8 @@ public class IssuesTabFragment extends Fragment implements
 
         helpContainer.setVisibility(View.VISIBLE);
 
-        FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC_REGULAR));
+        if (getResources().getConfiguration().locale.getLanguage().equals("fa"))
+            FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC_REGULAR));
 
         final ImageButton imageButton = (ImageButton) layoutView.findViewById(R.id.add);
         final TextView helpTextView = (TextView) layoutView.findViewById(R.id.help);

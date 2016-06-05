@@ -68,6 +68,7 @@ public class SettingsActivity extends AppCompatActivity {
             bindPreferenceSummaryToValue(findPreference("notification_ringtone"));
             bindPreferenceSummaryToValue(findPreference("sync_frequency"));
             bindPreferenceSummaryToValue(findPreference("repeat_count"));
+            bindPreferenceSummaryToValue(findPreference("locale"));
         }
 
         /**
