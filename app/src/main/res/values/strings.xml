@@ -50,17 +50,16 @@
     <string name="issue_downloaded_notification">New issue downloaded. Let’s start<![CDATA[!]]></string>
 
     <!-- for cool english times -->
-    <string name="cool_english_time_notification_text_short">Time to learn a lesson<![CDATA[!]]></string>
-    <string name="cool_english_time_notification_text">You have to learn “%s” now<![CDATA[!]]></string>
+    <string name="cool_english_time_notification_text_short">Hot English Time<![CDATA[!]]></string>
+    <string name="cool_english_time_notification_text">You have to practise “%s” now<![CDATA[!]]></string>
 
-    <plurals name="cool_english_time_notification_summary_text">
-        <item quantity="one">You have learnt this item %d time so far.</item>
-        <item quantity="other">You have learnt this item %d times so far.</item>
-    </plurals>
+    <string name="cool_english_time_notification_summary_text_0">You have not practised this item yet.</string>
+    <string name="cool_english_time_notification_summary_text_1">You have practised this item 1 time so far.</string>
+    <string name="cool_english_time_notification_summary_text_2">You have practised this item %d times so far.</string>
 
     <plurals name="pending_count">
-        <item quantity="one">Remaining %d time to learn.</item>
-        <item quantity="other">Remaining %d times to learn.</item>
+        <item quantity="one">Remaining %d time to practise</item>
+        <item quantity="other">Remaining %d times to practise</item>
     </plurals>
 
     <string name="alarm_already_exists">Alarm for this time already exists.</string>
@@ -106,16 +105,16 @@
         <item>fa</item>
     </string-array>
 
-    <string name="pref_title_item_learn_repeat_count">Repeat reading &amp; listening</string>
-    <string-array name="pref_item_learn_repeat_count">
-        <item>5 times per lesson</item>
-        <item>8 times per lesson (recommended)</item>
-        <item>11 times per lesson</item>
+    <string name="pref_title_item_practice_count">Lesson practice count</string>
+    <string-array name="pref_item_practice_count">
+        <item>8 times per lesson</item>
+        <item>12 times per lesson (recommended)</item>
+        <item>15 times per lesson</item>
     </string-array>
-    <string-array name="pref_item_learn_repeat_count_values">
-        <item>5</item>
+    <string-array name="pref_item_practice_count_values">
         <item>8</item>
-        <item>11</item>
+        <item>12</item>
+        <item>15</item>
     </string-array>
 
     <string name="pref_title_navigate_audio_with_volume_buttons">Volume buttons navigate playback</string>
@@ -369,5 +368,5 @@
     <string name="about_waiting_list">To append a lesson to the Hot English Times program, select <b>“Add to Hot English Times”</b> menu item from issue’s table of contents, or from within the lesson.</string>
     <string name="about_saved_issues">Browse and download available <b>Hot English Magazine</b> issues from the tab on the right.</string>
     <string name="about_available_issues">Swipe down to get latest list of available <b>Hot English Magazine</b> issues from the web. New issue is published every two weeks!</string>
-    <string name="about_completed_issues">When you finish learning a magazine, move it here. Tap &amp; hold on issue cover to see available options.</string>
+    <string name="about_completed_issues">When you finish practising a magazine, move it here. Tap &amp; hold on issue cover to see available options.</string>
 </resources>

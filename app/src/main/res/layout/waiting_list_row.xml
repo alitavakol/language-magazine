@@ -59,6 +59,7 @@
             android:layout_toLeftOf="@+id/marker_container"
             android:layout_toRightOf="@id/poster"
             android:layout_toStartOf="@+id/marker_container"
+            android:gravity="center_vertical"
             android:orientation="vertical"
             android:paddingEnd="@dimen/padding_normal"
             android:paddingLeft="@dimen/padding_normal"

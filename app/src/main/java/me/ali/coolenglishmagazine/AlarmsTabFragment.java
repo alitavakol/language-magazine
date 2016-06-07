@@ -371,8 +371,8 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
             return new ViewHolder(view);
         }
 
-        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm", Locale.getDefault());
-        SimpleDateFormat amPmFormat = new SimpleDateFormat(" a", Locale.getDefault());
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm", Locale.ENGLISH);
+        SimpleDateFormat amPmFormat = new SimpleDateFormat(" a", Locale.ENGLISH);
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {

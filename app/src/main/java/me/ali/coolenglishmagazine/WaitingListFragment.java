@@ -191,7 +191,7 @@ public class WaitingListFragment extends Fragment implements
 
                 final Context context = getActivity();
                 int repeatCount = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("repeat_count", "8"));
-                final int remainingCount = repeatCount - waitingItem.hitCount;
+                final int remainingCount = repeatCount - waitingItem.practiceCount;
                 holder.hitCountTextView.setText(context.getResources().getQuantityString(R.plurals.pending_count, remainingCount, remainingCount));
 
                 // load down-sampled poster

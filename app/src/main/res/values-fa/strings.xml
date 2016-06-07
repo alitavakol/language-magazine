@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="selected_count">%d انتخاب</string>
+
+    <string name="download_failed_msg">دانلود با خطای %d متوقف شد.</string>
+
+    <string name="cool_english_time_notification_summary_text_0">این درس رو تا حالا تمرین نکرده‌ای.</string>
+    <string name="cool_english_time_notification_summary_text_1">این درس رو تا حالا ۱ بار تمرین کرده‌ای.</string>
+    <string name="cool_english_time_notification_summary_text_2">این درس رو تا حالا %d بار تمرین کرده‌ای.</string>
+
+    <plurals name="pending_count">
+        <item quantity="one">تعداد %d بار تمرین باقی مانده</item>
+        <item quantity="other">تعداد %d بار تمرین باقی مانده</item>
+    </plurals>
+
     <string name="about_alarms">تعدادی از وقت‌های آزادت در طول شبانه‌روز رو به یادگیری زبان اختصاص بده. مثلاً صبح زود که سوار مترو یا ماشین هستی تا به مقصد برسی، یا قبل از خواب، و یا موقع خوردن عصرونه! توصیه می‌کنم حداقل ۵ تا زنگ زبان انگلیسی ایجاد کن.</string>
 
     <string name="about_waiting_list_1">لیست درس‌هایی که توی زنگ‌های زبان انگلیسی آموزش می‌بینی، این‌جا میاد. هر درسی که دوست داشته باشی عمیقاً یاد بگیری رو می‌تونی به این لیست اضافه کنی:</string>
     <string name="about_waiting_list_2">کافیه از فهرست مجله، یا از داخل درس، منوی </string>
     <string name="about_waiting_list_3">“Add to Hot English Times”</string>
-    <string name="about_waiting_list_4">رو انتخاب کرده باشی.</string>
+    <string name="about_waiting_list_4">رو انتخاب کنی.</string>
 
     <string name="about_saved_issues">فهرست مجله‌ها رو از برگه‌ی سمت راست ببین و هر کدوم‌ها رو که خواستی دانلود کن.</string>
 
     <string name="about_available_issues">دکمه‌ی بالا رو بزن تا لیست به روز مجله‌ها رو از اینترنت دریافت کنی. هر دو هفته یک‌بار، یه شماره‌ی جدید به لیست اضافه میشه!</string>
 
-    <string name="about_completed_issues">مجله‌هایی که همه‌ی درس‌هاش رو یاد گرفتی و به پایان رسوندی رو به این‌جا منتقل کن. انگشت رو چند لحظه روی جلد مجله نگه دار تا گزینه‌های بیشتر رو ببینی.</string>
+    <string name="about_completed_issues">مجله‌هایی که درس‌هاشون رو به تعداد کافی تمرین کردی و خوب یاد گرفتی رو به این‌جا منتقل کن. انگشت رو چند لحظه روی جلد مجله نگه دار تا گزینه‌های بیشتر رو ببینی.</string>
 
     <!-- Readme fragment -->
     <string name="previous">قبلی</string>

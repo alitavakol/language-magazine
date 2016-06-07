@@ -72,7 +72,7 @@ public class RootActivity extends AppCompatActivity implements
         String languageToLoad = preferences.getString("locale", "fa");
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
-        Configuration config = new Configuration();
+        Configuration config = getBaseContext().getResources().getConfiguration(); // http://stackoverflow.com/a/24908330
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
