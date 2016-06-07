@@ -136,10 +136,10 @@ public class ReadmeFragment extends Fragment {
             int actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
             int logoHeight = getResources().getDimensionPixelSize(R.dimen.welcome_image_height);
 
-            int height = (int) (1.5 * actionBarHeight);
+            int height = (int) (1.3 * actionBarHeight);
             view.findViewById(R.id.logo_container).setPadding(0, height, 0, height);
 
-            scrollView.setPadding(0, logoHeight + (int) (1.8 * actionBarHeight), 0, actionBarHeight);
+            scrollView.setPadding(0, logoHeight + (int) (1.4 * actionBarHeight), 0, actionBarHeight);
         }
 
         return view;
