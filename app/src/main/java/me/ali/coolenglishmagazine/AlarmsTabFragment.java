@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.GridLayoutManager;
@@ -81,7 +82,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
         alarms = importAlarms(getContext());
     }
 
@@ -96,7 +97,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
         // Inflate the menu; this adds items to the action bar if it is present.
         inflater.inflate(R.menu.alarms_fragment_menu, menu);
         if (isAdded())
-            menu.findItem(R.id.action_add).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_add).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text));
+            menu.findItem(R.id.action_add).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_alarm_add).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text));
     }
 
     @Override
@@ -194,6 +195,15 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
         // alarms was imported in onCreate()
         adapter.notifyDataSetChanged();
         updateHelpContainer(v);
+
+        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.add_alarm);
+        fab.setImageDrawable(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_alarm_add).sizeDp(24).colorRes(R.color.md_dark_primary_text));
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createAlarm();
+            }
+        });
 
         return v;
     }
