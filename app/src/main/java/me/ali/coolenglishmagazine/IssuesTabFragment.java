@@ -38,7 +38,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import me.ali.coolenglishmagazine.model.Magazines;
-import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 
@@ -855,25 +854,25 @@ public class IssuesTabFragment extends Fragment implements
 
         helpContainer.setVisibility(View.VISIBLE);
 
-        if (getResources().getConfiguration().locale.getLanguage().equals("fa"))
-            FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC_REGULAR));
+//        if (getResources().getConfiguration().locale.getLanguage().equals("fa"))
+//            FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC_REGULAR));
 
         final ImageButton imageButton = (ImageButton) layoutView.findViewById(R.id.add);
         final TextView helpTextView = (TextView) layoutView.findViewById(R.id.help);
 
         switch (filter) {
             case 0:
-                imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_file_download).sizeDp(72).colorRes(R.color.colorAccentTransparent));
+                imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_file_download).sizeDp(72).colorRes(R.color.colorContextHelp));
                 helpTextView.setText(R.string.about_saved_issues);
                 break;
 
             case 1:
-                imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_refresh).sizeDp(72).colorRes(R.color.colorAccentTransparent));
+                imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_refresh).sizeDp(72).colorRes(R.color.colorContextHelp));
                 helpTextView.setText(R.string.about_available_issues);
                 break;
 
             case 2:
-                imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_assignment_turned_in).sizeDp(72).colorRes(R.color.colorAccentTransparent));
+                imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_assignment_turned_in).sizeDp(72).colorRes(R.color.colorContextHelp));
                 helpTextView.setText(R.string.about_completed_issues);
                 break;
         }

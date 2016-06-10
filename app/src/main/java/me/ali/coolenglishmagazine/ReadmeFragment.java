@@ -18,10 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
+import com.squareup.picasso.Picasso;
 
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.widget.ObservableScrollView;
@@ -142,13 +144,20 @@ public class ReadmeFragment extends Fragment {
             scrollView.setPadding(0, logoHeight + (int) (1.4 * actionBarHeight), 0, actionBarHeight);
         }
 
+        Picasso
+                .with(getContext())
+                .load(R.drawable.readme_background_icon)
+                .resize(getResources().getDimensionPixelSize(R.dimen.welcome_image_width), getResources().getDimensionPixelSize(R.dimen.welcome_appbar_height))
+                .centerInside()
+                .into((ImageView) view.findViewById(R.id.logo));
+
         return view;
     }
 
     private void updateButtons() {
         if (currentCardIndex > 0) {
             buttonPrevious.setClickable(true);
-            buttonPrevious.setTextColor(ContextCompat.getColor(getContext(), R.color.primary_dark));
+            buttonPrevious.setTextColor(ContextCompat.getColor(getContext(), R.color.primary_light));
         } else {
             buttonPrevious.setClickable(false);
             buttonPrevious.setTextColor(Color.GRAY);
@@ -159,7 +168,7 @@ public class ReadmeFragment extends Fragment {
 
         if (currentCardIndex < cardCount - 1) {
             buttonNext.setClickable(true);
-            buttonNext.setTextColor(ContextCompat.getColor(getContext(), R.color.primary_dark));
+            buttonNext.setTextColor(ContextCompat.getColor(getContext(), R.color.primary_light));
         } else {
             buttonNext.setClickable(false);
             buttonNext.setTextColor(Color.GRAY);

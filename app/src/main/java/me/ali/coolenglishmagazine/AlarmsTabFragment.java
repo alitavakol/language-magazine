@@ -52,7 +52,6 @@ import java.util.Locale;
 
 import me.ali.coolenglishmagazine.broadcast_receivers.AlarmBroadcastReceiver;
 import me.ali.coolenglishmagazine.broadcast_receivers.BootReceiver;
-import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.widget.MyAnalogClock;
 
@@ -224,11 +223,11 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
 
         helpContainer.setVisibility(View.VISIBLE);
 
-        if (getResources().getConfiguration().locale.getLanguage().equals("fa"))
-            FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC_REGULAR));
+//        if (getResources().getConfiguration().locale.getLanguage().equals("fa"))
+//            FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC_REGULAR));
 
         ImageButton add = (ImageButton) layoutView.findViewById(R.id.add);
-        add.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_alarm_add).sizeDp(72).colorRes(R.color.colorAccentTransparent));
+        add.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_alarm_add).sizeDp(72).colorRes(R.color.colorContextHelp));
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

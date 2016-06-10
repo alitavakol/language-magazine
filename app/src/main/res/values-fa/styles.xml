@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.Widget.TextView.ContextHelp" parent="android:Widget.Holo.Light.TextView">
+        <item name="fontPath">AdobeArabic-Regular.otf</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/colorContextHelp</item>
+        <!--<item name="android:textStyle">bold</item>-->
+        <item name="android:lineSpacingMultiplier">1.3</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="AppTheme.Widget.TextView.ContextHelp.EnInFa" parent="AppTheme.Widget.TextView.ContextHelp">
+        <item name="fontPath">Ubuntu-Regular.ttf</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="AppTheme.Widget.TextView.Readme" parent="android:Widget.Holo.Light.TextView">
+        <item name="fontPath">AdobeArabic-Regular.otf</item>
+        <item name="android:textSize">19sp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+    <style name="AppTheme.Widget.TextView.Readme.Bold" parent="AppTheme.Widget.TextView.Readme">
+        <item name="fontPath">AdobeArabic-Bold.ttf</item>
+    </style>
+
+    <style name="AppTheme.Widget.TextView.Readme.Italic" parent="AppTheme.Widget.TextView.Readme">
+        <item name="fontPath">AdobeArabic-Italic.otf</item>
+    </style>
+
+    <style name="AppTheme.Widget.TextView.Small" parent="Base.TextAppearance.AppCompat.Small">
+        <item name="fontPath">AdobeArabic-Regular.otf</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Widget.AppCompat.Button.Borderless.Fa" parent="Widget.AppCompat.Button.Borderless">
+        <item name="fontPath">AdobeArabic-Regular.otf</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+</resources>

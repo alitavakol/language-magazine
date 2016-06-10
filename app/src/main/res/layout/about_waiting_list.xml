@@ -18,14 +18,10 @@
         android:contentDescription="@string/about_waiting_list" />
 
     <TextView
+        style="@style/AppTheme.Widget.TextView.ContextHelp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:gravity="center"
-        android:lineSpacingMultiplier="@dimen/help_text_line_spacing"
         android:paddingTop="@dimen/activity_horizontal_margin"
-        android:text="@string/about_waiting_list"
-        android:textAppearance="@style/AppTheme.Widget.TextView.Bold"
-        android:textColor="@color/colorAccentTransparent"
-        android:textSize="@dimen/help_text_size" />
+        android:text="@string/about_waiting_list" />
 </LinearLayout>

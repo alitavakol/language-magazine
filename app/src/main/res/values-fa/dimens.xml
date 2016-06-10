@@ -1,6 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="help_text_size">26sp</dimen>
-    <dimen name="help_text_size_en">17sp</dimen>
-    <item name="help_text_line_spacing" format="float" type="dimen">1.1</item>
 </resources>

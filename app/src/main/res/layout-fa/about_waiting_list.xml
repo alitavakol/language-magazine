@@ -18,40 +18,29 @@
         android:contentDescription="@string/about_waiting_list_1" />
 
     <TextView
+        style="@style/AppTheme.Widget.TextView.ContextHelp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:gravity="center"
-        android:lineSpacingMultiplier="@dimen/help_text_line_spacing"
         android:paddingTop="@dimen/activity_horizontal_margin"
-        android:text="@string/about_waiting_list_1"
-        android:textColor="@color/colorAccentTransparent"
-        android:textSize="@dimen/help_text_size" />
+        android:text="@string/about_waiting_list_1" />
 
     <TextView
+        style="@style/AppTheme.Widget.TextView.ContextHelp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:lineSpacingMultiplier="@dimen/help_text_line_spacing"
-        android:text="@string/about_waiting_list_2"
-        android:textColor="@color/colorAccentTransparent"
-        android:textSize="@dimen/help_text_size" />
+        android:text="@string/about_waiting_list_2" />
 
     <TextView
         android:id="@+id/english_text"
+        style="@style/AppTheme.Widget.TextView.ContextHelp.EnInFa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/about_waiting_list_3"
-        android:textColor="@color/colorAccentTransparent"
-        android:textSize="@dimen/help_text_size_en" />
+        android:text="@string/about_waiting_list_3" />
 
     <TextView
+        style="@style/AppTheme.Widget.TextView.ContextHelp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:lineSpacingMultiplier="@dimen/help_text_line_spacing"
-        android:text="@string/about_waiting_list_4"
-        android:textColor="@color/colorAccentTransparent"
-        android:textSize="@dimen/help_text_size" />
+        android:text="@string/about_waiting_list_4" />
 </LinearLayout>

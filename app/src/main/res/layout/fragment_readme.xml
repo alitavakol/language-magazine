@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/customBackgroundColor"
     tools:context="me.ali.coolenglishmagazine.ReadmeFragment">
 
     <FrameLayout
@@ -16,7 +17,7 @@
             android:layout_width="@dimen/welcome_image_width"
             android:layout_height="@dimen/welcome_image_height"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/readme_background_icon" />
+            tools:src="@drawable/readme_background_icon" />
 
     </FrameLayout>
 
@@ -24,7 +25,6 @@
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:clipToPadding="false"
         android:paddingBottom="?actionBarSize"
         android:paddingTop="@dimen/welcome_content_padding_top"
@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/md_white_1000"
+        android:background="@color/colorAccentTransparent"
         android:elevation="@dimen/readme_button_bar_elevation">
 
         <include

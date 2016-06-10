@@ -2,7 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/customBackgroundColor">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/alarm_list"
@@ -35,16 +36,12 @@
                 android:contentDescription="@string/about_alarms" />
 
             <TextView
+                style="@style/AppTheme.Widget.TextView.ContextHelp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:gravity="center"
-                android:lineSpacingMultiplier="@dimen/help_text_line_spacing"
                 android:paddingTop="@dimen/activity_horizontal_margin"
-                android:text="@string/about_alarms"
-                android:textAppearance="@style/AppTheme.Widget.TextView.Bold"
-                android:textColor="@color/colorAccentTransparent"
-                android:textSize="@dimen/help_text_size" />
+                android:text="@string/about_alarms" />
 
             <android.support.v4.widget.Space
                 android:layout_width="match_parent"

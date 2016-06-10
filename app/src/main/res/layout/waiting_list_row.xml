@@ -73,17 +73,18 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:paddingBottom="2dp"
                 android:textAppearance="@style/AppTheme.Widget.TextView.Bold"
                 android:textColor="@color/primary"
                 tools:text="Item Title" />
 
             <TextView
                 android:id="@+id/hit_count"
-                style="@style/Base.TextAppearance.AppCompat.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:textAppearance="@style/AppTheme.Widget.TextView.Small"
                 android:textColor="@color/accent"
                 tools:text="hit count" />
         </LinearLayout>

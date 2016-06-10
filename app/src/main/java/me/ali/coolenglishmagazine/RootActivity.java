@@ -64,17 +64,17 @@ public class RootActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // force change locale based on value of "locale" preference
         String languageToLoad = preferences.getString("locale", "fa");
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
-        Configuration config = getBaseContext().getResources().getConfiguration(); // http://stackoverflow.com/a/24908330
+        Configuration config = getResources().getConfiguration(); // http://stackoverflow.com/a/24908330
         config.locale = locale;
-        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+
+        super.onCreate(savedInstanceState);
 
         preferences.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
 
