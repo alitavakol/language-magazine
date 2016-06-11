@@ -42,8 +42,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingLeft="@dimen/spacing_normal"
-                    android:paddingStart="@dimen/spacing_normal"
+                    android:paddingRight="@dimen/spacing_normal"
+                    android:paddingEnd="@dimen/spacing_normal"
                     android:text="@string/readme_intro_2" />
 
                 <TextView
@@ -63,8 +63,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingLeft="@dimen/spacing_normal"
-                    android:paddingStart="@dimen/spacing_normal"
+                    android:paddingRight="@dimen/spacing_normal"
+                    android:paddingEnd="@dimen/spacing_normal"
                     android:text="@string/readme_intro_3" />
 
                 <TextView
@@ -84,8 +84,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingLeft="@dimen/spacing_normal"
-                    android:paddingStart="@dimen/spacing_normal"
+                    android:paddingRight="@dimen/spacing_normal"
+                    android:paddingEnd="@dimen/spacing_normal"
                     android:text="@string/readme_intro_4" />
 
                 <TextView
@@ -103,56 +103,71 @@
                 android:paddingTop="@dimen/padding_normal"
                 android:text="@string/readme_intro_5" />
 
-            <LinearLayout
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:paddingBottom="@dimen/padding_normal"
+                android:text="@string/readme_intro_6" />
 
-                <TextView
-                    style="@style/AppTheme.Widget.TextView.Readme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bullet" />
-
-                <TextView
-                    style="@style/AppTheme.Widget.TextView.Readme"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingLeft="@dimen/spacing_normal"
-                    android:paddingStart="@dimen/spacing_normal"
-                    android:text="@string/readme_intro_6" />
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme.Bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/AppTheme.Widget.TextView.Readme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bullet" />
-
-                <TextView
-                    style="@style/AppTheme.Widget.TextView.Readme"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingLeft="@dimen/spacing_normal"
-                    android:paddingStart="@dimen/spacing_normal"
-                    android:text="@string/readme_intro_7" />
-            </LinearLayout>
+                android:paddingBottom="@dimen/padding_normal"
+                android:paddingTop="@dimen/padding_normal"
+                android:text="@string/readme_intro_7" />
 
             <TextView
                 style="@style/AppTheme.Widget.TextView.Readme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/padding_normal"
-                android:paddingTop="@dimen/padding_normal"
                 android:text="@string/readme_intro_8" />
 
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:text="@string/readme_intro_9" />
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme.Bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:text="@string/readme_intro_10" />
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:text="@string/readme_intro_11" />
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme.Bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:paddingTop="@dimen/padding_normal"
+                android:text="@string/readme_intro_12" />
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:text="@string/readme_intro_13" />
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:text="@string/readme_intro_14" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -160,18 +175,18 @@
 
                 <TextView
                     style="@style/AppTheme.Widget.TextView.Readme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bullet" />
-
-                <TextView
-                    style="@style/AppTheme.Widget.TextView.Readme"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingLeft="@dimen/spacing_normal"
-                    android:paddingStart="@dimen/spacing_normal"
-                    android:text="@string/readme_intro_9" />
+                    android:paddingRight="@dimen/spacing_normal"
+                    android:paddingEnd="@dimen/spacing_normal"
+                    android:text="@string/readme_intro_15" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bullet" />
             </LinearLayout>
 
             <LinearLayout
@@ -181,18 +196,18 @@
 
                 <TextView
                     style="@style/AppTheme.Widget.TextView.Readme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bullet" />
-
-                <TextView
-                    style="@style/AppTheme.Widget.TextView.Readme"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingLeft="@dimen/spacing_normal"
-                    android:paddingStart="@dimen/spacing_normal"
-                    android:text="@string/readme_intro_10" />
+                    android:paddingRight="@dimen/spacing_normal"
+                    android:paddingEnd="@dimen/spacing_normal"
+                    android:text="@string/readme_intro_16" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bullet" />
             </LinearLayout>
 
             <LinearLayout
@@ -202,18 +217,18 @@
 
                 <TextView
                     style="@style/AppTheme.Widget.TextView.Readme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bullet" />
-
-                <TextView
-                    style="@style/AppTheme.Widget.TextView.Readme"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingLeft="@dimen/spacing_normal"
-                    android:paddingStart="@dimen/spacing_normal"
-                    android:text="@string/readme_intro_11" />
+                    android:paddingRight="@dimen/spacing_normal"
+                    android:paddingEnd="@dimen/spacing_normal"
+                    android:text="@string/readme_intro_17" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bullet" />
             </LinearLayout>
 
             <LinearLayout
@@ -223,18 +238,18 @@
 
                 <TextView
                     style="@style/AppTheme.Widget.TextView.Readme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bullet" />
-
-                <TextView
-                    style="@style/AppTheme.Widget.TextView.Readme"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingLeft="@dimen/spacing_normal"
-                    android:paddingStart="@dimen/spacing_normal"
-                    android:text="@string/readme_intro_12" />
+                    android:paddingRight="@dimen/spacing_normal"
+                    android:paddingEnd="@dimen/spacing_normal"
+                    android:text="@string/readme_intro_18" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bullet" />
             </LinearLayout>
 
             <TextView
@@ -242,7 +257,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/padding_normal"
-                android:text="@string/readme_intro_13" />
+                android:text="@string/readme_intro_19" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
@@ -495,7 +510,7 @@
                 android:text="@string/readme_rule_3_2" />
 
             <TextView
-                style="@style/AppTheme.Widget.TextView.Readme.Bold"
+                style="@style/AppTheme.Widget.TextView.Readme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/padding_normal"
@@ -596,7 +611,7 @@
                 android:text="@string/readme_rule_4_7" />
 
             <TextView
-                style="@style/AppTheme.Widget.TextView.Readme.Bold"
+                style="@style/AppTheme.Widget.TextView.Readme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/padding_normal"

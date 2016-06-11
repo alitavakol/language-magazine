@@ -93,6 +93,12 @@ public class RootActivity extends AppCompatActivity implements
         }
 
         setupNavigationDrawer();
+
+        // show navigation drawer on first start
+        if (!preferences.getBoolean("drawer_welcome_shown", false)) {
+            drawer.openDrawer();
+            preferences.edit().putBoolean("drawer_welcome_shown", true).apply();
+        }
     }
 
     @Override

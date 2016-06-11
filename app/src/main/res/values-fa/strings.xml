@@ -22,7 +22,7 @@
 
     <string name="about_saved_issues">فهرست مجله‌ها رو از برگه‌ی سمت راست ببین و هر کدوم‌ها رو که خواستی دانلود کن.</string>
 
-    <string name="about_available_issues">دکمه‌ی بالا رو بزن تا لیست به روز مجله‌ها رو از اینترنت دریافت کنی. هر دو هفته یک‌بار، یه شماره‌ی جدید به لیست اضافه میشه!</string>
+    <string name="about_available_issues">دکمه رو بزن تا لیست به روز مجله‌ها رو از اینترنت دریافت کنی. هر دو هفته یک‌بار، یه شماره‌ی جدید به لیست اضافه میشه!</string>
 
     <string name="about_completed_issues">مجله‌هایی که درس‌هاشون رو به تعداد کافی تمرین کردی و خوب یاد گرفتی رو به این‌جا منتقل کن. انگشت رو چند لحظه روی جلد مجله نگه دار تا گزینه‌های بیشتر رو ببینی.</string>
 
@@ -30,40 +30,46 @@
     <string name="previous">قبلی</string>
     <string name="next">بعدی</string>
 
-    <string name="readme_intro_1">سلام،\nحال شما خوبه؟</string>
-    <string name="readme_intro_2">Can you read English but <b>cannot speak well</b>?</string>
-    <string name="readme_intro_3">Do you feel <b>stressed or nervous</b> when speaking English?</string>
-    <string name="readme_intro_4">Are you <b>bored</b> with English grammar, textbooks and classes?</string>
-    <string name="readme_intro_5">You are not alone. Most English learners have the same problems.\n\nThis Readme will teach you the basic parts of the system that the <b>Hot English Magazine</b> application uses to train successful business leaders and government officials to speak English powerfully, confidently and successfully.\n\n\n<b>Why Are You Embarrassed By Your English Speaking?</b>\n\nWhy can’t you speak English well yet? What is the problem? The problem is the school teaching system: textbooks, grammar study, vocabulary lists and translation.\nEnglish classes prepare you for tests but they do not teach you to speak quickly, easily, and automatically.\nThat’s why, even after many years of study, you still have trouble speaking English.\n\n\n<b>Better Results Require A Better Learning Method.</b>\n\nTo get better results you must change the way you learn English. The <b>Hot English Magazine</b> system helps students speak English fluently.\n\nYou can speak English quickly, easily and automatically. You can use English to get protect your job, travel internationally, and make international friends. You can feel relaxed and strong when speaking English.\n\nUsing powerful techniques, the <b>Hot English Magazine</b> system trains you to <b>think in English</b>. Rather than using school methods, you will learn English in a natural and enjoyable way.</string>
-    <string name="readme_intro_6">You will learn how to understand English instantly.</string>
-    <string name="readme_intro_7">You will learn how to speak quickly, easily and automatically.</string>
-    <string name="readme_intro_8">\n<b>Rules of the Hot English Magazine system</b>\n\nThis Readme teaches you the method and rules of the <b>Hot English Magazine</b> System. There are seven <b>rules</b>. Each rule teaches you a new method for learning and studying English.\n\nWhen you use all seven rules, you will completely change the way you learn English. You will improve faster.</string>
-    <string name="readme_intro_9">Your listening will improve faster.</string>
-    <string name="readme_intro_10">Your speaking will improve faster.</string>
-    <string name="readme_intro_11">Your spoken grammar will improve faster.</string>
-    <string name="readme_intro_12">You will learn new vocabulary words more easily and more quickly.</string>
-    <string name="readme_intro_13">Use the rules and change the way you learn English.</string>
+    <string name="readme_intro_1">سلام؛\nدوست داری <b>توی ۶ ماه یا کمتر، با اعتماد به نفس کامل انگلیسی صحبت کنی</b>؟</string>
+    <string name="readme_intro_2">مهارت کافی برای خوندن انگلیسی داری، اما نمی‌تونی به راحتی حرف بزنی؟</string>
+    <string name="readme_intro_3">وقتی تلاش می‌کنی که انگلیسی بگی، برات <b>سخت</b> میشه و <b>استرس</b> می‌گیری؟</string>
+    <string name="readme_intro_4">از کتاب‌های گرامر و آموزشگاه‌های زبان و کلاس‌های مدرسه <b>نا امید</b> هستی؟</string>
+    <string name="readme_intro_5">تو تنها کسی نیستی که این شرایط رو داره! بیشتر دانش‌آموزان زبان این وضعیت رو تجربه می‌کنن.</string>
+    <string name="readme_intro_6">من توی این مقاله، سیستمی رو برات توضیح می‌دم که <b>Hot English Magazine</b> بر همون اساس ساخته شده؛ تا طوری زبان انگلیسی رو بهت یاد بده که بتونی با مهارت، قدرت و اعتماد به نفس کامل، با انگیسی‌زبون‌های اصیل حرف بزنی و لذت ببری!</string>
+    <string name="readme_intro_7">چرا موقعی که داری انگلیسی صحبت می‌کنی حس خوبی نداری؟</string>
+    <string name="readme_intro_8">چرا نمی‌تونی راحت انگلیسی صحبت کنی؟ مشکل کجاست؟ مشکل با سیستم آموزشی مدرسه‌هاست: کتاب‌های درسی زبان، آموزش گرامر و لیست‌های بلندبالای لغت‌معنی‌ها.</string>
+    <string name="readme_intro_9">کلاس‌های زبان، تو رو برای قبول شدن توی کنکور و امتحان‌های نهایی آماده می‌کنن؛ اما اون‌ها یاد نمی‌دن که چطوری فی‌البداهه و غیر ارادی حرف بزنی. به خاطر همینه که <b>بعد از هفت هشت سال زبان خوندن توی مدرسه و آموزشگاه</b> هنوز نمی‌تونیم قشنگ صحبت کنیم.</string>
+    <string name="readme_intro_10">لازمه‌ی نتیجه‌ی بهتر، انتخاب یک راهِ بهتره</string>
+    <string name="readme_intro_11">مسلماً اگه بخوای نتایج بهتری تو یادگیری زبان به دست بیاری، باید روش آموزشی‌ات رو تغییر بدی. روش <b>Hot English Magazine</b> کمک می‌کنه که دانش‌آموزها انگلیسی رو روان و سریع و راحت صحبت کنن و بشنون. اون‌وقت تو می‌تونی توی مصاحبه‌های تحصیلی و شغلی خارجی موفق بشی؛ سفرهای جهانی داشته باشی؛ و حتی دوست‌های خارجی پیدا کنی! هنگام مکالمه هم قوت و آرامش همیشگی خودت رو خواهی داشت!</string>
+    <string name="readme_intro_12">قوانین سیستم آموزشی من</string>
+    <string name="readme_intro_13">توی کارت‌های بعدی این مقاله، قانون‌هایی نوشته شده که هنگام استفاده از <b>Hot English Magazine</b> تو ملزم به پیروی از اون‌ها هستی! هفت تا کارت اومده؛ و توی هر کارت، یکی از این هفت قانون یادگیری زبان توضیح داده شده. </string>
+    <string name="readme_intro_14">اگه موفق بشی این هفت تا قانون رو به کار ببری، کم‌کم روش یادگیری تو اصلاح میشه؛ و خواهی دید که چقدر سریع‌تر و عمیق‌تر داری به زبان انگلیسی مسلط میشی.</string>
+    <string name="readme_intro_15">مهارت‌های شنیداری تو سریع‌تر رشد می‌کنه؛</string>
+    <string name="readme_intro_16">مهارت صحبت کردن رو سریع‌تر به دست میاری؛</string>
+    <string name="readme_intro_17">به گرامر هنگام صحبت کردن سریع‌تر مسلط میشی؛</string>
+    <string name="readme_intro_18">لغت‌های جدید و جای به کار بردنشون رو سریع‌تر و راحت‌تر یاد می‌گیری.</string>
+    <string name="readme_intro_19">این ۷ تا شرط رو به کار بگیر و روش آموزشی‌ات رو بهبود بده!</string>
 
     <string name="readme_rule_1_0" formatted="false">قانون ۱- جمله‌ها رو تمرین کن؛ نه کلمه‌ها رو!</string>
-    <string name="readme_rule_1_1_1_1" formatted="false">می‌دونستید که روش کنونی آموزش زبان در مدارس و کلاس‌های آموزش زبان، در ۹۵٪ موارد، دانش‌آموز رو راضی نمی‌کنه و او رو به هدف مورد انتظارش نمی‌رسونه؟ فقط ۵٪ از دانش‌آموزان، سرانجام موفق میشن که راحت و طبیعی به زبان انگلیسی صحبت کنند. فقط ۵ درصد!</string>
-    <string name="readme_rule_1_1_1_2" formatted="false">شاید تو هم تا حالا برای یاد گرفتن کلمه‌ها زمان زیادی گذاشته باشی. البته با ”Hot English Magazine“ دیگه هرگز این کار رو ادامه نخواهی داد. چرا؟ چون حفظ کردن کلمات یعنی هدر رفتن وقت!</string>
-    <string name="readme_rule_1_1_1_3" formatted="false">بله! کاملاً درست شنیدی! تلاش برای از بر کردن کلمه‌ها، روش درستی برای یادگیری زبان انگلیسی نیست. به جای اون، قاعده‌ی اول ”Hot English Magazine“ رو به کار خواهی گرفت: یادگیری و تمرین جمله‌ها و عبارت‌ها، به جای حفظ کردن کلمه‌ها.</string>
-    <string name="readme_rule_1_1_1_4" formatted="false">حفظ کردن کلمات رو برای همیشه کنار بذار! بله! انگلیسی‌زبان‌ها (مثل امریکایی‌ها) انگلیسی رو با حفظ کردن کلمات یاد نمی‌گیرن. اون‌ها مهارت انگلیسی رو با شنیدن و گفتن «عبارت‌ها و جمله‌ها» به دست میارن. جمله یعنی یک «گروه» از کلمه‌های مناسب، که برای رسوندن درست یک مفهوم، کنار هم چیده شده‌اند. جالبه که وقتی تو عبارت‌ها رو یاد می‌گیری، گرامر و لغت‌ها رو هم به طور طبیعی یاد می‌گیری!</string>
+    <string name="readme_rule_1_1_1_1" formatted="false">می‌دونستی که روش کنونی آموزش زبان در مدارس و کلاس‌های آموزش زبان، در ۹۵٪ موارد، دانش‌آموز رو راضی نمی‌کنه و او رو به هدف مورد انتظارش نمی‌رسونه؟ فقط ۵٪ از دانش‌آموزان، سرانجام موفق میشن که راحت و طبیعی به زبان انگلیسی صحبت کنند. فقط ۵ درصد!</string>
+    <string name="readme_rule_1_1_1_2" formatted="false">شاید تو هم تا حالا برای یاد گرفتن کلمه‌ها زمان زیادی گذاشته باشی. البته با <b>Hot English Magazine</b> دیگه هرگز این کار رو ادامه نخواهی داد. چرا؟ چون <b>حفظ کردن کلمات یعنی هدر رفتن وقت</b>!</string>
+    <string name="readme_rule_1_1_1_3" formatted="false">بله! کاملاً درست شنیدی! تلاش برای از بر کردن کلمه‌ها، روش درستی برای یادگیری زبان انگلیسی نیست. به جای اون، قاعده‌ی اول <b>Hot English Magazine</b> رو به کار خواهی گرفت: <b>یادگیری و تمرین جمله‌ها و عبارت‌ها، به جای حفظ کردن کلمه‌ها</b>.</string>
+    <string name="readme_rule_1_1_1_4" formatted="false">حفظ کردن کلمات رو برای همیشه کنار بذار! بله! انگلیسی‌زبان‌ها (مثل امریکایی‌ها) انگلیسی رو با حفظ کردن کلمات یاد نمی‌گیرن. <b>انگلیسی‌زبان‌های اصیل، مهارت انگلیسی رو با شنیدن و گفتن «عبارت‌ها و جمله‌ها» به دست میارن</b>. جمله یعنی یک «گروه» از کلمه‌های مناسب، که برای رسوندن درست یک مفهوم، کنار هم چیده شده‌اند. جالبه که وقتی تو عبارت‌ها رو یاد می‌گیری، گرامر و لغت‌ها رو هم به طور طبیعی یاد می‌گیری!</string>
     <string name="readme_rule_1_1_2" formatted="false">یادگیری صحیح لغت‌ها</string>
-    <string name="readme_rule_1_1_3" formatted="false">دکتر جیمز  آشر نشون داده که یادگیری عبارت‌ها توسط مغز انسان، چهار برابر سریع‌تر از یادگیری کلمه‌ها و لغت‌ها هست. این یعنی این‌که وقتی ما جمله‌ها رو تمرین می‌کنیم، به طور غیر ارادی، کلمه‌ها رو هم با سرعت ۴ برابر سریع‌تر و عمیق‌تر یاد می‌گیریم. توی این پژوهش همچنین نشون داده شده که دانش‌آموزانی که روی عبارت‌ها تمرکز می‌کنن، تو صحبت کردن هم قواعد زبان رو درست‌تر رعایت می‌کنن :)</string>
+    <string name="readme_rule_1_1_3" formatted="false">دکتر جیمز  آشر نشون داده که یادگیری عبارت‌ها توسط مغز انسان، چهار برابر سریع‌تر از یادگیری کلمه‌ها و لغت‌ها هست. این یعنی این‌که وقتی ما جمله‌ها رو تمرین می‌کنیم، به طور غیر ارادی، کلمه‌ها رو هم با سرعت ۴ برابر سریع‌تر و عمیق‌تر یاد می‌گیریم. توی این پژوهش همچنین نشون داده شده که دانش‌آموزانی که روی عبارت‌ها تمرکز می‌کنن، <b>تو صحبت کردن هم قواعد زبان رو درست‌تر رعایت می‌کنن</b> :)</string>
     <string name="readme_rule_1_1_4" formatted="false">صحبت با لهجه‌ی درست</string>
     <string name="readme_rule_1_1_5_1" formatted="false">می‌دونید که شیرین صحبت کردن یعنی انتقال پیام به کمک «جمله‌ها و عبارات» و نه کلمات.</string>
     <string name="readme_rule_1_1_5_2" formatted="false">آهنگ مکالمه، بر اساس وقفه‌های مناسبی که بین کلمه‌ها ایجاد میشه به وجود میاد. انگلیسی‌زبان‌ها در صحبت کردن، بین عبارت‌ها وقفه‌های طبیعی ایجاد می‌کنن، تا انتقال پیام به شکل ملایم و دلنشین صورت بگیره! بنابراین، اگه تمرکز خودت رو روی عبارت‌ها و جمله‌ها قرار بدی، تلفظ لغات و آهنگ کنار هم چیدن اون‌ها توی جملات رو هم به شکل درست یاد می‌گیری.</string>
     <string name="readme_rule_1_1_5_3" formatted="false">پس نتیجه می‌گیریم که هیچ وقت کلمه حفظ نکن! اگه کلمه‌ای برات مهم بود، اون رو در کنار سایر کلمه‌های مرتبط ببین و بعد حفظ کن. همیشه کل یک عبارت رو مرور کن، نه کلماتش رو. من تضمین می‌کنم که این قانون ساده موجب میشه که:</string>
-    <string name="readme_rule_1_2" formatted="false">موقع صحبت کردن، گرامر رو رعایت می‌کنی</string>
+    <string name="readme_rule_1_2" formatted="false">موقع صحبت کردن، ناخودآگاه گرامر رو رعایت می‌کنی</string>
     <string name="readme_rule_1_3" formatted="false">لغت‌های زیادی یاد می‌گیری</string>
     <string name="readme_rule_1_4" formatted="false">توی تلفظ درست لغت‌ها و بیان شیرین عبارت‌ها ماهر میشی</string>
 
     <string name="readme_rule_2_1" formatted="false">قانون ۲- یادگیری گرامر رو کنار بگذار!</string>
     <string name="readme_rule_2_2" formatted="false">این قانون شماره‌ی ۲ و این یک قانون بزرگ است! تعجب‌آور بود؟!</string>
     <string name="readme_rule_2_3" formatted="false">قانون شماره‌ی دو، قاعده‌ای هستش که هر کسی رعایت بکنه، می‌تونه امیدوار باشه که توی کمتر از شش ماه به راحتی و با تسلط و اطمینان خاطر، انگلیسی صحبت کنه!</string>
-    <string name="readme_rule_2_4" formatted="false">کتاب‌های آموزش گرامر رو رها کن. وقت رو هدر نده! قواعد گرامر به شما یاد می‌دن که درباره‌ی انگلیسی «فکر» کنی؛ اما تو می‌خواهی «اتوماتیک و بدون فکر کردن» انگلیسی صحبت کنی. پس گرامر خوندن تو رو به بی‌راهه می‌بره!</string>
-    <string name="readme_rule_2_5" formatted="false">تو با Hot English Magazine انگلیسی روان رو بدون آموزش گرامر یاد می‌گیری. و البته مطالب شیرین و گوناگون این مجله، تجربه‌ی ناخوشایند یادگیری گرامر رو از ذهنت پاک می‌کنه؛ و عوضش انگلیسی طبیعی و غیر ارادی بهت آموزش میده. زبان انگلیسی، یه فرمول نیست که قرار باشه حفظش کنی؛ زبان انگلیسی و البته هر زبان دیگه، یه مهارته که باید بتونی بی‌درنگ و بی‌زحمت ازش استفاده کنی. پس قانون دوم میشه:</string>
+    <string name="readme_rule_2_4" formatted="false">کتاب‌های آموزش گرامر رو رها کن. وقت رو هدر نده! قواعد گرامر به شما یاد می‌دن که درباره‌ی انگلیسی «فکر» کنی؛ اما <b>تو می‌خواهی «اتوماتیک و بدون فکر کردن» انگلیسی صحبت کنی</b>. پس گرامر خوندن تو رو به بی‌راهه می‌بره!</string>
+    <string name="readme_rule_2_5" formatted="false">تو با Hot English Magazine انگلیسی روان رو بدون آموزش گرامر یاد می‌گیری. و البته مطالب شیرین و گوناگون این مجله، تجربه‌ی ناخوشایند یادگیری گرامر رو از ذهنت پاک می‌کنه؛ و عوضش انگلیسی طبیعی و غیر ارادی بهت آموزش میده. زبان انگلیسی، یه فرمول نیست که قرار باشه حفظش کنی؛ زبان انگلیسی و البته هر زبان دیگه، یه مهارته که باید بتونی <b>بی‌درنگ</b> و <b>بی‌زحمت</b> ازش استفاده کنی. پس قانون دوم میشه:</string>
     <string name="readme_rule_2_6" formatted="false">یادگیری گرامر رو کنار بگذار!</string>
 
     <string name="one">-۱</string>
@@ -82,7 +88,7 @@
     <string name="readme_slogan_6">کشف فرصت‌ها و راه‌های جدید برای رشد</string>
     <string name="readme_slogan_7">ارمغان صمیمیت، انرژی مثبت و شادی برای دانش‌آموزان</string>
     <string name="readme_slogan_8">حرکت با شهامت در راه‌هایی که تاکنون امتحان نکرده‌ایم.</string>
-    <string name="readme_slogan_9">اعتبار و ارزش‌ها</string>
+    <string name="readme_slogan_9">ارزش‌ها</string>
     <string name="readme_slogan_10">وفاداری برای هدف</string>
     <string name="readme_slogan_11">شور و شوق در یادگیری</string>
     <string name="readme_slogan_12">رشد پایدار و ماندگار</string>
@@ -93,18 +99,18 @@
 
     <string name="readme_rule_3_1">قانون ۳- (مهمترین قانون) اول گوش بده!</string>
     <string name="readme_rule_3_2">اگه می‌خواهی بتونی توی کمتر از شش ماه با خیال راحت انگلیسی صحبت کنی، پس لازمه که این قانون رو رعایت کنی. می‌دونی که خیلی از مدرسه‌ها و آموزشگاه‌ها این قضیه رو بی‌خیال میشن!</string>
-    <string name="readme_rule_3_3">اول گوش بده.\nاول گوش بده.\nاول گوش بده.</string>
-    <string name="readme_rule_3_4">باید «هر روز» انگلیسی گوش بدی. باید به «انگلیسی شفاهی» و «انگلیسی اصیل» گوش بدی. برای زبان یاد گرفتن، کتاب نخون! این رمز موفقیت تو برای راحت صحبت کردن به زبان انگلیسی است! هر روز انگلیسی گوش بده. روزی دست کم پنچ بار انگلیسی گوش بده. کتاب آموزش زبان رو رها کن. با گوش‌هات زبان یاد بگیر، نه با چشم‌هات!</string>
-    <string name="readme_rule_3_5">بیشترین تمرکز خودت رو روی «گوش دادن» قرار بده. اینطوری قدرت صحبت کردن تو هم به طور غیر ارادی زیاد میشه. این کلید موفقیت در مکالمه به زبان انگلیسی هست.</string>
+    <string name="readme_rule_3_3"><b>اول گوش بده.\nاول گوش بده.\nاول گوش بده.</b></string>
+    <string name="readme_rule_3_4">باید <b>هر روز</b> انگلیسی گوش بدی. باید به <b>انگلیسی شفاهی</b> و <b>انگلیسی اصیل</b> گوش بدی. برای زبان یاد گرفتن، کتاب نخون! این رمز موفقیت تو برای راحت صحبت کردن به زبان انگلیسی است! هر روز انگلیسی گوش بده. روزی دست کم پنچ بار انگلیسی گوش بده. کتاب آموزش زبان رو رها کن. با گوش‌هات زبان یاد بگیر، نه با چشم‌هات!</string>
+    <string name="readme_rule_3_5">بیشترین تمرکز خودت رو روی <b>گوش دادن</b> قرار بده. اینطوری قدرت صحبت کردن تو هم به طور غیر ارادی زیاد میشه. این کلید موفقیت در مکالمه به زبان انگلیسی هست.</string>
 
     <string name="readme_rule_4_1">قانون ۴- آهسته و عمیق تلاش کن.</string>
     <string name="readme_rule_4_2">نامه‌ی هیون، یه دانش‌آموز از کره جنوبی رو بخونیم:</string>
     <string name="readme_rule_4_3">”من یک دانش‌آموز جدی هستم. در دوره‌ی آموزش زبان انگلیسی که در کشورم داشتم، بیش از ۱۰,۰۰۰ لغت انگلیسی رو برای کنکور حفظ کردم. ده هزار! اما مشکل اینجا بود که&#8230; من نمی‌تونستم اون‌ها رو به کار ببرم. من تونستم توی کنکور قبول بشم؛ اما نمی‌تونستم صحبت انگلیسی‌زبان‌ها رو بفهمم.“</string>
     <string name="readme_rule_4_4">بهترین راه یادگیری، تمرین به شکل «آهسته» و «عمیق» است.</string>
     <string name="readme_rule_4_5">هیون تونست تعداد خیلی زیادی لغت رو توی مدت کوتاه یاد بگیره. به خاطر همین بود که چیزهایی که این دانش‌آموز به دست آورد، سطحی و زودگذر بودند؛ و خیلی زود از حافظه‌اش فرار کردند.</string>
-    <string name="readme_rule_4_6">کلید مهارت در صحبت روان به زبان انگلیسی، اینه که کلمات و جمله‌ها رو به طور «عمیق» یاد بگیریم.</string>
+    <string name="readme_rule_4_6">کلید مهارت در صحبت روان به زبان انگلیسی، اینه که کلمات و جمله‌ها رو به طور <b>عمیق</b> یاد بگیریم.</string>
     <string name="readme_rule_4_7">این که معنی لغت‌ها رو حفظ کنیم کافی نیست. این که برای امتحان و کنکور خودمون رو آماده کنیم کافی نیست. باید عبارت‌ها و مفاهیم رو به شکل عمیق به مغز بسپاریم.</string>
-    <string name="readme_rule_4_8">برای اینکه بتونیم راحت و روان انگلیسی صحبت کنیم، باید هر درس آموزشی رو بارها و بارها تمرین کنیم. چطوری میشه انگلیسی رو عمیق یاد گرفت؟ اینطوری: فقط هر درس آموزشی رو چندین مرتبه گوش بده. اگه داری یه کتاب صوتی (audio book) می‌خونی، فصل اولش رو ۳۰ بار گوش بده، قبل از اینکه بری سراغ فصل دوم! روزی ۵ بار اون فصل رو گوش بده و تمرین کن. واسه ۶ روز پشت سر هم این کار رو تکرار کن. عجله نکن! هول نشو! مسابقه‌ای در کار نیست! حفظ کردن تعداد زیادی کلمه، بدون اینکه جایگاه اون‌ها رو در عمل بدونی و نتونی توی یه مکالمه‌ی واقعی ازشون استفاده‌ی درستی بکنی، به درد نمی‌خوره.</string>
+    <string name="readme_rule_4_8">برای اینکه بتونیم راحت و روان انگلیسی صحبت کنیم، باید هر درس آموزشی رو بارها و بارها تمرین کنیم. چطوری میشه انگلیسی رو عمیق یاد گرفت؟ اینطوری: <b>هر درس آموزشی رو چندین مرتبه گوش بده. اگه داری یه کتاب صوتی (audio book) می‌خونی، فصل اولش رو ۳۰ بار گوش بده، قبل از اینکه بری سراغ فصل دوم! روزی ۵ بار اون فصل رو گوش بده و تمرین کن. واسه ۶ روز پشت سر هم این کار رو تکرار کن. عجله نکن! هول نشو! مسابقه‌ای در کار نیست! حفظ کردن تعداد زیادی کلمه، بدون اینکه جایگاه اون‌ها رو در عمل بدونی و نتونی توی یه مکالمه‌ی واقعی ازشون استفاده‌ی درستی بکنی، به درد نمی‌خوره.</b></string>
     <string name="readme_rule_4_9">این رو هم به خاطر داشته باش که قبل از اینکه یه درس رو به تعداد لازم گوش بدی و تمرین کنی، هرگز سراغ درس بعدی نرو.</string>
 
     <string name="readme_rule_5_1"><b>Rule 5: Use Point Of View Stories</b>\n\nYou remember that on Rule No. 2, I told you never to study grammar rules. But, of course, you want to use correct English grammar.\n\nMaybe you are thinking, “How can I learn English grammar if I don’t study English grammar rules?” Well, Now I will tell you.\n\nSome people may be thinking, “But I love studying grammar rules!” These people also enjoy going to the dentist ;)\n\nFor everyone else, grammar rules are both boring and useless. Grammar books are for children!\n\n\n<b>A Story</b>\n\nMiyuki did very well on grammar tests. She knew all of the grammar rules. She knew English verbs.\n\nBut Miyuki had a problem. She couldn’t USE the grammar in a real conversation. She could explain the past tense, but when speaking, she would say “Yesterday I GO to school”.\n\nMiyuki was confused.  How could her grammar tests be so good, but her speaking so bad?\n\nMiyuki said:</string>
