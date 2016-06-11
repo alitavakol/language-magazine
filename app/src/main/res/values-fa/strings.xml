@@ -20,17 +20,17 @@
     <string name="about_waiting_list_3">“Add to Hot English Times”</string>
     <string name="about_waiting_list_4">رو انتخاب کنی.</string>
 
-    <string name="about_saved_issues">فهرست مجله‌ها رو از برگه‌ی سمت راست ببین و هر کدوم‌ها رو که خواستی دانلود کن.</string>
+    <string name="about_saved_issues">فهرست مجله‌ها رو از برگه‌ی سمت راست ببین و هر کدوم‌ها رو که خواستي دانلود کن.</string>
 
     <string name="about_available_issues">دکمه رو بزن تا لیست به روز مجله‌ها رو از اینترنت دریافت کنی. هر دو هفته یک‌بار، یه شماره‌ی جدید به لیست اضافه میشه!</string>
 
     <string name="about_completed_issues">مجله‌هایی که درس‌هاشون رو به تعداد کافی تمرین کردی و خوب یاد گرفتی رو به این‌جا منتقل کن. انگشت رو چند لحظه روی جلد مجله نگه دار تا گزینه‌های بیشتر رو ببینی.</string>
 
     <!-- Readme fragment -->
-    <string name="previous">قبلی</string>
-    <string name="next">بعدی</string>
+    <string name="previous">پیش</string>
+    <string name="next">پس</string>
 
-    <string name="readme_intro_1">سلام؛\nدوست داری <b>توی ۶ ماه یا کمتر، با اعتماد به نفس کامل انگلیسی صحبت کنی</b>؟</string>
+    <string name="readme_intro_1">سلام دوست من!\nدوست داری <b>توی ۶ ماه یا کمتر، با اعتماد به نفس کامل انگلیسی صحبت کنی</b>؟</string>
     <string name="readme_intro_2">مهارت کافی برای خوندن انگلیسی داری، اما نمی‌تونی به راحتی حرف بزنی؟</string>
     <string name="readme_intro_3">وقتی تلاش می‌کنی که انگلیسی بگی، برات <b>سخت</b> میشه و <b>استرس</b> می‌گیری؟</string>
     <string name="readme_intro_4">از کتاب‌های گرامر و آموزشگاه‌های زبان و کلاس‌های مدرسه <b>نا امید</b> هستی؟</string>

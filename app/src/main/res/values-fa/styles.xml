@@ -12,7 +12,7 @@
 
     <style name="AppTheme.Widget.TextView.ContextHelp.EnInFa" parent="AppTheme.Widget.TextView.ContextHelp">
         <item name="fontPath">Ubuntu-Regular.ttf</item>
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="AppTheme.Widget.TextView.Readme" parent="android:Widget.Holo.Light.TextView">
