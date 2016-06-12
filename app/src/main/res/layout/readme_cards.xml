@@ -396,11 +396,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    style="@style/AppTheme.Widget.TextView.Readme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" " />
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/spacing_normal"
+                    android:layout_height="1dp" />
 
                 <TextView
                     style="@style/AppTheme.Widget.TextView.Readme"
@@ -426,11 +424,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    style="@style/AppTheme.Widget.TextView.Readme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" " />
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/spacing_normal"
+                    android:layout_height="1dp" />
 
                 <TextView
                     style="@style/AppTheme.Widget.TextView.Readme"
@@ -447,11 +443,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    style="@style/AppTheme.Widget.TextView.Readme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" " />
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/spacing_normal"
+                    android:layout_height="1dp" />
 
                 <TextView
                     style="@style/AppTheme.Widget.TextView.Readme"
@@ -499,11 +493,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    style="@style/AppTheme.Widget.TextView.Readme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" " />
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/spacing_normal"
+                    android:layout_height="1dp" />
 
                 <TextView
                     style="@style/AppTheme.Widget.TextView.Readme"
@@ -529,11 +521,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    style="@style/AppTheme.Widget.TextView.Readme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" " />
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/spacing_normal"
+                    android:layout_height="1dp" />
 
                 <TextView
                     style="@style/AppTheme.Widget.TextView.Readme"
@@ -581,11 +571,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    style="@style/AppTheme.Widget.TextView.Readme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" " />
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/spacing_normal"
+                    android:layout_height="1dp" />
 
                 <TextView
                     style="@style/AppTheme.Widget.TextView.Readme"
@@ -611,11 +599,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    style="@style/AppTheme.Widget.TextView.Readme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" " />
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/spacing_normal"
+                    android:layout_height="1dp" />
 
                 <TextView
                     style="@style/AppTheme.Widget.TextView.Readme"
@@ -663,11 +649,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    style="@style/AppTheme.Widget.TextView.Readme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" " />
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/spacing_normal"
+                    android:layout_height="1dp" />
 
                 <TextView
                     style="@style/AppTheme.Widget.TextView.Readme"
@@ -693,11 +677,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    style="@style/AppTheme.Widget.TextView.Readme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" " />
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/spacing_normal"
+                    android:layout_height="1dp" />
 
                 <TextView
                     style="@style/AppTheme.Widget.TextView.Readme"
