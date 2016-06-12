@@ -16,8 +16,8 @@
     <string name="unlock">Reveal transcript</string>
     <string name="unlock_hint">Tap and hold to reveal transcript.</string>
 
-    <string name="add_all_to_waiting_list">Add all items to hot english times</string>
-    <string name="add_to_waiting_list">Add to hot english times</string>
+    <string name="add_all_to_waiting_list">Add all items to Hot English Times</string>
+    <string name="add_to_waiting_list">Add to Hot English Times</string>
     <string name="already_in_waiting_list">Item “%s” is already added.</string>
 
     <string name="view_issue_details">See magazine introduction</string>
@@ -50,17 +50,16 @@
     <string name="issue_downloaded_notification">New issue downloaded. Let’s start<![CDATA[!]]></string>
 
     <!-- for cool english times -->
-    <string name="cool_english_time_notification_text_short">Time to learn a lesson<![CDATA[!]]></string>
-    <string name="cool_english_time_notification_text">You have to learn “%s” now<![CDATA[!]]></string>
+    <string name="cool_english_time_notification_text_short">Hot English Time<![CDATA[!]]></string>
+    <string name="cool_english_time_notification_text">You have to practise “%s” now<![CDATA[!]]></string>
 
-    <plurals name="cool_english_time_notification_summary_text">
-        <item quantity="one">You have learnt this item %d time so far.</item>
-        <item quantity="other">You have learnt this item %d times so far.</item>
-    </plurals>
+    <string name="cool_english_time_notification_summary_text_0">You have not practised this item yet.</string>
+    <string name="cool_english_time_notification_summary_text_1">You have practised this item 1 time so far.</string>
+    <string name="cool_english_time_notification_summary_text_2">You have practised this item %d times so far.</string>
 
     <plurals name="pending_count">
-        <item quantity="one">Remaining %d time to learn.</item>
-        <item quantity="other">Remaining %d times to learn.</item>
+        <item quantity="one">Remaining %d practise.</item>
+        <item quantity="other">Remaining %d practises.</item>
     </plurals>
 
     <string name="alarm_already_exists">Alarm for this time already exists.</string>
@@ -96,16 +95,26 @@
         <item>-1</item>
     </string-array>
 
-    <string name="pref_title_item_learn_repeat_count">Repeat reading &amp; listening</string>
-    <string-array name="pref_item_learn_repeat_count">
-        <item>5 times per lesson</item>
-        <item>8 times per lesson (recommended)</item>
-        <item>11 times per lesson</item>
+    <string name="pref_title_language">Locale</string>
+    <string-array name="pref_item_language">
+        <item>English (United States)</item>
+        <item>Farsi (Iran)</item>
     </string-array>
-    <string-array name="pref_item_learn_repeat_count_values">
-        <item>5</item>
+    <string-array name="pref_item_language_values">
+        <item>en</item>
+        <item>fa</item>
+    </string-array>
+
+    <string name="pref_title_item_practice_count">Lesson practice count</string>
+    <string-array name="pref_item_practice_count">
+        <item>8 times per lesson</item>
+        <item>12 times per lesson (recommended)</item>
+        <item>15 times per lesson</item>
+    </string-array>
+    <string-array name="pref_item_practice_count_values">
         <item>8</item>
-        <item>11</item>
+        <item>12</item>
+        <item>15</item>
     </string-array>
 
     <string name="pref_title_navigate_audio_with_volume_buttons">Volume buttons navigate playback</string>
@@ -123,6 +132,7 @@
     <string name="pref_category_playback_options">Audio Playback Options</string>
     <string name="pref_category_program">The Hot English Program</string>
     <string name="pref_category_notification_options">Notification Options</string>
+    <string name="pref_category_general">General Options</string>
 
     <!-- Example settings for Data & Sync -->
     <string name="pref_header_data_sync">Data &amp; sync</string>
@@ -181,7 +191,7 @@
     <string name="cancel">Cancel</string>
     <string name="open">Open</string>
     <string name="delete">Delete</string>
-    <string name="retry_download">Retry Download</string>
+    <string name="retry_download">Retry download</string>
     <string name="complete">Complete</string>
     <string name="reopen">Incomplete</string>
 
@@ -204,8 +214,8 @@
     <string name="syncing">Updating&#8230;</string>
     <string name="cancel_syncing">Stop</string>
 
-    <string name="my_issues">On My Device</string>
-    <string name="available_issues">Available for Download</string>
+    <string name="my_issues">On my device</string>
+    <string name="available_issues">Available for download</string>
     <string name="completed_issues">Completed</string>
 
     <!-- issues list tab titles -->
@@ -221,11 +231,11 @@
     <string name="alarms">Times</string>
     <string name="waiting_list">Waiting List</string>
 
-    <string name="active_issue">Currently Learning</string>
-    <string name="saved_issues">Other Saved Issues</string>
+    <string name="active_issue">Currently learning</string>
+    <string name="saved_issues">Other saved issues</string>
     <string name="downloading_issues">Downloading</string>
-    <string name="more_available_issues">More Available Magazines</string>
-    <string name="deleted_issues">Deleted Magazines</string>
+    <string name="more_available_issues">More available magazines</string>
+    <string name="deleted_issues">Deleted magazines</string>
 
     <!-- issues list fragments section header titles -->
     <array name="issue_list_header_titles">
@@ -257,6 +267,8 @@
     <string name="bullet">&#8226;</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
+    <string name="toggle_language">Change language</string>
+
     <string name="readme_intro_1">Hi,\n\nDo you want to <b>speak English confidently in 6 months or less?</b></string>
     <string name="readme_intro_2">Can you read English but <b>cannot speak well</b>?</string>
     <string name="readme_intro_3">Do you feel <b>stressed or nervous</b> when speaking English?</string>
@@ -276,7 +288,7 @@
     <string name="readme_rule_1_3">Improve your vocabulary</string>
     <string name="readme_rule_1_4">Improve your pronunciation</string>
 
-    <string name="readme_rule_2" formatted="false"><b>Rule 2: Don’t study grammar!</b>\n\nThis is rule No. 2&#8212; and this is a big one! Are you surprised?\n\nRule 2 is a key part of the system that has helped business leaders, government officials, and <b>people like you</b> finally <b>speak English confidently in 6 months or less</b>!\n\nPut away your grammar books. <b>Grammar books are for children!</b> Grammar rules teach you to think about English, you want to speak automatically&#8212; without thinking!\n\nWith Effortless English, you learn English without grammar study. You speak English naturally. English speaking isn’t a formula you memorize&#8212; it’s a skill you must use instantly and effortlessly.\n\nSo, Rule No. 2 is <b>Don’t Study Grammar!</b></string>
+    <string name="readme_rule_2" formatted="false"><b>Rule 2: Don’t study grammar!</b>\n\nThis is rule No. 2&#8212; and this is a big one! Are you surprised?\n\nRule 2 is a key part of the system that has helped business leaders, government officials, and <b>people like you</b> finally <b>speak English confidently in 6 months or less</b>!\n\nPut away your grammar books. <b>Grammar books are for children!</b> Grammar rules teach you to think about English, you want to speak automatically&#8212; without thinking!\n\nWith the Hot English Magazine, you learn English without grammar study. You speak English naturally. English speaking isn’t a formula you memorize&#8212; it’s a skill you must use instantly and effortlessly.\n\nSo, Rule No. 2 is <b>Don’t Study Grammar!</b></string>
 
     <string name="one">1.</string>
     <string name="two">2.</string>
@@ -285,6 +297,7 @@
     <string name="five">5.</string>
     <string name="six">6.</string>
     <string name="seven">7.</string>
+
     <string name="readme_slogan_1"><b>The Hot English Magazine Code</b></string>
     <string name="readme_slogan_2">We Do The Best We Can.</string>
     <string name="readme_slogan_3">We Do The Right Thing.</string>
@@ -308,7 +321,7 @@
     <string name="readme_rule_4_2">“I’m a very serious student. When studying English in Korea, I memorized 10,000 English words for a big national test. Ten Thousand! My problem was&#8212; I couldn’t USE them. I could pass an English test. But I could not understand native speakers.”</string>
     <string name="readme_rule_4_3">\n<b>Slow, Deep Learning Is Best</b>\n\nHyun learned a lot of words in a short time. Her learning was short and shallow. That’s why she quickly forgot the words. That’s why she could not use them.\n\nThe secret to speaking easily is to learn every word &amp; phrase DEEPLY.\n\nIt’s not enough to know a definition. It’s not enough to remember for a test. You must put the word deep into your brain.\n\nTo speak English easily, you must repeat each lesson many times. You must learn English deeply.</string>
     <string name="readme_rule_4_4">Learn deeply, speak easily.</string>
-    <string name="readme_rule_4_5">How do you learn deeply? Easy&#8212; just repeat all lessons or listening many times. For example, if you have an audio book, listen to the first chapter 30 times before you go to the second chapter. You could listen to the first chapter 3 times each day, for 10 days.\n\nStop trying to hurry&#8211; this isn’t a race!  “Learning” a lot of words is useless if you can’t <b>UNDERSTAND</b> and USE them in real conversation.</string>
+    <string name="readme_rule_4_5">How do you learn deeply? Easy&#8212; just repeat all lessons or listening many times. For example, if you have an audio book, listen to the first chapter 30 times before you go to the second chapter. You could listen to the first chapter 5 times each day, for 6 days.\n\nStop trying to hurry&#8211; this isn’t a race!  “Learning” a lot of words is useless if you can’t <b>UNDERSTAND</b> and USE them in real conversation.</string>
 
     <string name="readme_rule_5_1"><b>Rule 5: Use Point Of View Stories</b>\n\nYou remember that on Rule No. 2, I told you never to study grammar rules. But, of course, you want to use correct English grammar.\n\nMaybe you are thinking, “How can I learn English grammar if I don’t study English grammar rules?” Well, Now I will tell you.\n\nSome people may be thinking, “But I love studying grammar rules!” These people also enjoy going to the dentist ;)\n\nFor everyone else, grammar rules are both boring and useless. Grammar books are for children!\n\n\n<b>A Story</b>\n\nMiyuki did very well on grammar tests. She knew all of the grammar rules. She knew English verbs.\n\nBut Miyuki had a problem. She couldn’t USE the grammar in a real conversation. She could explain the past tense, but when speaking, she would say “Yesterday I GO to school”.\n\nMiyuki was confused.  How could her grammar tests be so good, but her speaking so bad?\n\nMiyuki said:</string>
     <string name="readme_rule_5_2">“I knew all the grammar rules, but I couldn’t speak correctly. I couldn’t feel English grammar. After using Point of View stories, I feel it and use it correctly.\nNow my grammar is great when I speak. I never think about it, I just automatically use correct grammar. Thank you!”</string>
@@ -351,4 +364,10 @@
 
     <!-- content descriptions -->
     <string name="wait">Please wait.</string>
+
+    <string name="about_alarms">Dedicate some of your day’s free times to learning English. With the <b>Hot English Times</b> program, I advise you to create at least 5 alarm clocks. Good alarm time examples are: when you commute to work, before sleep, etc.</string>
+    <string name="about_waiting_list">To append a lesson to the Hot English Times program, select “Add to Hot English Times” menu item from issue’s table of contents, or from within the lesson.</string>
+    <string name="about_saved_issues">Browse and download available <b>Hot English Magazine</b> issues from the tab on the right.</string>
+    <string name="about_available_issues">Swipe down to get latest list of available <b>Hot English Magazine</b> issues from the web. New issue is published every two weeks!</string>
+    <string name="about_completed_issues">When you finish practising a magazine, move it here. Tap &amp; hold on issue cover to see available options.</string>
 </resources>

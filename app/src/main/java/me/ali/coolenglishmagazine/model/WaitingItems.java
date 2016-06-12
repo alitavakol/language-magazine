@@ -30,7 +30,7 @@ public class WaitingItems {
         /**
          * count of times the user has learned this item so far.
          */
-        public int hitCount;
+        public int practiceCount;
     }
 
     public static ArrayList<WaitingItem> waitingItems;
@@ -86,7 +86,7 @@ public class WaitingItems {
         Iterator<WaitingItem> i = waitingItems.iterator();
         while (i.hasNext()) {
             WaitingItem w = i.next();
-            if (!w.itemRootDirectory.exists() || w.hitCount >= repeatCount)
+            if (!w.itemRootDirectory.exists() || w.practiceCount >= repeatCount)
                 i.remove();
         }
     }
@@ -132,9 +132,9 @@ public class WaitingItems {
         while (i.hasNext()) {
             WaitingItem w = i.next();
             if (w.itemRootDirectory.equals(item.rootDirectory)) {
-                w.hitCount++;
+                w.practiceCount++;
 
-                if (w.hitCount >= repeatCount) {
+                if (w.practiceCount >= repeatCount) {
                     i.remove();
                     if (listener != null)
                         listener.onWaitingItemRemoved(w);

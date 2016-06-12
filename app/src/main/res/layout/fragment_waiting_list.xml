@@ -1,6 +1,24 @@
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/waiting_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:listitem="@layout/waiting_list_row" />
+    android:background="@color/customBackgroundColor">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/waiting_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/waiting_list_row" />
+
+    <ScrollView
+        android:id="@+id/help_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <include
+            layout="@layout/about_waiting_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+</FrameLayout>

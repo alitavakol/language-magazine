@@ -1,18 +1,29 @@
 package me.ali.coolenglishmagazine;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
+import com.squareup.picasso.Picasso;
 
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.widget.ObservableScrollView;
@@ -59,6 +70,8 @@ public class ReadmeFragment extends Fragment {
         if (savedInstanceState != null) {
             currentCardIndex = savedInstanceState.getInt("currentCardIndex");
         }
+
+        setHasOptionsMenu(true);
     }
 
     protected int currentCardIndex = 0;
@@ -120,13 +133,31 @@ public class ReadmeFragment extends Fragment {
         cardContainer.getChildAt(currentCardIndex).setVisibility(View.VISIBLE);
         updateButtons();
 
+        TypedValue tv = new TypedValue();
+        if (getActivity().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+            int actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+            int logoHeight = getResources().getDimensionPixelSize(R.dimen.welcome_image_height);
+
+            int height = (int) (1.3 * actionBarHeight);
+            view.findViewById(R.id.logo_container).setPadding(0, height, 0, height);
+
+            scrollView.setPadding(0, logoHeight + (int) (1.4 * actionBarHeight), 0, actionBarHeight);
+        }
+
+        Picasso
+                .with(getContext())
+                .load(R.drawable.readme_background_icon)
+                .resize(getResources().getDimensionPixelSize(R.dimen.welcome_image_width), getResources().getDimensionPixelSize(R.dimen.welcome_appbar_height))
+                .centerInside()
+                .into((ImageView) view.findViewById(R.id.logo));
+
         return view;
     }
 
     private void updateButtons() {
         if (currentCardIndex > 0) {
             buttonPrevious.setClickable(true);
-            buttonPrevious.setTextColor(ContextCompat.getColor(getContext(), R.color.primary_dark));
+            buttonPrevious.setTextColor(ContextCompat.getColor(getContext(), R.color.primary_light));
         } else {
             buttonPrevious.setClickable(false);
             buttonPrevious.setTextColor(Color.GRAY);
@@ -137,7 +168,7 @@ public class ReadmeFragment extends Fragment {
 
         if (currentCardIndex < cardCount - 1) {
             buttonNext.setClickable(true);
-            buttonNext.setTextColor(ContextCompat.getColor(getContext(), R.color.primary_dark));
+            buttonNext.setTextColor(ContextCompat.getColor(getContext(), R.color.primary_light));
         } else {
             buttonNext.setClickable(false);
             buttonNext.setTextColor(Color.GRAY);
@@ -183,5 +214,32 @@ public class ReadmeFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("currentCardIndex", currentCardIndex);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.readme_fragment_menu, menu);
+        if (isAdded())
+            menu.findItem(R.id.action_toggle_language).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_language).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_toggle_language:
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                String language = preferences.getString("locale", "fa");
+                language = language.equals("fa") ? "en" : "fa";
+                preferences.edit().putString("locale", language).apply();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
