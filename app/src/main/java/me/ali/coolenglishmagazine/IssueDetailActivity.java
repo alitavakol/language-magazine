@@ -285,7 +285,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         if (timer != null) {
             timer.cancel();
             timer = null;
-            LogHelper.i(TAG, "timer cancelled.");
+            LogHelper.d(TAG, "timer cancelled.");
         }
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiverDownloadExtracted);
     }
@@ -350,7 +350,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
                 if (timer != null) {
                     timer.cancel();
                     timer = null;
-                    LogHelper.i(TAG, "timer cancelled.");
+                    LogHelper.d(TAG, "timer cancelled.");
                 }
                 return;
         }
@@ -365,12 +365,12 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
                         @Override
                         public void run() {
                             updateFab();
-                            LogHelper.i(TAG, "download progress: " + dl_progress);
+                            LogHelper.d(TAG, "download progress: " + dl_progress);
                         }
                     });
                 }
             }, 0, 1000);
-            LogHelper.i(TAG, "timer created.");
+            LogHelper.d(TAG, "timer created.");
         }
     }
 

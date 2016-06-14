@@ -509,7 +509,7 @@ public class IssuesTabFragment extends Fragment implements
             switch (status) {
                 case DownloadManager.STATUS_PENDING:
                 case DownloadManager.STATUS_PAUSED:
-                    LogHelper.i(TAG, "pending");
+                    LogHelper.d(TAG, "pending");
                     holder.progressBar.setVisibility(View.VISIBLE);
                     if (!holder.progressBar.isIndeterminate()) {
                         holder.progressBar.setIndeterminate(true);
@@ -518,7 +518,7 @@ public class IssuesTabFragment extends Fragment implements
                     break;
 
                 case DownloadManager.STATUS_RUNNING:
-                    LogHelper.i(TAG, "running");
+                    LogHelper.d(TAG, "running");
                     holder.progressBar.setVisibility(View.VISIBLE);
                     if (holder.progressBar.isIndeterminate()) {
                         holder.progressBar.setIndeterminate(false);
@@ -528,7 +528,7 @@ public class IssuesTabFragment extends Fragment implements
                     break;
 
                 case -3: // the issue is being extracted
-                    LogHelper.i(TAG, "extracting");
+                    LogHelper.d(TAG, "extracting");
                     holder.progressBar.setVisibility(View.VISIBLE);
                     if (!holder.progressBar.isIndeterminate()) {
                         holder.progressBar.setIndeterminate(true);
@@ -537,7 +537,7 @@ public class IssuesTabFragment extends Fragment implements
                     break;
 
                 default:
-                    LogHelper.i(TAG, "default");
+                    LogHelper.d(TAG, "default");
                     holder.progressBar.setVisibility(View.GONE);
                     enableTimer = false;
                     break;
@@ -557,13 +557,13 @@ public class IssuesTabFragment extends Fragment implements
                                     int position = holder.getAdapterPosition();
                                     if (position != RecyclerView.NO_POSITION)
                                         onBindViewHolder(holder, position);
-                                    LogHelper.i(TAG, "dl_progress: " + holder.dl_progress);
+                                    LogHelper.d(TAG, "dl_progress: " + holder.dl_progress);
                                 }
                             });
                         }
                     }, 0, 3000);
                     IssuesTabFragment.issue2timer.put(issue, timer);
-                    LogHelper.i(TAG, "timer created for ", issue.title);
+                    LogHelper.d(TAG, "timer created for ", issue.title);
                 }
 
             } else {
@@ -571,7 +571,7 @@ public class IssuesTabFragment extends Fragment implements
                 if (timer != null) {
                     timer.cancel();
                     IssuesTabFragment.issue2timer.remove(issue);
-                    LogHelper.i(TAG, "timer for ", issue.title, " cancelled");
+                    LogHelper.d(TAG, "timer for ", issue.title, " cancelled");
                 }
             }
 

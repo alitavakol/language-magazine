@@ -181,7 +181,7 @@ public class MusicService extends Service implements
                                      @Override
                                      public void onPlay() {
                                          super.onPlay();
-                                         LogHelper.i(TAG, "media session onPlay");
+                                         LogHelper.d(TAG, "media session onPlay");
 
                                          handlePlayRequest();
                                      }
@@ -189,7 +189,7 @@ public class MusicService extends Service implements
                                      @Override
                                      public void onPause() {
                                          super.onPause();
-                                         LogHelper.i(TAG, "media session onPause");
+                                         LogHelper.d(TAG, "media session onPause");
 
                                          handlePauseRequest();
                                      }
@@ -197,7 +197,7 @@ public class MusicService extends Service implements
                                      @Override
                                      public void onFastForward() {
                                          super.onFastForward();
-                                         LogHelper.i(TAG, "media session onFastForward");
+                                         LogHelper.d(TAG, "media session onFastForward");
 
                                          if (mediaPlayer != null) {
                                              fastForward();
@@ -209,7 +209,7 @@ public class MusicService extends Service implements
                                      @Override
                                      public void onRewind() {
                                          super.onRewind();
-                                         LogHelper.i(TAG, "media session onRewind");
+                                         LogHelper.d(TAG, "media session onRewind");
 
                                          if (mediaPlayer != null) {
                                              rewind();
@@ -221,7 +221,7 @@ public class MusicService extends Service implements
                                      @Override
                                      public void onStop() {
                                          super.onStop();
-                                         LogHelper.i(TAG, "media session onStop");
+                                         LogHelper.d(TAG, "media session onStop");
 
                                          handleStopRequest();
                                      }
@@ -237,7 +237,7 @@ public class MusicService extends Service implements
                                      }
 
 //                                     public boolean onMediaButtonEvent(Intent mediaButtonIntent) {
-//                                         LogHelper.i(TAG, "onMediaButtonEvent called: " + mediaButtonIntent);
+//                                         LogHelper.d(TAG, "onMediaButtonEvent called: " + mediaButtonIntent);
 //                                         return false;
 //                                     }
                                  }
@@ -342,7 +342,7 @@ public class MusicService extends Service implements
      * Called when MediaPlayer is ready
      */
     public void onPrepared(MediaPlayer player) {
-        LogHelper.i(TAG, "Media prepared.");
+        LogHelper.d(TAG, "Media prepared.");
 
         if (onMediaStateChangedListener != null)
             onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_STOPPED);
@@ -657,7 +657,7 @@ public class MusicService extends Service implements
 
             int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 
-            LogHelper.i(TAG, uri.toString());
+            LogHelper.d(TAG, uri.toString());
 
             if (ignore) {
                 ignore = false;
@@ -757,7 +757,7 @@ public class MusicService extends Service implements
             if (isInteractive)
                 return;
 
-//            LogHelper.i(TAG, accel);
+//            LogHelper.d(TAG, accel);
 
             if (accel > 10) {
                 long shakeTime = System.currentTimeMillis();
