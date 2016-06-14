@@ -31,7 +31,6 @@ import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -763,9 +762,9 @@ public class MusicService extends Service implements
             if (isInteractive)
                 return;
 
-            Log.i(TAG, "" + accel);
+//            Log.i(TAG, "" + accel);
 
-            if (accel > 300) {
+            if (accel > 400) {
                 shakeCount++;
                 if (shakeCount < 2)
                     return;
