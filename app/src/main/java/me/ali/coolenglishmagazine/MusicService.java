@@ -31,7 +31,6 @@ import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -742,6 +741,8 @@ public class MusicService extends Service implements
      */
     int shakeCount;
 
+//    int sumAccelSign;
+
     private final SensorEventListener sensorEventListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
@@ -750,8 +751,8 @@ public class MusicService extends Service implements
             float z = event.values[2];
             accelLast = accelCurrent;
             accelCurrent = x * x + y * y + z * z;
-            float delta = Math.abs(accelCurrent - accelLast);
-            accel = .75f * accel + .25f * delta; // perform low-cut filter
+            float delta = accelCurrent - accelLast;
+            accel = .75f * accel + .25f * Math.abs(delta); // perform low-cut filter
 
             final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
             boolean isInteractive;
@@ -763,12 +764,19 @@ public class MusicService extends Service implements
             if (isInteractive)
                 return;
 
-            Log.i(TAG, "" + accel);
+//            Log.i(TAG, "" + accel + "\t" + delta);
 
-            if (accel > 300) {
+            if (accel > 350) {
                 shakeCount++;
-                if (shakeCount < 2)
+                if (shakeCount < 4)
                     return;
+                shakeCount = 0;
+
+//                // device should accelerate positively and negatively to be counted as shake
+//                sumAccelSign += Math.signum(accel);
+//                if(sumAccelSign == shakeCount || sumAccelSign == -shakeCount)
+//                    return;
+//                sumAccelSign = 0;
 
                 long shakeTime = System.currentTimeMillis();
                 if (shakeTime - lastShakeTime < 2000)
@@ -790,6 +798,7 @@ public class MusicService extends Service implements
 
             } else {
                 shakeCount = 0;
+//                sumAccelSign = 0;
             }
         }
 
