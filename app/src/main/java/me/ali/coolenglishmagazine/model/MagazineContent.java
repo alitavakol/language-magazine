@@ -89,6 +89,7 @@ public class MagazineContent {
             item.flagFileName = e.attr("flag");
             item.type = e.attr("type");
             item.level = Integer.parseInt(e.attr("level"));
+            item.free = Boolean.parseBoolean(e.attr("free"));
 
             file2item.put(itemRootDirectory, item);
         }
@@ -133,6 +134,11 @@ public class MagazineContent {
         public String type;
         public int level;
         public int id;
+
+        /**
+         * if true, this item is available in free version of the issue
+         */
+        public boolean free;
 
         /**
          * UID of an item is unique across all available items of all issues. this is calculated
