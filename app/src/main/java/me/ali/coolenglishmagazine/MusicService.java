@@ -31,6 +31,7 @@ import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -731,10 +732,15 @@ public class MusicService extends Service implements
      */
     private long lastShakeTime;
 
+//    /**
+//     * helps ignore heavy shakes if device was not calm before
+//     */
+//    boolean ignoreNextShake;
+
     /**
-     * helps ignore heavy shakes if device was not calm before
+     * counts number of consecutively intensive shakes
      */
-    boolean ignoreNextShake;
+    int shakeCount;
 
     private final SensorEventListener sensorEventListener = new SensorEventListener() {
         @Override
@@ -743,9 +749,9 @@ public class MusicService extends Service implements
             float y = event.values[1];
             float z = event.values[2];
             accelLast = accelCurrent;
-            accelCurrent = (float) Math.sqrt(x * x + y * y + z * z);
-            float delta = accelCurrent - accelLast;
-            accel = accel * 0.9f + delta; // perform low-cut filter
+            accelCurrent = x * x + y * y + z * z;
+            float delta = Math.abs(accelCurrent - accelLast);
+            accel = .75f * accel + .25f * delta; // perform low-cut filter
 
             final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
             boolean isInteractive;
@@ -757,25 +763,33 @@ public class MusicService extends Service implements
             if (isInteractive)
                 return;
 
-//            LogHelper.i(TAG, accel);
+            Log.i(TAG, "" + accel);
 
-            if (accel > 10) {
+            if (accel > 300) {
+                shakeCount++;
+                if (shakeCount < 2)
+                    return;
+
                 long shakeTime = System.currentTimeMillis();
                 if (shakeTime - lastShakeTime < 2000)
                     return;
                 lastShakeTime = shakeTime;
 
-                if (ignoreNextShake)
-                    return;
-                ignoreNextShake = true;
+//                if (ignoreNextShake)
+//                    return;
+//                ignoreNextShake = true;
 
                 if (mediaPlayer != null && mediaPlayer.isPlaying())
                     mediaController.getTransportControls().pause();
                 else
                     mediaController.getTransportControls().play();
 
-            } else if (accel < 1 && accel > -1) {
-                ignoreNextShake = false;
+//            } else if (accel < 50) {
+//                ignoreNextShake = false;
+//                shakeCount = 0;
+
+            } else {
+                shakeCount = 0;
             }
         }
 
