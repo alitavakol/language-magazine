@@ -81,7 +81,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
         alarms = importAlarms(getContext());
     }
 

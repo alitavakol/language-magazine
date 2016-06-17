@@ -764,11 +764,11 @@ public class MusicService extends Service implements
             if (isInteractive)
                 return;
 
-//            Log.i(TAG, "" + accel + "\t" + delta);
+//            android.util.Log.i(TAG, "" + accel);
 
-            if (accel > 350) {
+            if (accel > 325) {
                 shakeCount++;
-                if (shakeCount < 4)
+                if (shakeCount < 3)
                     return;
                 shakeCount = 0;
 
