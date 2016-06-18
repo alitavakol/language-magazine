@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
@@ -36,6 +37,9 @@ import java.util.TimerTask;
 
 import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.IabHelper;
+import me.ali.coolenglishmagazine.util.IabResult;
+import me.ali.coolenglishmagazine.util.Inventory;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.widget.ObservableScrollView;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -58,8 +62,8 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
 
     Magazines.Issue issue;
 
-    ImageButton buttonCancel;
-    Button buttonDownload, buttonOpen, buttonDelete, buttonComplete, buttonIncomplete;
+    Button buttonDownload, buttonPurchase, buttonOpen;
+    ImageButton buttonCancel, buttonComplete, buttonDelete, buttonIncomplete;
     ProgressBar progressBar;
     ViewGroup progressContainer, buttonContainer;
     private ObservableScrollView mScrollView;
@@ -84,10 +88,11 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
 
         buttonCancel = (ImageButton) findViewById(R.id.buttonCancel);
         buttonDownload = (Button) findViewById(R.id.buttonDownload);
+        buttonPurchase = (Button) findViewById(R.id.buttonPurchase);
         buttonOpen = (Button) findViewById(R.id.buttonOpen);
-        buttonComplete = (Button) findViewById(R.id.buttonComplete);
-        buttonIncomplete = (Button) findViewById(R.id.buttonIncomplete);
-        buttonDelete = (Button) findViewById(R.id.buttonDelete);
+        buttonComplete = (ImageButton) findViewById(R.id.buttonComplete);
+        buttonIncomplete = (ImageButton) findViewById(R.id.buttonIncomplete);
+        buttonDelete = (ImageButton) findViewById(R.id.buttonDelete);
         progressBar = (ProgressBar) findViewById(R.id.progress);
         buttonContainer = (ViewGroup) findViewById(R.id.button_container);
         progressContainer = (ViewGroup) findViewById(R.id.progress_container);
@@ -115,6 +120,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             // update visibility of complete and incomplete buttons
             onIssueStatusChanged(issue);
 
+            buttonComplete.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_assignment_turned_in).sizeDp(16).paddingDp(2).colorRes(R.color.colorPrimaryLight));
             buttonComplete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -122,6 +128,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
                 }
             });
 
+            buttonIncomplete.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_assignment_late).sizeDp(16).paddingDp(2).colorRes(R.color.colorPrimaryLight));
             buttonIncomplete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -157,6 +164,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             });
             buttonCancel.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_clear).sizeRes(R.dimen.tw__login_btn_text_size).colorRes(R.color.accent));
 
+            buttonDelete.setImageDrawable(new IconicsDrawable(this).icon(FontAwesome.Icon.faw_trash).sizeDp(16).paddingDp(2).colorRes(R.color.colorPrimaryLight));
             buttonDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -206,6 +214,29 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
                         .commit();
             }
 
+            // the Base64-encoded RSA public key of the application
+            String base64EncodedPublicKey = "";
+
+            // compute your public key and store it in base64EncodedPublicKey
+            iabHelper = new IabHelper(this, base64EncodedPublicKey);
+
+            iabHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+                public void onIabSetupFinished(IabResult result) {
+                    if (!result.isSuccess()) {
+                        // oh noes, there was a problem.
+                        LogHelper.d(TAG, "Problem setting up In-app Billing: " + result);
+
+                        iabHelper.dispose();
+                        iabHelper = null;
+                    }
+                    // hooray, IAB is fully set up!
+
+//                    List additionalSkuList = new ArrayList();
+//                    additionalSkuList.add(Magazines.getSku(issue));
+//                    iabHelper.queryInventoryAsync(true, additionalSkuList, iabQueryFinishedListener);
+                }
+            });
+
         } catch (Exception e) {
             e.printStackTrace();
             finish();
@@ -215,8 +246,14 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
     @Override
     public void onDestroy() {
         super.onDestroy();
+
         if (issue != null)
             issue.removeOnStatusChangedListener(this);
+
+        if (iabHelper != null) {
+            iabHelper.dispose();
+            iabHelper = null;
+        }
     }
 
     public void setOnScrollViewLayoutChangedListener() {
@@ -340,12 +377,15 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
                     buttonDownload.setVisibility(View.GONE);
                     buttonOpen.setVisibility(View.VISIBLE);
                     buttonDelete.setVisibility(View.VISIBLE);
+
                 } else {
-                    buttonDownload.setText(status == DownloadManager.STATUS_FAILED ? R.string.retry_download : R.string.download);
+                    buttonDownload.setContentDescription(getString(status == DownloadManager.STATUS_FAILED ? R.string.retry_download : R.string.download));
                     buttonDownload.setVisibility(View.VISIBLE);
                     buttonOpen.setVisibility(View.GONE);
                     buttonDelete.setVisibility(View.GONE);
                 }
+
+                buttonPurchase.setVisibility(issue.purchased ? View.GONE : View.VISIBLE);
 
                 if (timer != null) {
                     timer.cancel();
@@ -437,4 +477,20 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             buttonComplete.setVisibility(status == Magazines.Issue.Status.completed ? View.GONE : View.VISIBLE);
         }
     }
+
+    IabHelper iabHelper;
+
+    IabHelper.QueryInventoryFinishedListener iabQueryFinishedListener = new IabHelper.QueryInventoryFinishedListener() {
+        public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
+            if (result.isFailure()) {
+                // handle error
+                return;
+            }
+
+            final String sku = Magazines.getSku(issue);
+            String price = inventory.getSkuDetails(sku).getPrice();
+
+            // update the UI
+        }
+    };
 }

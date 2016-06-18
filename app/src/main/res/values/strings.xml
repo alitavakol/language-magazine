@@ -187,6 +187,7 @@
         <item>@string/advancedLevel</item>
     </array>
 
+    <string name="purchase">Purchase</string>
     <string name="download">Download</string>
     <string name="cancel">Cancel</string>
     <string name="open">Open</string>

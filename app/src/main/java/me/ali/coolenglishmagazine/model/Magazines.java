@@ -98,6 +98,8 @@ public class Magazines {
             issue.subtitle = e.attr("subtitle");
             issue.description = e.attr("description");
             issue.id = Integer.parseInt(issueRootDirectory.getName());
+            issue.price = e.attr("price");
+            issue.purchased = Boolean.parseBoolean(e.attr("purchased"));
 
             computeIssueStatus(context, issue);
 
@@ -148,7 +150,7 @@ public class Magazines {
         /**
          * file containing issue properties
          */
-        protected static final String manifestFileName = "manifest.xml";
+        public static final String manifestFileName = "manifest.xml";
 
         /**
          * issue introduction (details) page
@@ -266,6 +268,9 @@ public class Magazines {
         }
 
         protected Set<OnStatusChangedListener> listeners = new HashSet<>();
+
+        public String price;
+        public boolean purchased;
     }
 
     /**
@@ -491,5 +496,15 @@ public class Magazines {
         FileHelper.delete(new File(issue.rootDirectory, Issue.completedFileName));
         computeIssueStatus(context, issue);
         issue.setStatus(issue.status);
+    }
+
+    /**
+     * returns SKU of products (issues in this case).
+     *
+     * @param issue issue for which SKU is needed.
+     * @return SKU of the specified issue
+     */
+    public static String getSku(Issue issue) {
+        return "SKU_ISSUE_" + issue.id;
     }
 }
