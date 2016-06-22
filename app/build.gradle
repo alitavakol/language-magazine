@@ -17,6 +17,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    // http://stackoverflow.com/a/26576623
+    lintOptions {
+        disable 'MissingTranslation'
+    }
 }
 
 dependencies {

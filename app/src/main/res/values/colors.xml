@@ -18,6 +18,9 @@
     <color name="advancedLevelColor">@color/md_blue_grey_500</color>
     <color name="advancedLevelColorDark">@color/md_blue_grey_700</color>
 
+    <color name="linkColor">#0055aa</color>
+    <color name="linkColorDisabled">#6a6a6a</color>
+
     <array name="levelColors">
         <item>@color/beginnerLevelColor</item>
         <item>@color/intermediateLevelColor</item>

@@ -26,10 +26,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,13 +35,9 @@ import java.util.List;
 import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.util.FileHelper;
 import me.ali.coolenglishmagazine.util.FontManager;
-import me.ali.coolenglishmagazine.util.IabHelper;
-import me.ali.coolenglishmagazine.util.IabResult;
 import me.ali.coolenglishmagazine.util.InputStreamVolleyRequest;
-import me.ali.coolenglishmagazine.util.Inventory;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.util.NetworkHelper;
-import me.ali.coolenglishmagazine.util.SkuDetails;
 import me.ali.coolenglishmagazine.util.ZipHelper;
 
 public class GalleryOfIssuesFragment extends Fragment {
@@ -131,27 +123,6 @@ public class GalleryOfIssuesFragment extends Fragment {
         } else {
             throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
-
-        if (iabHelper == null) {
-            // the Base64-encoded RSA public key of the application
-            String base64EncodedPublicKey = "";
-
-            // compute your public key and store it in base64EncodedPublicKey
-            iabHelper = new IabHelper(context, base64EncodedPublicKey);
-
-            iabHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-                public void onIabSetupFinished(IabResult result) {
-                    if (!result.isSuccess()) {
-                        // Oh noes, there was a problem.
-                        LogHelper.d(TAG, "Problem setting up In-app Billing: " + result);
-
-                        iabHelper.dispose();
-                        iabHelper = null;
-                    }
-                    // Hooray, IAB is fully set up!
-                }
-            });
-        }
     }
 
     @Override
@@ -164,13 +135,7 @@ public class GalleryOfIssuesFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-
         mListener = null;
-
-        if (iabHelper != null) {
-            iabHelper.dispose();
-            iabHelper = null;
-        }
     }
 
     /**
@@ -343,6 +308,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                 } else {
                     Toast.makeText(getActivity(), R.string.sync_complete, Toast.LENGTH_SHORT).show();
                     success = false; // force jump into the following if block
+//                    updateInAppBillingData();
                 }
 
             } else {
@@ -401,12 +367,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                         // received success with status code 204 (no content)
                         cancelSync(context, adapter);
                         Toast.makeText(context, R.string.update_success, Toast.LENGTH_SHORT).show();
-
-                        // get price and other data from inventory
-                        iabHelper.queryInventoryAsync(true, iabQueryFinishedListener);
-
-                        // get list of purchased items
-                        iabHelper.queryInventoryAsync(iabGotInventoryListener);
+//                        updateInAppBillingData();
                     }
                 }
             }, new Response.ErrorListener() {
@@ -465,84 +426,4 @@ public class GalleryOfIssuesFragment extends Fragment {
         return i;
     }
 
-    IabHelper iabHelper;
-
-    IabHelper.QueryInventoryFinishedListener iabQueryFinishedListener = new IabHelper.QueryInventoryFinishedListener() {
-        public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
-            if (result.isFailure()) {
-                // handle error
-                return;
-            }
-
-            for (Magazines.Issue issue : GalleryOfIssuesFragment.this.magazines.ISSUES) {
-                final String sku = Magazines.getSku(issue);
-                SkuDetails details = inventory.getSkuDetails(sku);
-
-                String price = "";
-                if (details != null) // if it is null, product item is free
-                    price = details.getPrice();
-
-                if (!price.equals(issue.price)) {
-                    issue.price = price;
-
-                    try {
-                        File input = new File(issue.rootDirectory, Magazines.Issue.manifestFileName);
-                        final Document doc = Jsoup.parse(input, "UTF-8", "");
-
-                        Element e = doc.getElementsByTag("issue").first();
-                        e.attr("price", price);
-
-                        FileOutputStream output = new FileOutputStream(input);
-                        output.write(doc.outerHtml().getBytes());
-                        output.close();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            // update the UI
-        }
-    };
-
-    /**
-     * called back when list of purchased items is fetched.
-     */
-    IabHelper.QueryInventoryFinishedListener iabGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
-        public void onQueryInventoryFinished(IabResult result,
-                                             Inventory inventory) {
-
-            if (result.isFailure()) {
-                // handle error here
-                return;
-
-            }
-
-            for (Magazines.Issue issue : GalleryOfIssuesFragment.this.magazines.ISSUES) {
-                boolean purchased = inventory.hasPurchase(Magazines.getSku(issue));
-
-                if (purchased != issue.purchased) {
-                    issue.purchased = purchased;
-
-                    try {
-                        File input = new File(issue.rootDirectory, Magazines.Issue.manifestFileName);
-                        final Document doc = Jsoup.parse(input, "UTF-8", "");
-
-                        Element e = doc.getElementsByTag("issue").first();
-                        e.attr("purchased", purchased);
-
-                        FileOutputStream output = new FileOutputStream(input);
-                        output.write(doc.outerHtml().getBytes());
-                        output.close();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            // update UI accordingly
-        }
-    };
 }

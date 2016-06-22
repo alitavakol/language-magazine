@@ -1,15 +1,19 @@
 package me.ali.coolenglishmagazine;
 
 import android.app.DownloadManager;
+import android.content.DialogInterface;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
+import android.view.ContextThemeWrapper;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -728,17 +732,45 @@ public class IssuesTabFragment extends Fragment implements
         for (int i = selectedItemPositions.size() - 1; i >= 0; i--)
             selectedIssues[i] = issues.get(selectedItemPositions.get(i));
 
+        final Magazines.Issue[] selectedIssues_;
+        AlertDialog.Builder builder;
+
+        final FragmentActivity context = getActivity();
+
         switch (menuItem.getItemId()) {
-            case R.id.action_delete:
             case R.id.action_cancel:
+                for (Magazines.Issue issue : selectedIssues) {
+                    Magazines.cancelDownload(context, issue);
+                    Magazines.computeIssueStatus(context, issue);
+                    issue.setStatus(issue.getStatus());
+                }
+                break;
+
+            case R.id.action_delete:
             case R.id.action_free:
-                for (Magazines.Issue issue : selectedIssues)
-                    Magazines.deleteIssue(getActivity(), issue, false);
+                selectedIssues_ = selectedIssues;
+                builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AppTheme));
+                builder.setMessage(R.string.issue_delete_confirmation_message)
+                        .setTitle(R.string.issue_delete_confirmation_title)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                for (Magazines.Issue issue : selectedIssues_)
+                                    Magazines.deleteIssue(context, issue, false);
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setCancelable(true)
+                        .show();
                 break;
 
             case R.id.action_delete_permanently:
                 for (Magazines.Issue issue : selectedIssues)
-                    Magazines.deleteIssue(getActivity(), issue, true);
+                    Magazines.deleteIssue(context, issue, true);
                 break;
 
             case R.id.action_mark_complete:
@@ -748,18 +780,33 @@ public class IssuesTabFragment extends Fragment implements
 
             case R.id.action_mark_incomplete:
                 for (Magazines.Issue issue : selectedIssues)
-                    Magazines.reopen(getActivity(), issue);
+                    Magazines.reopen(context, issue);
                 break;
 
             case R.id.action_download:
-                for (Magazines.Issue issue : selectedIssues) {
-                    try {
-                        if (!(new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists()))
-                            Magazines.download(getActivity(), issue);
-                    } catch (IOException e) {
-                        LogHelper.e(TAG, e.getMessage());
-                    }
-                }
+                selectedIssues_ = selectedIssues;
+                builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AppTheme));
+                builder.setMessage(R.string.free_download_warning)
+                        .setTitle(R.string.free_download_warning_title)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                for (Magazines.Issue issue : selectedIssues_) {
+                                    try {
+                                        Magazines.download(context, issue);
+                                    } catch (IOException e) {
+                                        LogHelper.e(TAG, e.getMessage());
+                                    }
+                                }
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setCancelable(true)
+                        .show();
                 break;
 
             default:

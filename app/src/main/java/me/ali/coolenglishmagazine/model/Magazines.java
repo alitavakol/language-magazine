@@ -168,6 +168,12 @@ public class Magazines {
         public static final String downloadedFileName = "downloaded";
 
         /**
+         * if this file is present, user has downloaded full paid version of the issue.
+         * this file is included in paid issue's zip archive.
+         */
+        public static final String proFileName = "paid-for";
+
+        /**
          * if this file is present, issue is the currently active one.
          */
         public static final String activeFileName = "active";
@@ -269,7 +275,12 @@ public class Magazines {
 
         protected Set<OnStatusChangedListener> listeners = new HashSet<>();
 
+        /**
+         * price of the full-text version of this issue. if null or length is zero,
+         * price is unknown, and has to be fetched from app store.
+         */
         public String price;
+
         public boolean purchased;
     }
 
@@ -428,13 +439,11 @@ public class Magazines {
     }
 
     /**
-     * deletes issue. it remains in available issues, and need to be downloaded again by user.
+     * update status yourself after calling this.
      *
-     * @param context   activity context
-     * @param issue     issue to delete content and make available for download
-     * @param permanent if true, deletes root folder completely, so it won't be visible in available issues list.
+     * @param issue issue to cancel download of.
      */
-    public static void deleteIssue(Context context, Issue issue, boolean permanent) {
+    public static void cancelDownload(Context context, Issue issue) {
         ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
 
         // delete download if it is downloading
@@ -449,6 +458,17 @@ public class Magazines {
                 }
             }, 1000);
         }
+    }
+
+    /**
+     * deletes issue. it remains in available issues, and need to be downloaded again by user.
+     *
+     * @param context   activity context
+     * @param issue     issue to delete content and make available for download
+     * @param permanent if true, deletes root folder completely, so it won't be visible in available issues list.
+     */
+    public static void deleteIssue(Context context, Issue issue, boolean permanent) {
+        cancelDownload(context, issue);
 
         if (!permanent) {
             File[] files = issue.rootDirectory.listFiles();
@@ -505,6 +525,6 @@ public class Magazines {
      * @return SKU of the specified issue
      */
     public static String getSku(Issue issue) {
-        return "SKU_ISSUE_" + issue.id;
+        return "SKU_HEM_ISSUE_NO_" + issue.id;
     }
 }
