@@ -67,7 +67,7 @@ public class MagazineContent {
         // verify issue integrity,
         // and delete issue on error
         if (!new File(itemRootDirectory, Item.contentFileName).exists()) {
-            throw new IOException("Cannot find item content file.");
+            throw new IOException("Could not find item content file: " + itemRootDirectory);
         }
 
         if (item == null) {

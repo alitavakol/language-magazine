@@ -1,38 +1,49 @@
 package me.ali.coolenglishmagazine;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.Locale;
 
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.Account;
 import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class RootActivity extends AppCompatActivity implements
+        Account.Callbacks,
         GalleryOfIssuesFragment.OnFragmentInteractionListener,
         CoolEnglishTimesFragment.OnFragmentInteractionListener,
         ReadmeFragment.OnFragmentInteractionListener,
@@ -82,6 +93,7 @@ public class RootActivity extends AppCompatActivity implements
 
         if (savedInstanceState != null) {
             drawer_selection = savedInstanceState.getInt("drawer_selection");
+            signingIn = savedInstanceState.getBoolean("signing_in");
 
         } else {
             // show the gallery of issues fragment by default
@@ -99,6 +111,8 @@ public class RootActivity extends AppCompatActivity implements
             drawer.openDrawer();
             preferences.edit().putBoolean("drawer_welcome_shown", true).apply();
         }
+
+        account = new Account(this);
     }
 
     @Override
@@ -115,25 +129,79 @@ public class RootActivity extends AppCompatActivity implements
         }
     };
 
+    ImageView profilePicture;
+    TextView userName, userEmail;
+    CircularProgressView circularProgressView;
+
     protected void setupNavigationDrawer() {
         // manually load drawer header, and apply custom typeface to it.
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        View headerView = inflater.inflate(R.layout.drawer_header, null);
-        ((TextView) headerView).setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.UBUNTU_BOLD));
+        ViewGroup headerView = (ViewGroup) inflater.inflate(R.layout.drawer_header, null);
+
+        profilePicture = (ImageView) headerView.findViewById(R.id.profile_image);
+        userName = (TextView) headerView.findViewById(R.id.user_name);
+        userEmail = (TextView) headerView.findViewById(R.id.user_email);
+        circularProgressView = (CircularProgressView) headerView.findViewById(R.id.progress_bar);
+
+//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        updateProfileInfo(preferences.getString("user_image", null), preferences.getString("user_name", null), preferences.getString("user_email", null), preferences.getString("user_id_token", null));
+
+        if (signingIn)
+            showProgressDialog();
+
+        ((TextView) headerView.findViewById(R.id.app_name)).setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.UBUNTU_BOLD));
+
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isLoggedIn)
+                    account.signIn();
+            }
+        });
+        headerView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (!isLoggedIn)
+                    return false;
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(RootActivity.this);
+                builder.setMessage(R.string.sign_out_warning)
+                        .setTitle(R.string.sign_out_warning_title)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                account.signOut();
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setCancelable(true)
+                        .show();
+                return true;
+            }
+        });
 
         final PrimaryDrawerItem galleryOfIssues = new PrimaryDrawerItem().withName(R.string.gallery_of_issues).withIcon(GoogleMaterial.Icon.gmd_playlist_play).withSelectedColorRes(R.color.primary);
         final PrimaryDrawerItem englishTimes = new PrimaryDrawerItem().withName(R.string.cool_english_times).withIcon(GoogleMaterial.Icon.gmd_alarm).withSelectedColorRes(R.color.primary);
         final PrimaryDrawerItem readme = new PrimaryDrawerItem().withName(R.string.readme).withIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied).withSelectedColorRes(R.color.primary);
         final PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info_outline).withSelectedColorRes(R.color.primary);
 
-        drawer = new DrawerBuilder().withSliderBackgroundColorRes(R.color.accent)
-                .withHeaderDivider(false).withActivity(this).withHeader(headerView).addDrawerItems(
+        drawer = new DrawerBuilder()
+                .withSliderBackgroundColorRes(R.color.accent)
+                .withHeaderDivider(true)
+                .withActivity(this)
+                .withHeader(headerView)
+                .addDrawerItems(
                         galleryOfIssues,
                         englishTimes,
                         readme,
                         new DividerDrawerItem(),
                         about
-                ).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawer_selection == position)
@@ -180,7 +248,9 @@ public class RootActivity extends AppCompatActivity implements
                         drawer_selection = position;
                         return false;
                     }
-                }).withSelectedItemByPosition(drawer_selection).build();
+                })
+                .withSelectedItemByPosition(drawer_selection)
+                .build();
     }
 
     @Override
@@ -188,6 +258,7 @@ public class RootActivity extends AppCompatActivity implements
         super.onSaveInstanceState(outState);
         if (drawer != null) {
             outState.putInt("drawer_selection", drawer.getCurrentSelectedPosition());
+            outState.putBoolean("signing_in", signingIn);
         }
     }
 
@@ -278,4 +349,91 @@ public class RootActivity extends AppCompatActivity implements
         }
     }
 
+    /**
+     * Google APIs account sign-in helper
+     */
+    protected Account account;
+
+    /**
+     * shows whether or not user is signed in to their android account.
+     */
+    boolean isLoggedIn;
+
+    /**
+     * if true, we are in the process of signing in. show progress indicator.
+     */
+    protected boolean signingIn;
+
+    public void showProgressDialog() {
+        circularProgressView.setVisibility(View.VISIBLE);
+        profilePicture.setVisibility(View.GONE);
+        circularProgressView.startAnimation();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        account.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void hideProgressDialog() {
+        circularProgressView.setVisibility(View.GONE);
+        profilePicture.setVisibility(View.VISIBLE);
+        circularProgressView.clearAnimation();
+    }
+
+    /**
+     * updates user profile info on drawer.
+     *
+     * @param userIdToken user token ID that can be sent to server for identification
+     */
+    public void updateProfileInfo(String personPhoto, String displayName, String email, String userIdToken) {
+        isLoggedIn = email != null && email.length() > 0;
+//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (!isLoggedIn) {
+            displayName = getString(R.string.sign_in_name);
+            email = getString(R.string.sign_in_email);
+            personPhoto = null;
+
+//            preferences.edit()
+//                    .remove("user_name")
+//                    .remove("user_email")
+//                    .remove("user_image")
+//                    .remove("user_id_token")
+//                    .apply();
+
+        } else {
+//            preferences.edit()
+//                    .putString("user_name", displayName)
+//                    .putString("user_email", email)
+//                    .putString("user_image", profilePicture.toString())
+//                    .putString("user_id_token", userIdToken)
+//                    .apply();
+        }
+
+        if (personPhoto != null) {
+            int w = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 42, getResources().getDisplayMetrics());
+            Picasso
+                    .with(this)
+                    .load(Uri.parse(personPhoto))
+                    .resize(w, w)
+                    .centerCrop()
+                    .into(profilePicture);
+        } else {
+            profilePicture.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_account_circle).sizeDp(42).colorRes(android.R.color.secondary_text_dark));
+        }
+
+        userName.setText(displayName);
+        userEmail.setText(email);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        account.silentSignIn();
+    }
+
+    public void signingIn(boolean signingIn) {
+        this.signingIn = signingIn;
+    }
 }

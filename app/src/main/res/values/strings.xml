@@ -377,6 +377,7 @@
     <string name="about_available_issues">Swipe down to get latest list of available <b>Hot English Magazine</b> issues from the web. New issue is published every two weeks!</string>
     <string name="about_completed_issues">When you finish practising a magazine, move it here. Tap &amp; hold on issue cover to see available options.</string>
 
+    <!-- Bazaar -->
     <string name="price_title">Full-text price:</string>
     <string name="tap_to_refresh"><u>refresh</u></string>
     <string name="tap_to_refresh_disabled">refresh</string>
@@ -387,4 +388,18 @@
     <string name="free_download_warning">This will download free version of selected magazine issues. To grab full-text version of them, see each issue’s introduction.</string>
     <string name="free_download_warning_single">This will download the free version. To grab full-text version of this magazine, you will have to purchase it.</string>
     <string name="free_download_warning_title">Download warning</string>
+
+    <!-- Google sign in -->
+    <string name="sign_in_name">Let’s sign in!</string>
+    <string name="sign_in_email">Tap here to sign in and get more features.</string>
+    <string name="sign_in_failed">The sign in attempt didn’t succeed with the current account.</string>
+    <string name="sign_in_cancelled">Sign in cancelled.</string>
+    <string name="sign_in_cancelled_maybe">Sign in cancelled. Network connection is required.</string>
+    <string name="sign_in_error">Sign in failed with unknown reason.</string>
+    <string name="sign_out_error">Sign out failed with unknown reason.</string>
+    <string name="sign_out_warning">Sure to sign out of the account?</string>
+    <string name="sign_out_warning_title">Sign out</string>
+    <string name="sign_in_network_error">Network error has occurred.</string>
+    <string name="sign_in_invalid_account">Account is invalid.</string>
+    <string name="sign_in_required">Sign in required.</string>
 </resources>

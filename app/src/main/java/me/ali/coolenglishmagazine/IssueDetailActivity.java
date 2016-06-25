@@ -52,6 +52,7 @@ import java.util.TimerTask;
 
 import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.Account;
 import me.ali.coolenglishmagazine.util.IabHelper;
 import me.ali.coolenglishmagazine.util.IabResult;
 import me.ali.coolenglishmagazine.util.Inventory;
@@ -68,7 +69,10 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * item details are presented side-by-side with a list of items
  * in a {@link RootActivity}.
  */
-public class IssueDetailActivity extends AppCompatActivity implements ObservableScrollView.Callbacks, Magazines.Issue.OnStatusChangedListener {
+public class IssueDetailActivity extends AppCompatActivity implements
+        ObservableScrollView.Callbacks,
+        Magazines.Issue.OnStatusChangedListener,
+        Account.Callbacks {
 
     private static final String TAG = LogHelper.makeLogTag(IssueDetailActivity.class);
 
@@ -281,6 +285,8 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             }
 
             updatePriceGui();
+
+            account = new Account(this);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -584,7 +590,6 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
     }
 
     protected IabHelper iabHelper;
-//    protected boolean queryingPurchases;
 
     private IabHelper.QueryInventoryFinishedListener iabQueryProductDetailsFinishedListener = new IabHelper.QueryInventoryFinishedListener() {
         public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
@@ -595,27 +600,11 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             } else {
                 final String sku = Magazines.getSku(issue);
 
-//                if (!queryingPurchases) {
-                    final SkuDetails details = inventory.getSkuDetails(sku);
-                    final boolean purchased = details == null || inventory.hasPurchase(sku);
-                    final String price = details != null ? details.getPrice() : getString(R.string.free);
+                final SkuDetails details = inventory.getSkuDetails(sku);
+                final boolean purchased = details == null || inventory.hasPurchase(sku);
+                final String price = details != null ? details.getPrice() : getString(R.string.free);
 
-//                    if (!purchased) {
-//                        // get purchases from inventory
-//                        queryingPurchases = true;
-//                        ArrayList<String> skuList = new ArrayList<>();
-//                        skuList.add(Magazines.getSku(issue));
-//                        iabHelper.queryInventoryAsync(false, skuList, iabQueryProductDetailsFinishedListener);
-//                    }
-
-                    updateBillingInfo(price, purchased);
-//                    return;
-
-//                } else {
-//                    updateBillingInfo(issue.price, inventory.hasPurchase(sku));
-//                }
-
-//                Toast.makeText(IssueDetailActivity.this, R.string.sync_complete, Toast.LENGTH_SHORT).show();
+                updateBillingInfo(price, purchased);
             }
 
             tapToRefreshButton.setText(R.string.tap_to_refresh);
@@ -623,9 +612,6 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             tapToRefreshButton.setEnabled(true);
             tapToRefreshButton.setText(R.string.tap_to_refresh);
             tapToRefreshButton.setTextColor(getResources().getColor(R.color.linkColor));
-//            buttonPurchase.setEnabled(true);
-//            buttonPurchase.setClickable(true);
-//            buttonPurchase.setTextColor(getResources().getColor(R.color.primary_light));
         }
     };
 
@@ -677,34 +663,38 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == issue.id && resultCode == RESULT_OK) {
-            int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
-            String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
-            String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
+        if (requestCode == issue.id) {
+            if (resultCode == RESULT_OK) {
+                int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
+                String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
+                String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
 
-            try {
-                JSONObject jo = new JSONObject(purchaseData);
-                String sku = jo.getString("productId");
-                int purchaseState = jo.getInt("purchaseState");
+                try {
+                    JSONObject jo = new JSONObject(purchaseData);
+                    String sku = jo.getString("productId");
+                    int purchaseState = jo.getInt("purchaseState");
 
-                // https://cafebazaar.ir/developers/docs/iab/reference/
-                if (sku.equals(Magazines.getSku(issue)) && purchaseState == 0) {
-                    updateBillingInfo(issue.price, true);
+                    // https://cafebazaar.ir/developers/docs/iab/reference/
+                    if (sku.equals(Magazines.getSku(issue)) && purchaseState == 0) {
+                        updateBillingInfo(issue.price, true);
+                    }
+
+                } catch (JSONException e) {
+                    LogHelper.e(TAG, "Failed to parse purchase data.");
+                    e.printStackTrace();
                 }
-
-            } catch (JSONException e) {
-                LogHelper.e(TAG, "Failed to parse purchase data.");
-                e.printStackTrace();
             }
+
+            buttonPurchase.setEnabled(true);
+            buttonPurchase.setClickable(true);
+            buttonPurchase.setTextColor(getResources().getColor(R.color.primary_light));
+            tapToRefreshButton.setClickable(true);
+            tapToRefreshButton.setEnabled(true);
+            tapToRefreshButton.setText(R.string.tap_to_refresh);
+            tapToRefreshButton.setTextColor(getResources().getColor(R.color.linkColor));
         }
 
-        buttonPurchase.setEnabled(true);
-        buttonPurchase.setClickable(true);
-        buttonPurchase.setTextColor(getResources().getColor(R.color.primary_light));
-        tapToRefreshButton.setClickable(true);
-        tapToRefreshButton.setEnabled(true);
-        tapToRefreshButton.setText(R.string.tap_to_refresh);
-        tapToRefreshButton.setTextColor(getResources().getColor(R.color.linkColor));
+        account.onActivityResult(requestCode, resultCode, data);
     }
 
     protected void updatePrice() {
@@ -715,12 +705,8 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         tapToRefreshButton.setEnabled(false);
         tapToRefreshButton.setText(R.string.refreshing);
         tapToRefreshButton.setTextColor(getResources().getColor(R.color.linkColorDisabled));
-//        buttonPurchase.setEnabled(false);
-//        buttonPurchase.setClickable(false);
-//        buttonPurchase.setTextColor(getResources().getColor(R.color.linkColorDisabled));
 
         // get price and purchase state from inventory
-//        queryingPurchases = false;
         ArrayList<String> skuList = new ArrayList<>();
         skuList.add(Magazines.getSku(issue));
         iabHelper.flagEndAsync();
@@ -732,19 +718,7 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
      */
     protected void updatePriceGui() {
         priceTextView.setText(issue.price.length() > 0 ? issue.price : getString(R.string.unknown_price));
-
-//        tapToRefreshButton.setVisibility(iabHelper == null ? View.GONE : View.VISIBLE);
-//        if (iabHelper == null) {
-//            tapToRefreshButton.setClickable(false);
-//            tapToRefreshButton.setEnabled(false);
-//            tapToRefreshButton.setText(R.string.tap_to_refresh_disabled);
-//            tapToRefreshButton.setTextColor(getResources().getColor(R.color.linkColorDisabled));
-//        }
-
         buttonPurchase.setVisibility(issue.purchased ? View.GONE : View.VISIBLE);
-//        buttonPurchase.setClickable(iabHelper != null);
-//        buttonPurchase.setEnabled(iabHelper != null);
-//        buttonPurchase.setTextColor(getResources().getColor(iabHelper != null ? R.color.primary_light : R.color.linkColorDisabled));
     }
 
     private ILoginCheckService loginCheckService;
@@ -787,4 +761,28 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             LogHelper.i(TAG, "login check service disconnected");
         }
     }
+
+    /**
+     * Google APIs account sign-in helper
+     */
+    protected Account account;
+
+    public void showProgressDialog() {
+    }
+
+    public void hideProgressDialog() {
+    }
+
+    public void updateProfileInfo(String personPhoto, String displayName, String email, String userIdToken) {
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        account.silentSignIn();
+    }
+
+    public void signingIn(boolean signingIn) {
+    }
+
 }
