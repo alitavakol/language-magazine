@@ -28,7 +28,6 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.squareup.picasso.Picasso;
@@ -38,6 +37,7 @@ import java.util.Locale;
 
 import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.util.Account;
+import me.ali.coolenglishmagazine.util.DividerDrawerItem;
 import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;

@@ -27,9 +27,9 @@ import me.ali.coolenglishmagazine.R;
 public class Account implements GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = LogHelper.makeLogTag(Account.class);
 
-    public GoogleApiClient mGoogleApiClient;
+    protected GoogleApiClient mGoogleApiClient;
 
-    public AppCompatActivity context;
+    protected AppCompatActivity context;
 
     public Account(Callbacks context) {
         this.context = (AppCompatActivity) context;
@@ -57,6 +57,9 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
      * @param status sign-in result status
      */
     public void toastGoogleSignInResult(Status status) {
+        if(silentlySigningIn)
+            return;
+
         int id;
         switch (status.getStatusCode()) {
             case GoogleSignInStatusCodes.SIGN_IN_CANCELLED:
@@ -76,7 +79,7 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
                 break;
 
             case CommonStatusCodes.SIGN_IN_REQUIRED:
-                id = 0;//R.string.sign_in_required;
+                id = R.string.sign_in_required;
                 break;
 
             default:
@@ -86,7 +89,14 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
             Toast.makeText(context, id, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * prevents disturbing user interface while silently signing in.
+     */
+    protected boolean silentlySigningIn;
+
     public void silentSignIn() {
+        silentlySigningIn = true;
+
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
         if (opr.isDone()) {
             // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
@@ -94,6 +104,7 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
             LogHelper.d(TAG, "Got cached sign-in");
             GoogleSignInResult result = opr.get();
             handleSignInResult(result);
+            silentlySigningIn = false;
 
         } else {
             // If the user has not previously signed in on this device or the sign-in has expired,
@@ -109,6 +120,7 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
 
                     callbacks.signingIn(false);
                     callbacks.hideProgressDialog();
+                    silentlySigningIn = false;
                 }
             });
         }
@@ -168,6 +180,8 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
     }
 
     public void signIn() {
+        silentlySigningIn = false;
+
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         context.startActivityForResult(signInIntent, RC_SIGN_IN);
 
