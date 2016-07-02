@@ -29,6 +29,11 @@
                 tools:text="Toolbar Title" />
         </android.support.v7.widget.Toolbar>
 
+        <!-- http://stackoverflow.com/a/30900102/1994239 -->
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height=".01dp" />
+
     </android.support.design.widget.AppBarLayout>
 
     <FrameLayout

@@ -5,7 +5,7 @@ body {
 	margin: 0;
 	overflow: hidden;
 	font-family: "Ubuntu";
-	font-weight: 400;
+	/*font-weight: 400;*/
 }
 .new-word, .new-word:hover {
 	text-decoration: none;

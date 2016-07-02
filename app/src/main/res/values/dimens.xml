@@ -62,4 +62,7 @@
 
     <dimen name="detail_button_container_padding_top">@dimen/activity_vertical_margin_2</dimen>
     <integer name="issue_details_title_lines">3</integer>
+
+    <bool name="isTablet">false</bool>
+    <bool name="isLandscape">false</bool>
 </resources>

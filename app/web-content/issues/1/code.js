@@ -29,20 +29,11 @@ adjustLayout = function(options) {
 		body { color: #" + textColor + "; } \
 		.accent { color: #" + accentColor + "; } \
 		.new-word, dd, dt { color: " + newWordColor + "; } \
-		h1.alt { color: " + newWordColor + "; } \
-		h3.alt { color: " + newWordColor + "; } \
 	"
 
 	if(options['backgroundColor']) {
 		backgroundColor = (options['backgroundColor'] & 0xffffff).toString(16);
 		while(backgroundColor.length < 6) backgroundColor = '0' + backgroundColor;
-		css += "h1 { color: #" + backgroundColor + "; }"
-		css += "h3 { color: #" + backgroundColor + "; }"
-		// css += "body { background-color: #" + backgroundColor + " }"
-
-	} else {
-		css += "h1 { color: #" + accentColor + "; }"
-		css += "h3 { color: #" + accentColor + "; }"
 	}
 
 	$('#dynamic-rules').text(css);
@@ -53,7 +44,7 @@ adjustLayout = function(options) {
 if(typeof(app) == 'undefined') { // on web browser
 	$(document).ready(function() {
 		if(typeof(lock) == 'function') {
-				$('body').append('<button id="buttonToggleLock" style="position: absolute; top: 0; z-index: 2;">Toggle Show/Hide</button>');
+				$('body').append('<button id="buttonToggleLock" style="position: fixed; top: 0; z-index: 2;">Toggle Show/Hide</button>');
 				$('#buttonToggleLock').click(function() {
 					lock(!window.transcriptLocked);
 				});

@@ -832,10 +832,14 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         public void setToolbarScrollable(final boolean scrollable) {
             runOnUiThread(new Runnable() {
                 public void run() {
+                    boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+                    if (tabletSize)
+                        return;
+
                     AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
                     params.setScrollFlags(scrollable ? AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS : 0);
                     toolbar.setLayoutParams(params);
-                    if(scrollable)
+                    if (scrollable)
                         appBar.setExpanded(false);
                 }
             });

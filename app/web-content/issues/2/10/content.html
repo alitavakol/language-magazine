@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			@font-face {
+				font-family: 'orthodox';
+				src: url('OrthodoxHerbertarian.ttf');
+			}
+			h1 {
+				font-family: 'orthodox';
+				margin-bottom: 0;
+				font-size: 10vw;
+				margin-top: 0;
+			}
+			h3 {
+				margin-top: 0;
+				color: white;
+				margin-bottom: 4px;
+			}
+			.accent-bg {
+				color: white;
+			}
+			body {
+				overflow-y: auto;
+			}
+			.foundation {
+				background-image: url('paper.png');
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+				padding-left: 8%;
+				padding-right: 10%;
+				padding-top: 10%;
+				padding-bottom: 15%;
+			}
+			.box {
+				border: 3px solid black;
+				float: right;
+				width: 42%;
+			}
+			#plate {
+				position: absolute;
+				-webkit-transform: rotate(4deg);
+				transform: rotate(4deg);
+				width: 40%;
+				right: 4%;
+				top: 7%;
+				border: 3px solid white;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+
+	<body>
+		<div id="top-margin"></div>
+
+		<div class="foundation">
+			<div style="text-align: center;">
+				<h1>Headline News</h1>
+				<div class="accent-bg" style="margin-bottom: 16px;">The voice of the people</div>
+				<div style="position: relative;">
+					<img src="sands.png" style="width: 100%;">
+					<img id="plate" src="prison.png">
+				</div>
+				<div style="font-weight: bold; font-size: 8vw; margin-top: 4px;">Sands Film</div>
+			</div>
+
+			<p>The film Hunger is about the life and death of <a class="new-word" data-word="a republican" data-type="n" data-en="a person who wants a united Ireland with no rule by the UK in the north">republican</a> <a class="new-word" data-word="a hunger strike" data-type="n" data-en="a protest by prisoners that consists of not eating">hunger striker</a> Bobby Sands. The film was controversial because some considered Sands to be a terrorist as he was a member of the <a class="new-word" data-word="the IRA" data-type="abbr" data-en="the Irish Republican Army – an armed group that fought against British rule in northern Ireland">IRA</a>. However, others saw him as a hero who took part in a peaceful protest. The film was directed by Steve McQueen, a British director.</p>
+			<div class="box">
+				<h3>Bobby Sands</h3>
+				<p>Robert Gerard Sands, also known as Bobby Sands, was born on 9th March 1954. He was a Provisional Irish Republican Army volunteer and a member of the UK Parliament. He died on 5th May 1981 after a hunger strike in prison.</p>
+				<img src="bobby.png" style="width: 100%;">
+			</div>
+			<p>Speaking about the film, McQueen said that what Bobby Sands did wasn't right or wrong. "The film is about people’s decisions and the <a class="new-word" data-word="consequences" data-type="n" data-en="the results of an action or event">consequences</a> of those decisions,” he added.</p>
+			<p>Actor Michael Fassbender (who was Stelios in the film 300), played the <a class="new-word" data-word="a role" data-type="n" data-en="a part in a film">role</a> of Sands. Fassbender was born in Germany but <a class="new-word" data-word="to be brought up" data-type="phr vb" data-en="the place where you are “brought up”, is the place where you live and are educated as a child">was brought up</a> in Ireland.</p>
+			<p>Bobby Sands was 27 years old when he died. During the hunger strikes in the Maze Prison in 1981 he was elected as a member of the British Parliament. There were world-wide protests supporting him and other prisoners refused to eat too. Eventually, 10 protesters died while trying to get recognised as prisoners of war. Surprisingly, several <a class="new-word" data-word="Loyalists" data-type="n" data-en="Protestant paramilitaries who fought against the Republicans in Northern Ireland. They want Northern Ireland to remain a part of the UK">Loyalists</a> said that they also supported the Republicans’ protest. <span class="accent">✪</span></p>
+			</div>
+
+		</div>
+
+		<div id="bottom-margin"></div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + verticalMargin + "px; } \
+					.foundation { margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+					.accent-bg { background-color: " + tinycolor(accentColor).darken().toHexString() + "; } \
+					.box { padding: " + spacing + "px; margin-left: " + spacing + "px; margin-bottom: " + spacing + "px; background-color: " + tinycolor(accentColor).lighten().toHexString() + "; } \
+				");
+			}
+
+			container = $('body')[0];
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				container.scrollTop = (state['scroll'] || 0) * container.scrollHeight;
+				prevScroll = container.scrollTop / container.scrollHeight;
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = container.scrollTop / container.scrollHeight;
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = container.scrollTop;
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

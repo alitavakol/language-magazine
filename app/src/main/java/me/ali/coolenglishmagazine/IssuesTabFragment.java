@@ -875,6 +875,8 @@ public class IssuesTabFragment extends Fragment implements
 
             case 2:
                 imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_assignment_turned_in).sizeDp(72).colorRes(R.color.colorContextHelp));
+                imageButton.setClickable(false);
+                imageButton.setEnabled(false);
                 helpTextView.setText(R.string.about_completed_issues);
                 break;
         }

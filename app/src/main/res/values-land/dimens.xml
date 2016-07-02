@@ -14,4 +14,6 @@
     <integer name="items_column_count">2</integer>
 
     <dimen name="detail_button_container_padding_top">0dp</dimen>
+
+    <bool name="isLandscape">true</bool>
 </resources>

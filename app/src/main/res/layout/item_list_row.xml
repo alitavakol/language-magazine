@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    tools:context=".ItemListFragment"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:context=".ItemListFragment">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -37,11 +37,13 @@
             <TextView
                 android:id="@+id/title"
                 style="@style/Base.TextAppearance.AppCompat.Medium"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/poster_container"
-                android:lines="1"
+                android:layout_toLeftOf="@+id/overflowMenu"
+                android:layout_toStartOf="@+id/overflowMenu"
                 android:ellipsize="end"
+                android:lines="1"
                 android:paddingBottom="4dp"
                 android:paddingEnd="8dp"
                 android:paddingLeft="8dp"
@@ -72,8 +74,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title"
-                android:lines="1"
                 android:ellipsize="end"
+                android:lines="1"
                 android:paddingLeft="@dimen/spacing_normal"
                 android:paddingStart="@dimen/spacing_normal"
                 android:textColor="@color/colorPrimaryLight"
