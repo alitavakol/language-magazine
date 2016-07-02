@@ -402,4 +402,7 @@
     <string name="sign_in_network_error">Network error has occurred.</string>
     <string name="sign_in_invalid_account">Account is invalid.</string>
     <string name="sign_in_required">Sign in required.</string>
+
+    <string name="update_available">Update is available!</string>
+    <string name="update">Install</string>
 </resources>

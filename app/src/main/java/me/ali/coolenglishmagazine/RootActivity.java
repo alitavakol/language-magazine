@@ -1,12 +1,16 @@
 package me.ali.coolenglishmagazine;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.IBinder;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -24,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
+import com.farsitel.bazaar.IUpdateCheckService;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.Drawer;
@@ -113,12 +118,18 @@ public class RootActivity extends AppCompatActivity implements
         }
 
         account = new Account(this);
+
+        if (!processWasRunning) { // check for updates if app's process has just started
+            initUpdateCheckService();
+            processWasRunning = false;
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+        releaseUpdateCheckService();
     }
 
     protected SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
@@ -436,4 +447,59 @@ public class RootActivity extends AppCompatActivity implements
     public void signingIn(boolean signingIn) {
         this.signingIn = signingIn;
     }
+    IUpdateCheckService updateCheckService;
+    UpdateServiceConnection updateServiceConnection;
+
+    /**
+     * @see <a href="https://cafebazaar.ir/developers/docs/bazaar-services/update-check/?l=fa">Bazaar documentation</a>
+     */
+    class UpdateServiceConnection implements ServiceConnection {
+        public void onServiceConnected(ComponentName name, IBinder boundService) {
+            updateCheckService = IUpdateCheckService.Stub.asInterface((IBinder) boundService);
+            try {
+                long vCode = updateCheckService.getVersionCode(getPackageName());
+                if (vCode > BuildConfig.VERSION_CODE) {
+                    Snackbar
+                            .make(findViewById(R.id.root_fragment), R.string.update_available, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.update, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    // TODO: open Bazaar to upgrade this app
+                                }
+                            }).setActionTextColor(getResources().getColor(R.color.primary_light))
+                            .show();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            releaseUpdateCheckService();
+        }
+
+        public void onServiceDisconnected(ComponentName name) {
+            updateCheckService = null;
+            LogHelper.e(TAG, "UpdateServiceConnection disconnected");
+        }
+    }
+
+    private void initUpdateCheckService() {
+        updateServiceConnection = new UpdateServiceConnection();
+        Intent i = new Intent("com.farsitel.bazaar.service.UpdateCheckService.BIND").setPackage("com.farsitel.bazaar");
+        bindService(i, updateServiceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    /**
+     * Un-binds this activity from Bazaar service.
+     */
+    private void releaseUpdateCheckService() {
+        if (updateServiceConnection != null)
+            unbindService(updateServiceConnection);
+        updateServiceConnection = null;
+    }
+
+    /**
+     * determines whether app's process has just run from scratch.
+     */
+    public static boolean processWasRunning;
 }
