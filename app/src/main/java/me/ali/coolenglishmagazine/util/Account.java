@@ -57,9 +57,6 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
      * @param status sign-in result status
      */
     public void toastGoogleSignInResult(Status status) {
-        if(silentlySigningIn)
-            return;
-
         int id;
         switch (status.getStatusCode()) {
             case GoogleSignInStatusCodes.SIGN_IN_CANCELLED:
@@ -68,6 +65,7 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
 
             case GoogleSignInStatusCodes.SIGN_IN_FAILED:
                 id = R.string.sign_in_failed;
+                callbacks.updateProfileInfo(null, null, null, null, true);
                 break;
 
             case CommonStatusCodes.NETWORK_ERROR:
@@ -76,6 +74,7 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
 
             case CommonStatusCodes.INVALID_ACCOUNT:
                 id = R.string.sign_in_invalid_account;
+                callbacks.updateProfileInfo(null, null, null, null, true);
                 break;
 
             case CommonStatusCodes.SIGN_IN_REQUIRED:
@@ -85,7 +84,7 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
             default:
                 id = R.string.sign_in_error;
         }
-        if (id != 0)
+        if (!silentlySigningIn)
             Toast.makeText(context, id, Toast.LENGTH_SHORT).show();
     }
 
@@ -136,12 +135,12 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
                 final String displayName = acct.getDisplayName();
                 final String email = acct.getEmail();
                 final String user_id_token = acct.getIdToken();
-                callbacks.updateProfileInfo(personPhoto != null ? personPhoto.toString() : null, displayName, email, user_id_token);
+                callbacks.updateProfileInfo(personPhoto != null ? personPhoto.toString() : null, displayName, email, user_id_token, false);
             }
 
         } else { // Signed out, show unauthenticated UI.
             toastGoogleSignInResult(result.getStatus());
-            callbacks.updateProfileInfo(null, null, null, null);
+            callbacks.updateProfileInfo(null, null, null, null, false);
         }
     }
 
@@ -158,8 +157,10 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
 
         /**
          * sends profile information to the listener. fields are null if sign out or error occurs.
+         *
+         * @param signedOut true if user deliberately signed out. false if sign-in attempt was unsuccessful while user was signed-in before.
          */
-        void updateProfileInfo(String personPhoto, String displayName, String email, String userIdToken);
+        void updateProfileInfo(String personPhoto, String displayName, String email, String userIdToken, boolean signedOut);
 
         void signingIn(boolean inProgress);
     }
@@ -196,7 +197,7 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
                     @Override
                     public void onResult(@NonNull Status status) {
                         if (status.isSuccess()) {
-                            callbacks.updateProfileInfo(null, null, null, null);
+                            callbacks.updateProfileInfo(null, null, null, null, true);
 
                         } else {
                             int id = NetworkHelper.isOnline(context) ? R.string.sign_out_error : R.string.check_connection;
@@ -224,6 +225,12 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
         // TODO: https://developers.google.com/android/reference/com/google/android/gms/common/api/GoogleApiClient.OnConnectionFailedListener#public-methods
         callbacks.signingIn(false);
         callbacks.hideProgressDialog();
-        Toast.makeText(context, R.string.sign_in_error, Toast.LENGTH_SHORT).show();
+
+        callbacks.updateProfileInfo(null, null, null, null, true);
+
+        if (!silentlySigningIn) {
+            Toast.makeText(context, R.string.sign_in_error, Toast.LENGTH_SHORT).show();
+            silentlySigningIn = false;
+        }
     }
 }

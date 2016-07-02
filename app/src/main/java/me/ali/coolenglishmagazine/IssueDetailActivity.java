@@ -773,7 +773,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
     public void hideProgressDialog() {
     }
 
-    public void updateProfileInfo(String personPhoto, String displayName, String email, String userIdToken) {
+    public void updateProfileInfo(String personPhoto, String displayName, String email, String userIdToken, boolean signedOut) {
     }
 
     @Override

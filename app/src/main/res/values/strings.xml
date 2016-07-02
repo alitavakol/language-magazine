@@ -40,7 +40,7 @@
     <string name="add_alarm">Add new alarm</string>
 
     <string name="check_connection">Make sure your device is online.</string>
-    <string name="login_required">Make sure you are logged in to your Bazaar account.</string>
+    <string name="login_required">Make sure Bazaar is installed, and you are logged into it.</string>
     <string name="network_error">Could not connect to server.</string>
     <string name="server_message_dialog_title">Server message</string>
     <string name="upgrade_message">The “Hot English Magazine” app is old. Please upgrade to a more recent version.</string>

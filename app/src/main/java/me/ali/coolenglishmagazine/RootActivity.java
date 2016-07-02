@@ -165,14 +165,14 @@ public class RootActivity extends AppCompatActivity implements
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isLoggedIn)
+                if (!hasSavedLogIn)
                     account.signIn();
             }
         });
         headerView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (!isLoggedIn)
+                if (!hasSavedLogIn)
                     return false;
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(RootActivity.this);
@@ -366,9 +366,11 @@ public class RootActivity extends AppCompatActivity implements
     protected Account account;
 
     /**
-     * shows whether or not user is signed in to their android account.
+     * shows whether or not user is signed in to their android account. user was logged-in before,
+     * but the log-in status may not be up to date. it means that user's name, email and profile photo
+     * is stored in preferences as a result of their past log-in.
      */
-    boolean isLoggedIn;
+    boolean hasSavedLogIn;
 
     /**
      * if true, we are in the process of signing in. show progress indicator.
@@ -397,30 +399,37 @@ public class RootActivity extends AppCompatActivity implements
      *
      * @param userIdToken user token ID that can be sent to server for identification
      */
-    public void updateProfileInfo(String personPhoto, String displayName, String email, String userIdToken) {
-        isLoggedIn = email != null && email.length() > 0;
-//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+    public void updateProfileInfo(String personPhoto, String displayName, String email, String userIdToken, boolean signedOut) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (!isLoggedIn) {
-            displayName = getString(R.string.sign_in_name);
-            email = getString(R.string.sign_in_email);
-            personPhoto = null;
+        if (signedOut) { // user deliberately signed out
+            hasSavedLogIn = false;
 
-//            preferences.edit()
-//                    .remove("user_name")
-//                    .remove("user_email")
-//                    .remove("user_image")
-//                    .remove("user_id_token")
-//                    .apply();
+            preferences.edit()
+                    .remove("user_name")
+                    .remove("user_email")
+                    .remove("user_image")
+                    .apply();
 
         } else {
-//            preferences.edit()
-//                    .putString("user_name", displayName)
-//                    .putString("user_email", email)
-//                    .putString("user_image", profilePicture.toString())
-//                    .putString("user_id_token", userIdToken)
-//                    .apply();
+
+            if (email != null) {
+                hasSavedLogIn = true;
+
+                preferences.edit()
+                        .putString("user_name", displayName)
+                        .putString("user_email", email)
+                        .putString("user_image", personPhoto)
+                        .apply();
+
+            } else {
+                hasSavedLogIn = preferences.contains("user_email");
+            }
         }
+
+        displayName = preferences.getString("user_name", getString(R.string.sign_in_name));
+        email = preferences.getString("user_email", getString(R.string.sign_in_email));
+        personPhoto = preferences.getString("user_image", null);
 
         if (personPhoto != null) {
             int w = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 42, getResources().getDisplayMetrics());
@@ -447,6 +456,7 @@ public class RootActivity extends AppCompatActivity implements
     public void signingIn(boolean signingIn) {
         this.signingIn = signingIn;
     }
+
     IUpdateCheckService updateCheckService;
     UpdateServiceConnection updateServiceConnection;
 
