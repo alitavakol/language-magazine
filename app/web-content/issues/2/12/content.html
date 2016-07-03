@@ -16,10 +16,6 @@
 		</style>
 
 		<style type="text/css">
-			@font-face {
-				font-family: 'Blokletters';
-				src: url('GochiHand-Regular.ttf');
-			}
 			body {
 				overflow-y: scroll;
 			}
@@ -47,7 +43,6 @@
 			}
 			input {
 				display: inline-block;
-				font-family: 'Blokletters';
 				padding-top: 0;
 				padding-bottom: 0;
 				margin-left: 4px;
@@ -56,7 +51,7 @@
 				border: solid 1px #888;
 				text-align: center;
 				vertical-align: middle;
-				font-size: 1.2em;
+				font-weight: bold;
 				text-transform: lowercase;
 			}
 			input:focus {
@@ -70,6 +65,19 @@
 			}
 			table, th, td {
 				border: 1px solid black;
+			}
+			td div {
+				padding-left: 6px;
+				border-left: solid 3px transparent;
+			}
+			.hot {
+				border-left: solid 3px black;
+			}
+			.correct {
+				background-color: lightgreen;
+			}
+			.incorrect {
+				background-color: lightcoral;
 			}
 		</style>
 
@@ -97,27 +105,27 @@
 			<h3>Guilt-free napping for better working conditions.</h3>
 
 			<h4><span class="accent">❶</span> Pre reading - Tiredness</h4>
-			<p>Match the descriptive adjectives (1-4) to something that this person would say (a-d).</p>
+			<p>Match the descriptive adjectives to something that this person would say (a-d).</p>
 			<table style="width: 100%;">
 				<tr>
 					<th>A</th>
 					<th>B</th>
 				</tr>
 				<tr>
-					<td nowrap="true"><span>lazy<input type="text" class="accent"></span></td>
-					<td><ol type="a"><li><span>Why is he in such a bad mood today? He snapped at me twice.</span></li></ol></td>
+					<td nowrap="true" class="col-a">lazy<input type="text" readonly="true" data-ans="c"></td>
+					<td class="col-b" data-choice="a"><div><b>a.</b> Why is he in such a bad mood today? He snapped at me twice.</div></td>
 				</tr>
 				<tr>
-					<td nowrap="true"><span>productive<input type="text" class="accent"></span></td>
-					<td><ol type="a" start="2"><li><span>I’ve done so much work today. I’m very pleased with myself.</span></li></ol></td>
+					<td nowrap="true" class="col-a">productive<input type="text" readonly="true" data-ans="b"></td>
+					<td class="col-b" data-choice="b"><div><b>b.</b> I’ve done so much work today. I’m very pleased with myself.</div></td>
 				</tr>
 				<tr>
-					<td nowrap="true"><span>tired<input type="text" class="accent"></span></td>
-					<td><ol type="a" start="3"><li><span>He never does anything. He just sits there and watches everyone else run around.</span></li></ol></td>
+					<td nowrap="true" class="col-a">tired<input type="text" readonly="true" data-ans="d"></td>
+					<td class="col-b" data-choice="c"><div><b>c.</b> He never does anything. He just sits there and watches everyone else run around.</div></td>
 				</tr>
 				<tr>
-					<td nowrap="true"><span>cranky<input type="text" class="accent"></span></td>
-					<td><ol type="a" start="4"><li><span>I don’t know how I’m going to get through today. I hardly slept a wink last night.</span></li></ol></td>
+					<td nowrap="true" class="col-a">cranky<input type="text" readonly="true" data-ans="a"></td>
+					<td class="col-b" data-choice="d"><div><b>d.</b> I don’t know how I’m going to get through today. I hardly slept a wink last night.</div></td>
 				</tr>
 			</table>
 
@@ -158,6 +166,29 @@
 		<script type="text/javascript">
 			restoringInstanceState = false;
 
+			prev_input = null;
+			$('.col-a').tap(function() {
+				$('td div').addClass('hot');
+				if(prev_input != null) {
+					prev_input.val(prev_input_val);
+				}
+				prev_input = $(this).find('input');
+				prev_input_val = prev_input.val();
+				prev_input.val('?');
+			});
+			$('.col-b').tap(function () {
+				$('td div').removeClass('hot');
+				if(typeof(prev_input) != 'undefined') {
+					prev_input.val($(this).data('choice')).change();
+					prev_input = null;
+				}
+			});
+			$('input').on('change', function() {
+				$(this).removeClass('correct incorrect').addClass($(this).data('ans') == this.value ? 'correct' : 'incorrect');
+				saveInstanceState();
+			});
+
+
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
 					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
@@ -166,6 +197,7 @@
 					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
 					h1 { color: #" + accentColor + "; font-weight: bold; } \
 					th { background-color: " + tinycolor(accentColor).lighten() + "; } \
+					.arrow { color: " + tinycolor(accentColor).darken().darken() + "; } \
 					table { background: linear-gradient(white, " + tinycolor(accentColor).lighten().lighten().lighten().toRgbString() + "); background: -webkit-linear-gradient(white, " + tinycolor(accentColor).lighten().lighten().lighten().toRgbString() + "); } \
 				");
 			}
@@ -187,10 +219,6 @@
 				saveInstanceState();
 			}
 
-			$('input').keyup(function() {
-				saveInstanceState();
-			});
-
 			saveInstanceState = function() {
 				if(restoringInstanceState)
 					return;
@@ -198,7 +226,7 @@
 				outState = {
 					transcriptLocked: transcriptLocked,
 					scroll: prevScroll,
-					inputs: $('input').map(function() { return this.value; }).get(),
+					inputs: $('input').map(function() { return this.value == '?' ? prev_input_val : this.value; }).get(),
 				};
 
 				if(typeof(app) != 'undefined')
@@ -216,7 +244,7 @@
 
 				if(state['inputs']) {
 					$('input').map(function(i) {
-						this.value = state.inputs[i];
+						$(this).val(state.inputs[i]).change();
 					});
 				}
 
