@@ -104,7 +104,7 @@
 			<h1>Sleeping on the Job</h1>
 			<h3>Guilt-free napping for better working conditions.</h3>
 
-			<h4><span class="accent">❶</span> Pre reading - Tiredness</h4>
+			<h4><span class="accent">❶</span> <b>Pre reading - Tiredness</b></h4>
 			<p>Match the descriptive adjectives to something that this person would say (a-d).</p>
 			<table style="width: 100%;">
 				<tr>
@@ -129,7 +129,7 @@
 				</tr>
 			</table>
 
-			<h4><span class="accent">❷</span> Listening</h4>
+			<h4><span class="accent">❷</span> <b>Listening</b></h4>
 			<p>Now listen to the audio. Do not see transcript until you have listened for at least five times.</p>
 
 			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
@@ -138,7 +138,7 @@
 				</p>
 			</div></div>
 
-			<h4><span class="accent">❸</span> Discussion</h4>
+			<h4><span class="accent">❸</span> <b>Discussion</b></h4>
 			<ol>
 				<li><span>How do you feel today? Which adjective from Exercise 1 best describes your mood?</span></li>
 				<li><span>Do you have any lazy colleagues? Who?</span></li>
@@ -147,10 +147,10 @@
 				<li><span>When are you most productive?</span></li>
 			</ol>
 
-			<h4><span class="accent">❹</span> Reading I</h4>
+			<h4><span class="accent">❹</span> <b>Reading I</b></h4>
 			<p>What do you think are the main benefits of napping at work? Discuss this with a partner. Then read the article to compare your ideas.</p>
 
-			<h4><span class="accent">❺</span> Reading II</h4>
+			<h4><span class="accent">❺</span> <b>Reading II</b></h4>
 			<p>What do the numbers below refer to?</p>
 			<ul>
 				<li><span>70</span></li>
@@ -170,11 +170,11 @@
 			$('.col-a').tap(function() {
 				$('td div').addClass('hot');
 				if(prev_input != null) {
-					prev_input.val(prev_input_val);
+					prev_input.val(prev_input_val).change();
 				}
 				prev_input = $(this).find('input');
 				prev_input_val = prev_input.val();
-				prev_input.val('?');
+				prev_input.val('?').change();
 			});
 			$('.col-b').tap(function () {
 				$('td div').removeClass('hot');
@@ -184,7 +184,9 @@
 				}
 			});
 			$('input').on('change', function() {
-				$(this).removeClass('correct incorrect').addClass($(this).data('ans') == this.value ? 'correct' : 'incorrect');
+				$(this).removeClass('correct incorrect');
+				if(this.value != '?' && this.value != '')
+					$(this).addClass($(this).data('ans') == this.value ? 'correct' : 'incorrect');
 				saveInstanceState();
 			});
 

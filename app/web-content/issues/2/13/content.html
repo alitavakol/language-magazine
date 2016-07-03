@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			@font-face {
+				font-family: kust;
+				src: url("StrejkaRegular.ttf")
+			}
+			body {
+				overflow-y: scroll;
+			}
+			h1, h4 {
+				margin-top: 0;
+				text-transform: uppercase;
+			}
+			.lockable {
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
+				background-image: url('wall.jpg');
+			}
+			#transcript {
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: center;
+				text-align: -webkit-center;
+			}
+			#transcript p {
+				font-family: 'kust';
+				font-size: 3em;
+				line-height: 85%;
+				margin: 0;
+				padding: 0;
+				display: table-cell;
+				vertical-align: middle;
+			}
+			#transcript div {
+				display: table;
+			}
+			#transcript div:nth-child(even) p {
+				-webkit-transform: rotate(-3deg);
+				transform: rotate(-3deg);
+			}
+			#transcript div:nth-child(odd) p {
+				-webkit-transform: rotate(3deg);
+				transform: rotate(3deg);
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<h1>Graffiti</h1>
+			<h4>Here are some more examples of british toilet graffiti.</h4>
+
+			<div class="lockable"><div id="transcript">
+				<div><p><span data-start="11127" data-end="13565">Death is <a class="new-word" data-word="hereditary" data-type="adj" data-en="an illness / condition / trait that is passed on to a child by the parents">hereditary</a>.</span></p></div>
+				<div><p><span data-start="23691" data-end="28110">Always be sincere... even when you don’t mean it.</span></p></div>
+				<div><p><span data-start="30000" data-end="35050">The road to success is usually under construction.</span></p></div>
+				<div><p><span data-start="41549" data-end="47831">I am nobody. Nobody is perfect. Therefore, I must be perfect!</span></p></div>
+				<div><p><span data-start="52672" data-end="57100">Maturity is knowing when and where to be <a class="new-word" data-word="immature" data-type="adj" data-en="childish; not adult">immature</a>.</span></p></div>
+				<div><p><span data-start="59510" data-end="62440">I never met a chocolate I didn’t like.</span></p></div>
+			</div></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					.foundation { padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#transcript { padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; padding-top: " + (2*verticalMargin) + "px; padding-bottom: " + bottomMargin + "px; } \
+					#transcript p { padding-top: " + spacing + "px; padding-bottom: " + spacing + "px; } \
+					.lockable { padding-bottom: " + horizontalMargin + "px; margin-left: -" + horizontalMargin + "px; margin-right: -" + horizontalMargin + "px; margin-top: " + (2*verticalMargin) + "px; } \
+					h1 { color: #" + accentColor + "; font-weight: bold; } \
+					#transcript div:nth-child(even) p { color: " + tinycolor(accentColor).darken() + "; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key-enter-access-door-place-512.png")').children().css('visibility', 'hidden');
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+				}
+
+				saveInstanceState();
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+
+			$('#transcript p').each(function() {
+				$(this).parent().css("height", this.getBoundingClientRect().height);
+			});
+		</script>
+	</body>
+</html>
