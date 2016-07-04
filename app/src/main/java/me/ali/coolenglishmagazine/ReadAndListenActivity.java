@@ -44,6 +44,8 @@ import org.jsoup.select.Elements;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -638,6 +640,14 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 LogHelper.e(TAG, e.getMessage());
             }
         }
+
+        // sort time points
+        Collections.sort(timePoints, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] p1, int[] p2) {
+                return p1[0] - p2[0];
+            }
+        });
 
         return timePoints;
     }
