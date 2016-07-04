@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Hot English Magazine</string>
     <string name="app_website">http://www.alitavakol.me</string>
+    <string name="app_icon_url">https://cafebazaar.ir/media/upload/icons/me.ali.coolenglishmagazine.png</string>
 
     <string name="gallery_of_issues">Gallery of Issues</string>
     <string name="cool_english_times">Hot English Times</string>
@@ -248,17 +249,15 @@
     </array>
 
     <!-- share fragment -->
-    <string name="share_title">Would you share us?</string>
+    <string name="share_dialog_title">Would you share us?</string>
     <string name="activity_not_found">Action is not supported by device.</string>
 
     <!-- https://developers.facebook.com/apps/1288023007880543/ -->
     <string name="facebook_app_id">1288023007880543</string>
 
-    <string name="facebook_share_description">The Hot English Magazine android app guides you in English language learning, in a hot and easy way. And of course with fun!</string>
-    <string name="facebook_share_title">The Hot English Magazine Android App</string>
-
-    <string name="share_description">The Hot English Magazine android app (http://www.alitavakol.me) guides you in English language learning, in a hot and easy way. And of course with fun!</string>
-    <string name="share_description_html">The <a href='http://www.alitavakol.me'>Hot English Magazine android app</a> guides you in English language learning, in a hot and easy way. And of course with fun!</string>
+    <string name="share_description">Do you want to speak English confidently in 6 months or less?\n\nWith 7 important rules of learning English, the Hot English Magazine app teaches you how to speak powerfully, confidently and successfully: \n1- Learn phrases, not words!\n2- Don’t study grammar!\n3- Listen first.\n4- Slow, deep learning is best.\n5- Use point of view stories.\n6- Listen only to real English.\n7- Listen &amp; answer mini-stories.\n\nTo read more about the rules, and learn with the Hot English Magazine, see: %s</string>
+    <string name="share_description_twitter">Learn to think in English &amp; speak fluently with the Hot English Magazine app!\n</string>
+    <string name="share_title">Hey! Let’s learn with the Hot English Magazine!</string>
 
     <string name="copied_to_clipboard">Copied to clipboard!</string>
 

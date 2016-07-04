@@ -21,7 +21,7 @@ public class MagazineContent {
     /**
      * maximum number of items in one issue
      */
-    public static final int MAX_ITEMS = 10;
+    public static final int MAX_ITEMS = 50;
 
     /**
      * An array of available magazine items in this issue.
