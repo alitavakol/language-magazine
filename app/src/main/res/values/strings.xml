@@ -255,7 +255,7 @@
     <!-- https://developers.facebook.com/apps/1288023007880543/ -->
     <string name="facebook_app_id">1288023007880543</string>
 
-    <string name="share_description">Do you want to speak English confidently in 6 months or less?\n\nWith 7 important rules of learning English, the Hot English Magazine app teaches you how to speak powerfully, confidently and successfully: \n1- Learn phrases, not words!\n2- Don’t study grammar!\n3- Listen first.\n4- Slow, deep learning is best.\n5- Use point of view stories.\n6- Listen only to real English.\n7- Listen &amp; answer mini-stories.\n\nTo read more about the rules, and learn with the Hot English Magazine, see: %s</string>
+    <string name="share_description" formatted="false">Do you want to speak English confidently in 6 months or less?\n\nWith 7 important rules of learning English, the Hot English Magazine app teaches you how to speak powerfully, confidently and successfully: \n1- Learn phrases, not words!\n2- Don’t study grammar!\n3- Listen first.\n4- Slow, deep learning is best.\n5- Use point of view stories.\n6- Listen only to real English.\n7- Listen &amp; answer mini-stories.\n\nTo read more about the rules, and learn with the Hot English Magazine, see: %1$s</string>
     <string name="share_description_twitter">Learn to think in English &amp; speak fluently with the Hot English Magazine app!\n</string>
     <string name="share_title">Hey! Let’s learn with the Hot English Magazine!</string>
 
