@@ -8,10 +8,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -46,6 +48,7 @@ import org.jsoup.nodes.Element;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -59,6 +62,7 @@ import me.ali.coolenglishmagazine.util.Inventory;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.util.NetworkHelper;
 import me.ali.coolenglishmagazine.util.Purchase;
+import me.ali.coolenglishmagazine.util.Security;
 import me.ali.coolenglishmagazine.util.SkuDetails;
 import me.ali.coolenglishmagazine.widget.ObservableScrollView;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -230,6 +234,9 @@ public class IssueDetailActivity extends AppCompatActivity implements
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.issue_detail_container, fragment)
                         .commit();
+
+            } else {
+                proceedToPurchaseAfterSignIn = savedInstanceState.getBoolean("proceedToPurchaseAfterSignIn", false);
             }
 
             tapToRefreshButton = (TextView) findViewById(R.id.tap_to_refresh);
@@ -269,15 +276,29 @@ public class IssueDetailActivity extends AppCompatActivity implements
                         buttonPurchase.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                buttonPurchase.setEnabled(false);
-                                buttonPurchase.setClickable(false);
-                                buttonPurchase.setTextColor(getResources().getColor(R.color.linkColorDisabled));
-                                tapToRefreshButton.setClickable(false);
-                                tapToRefreshButton.setEnabled(false);
-                                tapToRefreshButton.setText(R.string.tap_to_refresh_disabled);
-                                tapToRefreshButton.setTextColor(getResources().getColor(R.color.linkColorDisabled));
-                                iabHelper.flagEndAsync();
-                                iabHelper.launchPurchaseFlow(IssueDetailActivity.this, Magazines.getSku(issue), issue.id, iabPurchaseFinishedListener, "developer-payload");
+                                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(IssueDetailActivity.this);
+                                if (!preferences.contains("user_id")) {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(IssueDetailActivity.this);
+                                    builder.setMessage(R.string.sign_in_required_for_purchase)
+                                            .setTitle(R.string.sign_in_required)
+                                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    account.signIn();
+                                                    proceedToPurchaseAfterSignIn = true;
+                                                }
+                                            })
+                                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                }
+                                            })
+                                            .setCancelable(true)
+                                            .show();
+                                    return;
+                                }
+
+                                startPurchaseFlow();
                             }
                         });
                     }
@@ -292,6 +313,29 @@ public class IssueDetailActivity extends AppCompatActivity implements
             e.printStackTrace();
             finish();
         }
+    }
+
+    protected boolean proceedToPurchaseAfterSignIn;
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("proceedToPurchaseAfterSignIn", proceedToPurchaseAfterSignIn);
+    }
+
+    private void startPurchaseFlow() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(IssueDetailActivity.this);
+        final String userId = preferences.getString("user_id", "");
+
+        buttonPurchase.setEnabled(false);
+        buttonPurchase.setClickable(false);
+        buttonPurchase.setTextColor(getResources().getColor(R.color.linkColorDisabled));
+        tapToRefreshButton.setClickable(false);
+        tapToRefreshButton.setEnabled(false);
+        tapToRefreshButton.setText(R.string.tap_to_refresh_disabled);
+        tapToRefreshButton.setTextColor(getResources().getColor(R.color.linkColorDisabled));
+        iabHelper.flagEndAsync();
+        iabHelper.launchPurchaseFlow(IssueDetailActivity.this, Magazines.getSku(issue), issue.id, iabPurchaseFinishedListener, userId);
     }
 
     @Override
@@ -359,7 +403,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
                 return true;
 
             case R.id.action_delete:
-                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppTheme));
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage(R.string.issue_delete_confirmation_message)
                         .setTitle(R.string.issue_delete_confirmation_title)
                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -604,7 +648,20 @@ public class IssueDetailActivity extends AppCompatActivity implements
                 final boolean purchased = details == null || inventory.hasPurchase(sku);
                 final String price = details != null ? details.getPrice() : getString(R.string.free);
 
-                updateBillingInfo(price, purchased);
+                if (inventory.hasPurchase(sku)) {
+                    Purchase purchase = inventory.getPurchase(sku);
+
+                    String purchaseData = purchase.getOriginalJson();
+                    String dataSignature = purchase.getSignature();
+
+                    PublicKey key = Security.generatePublicKey(IabHelper.getPublicKey());
+                    if (Security.verify(key, purchaseData, dataSignature)) {
+                        updateBillingInfo(price, purchased, purchase.getToken());
+
+                    } else {
+                        LogHelper.i(TAG, "data signature is invalid.");
+                    }
+                }
             }
 
             tapToRefreshButton.setText(R.string.tap_to_refresh);
@@ -621,10 +678,11 @@ public class IssueDetailActivity extends AppCompatActivity implements
      * @param price     new product price
      * @param purchased new value for {@link me.ali.coolenglishmagazine.model.Magazines.Issue#purchased}
      */
-    protected void updateBillingInfo(String price, boolean purchased) {
+    protected void updateBillingInfo(String price, boolean purchased, String purchaseToken) {
         if (!price.equals(issue.price) || purchased != issue.purchased) {
             issue.price = price;
             issue.purchased = purchased;
+            issue.purchaseToken = purchaseToken;
 
             // save price and purchase status in issue's manifest file
             try {
@@ -634,6 +692,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
                 Element e = doc.getElementsByTag("issue").first();
                 e.attr("price", price);
                 e.attr("purchased", purchased ? "true" : "false");
+                e.attr("purchase_token", purchaseToken);
 
                 FileOutputStream output = new FileOutputStream(input);
                 output.write(doc.body().html().getBytes());
@@ -666,22 +725,32 @@ public class IssueDetailActivity extends AppCompatActivity implements
         if (requestCode == issue.id) {
             if (resultCode == RESULT_OK) {
                 int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
-                String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
-                String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
 
-                try {
-                    JSONObject jo = new JSONObject(purchaseData);
-                    String sku = jo.getString("productId");
-                    int purchaseState = jo.getInt("purchaseState");
+                if (responseCode == IabHelper.BILLING_RESPONSE_RESULT_OK || responseCode == IabHelper.BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED) {
+                    String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
+                    String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
 
-                    // https://cafebazaar.ir/developers/docs/iab/reference/
-                    if (sku.equals(Magazines.getSku(issue)) && purchaseState == 0) {
-                        updateBillingInfo(issue.price, true);
+                    PublicKey key = Security.generatePublicKey(IabHelper.getPublicKey());
+                    if (!Security.verify(key, purchaseData, dataSignature)) {
+                        LogHelper.i(TAG, "data signature is invalid.");
+                        return;
                     }
 
-                } catch (JSONException e) {
-                    LogHelper.e(TAG, "Failed to parse purchase data.");
-                    e.printStackTrace();
+                    try {
+                        JSONObject jo = new JSONObject(purchaseData);
+                        String sku = jo.getString("productId");
+                        int purchaseState = jo.getInt("purchaseState");
+
+                        // https://cafebazaar.ir/developers/docs/iab/reference/
+                        if (sku.equals(Magazines.getSku(issue)) && purchaseState == 0) {
+                            updateBillingInfo(issue.price, true, jo.getString("purchaseToken"));
+                            Toast.makeText(this, R.string.tnx_for_purchase, Toast.LENGTH_LONG).show();
+                        }
+
+                    } catch (JSONException e) {
+                        LogHelper.e(TAG, "Failed to parse purchase data.");
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -773,7 +842,11 @@ public class IssueDetailActivity extends AppCompatActivity implements
     public void hideProgressDialog() {
     }
 
-    public void updateProfileInfo(String personPhoto, String displayName, String email, String userIdToken, boolean signedOut) {
+    public void updateProfileInfo(String personPhoto, String displayName, String email, String userId, boolean signedOut) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (userId != null && proceedToPurchaseAfterSignIn)
+            startPurchaseFlow();
+        proceedToPurchaseAfterSignIn = false;
     }
 
     @Override

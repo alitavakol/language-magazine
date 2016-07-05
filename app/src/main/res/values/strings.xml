@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">Hot English Magazine</string>
-    <string name="app_website">http://www.alitavakol.me</string>
+    <string name="app_website">https://cafebazaar.ir/developer/777214402747/</string>
 
     <string name="gallery_of_issues">Gallery of Issues</string>
     <string name="cool_english_times">Hot English Times</string>
@@ -403,6 +403,11 @@
     <string name="sign_in_invalid_account">Account is invalid.</string>
     <string name="sign_in_required">Sign in required.</string>
 
+    <!-- purchase -->
+    <string name="sign_in_required_for_purchase">You need to sign in before starting the purchase flow. Would you?</string>
+    <string name="tnx_for_purchase">Purchase completed successfully. Full-text version is ready for download.</string>
+
     <string name="update_available">Update is available!</string>
     <string name="update">Install</string>
+    <string name="app_store_not_found">Bazaar app is not installed.</string>
 </resources>

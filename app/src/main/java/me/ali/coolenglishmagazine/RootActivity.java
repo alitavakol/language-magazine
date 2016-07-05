@@ -1,5 +1,6 @@
 package me.ali.coolenglishmagazine;
 
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -396,34 +397,19 @@ public class RootActivity extends AppCompatActivity implements
 
     /**
      * updates user profile info on drawer.
-     *
-     * @param userIdToken user token ID that can be sent to server for identification
      */
-    public void updateProfileInfo(String personPhoto, String displayName, String email, String userIdToken, boolean signedOut) {
+    public void updateProfileInfo(String personPhoto, String displayName, String email, String userId, boolean signedOut) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (signedOut) { // user deliberately signed out
+        if (signedOut) { // user explicitly signed out
             hasSavedLogIn = false;
 
-            preferences.edit()
-                    .remove("user_name")
-                    .remove("user_email")
-                    .remove("user_image")
-                    .apply();
-
         } else {
-
-            if (email != null) {
+            if (userId != null) {
                 hasSavedLogIn = true;
 
-                preferences.edit()
-                        .putString("user_name", displayName)
-                        .putString("user_email", email)
-                        .putString("user_image", personPhoto)
-                        .apply();
-
             } else {
-                hasSavedLogIn = preferences.contains("user_email");
+                hasSavedLogIn = preferences.contains("user_id");
             }
         }
 
@@ -474,7 +460,16 @@ public class RootActivity extends AppCompatActivity implements
                             .setAction(R.string.update, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    // TODO: open Bazaar to upgrade this app
+                                    try {
+                                        // open Bazaar to upgrade this app
+                                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                                        intent.setData(Uri.parse("bazaar://details?id=" + getPackageName()));
+                                        intent.setPackage("com.farsitel.bazaar");
+                                        startActivity(intent);
+
+                                    } catch (ActivityNotFoundException e) {
+                                        Toast.makeText(RootActivity.this, R.string.app_store_not_found, Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }).setActionTextColor(getResources().getColor(R.color.primary_light))
                             .show();

@@ -3,6 +3,7 @@ package me.ali.coolenglishmagazine.model;
 import android.app.DownloadManager;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
@@ -86,6 +87,11 @@ public class Magazines {
             File input = new File(issueRootDirectory, Issue.manifestFileName);
             final Document doc = Jsoup.parse(input, "UTF-8", "");
 
+//            MessageDigest digest = MessageDigest.getInstance( "SHA-1" );
+//            byte[] bytes = toHash.getBytes("UTF-8");
+//            digest.update(bytes, 0, bytes.length);
+//            bytes = digest.digest();
+
             Element e = doc.getElementsByTag("issue").first();
             if (e == null) {
                 throw new IOException("Invalid manifest file.");
@@ -100,6 +106,9 @@ public class Magazines {
             issue.id = Integer.parseInt(issueRootDirectory.getName());
             issue.price = e.attr("price");
             issue.purchased = Boolean.parseBoolean(e.attr("purchased"));
+            issue.purchaseToken = e.attr("purchase_token");
+            if (issue.purchaseToken != null && issue.purchaseToken.length() == 0)
+                issue.purchaseToken = null;
 
             computeIssueStatus(context, issue);
 
@@ -282,6 +291,8 @@ public class Magazines {
         public String price;
 
         public boolean purchased;
+
+        public String purchaseToken;
     }
 
     /**
@@ -302,7 +313,8 @@ public class Magazines {
                 || status == DownloadManager.STATUS_PAUSED
                 || status == DownloadManager.STATUS_RUNNING
                 || status == -3 // extracting
-                || new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists())
+                || new File(issue.rootDirectory, Issue.proFileName).exists()
+                || (!issue.purchased && new File(issue.rootDirectory, Issue.downloadedFileName).exists()))
             return -1;
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(getIssueDownloadUrl(context, issue)))
@@ -322,9 +334,24 @@ public class Magazines {
      * @return URL from which the zip archive of the given issue can be downloaded.
      */
     public static String getIssueDownloadUrl(Context context, Issue issue) {
-        final Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(context).getString("server_address", context.getResources().getString(R.string.pref_default_server_address)));
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        final Uri uri = Uri.parse(preferences.getString("server_address", context.getResources().getString(R.string.pref_default_server_address)));
+
         // http://docs.oracle.com/javase/tutorial/networking/urls/urlInfo.html
-        return uri.toString() + "/api/issues/" + Integer.parseInt(issue.rootDirectory.getName()) + "?app_version=" + BuildConfig.VERSION_CODE;
+        String url = uri.toString() + "/api/issues/" + Integer.parseInt(issue.rootDirectory.getName())
+                + "?app_version=" + BuildConfig.VERSION_CODE;
+
+        if (issue.purchaseToken != null)
+            url += "&purchase_token=" + issue.purchaseToken;
+
+        if (preferences.contains("user_id"))
+            url += "&user_id=" + preferences.getString("user_id", null);
+
+        if (new File(issue.rootDirectory, Issue.downloadedFileName).exists())
+            url += "&paid_part_only=true";
+
+        return url;
     }
 
     /**

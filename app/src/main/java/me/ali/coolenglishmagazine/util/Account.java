@@ -1,7 +1,9 @@
 package me.ali.coolenglishmagazine.util;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -19,6 +21,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
 import me.ali.coolenglishmagazine.R;
+import me.ali.coolenglishmagazine.model.Magazines;
 
 /**
  * Common functions to perform sign-in to Google account.
@@ -65,7 +68,7 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
 
             case GoogleSignInStatusCodes.SIGN_IN_FAILED:
                 id = R.string.sign_in_failed;
-                callbacks.updateProfileInfo(null, null, null, null, true);
+                updateProfilePreferences(null, null, null, null, true);
                 break;
 
             case CommonStatusCodes.NETWORK_ERROR:
@@ -74,7 +77,7 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
 
             case CommonStatusCodes.INVALID_ACCOUNT:
                 id = R.string.sign_in_invalid_account;
-                callbacks.updateProfileInfo(null, null, null, null, true);
+                updateProfilePreferences(null, null, null, null, true);
                 break;
 
             case CommonStatusCodes.SIGN_IN_REQUIRED:
@@ -134,13 +137,13 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
                 final Uri personPhoto = acct.getPhotoUrl();
                 final String displayName = acct.getDisplayName();
                 final String email = acct.getEmail();
-                final String user_id_token = acct.getIdToken();
-                callbacks.updateProfileInfo(personPhoto != null ? personPhoto.toString() : null, displayName, email, user_id_token, false);
+                final String user_id = acct.getId();
+                updateProfilePreferences(personPhoto != null ? personPhoto.toString() : null, displayName, email, user_id, false);
             }
 
         } else { // Signed out, show unauthenticated UI.
             toastGoogleSignInResult(result.getStatus());
-            callbacks.updateProfileInfo(null, null, null, null, false);
+            updateProfilePreferences(null, null, null, null, false);
         }
     }
 
@@ -160,14 +163,14 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
          *
          * @param signedOut true if user deliberately signed out. false if sign-in attempt was unsuccessful while user was signed-in before.
          */
-        void updateProfileInfo(String personPhoto, String displayName, String email, String userIdToken, boolean signedOut);
+        void updateProfileInfo(String personPhoto, String displayName, String email, String userId, boolean signedOut);
 
         void signingIn(boolean inProgress);
     }
 
     Callbacks callbacks;
 
-    protected static final int RC_SIGN_IN = 1;
+    protected static final int RC_SIGN_IN = Magazines.MAX_ISSUES + 1;
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
@@ -197,7 +200,7 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
                     @Override
                     public void onResult(@NonNull Status status) {
                         if (status.isSuccess()) {
-                            callbacks.updateProfileInfo(null, null, null, null, true);
+                            updateProfilePreferences(null, null, null, null, true);
 
                         } else {
                             int id = NetworkHelper.isOnline(context) ? R.string.sign_out_error : R.string.check_connection;
@@ -208,6 +211,31 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
                         callbacks.hideProgressDialog();
                     }
                 });
+    }
+
+    private void updateProfilePreferences(String personPhoto, String displayName, String email, String userId, boolean signedOut) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        if (signedOut) { // user explicitly signed out
+            preferences.edit()
+                    .remove("user_name")
+                    .remove("user_email")
+                    .remove("user_image")
+                    .remove("user_id")
+                    .apply();
+
+        } else {
+            if (userId != null) {
+                preferences.edit()
+                        .putString("user_name", displayName)
+                        .putString("user_email", email)
+                        .putString("user_image", personPhoto)
+                        .putString("user_id", userId)
+                        .apply();
+            }
+        }
+
+        callbacks.updateProfileInfo(personPhoto, displayName, email, userId, signedOut);
     }
 
     private void revokeAccess() {
@@ -226,7 +254,7 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
         callbacks.signingIn(false);
         callbacks.hideProgressDialog();
 
-        callbacks.updateProfileInfo(null, null, null, null, true);
+        updateProfilePreferences(null, null, null, null, true);
 
         if (!silentlySigningIn) {
             Toast.makeText(context, R.string.sign_in_error, Toast.LENGTH_SHORT).show();
