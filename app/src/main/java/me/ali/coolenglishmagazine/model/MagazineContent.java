@@ -152,7 +152,7 @@ public class MagazineContent {
             item.flagFileName = e.attr("flag");
             item.type = e.attr("type");
             item.level = Integer.parseInt(e.attr("level"));
-            item.free = Boolean.parseBoolean("free");
+            item.free = Boolean.parseBoolean(e.attr("free"));
 
             file2item.put(itemRootDirectory, item);
         }

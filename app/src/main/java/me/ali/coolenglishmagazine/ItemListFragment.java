@@ -27,10 +27,12 @@ import android.widget.TextView;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
 import java.io.File;
 import java.io.IOException;
 
+import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
 import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
 import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.model.Magazines;
@@ -160,12 +162,14 @@ public class ItemListFragment extends Fragment {
                     int w = holder.itemView.getWidth();
                     int h = w / 2;
 
-                    Picasso
+                    RequestCreator r = Picasso
                             .with(holder.itemView.getContext())
                             .load(new File(item.rootDirectory, item.posterFileName))
                             .resize(w, h)
-                            .centerCrop()
-                            .into(holder.posterImageView);
+                            .centerCrop();
+                    if (!item.free)
+                        r.transform(new GrayscaleTransformation());
+                    r.into(holder.posterImageView);
                 }
             });
 
