@@ -523,7 +523,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
                 buttonContainer.setVisibility(View.VISIBLE);
                 progressContainer.setVisibility(View.INVISIBLE);
 
-                final boolean purchasedButNotDownloaded = issue.purchased && !new File(issue.rootDirectory, Magazines.Issue.proFileName).exists();
+                final boolean purchasedButNotDownloaded = issue.purchased && !new File(issue.rootDirectory, Magazines.Issue.paidContentDownloadedFileName).exists();
 
                 if (new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists()) {
                     buttonDownload.setVisibility(purchasedButNotDownloaded ? View.VISIBLE : View.GONE);

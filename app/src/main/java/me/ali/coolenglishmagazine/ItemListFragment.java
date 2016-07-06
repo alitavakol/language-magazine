@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -85,9 +86,11 @@ public class ItemListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        final FragmentActivity context = getActivity();
+
         try {
-            issue = Magazines.getIssue(getActivity(), new File(getArguments().getString(IssueDetailActivity.ARG_ROOT_DIRECTORY)));
-            magazineContent.loadItems(issue);
+            issue = Magazines.getIssue(context, new File(getArguments().getString(IssueDetailActivity.ARG_ROOT_DIRECTORY)));
+            magazineContent.loadItems(context, issue);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -96,7 +99,7 @@ public class ItemListFragment extends Fragment {
         // this fragment wants to add menu items to action bar.
         setHasOptionsMenu(true);
 
-        ((NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
+        ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
     }
 
     @Override

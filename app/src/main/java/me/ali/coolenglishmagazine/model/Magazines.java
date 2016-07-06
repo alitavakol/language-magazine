@@ -109,6 +109,8 @@ public class Magazines {
             issue.purchaseToken = e.attr("purchase_token");
             if (issue.purchaseToken != null && issue.purchaseToken.length() == 0)
                 issue.purchaseToken = null;
+            issue.signatureFree = e.attr("signature_free");
+            issue.signaturePaid = e.attr("signature_paid");
 
             computeIssueStatus(context, issue);
 
@@ -176,11 +178,12 @@ public class Magazines {
          */
         public static final String downloadedFileName = "downloaded";
 
-        /**
-         * if this file is present, user has downloaded full paid version of the issue.
-         * this file is included in paid issue's zip archive.
-         */
-        public static final String proFileName = "paid-for";
+//        /**
+//         * if this file is present, user has downloaded full-text "free" version of the issue.
+//         * this file is included in free issue's zip archive.
+//         * NOTE: completely free issues do not contain this file.
+//         */
+//        public static final String paidContentDownloadedFileName = "free-content-downloaded";
 
         /**
          * if this file is present, issue is the currently active one.
@@ -293,6 +296,16 @@ public class Magazines {
         public boolean purchased;
 
         public String purchaseToken;
+
+        /**
+         * MD5 hash of all issue's contained items' manifest.xml files combined.
+         * if only free items are downloaded, it is computed from free items only.
+         * but if issue is purchased and all items are downloaded, it is hash of all manifest.xml
+         * files and user_id combined.
+         */
+        public String signatureFree, signaturePaid;
+
+        public boolean paidContentIsValid, freeContentIsValid;
     }
 
     /**
@@ -313,8 +326,7 @@ public class Magazines {
                 || status == DownloadManager.STATUS_PAUSED
                 || status == DownloadManager.STATUS_RUNNING
                 || status == -3 // extracting
-                || new File(issue.rootDirectory, Issue.proFileName).exists()
-                || (!issue.purchased && new File(issue.rootDirectory, Issue.downloadedFileName).exists()))
+                || new File(issue.rootDirectory, Issue.downloadedFileName).exists())
             return -1;
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(getIssueDownloadUrl(context, issue)))
@@ -347,9 +359,6 @@ public class Magazines {
 
         if (preferences.contains("user_id"))
             url += "&user_id=" + preferences.getString("user_id", null);
-
-        if (new File(issue.rootDirectory, Issue.downloadedFileName).exists())
-            url += "&paid_part_only=true";
 
         return url;
     }
