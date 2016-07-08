@@ -94,7 +94,7 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
     /**
      * prevents disturbing user interface while silently signing in.
      */
-    protected boolean silentlySigningIn;
+    public boolean silentlySigningIn;
 
     public void silentSignIn() {
         silentlySigningIn = true;
@@ -106,7 +106,6 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
             LogHelper.d(TAG, "Got cached sign-in");
             GoogleSignInResult result = opr.get();
             handleSignInResult(result);
-            silentlySigningIn = false;
 
         } else {
             // If the user has not previously signed in on this device or the sign-in has expired,
@@ -122,7 +121,6 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
 
                     callbacks.signingIn(false);
                     callbacks.hideProgressDialog();
-                    silentlySigningIn = false;
                 }
             });
         }
@@ -258,7 +256,6 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
 
         if (!silentlySigningIn) {
             Toast.makeText(context, R.string.sign_in_error, Toast.LENGTH_SHORT).show();
-            silentlySigningIn = false;
         }
     }
 }

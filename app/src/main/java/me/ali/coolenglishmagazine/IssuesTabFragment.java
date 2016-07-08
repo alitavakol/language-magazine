@@ -784,29 +784,13 @@ public class IssuesTabFragment extends Fragment implements
                 break;
 
             case R.id.action_download:
-                selectedIssues_ = selectedIssues;
-                builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AppTheme));
-                builder.setMessage(R.string.free_download_warning)
-                        .setTitle(R.string.free_download_warning_title)
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                for (Magazines.Issue issue : selectedIssues_) {
-                                    try {
-                                        Magazines.download(context, issue);
-                                    } catch (IOException e) {
-                                        LogHelper.e(TAG, e.getMessage());
-                                    }
-                                }
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .setCancelable(true)
-                        .show();
+                for (Magazines.Issue issue : selectedIssues) {
+                    try {
+                        Magazines.download(context, issue);
+                    } catch (IOException e) {
+                        LogHelper.e(TAG, e.getMessage());
+                    }
+                }
                 break;
 
             default:

@@ -14,6 +14,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
 import me.ali.coolenglishmagazine.model.MagazineContent;
+import me.ali.coolenglishmagazine.util.Account;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -36,8 +37,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * {@link ItemListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class ItemListActivity extends AppCompatActivity
-        implements ItemListFragment.Callbacks {
+public class ItemListActivity extends AppCompatActivity implements
+        ItemListFragment.Callbacks,
+        Account.Callbacks {
 
     private static final String TAG = LogHelper.makeLogTag(ItemListActivity.class);
 
@@ -70,13 +72,17 @@ public class ItemListActivity extends AppCompatActivity
         final String issueRootDirectory = getIntent().getStringExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY);
         arguments.putString(IssueDetailActivity.ARG_ROOT_DIRECTORY, issueRootDirectory);
 
-        ItemListFragment fragment = new ItemListFragment();
-        fragment.setArguments(arguments);
+        itemListFragment = new ItemListFragment();
+        itemListFragment.setArguments(arguments);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frameLayout, fragment)
+                .replace(R.id.frameLayout, itemListFragment)
                 .commit();
+
+        account = new Account(this);
     }
+
+    ItemListFragment itemListFragment;
 
     @Override
     public void onNewIntent(Intent intent) {
@@ -133,4 +139,34 @@ public class ItemListActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Google APIs account sign-in helper
+     */
+    public Account account;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        account.silentSignIn();
+    }
+
+    public void showProgressDialog() {
+    }
+
+    public void hideProgressDialog() {
+    }
+
+    public void updateProfileInfo(String personPhoto, String displayName, String email, String userId, boolean signedOut) {
+        if (itemListFragment != null && !account.silentlySigningIn)
+            itemListFragment.signatureChanged(this);
+    }
+
+    public void signingIn(boolean signingIn) {
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        account.onActivityResult(requestCode, resultCode, data);
+    }
 }

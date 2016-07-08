@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -17,7 +18,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +34,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.farsitel.bazaar.ILoginCheckService;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -58,6 +63,7 @@ import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.util.Account;
 import me.ali.coolenglishmagazine.util.IabHelper;
 import me.ali.coolenglishmagazine.util.IabResult;
+import me.ali.coolenglishmagazine.util.InputStreamVolleyRequest;
 import me.ali.coolenglishmagazine.util.Inventory;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.util.NetworkHelper;
@@ -146,27 +152,27 @@ public class IssueDetailActivity extends AppCompatActivity implements
             buttonDownload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (!issue.purchased) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(IssueDetailActivity.this, R.style.AppTheme));
-                        builder.setMessage(R.string.free_download_warning_single)
-                                .setTitle(R.string.free_download_warning_title)
-                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        startDownload();
-                                    }
-                                })
-                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                })
-                                .setCancelable(true)
-                                .show();
-
-                    } else {
-                        startDownload();
-                    }
+//                    if (!issue.purchased) {
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(IssueDetailActivity.this, R.style.AppTheme));
+//                        builder.setMessage(R.string.free_download_warning_single)
+//                                .setTitle(R.string.free_download_warning_title)
+//                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        startDownload();
+//                                    }
+//                                })
+//                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                    }
+//                                })
+//                                .setCancelable(true)
+//                                .show();
+//
+//                    } else {
+                    startDownload();
+//                    }
                 }
 
                 protected void startDownload() {
@@ -264,7 +270,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
                             public void onClick(View v) {
                                 if (isLoggedIn) {
                                     if (NetworkHelper.isOnline(IssueDetailActivity.this))
-                                        updatePrice();
+                                        requestPrice();
                                     else
                                         Toast.makeText(IssueDetailActivity.this, R.string.check_connection, Toast.LENGTH_SHORT).show();
                                 } else {
@@ -327,13 +333,8 @@ public class IssueDetailActivity extends AppCompatActivity implements
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(IssueDetailActivity.this);
         final String userId = preferences.getString("user_id", "");
 
-        buttonPurchase.setEnabled(false);
-        buttonPurchase.setClickable(false);
-        buttonPurchase.setTextColor(getResources().getColor(R.color.linkColorDisabled));
-        tapToRefreshButton.setClickable(false);
-        tapToRefreshButton.setEnabled(false);
-        tapToRefreshButton.setText(R.string.tap_to_refresh_disabled);
-        tapToRefreshButton.setTextColor(getResources().getColor(R.color.linkColorDisabled));
+        setAppStoreQueryButtonsEnabled(false);
+
         iabHelper.flagEndAsync();
         iabHelper.launchPurchaseFlow(IssueDetailActivity.this, Magazines.getSku(issue), issue.id, iabPurchaseFinishedListener, userId);
     }
@@ -523,10 +524,10 @@ public class IssueDetailActivity extends AppCompatActivity implements
                 buttonContainer.setVisibility(View.VISIBLE);
                 progressContainer.setVisibility(View.INVISIBLE);
 
-                final boolean purchasedButNotDownloaded = issue.purchased && !new File(issue.rootDirectory, Magazines.Issue.paidContentDownloadedFileName).exists();
+//                final boolean purchasedButNotDownloaded = issue.purchased && !new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists();
 
                 if (new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists()) {
-                    buttonDownload.setVisibility(purchasedButNotDownloaded ? View.VISIBLE : View.GONE);
+                    buttonDownload.setVisibility(/*purchasedButNotDownloaded ? View.VISIBLE :*/ View.GONE);
                     buttonOpen.setVisibility(View.VISIBLE);
                     if (deleteMenuItem != null)
                         deleteMenuItem.setVisible(true);
@@ -539,8 +540,8 @@ public class IssueDetailActivity extends AppCompatActivity implements
                         deleteMenuItem.setVisible(false);
                 }
 
-                if (purchasedButNotDownloaded)
-                    buttonDownload.setText(R.string.download_full_text);
+//                if (purchasedButNotDownloaded)
+//                    buttonDownload.setText(R.string.download_full_text);
 
                 if (timer != null) {
                     timer.cancel();
@@ -645,9 +646,13 @@ public class IssueDetailActivity extends AppCompatActivity implements
                 final String sku = Magazines.getSku(issue);
 
                 final SkuDetails details = inventory.getSkuDetails(sku);
-                final boolean purchased = details == null || inventory.hasPurchase(sku);
+//                final boolean purchased = details == null || inventory.hasPurchase(sku);
                 final String price = details != null ? details.getPrice() : getString(R.string.free);
 
+                savePurchaseInfo(price, issue.purchased); // do not touch purchased until we get signature
+                updatePriceGui();
+
+                // get purchase token from bazaar
                 if (inventory.hasPurchase(sku)) {
                     Purchase purchase = inventory.getPurchase(sku);
 
@@ -656,19 +661,17 @@ public class IssueDetailActivity extends AppCompatActivity implements
 
                     PublicKey key = Security.generatePublicKey(IabHelper.getPublicKey());
                     if (Security.verify(key, purchaseData, dataSignature)) {
-                        updateBillingInfo(price, purchased, purchase.getToken());
+                        requestSignaturePaid(price, true, purchase.getToken());
+                        return;
 
                     } else {
-                        LogHelper.i(TAG, "data signature is invalid.");
+                        Toast.makeText(IssueDetailActivity.this, R.string.purchase_failed, Toast.LENGTH_SHORT).show();
+                        LogHelper.i(TAG, "purchase data signature is invalid.");
                     }
                 }
             }
 
-            tapToRefreshButton.setText(R.string.tap_to_refresh);
-            tapToRefreshButton.setClickable(true);
-            tapToRefreshButton.setEnabled(true);
-            tapToRefreshButton.setText(R.string.tap_to_refresh);
-            tapToRefreshButton.setTextColor(getResources().getColor(R.color.linkColor));
+            setAppStoreQueryButtonsEnabled(true);
         }
     };
 
@@ -678,32 +681,28 @@ public class IssueDetailActivity extends AppCompatActivity implements
      * @param price     new product price
      * @param purchased new value for {@link me.ali.coolenglishmagazine.model.Magazines.Issue#purchased}
      */
-    protected void updateBillingInfo(String price, boolean purchased, String purchaseToken) {
-        if (!price.equals(issue.price) || purchased != issue.purchased) {
-            issue.price = price;
-            issue.purchased = purchased;
-            issue.purchaseToken = purchaseToken;
+    protected void savePurchaseInfo(String price, boolean purchased) {
+        if (!issue.purchased && purchased)
+            Toast.makeText(this, R.string.tnx_for_purchase, Toast.LENGTH_LONG).show();
 
-            // save price and purchase status in issue's manifest file
-            try {
-                File input = new File(issue.rootDirectory, Magazines.Issue.manifestFileName);
-                final Document doc = Jsoup.parse(input, "UTF-8", "");
+        issue.price = price;
+        issue.purchased = purchased;
 
-                Element e = doc.getElementsByTag("issue").first();
-                e.attr("price", price);
-                e.attr("purchased", purchased ? "true" : "false");
-                e.attr("purchase_token", purchaseToken);
+        // save price and purchase status in issue's manifest file
+        try {
+            File input = new File(issue.rootDirectory, Magazines.Issue.manifestFileName);
+            final Document doc = Jsoup.parse(input, "UTF-8", "");
 
-                FileOutputStream output = new FileOutputStream(input);
-                output.write(doc.body().html().getBytes());
-                output.close();
+            Element e = doc.getElementsByTag("issue").first();
+            e.attr("price", price);
+            e.attr("purchased", purchased ? "true" : "false");
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            FileOutputStream output = new FileOutputStream(input);
+            output.write(doc.body().html().getBytes());
+            output.close();
 
-            updatePriceGui();
-            updateFab();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -731,49 +730,55 @@ public class IssueDetailActivity extends AppCompatActivity implements
                     String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
 
                     PublicKey key = Security.generatePublicKey(IabHelper.getPublicKey());
-                    if (!Security.verify(key, purchaseData, dataSignature)) {
-                        LogHelper.i(TAG, "data signature is invalid.");
-                        return;
-                    }
+                    if (Security.verify(key, purchaseData, dataSignature)) {
+                        try {
+                            JSONObject jo = new JSONObject(purchaseData);
+                            String sku = jo.getString("productId");
+                            int purchaseState = jo.getInt("purchaseState");
 
-                    try {
-                        JSONObject jo = new JSONObject(purchaseData);
-                        String sku = jo.getString("productId");
-                        int purchaseState = jo.getInt("purchaseState");
+                            // https://cafebazaar.ir/developers/docs/iab/reference/
+                            if (sku.equals(Magazines.getSku(issue)) && purchaseState == 0) {
+                                requestSignaturePaid(issue.price, true, jo.getString("purchaseToken"));
+                                return;
+                            }
 
-                        // https://cafebazaar.ir/developers/docs/iab/reference/
-                        if (sku.equals(Magazines.getSku(issue)) && purchaseState == 0) {
-                            updateBillingInfo(issue.price, true, jo.getString("purchaseToken"));
-                            Toast.makeText(this, R.string.tnx_for_purchase, Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            LogHelper.e(TAG, "Failed to parse purchase data.");
+                            e.printStackTrace();
                         }
 
-                    } catch (JSONException e) {
-                        LogHelper.e(TAG, "Failed to parse purchase data.");
-                        e.printStackTrace();
+                    } else {
+                        Toast.makeText(IssueDetailActivity.this, R.string.purchase_signature_error, Toast.LENGTH_SHORT).show();
                     }
+
+                } else {
+                    Toast.makeText(IssueDetailActivity.this, getString(R.string.purchase_error, responseCode), Toast.LENGTH_SHORT).show();
                 }
             }
 
-            buttonPurchase.setEnabled(true);
-            buttonPurchase.setClickable(true);
-            buttonPurchase.setTextColor(getResources().getColor(R.color.primary_light));
-            tapToRefreshButton.setClickable(true);
-            tapToRefreshButton.setEnabled(true);
-            tapToRefreshButton.setText(R.string.tap_to_refresh);
-            tapToRefreshButton.setTextColor(getResources().getColor(R.color.linkColor));
-        }
+            setAppStoreQueryButtonsEnabled(true);
 
-        account.onActivityResult(requestCode, resultCode, data);
+        } else {
+            account.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
-    protected void updatePrice() {
+    private void setAppStoreQueryButtonsEnabled(boolean enabled) {
+        buttonPurchase.setEnabled(enabled);
+        buttonPurchase.setClickable(enabled);
+        buttonPurchase.setTextColor(enabled ? getResources().getColor(R.color.primary_light) : getResources().getColor(R.color.linkColorDisabled));
+        tapToRefreshButton.setClickable(enabled);
+        tapToRefreshButton.setEnabled(enabled);
+        tapToRefreshButton.setText(enabled ? R.string.tap_to_refresh : R.string.tap_to_refresh_disabled);
+        tapToRefreshButton.setTextColor(enabled ? getResources().getColor(R.color.linkColor) : getResources().getColor(R.color.linkColorDisabled));
+    }
+
+    protected void requestPrice() {
         if (iabHelper == null)
             return;
 
-        tapToRefreshButton.setClickable(false);
-        tapToRefreshButton.setEnabled(false);
+        setAppStoreQueryButtonsEnabled(false);
         tapToRefreshButton.setText(R.string.refreshing);
-        tapToRefreshButton.setTextColor(getResources().getColor(R.color.linkColorDisabled));
 
         // get price and purchase state from inventory
         ArrayList<String> skuList = new ArrayList<>();
@@ -814,7 +819,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
                 // fetch price information only if item is not purchased and price is unknown
                 if (!issue.purchased && issue.price.length() == 0) {
                     if (isLoggedIn && NetworkHelper.isOnline(IssueDetailActivity.this)) {
-                        updatePrice();
+                        requestPrice();
                     }
                 }
 
@@ -843,7 +848,6 @@ public class IssueDetailActivity extends AppCompatActivity implements
     }
 
     public void updateProfileInfo(String personPhoto, String displayName, String email, String userId, boolean signedOut) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (userId != null && proceedToPurchaseAfterSignIn)
             startPurchaseFlow();
         proceedToPurchaseAfterSignIn = false;
@@ -856,6 +860,67 @@ public class IssueDetailActivity extends AppCompatActivity implements
     }
 
     public void signingIn(boolean signingIn) {
+    }
+
+    /**
+     * volley network request queue
+     */
+    RequestQueue requestQueue = null;
+
+    /**
+     * requests and saves paid content signature from server.
+     * on success, it calls {@link #savePurchaseInfo(String, boolean)} to save purchase data.
+     */
+    protected void requestSignaturePaid(final String price, final boolean purchased, final String purchaseToken) {
+        // Instantiate the RequestQueue.
+        if (requestQueue == null)
+            requestQueue = Volley.newRequestQueue(this);
+
+        final Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(this).getString("server_address", getString(R.string.pref_default_server_address)));
+        String url = uri.toString() + "/api/issues/" + issue.id + "/signature";
+
+        // purchase token must be present
+        url += "?purchase_token=" + purchaseToken;
+
+//        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+//        if (preferences.contains("user_id"))
+//            url += "&user_id=" + preferences.getString("user_id", null);
+
+        // Request manifest.xml data from the provided URL
+        InputStreamVolleyRequest request = new InputStreamVolleyRequest(Request.Method.GET, url, new Response.Listener<byte[]>() {
+            @Override
+            public void onResponse(byte[] response) {
+                try {
+                    FileOutputStream f = new FileOutputStream(new File(issue.rootDirectory, Magazines.Issue.signaturePaidFileName));
+                    f.write(response, 0, response.length);
+                    f.close();
+
+                    savePurchaseInfo(price, purchased);
+
+                    updatePriceGui();
+                    updateFab();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                } finally {
+                    setAppStoreQueryButtonsEnabled(true);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                setAppStoreQueryButtonsEnabled(true);
+
+                if (!NetworkHelper.isOnline(IssueDetailActivity.this))
+                    Toast.makeText(IssueDetailActivity.this, R.string.check_connection, Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(IssueDetailActivity.this, R.string.signature_download_error, Toast.LENGTH_SHORT).show();
+            }
+        }, null);
+
+        // Add the request to the RequestQueue.
+        requestQueue.add(request);
     }
 
 }

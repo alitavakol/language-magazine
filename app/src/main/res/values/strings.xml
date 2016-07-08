@@ -46,7 +46,7 @@
     <string name="upgrade_message">The “Hot English Magazine” app is old. Please upgrade to a more recent version.</string>
     <string name="update_success">Sync completed successfully.</string>
     <string name="unzip_error">Unknown error occurred.</string>
-    <string name="issue_delete_confirmation_message">This will remove selected issue’s content from device storage. Your purchase will remain valid if you have bought the item.</string>
+    <string name="issue_delete_confirmation_message">This will remove selected issue’s content from device storage to free up space.</string>
     <string name="issue_delete_confirmation_title">Sure?</string>
 
     <!-- for issue download notification -->
@@ -402,10 +402,18 @@
     <string name="sign_in_network_error">Network error has occurred.</string>
     <string name="sign_in_invalid_account">Account is invalid.</string>
     <string name="sign_in_required">Sign in required.</string>
+    <string name="sign_in_to_access">To verify owner identity, you need to sign in.</string>
+    <string name="sign_in_to_access_title">Sign in required</string>
 
     <!-- purchase -->
     <string name="sign_in_required_for_purchase">You need to sign in before starting the purchase flow. Would you?</string>
-    <string name="tnx_for_purchase">Purchase completed successfully. Full-text version is ready for download.</string>
+    <string name="tnx_for_purchase">Full-text version of this issue is available for you!</string>
+    <string name="purchase_failed">Purchase failed with unknown reason.</string>
+    <string name="signature_download_error">Server error occurred. Please refresh later.</string>
+    <string name="purchase_error">Purchase error %d occurred.</string>
+    <string name="purchase_signature_error">Purchase response data signature is incorrect.</string>
+    <string name="paid_item_error">This item is available in paid version of the magazine. Would you like to proceed with the purchase?</string>
+    <string name="paid_item_error_title">Paid content</string>
 
     <string name="update_available">Update is available!</string>
     <string name="update">Install</string>

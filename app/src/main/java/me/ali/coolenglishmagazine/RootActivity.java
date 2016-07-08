@@ -418,7 +418,7 @@ public class RootActivity extends AppCompatActivity implements
         personPhoto = preferences.getString("user_image", null);
 
         if (personPhoto != null) {
-            int w = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 42, getResources().getDisplayMetrics());
+            int w = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 36, getResources().getDisplayMetrics());
             Picasso
                     .with(this)
                     .load(Uri.parse(personPhoto))
@@ -426,7 +426,7 @@ public class RootActivity extends AppCompatActivity implements
                     .centerCrop()
                     .into(profilePicture);
         } else {
-            profilePicture.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_account_circle).sizeDp(42).colorRes(android.R.color.secondary_text_dark));
+            profilePicture.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_account_circle).sizeDp(36).colorRes(android.R.color.secondary_text_dark));
         }
 
         userName.setText(displayName);

@@ -106,11 +106,6 @@ public class Magazines {
             issue.id = Integer.parseInt(issueRootDirectory.getName());
             issue.price = e.attr("price");
             issue.purchased = Boolean.parseBoolean(e.attr("purchased"));
-            issue.purchaseToken = e.attr("purchase_token");
-            if (issue.purchaseToken != null && issue.purchaseToken.length() == 0)
-                issue.purchaseToken = null;
-            issue.signatureFree = e.attr("signature_free");
-            issue.signaturePaid = e.attr("signature_paid");
 
             computeIssueStatus(context, issue);
 
@@ -177,6 +172,10 @@ public class Magazines {
          * if this file is present, issue is downloaded and available to read offline.
          */
         public static final String downloadedFileName = "downloaded";
+
+        public static final String signatureFreeFileName = "signature-free";
+
+        public static final String signaturePaidFileName = "signature-paid";
 
 //        /**
 //         * if this file is present, user has downloaded full-text "free" version of the issue.
@@ -295,15 +294,7 @@ public class Magazines {
 
         public boolean purchased;
 
-        public String purchaseToken;
-
-        /**
-         * MD5 hash of all issue's contained items' manifest.xml files combined.
-         * if only free items are downloaded, it is computed from free items only.
-         * but if issue is purchased and all items are downloaded, it is hash of all manifest.xml
-         * files and user_id combined.
-         */
-        public String signatureFree, signaturePaid;
+//        public String purchaseToken;
 
         public boolean paidContentIsValid, freeContentIsValid;
     }
@@ -351,16 +342,8 @@ public class Magazines {
         final Uri uri = Uri.parse(preferences.getString("server_address", context.getResources().getString(R.string.pref_default_server_address)));
 
         // http://docs.oracle.com/javase/tutorial/networking/urls/urlInfo.html
-        String url = uri.toString() + "/api/issues/" + Integer.parseInt(issue.rootDirectory.getName())
+        return uri.toString() + "/api/issues/" + Integer.parseInt(issue.rootDirectory.getName())
                 + "?app_version=" + BuildConfig.VERSION_CODE;
-
-        if (issue.purchaseToken != null)
-            url += "&purchase_token=" + issue.purchaseToken;
-
-        if (preferences.contains("user_id"))
-            url += "&user_id=" + preferences.getString("user_id", null);
-
-        return url;
     }
 
     /**

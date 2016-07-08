@@ -42,7 +42,6 @@ public class MagazineContent {
 
     public void loadItems(Context context, Magazines.Issue issue) {
         File[] files = issue.rootDirectory.listFiles();
-        byte[] manifestFileBytes = new byte[1000]; // bytes of the manifest.xml
 
         for (File g : files) {
             if (g.isDirectory()) {
@@ -64,9 +63,18 @@ public class MagazineContent {
             }
         });
 
-        // verify copyright
+        // verify free and paid signatures
+        validateSignatures(context, issue);
+    }
+
+    public void validateSignatures(Context context, Magazines.Issue issue) {
+        byte[] manifestFileBytes = new byte[1000]; // bytes of the manifest.xml
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         final byte[] user_id = preferences.getString("user_id", "").getBytes();
+
+        issue.freeContentIsValid = false;
+        issue.paidContentIsValid = false;
 
         try {
             MessageDigest digest_free = MessageDigest.getInstance("MD5");
@@ -95,21 +103,33 @@ public class MagazineContent {
                 } else {
                     digest_paid.update(manifestFileBytes, 0, length);
                     digest_paid.update(Long.toString(contentFile.length()).getBytes());
-                    digest_free.update(user_id);
+                    digest_paid.update(user_id);
                 }
             }
 
-            byte[] hash_free = digest_free.digest();
+            byte[] hash = digest_free.digest();
             StringBuilder sb = new StringBuilder(32 + 1);
-            for (byte b : hash_free)
+            for (byte b : hash)
                 sb.append(String.format("%02x", b));
-            issue.freeContentIsValid = sb.toString().equals(issue.signatureFree);
+            final File signatureFreeFile = new File(issue.rootDirectory, Magazines.Issue.signatureFreeFileName);
+            FileInputStream f = new FileInputStream(signatureFreeFile);
+            byte[] t = new byte[(int) signatureFreeFile.length()];
+            f.read(t);
+            f.close();
+            issue.freeContentIsValid = sb.toString().equals(new String(t));
 
-            byte[] hash_paid = digest_paid.digest();
+            hash = digest_paid.digest();
             sb = new StringBuilder(32 + 1);
-            for (byte b : hash_paid)
+            for (byte b : hash)
                 sb.append(String.format("%02x", b));
-            issue.paidContentIsValid = sb.toString().equals(issue.signaturePaid);
+            final File signaturePaidFile = new File(issue.rootDirectory, Magazines.Issue.signaturePaidFileName);
+            if (signaturePaidFile.exists()) {
+                f = new FileInputStream(signaturePaidFile);
+                t = new byte[(int) signaturePaidFile.length()];
+                f.read(t);
+                f.close();
+                issue.paidContentIsValid = sb.toString().equals(new String(t));
+            }
 
         } catch (Exception e) {
             ITEMS.clear();
