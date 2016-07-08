@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Hot English Magazine</string>
-    <string name="app_website">http://www.alitavakol.me</string>
+    <string name="app_website">https://cafebazaar.ir/developer/777214402747/</string>
     <string name="app_icon_url">https://cafebazaar.ir/media/upload/icons/me.ali.coolenglishmagazine.png</string>
 
     <string name="gallery_of_issues">Gallery of Issues</string>
@@ -41,11 +41,14 @@
     <string name="add_alarm">Add new alarm</string>
 
     <string name="check_connection">Make sure your device is online.</string>
+    <string name="login_required">Make sure Bazaar is installed, and you are logged into it.</string>
     <string name="network_error">Could not connect to server.</string>
-    <string name="server_message_dialog_title">Server message:</string>
+    <string name="server_message_dialog_title">Server message</string>
     <string name="upgrade_message">The “Hot English Magazine” app is old. Please upgrade to a more recent version.</string>
     <string name="update_success">Sync completed successfully.</string>
     <string name="unzip_error">Unknown error occurred.</string>
+    <string name="issue_delete_confirmation_message">This will remove selected issue’s content from device storage to free up space.</string>
+    <string name="issue_delete_confirmation_title">Sure?</string>
 
     <!-- for issue download notification -->
     <string name="issue_downloaded_notification">New issue downloaded. Let’s start<![CDATA[!]]></string>
@@ -188,10 +191,13 @@
         <item>@string/advancedLevel</item>
     </array>
 
+    <string name="purchase">Purchase</string>
     <string name="download">Download</string>
+    <string name="download_full_text">Download Full-Text</string>
+    <string name="ok">Okay</string>
     <string name="cancel">Cancel</string>
     <string name="open">Open</string>
-    <string name="delete">Delete</string>
+    <string name="delete_issue">Delete issue</string>
     <string name="retry_download">Retry download</string>
     <string name="complete">Complete</string>
     <string name="reopen">Incomplete</string>
@@ -369,4 +375,46 @@
     <string name="about_saved_issues">Browse and download available <b>Hot English Magazine</b> issues from the tab on the right.</string>
     <string name="about_available_issues">Swipe down to get latest list of available <b>Hot English Magazine</b> issues from the web. New issue is published every two weeks!</string>
     <string name="about_completed_issues">When you finish practising a magazine, move it here. Tap &amp; hold on issue cover to see available options.</string>
+
+    <!-- Bazaar -->
+    <string name="price_title">Full-text price:</string>
+    <string name="tap_to_refresh"><u>refresh</u></string>
+    <string name="tap_to_refresh_disabled">refresh</string>
+    <string name="refreshing"><i>refreshing&#8230;</i></string>
+    <string name="unknown_price">unknown</string>
+    <string name="free">Free</string>
+    <string name="iab_query_error">Could not connect to in-app billing service.</string>
+    <string name="free_download_warning">This will download free version of selected magazine issues. To grab full-text version of them, see each issue’s introduction.</string>
+    <string name="free_download_warning_single">This will download the free version. To grab full-text version of this magazine, you will have to purchase it.</string>
+    <string name="free_download_warning_title">Download warning</string>
+
+    <!-- Google sign in -->
+    <string name="sign_in_name">Let’s sign in!</string>
+    <string name="sign_in_email">Tap here to sign in and get more features.</string>
+    <string name="sign_in_failed">The sign in attempt didn’t succeed with the current account.</string>
+    <string name="sign_in_cancelled">Sign in cancelled.</string>
+    <string name="sign_in_cancelled_maybe">Sign in cancelled. Network connection is required.</string>
+    <string name="sign_in_error">Sign in failed with unknown reason.</string>
+    <string name="sign_out_error">Sign out failed with unknown reason.</string>
+    <string name="sign_out_warning">Sure to sign out of the account?</string>
+    <string name="sign_out_warning_title">Sign out</string>
+    <string name="sign_in_network_error">Network error has occurred.</string>
+    <string name="sign_in_invalid_account">Account is invalid.</string>
+    <string name="sign_in_required">Sign in required.</string>
+    <string name="sign_in_to_access">To verify owner identity, you need to sign in.</string>
+    <string name="sign_in_to_access_title">Sign in required</string>
+
+    <!-- purchase -->
+    <string name="sign_in_required_for_purchase">You need to sign in before starting the purchase flow. Would you?</string>
+    <string name="tnx_for_purchase">Full-text version of this issue is available for you!</string>
+    <string name="purchase_failed">Purchase failed with unknown reason.</string>
+    <string name="signature_download_error">Server error occurred. Please refresh later.</string>
+    <string name="purchase_error">Purchase error %d occurred.</string>
+    <string name="purchase_signature_error">Purchase response data signature is incorrect.</string>
+    <string name="paid_item_error">This item is available in paid version of the magazine. Would you like to proceed with the purchase?</string>
+    <string name="paid_item_error_title">Paid content</string>
+
+    <string name="update_available">Update is available!</string>
+    <string name="update">Install</string>
+    <string name="app_store_not_found">Bazaar app is not installed.</string>
 </resources>

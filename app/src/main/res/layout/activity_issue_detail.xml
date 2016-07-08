@@ -50,7 +50,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textAppearance="@style/AppTheme.Widget.TextView.Title"
+                    tools:text="Toolbar Title" />
+            </android.support.v7.widget.Toolbar>
 
             <TextView
                 android:id="@+id/session_title"
@@ -67,20 +78,49 @@
                 android:textAlignment="viewStart"
                 tools:text="You want me to measure what!?" />
 
-            <TextView
-                android:id="@+id/session_subtitle"
-                style="@style/SessionDetailsSubtitle"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="@dimen/keyline_2_session_detail"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/keyline_2_session_detail"
-                android:ellipsize="end"
-                android:gravity="start"
-                android:maxLines="1"
-                android:textAlignment="viewStart"
-                tools:text="Test Session Subtitle" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/session_subtitle"
+                    style="@style/SessionDetailsSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:text="@string/price_title"
+                    android:textAlignment="viewStart"
+                    tools:text="Test Session Subtitle" />
+
+                <TextView
+                    android:id="@+id/session_price"
+                    style="@style/SessionDetailsSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spacing_normal"
+                    android:layout_marginStart="@dimen/spacing_normal"
+                    android:maxLines="1"
+                    tools:text="$ 100" />
+
+                <TextView
+                    android:id="@+id/tap_to_refresh"
+                    style="@style/SessionDetailsSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_normal"
+                    android:layout_marginStart="@dimen/padding_normal"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/tap_to_refresh"
+                    android:textColor="@color/linkColor" />
+            </LinearLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -96,8 +136,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:orientation="horizontal"
-                    android:minHeight="0dp">
+                    android:minHeight="0dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/buttonPurchase"
+                        style="@style/Widget.AppCompat.Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        android:text="@string/purchase"
+                        android:textColor="@color/colorPrimaryLight" />
 
                     <Button
                         android:id="@+id/buttonDownload"
@@ -106,17 +157,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:minHeight="0dp"
+                        android:minWidth="0dp"
                         android:text="@string/download"
-                        android:textColor="@color/colorPrimaryLight" />
-
-                    <Button
-                        android:id="@+id/buttonIncomplete"
-                        style="@style/Widget.AppCompat.Button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|start"
-                        android:minHeight="0dp"
-                        android:text="@string/reopen"
                         android:textColor="@color/colorPrimaryLight" />
 
                     <Button
@@ -126,29 +168,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:minHeight="0dp"
+                        android:minWidth="0dp"
                         android:text="@string/open"
                         android:textColor="@color/colorPrimaryLight" />
-
-                    <Button
-                        android:id="@+id/buttonComplete"
-                        style="@style/Widget.AppCompat.Button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|start"
-                        android:minHeight="0dp"
-                        android:text="@string/complete"
-                        android:textColor="@color/colorPrimaryLight" />
-
-                    <Button
-                        android:id="@+id/buttonDelete"
-                        style="@style/Widget.AppCompat.Button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:minHeight="0dp"
-                        android:text="@string/delete"
-                        android:textColor="@color/colorPrimaryLight" />
-
                 </LinearLayout>
 
                 <LinearLayout

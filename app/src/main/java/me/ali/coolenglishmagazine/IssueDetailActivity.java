@@ -2,13 +2,21 @@ package me.ali.coolenglishmagazine;
 
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
@@ -24,19 +32,44 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+import com.farsitel.bazaar.ILoginCheckService;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.PublicKey;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.Account;
+import me.ali.coolenglishmagazine.util.IabHelper;
+import me.ali.coolenglishmagazine.util.IabResult;
+import me.ali.coolenglishmagazine.util.InputStreamVolleyRequest;
+import me.ali.coolenglishmagazine.util.Inventory;
 import me.ali.coolenglishmagazine.util.LogHelper;
+import me.ali.coolenglishmagazine.util.NetworkHelper;
+import me.ali.coolenglishmagazine.util.Purchase;
+import me.ali.coolenglishmagazine.util.Security;
+import me.ali.coolenglishmagazine.util.SkuDetails;
 import me.ali.coolenglishmagazine.widget.ObservableScrollView;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -46,7 +79,10 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * item details are presented side-by-side with a list of items
  * in a {@link RootActivity}.
  */
-public class IssueDetailActivity extends AppCompatActivity implements ObservableScrollView.Callbacks, Magazines.Issue.OnStatusChangedListener {
+public class IssueDetailActivity extends AppCompatActivity implements
+        ObservableScrollView.Callbacks,
+        Magazines.Issue.OnStatusChangedListener,
+        Account.Callbacks {
 
     private static final String TAG = LogHelper.makeLogTag(IssueDetailActivity.class);
 
@@ -58,14 +94,16 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
 
     Magazines.Issue issue;
 
-    ImageButton buttonCancel;
-    Button buttonDownload, buttonOpen, buttonDelete, buttonComplete, buttonIncomplete;
+    Button buttonDownload, buttonPurchase, buttonOpen;
+    ImageButton buttonCancel; //, buttonComplete, buttonDelete, buttonIncomplete;
     ProgressBar progressBar;
     ViewGroup progressContainer, buttonContainer;
     private ObservableScrollView mScrollView;
     private View mPhotoViewContainer;
     private LinearLayout mHeaderSession;
     private FrameLayout issueDetailsContainer;
+    TextView priceTextView;
+    TextView tapToRefreshButton;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -84,10 +122,8 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
 
         buttonCancel = (ImageButton) findViewById(R.id.buttonCancel);
         buttonDownload = (Button) findViewById(R.id.buttonDownload);
+        buttonPurchase = (Button) findViewById(R.id.buttonPurchase);
         buttonOpen = (Button) findViewById(R.id.buttonOpen);
-        buttonComplete = (Button) findViewById(R.id.buttonComplete);
-        buttonIncomplete = (Button) findViewById(R.id.buttonIncomplete);
-        buttonDelete = (Button) findViewById(R.id.buttonDelete);
         progressBar = (ProgressBar) findViewById(R.id.progress);
         buttonContainer = (ViewGroup) findViewById(R.id.button_container);
         progressContainer = (ViewGroup) findViewById(R.id.progress_container);
@@ -99,7 +135,8 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             downloadReference = Magazines.getDownloadReference(this, issue);
 
             ((TextView) findViewById(R.id.session_title)).setText(issue.description);
-            ((TextView) findViewById(R.id.session_subtitle)).setText(issue.subtitle);
+            ((TextView) findViewById(R.id.toolbar_title)).setText(issue.subtitle);
+            priceTextView = (TextView) findViewById(R.id.session_price);
 
             buttonOpen.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -112,26 +149,33 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
                 }
             });
 
-            // update visibility of complete and incomplete buttons
-            onIssueStatusChanged(issue);
-
-            buttonComplete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Magazines.markCompleted(issue);
-                }
-            });
-
-            buttonIncomplete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Magazines.reopen(IssueDetailActivity.this, issue);
-                }
-            });
-
             buttonDownload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+//                    if (!issue.purchased) {
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(IssueDetailActivity.this, R.style.AppTheme));
+//                        builder.setMessage(R.string.free_download_warning_single)
+//                                .setTitle(R.string.free_download_warning_title)
+//                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        startDownload();
+//                                    }
+//                                })
+//                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                    }
+//                                })
+//                                .setCancelable(true)
+//                                .show();
+//
+//                    } else {
+                    startDownload();
+//                    }
+                }
+
+                protected void startDownload() {
                     try {
                         downloadReference = Magazines.download(IssueDetailActivity.this, issue);
                         updateFab();
@@ -156,14 +200,6 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
                 }
             });
             buttonCancel.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_clear).sizeRes(R.dimen.tw__login_btn_text_size).colorRes(R.color.accent));
-
-            buttonDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Magazines.deleteIssue(IssueDetailActivity.this, issue, false);
-                    updateFab();
-                }
-            });
 
             // Show the Up button in the action bar.
             ActionBar actionBar = getSupportActionBar();
@@ -204,7 +240,80 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.issue_detail_container, fragment)
                         .commit();
+
+            } else {
+                proceedToPurchaseAfterSignIn = savedInstanceState.getBoolean("proceedToPurchaseAfterSignIn", false);
             }
+
+            tapToRefreshButton = (TextView) findViewById(R.id.tap_to_refresh);
+
+            if (iabHelper == null) {
+                // the Base64-encoded RSA public key of the application
+                final String base64EncodedPublicKey = IabHelper.getPublicKey();
+
+                // compute your public key and store it in base64EncodedPublicKey
+                iabHelper = new IabHelper(getApplicationContext(), base64EncodedPublicKey);
+
+                iabHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+                    public void onIabSetupFinished(IabResult result) {
+                        if (!result.isSuccess()) {
+                            // Oh noes, there was a problem.
+                            LogHelper.d(TAG, "Problem setting up In-app Billing: " + result);
+
+                            iabHelper.dispose();
+                            iabHelper = null;
+                        }
+                        // Hooray, IAB is fully set up!
+
+                        tapToRefreshButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (isLoggedIn) {
+                                    if (NetworkHelper.isOnline(IssueDetailActivity.this))
+                                        requestPrice();
+                                    else
+                                        Toast.makeText(IssueDetailActivity.this, R.string.check_connection, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(IssueDetailActivity.this, R.string.login_required, Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+
+                        buttonPurchase.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(IssueDetailActivity.this);
+                                if (!preferences.contains("user_id")) {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(IssueDetailActivity.this);
+                                    builder.setMessage(R.string.sign_in_required_for_purchase)
+                                            .setTitle(R.string.sign_in_required)
+                                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    account.signIn();
+                                                    proceedToPurchaseAfterSignIn = true;
+                                                }
+                                            })
+                                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                }
+                                            })
+                                            .setCancelable(true)
+                                            .show();
+                                    return;
+                                }
+
+                                startPurchaseFlow();
+                            }
+                        });
+                    }
+                });
+            }
+
+            updatePriceGui();
+
+            account = new Account(this);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -212,11 +321,35 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         }
     }
 
+    protected boolean proceedToPurchaseAfterSignIn;
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("proceedToPurchaseAfterSignIn", proceedToPurchaseAfterSignIn);
+    }
+
+    private void startPurchaseFlow() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(IssueDetailActivity.this);
+        final String userId = preferences.getString("user_id", "");
+
+        setAppStoreQueryButtonsEnabled(false);
+
+        iabHelper.flagEndAsync();
+        iabHelper.launchPurchaseFlow(IssueDetailActivity.this, Magazines.getSku(issue), issue.id, iabPurchaseFinishedListener, userId);
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
+
         if (issue != null)
             issue.removeOnStatusChangedListener(this);
+
+        if (iabHelper != null) {
+            iabHelper.dispose();
+            iabHelper = null;
+        }
     }
 
     public void setOnScrollViewLayoutChangedListener() {
@@ -228,10 +361,22 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
 
     Toolbar toolbar;
 
+    MenuItem deleteMenuItem, completeMenuItem, incompleteMenuItem;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.issue_details_activity_menu, menu);
         getMenuInflater().inflate(R.menu.common, menu);
+
+        completeMenuItem = menu.findItem(R.id.action_mark_complete);
+        incompleteMenuItem = menu.findItem(R.id.action_mark_incomplete);
+        deleteMenuItem = menu.findItem(R.id.action_delete);
+
+        // update visibility of complete and incomplete buttons
+        onIssueStatusChanged(issue);
+        updateFab();
+
         return true;
     }
 
@@ -257,7 +402,36 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
+
+            case R.id.action_delete:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(R.string.issue_delete_confirmation_message)
+                        .setTitle(R.string.issue_delete_confirmation_title)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Magazines.deleteIssue(IssueDetailActivity.this, issue, false);
+                                updateFab();
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setCancelable(true)
+                        .show();
+                break;
+
+            case R.id.action_mark_complete:
+                Magazines.markCompleted(issue);
+                break;
+
+            case R.id.action_mark_incomplete:
+                Magazines.reopen(this, issue);
+                break;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -277,17 +451,31 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         LocalBroadcastManager.getInstance(this).registerReceiver(receiverDownloadExtracted, new IntentFilter(DownloadCompleteBroadcastReceiver.ACTION_DOWNLOAD_EXTRACTED));
 
         updateFab();
+
+        // check if user is logged in to their bazaar account
+        loginCheckServiceConnection = new LoginCheckServiceConnection();
+        Intent i = new Intent("com.farsitel.bazaar.service.LoginCheckService.BIND");
+        i.setPackage("com.farsitel.bazaar");
+        boolean ret = bindService(i, loginCheckServiceConnection, Context.BIND_AUTO_CREATE);
+        LogHelper.i(TAG, "initService() bound value: " + ret);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+
         if (timer != null) {
             timer.cancel();
             timer = null;
-            LogHelper.i(TAG, "timer cancelled.");
+            LogHelper.d(TAG, "timer cancelled.");
         }
+
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiverDownloadExtracted);
+
+        if (loginCheckServiceConnection != null) {
+            unbindService(loginCheckServiceConnection);
+            loginCheckServiceConnection = null;
+        }
     }
 
     DownloadManager downloadManager;
@@ -336,21 +524,29 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
                 buttonContainer.setVisibility(View.VISIBLE);
                 progressContainer.setVisibility(View.INVISIBLE);
 
+//                final boolean purchasedButNotDownloaded = issue.purchased && !new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists();
+
                 if (new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists()) {
-                    buttonDownload.setVisibility(View.GONE);
+                    buttonDownload.setVisibility(/*purchasedButNotDownloaded ? View.VISIBLE :*/ View.GONE);
                     buttonOpen.setVisibility(View.VISIBLE);
-                    buttonDelete.setVisibility(View.VISIBLE);
+                    if (deleteMenuItem != null)
+                        deleteMenuItem.setVisible(true);
+
                 } else {
-                    buttonDownload.setText(status == DownloadManager.STATUS_FAILED ? R.string.retry_download : R.string.download);
+                    buttonDownload.setContentDescription(getString(status == DownloadManager.STATUS_FAILED ? R.string.retry_download : R.string.download));
                     buttonDownload.setVisibility(View.VISIBLE);
                     buttonOpen.setVisibility(View.GONE);
-                    buttonDelete.setVisibility(View.GONE);
+                    if (deleteMenuItem != null)
+                        deleteMenuItem.setVisible(false);
                 }
+
+//                if (purchasedButNotDownloaded)
+//                    buttonDownload.setText(R.string.download_full_text);
 
                 if (timer != null) {
                     timer.cancel();
                     timer = null;
-                    LogHelper.i(TAG, "timer cancelled.");
+                    LogHelper.d(TAG, "timer cancelled.");
                 }
                 return;
         }
@@ -365,12 +561,12 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
                         @Override
                         public void run() {
                             updateFab();
-                            LogHelper.i(TAG, "download progress: " + dl_progress);
+                            LogHelper.d(TAG, "download progress: " + dl_progress);
                         }
                     });
                 }
             }, 0, 1000);
-            LogHelper.i(TAG, "timer created.");
+            LogHelper.d(TAG, "timer created.");
         }
     }
 
@@ -429,12 +625,302 @@ public class IssueDetailActivity extends AppCompatActivity implements Observable
         final Magazines.Issue.Status status = issue.getStatus();
 
         if (status == Magazines.Issue.Status.downloading || status == Magazines.Issue.Status.available) {
-            buttonComplete.setVisibility(View.GONE);
-            buttonIncomplete.setVisibility(View.GONE);
+            completeMenuItem.setVisible(false);
+            incompleteMenuItem.setVisible(false);
 
         } else {
-            buttonIncomplete.setVisibility(status == Magazines.Issue.Status.completed ? View.VISIBLE : View.GONE);
-            buttonComplete.setVisibility(status == Magazines.Issue.Status.completed ? View.GONE : View.VISIBLE);
+            incompleteMenuItem.setVisible(status == Magazines.Issue.Status.completed);
+            completeMenuItem.setVisible(status != Magazines.Issue.Status.completed);
         }
     }
+
+    protected IabHelper iabHelper;
+
+    private IabHelper.QueryInventoryFinishedListener iabQueryProductDetailsFinishedListener = new IabHelper.QueryInventoryFinishedListener() {
+        public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
+            if (result.isFailure()) {
+                // handle error
+                Toast.makeText(IssueDetailActivity.this, R.string.iab_query_error, Toast.LENGTH_SHORT).show();
+
+            } else {
+                final String sku = Magazines.getSku(issue);
+
+                final SkuDetails details = inventory.getSkuDetails(sku);
+//                final boolean purchased = details == null || inventory.hasPurchase(sku);
+                final String price = details != null ? details.getPrice() : getString(R.string.free);
+
+                savePurchaseInfo(price, issue.purchased); // do not touch purchased until we get signature
+                updatePriceGui();
+
+                // get purchase token from bazaar
+                if (inventory.hasPurchase(sku)) {
+                    Purchase purchase = inventory.getPurchase(sku);
+
+                    String purchaseData = purchase.getOriginalJson();
+                    String dataSignature = purchase.getSignature();
+
+                    PublicKey key = Security.generatePublicKey(IabHelper.getPublicKey());
+                    if (Security.verify(key, purchaseData, dataSignature)) {
+                        requestSignaturePaid(price, true, purchase.getToken());
+                        return;
+
+                    } else {
+                        Toast.makeText(IssueDetailActivity.this, R.string.purchase_failed, Toast.LENGTH_SHORT).show();
+                        LogHelper.i(TAG, "purchase data signature is invalid.");
+                    }
+                }
+            }
+
+            setAppStoreQueryButtonsEnabled(true);
+        }
+    };
+
+    /**
+     * saves billing information into issue's manifest file
+     *
+     * @param price     new product price
+     * @param purchased new value for {@link me.ali.coolenglishmagazine.model.Magazines.Issue#purchased}
+     */
+    protected void savePurchaseInfo(String price, boolean purchased) {
+        if (!issue.purchased && purchased)
+            Toast.makeText(this, R.string.tnx_for_purchase, Toast.LENGTH_LONG).show();
+
+        issue.price = price;
+        issue.purchased = purchased;
+
+        // save price and purchase status in issue's manifest file
+        try {
+            File input = new File(issue.rootDirectory, Magazines.Issue.manifestFileName);
+            final Document doc = Jsoup.parse(input, "UTF-8", "");
+
+            Element e = doc.getElementsByTag("issue").first();
+            e.attr("price", price);
+            e.attr("purchased", purchased ? "true" : "false");
+
+            FileOutputStream output = new FileOutputStream(input);
+            output.write(doc.body().html().getBytes());
+            output.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private IabHelper.OnIabPurchaseFinishedListener iabPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
+        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
+            if (result.isFailure()) {
+                LogHelper.d(TAG, "Error purchasing: " + result);
+
+            } else if (purchase.getSku().equals(Magazines.getSku(issue))) {
+                // update the UI
+            }
+        }
+    };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == issue.id) {
+            if (resultCode == RESULT_OK) {
+                int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
+
+                if (responseCode == IabHelper.BILLING_RESPONSE_RESULT_OK || responseCode == IabHelper.BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED) {
+                    String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
+                    String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
+
+                    PublicKey key = Security.generatePublicKey(IabHelper.getPublicKey());
+                    if (Security.verify(key, purchaseData, dataSignature)) {
+                        try {
+                            JSONObject jo = new JSONObject(purchaseData);
+                            String sku = jo.getString("productId");
+                            int purchaseState = jo.getInt("purchaseState");
+
+                            // https://cafebazaar.ir/developers/docs/iab/reference/
+                            if (sku.equals(Magazines.getSku(issue)) && purchaseState == 0) {
+                                requestSignaturePaid(issue.price, true, jo.getString("purchaseToken"));
+                                return;
+                            }
+
+                        } catch (JSONException e) {
+                            LogHelper.e(TAG, "Failed to parse purchase data.");
+                            e.printStackTrace();
+                        }
+
+                    } else {
+                        Toast.makeText(IssueDetailActivity.this, R.string.purchase_signature_error, Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Toast.makeText(IssueDetailActivity.this, getString(R.string.purchase_error, responseCode), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            setAppStoreQueryButtonsEnabled(true);
+
+        } else {
+            account.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void setAppStoreQueryButtonsEnabled(boolean enabled) {
+        buttonPurchase.setEnabled(enabled);
+        buttonPurchase.setClickable(enabled);
+        buttonPurchase.setTextColor(enabled ? getResources().getColor(R.color.primary_light) : getResources().getColor(R.color.linkColorDisabled));
+        tapToRefreshButton.setClickable(enabled);
+        tapToRefreshButton.setEnabled(enabled);
+        tapToRefreshButton.setText(enabled ? R.string.tap_to_refresh : R.string.tap_to_refresh_disabled);
+        tapToRefreshButton.setTextColor(enabled ? getResources().getColor(R.color.linkColor) : getResources().getColor(R.color.linkColorDisabled));
+    }
+
+    protected void requestPrice() {
+        if (iabHelper == null)
+            return;
+
+        setAppStoreQueryButtonsEnabled(false);
+        tapToRefreshButton.setText(R.string.refreshing);
+
+        // get price and purchase state from inventory
+        ArrayList<String> skuList = new ArrayList<>();
+        skuList.add(Magazines.getSku(issue));
+        iabHelper.flagEndAsync();
+        iabHelper.queryInventoryAsync(true, skuList, iabQueryProductDetailsFinishedListener);
+    }
+
+    /**
+     * updates GUI to reflect product price and purchased information
+     */
+    protected void updatePriceGui() {
+        priceTextView.setText(issue.price.length() > 0 ? issue.price : getString(R.string.unknown_price));
+        buttonPurchase.setVisibility(issue.purchased ? View.GONE : View.VISIBLE);
+    }
+
+    private ILoginCheckService loginCheckService;
+
+    private LoginCheckServiceConnection loginCheckServiceConnection;
+
+    /**
+     * shows whether or not user is logged in to their bazaar account
+     */
+    boolean isLoggedIn;
+
+    public class LoginCheckServiceConnection implements ServiceConnection {
+        private final String TAG = LogHelper.makeLogTag(LoginCheckServiceConnection.class);
+
+        public void onServiceConnected(ComponentName name, IBinder boundService) {
+            loginCheckService = ILoginCheckService.Stub.asInterface(boundService);
+
+            try {
+                isLoggedIn = loginCheckService.isLoggedIn();
+
+                unbindService(loginCheckServiceConnection);
+                loginCheckServiceConnection = null;
+
+                // fetch price information only if item is not purchased and price is unknown
+                if (!issue.purchased && issue.price.length() == 0) {
+                    if (isLoggedIn && NetworkHelper.isOnline(IssueDetailActivity.this)) {
+                        requestPrice();
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            LogHelper.i(TAG, "login check service connected");
+        }
+
+        public void onServiceDisconnected(ComponentName name) {
+            loginCheckService = null;
+            LogHelper.i(TAG, "login check service disconnected");
+        }
+    }
+
+    /**
+     * Google APIs account sign-in helper
+     */
+    protected Account account;
+
+    public void showProgressDialog() {
+    }
+
+    public void hideProgressDialog() {
+    }
+
+    public void updateProfileInfo(String personPhoto, String displayName, String email, String userId, boolean signedOut) {
+        if (userId != null && proceedToPurchaseAfterSignIn)
+            startPurchaseFlow();
+        proceedToPurchaseAfterSignIn = false;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        account.silentSignIn();
+    }
+
+    public void signingIn(boolean signingIn) {
+    }
+
+    /**
+     * volley network request queue
+     */
+    RequestQueue requestQueue = null;
+
+    /**
+     * requests and saves paid content signature from server.
+     * on success, it calls {@link #savePurchaseInfo(String, boolean)} to save purchase data.
+     */
+    protected void requestSignaturePaid(final String price, final boolean purchased, final String purchaseToken) {
+        // Instantiate the RequestQueue.
+        if (requestQueue == null)
+            requestQueue = Volley.newRequestQueue(this);
+
+        final Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(this).getString("server_address", getString(R.string.pref_default_server_address)));
+        String url = uri.toString() + "/api/issues/" + issue.id + "/signature";
+
+        // purchase token must be present
+        url += "?purchase_token=" + purchaseToken;
+
+//        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+//        if (preferences.contains("user_id"))
+//            url += "&user_id=" + preferences.getString("user_id", null);
+
+        // Request manifest.xml data from the provided URL
+        InputStreamVolleyRequest request = new InputStreamVolleyRequest(Request.Method.GET, url, new Response.Listener<byte[]>() {
+            @Override
+            public void onResponse(byte[] response) {
+                try {
+                    FileOutputStream f = new FileOutputStream(new File(issue.rootDirectory, Magazines.Issue.signaturePaidFileName));
+                    f.write(response, 0, response.length);
+                    f.close();
+
+                    savePurchaseInfo(price, purchased);
+
+                    updatePriceGui();
+                    updateFab();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                } finally {
+                    setAppStoreQueryButtonsEnabled(true);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                setAppStoreQueryButtonsEnabled(true);
+
+                if (!NetworkHelper.isOnline(IssueDetailActivity.this))
+                    Toast.makeText(IssueDetailActivity.this, R.string.check_connection, Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(IssueDetailActivity.this, R.string.signature_download_error, Toast.LENGTH_SHORT).show();
+            }
+        }, null);
+
+        // Add the request to the RequestQueue.
+        requestQueue.add(request);
+    }
+
 }

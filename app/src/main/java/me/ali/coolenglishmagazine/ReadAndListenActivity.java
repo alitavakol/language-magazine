@@ -521,7 +521,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onMediaStateChanged(int state) {
-        LogHelper.i(TAG, "media playback state: ", state);
+        LogHelper.d(TAG, "media playback state: ", state);
 
         if (state == PlaybackStateCompat.STATE_FAST_FORWARDING || state == PlaybackStateCompat.STATE_REWINDING)
             state = this.state;

@@ -1,11 +1,18 @@
 package me.ali.coolenglishmagazine.model;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,12 +40,15 @@ public class MagazineContent {
      */
     public static HashMap<File, Item> file2item = new HashMap<>();
 
-    public void loadItems(Magazines.Issue issue) {
+    public void loadItems(Context context, Magazines.Issue issue) {
         File[] files = issue.rootDirectory.listFiles();
+
         for (File g : files) {
             if (g.isDirectory()) {
                 try {
-                    addItem(getItem(g));
+                    final Item item = getItem(g);
+                    addItem(item);
+
                 } catch (IOException e) {
                     LogHelper.e(TAG, e.getMessage());
                 }
@@ -52,6 +62,79 @@ public class MagazineContent {
                 return item1.id - item2.id;
             }
         });
+
+        // verify free and paid signatures
+        validateSignatures(context, issue);
+    }
+
+    public void validateSignatures(Context context, Magazines.Issue issue) {
+        byte[] manifestFileBytes = new byte[1000]; // bytes of the manifest.xml
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final byte[] user_id = preferences.getString("user_id", "").getBytes();
+
+        issue.freeContentIsValid = false;
+        issue.paidContentIsValid = false;
+
+        try {
+            MessageDigest digest_free = MessageDigest.getInstance("MD5");
+            digest_free.update(issue.title.getBytes());
+
+            MessageDigest digest_paid = MessageDigest.getInstance("MD5");
+            digest_paid.update(issue.title.getBytes());
+
+            for (Item item : ITEMS) {
+                // take bytes of this item's manifest.xml for hash computation
+                final File file = new File(item.rootDirectory, Item.manifestFileName);
+                BufferedInputStream manifestFileStream = new BufferedInputStream(new FileInputStream(file));
+                final int length = (int) file.length();
+                if (manifestFileBytes.length < length)
+                    manifestFileBytes = new byte[length];
+                manifestFileStream.read(manifestFileBytes, 0, length);
+
+                // append length of content.html.
+                // so, user cannot replace content with another one
+                final File contentFile = new File(item.rootDirectory, Item.contentFileName);
+
+                if (item.free) {
+                    digest_free.update(manifestFileBytes, 0, length);
+                    digest_free.update(Long.toString(contentFile.length()).getBytes());
+
+                } else {
+                    digest_paid.update(manifestFileBytes, 0, length);
+                    digest_paid.update(Long.toString(contentFile.length()).getBytes());
+                    digest_paid.update(user_id);
+                }
+            }
+
+            byte[] hash = digest_free.digest();
+            StringBuilder sb = new StringBuilder(32 + 1);
+            for (byte b : hash)
+                sb.append(String.format("%02x", b));
+            final File signatureFreeFile = new File(issue.rootDirectory, Magazines.Issue.signatureFreeFileName);
+            FileInputStream f = new FileInputStream(signatureFreeFile);
+            byte[] t = new byte[(int) signatureFreeFile.length()];
+            f.read(t);
+            f.close();
+            issue.freeContentIsValid = sb.toString().equals(new String(t));
+
+            hash = digest_paid.digest();
+            sb = new StringBuilder(32 + 1);
+            for (byte b : hash)
+                sb.append(String.format("%02x", b));
+            final File signaturePaidFile = new File(issue.rootDirectory, Magazines.Issue.signaturePaidFileName);
+            if (signaturePaidFile.exists()) {
+                f = new FileInputStream(signaturePaidFile);
+                t = new byte[(int) signaturePaidFile.length()];
+                f.read(t);
+                f.close();
+                issue.paidContentIsValid = sb.toString().equals(new String(t));
+            }
+
+        } catch (Exception e) {
+            ITEMS.clear();
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -67,7 +150,7 @@ public class MagazineContent {
         // verify issue integrity,
         // and delete issue on error
         if (!new File(itemRootDirectory, Item.contentFileName).exists()) {
-            throw new IOException("Cannot find item content file.");
+            throw new IOException("Could not find item content file: " + itemRootDirectory);
         }
 
         if (item == null) {
@@ -89,6 +172,7 @@ public class MagazineContent {
             item.flagFileName = e.attr("flag");
             item.type = e.attr("type");
             item.level = Integer.parseInt(e.attr("level"));
+            item.free = Boolean.parseBoolean(e.attr("free"));
 
             file2item.put(itemRootDirectory, item);
         }
@@ -133,6 +217,11 @@ public class MagazineContent {
         public String type;
         public int level;
         public int id;
+
+        /**
+         * if false, this item is available only if it is paid for.
+         */
+        public boolean free;
 
         /**
          * UID of an item is unique across all available items of all issues. this is calculated

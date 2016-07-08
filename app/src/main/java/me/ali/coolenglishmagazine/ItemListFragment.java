@@ -3,12 +3,17 @@ package me.ali.coolenglishmagazine;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -26,10 +31,12 @@ import android.widget.TextView;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
 import java.io.File;
 import java.io.IOException;
 
+import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
 import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
 import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.model.Magazines;
@@ -85,9 +92,11 @@ public class ItemListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        final FragmentActivity context = getActivity();
+
         try {
-            issue = Magazines.getIssue(getActivity(), new File(getArguments().getString(IssueDetailActivity.ARG_ROOT_DIRECTORY)));
-            magazineContent.loadItems(issue);
+            issue = Magazines.getIssue(context, new File(getArguments().getString(IssueDetailActivity.ARG_ROOT_DIRECTORY)));
+            magazineContent.loadItems(context, issue);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -96,7 +105,7 @@ public class ItemListFragment extends Fragment {
         // this fragment wants to add menu items to action bar.
         setHasOptionsMenu(true);
 
-        ((NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
+        ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
     }
 
     @Override
@@ -157,12 +166,14 @@ public class ItemListFragment extends Fragment {
                     int w = holder.itemView.getWidth();
                     int h = w / 2;
 
-                    Picasso
+                    RequestCreator r = Picasso
                             .with(holder.itemView.getContext())
                             .load(new File(item.rootDirectory, item.posterFileName))
                             .resize(w, h)
-                            .centerCrop()
-                            .into(holder.posterImageView);
+                            .centerCrop();
+                    if ((item.free && !issue.freeContentIsValid) || (!item.free && !issue.paidContentIsValid))
+                        r.transform(new GrayscaleTransformation());
+                    r.into(holder.posterImageView);
                 }
             });
 
@@ -223,7 +234,48 @@ public class ItemListFragment extends Fragment {
             ((ViewGroup) holder.itemView).getChildAt(0).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mCallbacks.onItemSelected(magazineContent.ITEMS.get(recyclerView.getChildAdapterPosition(holder.itemView)));
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    final String user_id = preferences.getString("user_id", "");
+
+                    if (issue.purchased && user_id.length() == 0) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage(R.string.sign_in_to_access)
+                                .setTitle(R.string.sign_in_to_access_title)
+                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        ((ItemListActivity) getActivity()).account.signIn();
+                                    }
+                                })
+                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                })
+                                .setCancelable(true)
+                                .show();
+
+                    } else if (!item.free && !issue.paidContentIsValid) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage(R.string.paid_item_error)
+                                .setTitle(R.string.paid_item_error_title)
+                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        launchIssueDetailsActivity();
+                                    }
+                                })
+                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                })
+                                .setCancelable(true)
+                                .show();
+
+                    } else if (!item.free || issue.freeContentIsValid) {
+                        mCallbacks.onItemSelected(magazineContent.ITEMS.get(recyclerView.getChildAdapterPosition(holder.itemView)));
+                    }
                 }
             });
         }
@@ -321,11 +373,7 @@ public class ItemListFragment extends Fragment {
                 return true;
 
             case R.id.action_open_issue_details:
-                getActivity().finish();
-
-                Intent intent = new Intent(getActivity(), IssueDetailActivity.class);
-                intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
-                startActivity(intent);
+                launchIssueDetailsActivity();
                 return true;
 
             case R.id.action_mark_complete:
@@ -338,6 +386,19 @@ public class ItemListFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    protected void launchIssueDetailsActivity() {
+        getActivity().finish();
+
+        Intent intent = new Intent(getActivity(), IssueDetailActivity.class);
+        intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
+        startActivity(intent);
+    }
+
+    public void signatureChanged(Context context) {
+        magazineContent.validateSignatures(context, issue);
+        adapter.notifyDataSetChanged();
     }
 
 }

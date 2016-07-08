@@ -117,6 +117,7 @@ public class GalleryOfIssuesFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -307,6 +308,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                 } else {
                     Toast.makeText(getActivity(), R.string.sync_complete, Toast.LENGTH_SHORT).show();
                     success = false; // force jump into the following if block
+//                    updateInAppBillingData();
                 }
 
             } else {
@@ -365,6 +367,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                         // received success with status code 204 (no content)
                         cancelSync(context, adapter);
                         Toast.makeText(context, R.string.update_success, Toast.LENGTH_SHORT).show();
+//                        updateInAppBillingData();
                     }
                 }
             }, new Response.ErrorListener() {
