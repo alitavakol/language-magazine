@@ -13,8 +13,8 @@
     <color name="beginnerLevelColorDark">@color/md_light_blue_700</color>
     <color name="intermediateLevelColor">@color/md_green_500</color>
     <color name="intermediateLevelColorDark">@color/md_green_700</color>
-    <color name="upperIntermediateLevelColor">@color/md_red_500</color>
-    <color name="upperIntermediateLevelColorDark">@color/md_red_700</color>
+    <color name="upperIntermediateLevelColor">#c49c67</color>
+    <color name="upperIntermediateLevelColorDark">#b28446</color>
     <color name="advancedLevelColor">@color/md_blue_grey_500</color>
     <color name="advancedLevelColorDark">@color/md_blue_grey_700</color>
 

@@ -609,7 +609,7 @@ public class IssuesTabFragment extends Fragment implements
 
                 checkMarkImageView = (ImageView) view.findViewById(R.id.check_mark);
                 if (checkMarkImageView != null)
-                    checkMarkImageView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_check).sizeDp(36).paddingRes(R.dimen.padding_normal).colorRes(R.color.primary));
+                    checkMarkImageView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_check).sizeDp(36).paddingDp(8).colorRes(R.color.primary));
             }
         }
 

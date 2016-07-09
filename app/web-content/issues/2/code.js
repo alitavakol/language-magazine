@@ -63,7 +63,7 @@ if(typeof(app) == 'undefined') { // on web browser
 			bottomMargin: 30,
 			height: $(window).height(),
 			backgroundColor: -1,
-			accentColor: -16537100,
+			accentColor: 0xF08080,//-16537100,
 			primaryColor: -26624,
 			textColor: -13487566
 		});

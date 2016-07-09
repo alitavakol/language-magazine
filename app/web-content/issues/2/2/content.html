@@ -4,172 +4,156 @@
 		<title>News Stories</title>
 		<meta charset="utf-8">
 
-		<style>
-			@font-face {
-				font-family: FiraMono;
-				src: url("file:///android_asset/FiraMono-Regular.otf")
-			}
-			@font-face {
-				font-family: FiraMonoBold;
-				src: url("file:///android_asset/FiraMono-Bold.otf")
-			}
-			body {
-				font-family: FiraMono;
-				margin-left: 0;
-				margin-right: 0;
-				background-color: #000;
-			}
-			.transcript {
-				line-height: 1.4;
-			}
-			.new-word {
-				text-decoration: none;
-				font-family: FiraMonoBold;
-			}
-			.poster {
-				width: 100%;
-				height: 100%;
-				overflow: hidden;
-				position: absolute;
-				top: 0;
-				z-index: -1;
-				background-position: center center;
-				background-repeat: no-repeat;
-				background-size: cover;
-			}
-			header {
-				position: absolute;
-				/*top: 0;*/
-				left: 0;
-				width: 100%;
-				/*padding: 20px 10px;*/
-			}
-			.hidden {
-				visibility: hidden;
-				display: none;
-			}
-			.container {
-				margin-left: 10px;
-				margin-right: 10px;
-				/*margin-top: 100px;*/
-			}
-			h1 {
-				margin-top: 0;
-				margin-bottom: 0;
-				color: #fff;
-				/*text-shadow: 0 1px 0 black;*/
-			}
-			h3 {
-				margin-top: 0;
-				color: #fff;
-			}
-		</style>
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
 
 		<style id="dynamic-rules">
-			.highlight {}
 		</style>
 
-		<script type="text/javascript" src="file:///android_asset/jquery-1.11.3.min.js"></script>
-		<script type="text/javascript" src="../jquery-1.11.3.min.js"></script>
-
-		<script type="text/javascript">
-			highlight = function(timePoint) {
-				$('.highlight').removeClass('highlight');
-				$('[data-start=' + timePoint + ']').addClass('highlight');
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
 			}
-
-			lock = function(b) {
-				if(b) {
-					$('.transcript').addClass('hidden');
-					$('.poster').removeClass('hidden');
-					$('h1').removeClass('alt');
-					$('h3').removeClass('alt');
-					// $('.container').css('margin-top', topMargin);
-
-				} else {
-					$('.transcript').removeClass('hidden');
-					$('.poster').addClass('hidden');
-					$('h1').addClass('alt');
-					$('h3').addClass('alt');
-					// $('.container').css('margin-top', 0);
-				}
-
-				if(typeof(app) != 'undefined')
-					app.onLockStateChanged();
+			h1, h3 {
+				margin-top: 0;
 			}
-
-			adjustLayout = function(topMargin_, height_, accentColor_, textColor_, backgroundColor_, newWordColor_) {
-				topMargin = topMargin_ / window.devicePixelRatio;
-				height = height_ / window.devicePixelRatio;
-
-				textColor = textColor_.toString(16);
-				while(textColor.length < 6) textColor = '0' + textColor;
-
-				accentColor = accentColor_.toString(16);
-				while(accentColor.length < 6) accentColor = '0' + accentColor;
-
-				backgroundColor = backgroundColor_.toString(16);
-				while(backgroundColor.length < 6) backgroundColor = '0' + backgroundColor;
-
-				newWordColor = newWordColor_.toString(16);
-				while(newWordColor.length < 6) newWordColor = '0' + newWordColor;
-
-				highlihtColor = Math.floor(accentColor_/1.5).toString(16);
-				while(highlihtColor.length < 6) highlihtColor = '0' + highlihtColor;
-				highlihtColor = '#' + highlihtColor;
-
-				$('#dynamic-rules').text("\
-					.container { margin-top: " + topMargin + "px; } \
-					.highlight { background-color: " + highlihtColor + "; } \
-					body { background-color: #" + backgroundColor + "; } \
-					.transcript { color: #" + textColor + "; } \
-					.accent { color: #" + accentColor + "; } \
-					.new-word { color: #" + newWordColor + "; } \
-					.poster { height: " + height + "px; background-image: -webkit-linear-gradient(#" + backgroundColor + ", rgba(" + ((backgroundColor_>>16)&0xff) + "," + ((backgroundColor_>>8)&0xff) + "," + (backgroundColor_&0xff) + ",0), #" + backgroundColor + "), url('swimming-squirrel.jpg'); } \
-					h1.alt { color: #" + accentColor + "; } \
-					h3.alt { color: #" + accentColor + "; }"
-				);
-
-				if(typeof(app) == 'undefined')
-					$('.poster').css('height', '100%');
+			.lockable {
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
 			}
-		</script>
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
 	</head>
 
 	<body>
-		<div class="poster hidden"></div>
+		<div class="foundation">
+			<div id="top-margin"></div>
 
-		<div class="container">
 			<h1>Swimming Squirrel</h1>
 			<h3>Tourists see unususal swimmer.</h3>
 
-	 		<div class="transcript hidden">
-				<span data-start="12130" data-end="17000">Tourists on a boat in the north of England had a big <a class="new-word" data-word="a shock" data-type="n" data-en="something surprising and not expected" data-fa="حیرت زدگی، غافلگیری">shock</a>.</span> <span data-start="17001" data-end="19880">They were in the middle of a <a class="new-word" data-word="a lake" data-type="n" data-en="an area of fresh water (not sea water)" data-fa="برکه، دریاچه">lake</a>.</span> <span data-start="19881" data-end="24470">All of a sudden, they saw a <a class="new-word" data-word="a squirrel" data-type="n" data-en="an animal that lives in trees and who has a bushy tail (a tail with a lot of hair)" data-fa="سنجاب، موش خرما">squirrel</a> swimming.</span> <span data-start="24471" data-end="29920">This is very strange because it is difficult for most mammals to swim.</span> <span data-start="29921" data-end="33850">Also, squirrels are very small,</span> <span data-start="33851" data-end="36900">so it is even more difficult for them.</span> <span data-start="36901" data-end="43960">The squirrel had swum 274 meters from the side of the lake to the middle.</span> <span data-start="43961" data-end="48673">It was eventually rescued by the captain of the boat.</span> <span data-start="48674" data-end="52180">The squirrel was taken back to <a class="new-word" data-word="the shore" data-type="n" data-en="the area of land next to the sea" data-fa="ساحل کنار دریا">shore</a>.</span> <span data-start="52181" data-end="57800">“We don’t know what the squirrel was doing,” said Captain Edward McGregor.</span> <span data-start="57801" data-end="63190">Once back <a class="new-word" data-word="on land" data-type="exp" data-en="on the ground (not in the sea)" data-fa="روی زمین (خشکی)">on land</a>, the squirrel disappeared quickly.</span> <span class="accent"> ★</span>
-			</div>
+			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p style="margin: 0;">
+					<span data-start="12130" data-end="17000">Tourists on a boat in the north of England had a big <a class="new-word" data-word="a shock" data-type="n" data-en="something surprising and not expected" data-fa="حیرت زدگی، غافلگیری">shock</a>.</span> <span data-start="17001" data-end="19880">They were in the middle of a <a class="new-word" data-word="a lake" data-type="n" data-en="an area of fresh water (not sea water)" data-fa="برکه، دریاچه">lake</a>.</span> <span data-start="19881" data-end="24470">All of a sudden, they saw a <a class="new-word" data-word="a squirrel" data-type="n" data-en="an animal that lives in trees and who has a bushy tail (a tail with a lot of hair)" data-fa="سنجاب، موش خرما">squirrel</a> swimming.</span> <span data-start="24471" data-end="29920">This is very strange because it is difficult for most mammals to swim.</span> <span data-start="29921" data-end="33850">Also, squirrels are very small,</span> <span data-start="33851" data-end="36900">so it is even more difficult for them.</span> <span data-start="36901" data-end="43960">The squirrel had swum 274 meters from the side of the lake to the middle.</span> <span data-start="43961" data-end="48673">It was eventually rescued by the captain of the boat.</span> <span data-start="48674" data-end="52180">The squirrel was taken back to <a class="new-word" data-word="the shore" data-type="n" data-en="the area of land next to the sea" data-fa="ساحل کنار دریا">shore</a>.</span> <span data-start="52181" data-end="57800">“We don’t know what the squirrel was doing,” said Captain Edward McGregor.</span> <span data-start="57801" data-end="63190">Once back <a class="new-word" data-word="on land" data-type="exp" data-en="on the ground (not in the sea)" data-fa="روی زمین (خشکی)">on land</a>, the squirrel disappeared quickly.</span> <span class="accent"> ★</span>
+				</p>
+			</div></div>
+
+			<div id="bottom-margin"></div>
 		</div>
 
 		<script type="text/javascript">
-			if(typeof(app) != 'undefined') { // on android app
-				$('a').click(function() {
-					var rect = this.getBoundingClientRect();
-					app.showGlossary($(this).data('word'), rect.left  * window.devicePixelRatio, rect.top * window.devicePixelRatio, $(this).height() * window.devicePixelRatio);
-					return false;
-				});
+			restoringInstanceState = false;
 
-				// app.makeToast("Hello!", false);
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					h1 { color: #" + accentColor + "; font-weight: bold; } \
+				");
+			}
 
-			} else { // on web browser
-				$(document).ready(function() {
-					var transcriptLocked = false;
+			prevScroll = 0;
 
-					$('body').append('<button id="buttonToggleLock" style="position: absolute; top: 0;">Toggle Show/Hide</button>');
-					$('#buttonToggleLock').click(function() {
-						transcriptLocked = !transcriptLocked;
-						lock(transcriptLocked);
-					});
+			lock = function(b) {
+				transcriptLocked = b;
 
-					adjustLayout(100, 800, 0x9688, 0xc5c5c5, 0x212121, 0xf8f8f8);
-					lock(transcriptLocked);
+				if(b) {
+					$('#transcript').css('background-image', 'url("key-enter-access-door-place-512.png")').children().css('visibility', 'hidden');
+					$('.lockable').css({'background-image': "url('swimming-squirrel.jpg')", border: 'solid 1px black'});
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').css({'background-image': '', border: 'solid 1px transparent'});
+				}
+
+				saveInstanceState();
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
 				});
 			}
 		</script>
