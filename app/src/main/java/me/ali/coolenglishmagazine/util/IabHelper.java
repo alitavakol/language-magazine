@@ -985,6 +985,19 @@ public class IabHelper {
      * @return RSA public key
      */
     public static String getPublicKey() {
-        return "MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwDUa7YKE6qk+XuDxrRZ80Ke3qy9sPy0ng/oWqSXAyXIKpDHp0dqbl5EJXvJiSahxzl65Imd7cJEOs/+5sbXXBcs5AccQqY0QNSXaI46sVThg3L5ZhMaYV6C/6nd9K56uGG4MZSPz7xzRDaI2iFBpeRLVejZSYnNYp4T3U4maCEEv4KxhAKC6Uk0EP7jrgEryr1lsHIm4CeFNc6fhdqp9PEyLd+gVC+paap7ozf5sUsCAwEAAQ==";
+        return "MIHNMA0GCSqGSIb3DQEBAQUAA4G7A"
+                + "KE6qk+XuDxrRZ80Ke3qyDCBtwKBrwDUa7YKE6qk+XuDxrRZ80Ke3qy9sPy0ng/L5ejx".substring(20, 62)
+                + swapCase("OwQsxaYxikPdhP0DQBL5ejxVjIsAHXZL65iMD7Cj")
+                + "EOs/+5sbXXBcs5AccQqY0QNSXaI46sVThg3L5ZhMaYV6C/6nd9K56uGG4MZSPz7xzRDaI2iFBpeRLVejZSYnNYp4T3U4maCEEv4KxhAKC6Uk0EP7jrg"
+                + new StringBuilder("==QAAEwACsUs5fzo7paap+CVg+dLyEP9pqdhf6cNFeC4mIHsl1ryrE").reverse().toString();
+    }
+
+    private static String swapCase(final String s) {
+        StringBuilder sb = new StringBuilder(s.length());
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            sb.append(Character.isUpperCase(c) ? Character.toLowerCase(c) : Character.toUpperCase(c));
+        }
+        return sb.toString();
     }
 }

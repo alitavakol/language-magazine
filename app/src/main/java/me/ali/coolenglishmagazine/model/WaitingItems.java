@@ -80,7 +80,7 @@ public class WaitingItems {
             }
         }
 
-        int repeatCount = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("repeat_count", "8"));
+        int repeatCount = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("repeat_count", "12"));
 
         // remove waiting items whose root directory is lost, or hit count exceeds maximum.
         Iterator<WaitingItem> i = waitingItems.iterator();
@@ -124,7 +124,7 @@ public class WaitingItems {
      * @param item    learnt lesson to increment its hit count
      */
     public static void incrementHitCount(Context context, MagazineContent.Item item) {
-        int repeatCount = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("repeat_count", "8"));
+        int repeatCount = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("repeat_count", "12"));
 
         importWaitingItems(context);
 

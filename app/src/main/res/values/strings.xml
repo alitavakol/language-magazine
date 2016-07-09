@@ -215,6 +215,7 @@
     <string name="complete_selected_issues">Mark as complete</string>
     <string name="incomplete_selected_issues">Mark as incomplete</string>
     <string name="permanently_delete_selected_issues">Delete permanently</string>
+    <string name="download_progress">%1$s / %2$s</string>
 
     <string name="download_failed_msg">Download failed with error code %d</string>
     <string name="sync_complete">Update complete!</string>
@@ -384,6 +385,7 @@
     <string name="unknown_price">unknown</string>
     <string name="free">Free</string>
     <string name="iab_query_error">Could not connect to in-app billing service.</string>
+    <string name="iab_response_result_error">Unknown error occurred. Please try again in a few minutes.</string>
     <string name="free_download_warning">This will download free version of selected magazine issues. To grab full-text version of them, see each issue’s introduction.</string>
     <string name="free_download_warning_single">This will download the free version. To grab full-text version of this magazine, you will have to purchase it.</string>
     <string name="free_download_warning_title">Download warning</string>
@@ -403,6 +405,7 @@
     <string name="sign_in_required">Sign in required.</string>
     <string name="sign_in_to_access">To verify owner identity, you need to sign in.</string>
     <string name="sign_in_to_access_title">Sign in required</string>
+    <string name="signing_in">Please wait&#8230;</string>
 
     <!-- purchase -->
     <string name="sign_in_required_for_purchase">You need to sign in before starting the purchase flow. Would you?</string>

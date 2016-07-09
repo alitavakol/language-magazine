@@ -347,9 +347,9 @@ public class Magazines {
     }
 
     /**
-     * @return download percentage
+     * @return download percentage, bytes downloaded, total bytes
      */
-    public static int getDownloadProgress(Context context, Issue issue) {
+    public static int[] getDownloadProgress(Context context, Issue issue) {
         final String issueDownloadUrl = getIssueDownloadUrl(context, issue);
 
         DownloadManager.Query query = new DownloadManager.Query();
@@ -357,21 +357,22 @@ public class Magazines {
         Cursor cursor = ((DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE)).query(query);
         final int uriIndex = cursor.getColumnIndex(DownloadManager.COLUMN_URI);
 
-        int progress = 0;
+        int progress = 0, bytes_downloaded = 0, bytes_total = 0;
 
         // TODO: consider when there may be more than one query result for a single URI
         while (cursor.moveToNext()) {
             final String cursorUrl = cursor.getString(uriIndex);
             if (cursorUrl.equals(issueDownloadUrl)) {
-                int bytes_downloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-                int bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+                bytes_downloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
                 progress = bytes_total != 0 ? (bytes_downloaded * 100 / bytes_total) : 0;
                 break;
             }
         }
 
         cursor.close();
-        return progress;
+
+        return new int[]{progress, bytes_downloaded, bytes_total};
     }
 
     /**

@@ -528,7 +528,7 @@ public class IssuesTabFragment extends Fragment implements
                         holder.progressBar.setIndeterminate(false);
                         holder.progressBar.resetAnimation();
                     }
-                    holder.progressBar.setProgress(holder.dl_progress);
+                    holder.progressBar.setProgress(holder.dl_progress[0]);
                     break;
 
                 case -3: // the issue is being extracted
@@ -561,7 +561,7 @@ public class IssuesTabFragment extends Fragment implements
                                     int position = holder.getAdapterPosition();
                                     if (position != RecyclerView.NO_POSITION)
                                         onBindViewHolder(holder, position);
-                                    LogHelper.d(TAG, "dl_progress: " + holder.dl_progress);
+                                    LogHelper.d(TAG, "dl_progress: " + holder.dl_progress[0]);
                                 }
                             });
                         }
@@ -597,7 +597,7 @@ public class IssuesTabFragment extends Fragment implements
             public final CircularProgressView progressBar;
             public final ImageView checkMarkImageView;
 
-            public int dl_progress;
+            public int[] dl_progress = new int[3];
 
             public ViewHolder(View view) {
                 super(view);

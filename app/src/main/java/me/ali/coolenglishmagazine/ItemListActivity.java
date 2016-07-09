@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -54,6 +55,10 @@ public class ItemListActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_app_bar);
 
+        if (savedInstanceState != null) {
+            signingIn = savedInstanceState.getBoolean("signing_in");
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
 
@@ -89,6 +94,8 @@ public class ItemListActivity extends AppCompatActivity implements
                 .commit();
 
         account = new Account(this);
+        if (signingIn)
+            showProgressDialog();
     }
 
     ItemListFragment itemListFragment;
@@ -159,10 +166,24 @@ public class ItemListActivity extends AppCompatActivity implements
         account.silentSignIn();
     }
 
+    Snackbar snackbar;
+
+    boolean signingIn;
+
     public void showProgressDialog() {
+        if (!account.silentlySigningIn) {
+            snackbar = Snackbar.make(findViewById(R.id.frameLayout), R.string.signing_in, Snackbar.LENGTH_INDEFINITE);
+            snackbar.show();
+            signingIn = true;
+        }
     }
 
     public void hideProgressDialog() {
+        if (snackbar != null) {
+            snackbar.dismiss();
+            snackbar = null;
+        }
+        signingIn = false;
     }
 
     public void updateProfileInfo(String personPhoto, String displayName, String email, String userId, boolean signedOut) {
@@ -177,5 +198,11 @@ public class ItemListActivity extends AppCompatActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         account.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("signing_in", signingIn);
     }
 }

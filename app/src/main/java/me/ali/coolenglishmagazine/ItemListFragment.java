@@ -221,6 +221,7 @@ public class ItemListFragment extends Fragment {
 
                             switch (id) {
                                 case R.id.action_add_to_waiting_list:
+                                    if((item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid))
                                     WaitingItems.appendToWaitingList(getActivity(), item);
                                     return true;
                             }
@@ -230,6 +231,7 @@ public class ItemListFragment extends Fragment {
                     });
                 }
             });
+            holder.overflowImageButton.setVisibility((item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid) ? View.VISIBLE : View.GONE);
 
             ((ViewGroup) holder.itemView).getChildAt(0).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -369,6 +371,7 @@ public class ItemListFragment extends Fragment {
         switch (id) {
             case R.id.action_add_to_waiting_list:
                 for (MagazineContent.Item item : magazineContent.ITEMS)
+                    if((item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid))
                     WaitingItems.appendToWaitingList(getActivity(), item);
                 return true;
 

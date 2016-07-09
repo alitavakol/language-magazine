@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -97,6 +98,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
     Button buttonDownload, buttonPurchase, buttonOpen;
     ImageButton buttonCancel; //, buttonComplete, buttonDelete, buttonIncomplete;
     ProgressBar progressBar;
+    TextView progressTextView;
     ViewGroup progressContainer, buttonContainer;
     private ObservableScrollView mScrollView;
     private View mPhotoViewContainer;
@@ -125,6 +127,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
         buttonPurchase = (Button) findViewById(R.id.buttonPurchase);
         buttonOpen = (Button) findViewById(R.id.buttonOpen);
         progressBar = (ProgressBar) findViewById(R.id.progress);
+        progressTextView = (TextView) findViewById(R.id.progress_text);
         buttonContainer = (ViewGroup) findViewById(R.id.button_container);
         progressContainer = (ViewGroup) findViewById(R.id.progress_container);
 
@@ -152,27 +155,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
             buttonDownload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    if (!issue.purchased) {
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(IssueDetailActivity.this, R.style.AppTheme));
-//                        builder.setMessage(R.string.free_download_warning_single)
-//                                .setTitle(R.string.free_download_warning_title)
-//                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        startDownload();
-//                                    }
-//                                })
-//                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                    }
-//                                })
-//                                .setCancelable(true)
-//                                .show();
-//
-//                    } else {
                     startDownload();
-//                    }
                 }
 
                 protected void startDownload() {
@@ -243,77 +226,16 @@ public class IssueDetailActivity extends AppCompatActivity implements
 
             } else {
                 proceedToPurchaseAfterSignIn = savedInstanceState.getBoolean("proceedToPurchaseAfterSignIn", false);
+                signingIn = savedInstanceState.getBoolean("signing_in");
             }
 
             tapToRefreshButton = (TextView) findViewById(R.id.tap_to_refresh);
 
-            if (iabHelper == null) {
-                // the Base64-encoded RSA public key of the application
-                final String base64EncodedPublicKey = IabHelper.getPublicKey();
-
-                // compute your public key and store it in base64EncodedPublicKey
-                iabHelper = new IabHelper(getApplicationContext(), base64EncodedPublicKey);
-
-                iabHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-                    public void onIabSetupFinished(IabResult result) {
-                        if (!result.isSuccess()) {
-                            // Oh noes, there was a problem.
-                            LogHelper.d(TAG, "Problem setting up In-app Billing: " + result);
-
-                            iabHelper.dispose();
-                            iabHelper = null;
-                        }
-                        // Hooray, IAB is fully set up!
-
-                        tapToRefreshButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (isLoggedIn) {
-                                    if (NetworkHelper.isOnline(IssueDetailActivity.this))
-                                        requestPrice();
-                                    else
-                                        Toast.makeText(IssueDetailActivity.this, R.string.check_connection, Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(IssueDetailActivity.this, R.string.login_required, Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
-
-                        buttonPurchase.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(IssueDetailActivity.this);
-                                if (!preferences.contains("user_id")) {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(IssueDetailActivity.this);
-                                    builder.setMessage(R.string.sign_in_required_for_purchase)
-                                            .setTitle(R.string.sign_in_required)
-                                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    account.signIn();
-                                                    proceedToPurchaseAfterSignIn = true;
-                                                }
-                                            })
-                                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                }
-                                            })
-                                            .setCancelable(true)
-                                            .show();
-                                    return;
-                                }
-
-                                startPurchaseFlow();
-                            }
-                        });
-                    }
-                });
-            }
-
             updatePriceGui();
 
             account = new Account(this);
+            if (signingIn)
+                showProgressDialog();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -327,6 +249,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("proceedToPurchaseAfterSignIn", proceedToPurchaseAfterSignIn);
+        outState.putBoolean("signing_in", signingIn);
     }
 
     private void startPurchaseFlow() {
@@ -345,11 +268,6 @@ public class IssueDetailActivity extends AppCompatActivity implements
 
         if (issue != null)
             issue.removeOnStatusChangedListener(this);
-
-        if (iabHelper != null) {
-            iabHelper.dispose();
-            iabHelper = null;
-        }
     }
 
     public void setOnScrollViewLayoutChangedListener() {
@@ -488,7 +406,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
     /**
      * progress bar value
      */
-    int dl_progress;
+    int[] dl_progress = new int[3];
 
     /**
      * updates visibility of buttons and progress bar, depending on current issue download status
@@ -503,6 +421,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
                 progressContainer.setVisibility(View.VISIBLE);
                 buttonCancel.setVisibility(View.VISIBLE);
                 progressBar.setIndeterminate(true);
+                progressTextView.setVisibility(View.INVISIBLE);
                 break;
 
             case DownloadManager.STATUS_RUNNING:
@@ -510,7 +429,9 @@ public class IssueDetailActivity extends AppCompatActivity implements
                 progressContainer.setVisibility(View.VISIBLE);
                 buttonCancel.setVisibility(View.VISIBLE);
                 progressBar.setIndeterminate(false);
-                progressBar.setProgress(dl_progress);
+                progressBar.setProgress(dl_progress[0]);
+                progressTextView.setVisibility(View.VISIBLE);
+                progressTextView.setText(getString(R.string.download_progress, android.text.format.Formatter.formatShortFileSize(this, Math.max(0, dl_progress[1])), android.text.format.Formatter.formatShortFileSize(this, Math.max(0, dl_progress[2]))));
                 break;
 
             case -3: // the issue is being extracted
@@ -518,6 +439,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
                 progressContainer.setVisibility(View.VISIBLE);
                 buttonCancel.setVisibility(View.GONE);
                 progressBar.setIndeterminate(true);
+                progressTextView.setVisibility(View.INVISIBLE);
                 break;
 
             default:
@@ -561,7 +483,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
                         @Override
                         public void run() {
                             updateFab();
-                            LogHelper.d(TAG, "download progress: " + dl_progress);
+                            LogHelper.d(TAG, "download progress: " + dl_progress[0]);
                         }
                     });
                 }
@@ -640,7 +562,13 @@ public class IssueDetailActivity extends AppCompatActivity implements
         public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
             if (result.isFailure()) {
                 // handle error
-                Toast.makeText(IssueDetailActivity.this, R.string.iab_query_error, Toast.LENGTH_SHORT).show();
+                int id = R.string.iab_query_error;
+                switch (result.getResponse()) {
+                    case IabHelper.BILLING_RESPONSE_RESULT_ERROR:
+                        id = R.string.iab_response_result_error;
+                        break;
+                }
+                Toast.makeText(IssueDetailActivity.this, id, Toast.LENGTH_SHORT).show();
 
             } else {
                 final String sku = Magazines.getSku(issue);
@@ -649,7 +577,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
 //                final boolean purchased = details == null || inventory.hasPurchase(sku);
                 final String price = details != null ? details.getPrice() : getString(R.string.free);
 
-                savePurchaseInfo(price, issue.purchased); // do not touch purchased until we get signature
+                savePurchaseInfo(price, details == null || (inventory.hasPurchase(sku) ? issue.purchased : false)); // do not touch purchased until we get signature
                 updatePriceGui();
 
                 // get purchase token from bazaar
@@ -841,10 +769,24 @@ public class IssueDetailActivity extends AppCompatActivity implements
      */
     protected Account account;
 
+    Snackbar snackbar;
+
+    boolean signingIn;
+
     public void showProgressDialog() {
+        if (!account.silentlySigningIn) {
+            snackbar = Snackbar.make(findViewById(R.id.issue_detail_container), R.string.signing_in, Snackbar.LENGTH_INDEFINITE);
+            snackbar.show();
+            signingIn = true;
+        }
     }
 
     public void hideProgressDialog() {
+        if (snackbar != null) {
+            snackbar.dismiss();
+            snackbar = null;
+        }
+        signingIn = false;
     }
 
     public void updateProfileInfo(String personPhoto, String displayName, String email, String userId, boolean signedOut) {
@@ -856,7 +798,84 @@ public class IssueDetailActivity extends AppCompatActivity implements
     @Override
     public void onStart() {
         super.onStart();
+
+        if (iabHelper == null) {
+            // the Base64-encoded RSA public key of the application
+            final String base64EncodedPublicKey = IabHelper.getPublicKey();
+
+            // compute your public key and store it in base64EncodedPublicKey
+            iabHelper = new IabHelper(getApplicationContext(), base64EncodedPublicKey);
+
+            iabHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+                public void onIabSetupFinished(IabResult result) {
+                    if (!result.isSuccess()) {
+                        // Oh noes, there was a problem.
+                        LogHelper.d(TAG, "Problem setting up In-app Billing: " + result);
+
+                        iabHelper.dispose();
+                        iabHelper = null;
+                    }
+                    // Hooray, IAB is fully set up!
+
+                    tapToRefreshButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (isLoggedIn) {
+                                if (NetworkHelper.isOnline(IssueDetailActivity.this))
+                                    requestPrice();
+                                else
+                                    Toast.makeText(IssueDetailActivity.this, R.string.check_connection, Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(IssueDetailActivity.this, R.string.login_required, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
+                    buttonPurchase.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(IssueDetailActivity.this);
+                            if (!preferences.contains("user_id")) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(IssueDetailActivity.this);
+                                builder.setMessage(R.string.sign_in_required_for_purchase)
+                                        .setTitle(R.string.sign_in_required)
+                                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                account.signIn();
+                                                proceedToPurchaseAfterSignIn = true;
+                                            }
+                                        })
+                                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                            }
+                                        })
+                                        .setCancelable(true)
+                                        .show();
+                                return;
+                            }
+
+                            startPurchaseFlow();
+                        }
+                    });
+                }
+            });
+        }
+
         account.silentSignIn();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        tapToRefreshButton.setOnClickListener(null);
+        buttonPurchase.setOnClickListener(null);
+        if (iabHelper != null) {
+            iabHelper.dispose();
+            iabHelper = null;
+        }
     }
 
     public void signingIn(boolean signingIn) {
