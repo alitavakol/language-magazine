@@ -389,6 +389,7 @@
     <string name="free_download_warning">This will download free version of selected magazine issues. To grab full-text version of them, see each issue’s introduction.</string>
     <string name="free_download_warning_single">This will download the free version. To grab full-text version of this magazine, you will have to purchase it.</string>
     <string name="free_download_warning_title">Download warning</string>
+    <string name="visit_app_store">توی کافه بازار نظر بدید...</string>
 
     <!-- Google sign in -->
     <string name="sign_in_name">Let’s sign in!</string>

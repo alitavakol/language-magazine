@@ -1,7 +1,9 @@
 package me.ali.coolenglishmagazine;
 
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -111,6 +113,23 @@ public class FeedbackFragment extends DialogFragment {
                 } else {
                     requestQueue.cancelAll(this);
                     Toast.makeText(context, R.string.check_connection, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        view.findViewById(R.id.visitAppStore).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    // open Bazaar to upgrade this app
+                    Intent intent = new Intent(Intent.ACTION_EDIT);
+                    intent.setData(Uri.parse("bazaar://details?id=" + getActivity().getPackageName()));
+                    intent.setPackage("com.farsitel.bazaar");
+                    startActivity(intent);
+                    dismiss();
+
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(getActivity(), R.string.app_store_not_found, Toast.LENGTH_SHORT).show();
                 }
             }
         });
