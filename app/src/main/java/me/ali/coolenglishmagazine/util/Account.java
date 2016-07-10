@@ -220,6 +220,7 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
                     .remove("user_email")
                     .remove("user_image")
                     .remove("user_id")
+                    .remove("show_owner_account_warning")
                     .apply();
 
         } else {

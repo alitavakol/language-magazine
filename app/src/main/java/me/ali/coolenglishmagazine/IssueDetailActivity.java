@@ -19,6 +19,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -56,7 +58,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.PublicKey;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -253,8 +254,50 @@ public class IssueDetailActivity extends AppCompatActivity implements
         outState.putBoolean("signing_in", signingIn);
     }
 
+    /**
+     * shows owner warning. it user accepts, calls {@link #doPurchase(SharedPreferences)}
+     * to perform purchase.
+     */
     private void startPurchaseFlow() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(IssueDetailActivity.this);
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(IssueDetailActivity.this);
+
+        if (!preferences.getBoolean("show_owner_account_warning", true)) {
+            doPurchase(preferences);
+            return;
+        }
+
+        String user_name = preferences.getString("user_name", "");
+        String user_email = preferences.getString("user_email", "");
+
+        AlertDialog.Builder adb = new AlertDialog.Builder(IssueDetailActivity.this);
+        LayoutInflater adbInflater = LayoutInflater.from(IssueDetailActivity.this);
+        View eulaLayout = adbInflater.inflate(R.layout.checkbox, null);
+        final CheckBox showAgain = (CheckBox) eulaLayout.findViewById(R.id.dontShowAgain);
+        adb.setView(eulaLayout)
+                .setTitle(R.string.owner_warning_title)
+                .setMessage(getString(R.string.owner_warning, user_name, user_email))
+                .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        preferences.edit()
+                                .putBoolean("show_owner_account_warning", !showAgain.isChecked())
+                                .apply();
+
+                        doPurchase(preferences);
+                    }
+                })
+                .setNegativeButton(R.string.reject, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .show();
+    }
+
+    /**
+     * performs the purchase flow, which is supposed to occur after showing terms to the user.
+     *
+     * @param preferences default shared preferences
+     */
+    public void doPurchase(SharedPreferences preferences) {
         final String userId = preferences.getString("user_id", "");
 
         setAppStoreQueryButtonsEnabled(false);
@@ -578,7 +621,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
 //                final boolean purchased = details == null || inventory.hasPurchase(sku);
                 final String price = details != null ? details.getPrice() : getString(R.string.free);
 
-                savePurchaseInfo(price, details == null || (inventory.hasPurchase(sku) ? issue.purchased : false)); // do not touch purchased until we get signature
+                savePurchaseInfo(price, details == null || (inventory.hasPurchase(sku) && issue.purchased)); // do not touch purchased until we get signature
                 updatePriceGui();
 
                 // get purchase token from bazaar
@@ -832,10 +875,11 @@ public class IssueDetailActivity extends AppCompatActivity implements
                         }
                     });
 
+                    final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(IssueDetailActivity.this);
+
                     buttonPurchase.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(IssueDetailActivity.this);
                             if (!preferences.contains("user_id")) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(IssueDetailActivity.this);
                                 builder.setMessage(R.string.sign_in_required_for_purchase)

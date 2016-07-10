@@ -409,7 +409,7 @@
 
     <!-- purchase -->
     <string name="sign_in_required_for_purchase">You need to sign in before starting the purchase flow. Would you?</string>
-    <string name="tnx_for_purchase">Full-text version of this issue is available for you!</string>
+    <string name="tnx_for_purchase">Full-text version of this issue is available!</string>
     <string name="purchase_failed">Purchase failed with unknown reason.</string>
     <string name="signature_download_error">Server error occurred. Please refresh later.</string>
     <string name="purchase_error">Purchase error %d occurred.</string>
@@ -420,4 +420,10 @@
     <string name="update_available">Update is available!</string>
     <string name="update">Install</string>
     <string name="app_store_not_found">Bazaar app is not installed.</string>
+
+    <string name="dont_show_again">دوباره نمایش نده!</string>
+    <string name="owner_warning_title">هشدار</string>
+    <string name="owner_warning">در صورت خرید، شما می‌پذیرید که محتوای خریداری شده متعلق به %1$s با آدرس ایمیل %2$s خواهد بود؛ و دسترسی به آن، فقط هنگامی فراهم است که همان فرد در این نرم‌افزار sign-in کرده باشد.</string>
+    <string name="accept">قبول</string>
+    <string name="reject">انصراف</string>
 </resources>
