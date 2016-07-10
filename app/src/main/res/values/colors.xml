@@ -9,12 +9,12 @@
     <color name="colorAccentTransparent">#f0282828</color>
     <color name="customBackgroundColor">#f2f2f2</color>
 
-    <color name="beginnerLevelColor">@color/md_light_blue_500</color>
-    <color name="beginnerLevelColorDark">@color/md_light_blue_700</color>
-    <color name="intermediateLevelColor">@color/md_green_500</color>
-    <color name="intermediateLevelColorDark">@color/md_green_700</color>
-    <color name="upperIntermediateLevelColor">#c49c67</color>
-    <color name="upperIntermediateLevelColorDark">#b28446</color>
+    <color name="beginnerLevelColor">#f08080</color>
+    <color name="beginnerLevelColorDark">#eb5252</color>
+    <color name="intermediateLevelColor">@color/md_light_blue_500</color>
+    <color name="intermediateLevelColorDark">@color/md_light_blue_700</color>
+    <color name="upperIntermediateLevelColor">@color/md_green_500</color>
+    <color name="upperIntermediateLevelColorDark">@color/md_green_700</color>
     <color name="advancedLevelColor">@color/md_blue_grey_500</color>
     <color name="advancedLevelColorDark">@color/md_blue_grey_700</color>
 
