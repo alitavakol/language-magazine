@@ -300,10 +300,18 @@ public class IssueDetailActivity extends AppCompatActivity implements
     public void doPurchase(SharedPreferences preferences) {
         final String userId = preferences.getString("user_id", "");
 
-        setAppStoreQueryButtonsEnabled(false);
+        try {
+            final JSONObject developerPayload = new JSONObject();
+            developerPayload.put("owner", userId);
 
-        iabHelper.flagEndAsync();
-        iabHelper.launchPurchaseFlow(IssueDetailActivity.this, Magazines.getSku(issue), issue.id, iabPurchaseFinishedListener, userId);
+            setAppStoreQueryButtonsEnabled(false);
+
+            iabHelper.flagEndAsync();
+            iabHelper.launchPurchaseFlow(IssueDetailActivity.this, Magazines.getSku(issue), issue.id, iabPurchaseFinishedListener, developerPayload.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
