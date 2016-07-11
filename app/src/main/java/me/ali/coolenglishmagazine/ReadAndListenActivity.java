@@ -294,6 +294,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         if (webViewJavaScriptInterface != null) {
             webView.removeJavascriptInterface("app");
+            webView.destroy();
             webViewJavaScriptInterface = null;
         }
     }
@@ -415,11 +416,13 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     public void onResume() {
         super.onResume();
         MusicService.readAndListenActivityResumed = true;
+        webView.resumeTimers();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        webView.pauseTimers();
         MusicService.readAndListenActivityResumed = false;
     }
 

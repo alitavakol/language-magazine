@@ -239,7 +239,7 @@ public class ItemListFragment extends Fragment {
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     final String user_id = preferences.getString("user_id", "");
 
-                    if (issue.purchased && user_id.length() == 0) {
+                    if (!item.free && issue.purchased && user_id.length() == 0) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setMessage(R.string.sign_in_to_access)
                                 .setTitle(R.string.sign_in_to_access_title)
