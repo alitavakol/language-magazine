@@ -34,7 +34,7 @@
 
     <PreferenceCategory android:title="@string/pref_category_program">
         <ListPreference
-            android:defaultValue="8"
+            android:defaultValue="12"
             android:entries="@array/pref_item_practice_count"
             android:entryValues="@array/pref_item_practice_count_values"
             android:key="repeat_count"
@@ -66,7 +66,9 @@
             android:title="@string/pref_title_vibrate_enabled" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Advanced Settings">
+    <PreferenceCategory
+        android:enabled="false"
+        android:title="Advanced Settings">
         <!-- NOTE: EditTextPreference accepts EditText attributes. -->
         <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
         <EditTextPreference
