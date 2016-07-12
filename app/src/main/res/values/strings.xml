@@ -109,6 +109,16 @@
         <item>fa</item>
     </string-array>
 
+    <string name="pref_title_download_plan">Download networks</string>
+    <string-array name="pref_download_plan">
+        <item>Wifi only</item>
+        <item>Wifi and mobile data</item>
+    </string-array>
+    <string-array name="pref_download_plan_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
     <string name="pref_title_item_practice_count">Lesson practice count</string>
     <string-array name="pref_item_practice_count">
         <item>8 times per lesson</item>
@@ -363,8 +373,15 @@
     <string name="aboutLibraries_description_special1_name">Changes</string>
     <string name="aboutLibraries_description_special1_text">
         <![CDATA[
-        <b>Version 1.0</b><br/>
-        - First release on 1395/3/2
+        <h4>Version 2.0</h4>
+        <b>-</b> Add sign-in with Google account<br>
+        <b>-</b> Implement Bazaar in-app billing<br>
+        <b>-</b> Farsi translation of readme<br>
+        <b>-</b> Show context help<br>
+        <b>-</b> Bug fixes<br>
+        <b>-</b> Released on 1395/5/4<br>
+        <h4>Version 1.0</h4>
+        <b>-</b> First release on 1395/3/2<br>
         ]]>
     </string>
 

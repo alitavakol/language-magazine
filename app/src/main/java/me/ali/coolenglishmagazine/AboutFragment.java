@@ -85,7 +85,9 @@ public class AboutFragment extends Fragment {
                     fragment.show(fm, "shareFragment");
 
                 } else { // changelog
-                    return false;
+                    FragmentManager fm = getChildFragmentManager();
+                    ChangelogFragment fragment = new ChangelogFragment();
+                    fragment.show(fm, "changelogFragment");
                 }
 
                 return true;
