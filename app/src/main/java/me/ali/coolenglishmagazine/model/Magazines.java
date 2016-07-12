@@ -320,13 +320,15 @@ public class Magazines {
                 || new File(issue.rootDirectory, Issue.downloadedFileName).exists())
             return -1;
 
+        boolean wifiOnly = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("download_plan", "1")) == 0;
+
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(getIssueDownloadUrl(context, issue)))
                 .setDescription(issue.title)
                 .setTitle(issue.subtitle)
                 .setDestinationUri(Uri.fromFile(getIssueLocalDownloadUri(context, issue)))
                 .setVisibleInDownloadsUi(false)
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-                .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+                .setAllowedNetworkTypes(wifiOnly ? DownloadManager.Request.NETWORK_WIFI : (DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE));
 
         final DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         issue.setStatus(Issue.Status.downloading);

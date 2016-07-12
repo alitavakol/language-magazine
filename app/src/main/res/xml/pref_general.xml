@@ -66,13 +66,19 @@
             android:title="@string/pref_title_vibrate_enabled" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:enabled="false"
-        android:title="Advanced Settings">
+    <PreferenceCategory android:title="Advanced Settings">
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/pref_download_plan"
+            android:entryValues="@array/pref_download_plan_values"
+            android:key="download_plan"
+            android:title="@string/pref_title_download_plan" />
+
         <!-- NOTE: EditTextPreference accepts EditText attributes. -->
         <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
         <EditTextPreference
             android:defaultValue="@string/pref_default_server_address"
+            android:enabled="false"
             android:inputType="textUri"
             android:key="server_address"
             android:maxLines="1"
