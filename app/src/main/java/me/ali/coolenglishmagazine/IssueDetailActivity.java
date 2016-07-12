@@ -629,10 +629,10 @@ public class IssueDetailActivity extends AppCompatActivity implements
 //                final boolean purchased = details == null || inventory.hasPurchase(sku);
                 final String price = details != null ? details.getPrice() : getString(R.string.free);
 
-                savePurchaseInfo(price, details == null || (inventory.hasPurchase(sku) && issue.purchased)); // do not touch purchased until we get signature
+                savePurchaseInfo(price, details == null || inventory.hasPurchase(sku)); // do not touch purchased until we get signature
                 updatePriceGui();
 
-                // get purchase token from bazaar
+                // get signature for paid content from HEM server
                 if (inventory.hasPurchase(sku)) {
                     Purchase purchase = inventory.getPurchase(sku);
 
@@ -718,6 +718,25 @@ public class IssueDetailActivity extends AppCompatActivity implements
 
                             // https://cafebazaar.ir/developers/docs/iab/reference/
                             if (sku.equals(Magazines.getSku(issue)) && purchaseState == 0) {
+                                final String user_id = PreferenceManager.getDefaultSharedPreferences(this).getString("user_id", "");
+
+                                // notify user if the purchase has been made some time ago with another app account,
+                                // so, they have to change bazaar account to buy again, or change app account to
+                                // what was at that time.
+                                final JSONObject developerPayload = new JSONObject(jo.getString("developerPayload"));
+                                if (!developerPayload.getString("owner").equals(user_id)) {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                                    builder.setMessage(R.string.incorrect_owner)
+                                            .setTitle(R.string.incorrect_owner_title)
+                                            .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                }
+                                            })
+                                            .setCancelable(true)
+                                            .show();
+                                }
+
                                 requestSignaturePaid(issue.price, true, jo.getString("purchaseToken"));
                                 return;
                             }
@@ -754,8 +773,10 @@ public class IssueDetailActivity extends AppCompatActivity implements
     }
 
     protected void requestPrice() {
-        if (iabHelper == null)
+        if (iabHelper == null) {
+            Toast.makeText(this, R.string.app_store_not_found, Toast.LENGTH_SHORT).show();
             return;
+        }
 
         setAppStoreQueryButtonsEnabled(false);
         tapToRefreshButton.setText(R.string.refreshing);
@@ -798,7 +819,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
 
                 // fetch price information only if item is not purchased and price is unknown
                 if (!issue.purchased && issue.price.length() == 0) {
-                    if (isLoggedIn && NetworkHelper.isOnline(IssueDetailActivity.this)) {
+                    if (/*isLoggedIn &&*/ NetworkHelper.isOnline(IssueDetailActivity.this)) {
                         requestPrice();
                     }
                 }
@@ -872,14 +893,14 @@ public class IssueDetailActivity extends AppCompatActivity implements
                     tapToRefreshButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (isLoggedIn) {
-                                if (NetworkHelper.isOnline(IssueDetailActivity.this))
-                                    requestPrice();
-                                else
-                                    Toast.makeText(IssueDetailActivity.this, R.string.check_connection, Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(IssueDetailActivity.this, R.string.login_required, Toast.LENGTH_LONG).show();
-                            }
+//                            if (isLoggedIn) {
+                            if (NetworkHelper.isOnline(IssueDetailActivity.this))
+                                requestPrice();
+                            else
+                                Toast.makeText(IssueDetailActivity.this, R.string.check_connection, Toast.LENGTH_SHORT).show();
+//                            } else {
+//                                Toast.makeText(IssueDetailActivity.this, R.string.login_required, Toast.LENGTH_LONG).show();
+//                            }
                         }
                     });
 

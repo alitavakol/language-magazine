@@ -46,6 +46,7 @@ import me.ali.coolenglishmagazine.util.Account;
 import me.ali.coolenglishmagazine.util.DividerDrawerItem;
 import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
+import me.ali.coolenglishmagazine.util.NetworkHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class RootActivity extends AppCompatActivity implements
@@ -460,16 +461,7 @@ public class RootActivity extends AppCompatActivity implements
                             .setAction(R.string.update, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    try {
-                                        // open Bazaar to upgrade this app
-                                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                                        intent.setData(Uri.parse("bazaar://details?id=" + getPackageName()));
-                                        intent.setPackage("com.farsitel.bazaar");
-                                        startActivity(intent);
-
-                                    } catch (ActivityNotFoundException e) {
-                                        Toast.makeText(RootActivity.this, R.string.app_store_not_found, Toast.LENGTH_SHORT).show();
-                                    }
+                                    NetworkHelper.launchAppStoreUpdate(RootActivity.this);
                                 }
                             }).setActionTextColor(getResources().getColor(R.color.primary_light))
                             .show();

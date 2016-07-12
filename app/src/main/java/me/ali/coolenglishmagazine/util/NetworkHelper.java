@@ -16,13 +16,17 @@
 
 package me.ali.coolenglishmagazine.util;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.view.ContextThemeWrapper;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import me.ali.coolenglishmagazine.R;
 
@@ -46,18 +50,32 @@ public class NetworkHelper {
      *
      * @param context activity context
      */
-    public static void showUpgradeDialog(Context context) {
+    public static void showUpgradeDialog(final Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AppTheme));
         builder.setMessage(R.string.upgrade_message)
                 .setTitle(R.string.server_message_dialog_title)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        launchAppStoreUpdate(context);
                     }
                 })
                 .setCancelable(true);
         AlertDialog alert = builder.create();
         alert.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         alert.show();
+    }
+
+    public static void launchAppStoreUpdate(Context context) {
+        try {
+            // open Bazaar to upgrade this app
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("bazaar://details?id=" + context.getPackageName()));
+            intent.setPackage("com.farsitel.bazaar");
+            context.startActivity(intent);
+
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, R.string.app_store_not_found, Toast.LENGTH_SHORT).show();
+        }
     }
 }

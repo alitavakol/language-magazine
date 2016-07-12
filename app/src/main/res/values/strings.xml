@@ -41,7 +41,7 @@
     <string name="add_alarm">Add new alarm</string>
 
     <string name="check_connection">Make sure your device is online.</string>
-    <string name="login_required">Make sure Bazaar is installed, and you are logged into it.</string>
+    <string name="login_required">باید کافه بازار نصب باشه و توش sign-in کرده باشی.</string>
     <string name="network_error">Could not connect to server.</string>
     <string name="server_message_dialog_title">Server message</string>
     <string name="upgrade_message">The “Hot English Magazine” app is old. Please upgrade to a more recent version.</string>
@@ -142,7 +142,7 @@
     <string name="pref_header_data_sync">Data &amp; sync</string>
 
     <string name="pref_title_server_address">Server address</string>
-    <string name="pref_default_server_address">http://10.0.2.2:3000</string>
+    <string name="pref_default_server_address">http://alitavakol.me/hem</string>
 
     <string name="pref_title_sync_frequency">Sync frequency</string>
     <string-array name="pref_sync_frequency_titles">
@@ -420,11 +420,13 @@
 
     <string name="update_available">Update is available!</string>
     <string name="update">Install</string>
-    <string name="app_store_not_found">Bazaar app is not installed.</string>
+    <string name="app_store_not_found">لطفاً کافه بازار رو نصب کنید.</string>
 
     <string name="dont_show_again">دوباره نمایش نده!</string>
     <string name="owner_warning_title">هشدار</string>
     <string name="owner_warning">در صورت خرید، شما می‌پذیرید که محتوای خریداری شده متعلق به %1$s با آدرس ایمیل %2$s خواهد بود؛ و دسترسی به آن، فقط هنگامی فراهم است که همان فرد در این نرم‌افزار sign-in کرده باشد.</string>
     <string name="accept">قبول</string>
     <string name="reject">انصراف</string>
+    <string name="incorrect_owner">خرید این محتوا قبلاً به نام فرد دیگری در کافه بازار ثبت شده است. لطفاً حساب کاربری خود را بررسی کنید.</string>
+    <string name="incorrect_owner_title">خطا</string>
 </resources>
