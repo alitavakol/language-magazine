@@ -82,6 +82,16 @@ public class MusicService extends Service implements
     private String dataSource = null;
 
     /**
+     * duration in milliseconds reported by manifest.xml
+     */
+    private float duration;
+
+    /**
+     * duration reported by {@link MediaPlayer#getDuration()}
+     */
+    private float duration_;
+
+    /**
      * helps us to keep playback notification visible unless media source changes,
      */
     private String previousDataSource;
@@ -140,7 +150,7 @@ public class MusicService extends Service implements
             initMediaSessions();
 
         if (ACTION_PREPARE.equals(action)) {
-            handlePrepareRequest(intent.getStringExtra("dataSource"));
+            handlePrepareRequest(intent.getStringExtra("dataSource"), intent.getIntExtra("duration", 0));
 
         } else if (ACTION_PLAY.equals(action)) {
             mediaController.getTransportControls().play();
@@ -288,18 +298,19 @@ public class MusicService extends Service implements
     }
 
     public int getDuration() {
-        return (mediaPlayer != null) ? mediaPlayer.getDuration() : 0;
+        return mediaPlayer != null ? (int) duration : 0;
     }
 
     public int getCurrentMediaPosition() {
         return (mediaPlayer != null) ? mediaPlayer.getCurrentPosition() : 0;
     }
 
-    private void handlePrepareRequest(String dataSource) {
+    private void handlePrepareRequest(String dataSource, int duration) {
         if (mediaPlayer != null && !this.dataSource.equals(dataSource)) {
             previousDataSource = this.dataSource;
 
             this.dataSource = dataSource;
+            this.duration = duration;
             mediaController.getTransportControls().stop();
 
             // handleStopRequest will call this function later, so do nothing at the moment.
@@ -326,6 +337,7 @@ public class MusicService extends Service implements
 
             try {
                 this.dataSource = dataSource;
+                this.duration = duration;
 
                 mediaPlayer.setDataSource(dataSource);
                 mediaPlayer.prepareAsync(); // prepare async to not block main thread
@@ -344,8 +356,12 @@ public class MusicService extends Service implements
     public void onPrepared(MediaPlayer player) {
         LogHelper.i(TAG, "Media prepared.");
 
-        if (onMediaStateChangedListener != null)
+        if (onMediaStateChangedListener != null) {
+            if (duration == 0)
+                duration = mediaPlayer.getDuration();
+            duration_ = mediaPlayer.getDuration();
             onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_STOPPED);
+        }
     }
 
     AudioManager audioManager;
@@ -366,9 +382,8 @@ public class MusicService extends Service implements
             if (requestAudioFocusResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                 audioManager.registerMediaButtonEventReceiver(mediaButtonReceiverComponent);
 
-                if (paused) { // rewind to start of audio snippet
-                    mediaPlayer.seekTo(floorPosition(getCurrentMediaPosition(), 0, false));
-                }
+                if (paused) // rewind to start of audio snippet
+                    seekTo(floorPosition(getCurrentMediaPosition(), 0, false));
 
                 mediaPlayer.start();
                 paused = false;
@@ -463,7 +478,7 @@ public class MusicService extends Service implements
         if (onMediaStateChangedListener != null)
             onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_STOPPED);
 
-        handlePrepareRequest(dataSource);
+        handlePrepareRequest(dataSource, (int) duration);
     }
 
     public void handlePauseRequest() {
@@ -526,7 +541,7 @@ public class MusicService extends Service implements
     public void seekTo(int position) {
         try {
             if (mediaPlayer != null && (mediaPlayer.isPlaying() || paused))
-                mediaPlayer.seekTo(position);
+                mediaPlayer.seekTo((int) (position * duration_ / duration));
 
         } catch (IllegalStateException e) {
             LogHelper.e(TAG, e.getMessage());

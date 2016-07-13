@@ -453,8 +453,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             // start ACTION_PREPARE even if this item has no audio. this will help user concentrate better on the opened item.
             Intent startIntent = new Intent(ReadAndListenActivity.this, MusicService.class);
             startIntent.setAction(MusicService.ACTION_PREPARE);
-            if (item.audioFileName.length() > 0)
+            if (item.audioFileName.length() > 0) {
                 startIntent.putExtra("dataSource", new File(item.rootDirectory, item.audioFileName).getAbsolutePath());
+                startIntent.putExtra("duration", item.duration);
+            }
             startService(startIntent);
         }
 

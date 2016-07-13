@@ -174,6 +174,10 @@ public class MagazineContent {
             item.level = Integer.parseInt(e.attr("level"));
             item.free = Boolean.parseBoolean(e.attr("free"));
 
+            String duration = e.attr("duration");
+            if (duration != null && duration.length() > 0)
+                item.duration = Integer.parseInt(duration);
+
             file2item.put(itemRootDirectory, item);
         }
 
@@ -232,5 +236,10 @@ public class MagazineContent {
         public int getUid() {
             return MAX_ITEMS * Integer.parseInt(rootDirectory.getParentFile().getName()) + id;
         }
+
+        /**
+         * audio duration in milliseconds
+         */
+        public int duration;
     }
 }
