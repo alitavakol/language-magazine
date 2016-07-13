@@ -620,7 +620,8 @@ public class IssueDetailActivity extends AppCompatActivity implements
                         id = R.string.iab_response_result_error;
                         break;
                 }
-                Toast.makeText(IssueDetailActivity.this, id, Toast.LENGTH_SHORT).show();
+                if (displayErrors)
+                    Toast.makeText(IssueDetailActivity.this, id, Toast.LENGTH_SHORT).show();
 
             } else {
                 final String sku = Magazines.getSku(issue);
@@ -645,7 +646,8 @@ public class IssueDetailActivity extends AppCompatActivity implements
                         return;
 
                     } else {
-                        Toast.makeText(IssueDetailActivity.this, R.string.purchase_failed, Toast.LENGTH_SHORT).show();
+                        if (displayErrors)
+                            Toast.makeText(IssueDetailActivity.this, R.string.purchase_failed, Toast.LENGTH_SHORT).show();
                         LogHelper.i(TAG, "purchase data signature is invalid.");
                     }
                 }
@@ -772,9 +774,27 @@ public class IssueDetailActivity extends AppCompatActivity implements
         tapToRefreshButton.setTextColor(enabled ? getResources().getColor(R.color.linkColor) : getResources().getColor(R.color.linkColorDisabled));
     }
 
+    /**
+     * if false, toasts don't show. useful when working in the background.
+     */
+    boolean displayErrors;
+
     protected void requestPrice() {
         if (iabHelper == null) {
-            Toast.makeText(this, R.string.app_store_not_found, Toast.LENGTH_SHORT).show();
+            if (displayErrors)
+                Toast.makeText(IssueDetailActivity.this, R.string.app_store_not_found, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!isLoggedIn) {
+            if (displayErrors)
+                Toast.makeText(IssueDetailActivity.this, R.string.login_required, Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (!NetworkHelper.isOnline(IssueDetailActivity.this)) {
+            if (displayErrors)
+                Toast.makeText(IssueDetailActivity.this, R.string.check_connection, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -819,9 +839,8 @@ public class IssueDetailActivity extends AppCompatActivity implements
 
                 // fetch price information only if item is not purchased and price is unknown
                 if (!issue.purchased && issue.price.length() == 0) {
-                    if (/*isLoggedIn &&*/ NetworkHelper.isOnline(IssueDetailActivity.this)) {
-                        requestPrice();
-                    }
+                    displayErrors = false;
+                    requestPrice();
                 }
 
             } catch (Exception e) {
@@ -893,14 +912,8 @@ public class IssueDetailActivity extends AppCompatActivity implements
                     tapToRefreshButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-//                            if (isLoggedIn) {
-                            if (NetworkHelper.isOnline(IssueDetailActivity.this))
-                                requestPrice();
-                            else
-                                Toast.makeText(IssueDetailActivity.this, R.string.check_connection, Toast.LENGTH_SHORT).show();
-//                            } else {
-//                                Toast.makeText(IssueDetailActivity.this, R.string.login_required, Toast.LENGTH_LONG).show();
-//                            }
+                            displayErrors = true;
+                            requestPrice();
                         }
                     });
 

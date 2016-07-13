@@ -13,5 +13,6 @@
         android:layout_marginRight="@dimen/constant_margin"
         android:layout_marginStart="@dimen/constant_margin"
         android:layout_marginTop="@dimen/constant_margin"
+        android:textColor="@android:color/black"
         tools:text="@string/aboutLibraries_description_special1_text" />
 </ScrollView>
