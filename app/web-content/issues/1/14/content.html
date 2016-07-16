@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h1 {
+				margin-top: 0;
+				text-transform: uppercase;
+				font-weight: bold;
+			}
+			h4 {
+				text-transform: uppercase;
+			}
+			img {
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				width: 100%;
+			}
+			ol {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+				color: inherit;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<h1>Jobsworth</h1>
+			<img src="cover.png">
+			<h4 style="font-weight: 300;">This month we are looking at the word “jobsworth”. basically a jobsworth is someone who is unhelpful at work and who makes life difficult for others.</h4>
+
+			<p>Jobsworths typically “<a class="new-word" data-word="to go by the book" data-type="exp" data-en="to follow every single rule exactly">go by the book</a>”, and won't do anything that is against company policy. Typical jobsworth expressions include the following:</p>
+			<ol type="a">
+				<li><span>Oh, I’m sorry, you can’t do that.</span></li>
+				<li><span>Rules are rules. I can’t help you there.</span></li>
+				<li><span>That’s more than my job’s worth.</span></li>
+			</ol>
+			<p>This last phrase was made famous by the BBC consumer afairs series <i>That’s Life!</i> This was <a class="new-word" data-word="to air" data-type="vb" data-en="to show on TV">aired</a> on British TV in the 1970s and 1980s. Each week the programme would give a prize to companies and authorities who had implemented the most ridiculous regulations and policies – particularly those that made life difficult for others.</p>
+			<p>More recently, the successful British comedy <i>The Office</i> featured the character Gareth Keenan, a fine example of a jobsworth. In the programme Gareth’s job description is “Team Leader”, a totally <a class="new-word" data-word="meaningless" data-type="adj" data-en="with no sense; with no meaning">meaningless</a> title. However, Gareth acts as if he is the boss and often orders people around.</p>
+			<p>The US English equivalent of a jobsworth is a “company man”. The American version of the series <i>The Office</i> has its own jobsworth character, Dwight Schrute. Both these men <a class="new-word" data-word="to fancy yourself as something" data-type="exp" data-en="if you “fancy yourself as” a particular kind of person, you like the idea of you being that kind of person">fancy themselves as</a> <a class="new-word" data-word="a tough guy" data-type="n" data-en="a strong, macho, aggressive man">tough guys</a> (Dwight’s hero is Jack Bauer from the series <i>24</i>, and Gareth Keenan was in the <a class="new-word" data-word="the Territorial Army" data-type="n" data-en="a reserve force of the British army – members often go two or three weekends a month">Territorial Army</a>).</p>
+			<p>Jobsworths particularly enjoy it when they are given tasks that involve some authority or giving their colleagues orders. However, in the end, jobsworths are pretty sad individuals, particularly as their superiors don’t respect them either.</p>
+			<p>Have you come across any jobsworths recently? <span class="accent">✪</span></p>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + verticalMargin + "px; } \
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					li { color: #" + accentColor + "; } \
+					li > span { color: #" + textColor + "; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

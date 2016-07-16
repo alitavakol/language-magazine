@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			@font-face {
+				font-family: 'Blokletters';
+				src: url('GochiHand-Regular.ttf');
+			}
+			body {
+				overflow-y: scroll;
+			}
+			.cem-label {
+				display: inline-block;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				margin: 4px;
+			}
+			.label-container {
+				margin: -4px;
+				margin-bottom: 12px;
+				text-align: center;
+			}
+			h1 {
+				font-weight: bold;
+				font-size: 10vw;
+				margin-top: 0;
+			}
+			h4 {
+				font-weight: 400;
+				margin-top: 20px;
+			}
+			h5 {
+				padding-top: 6px;
+				padding-bottom: 6px;
+				font-weight: bold;
+				border-bottom: 1px solid;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			.box {
+				border: 3px solid;
+			}
+			.dotted {
+				background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+				background-image: -moz-repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+				background-image: -ms-repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+				background-image: repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+				-webkit-background-size: 3px 3px;
+				-moz-background-size: 3px 3px;
+				background-size: 3px 3px;
+			}
+			input {
+				display: inline-block;
+				font-family: 'Blokletters';
+				margin-bottom: 4px;
+				margin-top: 0;
+				padding-top: 0;
+				padding-bottom: 0;
+				/*height: inherit;*/
+				width: 5em;
+				text-align: center;
+				border: 0;
+				border-bottom: dotted 1px #888;
+				vertical-align: middle;
+			}
+			input:focus {
+				outline: none;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<div style="position: relative;">
+				<img src="man.jpg" style="width: 100%; -webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);">
+				<div style="position: absolute; top: 8px; right: 16px; text-align: right;">
+					<h1>Jumping<br>Jacques</h1>
+					<p style="font-size: 4vw; font-weight: 300; font-style: italic; margin-top: 8px;">A new sport takes over the city.</p>
+				</div>
+			</div>
+
+			<h4><span class="accent">❶</span> <b>Discussion</b></h4>
+			<ol>
+				<li><span>What sport are you into?</span></li>
+				<li><span>Which extreme sports have you tried out?</span></li>
+				<li><span>Which extreme sport would you like to have a go at? Why?</span></li>
+			</ol>
+
+			<h4><span class="accent">❷</span> <b>Pre reading</b></h4>
+			<p>What do the following sports consists of? Give a brief description of each one.</p>
+			<div class="row" style="text-align: center;">
+			</div>
+
+			<h4 style="margin-top: 0;"><span class="accent">❸</span> <b>Listening</b></h4>
+			<p>Listen to the article many times. Which extreme sport is it about? What does it consist of?</p>
+
+			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p><span data-start="11628" data-end="16640">Ever climbed up a building? Bounced of walls? Or jumped from <a class="new-word" data-word="a rooftop" data-type="n" data-en="the top part of a building">rooftop</a> to rooftop?</span> <span data-start="16641" data-end="19186">Parkour practitioners do it every day.</span> <span data-start="19187" data-end="25275">Parkour is the “art of displacement,” or the ability to move from one place to another as fast as possible.</span> <span data-start="25276" data-end="30650">You use only your body and there is no safety equipment (as in other extreme sports).</span> <span data-start="30651" data-end="35727"><a class="new-word" data-word="a practitioner" data-type="n" data-en="a person who does or who specialises in something">Practitioners</a>, called “traceurs” (which means “to go fast”, in French),</span> <span data-start="35728" data-end="43160">say it is an art form – an interaction between the buildings and structures that surround you – combining <a class="new-word" data-word="aesthetics" data-type="n" data-en="a study of beauty">aesthetics</a> and physical control.</span> <span data-start="43161" data-end="46620">These days, Parkour is <a class="new-word" data-word="to pop up phr" data-type="vb" data-en="to appear suddenly and unexpectedly">popping up</a> everywhere, including Hollywood.</span> <span data-start="46621" data-end="53505">The 2006 James Bond film Casino Royale opens with a scene featuring parkour “traceur” Sebastien Foucan.</span> <span data-start="53506" data-end="56302">He grew up practising parkour in Paris.</span> <span data-start="56303" data-end="60383">“I always thought of parkour as an art,” he says in an interview with BBC News.</span> <span data-start="60384" data-end="65700">“When I practise my art, I feel a real connection between my body, spirit and my environment.”</span> <span data-start="65701" data-end="71671">Traceurs often refer to parkour as a philosophy or a way of life rather than a sport.</span> <span data-start="71672" data-end="76402">“In a lot of ways, Parkour is a means of reclaiming what it means to be a human being.</span> <span data-start="76403" data-end="80751">It teaches us to move using the natural methods that we should have learned from infancy.</span> <span data-start="80752" data-end="87847">It teaches us to touch the world and interact with it, instead of being <a class="new-word" data-word="to shelter" data-type="vb" data-en="to protect; to care for; to ofer protection to">sheltered</a> by it,” says one American “traceur”.</span> <span class="accent">✪</span></p>
+			</div></div>
+
+			<h4><span class="accent">❹</span> <b>Reading</b></h4>
+			<p>Read the article. Then give a one-minute (100-word) summary of the main points. Try to use the following words.</p>
+			<div class="label-container">
+				<div class='cem-label'>parkour</div>
+				<div class='cem-label'>art of displacement</div>
+				<div class='cem-label'>spirit</div>
+				<div class='cem-label'>safety equipment</div>
+				<div class='cem-label'>traceur</div>
+				<div class='cem-label'>buildings</div>
+				<div class='cem-label'>Casino Royale</div>
+				<div class='cem-label'>body</div>
+				<div class='cem-label'>environment</div>
+			</div>
+
+			<h4><span class="accent">❺</span> <b>Preposition attack!</b></h4>
+			<p>There are various prepositions of movement in this article. Complete each sentence with the correct preposition.</p>
+			<ol>
+				<li><span>She climbed <input type="text" class="accent"> to the top.</span></li>
+				<li><span>The ball bounced <input type="text" class="accent"> the wall.</span></li>
+				<li><span>They jumped <input type="text" class="accent"> rooftop to rooftop.</span></li>
+				<li><span>He jumped <input type="text" class="accent"> the box and hid there.</span></li>
+				<li><span>The cat sprang <input type="text" class="accent"> the basket and went under the settee.</span></li>
+			</ol>
+
+			<div class="box fill-accent">
+				<h4 style="margin-top: 0; font-weight: bold;">David Belle</h4>
+				<p>David Belle is credited with being the creator of parkour. He was born in 1973, in Fécamp, France. He was inspired by his father, a fireman. Belle created parkour after finishing French military service and getting a black belt in Kung Fu. He says, “The physical aspect of parkour is getting over all obstacles in your path as you would in an emergency. You want to move in such a way, with any movement, to help you gain the most ground on something, whether escaping from it or chasing toward it.” Belle describes parkour as “a state of mind, giving you a better knowledge of your body, so you can overcome obstacles in the real world or in a virtual world&#8230;” Parkour clubs include all ages and all types of people. One North American parkour club has members ranging from age 9 to 55. David Belle teaches parkour in Paris. He appears in many French ads and films, as well as in commercials for the BBC, Nike and Nissan.</p>
+				<img style="width: 100%;" src='belle.jpg'>
+			</div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			template = '\
+				<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2"> \
+					<img src="{name}.jpg" class="img-circle img-responsive"> \
+					<div style="position: relative; border: solid 2px black; background-color: black; color: white; bottom: 36px; display: inline-block; padding-left: 8px; padding-right: 8px; padding-top: 4px; padding-bottom: 4px; -webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12); box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);">{name}</div> \
+				</div> \
+			';
+			names = ['motocross', 'surfing', 'abseiling', 'ice climbing', 'hang gliding', 'scuba diving', 'water skiing', 'snowboarding', 'parachuting', 'parkour', 'bungee jumping'];
+			names.forEach(function(name) {
+				$('.row').append(template.replace(/\{name\}/g, name));
+			});
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					h5 { border-color: #" + accentColor + "; color: #" + accentColor + "; } \
+					.cem-label { color: #" + backgroundColor + "; background-color: #" + textColor + "; -webkit-box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; } \
+					.box { padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
+					.fill-accent { background-color: " + highlightColor + "; } \
+					.fill-light { background-color: " + tinycolor(highlightColor).lighten() + "; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key-enter-access-door-place-512.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+				}
+
+				saveInstanceState();
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>
