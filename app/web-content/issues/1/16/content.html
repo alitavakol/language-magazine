@@ -25,15 +25,24 @@
 			}
 			h1 {
 				margin-top: 0;
+				margin-bottom: 0;
 				text-transform: uppercase;
 				font-weight: bold;
+				display: block;
+				font-size: 150%;
+			}
+			h3 {
+				font-style: italic;
+				font-size: 85%;
+				margin-top: 0;
 			}
 			h4 {
-				text-transform: uppercase;
+				font-weight: 400;
+				margin-top: 20px;
 			}
 			img {
-				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
-				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				/*-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);*/
+				/*box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);*/
 				width: 100%;
 			}
 			ol {
@@ -46,6 +55,63 @@
 				font-weight: normal;
 				color: inherit;
 			}
+			.new-word {
+				color: white;
+			}
+			#title-container {
+				background-color: rgba(50,50,50,.8);
+				display: inline-block;
+			}
+			.label-container {
+				display: inline-block;
+				padding: 10px;
+				margin-left: 10px;
+				margin-right: 10px;
+				margin-top: 6px;
+				margin-bottom: 6px;
+				-webkit-box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				font-weight: bold;
+			}
+			.label-container.gone {
+				opacity: .2;
+				-webkit-box-shadow: inherit;
+				box-shadow: inherit;
+			}
+			.label-container.attached {
+				visibility: hidden;
+			}
+			.label-base {
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: -16px;
+				vertical-align: center;
+			}
+			.visible {
+				visibility: visible !important;
+			}
+			.image-container {
+				text-align: center;
+				padding: 8px;
+				margin-bottom: 12px;
+			}
+			#images {
+				padding: 10px;
+				padding-top: 16px;
+			}
+			#images img {
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				width: 100%;
+			}
+			#labels {
+				margin-left: -10px;
+				text-align: center;
+			}
+			a:focus, a:hover {
+				color: white;
+			}
 		</style>
 
 		<style id="local-rules">
@@ -53,8 +119,12 @@
 
 		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
 		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="jquery-ui.min.js"></script>
+		<script src="jquery.ui.touch-punch.min.js"></script>
 		<script src="file:///android_asset/tinycolor-min.js"></script>
 		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
 
 		<script src="../code.js"></script>
 		<script src="../debug.js"></script>
@@ -64,10 +134,27 @@
 		<div class="foundation">
 			<div id="top-margin"></div>
 
+			<div style="position: relative; border-left: solid 2px black; border-right: solid 2px black; border-top: solid 2px black;">
+				<img src="cover.jpg" style="width: 100%;">
+				<div style="position: absolute; bottom: 0; text-align: center; width: 100%; color: white; background: -webkit-linear-gradient(rgba(0,0,0,0), rgba(2,113,62,1));">
+					<h1>Platypus Mystery</h1>
+					<h3>The mystery of the platypus is solved.</h3>
+				</div>
+			</div>
 
+			<div id="green" style="background-color: #02713e; color: white; border-left: solid 2px black; border-right: solid 2px black; border-bottom: solid 2px black;">
+				<p>The duck-billed platypus is one of the <a class="new-word" data-word="odd" data-type="adj" data-en="strange">oddest</a> animals on earth. It's a small animal native to Australia and Tasmania. Unusually, it's neither a mammal, a bird nor a reptile. For a while, scientists couldn’t decide what the strange little creature was because it had similarities with all three animal groups.</p>
+				<p>For years, scientists had been studying the <a class="new-word" data-word="a genome" data-type="n" data-en="DNA (Deoxyribonucleic acid) – the genetic information of people / things">genome</a> of the platypus to igure <a class="new-word" data-word="to igure out" data-type="phr vb" data-en="to discover">figure out</a> which group it belonged to. Eventually, they concluded that it was a mixture of the three. In some ways it is similar to a duck: it lays eggs, it has a <a class="new-word" data-word="a bill" data-type="n" data-en="the hard part of a bird’s face that it uses to eat (also, a “beak”)">bill</a> (<a class="new-word" data-word="hence" data-type="adv" data-en="therefore; as a result">hence</a> the name) and it has webbed feet. The platypus also has a feature that egg-laying mammals have: electroreception. This is the ability to <a class="new-word" data-word="to track" data-type="vb" data-en="to find and follow">track</a> food with electrical signals when they are underwater. The features that the platypus shares with reptiles include a snake-like <a class="new-word" data-word="venom" data-type="n" data-en="poison">venom</a>.</p>
+				<p>Scientists said that they thought that, during evolution, humans and platypuses had a common ancestor until about 170 million years ago – during the time of the dinosaurs.</p>
+				<p>Australia is home to some of the strangest animals in the world. As well as the duck-billed platypus, there are also kangaroos with <a class="new-word" data-word="a pouch" data-type="n" data-en="a type of bag in a kangaroo for holding its young / babies">pouches</a> for carrying their <a class="new-word" data-word="offspring" data-type="n" data-en="children">offspring</a> and the mild, tree-climbing koala bears. The isolation of the island has meant that many animals have evolved diferently from other animals as they lived without fear of <a class="new-word" data-word="a predator" data-type="n" data-en="a hunter; someone who eats / kills another animal">predators</a>. ✪</p>
+			</div>
 
-			<h1>Platypus Mystery</h1>
-			<h3>The mystery of the platypus is solved.</h3>
+			<h4><span class="accent">❶</span> <b>Exercise</b></h4>
+			<p>Match each Australian animal to its corresponding picture.</p>
+			<div class="box">
+				<div id="labels"></div>
+				<div id="images" class="row"></div>
+			</div>
 
 			<div id="bottom-margin"></div>
 		</div>
@@ -75,14 +162,94 @@
 		<script type="text/javascript">
 			restoringInstanceState = false;
 
+			var mixed_label_ids = [6, 5, 1, 4, 3, 7, 2, 0];
+			var images = [['d', 'duck-billed platypus'], ['h', 'koala'], ['a', 'kangaroo'], ['g', 'funnel-web spider'], ['f', 'Tasmanian devil'], ['c', 'emu'], ['e', 'dingo'], ['b', 'possum']];
+			var image_template = "<div class='image-container col-xs-6 col-sm-4 col-md-3 col-lg-2' data-label='{label}'><img src='{img}.jpg' class='img-circle img-responsive'><div class='label-base'><div class='label-container attached'>{label}</div></div></div>";
+			var label_template = "<div class='label-container draggable' data-label='{label}'>{label}</div>";
+
+			container = $('#images');
+			images.forEach(function(img) {
+				 container.append(image_template.replace(/\{img\}/g, img[0]).replace(/\{label\}/g, img[1]));
+			});
+
+			container = $('#labels');
+			mixed_label_ids.forEach(function(id) {
+				 container.append(label_template.replace(/\{label\}/g, images[id][1]));
+			});
+
+			dropped_elements = [];
+
+			$('.draggable').draggable({
+				revert: 'invalid',
+				containment: 'body',
+				zIndex: 2,
+				appendTo: 'body',
+				helper: 'clone',
+				scrollSensitivity: 40,
+				scrollSpeed: 10,
+				start: function(e,u) {
+					$('.label-container').removeClass('selected');
+					$(e.target).addClass('gone');
+				},
+				stop: function(e,u) {
+					if(!$(e.target).data('gone'))
+						$(e.target).removeClass('gone').trigger('tap');
+				},
+			});
+			$('.draggable').tap(function() {
+				if(!$(this).hasClass('gone')) {
+					$('.label-container').removeClass('selected');
+					$(this).addClass('selected');
+				}
+			});
+
+			$('.image-container').droppable({
+				activate: function(ev, ui) {
+				},
+				deactivate: function(ev, ui) {
+				},
+				drop: function(event, ui) {
+					drop(ui.draggable, $(this));
+				}
+			});
+			$('.image-container').tap(function() {
+				drop($('.draggable.selected'), $(this));
+			});
+
+			drop = function(dropped, dropzone) {
+				if(!dropped.length || !dropzone.length)
+					return;
+
+				var label = dropzone.data('label');
+				if(label == dropped.html()) {
+					dropzone.find('.label-container').addClass('visible');
+					dropped.draggable('disable');
+					dropped.data('gone', true).removeClass('selected').addClass('gone');
+
+					if(dropped_elements.indexOf(label) == -1) {
+						dropped_elements.push(label);
+						saveInstanceState();
+					}
+
+				} else {
+					dropped.removeClass('gone');
+					$('.label-container').removeClass('selected');
+					if(typeof(app) != 'undefined')
+						app.makeToast('That\'s not right.', false);
+				}
+			}
+
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
 					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
 					#bottom-margin { height: " + verticalMargin + "px; } \
 					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
 					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#green { padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; padding-top: " + verticalMargin + "px; padding-bottom: " + verticalMargin + "px; } \
 					li { color: #" + accentColor + "; } \
 					li > span { color: #" + textColor + "; } \
+					.label-container { background-color: " + highlightColor + "; } \
+					.label-container.selected { background-color: #" + accentColor + "; } \
 				");
 			}
 
@@ -93,6 +260,7 @@
 					return;
 
 				outState = {
+					dropped_elements: dropped_elements,
 					scroll: prevScroll,
 				};
 
@@ -103,6 +271,11 @@
 			restoreInstanceState = function(savedInstanceState) {
 				restoringInstanceState = true;
 				state = JSON.parse(savedInstanceState);
+
+				dropped_elements = state['dropped_elements'] || [];
+				dropped_elements.forEach(function(label) {
+					drop($(".label-container[data-label='" + label + "']"), $(".image-container[data-label='" + label + "']"));
+				});
 
 				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
 				prevScroll = $('body').scrollTop() / $('body').height();
