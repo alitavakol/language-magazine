@@ -112,6 +112,10 @@
 			a:focus, a:hover {
 				color: white;
 			}
+			.box {
+				border: dotted 1px black;
+				text-align: center;
+			}
 		</style>
 
 		<style id="local-rules">
@@ -144,7 +148,7 @@
 
 			<div id="green" style="background-color: #02713e; color: white; border-left: solid 2px black; border-right: solid 2px black; border-bottom: solid 2px black;">
 				<p>The duck-billed platypus is one of the <a class="new-word" data-word="odd" data-type="adj" data-en="strange">oddest</a> animals on earth. It's a small animal native to Australia and Tasmania. Unusually, it's neither a mammal, a bird nor a reptile. For a while, scientists couldn’t decide what the strange little creature was because it had similarities with all three animal groups.</p>
-				<p>For years, scientists had been studying the <a class="new-word" data-word="a genome" data-type="n" data-en="DNA (Deoxyribonucleic acid) – the genetic information of people / things">genome</a> of the platypus to igure <a class="new-word" data-word="to igure out" data-type="phr vb" data-en="to discover">figure out</a> which group it belonged to. Eventually, they concluded that it was a mixture of the three. In some ways it is similar to a duck: it lays eggs, it has a <a class="new-word" data-word="a bill" data-type="n" data-en="the hard part of a bird’s face that it uses to eat (also, a “beak”)">bill</a> (<a class="new-word" data-word="hence" data-type="adv" data-en="therefore; as a result">hence</a> the name) and it has webbed feet. The platypus also has a feature that egg-laying mammals have: electroreception. This is the ability to <a class="new-word" data-word="to track" data-type="vb" data-en="to find and follow">track</a> food with electrical signals when they are underwater. The features that the platypus shares with reptiles include a snake-like <a class="new-word" data-word="venom" data-type="n" data-en="poison">venom</a>.</p>
+				<p>For years, scientists had been studying the <a class="new-word" data-word="a genome" data-type="n" data-en="DNA (Deoxyribonucleic acid) – the genetic information of people / things">genome</a> of the platypus to <a class="new-word" data-word="to igure out" data-type="phr vb" data-en="to discover">figure out</a> which group it belonged to. Eventually, they concluded that it was a mixture of the three. In some ways it is similar to a duck: it lays eggs, it has a <a class="new-word" data-word="a bill" data-type="n" data-en="the hard part of a bird’s face that it uses to eat (also, a “beak”)">bill</a> (<a class="new-word" data-word="hence" data-type="adv" data-en="therefore; as a result">hence</a> the name) and it has webbed feet. The platypus also has a feature that egg-laying mammals have: electroreception. This is the ability to <a class="new-word" data-word="to track" data-type="vb" data-en="to find and follow">track</a> food with electrical signals when they are underwater. The features that the platypus shares with reptiles include a snake-like <a class="new-word" data-word="venom" data-type="n" data-en="poison">venom</a>.</p>
 				<p>Scientists said that they thought that, during evolution, humans and platypuses had a common ancestor until about 170 million years ago – during the time of the dinosaurs.</p>
 				<p>Australia is home to some of the strangest animals in the world. As well as the duck-billed platypus, there are also kangaroos with <a class="new-word" data-word="a pouch" data-type="n" data-en="a type of bag in a kangaroo for holding its young / babies">pouches</a> for carrying their <a class="new-word" data-word="offspring" data-type="n" data-en="children">offspring</a> and the mild, tree-climbing koala bears. The isolation of the island has meant that many animals have evolved diferently from other animals as they lived without fear of <a class="new-word" data-word="a predator" data-type="n" data-en="a hunter; someone who eats / kills another animal">predators</a>. ✪</p>
 			</div>
@@ -250,6 +254,7 @@
 					li > span { color: #" + textColor + "; } \
 					.label-container { background-color: " + highlightColor + "; } \
 					.label-container.selected { background-color: #" + accentColor + "; } \
+					.box { padding-top: " + (2*spacing) + "px; padding-left: " + spacing + "px; padding-right: " + spacing + "px; } \
 				");
 			}
 

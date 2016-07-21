@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#page-indicator {
+				width: 100%;
+				position: absolute;
+				z-index: 1;
+				text-align: center;
+				display: none;
+			}
+			.dot {
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				border-radius: 5px;
+				margin: 3px;
+				/* background-color: #8999A6; */
+			}
+			.dot.active {
+				/* background-color: azure; */
+			}
+
+			.cem-card {
+				position: relative;
+				transition: box-shadow .25s;
+				border-radius: 2px;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				max-width: 100%;
+			}
+			.cem-card .card-image {
+				position: relative;
+			}
+			.cem-card .card-image img {
+				display: block;
+				border-radius: 2px 2px 0 0;
+				position: relative;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+			}
+			.cem-card .card-image .card-title {
+				color: #fff;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-top: 10px;
+				padding-bottom: 10px;
+				text-transform: uppercase;
+				background-color: black;
+				font-weight: bold;
+				background-color: rgba(0,0,0,.5);
+				font-size: 18px;
+			}
+			.cem-card .card-content {
+				border-radius: 0 0 2px 2px;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-bottom: 10px;
+				padding-top: 10px;
+				font-style: italic;
+			}
+			.cem-card .card-action {
+				border-top: 1px solid rgba(0,0,0,0.2);
+				padding: 20px;
+				padding-bottom: 0;
+				transition: color .3s ease;
+				text-transform: uppercase;
+				text-decoration: none;
+				-webkit-tap-highlight-color: transparent;
+			}
+			.card-action.title {
+				padding: 40px;
+				padding-top: 60px;
+				font-size: large;
+				text-transform: uppercase;
+				text-align: center;
+				border-top: none;
+			}
+
+			.swipe {
+				overflow: hidden;
+				visibility: hidden;
+				position: relative;
+			}
+			.swipe-wrap {
+				position: relative;
+			}
+			.swipe-wrap > div {
+				float: left;
+				width: 20px;
+				position: relative;
+				overflow: hidden;
+				overflow-y: auto;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="swipe.min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div id="page-indicator"></div>
+
+		<div id='swipeable' style='margin:0 auto;' class='swipe'>
+			<div class='swipe-wrap'>
+				<div>
+					<div class='top-margin'></div>
+					<div class='cem-card' style="border-radius: 2px;">
+						<div class='card-action title'>
+							<p>Here are some useful and interesting expressions for you to learn. This month we are looking at some expressions to describe the act of <span style="font-weight: bold;">“being wrong”</span>.</p>
+							<img src="dr.png" style="width: 40%; max-width: 3cm; margin-top: 16px;">
+						</div>
+					</div>
+					<div class='bottom-margin'></div>
+				</div>
+			</div>
+		</div>
+
+		<div style="display: none;">
+			<span data-start="19553" data-end="21718"></span>
+			<span data-start="28956" data-end="31599"></span>
+			<span data-start="42664" data-end="46169"></span>
+			<span data-start="52805" data-end="56222"></span>
+			<span data-start="63651" data-end="66942"></span>
+			<span data-start="73126" data-end="76700"></span>
+			<span data-start="85681" data-end="88667"></span>
+			<span data-start="21719" data-end="22934"></span>
+			<span data-start="31600" data-end="36413"></span>
+			<span data-start="46170" data-end="48362"></span>
+			<span data-start="56223" data-end="58320"></span>
+			<span data-start="66943" data-end="69262"></span>
+			<span data-start="76701" data-end="78728"></span>
+			<span data-start="88668" data-end="91090"></span>
+			<span data-start="22935" data-end="28955"></span>
+			<span data-start="36414" data-end="42663"></span>
+			<span data-start="48363" data-end="52804"></span>
+			<span data-start="58321" data-end="63650"></span>
+			<span data-start="69263" data-end="73125"></span>
+			<span data-start="78729" data-end="85680"></span>
+			<span data-start="91091" data-end="99454"></span>
+
+			<a class="new-word" data-word="a track" data-type="n" data-en="“tracks” are long metal objects on which trains travel">track</a>
+			<a class="new-word" data-word="to scratch" data-type="vb" data-en="if you “scratch” yourself, you move your fingers over a part of your body because it itches">scratch</a>
+			<a class="new-word" data-word="to bark" data-type="vb" data-en="when a dog “barks”, it makes a sound from its mouth">barking</a>
+			<a class="new-word" data-word="a peg" data-type="n" data-en="a small piece of wood or metal that is used for fastening something. For example, a “clothes peg” is for holding clothes on the clothes line">peg</a>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			card_template = "\
+				<div>\
+					<div class='top-margin'></div>\
+					<div class='cem-card'>\
+						<div class='card-image'>\
+							<img class='img-responsive' src='{img}.jpg'>\
+							<span class='card-title'>{verb}</span>\
+						</div>\
+						<div class='card-action'>{def}</div>\
+						<div class='card-content'><p>{example}</p></div>\
+					</div>\
+					<div class='bottom-margin'></div>\
+				</div>\
+			";
+			verbs = ['<span data-slide="1" data-start="19553" data-end="21718">Be wide of the mark</span>', '<span data-slide="2" data-start="28956" data-end="31599">Be on the wrong track</span>', '<span data-slide="3" data-start="42664" data-end="46169">Not be up to scratch</span>', '<span data-slide="4" data-start="52805" data-end="56222">Be barking up the wrong tree</span>', '<span data-slide="5" data-start="63651" data-end="66942">Not be your cup of tea</span>', '<span data-slide="6" data-start="73126" data-end="76700">Be like a square peg in a round hole</span>', '<span data-slide="7" data-start="85681" data-end="88667">Back the wrong horse</span>'];
+			defs = ['<span data-slide="1" data-start="21719" data-end="22934">To be wrong.</span>', '<span data-slide="2" data-start="31600" data-end="36413">To be doing something badly; To have the wrong idea about something.</span>', '<span data-slide="3" data-start="46170" data-end="48362">Not to be acceptable.</span>', '<span data-slide="4" data-start="56223" data-end="58320">To be wrong about something.</span>', '<span data-slide="5" data-start="66943" data-end="69262">Not be something that you like.</span>', '<span data-slide="6" data-start="76701" data-end="78728">Not to be appropriate.</span>', '<span data-slide="7" data-start="88668" data-end="91090">To support someone who fails.</span>'];
+			examples = ['<span data-slide="1" data-start="22935" data-end="28955">“If that’s your answer then you are still very wide of the mark.”</span>', '<span data-slide="2" data-start="36414" data-end="42663">“I think the government are on the wrong <a class="new-word" data-word="a track" data-type="n" data-en="“tracks” are long metal objects on which trains travel">track</a> with their ideas on privatising the railways.”</span>', '<span data-slide="3" data-start="48363" data-end="52804">“Your latest work is just not up to <a class="new-word" data-word="to scratch" data-type="vb" data-en="if you “scratch” yourself, you move your fingers over a part of your body because it itches">scratch</a>.”</span>', '<span data-slide="4" data-start="58321" data-end="63650">“If you think I’m going to help you with this, you’re <a class="new-word" data-word="to bark" data-type="vb" data-en="when a dog “barks”, it makes a sound from its mouth">barking</a> up the wrong tree.”</span>', '<span data-slide="5" data-start="69263" data-end="73125">“Frank is not really my cup of tea.”</span>', '<span data-slide="6" data-start="78729" data-end="85680">“She’s just not the right sort of person we need here; she’s like a square <a class="new-word" data-word="a peg" data-type="n" data-en="a small piece of wood or metal that is used for fastening something. For example, a “clothes peg” is for holding clothes on the clothes line">peg</a> in a round hole.”</span>', '<span data-slide="7" data-start="91091" data-end="99454">“We gave our support to the liberal politician, but he lost the election. I think we backed the wrong horse.”</span>'];
+			var i = 0;
+			$('#page-indicator').append('<span class="dot"></span>');
+			verbs.forEach(function(verb) {
+				$('.swipe-wrap').append(card_template.replace(/\{verb\}/g, verb).replace(/\{img\}/g, i+1).replace(/\{def\}/g, defs[i]).replace(/\{example\}/, examples[i]));
+				$('#page-indicator').append('<span class="dot"></span>');
+				i++;
+			});
+
+			adjustCustomLayout = function(options) {
+				brightcolor = tinycolor(accentColor).brighten().brighten();
+				brightcolor.setAlpha(.7);
+				darkColor = tinycolor(accentColor).darken().darken();
+				darkColor.setAlpha(.7);
+
+				$('#local-rules').text("\
+					.cem-card { background-color: #" + accentColor + "; margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+					.card-content { color: " + newWordColor + "; } \
+					.top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.bottom-margin { height: " + bottomMargin + "px; } \
+					#page-indicator { margin-top: " + (topMargin+2*verticalMargin-8) + "px; } \
+					.swipe-wrap > div { height: " + height + "px; } \
+					.dot { background-color: " + brightcolor.toRgbString() + "; } \
+					.dot.active { background-color: " + darkColor.toRgbString() + "; }"
+				);
+			}
+
+			setCurrentSlide = function(index) {
+				$('#page-indicator').show();
+				$('#page-indicator .dot').eq(index).addClass('active');
+
+				if(typeof(window.swipeable) == 'object' && typeof(window.swipeable.kill) == 'function')
+					window.swipeable.kill();
+
+				window.swipeable = $('#swipeable').Swipe({
+					startSlide: index,
+					callback: function(index,elem) {
+						$('#page-indicator .dot').removeClass('active');
+						$('#page-indicator .dot').eq(index).addClass('active');
+
+						currentSlide = index;
+						saveInstanceState();
+					},
+				}).data('Swipe');
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					currentSlide: currentSlide,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				setCurrentSlide(state.currentSlide || 0);
+
+				restoringInstanceState = false;
+			}
+
+			highlight = function(timePoint) {
+				$('.highlight').removeClass('highlight');
+				t = $('[data-start=' + timePoint + ']');
+				t.addClass('highlight');
+				u = parseInt(t.data('slide'));
+				if(u >= 0)
+					window.swipeable.slide(u);
+			}
+		</script>
+
+	</body>
+</html>

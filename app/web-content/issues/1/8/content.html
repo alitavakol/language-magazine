@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>News Stories</title>
-
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -211,7 +209,7 @@
 				</div>\
 			";
 			i = 1;
-			['Electric guitar ', 'Acoustic guitar ', 'Amp', 'Bass guitar', 'Sheet music ', 'Trombone ', 'Clarinet ', 'Harmonica', 'Drums ', 'Saxophone', 'Cello', 'Violin', 'Accordion ', 'Piano', 'Trumpet ', 'Flute'].forEach(function(title) {
+			['Electric guitar', 'Acoustic guitar', 'Amp', 'Bass guitar', 'Sheet music', 'Trombone', 'Clarinet', 'Harmonica', 'Drums', 'Saxophone', 'Cello', 'Violin', 'Accordion', 'Piano', 'Trumpet', 'Flute'].forEach(function(title) {
 				$('#instruments').append(template.replace(/\{img\}/g, i++).replace(/\{title\}/g, title));
 			});
 

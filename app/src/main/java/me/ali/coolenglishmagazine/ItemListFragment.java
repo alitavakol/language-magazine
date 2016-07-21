@@ -239,7 +239,7 @@ public class ItemListFragment extends Fragment {
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     final String user_id = preferences.getString("user_id", "");
 
-                    if (!item.free && issue.purchased && user_id.length() == 0) {
+                    if (!BuildConfig.DEBUG && !item.free && issue.purchased && user_id.length() == 0) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setMessage(R.string.sign_in_to_access)
                                 .setTitle(R.string.sign_in_to_access_title)
@@ -257,7 +257,7 @@ public class ItemListFragment extends Fragment {
                                 .setCancelable(true)
                                 .show();
 
-                    } else if (!item.free && !issue.paidContentIsValid) {
+                    } else if (!BuildConfig.DEBUG && !item.free && !issue.paidContentIsValid) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setMessage(R.string.paid_item_error)
                                 .setTitle(R.string.paid_item_error_title)
@@ -275,7 +275,7 @@ public class ItemListFragment extends Fragment {
                                 .setCancelable(true)
                                 .show();
 
-                    } else if (!item.free || issue.freeContentIsValid) {
+                    } else if (BuildConfig.DEBUG || !item.free || issue.freeContentIsValid) {
                         mCallbacks.onItemSelected(magazineContent.ITEMS.get(recyclerView.getChildAdapterPosition(holder.itemView)));
                     }
                 }

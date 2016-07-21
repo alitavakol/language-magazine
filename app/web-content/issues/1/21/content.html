@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#page-indicator {
+				width: 100%;
+				position: flex;
+				z-index: 1;
+				text-align: center;
+				display: none;
+			}
+			.dot {
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				border-radius: 5px;
+				margin: 3px;
+			}
+			.card-action a, .card-action a:focus, .card-action a:hover {
+				color: white !important;
+			}
+			.cem-card {
+				position: relative;
+				/*transition: box-shadow .25s;*/
+				/*border-radius: 2px;*/
+				/*-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);*/
+				/*box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);*/
+				max-width: 100%;
+			}
+			.card-action {
+				padding: 20px;
+				padding-top: 48px;
+				transition: color .3s ease;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				border-top-left-radius: 24px;
+				border-top-right-radius: 24px;
+				color: white;
+				text-align: center;
+			}
+			.card-action.title {
+				padding: 40px;
+				padding-top: 80px;
+				border-radius: 24px;
+				font-size: x-large;
+				text-transform: uppercase;
+			}
+			.card-content {
+				border-radius: 0 0 2px 2px;
+				padding-bottom: 10px;
+				padding-top: 10px;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				/*font-style: italic;*/
+				/*margin: 10px;*/
+			}
+			.card-content:nth-child(3n+2) {
+				background-color: #ECF6FB;				
+			}
+			.card-content:nth-child(3n) {
+				background-color: #DEF1FA;				
+			}
+			.card-content:nth-child(3n+1) {
+				background-color: #D2EDFA;				
+				border-bottom-left-radius: 24px;
+				border-bottom-right-radius: 24px;
+			}
+			.card-content img {
+				padding-bottom: 4px;
+			}
+			.card-content .situation {
+				font-weight: bold;
+				display: block;
+			}
+			td:first-child {
+				padding-top: 4px;
+				padding-bottom: 4px;
+				text-align: center;
+				padding-right: 24px;
+			}
+			td:nth-child(2) {
+				width: 100%;
+			}
+
+			.swipe {
+				overflow: hidden;
+				visibility: hidden;
+				position: relative;
+			}
+			.swipe-wrap {
+				position: relative;
+			}
+			.swipe-wrap > div {
+				float: left;
+				width: 20px;
+				position: relative;
+				overflow: hidden;
+				overflow-y: auto;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="swipe.min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div id="page-indicator" style="position: absolute; z-index: 1;"></div>
+
+		<div id='swipeable' style='margin:0 auto;' class='swipe'>
+			<div class='swipe-wrap'>
+				<div>
+					<div class='top-margin'></div>
+					<div class='cem-card'>
+						<div class='card-action title'>Here we’ve got some examples of how to say things in different situations.</div>
+					</div>
+					<div class='bottom-margin'></div>
+				</div>
+			</div>
+		</div>
+
+		<div style="display: none;">
+			<a class="new-word" data-word="at full whack" data-type="exp" data-en="at maximum speed. Literally, “to whack” is to hit">full whack</a>
+			<a class="new-word" data-word="clueless" data-type="adj inform" data-en="with no idea about something. Literally, a “clue” is a piece of information that helps you solve a mystery/puzzle">clueless</a>
+			<a class="new-word" data-word="to miss" data-type="vb" data-en="if you “miss” a train, you don’t catch that train">missed</a>
+			<a class="new-word" data-word="to shack up" data-type="phr vb inform" data-en="if you “shack up” in a place, you start living there. Literally, a “shack” is an old hut built of tin (a metal)">shack up</a>
+			<a class="new-word" data-word="to kip" data-type="vb inform" data-en="to sleep">kip</a>
+
+			<span data-start="7700" data-end="11356"></span>
+			<span data-start="11357" data-end="13667"></span>
+			<span data-start="13668" data-end="14722"></span>
+			<span data-start="14723" data-end="18464"></span>
+			<span data-start="18465" data-end="22732"></span>
+			<span data-start="22733" data-end="27540"></span>
+			<span data-start="27541" data-end="29184"></span>
+			<span data-start="29185" data-end="34843"></span>
+			<span data-start="34844" data-end="44988"></span>
+			<span data-start="44989" data-end="47396"></span>
+			<span data-start="47397" data-end="48951"></span>
+			<span data-start="48952" data-end="52390"></span>
+			<span data-start="52391" data-end="55371"></span>
+			<span data-start="55372" data-end="59266"></span>
+			<span data-start="59267" data-end="61215"></span>
+			<span data-start="61216" data-end="65026"></span>
+			<span data-start="65027" data-end="70707"></span>
+			<span data-start="70708" data-end="74696"></span>
+			<span data-start="74697" data-end="75856"></span>
+			<span data-start="75857" data-end="80400"></span>
+			<span data-start="80401" data-end="85276"></span>
+			<span data-start="85277" data-end="88995"></span>
+			<span data-start="88996" data-end="91376"></span>
+			<span data-start="91377" data-end="96067"></span>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			card_template = "\
+				<div>\
+					<div class='top-margin'></div>\
+					<div class='cem-card'>\
+						<div class='card-action'>{situation}</div>\
+						<div class='card-content'><table><tr><td><img src='formal.png'><span class='situation'>Formal</span></td><td>{formal}</td></tr></table></div>\
+						<div class='card-content'><table><tr><td><img src='relaxed.png'><span class='situation'>Relaxed</span></td><td>{relaxed}</td></tr></table></div>\
+						<div class='card-content'><table><tr><td><img src='informal.png'><span class='situation'>Informal</span></td><td>{informal}</td></tr></table></div>\
+					</div>\
+					<div class='bottom-margin'></div>\
+				</div>\
+			";
+			slangs = [['<span data-slide="1" data-start="7700" data-end="11356">You think your friend’s sunglasses are very fashionable.</span>', '<span data-slide="1" data-start="11357" data-end="13667">They are most fashionable.</span>', '<span data-slide="1" data-start="13668" data-end="14722">They’re cool.</span>', '<span data-slide="1" data-start="14723" data-end="18464">Those shades are rocking.</span>'], ['<span data-slide="2" data-start="18465" data-end="22732">A friend of yours likes playing jokes on other people and irritating them.</span>', '<span data-slide="2" data-start="22733" data-end="27540">He enjoys provoking people until they enter a state of rage.</span>', '<span data-slide="2" data-start="27541" data-end="29184" id="wind">He likes annoying people.</span>', '<span data-slide="2" data-start="29185" data-end="34843">He likes winding people up; he’s a real wind-up merchant.</span>'], ['<span data-slide="3" data-start="34844" data-end="44988">Jane is going out with Frank. You don’t think that Frank is good for Jane because he spends his time playing computer games, and he has no ambition in life.</span>', '<span data-slide="3" data-start="44989" data-end="47396">He is a worthless person.</span>', '<span data-slide="3" data-start="47397" data-end="48951" id="fail">He’s a failure.</span>', '<span data-slide="3" data-start="48952" data-end="52390">He’s a real loser.</span>'], ['<span data-slide="4" data-start="52391" data-end="55371">Your friend is driving very fast.</span>', '<span data-slide="4" data-start="55372" data-end="59266">You are motoring at the maximum possible speed.</span>', '<span data-slide="4" data-start="59267" data-end="61215">You’re driving at full speed.</span>', '<span data-slide="4" data-start="61216" data-end="65026" id="speed">You’re driving at <a class="new-word" data-word="at full whack" data-type="exp" data-en="at maximum speed. Literally, “to whack” is to hit">full whack</a>.</span>'], ['<span data-slide="5" data-start="65027" data-end="70707">A friend asks if you know what the capital of Mongolia is. You don’t.</span>', '<span data-slide="5" data-start="70708" data-end="74696">I am afraid my knowledge in that area is somewhat deficient.</span>', '<span data-slide="5" data-start="74697" data-end="75856">I don’t know.</span>', '<span data-slide="5" data-start="75857" data-end="80400">I’m stumped; no idea, mate; I’m <a class="new-word" data-word="clueless" data-type="adj inform" data-en="with no idea about something. Literally, a “clue” is a piece of information that helps you solve a mystery/puzzle">clueless</a>.</span>'], ['<span data-slide="6" data-start="80401" data-end="85276">You ask if you can sleep at your friend’s house because you have <a class="new-word" data-word="to miss" data-type="vb" data-en="if you “miss” a train, you don’t catch that train">missed</a> the last train.</span>', '<span data-slide="6" data-start="85277" data-end="88995">May I rest my weary head here tonight, please?</span>', '<span data-slide="6" data-start="88996" data-end="91376" id="kip">Can I sleep here tonight, please?</span>', '<span data-slide="6" data-start="91377" data-end="96067">Can I <a class="new-word" data-word="to shack up" data-type="phr vb inform" data-en="if you “shack up” in a place, you start living there. Literally, a “shack” is an old hut built of tin (a metal)">shack up</a> here tonight? Can I <a class="new-word" data-word="to kip" data-type="vb inform" data-en="to sleep">kip</a> down here tonight?</span>']];
+			var i = 0;
+			slangs.forEach(function(slang) {
+				$('.swipe-wrap').append(card_template.replace(/\{situation\}/g, slang[0]).replace(/\{formal\}/g, slang[1]).replace(/\{relaxed\}/g, slang[2]).replace(/\{informal\}/, slang[3]));
+				$('#page-indicator').append('<span class="dot"></span>');
+				i++;
+			});
+			$('#page-indicator').append('<span class="dot"></span>');
+
+			adjustCustomLayout = function(options) {
+				brightcolor = tinycolor(accentColor).brighten().brighten();
+				brightcolor.setAlpha(.7);
+				darkColor = tinycolor(accentColor).darken().darken().darken();
+				darkColor.setAlpha(.7);
+
+					// .cem-card { background-color: " + tinycolor(accentColor).lighten().lighten() + "; padding-top: " + verticalMargin + "px; padding-right: " + horizontalMargin + "px; padding-bottom: " + verticalMargin + "px; padding-left: " + horizontalMargin + "px; margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+				$('#local-rules').text("\
+					.cem-card { margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+					.card-content { color: " + newWordColor + "; } \
+					.top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.bottom-margin { height: " + bottomMargin + "px; } \
+					#page-indicator { margin-top: " + (topMargin+2*verticalMargin) + "px; } \
+					.swipe-wrap > div { height: " + height + "px; } \
+					.dot { background-color: " + brightcolor.toRgbString() + "; } \
+					.dot.active { background-color: " + darkColor.toRgbString() + "; } \
+					.card-content, .card-action { margin-bottom: " + spacing + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					.card-action { background-color: " + tinycolor(accentColor).darken() + "; } \
+				");
+
+				$('#fail').parent().parent().append('<td style="white-space: nowrap;"><img src="tablo.png" style="margin-bottom: -14px; padding-left: 24px; width: 131px;"></td>');
+				$('#speed').parent().parent().append('<td style="white-space: nowrap;"><img src="130.png" style="padding-left: 8px; width: 70px;"></td>');
+				$('#wind').parent().parent().append('<td style="white-space: nowrap;"><img src="wind.jpg" style="padding-left: 8px; width: 80px; margin-top: -10px; margin-bottom: -14px; margin-right: -' + horizontalMargin + 'px;"></td>');
+				$('#kip').parent().parent().append('<td style="white-space: nowrap;"><img src="kip.jpg" style="padding-left: 8px; width: 80px; margin-top: -10px; margin-bottom: -14px; margin-right: -' + horizontalMargin + 'px;"></td>');
+			}
+
+			setCurrentSlide = function(index) {
+				$('#page-indicator').show();
+				$('#page-indicator .dot').eq(index).addClass('active');
+
+				if(typeof(window.swipeable) == 'object' && typeof(window.swipeable.kill) == 'function')
+					window.swipeable.kill();
+
+				window.swipeable = $('#swipeable').Swipe({
+					startSlide: index,
+					callback: function(index,elem) {
+						$('#page-indicator .dot').removeClass('active');
+						$('#page-indicator .dot').eq(index).addClass('active');
+
+						currentSlide = index;
+						saveInstanceState();
+					},
+				}).data('Swipe');
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					currentSlide: currentSlide,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				setCurrentSlide(state.currentSlide || 0);
+
+				restoringInstanceState = false;
+			}
+
+			highlight = function(timePoint) {
+				$('.highlight').removeClass('highlight');
+				t = $('[data-start=' + timePoint + ']');
+				t.addClass('highlight');
+				u = parseInt(t.data('slide'));
+				if(u >= 0)
+					window.swipeable.slide(u);
+			}
+		</script>
+
+	</body>
+</html>

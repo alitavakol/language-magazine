@@ -541,7 +541,7 @@ public class MusicService extends Service implements
     public void seekTo(int position) {
         try {
             if (mediaPlayer != null && (mediaPlayer.isPlaying() || paused))
-                mediaPlayer.seekTo((int) (position * duration_ / duration));
+                mediaPlayer.seekTo((int) (position * duration_ / duration) + 10); // workaround: sometimes it seeks to previous time span with 1 ms error
 
         } catch (IllegalStateException e) {
             LogHelper.e(TAG, e.getMessage());

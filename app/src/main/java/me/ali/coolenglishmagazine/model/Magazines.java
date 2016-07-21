@@ -367,7 +367,7 @@ public class Magazines {
             if (cursorUrl.equals(issueDownloadUrl)) {
                 bytes_downloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
                 bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-                progress = bytes_total != 0 ? (bytes_downloaded * 100 / bytes_total) : 0;
+                progress = bytes_total != 0 ? (int) ((double) bytes_downloaded / (double) bytes_total * 100.0) : 0;
                 break;
             }
         }
