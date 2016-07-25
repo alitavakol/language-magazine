@@ -21,6 +21,10 @@
 			h1, h3 {
 				margin-top: 0;
 			}
+			h3 {
+				text-transform: uppercase;
+				font-weight: 300;
+			}
 			h4 {
 				font-weight: 400;
 				margin-top: 20px;
@@ -107,7 +111,7 @@
 				<img src="dog.jpg" class="rotate-right float-right">
 				<p><span data-start="13830" data-end="25450">The tallest dog in the world is a Great Dane called Gibson. He is 107 centimetres tall.</span></p>
 
-				<img src="couple.jpg" class="rotate-right-little float-left dontend dontend" style="margin-top: 8px;">
+				<img src="couple.jpg" class="rotate-right-little float-left dontend" style="margin-top: 8px;">
 				<p><span data-start="25451" data-end="35560">The first couple to be shown in bed together on <a class="new-word" data-word="prime time television" data-type="n" data-en="the time when most people are watching television">prime time television</a> was Fred and Wilma Flintstone.</span></p>
 
 				<img src="quack.jpg" class="rotate-left float-right dontend" style="margin-top: 0;">
@@ -144,15 +148,26 @@
 				else
 					cols = 1;
 
-				$('#local-rules').text("\
+				css = "\
 					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
 					#bottom-margin { height: " + (cols > 1 ? bottomMargin : 0) + "px; } \
 					.column { margin-bottom: " + (cols > 1 ? 0 : bottomMargin) + "px; } \
 					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
 					.foundation { height: " + height + "px; overflow-y: scroll; margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
 					h1 { color: " + tinycolor(accentColor).darken() + "; font-weight: bold; } \
-					.column:not(:first-of-type) { padding-left: " + (4*spacing) + "px; } \
-				");
+				";
+
+				if(cols > 1) {
+					css += "\
+					.first.column { padding-right: " + (2*spacing) + "px; } \
+					.last.column { padding-left: " + (2*spacing) + "px; } \
+					";
+				}
+
+				if(cols == 3)
+					css += ".column:nth-child(2) { padding-right: " + (2*spacing) + "px; padding-left: " + (2*spacing) + "px; }"
+
+				$('#local-rules').text(css);
 
 				$('.transcript').columnize({
 					columns: cols,

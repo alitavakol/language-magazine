@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.IBinder;
@@ -15,6 +16,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -750,13 +755,19 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                     LayoutInflater layoutInflater = ReadAndListenActivity.this.getLayoutInflater();//.cloneInContext(new ContextThemeWrapper(ReadAndListenActivity.this, R.style.ReadAndListenTheme_BeginnerLevel));
                     View popupView = layoutInflater.inflate(R.layout.word_definition, null);
 
-                    // could not apply level theme to this popup view. do it manually :(
-                    TextView textViewNewWord = (TextView) popupView.findViewById(R.id.new_word);
-                    textViewNewWord.setText(phrase);
-                    textViewNewWord.setTextColor(getResources().getIntArray(R.array.levelColors)[item.level]);
-                    textViewNewWord.setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.UBUNTU_BOLD));
+                    final String newWordAndType = getString(R.string.new_word_and_type, phrase, newWord.type);
+                    final SpannableStringBuilder sb = new SpannableStringBuilder(newWordAndType);
+                    sb.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.primary_light)), phrase.length(), newWordAndType.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    sb.setSpan(new StyleSpan(Typeface.ITALIC), phrase.length(), newWordAndType.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    sb.setSpan(new StyleSpan(Typeface.BOLD), 0, phrase.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 
-                    ((TextView) popupView.findViewById(R.id.word_type)).setText(newWord.type);
+                    // could not apply level theme to this popup view. do it manually :(
+                    TextView textViewNewWord = (TextView) popupView.findViewById(R.id.new_word_and_type);
+                    textViewNewWord.setText(sb);
+                    textViewNewWord.setTextColor(getResources().getIntArray(R.array.levelColors)[item.level]);
+                    textViewNewWord.setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.UBUNTU));
+
+//                    ((TextView) popupView.findViewById(R.id.word_type)).setText(newWord.type);
 
                     final TextView textViewEn = (TextView) popupView.findViewById(R.id.def_en);
                     final String en = newWord.definition.get("en");

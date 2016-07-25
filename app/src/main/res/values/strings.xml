@@ -446,4 +446,6 @@
     <string name="reject">انصراف</string>
     <string name="incorrect_owner">خرید این محتوا قبلاً به نام فرد دیگری در کافه بازار ثبت شده است. لطفاً حساب کاربری خود را بررسی کنید.</string>
     <string name="incorrect_owner_title">خطا</string>
+```
+    <string name="new_word_and_type">%1$s\u0020\u0020\u0020\u0020%2$s</string>
 </resources>
