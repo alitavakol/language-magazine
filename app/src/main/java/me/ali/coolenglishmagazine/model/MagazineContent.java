@@ -71,7 +71,7 @@ public class MagazineContent {
         byte[] manifestFileBytes = new byte[1000]; // bytes of the manifest.xml
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        final byte[] user_id = preferences.getString("user_id", "").getBytes();
+        final byte[] userId = preferences.getString("user_id", "").getBytes();
 
         issue.freeContentIsValid = false;
         issue.paidContentIsValid = false;
@@ -103,7 +103,7 @@ public class MagazineContent {
                 } else {
                     digest_paid.update(manifestFileBytes, 0, length);
                     digest_paid.update(Long.toString(contentFile.length()).getBytes());
-                    digest_paid.update(user_id);
+                    digest_paid.update(userId);
                 }
             }
 

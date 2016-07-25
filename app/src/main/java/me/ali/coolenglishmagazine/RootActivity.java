@@ -1,6 +1,5 @@
 package me.ali.coolenglishmagazine;
 
-import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -402,17 +401,7 @@ public class RootActivity extends AppCompatActivity implements
     public void updateProfileInfo(String personPhoto, String displayName, String email, String userId, boolean signedOut) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (signedOut) { // user explicitly signed out
-            hasSavedLogIn = false;
-
-        } else {
-            if (userId != null) {
-                hasSavedLogIn = true;
-
-            } else {
-                hasSavedLogIn = preferences.contains("user_id");
-            }
-        }
+        hasSavedLogIn = !signedOut && (userId != null || preferences.contains("user_email"));
 
         displayName = preferences.getString("user_name", getString(R.string.sign_in_name));
         email = preferences.getString("user_email", getString(R.string.sign_in_email));

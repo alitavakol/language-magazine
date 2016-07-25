@@ -135,8 +135,8 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
                 final Uri personPhoto = acct.getPhotoUrl();
                 final String displayName = acct.getDisplayName();
                 final String email = acct.getEmail();
-                final String user_id = acct.getId();
-                updateProfilePreferences(personPhoto != null ? personPhoto.toString() : null, displayName, email, user_id, false);
+                final String userId = acct.getId();
+                updateProfilePreferences(personPhoto != null ? personPhoto.toString() : null, displayName, email, userId, false);
             }
 
         } else { // Signed out, show unauthenticated UI.
@@ -219,7 +219,7 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
                     .remove("user_name")
                     .remove("user_email")
                     .remove("user_image")
-                    .remove("user_id")
+//                    .remove("user_id")
                     .remove("show_owner_account_warning")
                     .apply();
 
@@ -229,7 +229,7 @@ public class Account implements GoogleApiClient.OnConnectionFailedListener {
                         .putString("user_name", displayName)
                         .putString("user_email", email)
                         .putString("user_image", personPhoto)
-                        .putString("user_id", userId)
+//                        .putString("user_id", userId) // requiring user to sign-in reduces sales. forget about adding such security!
                         .apply();
             }
         }
