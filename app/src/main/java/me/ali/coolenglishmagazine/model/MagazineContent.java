@@ -71,7 +71,7 @@ public class MagazineContent {
         byte[] manifestFileBytes = new byte[1000]; // bytes of the manifest.xml
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        final byte[] user_id = preferences.getString("user_id", "").getBytes();
+        final byte[] userId = preferences.getString("user_id", "").getBytes();
 
         issue.freeContentIsValid = false;
         issue.paidContentIsValid = false;
@@ -101,9 +101,9 @@ public class MagazineContent {
                     digest_free.update(Long.toString(contentFile.length()).getBytes());
 
                 } else {
-                    digest_paid.update(manifestFileBytes, 0, length);
                     digest_paid.update(Long.toString(contentFile.length()).getBytes());
-                    digest_paid.update(user_id);
+                    digest_paid.update(manifestFileBytes, 0, length);
+                    digest_paid.update(userId);
                 }
             }
 
@@ -173,6 +173,7 @@ public class MagazineContent {
             item.type = e.attr("type");
             item.level = Integer.parseInt(e.attr("level"));
             item.free = Boolean.parseBoolean(e.attr("free"));
+            item.version = Integer.parseInt(e.attr("version"));
 
             String duration = e.attr("duration");
             if (duration != null && duration.length() > 0)
@@ -226,6 +227,11 @@ public class MagazineContent {
          * if false, this item is available only if it is paid for.
          */
         public boolean free;
+
+        /**
+         * item version, which if greater than app version code, app should be updated.
+         */
+        public int version;
 
         /**
          * UID of an item is unique across all available items of all issues. this is calculated

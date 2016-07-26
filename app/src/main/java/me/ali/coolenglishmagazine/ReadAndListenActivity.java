@@ -63,6 +63,7 @@ import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.model.WaitingItems;
 import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
+import me.ali.coolenglishmagazine.util.NetworkHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
@@ -129,13 +130,18 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         try {
             item = MagazineContent.getItem(new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
 
+            if (item.version > getPackageManager().getPackageInfo(getPackageName(), 0).versionCode) {
+                NetworkHelper.showUpgradeDialog(getApplicationContext());
+                throw new Exception("Item version is greater than app version");
+            }
+
             webContentFile = new File(item.rootDirectory, MagazineContent.Item.contentFileName);
             final Document doc = Jsoup.parse(webContentFile, "UTF-8", "");
 
             newWords = getNewWords(doc);
             timePoints = getTimePoints(doc);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             finish();
             return;

@@ -72,6 +72,7 @@ public class NetworkHelper {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("bazaar://details?id=" + context.getPackageName()));
             intent.setPackage("com.farsitel.bazaar");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
 
         } catch (ActivityNotFoundException e) {
