@@ -5,12 +5,10 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
@@ -221,8 +219,8 @@ public class ItemListFragment extends Fragment {
 
                             switch (id) {
                                 case R.id.action_add_to_waiting_list:
-                                    if((item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid))
-                                    WaitingItems.appendToWaitingList(getActivity(), item);
+                                    if ((item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid))
+                                        WaitingItems.appendToWaitingList(getActivity(), item);
                                     return true;
                             }
 
@@ -236,28 +234,29 @@ public class ItemListFragment extends Fragment {
             ((ViewGroup) holder.itemView).getChildAt(0).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    final String user_id = preferences.getString("user_id", "");
+//                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+//                    final String userId = preferences.getString("user_id", "");
+//                    if (!BuildConfig.DEBUG && !item.free && issue.purchased && userId.length() == 0) {
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//                        builder.setMessage(R.string.sign_in_to_access)
+//                                .setTitle(R.string.sign_in_to_access_title)
+//                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        ((ItemListActivity) getActivity()).account.signIn();
+//                                    }
+//                                })
+//                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                    }
+//                                })
+//                                .setCancelable(true)
+//                                .show();
+//
+//                    } else
 
-                    if (!BuildConfig.DEBUG && !item.free && issue.purchased && user_id.length() == 0) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setMessage(R.string.sign_in_to_access)
-                                .setTitle(R.string.sign_in_to_access_title)
-                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        ((ItemListActivity) getActivity()).account.signIn();
-                                    }
-                                })
-                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                })
-                                .setCancelable(true)
-                                .show();
-
-                    } else if (!BuildConfig.DEBUG && !item.free && !issue.paidContentIsValid) {
+                    if (!BuildConfig.DEBUG && !item.free && !issue.paidContentIsValid) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setMessage(R.string.paid_item_error)
                                 .setTitle(R.string.paid_item_error_title)
@@ -371,8 +370,8 @@ public class ItemListFragment extends Fragment {
         switch (id) {
             case R.id.action_add_to_waiting_list:
                 for (MagazineContent.Item item : magazineContent.ITEMS)
-                    if((item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid))
-                    WaitingItems.appendToWaitingList(getActivity(), item);
+                    if ((item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid))
+                        WaitingItems.appendToWaitingList(getActivity(), item);
                 return true;
 
             case R.id.action_open_issue_details:

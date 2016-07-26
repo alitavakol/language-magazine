@@ -19,7 +19,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +27,6 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -266,30 +264,31 @@ public class IssueDetailActivity extends AppCompatActivity implements
             return;
         }
 
-        String user_name = preferences.getString("user_name", "");
-        String user_email = preferences.getString("user_email", "");
+        doPurchase(preferences);
 
-        AlertDialog.Builder adb = new AlertDialog.Builder(IssueDetailActivity.this);
-        LayoutInflater adbInflater = LayoutInflater.from(IssueDetailActivity.this);
-        View eulaLayout = adbInflater.inflate(R.layout.checkbox, null);
-        final CheckBox showAgain = (CheckBox) eulaLayout.findViewById(R.id.dontShowAgain);
-        adb.setView(eulaLayout)
-                .setTitle(R.string.owner_warning_title)
-                .setMessage(getString(R.string.owner_warning, user_name, user_email))
-                .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        preferences.edit()
-                                .putBoolean("show_owner_account_warning", !showAgain.isChecked())
-                                .apply();
-
-                        doPurchase(preferences);
-                    }
-                })
-                .setNegativeButton(R.string.reject, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .show();
+//        String user_name = preferences.getString("user_name", "");
+//        String user_email = preferences.getString("user_email", "");
+//        AlertDialog.Builder adb = new AlertDialog.Builder(IssueDetailActivity.this);
+//        LayoutInflater adbInflater = LayoutInflater.from(IssueDetailActivity.this);
+//        View eulaLayout = adbInflater.inflate(R.layout.checkbox, null);
+//        final CheckBox showAgain = (CheckBox) eulaLayout.findViewById(R.id.dontShowAgain);
+//        adb.setView(eulaLayout)
+//                .setTitle(R.string.owner_warning_title)
+//                .setMessage(getString(R.string.owner_warning, user_name, user_email))
+//                .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        preferences.edit()
+//                                .putBoolean("show_owner_account_warning", !showAgain.isChecked())
+//                                .apply();
+//
+//                        doPurchase(preferences);
+//                    }
+//                })
+//                .setNegativeButton(R.string.reject, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                    }
+//                })
+//                .show();
     }
 
     /**
@@ -298,11 +297,10 @@ public class IssueDetailActivity extends AppCompatActivity implements
      * @param preferences default shared preferences
      */
     public void doPurchase(SharedPreferences preferences) {
-        final String userId = preferences.getString("user_id", "");
 
         try {
             final JSONObject developerPayload = new JSONObject();
-            developerPayload.put("owner", userId);
+            developerPayload.put("owner", preferences.getString("user_id", ""));
 
             setAppStoreQueryButtonsEnabled(false);
 
@@ -720,24 +718,24 @@ public class IssueDetailActivity extends AppCompatActivity implements
 
                             // https://cafebazaar.ir/developers/docs/iab/reference/
                             if (sku.equals(Magazines.getSku(issue)) && purchaseState == 0) {
-                                final String user_id = PreferenceManager.getDefaultSharedPreferences(this).getString("user_id", "");
 
-                                // notify user if the purchase has been made some time ago with another app account,
-                                // so, they have to change bazaar account to buy again, or change app account to
-                                // what was at that time.
-                                final JSONObject developerPayload = new JSONObject(jo.getString("developerPayload"));
-                                if (!developerPayload.getString("owner").equals(user_id)) {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                                    builder.setMessage(R.string.incorrect_owner)
-                                            .setTitle(R.string.incorrect_owner_title)
-                                            .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                }
-                                            })
-                                            .setCancelable(true)
-                                            .show();
-                                }
+//                                // notify user if the purchase has been made some time ago with another app account,
+//                                // so, they have to change bazaar account to buy again, or change app account to
+//                                // what was at that time.
+//                                final String userId = PreferenceManager.getDefaultSharedPreferences(this).getString("user_id", "");
+//                                final JSONObject developerPayload = new JSONObject(jo.getString("developerPayload"));
+//                                if (!developerPayload.getString("owner").equals(userId)) {
+//                                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//                                    builder.setMessage(R.string.incorrect_owner)
+//                                            .setTitle(R.string.incorrect_owner_title)
+//                                            .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
+//                                                @Override
+//                                                public void onClick(DialogInterface dialog, int which) {
+//                                                }
+//                                            })
+//                                            .setCancelable(true)
+//                                            .show();
+//                                }
 
                                 requestSignaturePaid(issue.price, true, jo.getString("purchaseToken"));
                                 return;
@@ -917,31 +915,30 @@ public class IssueDetailActivity extends AppCompatActivity implements
                         }
                     });
 
-                    final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(IssueDetailActivity.this);
-
                     buttonPurchase.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (!preferences.contains("user_id")) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(IssueDetailActivity.this);
-                                builder.setMessage(R.string.sign_in_required_for_purchase)
-                                        .setTitle(R.string.sign_in_required)
-                                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                account.signIn();
-                                                proceedToPurchaseAfterSignIn = true;
-                                            }
-                                        })
-                                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                            }
-                                        })
-                                        .setCancelable(true)
-                                        .show();
-                                return;
-                            }
+//                            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(IssueDetailActivity.this);
+//                            if (!preferences.contains("user_email")) {
+//                                AlertDialog.Builder builder = new AlertDialog.Builder(IssueDetailActivity.this);
+//                                builder.setMessage(R.string.sign_in_required_for_purchase)
+//                                        .setTitle(R.string.sign_in_required)
+//                                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(DialogInterface dialog, int which) {
+//                                                account.signIn();
+//                                                proceedToPurchaseAfterSignIn = true;
+//                                            }
+//                                        })
+//                                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(DialogInterface dialog, int which) {
+//                                            }
+//                                        })
+//                                        .setCancelable(true)
+//                                        .show();
+//                                return;
+//                            }
 
                             startPurchaseFlow();
                         }
@@ -990,7 +987,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
 
 //        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 //        if (preferences.contains("user_id"))
-//            url += "&user_id=" + preferences.getString("user_id", null);
+//            url += "&user_id=" + preferences.getString("user_id", "");
 
         // Request manifest.xml data from the provided URL
         InputStreamVolleyRequest request = new InputStreamVolleyRequest(Request.Method.GET, url, new Response.Listener<byte[]>() {

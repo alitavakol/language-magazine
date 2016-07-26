@@ -15,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:paddingBottom="28dp"
         android:paddingTop="@dimen/drawer_title_padding_top"
         android:text="@string/app_name"
         android:textColor="@android:color/white" />
@@ -24,7 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <com.github.rahatarmanahmed.cpv.CircularProgressView
             android:id="@+id/progress_bar"

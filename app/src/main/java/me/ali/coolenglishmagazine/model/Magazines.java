@@ -547,6 +547,6 @@ public class Magazines {
      * @return SKU of the specified issue
      */
     public static String getSku(Issue issue) {
-        return "HEM_NO_" + issue.id;
+        return "HEM_" + issue.id;
     }
 }
