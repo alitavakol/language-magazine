@@ -2,7 +2,6 @@ package me.ali.coolenglishmagazine;
 
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -13,7 +12,6 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -166,33 +164,34 @@ public class RootActivity extends AppCompatActivity implements
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!hasSavedLogIn)
-                    account.signIn();
+//                if (!hasSavedLogIn)
+//                    account.signIn();
             }
         });
         headerView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (!hasSavedLogIn)
-                    return false;
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(RootActivity.this);
-                builder.setMessage(R.string.sign_out_warning)
-                        .setTitle(R.string.sign_out_warning_title)
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                account.signOut();
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .setCancelable(true)
-                        .show();
-                return true;
+//                if (!hasSavedLogIn)
+//                    return false;
+//
+//                AlertDialog.Builder builder = new AlertDialog.Builder(RootActivity.this);
+//                builder.setMessage(R.string.sign_out_warning)
+//                        .setTitle(R.string.sign_out_warning_title)
+//                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                account.signOut();
+//                            }
+//                        })
+//                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                            }
+//                        })
+//                        .setCancelable(true)
+//                        .show();
+//                return true;
+                return false;
             }
         });
 
@@ -203,7 +202,7 @@ public class RootActivity extends AppCompatActivity implements
 
         drawer = new DrawerBuilder()
                 .withSliderBackgroundColorRes(R.color.accent)
-                .withHeaderDivider(true)
+                .withHeaderDivider(false)
                 .withActivity(this)
                 .withHeader(headerView)
                 .addDrawerItems(
@@ -441,10 +440,10 @@ public class RootActivity extends AppCompatActivity implements
      */
     class UpdateServiceConnection implements ServiceConnection {
         public void onServiceConnected(ComponentName name, IBinder boundService) {
-            updateCheckService = IUpdateCheckService.Stub.asInterface((IBinder) boundService);
+            updateCheckService = IUpdateCheckService.Stub.asInterface(boundService);
             try {
                 long vCode = updateCheckService.getVersionCode(getPackageName());
-                if (vCode > BuildConfig.VERSION_CODE) {
+                if (vCode > getPackageManager().getPackageInfo(getPackageName(), 0).versionCode) {
                     Snackbar
                             .make(findViewById(R.id.root_fragment), R.string.update_available, Snackbar.LENGTH_LONG)
                             .setAction(R.string.update, new View.OnClickListener() {

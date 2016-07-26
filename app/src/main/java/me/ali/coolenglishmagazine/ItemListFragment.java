@@ -219,8 +219,8 @@ public class ItemListFragment extends Fragment {
 
                             switch (id) {
                                 case R.id.action_add_to_waiting_list:
-                                    if((item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid))
-                                    WaitingItems.appendToWaitingList(getActivity(), item);
+                                    if ((item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid))
+                                        WaitingItems.appendToWaitingList(getActivity(), item);
                                     return true;
                             }
 
@@ -255,6 +255,7 @@ public class ItemListFragment extends Fragment {
 //                                .show();
 //
 //                    } else
+
                     if (!BuildConfig.DEBUG && !item.free && !issue.paidContentIsValid) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setMessage(R.string.paid_item_error)
@@ -369,8 +370,8 @@ public class ItemListFragment extends Fragment {
         switch (id) {
             case R.id.action_add_to_waiting_list:
                 for (MagazineContent.Item item : magazineContent.ITEMS)
-                    if((item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid))
-                    WaitingItems.appendToWaitingList(getActivity(), item);
+                    if ((item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid))
+                        WaitingItems.appendToWaitingList(getActivity(), item);
                 return true;
 
             case R.id.action_open_issue_details:

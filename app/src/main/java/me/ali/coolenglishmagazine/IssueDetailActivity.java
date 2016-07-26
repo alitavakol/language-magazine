@@ -19,7 +19,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +27,6 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -917,11 +915,10 @@ public class IssueDetailActivity extends AppCompatActivity implements
                         }
                     });
 
-                    final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(IssueDetailActivity.this);
-
                     buttonPurchase.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+//                            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(IssueDetailActivity.this);
 //                            if (!preferences.contains("user_email")) {
 //                                AlertDialog.Builder builder = new AlertDialog.Builder(IssueDetailActivity.this);
 //                                builder.setMessage(R.string.sign_in_required_for_purchase)
