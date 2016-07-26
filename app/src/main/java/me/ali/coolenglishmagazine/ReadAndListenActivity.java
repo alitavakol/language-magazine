@@ -3,6 +3,7 @@ package me.ali.coolenglishmagazine;
 import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Typeface;
@@ -13,6 +14,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -20,12 +22,14 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.JavascriptInterface;
@@ -60,6 +64,7 @@ import java.util.concurrent.TimeUnit;
 
 import me.ali.coolenglishmagazine.broadcast_receivers.AlarmBroadcastReceiver;
 import me.ali.coolenglishmagazine.model.MagazineContent;
+import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.model.WaitingItems;
 import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
@@ -129,6 +134,38 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         try {
             item = MagazineContent.getItem(new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
+
+            final Magazines.Issue issue = item.getIssue(this);
+            final MagazineContent magazineContent = new MagazineContent();
+            magazineContent.loadItems(issue);
+            magazineContent.validateSignatures(this, issue);
+
+            if (!BuildConfig.DEBUG && !item.free && !issue.paidContentIsValid) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getApplicationContext(), R.style.AppTheme));
+                builder.setMessage(R.string.paid_item_error)
+                        .setTitle(R.string.paid_item_error_title)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ItemListFragment.launchIssueDetailsActivity(getApplicationContext(), issue);
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setCancelable(true);
+
+                AlertDialog alert = builder.create();
+                alert.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+                alert.show();
+
+                throw new Exception("paid content signature is incorrect.");
+            }
+
+            if (!BuildConfig.DEBUG && item.free && !issue.freeContentIsValid)
+                throw new Exception("free content signature is incorrect.");
 
             if (item.version > getPackageManager().getPackageInfo(getPackageName(), 0).versionCode) {
                 NetworkHelper.showUpgradeDialog(getApplicationContext());

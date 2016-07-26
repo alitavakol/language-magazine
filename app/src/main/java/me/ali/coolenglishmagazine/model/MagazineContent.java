@@ -40,7 +40,7 @@ public class MagazineContent {
      */
     public static HashMap<File, Item> file2item = new HashMap<>();
 
-    public void loadItems(Context context, Magazines.Issue issue) {
+    public void loadItems(Magazines.Issue issue) {
         File[] files = issue.rootDirectory.listFiles();
 
         for (File g : files) {
@@ -62,11 +62,11 @@ public class MagazineContent {
                 return item1.id - item2.id;
             }
         });
-
-        // verify free and paid signatures
-        validateSignatures(context, issue);
     }
 
+    /**
+     * checks signatures to find if paid content and free content are valid
+     */
     public void validateSignatures(Context context, Magazines.Issue issue) {
         byte[] manifestFileBytes = new byte[1000]; // bytes of the manifest.xml
 
@@ -241,6 +241,13 @@ public class MagazineContent {
          */
         public int getUid() {
             return MAX_ITEMS * Integer.parseInt(rootDirectory.getParentFile().getName()) + id;
+        }
+
+        /**
+         * @return the {@link me.ali.coolenglishmagazine.model.Magazines.Issue} to which this item belongs.
+         */
+        public Magazines.Issue getIssue(Context context) throws IOException {
+            return Magazines.getIssue(context, rootDirectory.getParentFile());
         }
 
         /**

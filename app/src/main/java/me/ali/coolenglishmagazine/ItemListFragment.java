@@ -3,7 +3,6 @@ package me.ali.coolenglishmagazine;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
@@ -11,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -94,7 +92,8 @@ public class ItemListFragment extends Fragment {
 
         try {
             issue = Magazines.getIssue(context, new File(getArguments().getString(IssueDetailActivity.ARG_ROOT_DIRECTORY)));
-            magazineContent.loadItems(context, issue);
+            magazineContent.loadItems(issue);
+            magazineContent.validateSignatures(context, issue); // verify free and paid signatures
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -234,6 +233,8 @@ public class ItemListFragment extends Fragment {
             ((ViewGroup) holder.itemView).getChildAt(0).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mCallbacks.onItemSelected(magazineContent.ITEMS.get(recyclerView.getChildAdapterPosition(holder.itemView)));
+
 //                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 //                    final String userId = preferences.getString("user_id", "");
 //                    if (!BuildConfig.DEBUG && !item.free && issue.purchased && userId.length() == 0) {
@@ -254,29 +255,29 @@ public class ItemListFragment extends Fragment {
 //                                .setCancelable(true)
 //                                .show();
 //
-//                    } else
-
-                    if (!BuildConfig.DEBUG && !item.free && !issue.paidContentIsValid) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setMessage(R.string.paid_item_error)
-                                .setTitle(R.string.paid_item_error_title)
-                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        launchIssueDetailsActivity();
-                                    }
-                                })
-                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                })
-                                .setCancelable(true)
-                                .show();
-
-                    } else if (BuildConfig.DEBUG || !item.free || issue.freeContentIsValid) {
-                        mCallbacks.onItemSelected(magazineContent.ITEMS.get(recyclerView.getChildAdapterPosition(holder.itemView)));
-                    }
+//                    } else if (!BuildConfig.DEBUG && !item.free && !issue.paidContentIsValid) {
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//                        builder.setMessage(R.string.paid_item_error)
+//                                .setTitle(R.string.paid_item_error_title)
+//                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        final FragmentActivity activity = getActivity();
+//                                        activity.finish();
+//                                        launchIssueDetailsActivity(activity, issue);
+//                                    }
+//                                })
+//                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                    }
+//                                })
+//                                .setCancelable(true)
+//                                .show();
+//
+//                    } else if (BuildConfig.DEBUG || !item.free || issue.freeContentIsValid) {
+//                        mCallbacks.onItemSelected(magazineContent.ITEMS.get(recyclerView.getChildAdapterPosition(holder.itemView)));
+//                    }
                 }
             });
         }
@@ -375,7 +376,7 @@ public class ItemListFragment extends Fragment {
                 return true;
 
             case R.id.action_open_issue_details:
-                launchIssueDetailsActivity();
+                launchIssueDetailsActivity(getActivity(), issue);
                 return true;
 
             case R.id.action_mark_complete:
@@ -390,12 +391,11 @@ public class ItemListFragment extends Fragment {
         return super.onOptionsItemSelected(menuItem);
     }
 
-    protected void launchIssueDetailsActivity() {
-        getActivity().finish();
-
-        Intent intent = new Intent(getActivity(), IssueDetailActivity.class);
+    protected static void launchIssueDetailsActivity(Context context, Magazines.Issue issue) {
+        Intent intent = new Intent(context, IssueDetailActivity.class);
         intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
-        startActivity(intent);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     public void signatureChanged(Context context) {
