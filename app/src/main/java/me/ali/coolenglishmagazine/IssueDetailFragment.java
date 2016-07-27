@@ -93,7 +93,11 @@ public class IssueDetailFragment extends Fragment {
                 public void onPageFinished(WebView view, String url) {
                     if (isAttached) { // when activity is finished/finishing, becomes null
                         final String command = "javascript:adjustLayout({"
-                                + "accentColor: " + ContextCompat.getColor(getActivity(), R.color.colorAccent) // accent color
+                                + "horizontalMargin: " + getResources().getDimension(R.dimen.activity_horizontal_margin)
+                                + ", verticalMargin: " + getResources().getDimension(R.dimen.activity_vertical_margin)
+                                + ", spacing: " + getResources().getDimension(R.dimen.spacing_normal)
+                                + ", accentColor: " + ContextCompat.getColor(getActivity(), R.color.colorAccent) // accent color
+                                + ", primaryColor: " + ContextCompat.getColor(getActivity(), R.color.primary) // accent color
                                 + ", textColor: " + ContextCompat.getColor(getActivity(), android.R.color.primary_text_light) // text color
                                 + ", newWordColor: 0xf8f8f8" // new word color
                                 + "});";
@@ -117,8 +121,10 @@ public class IssueDetailFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (webView != null)
+        if (webView != null) {
             webView.removeJavascriptInterface("app");
+            webView.destroy();
+        }
     }
 
     /**

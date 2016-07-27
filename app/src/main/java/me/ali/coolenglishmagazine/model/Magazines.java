@@ -502,6 +502,8 @@ public class Magazines {
                 }
             }
             FileHelper.delete(new File(issue.rootDirectory, Magazines.Issue.downloadedFileName));
+            FileHelper.delete(new File(issue.rootDirectory, Issue.signaturePaidFileName));
+            FileHelper.delete(new File(issue.rootDirectory, Issue.signatureFreeFileName));
 
             computeIssueStatus(context, issue);
             issue.setStatus(issue.status);
