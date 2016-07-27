@@ -811,7 +811,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
      */
     protected void updatePriceGui() {
         priceTextView.setText(issue.price.length() > 0 ? issue.price : getString(R.string.unknown_price));
-        buttonPurchase.setVisibility(issue.purchased ? View.GONE : View.VISIBLE);
+        buttonPurchase.setVisibility(issue.purchased || issue.free ? View.GONE : View.VISIBLE);
     }
 
     private ILoginCheckService loginCheckService;

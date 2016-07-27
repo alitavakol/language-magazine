@@ -106,6 +106,7 @@ public class Magazines {
             issue.id = Integer.parseInt(issueRootDirectory.getName());
             issue.price = e.attr("price");
             issue.purchased = Boolean.parseBoolean(e.attr("purchased"));
+            issue.free = Boolean.parseBoolean(e.attr("free"));
 
             computeIssueStatus(context, issue);
 
@@ -293,6 +294,8 @@ public class Magazines {
         public String price;
 
         public boolean purchased;
+
+        public boolean free;
 
 //        public String purchaseToken;
 
