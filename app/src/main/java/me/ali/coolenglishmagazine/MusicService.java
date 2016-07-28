@@ -652,6 +652,8 @@ public class MusicService extends Service implements
          */
         boolean ignore;
 
+        long lastVolumeChangeTime;
+
         public SettingsContentObserver(Handler handler) {
             super(handler);
 
@@ -674,7 +676,8 @@ public class MusicService extends Service implements
 
             LogHelper.i(TAG, uri.toString());
 
-            if (ignore) {
+            long currentVolumeChangeTime = System.currentTimeMillis();
+            if (ignore || currentVolumeChangeTime - lastVolumeChangeTime < 120) {
                 ignore = false;
                 return;
             }
@@ -699,10 +702,13 @@ public class MusicService extends Service implements
             }
 
             if (useVolumeButtonsAsPlaybackNavigation) {
-                if (previousVolume > currentVolume)
+                if (previousVolume > currentVolume) {
                     rewind();
-                else if (previousVolume < currentVolume)
+                    lastVolumeChangeTime = currentVolumeChangeTime;
+                } else if (previousVolume < currentVolume) {
                     fastForward();
+                    lastVolumeChangeTime = currentVolumeChangeTime;
+                }
 
                 // undo volume change
                 if (currentVolume != previousVolume) {
