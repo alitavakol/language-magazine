@@ -233,7 +233,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
 
             updatePriceGui();
 
-            account = new Account(this);
+//            account = new Account(this);
             if (signingIn)
                 showProgressDialog();
 
@@ -757,7 +757,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
 
             setAppStoreQueryButtonsEnabled(true);
 
-        } else {
+        } else if (account != null) {
             account.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -864,7 +864,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
     boolean signingIn;
 
     public void showProgressDialog() {
-        if (!account.silentlySigningIn) {
+        if (account != null && !account.silentlySigningIn) {
             snackbar = Snackbar.make(findViewById(R.id.issue_detail_container), R.string.signing_in, Snackbar.LENGTH_INDEFINITE);
             snackbar.show();
             signingIn = true;
@@ -947,7 +947,8 @@ public class IssueDetailActivity extends AppCompatActivity implements
             });
         }
 
-        account.silentSignIn();
+        if (account != null)
+            account.silentSignIn();
     }
 
     @Override

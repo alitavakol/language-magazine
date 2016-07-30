@@ -27,8 +27,8 @@
     <string name="about_completed_issues">مجله‌هایی که درس‌هاشون رو به تعداد کافی تمرین کردی و خوب یاد گرفتی رو به این‌جا منتقل کن. انگشت رو چند لحظه روی جلد مجله نگه دار تا گزینه‌های بیشتر رو ببینی.</string>
 
     <!-- Readme fragment -->
-    <string name="previous">پیش</string>
-    <string name="next">پس</string>
+`    <string name="previous">قبلی</string>
+    <string name="next">بعدی</string>
 
     <string name="readme_intro_0">سلام دوست من!</string>
     <string name="readme_intro_1">دوست داری توی ۶ ماه یا کمتر، با اعتماد به نفس کامل انگلیسی صحبت کنی؟</string>

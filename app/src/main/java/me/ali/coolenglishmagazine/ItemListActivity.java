@@ -93,7 +93,7 @@ public class ItemListActivity extends AppCompatActivity implements
                 .replace(R.id.frameLayout, itemListFragment)
                 .commit();
 
-        account = new Account(this);
+//        account = new Account(this);
         if (signingIn)
             showProgressDialog();
     }
@@ -163,7 +163,8 @@ public class ItemListActivity extends AppCompatActivity implements
     @Override
     public void onStart() {
         super.onStart();
-        account.silentSignIn();
+        if (account != null)
+            account.silentSignIn();
     }
 
     Snackbar snackbar;
@@ -171,7 +172,7 @@ public class ItemListActivity extends AppCompatActivity implements
     boolean signingIn;
 
     public void showProgressDialog() {
-        if (!account.silentlySigningIn) {
+        if (account != null && !account.silentlySigningIn) {
             snackbar = Snackbar.make(findViewById(R.id.frameLayout), R.string.signing_in, Snackbar.LENGTH_INDEFINITE);
             snackbar.show();
             signingIn = true;
@@ -187,7 +188,7 @@ public class ItemListActivity extends AppCompatActivity implements
     }
 
     public void updateProfileInfo(String personPhoto, String displayName, String email, String userId, boolean signedOut) {
-        if (itemListFragment != null && !account.silentlySigningIn)
+        if (itemListFragment != null && account != null && !account.silentlySigningIn)
             itemListFragment.signatureChanged(this);
     }
 
@@ -197,7 +198,8 @@ public class ItemListActivity extends AppCompatActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        account.onActivityResult(requestCode, resultCode, data);
+        if (account != null)
+            account.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

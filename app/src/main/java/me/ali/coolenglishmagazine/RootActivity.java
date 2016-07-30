@@ -116,7 +116,7 @@ public class RootActivity extends AppCompatActivity implements
             preferences.edit().putBoolean("drawer_welcome_shown", true).apply();
         }
 
-        account = new Account(this);
+//        account = new Account(this);
 
         if (!processWasRunning) { // check for updates if app's process has just started
             initUpdateCheckService();
@@ -385,7 +385,8 @@ public class RootActivity extends AppCompatActivity implements
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        account.onActivityResult(requestCode, resultCode, data);
+        if (account != null)
+            account.onActivityResult(requestCode, resultCode, data);
     }
 
     public void hideProgressDialog() {
@@ -425,7 +426,8 @@ public class RootActivity extends AppCompatActivity implements
     @Override
     public void onStart() {
         super.onStart();
-        account.silentSignIn();
+        if (account != null)
+            account.silentSignIn();
     }
 
     public void signingIn(boolean signingIn) {

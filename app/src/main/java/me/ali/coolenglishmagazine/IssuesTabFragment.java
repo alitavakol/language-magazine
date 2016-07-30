@@ -507,7 +507,7 @@ public class IssuesTabFragment extends Fragment implements
                 });
             }
 
-            final int status = Magazines.getDownloadStatus(getContext(), issue);
+            final int status = filter == 0 ? -4 : Magazines.getDownloadStatus(getContext(), issue);
             boolean enableTimer = true;
 
             switch (status) {
