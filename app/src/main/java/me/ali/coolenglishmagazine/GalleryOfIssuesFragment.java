@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -306,17 +308,24 @@ public class GalleryOfIssuesFragment extends Fragment {
                     }, 1000);
 
                 } else {
-                    Toast.makeText(getActivity(), R.string.sync_complete, Toast.LENGTH_SHORT).show();
+                    final FragmentActivity activity = getActivity();
+                    if (activity != null)
+                        Toast.makeText(activity, R.string.sync_complete, Toast.LENGTH_SHORT).show();
                     success = false; // force jump into the following if block
 //                    updateInAppBillingData();
                 }
 
             } else {
-                Toast.makeText(getActivity(), R.string.unzip_error, Toast.LENGTH_SHORT).show();
+                final FragmentActivity activity = getActivity();
+                if (activity != null)
+                    Toast.makeText(activity, R.string.unzip_error, Toast.LENGTH_SHORT).show();
             }
 
-            if (!success)
-                cancelSync(getActivity(), adapter);
+            if (!success) {
+                final FragmentActivity activity = getActivity();
+                if (activity != null)
+                    cancelSync(activity, adapter);
+            }
         }
     }
 
@@ -324,6 +333,8 @@ public class GalleryOfIssuesFragment extends Fragment {
      * gets list of available issues from server.
      */
     void syncAvailableIssuesList(final Context context, int firstMissingIssueNumber, final IssuesTabFragment.IssuesRecyclerViewAdapter adapter) {
+        final Context app = context.getApplicationContext();
+
         if (firstMissingIssueNumber == -1) {
             if (syncing)
                 return;
@@ -361,12 +372,15 @@ public class GalleryOfIssuesFragment extends Fragment {
                 @Override
                 public void onResponse(byte[] response) {
                     if (response.length > 0) {
-                        new UnzipOperation().execute(context, response, adapter);
+                        new UnzipOperation().execute(app, response, adapter);
 
                     } else {
                         // received success with status code 204 (no content)
-                        cancelSync(context, adapter);
-                        Toast.makeText(context, R.string.update_success, Toast.LENGTH_SHORT).show();
+                        Context context = getActivity();
+                        if (context != null) {
+                            cancelSync(context, adapter);
+                            Toast.makeText(context, R.string.update_success, Toast.LENGTH_SHORT).show();
+                        }
 //                        updateInAppBillingData();
                     }
                 }
@@ -377,21 +391,32 @@ public class GalleryOfIssuesFragment extends Fragment {
                         NetworkHelper.showUpgradeDialog(getActivity());
 
                     } else {
-                        Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
+                        Context context = getActivity();
+                        if (context != null)
+                            Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
                     }
 
-                    cancelSync(context, adapter);
+                    Context context = getActivity();
+                    if (context != null)
+                        cancelSync(context, adapter);
                 }
             }, null);
 
-            request.setTag(this);
+            request.setTag(this)
+                    .setRetryPolicy(new DefaultRetryPolicy(30000,
+                            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
 
             // Add the request to the RequestQueue.
             requestQueue.add(request);
 
         } else {
-            cancelSync(context, adapter);
-            Toast.makeText(context, R.string.check_connection, Toast.LENGTH_SHORT).show();
+            Context activity = getActivity();
+            if (activity != null) {
+                cancelSync(activity, adapter);
+                Toast.makeText(activity, R.string.check_connection, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

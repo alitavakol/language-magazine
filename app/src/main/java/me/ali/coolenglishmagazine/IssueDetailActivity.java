@@ -35,6 +35,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -1023,6 +1024,10 @@ public class IssueDetailActivity extends AppCompatActivity implements
                     Toast.makeText(IssueDetailActivity.this, R.string.signature_download_error, Toast.LENGTH_SHORT).show();
             }
         }, null);
+
+        request.setRetryPolicy(new DefaultRetryPolicy(10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         // Add the request to the RequestQueue.
         requestQueue.add(request);

@@ -95,7 +95,9 @@ public class FeedbackFragment extends DialogFragment {
                         public void onResponse(JSONObject o) {
                             editText.setText("");
                             sendButton.setClickable(true);
-                            Toast.makeText(context, R.string.thanks, Toast.LENGTH_SHORT).show();
+                            Context context = getActivity();
+                            if (context != null)
+                                Toast.makeText(context, R.string.thanks, Toast.LENGTH_SHORT).show();
                             dismiss();
 
                         }
@@ -103,7 +105,9 @@ public class FeedbackFragment extends DialogFragment {
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
                             sendButton.setClickable(true);
-                            Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
+                            Context context = getActivity();
+                            if (context != null)
+                                Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -112,7 +116,9 @@ public class FeedbackFragment extends DialogFragment {
 
                 } else {
                     requestQueue.cancelAll(this);
-                    Toast.makeText(context, R.string.check_connection, Toast.LENGTH_SHORT).show();
+                    Context context = getActivity();
+                    if (context != null)
+                        Toast.makeText(context, R.string.check_connection, Toast.LENGTH_SHORT).show();
                 }
             }
         });
