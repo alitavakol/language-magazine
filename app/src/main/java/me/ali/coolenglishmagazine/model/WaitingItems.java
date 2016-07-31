@@ -30,7 +30,7 @@ public class WaitingItems {
         /**
          * count of times the user has learned this item so far.
          */
-        public int hitCount;
+        public int practiceCount;
     }
 
     public static ArrayList<WaitingItem> waitingItems;
@@ -80,13 +80,13 @@ public class WaitingItems {
             }
         }
 
-        int repeatCount = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("repeat_count", "8"));
+        int repeatCount = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("repeat_count", "12"));
 
         // remove waiting items whose root directory is lost, or hit count exceeds maximum.
         Iterator<WaitingItem> i = waitingItems.iterator();
         while (i.hasNext()) {
             WaitingItem w = i.next();
-            if (!w.itemRootDirectory.exists() || w.hitCount >= repeatCount)
+            if (!w.itemRootDirectory.exists() || w.practiceCount >= repeatCount)
                 i.remove();
         }
     }
@@ -124,7 +124,7 @@ public class WaitingItems {
      * @param item    learnt lesson to increment its hit count
      */
     public static void incrementHitCount(Context context, MagazineContent.Item item) {
-        int repeatCount = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("repeat_count", "8"));
+        int repeatCount = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("repeat_count", "12"));
 
         importWaitingItems(context);
 
@@ -132,9 +132,9 @@ public class WaitingItems {
         while (i.hasNext()) {
             WaitingItem w = i.next();
             if (w.itemRootDirectory.equals(item.rootDirectory)) {
-                w.hitCount++;
+                w.practiceCount++;
 
-                if (w.hitCount >= repeatCount) {
+                if (w.practiceCount >= repeatCount) {
                     i.remove();
                     if (listener != null)
                         listener.onWaitingItemRemoved(w);

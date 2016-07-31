@@ -27,7 +27,7 @@
     <dimen name="welcome_appbar_height">224dp</dimen>
     <!-- 4 * ?actionBarSize -->
     <dimen name="welcome_image_width">200dp</dimen>
-    <dimen name="welcome_image_height">100dp</dimen>
+    <dimen name="welcome_image_height">132dp</dimen>
     <dimen name="welcome_image_padding">48dp</dimen>
     <dimen name="welcome_content_padding_top">168dp</dimen>
     <!-- 3 * ?actionBarSize -->
@@ -62,4 +62,9 @@
 
     <dimen name="detail_button_container_padding_top">@dimen/activity_vertical_margin_2</dimen>
     <integer name="issue_details_title_lines">3</integer>
+
+    <dimen name="drawer_title_padding_top">24dp</dimen>
+
+    <bool name="isTablet">false</bool>
+    <bool name="isLandscape">false</bool>
 </resources>

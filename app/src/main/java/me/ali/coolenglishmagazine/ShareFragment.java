@@ -49,6 +49,9 @@ public class ShareFragment extends DialogFragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_share, container, false);
 
+        final String share_description = getString(R.string.share_description, getString(R.string.app_website));
+        final Uri imageUrl = Uri.parse(getString(R.string.app_icon_url));
+
         Button facebookButton = (Button) v.findViewById(R.id.facebook_button);
         facebookButton.setCompoundDrawables(null,
                 new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_facebook_official).sizeDp(48).paddingDp(4).color(Color.parseColor("#3C5899")),
@@ -63,9 +66,10 @@ public class ShareFragment extends DialogFragment {
 
                 if (ShareDialog.canShow(ShareLinkContent.class)) {
                     ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                            .setContentTitle(getString(R.string.facebook_share_title))
-                            .setContentDescription(getString(R.string.facebook_share_description))
+                            .setContentTitle(getString(R.string.share_title))
+                            .setContentDescription(share_description)
                             .setContentUrl(Uri.parse(getString(R.string.app_website)))
+                            .setImageUrl(imageUrl)
                             .build();
 
                     shareDialog.show(linkContent);
@@ -89,9 +93,9 @@ public class ShareFragment extends DialogFragment {
                 try {
                     // https://docs.fabric.io/android/twitter/compose-tweets.html
                     TweetComposer.Builder builder = new TweetComposer.Builder(getActivity())
-                            .text(getString(R.string.facebook_share_description))
+                            .text(getString(R.string.share_description_twitter))
+                            .image(imageUrl)
                             .url(new URL(getString(R.string.app_website)));
-                    // TODO: add .image to this builder
                     builder.show();
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -112,7 +116,7 @@ public class ShareFragment extends DialogFragment {
                 // https://developers.google.com/+/mobile/android/share/prefill
                 Intent shareIntent = new PlusShare.Builder(getActivity())
                         .setType("text/plain")
-                        .setText(getString(R.string.facebook_share_description))
+                        .setText(share_description)
                         .setContentUrl(Uri.parse(getString(R.string.app_website)))
                         .getIntent();
 
@@ -134,9 +138,10 @@ public class ShareFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"));
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
-                emailIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.facebook_share_description));
-                emailIntent.putExtra(Intent.EXTRA_HTML_TEXT, getString(R.string.share_description_html)); // if you are using HTML in your body text
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_title));
+                emailIntent.putExtra(Intent.EXTRA_TITLE, getString(R.string.share_title));
+                emailIntent.putExtra(Intent.EXTRA_TEXT, share_description);
+//                emailIntent.putExtra(Intent.EXTRA_HTML_TEXT, getString(R.string.share_description_html)); // if you are using HTML in your body text
 
                 startActivity(Intent.createChooser(emailIntent, "Share this app via"));
 
@@ -152,7 +157,7 @@ public class ShareFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText(getString(R.string.facebook_share_title), getString(R.string.facebook_share_description));
+                ClipData clip = ClipData.newPlainText(getString(R.string.share_title), share_description);
                 clipboard.setPrimaryClip(clip);
                 Toast.makeText(getActivity(), R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
 
@@ -169,7 +174,9 @@ public class ShareFragment extends DialogFragment {
             public void onClick(View v) {
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_description));
+                sendIntent.putExtra(Intent.EXTRA_TITLE, getString(R.string.share_title));
+                sendIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_title));
+                sendIntent.putExtra(Intent.EXTRA_TEXT, share_description);
                 sendIntent.setType("text/plain");
                 startActivity(sendIntent);
 

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Funeral Foibles</title>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			h1, h3 {
+				margin-top: 0;
+			}
+			h4 {
+				font-weight: 400;
+				margin-top: 20px;
+			}
+			@font-face {
+				font-family: 'Blokletters';
+				src: url('Blokletters-Balpen.ttf');
+			}
+			.handwritten {
+				font-family: 'Blokletters';
+				background-image: url('ArturoFS-SW.jpg');
+				background-repeat: repeat;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<h1>Dr. Fingers’ Grammar Clinic</h1>
+
+			<div class="handwritten">
+				<p style="font-weight: bold;">Dear Dr. Fingers,</p>
+				<p>I am confused! There seem to be a lot of words in English that sound the same but have different meanings. Is this true or am I just going crazy?</p>
+				<p style="font-weight: bold;">Mr. Confounded (from Casablanca)</p>
+			</div>
+
+			<div style="margin-top: 16px;">
+				<img src="dr2.png" style="float: right; max-width: 35%;" class="img-responsive">
+				<p>
+					<span class="accent" style="font-weight: bold; font-size: 1.2em;">Dear Confounded,</span><br>
+					I am so glad you brought this up. Don’t worry – you aren’t going crazy. You are absolutely correct. This is actually quite a complicated question. These groups of words are called homophones. They have the same sound / pronunciation, but a diferent spelling and a diferent meaning. An example of words that share the same pronunciation but difer in meaning is “hole” and “whole”. So, what’s the diference?
+				</p>
+
+				<p>
+					<b>“Hole” is a noun and refers to an opening in something.</b> For example:
+					<ol>
+						<li><span>There is a hole in the wall we need to repair.</span></li>
+						<li><span>The milk leaked all over the floor because there was a hole in the bottom.</span></li>
+					</ol>
+				</p>
+
+				<p>
+					<b>On the other hand, “whole” is an adjective. It can mean “complete” or “entire”.</b> For example: 
+					<ol>
+						<li><span>He ate the whole pizza.</li></span>
+						<li><span>Not all the runners were able to run the whole distance.</span></li>
+					</ol>
+				</p>
+
+				<p>
+					But that’s not all. <b>There are many words in English which appear to be similar, but which have diferent meanings. Take the case of “affect” and “effect”.</b>
+				</p>
+
+				<p>
+					<b>“Affect” is a verb that means to change or inluence something or someone.</b> For example:
+					<ol>
+						<li><span>The violent film really affected them.</span></li>
+						<li><span>The bright light temporarily affected his ability to see.</span></li>
+					</ol>
+				</p>
+
+				<p>
+					<b>On the other hand, “effect” is a noun that refers to the result of a change.</b> For example:
+					<ol>
+						<li><span>The effect of the performance was stunning.</span></li>
+						<li><span>The talk to staff had a positive effect on them.</span></li>
+					</ol>
+				</p>
+
+				<p>
+					Now it’s your turn. Here is a list of word pairs. Use your dictionaries to find the diferences in their meanings.
+					<ul>
+						<li><span>bear - bare</span></li>
+						<li><span>piece - peace</span></li>
+						<li><span>plain - plane</span></li>
+						<li><span>steal - steel</span></li>
+					</ul>
+				</p>
+
+				<p>
+					Well, Mr Confounded, I hope that has helped you.<br>
+					<span class="accent" style="font-weight: bold; font-size: 1.2em;">Yours, Dr Fingers</span>
+				</p>
+			</div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + verticalMargin + "px; } \
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { height: " + height + "px; overflow-y: scroll; margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					h1 { color: " + tinycolor(accentColor).darken() + "; font-weight: bold; } \
+					.handwritten { padding-right: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-top: " + verticalMargin + "px; padding-bottom: " + verticalMargin + "px; } \
+				");
+			}
+
+			container = $('.foundation')[0];
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				container.scrollTop = (state['scroll'] || 0) * container.scrollHeight;
+				prevScroll = container.scrollTop / container.scrollHeight;
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = container.scrollTop / container.scrollHeight;
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+		</script>
+	</body>
+</html>

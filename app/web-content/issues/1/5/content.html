@@ -11,7 +11,8 @@
 		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
 
 		<!-- Bootstrap -->
-		<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
 
 		<!-- Bootstrap Material Design -->
 		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
@@ -79,6 +80,7 @@
 			}
 			h3 {
 				margin: 6px;
+				color: white;
 			}
 			tr > td:first-child {
 				font-weight: bold;
@@ -105,6 +107,7 @@
 		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
 
 		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
 	</head>
 
 	<body>
@@ -137,11 +140,11 @@
 				<p>Make a sentence with each place. Ask your partner to guess the word. For example:</p>
 				<table>
 					<tr>
-						<td>You:</td>
+						<td nowrap="true">You:</td>
 						<td>It’s a place where you can eat.</td>
 					</tr>
 					<tr>
-						<td>Your Partner:</td>
+						<td nowrap="true">Your Partner:</td>
 						<td>The restaurant.</td>
 					</tr>
 				</table>

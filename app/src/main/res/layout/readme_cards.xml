@@ -1,0 +1,1016 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:text="@string/readme_intro_1" />
+
+            <!-- bullet list -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bullet" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_intro_2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bullet" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_intro_3" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bullet" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_intro_4" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:paddingTop="@dimen/padding_normal"
+                android:text="@string/readme_intro_5" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bullet" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_intro_6" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bullet" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_intro_7" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:paddingTop="@dimen/padding_normal"
+                android:text="@string/readme_intro_8" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bullet" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_intro_9" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bullet" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_intro_10" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bullet" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_intro_11" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bullet" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_intro_12" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/padding_normal"
+                android:text="@string/readme_intro_13" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:text="@string/readme_rule_1_1" />
+
+            <!-- bullet list -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bullet" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_rule_1_2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bullet" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_rule_1_3" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bullet" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_rule_1_4" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
+
+        <TextView
+            style="@style/AppTheme.Widget.TextView.Readme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:text="@string/readme_rule_2" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
+
+        <TextView
+            style="@style/AppTheme.Widget.TextView.Readme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:text="@string/readme_rule_3" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:text="@string/readme_rule_4_1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/spacing_normal"
+                    android:layout_height="1dp" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_rule_4_2"
+                    android:textAppearance="@style/AppTheme.Widget.TextView.Italic" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:paddingTop="@dimen/padding_normal"
+                android:text="@string/readme_rule_4_3" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/spacing_normal"
+                    android:layout_height="1dp" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_rule_4_4" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/spacing_normal"
+                    android:layout_height="1dp" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_rule_4_4" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/padding_normal"
+                android:text="@string/readme_rule_4_5" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:text="@string/readme_rule_5_1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/spacing_normal"
+                    android:layout_height="1dp" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_rule_5_2"
+                    android:textAppearance="@style/AppTheme.Widget.TextView.Italic" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:paddingTop="@dimen/padding_normal"
+                android:text="@string/readme_rule_5_3" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/spacing_normal"
+                    android:layout_height="1dp" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_rule_5_4" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/padding_normal"
+                android:text="@string/readme_rule_5_5" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:text="@string/readme_rule_6_1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/spacing_normal"
+                    android:layout_height="1dp" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_rule_6_2"
+                    android:textAppearance="@style/AppTheme.Widget.TextView.Italic" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:paddingTop="@dimen/padding_normal"
+                android:text="@string/readme_rule_6_3" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/spacing_normal"
+                    android:layout_height="1dp" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_rule_6_4" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/padding_normal"
+                android:text="@string/readme_rule_6_5" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:text="@string/readme_rule_7_1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/spacing_normal"
+                    android:layout_height="1dp" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_rule_7_2"
+                    android:textAppearance="@style/AppTheme.Widget.TextView.Italic" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:paddingTop="@dimen/padding_normal"
+                android:text="@string/readme_rule_7_3" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/spacing_normal"
+                    android:layout_height="1dp" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_rule_7_4" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/padding_normal"
+                android:text="@string/readme_rule_7_5" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:text="@string/readme_slogan_1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/one" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_slogan_2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/two" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_slogan_3" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/three" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_slogan_4" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:paddingTop="@dimen/padding_normal"
+                android:text="@string/readme_slogan_5" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bullet" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_slogan_6" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bullet" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_slogan_7" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bullet" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_slogan_8" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/AppTheme.Widget.TextView.Readme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:paddingTop="@dimen/padding_normal"
+                android:text="@string/readme_slogan_9" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/one" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_slogan_10" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/two" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_slogan_11" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/three" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_slogan_12" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/four" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_slogan_13" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/five" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_slogan_14" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/six" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_slogan_15" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/seven" />
+
+                <TextView
+                    style="@style/AppTheme.Widget.TextView.Readme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:text="@string/readme_slogan_16" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</FrameLayout>

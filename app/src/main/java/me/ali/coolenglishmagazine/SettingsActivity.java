@@ -66,8 +66,9 @@ public class SettingsActivity extends AppCompatActivity {
             bindPreferenceSummaryToValue(findPreference("volume_controls_behaviour"));
             bindPreferenceSummaryToValue(findPreference("shake_behaviour"));
             bindPreferenceSummaryToValue(findPreference("notification_ringtone"));
-            bindPreferenceSummaryToValue(findPreference("sync_frequency"));
             bindPreferenceSummaryToValue(findPreference("repeat_count"));
+            bindPreferenceSummaryToValue(findPreference("locale"));
+            bindPreferenceSummaryToValue(findPreference("download_plan"));
         }
 
         /**

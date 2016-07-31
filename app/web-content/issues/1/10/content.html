@@ -11,10 +11,11 @@
 		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
 
 		<!-- Bootstrap -->
-		<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
 
 		<!-- Bootstrap Material Design -->
-		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
 
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
@@ -35,6 +36,7 @@
 				margin-bottom: 6px;
 				-webkit-box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
 				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				font-weight: bold;
 			}
 			.label-container.gone {
 				opacity: .2;
@@ -73,16 +75,30 @@
 			}
 			body {
 				overflow-y: scroll;
-				background-size: cover;
-				background-repeat: no-repeat;
-				background-position: center;
-				background-image: url('cover.jpg');
 			}
-			.no-padding {
-				-webkit-padding-start: 16px;
+			#strip {
+				position: fixed;
+				top: 0;
+				left: 0;
+			}
+			h1, h3 {
+				margin-top: 0;
 			}
 			h4 {
-				color: white;
+				font-weight: 400;
+				margin-top: 20px;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			.box {
+				border: dotted 1px black;
 			}
 		</style>
 
@@ -99,75 +115,49 @@
 		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
 
 		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
 	</head>
 
 	<body>
+		<div id="strip"></div>
 		<div id="top-margin"></div>
 
-		<div id="title-container" class="panel panel-default">
-			<div class="panel-body">
-				<h3>Extreme Yoga</h3>
-				<h4 class="alt">Yoga in the air.</h4>
-			</div>
+		<h1>Extreme Yoga</h1>
+		<h3>Yoga in the air.</h3>
+
+		<img src="cover.jpg" style="width: 100%; border: solid 1px black;">
+
+		<h4><span class="accent">❶</span> <b>Pre listening</b></h4>
+		<p>Match the words to the pictures.</p>
+		<div class="box">
+			<div id="labels"></div>
+			<div id="images" class="row"></div>
 		</div>
 
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				Pre listening
-			</div>
+		<h4><span class="accent">❷</span> <b>Discussion</b></h4>
+		<ol>
+			<li><span>Do you do any of the activities from above? Which ones?</span></li>
+			<li><span>What are the beneits of these activities?</span></li>
+			<li><span>Which activities from above would you like to try? Why? Why not?</span></li>
+		</ol>
 
-			<div class="panel-body">
-				<p>Match the words to the pictures.</p>
-				<div id="labels"></div>
-				<div id="images" class="row"></div>
-			</div>
-		</div>
+		<h4><span class="accent">❸</span> <b>Listening I</b></h4>
+		<p>You are going to listen to an article about a new form of physical exercise. Listen once. Which activity is it?</p>
+		<ol>
+			<li><span>jogging</span></li>
+			<li><span>yoga</span></li>
+			<li><span>aerobics</span></li>
+		</ol>
 
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				Discussion
-			</div>
-
-			<div class="panel-body">
-				<ol class="no-padding">
-					<li>Do you do any of the activities from above? Which ones?</li>
-					<li>What are the beneits of these activities?</li>
-					<li>Which activities from above would you like to try? Why? Why not?</li>
-				</ol>
-			</div>
-		</div>
-
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				Listening I
-			</div>
-
-			<div class="panel-body">
-				<p>You are going to listen to an article about a new form of physical exercise. Listen once. Which activity is it?</p>
-				<ol class="no-padding">
-					<li>jogging</li>
-					<li>yoga</li>
-					<li>aerobics</li>
-				</ol>
-			</div>
-		</div>
-
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				Listening II
-			</div>
-
-			<div class="panel-body">
-				<p>Listen again. True or false?</p>
-				<ol class="no-padding">
-					<li>Slackline Yoga is a type of yoga practised in the circus.</li>
-					<li>Slackline Yoga was invented by rock climbers.</li>
-					<li>Acroyoga is yoga in water.</li>
-					<li>David lives in a big house with lots of land.</li>
-					<li>If you can’t go to one of his workshops, you can buy the DVD.</li>
-				</ol>
-			</div>
-		</div>
+		<h4><span class="accent">❹</span> <b>Listening II</b></h4>
+		<p>Listen again. True or false?</p>
+		<ol>
+			<li><span>Slackline Yoga is a type of yoga practised in the circus.</span></li>
+			<li><span>Slackline Yoga was invented by rock climbers.</span></li>
+			<li><span>Acroyoga is yoga in water.</span></li>
+			<li><span>David lives in a big house with lots of land.</span></li>
+			<li><span>If you can’t go to one of his workshops, you can buy the DVD.</span></li>
+		</ol>
 
 		<div id="bottom-margin"></div>
 
@@ -281,12 +271,15 @@
 
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
-					body { padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					body { padding-left: " + (2*horizontalMargin) + "px; padding-right: " + horizontalMargin + "px; } \
+					#strip { width: " + horizontalMargin + "px; height: " + height + "px; background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
 					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
 					#bottom-margin { height: " + bottomMargin + "px; } \
 					.label-container { background-color: " + highlightColor + "; } \
-					.label-container.selected { background-color: #" + accentColor + "; } "
-				);
+					.label-container.selected { background-color: #" + accentColor + "; } \
+					h1 { color: " + tinycolor(accentColor).darken() + "; font-weight: bold; } \
+					.box { padding-top: " + spacing + "px; padding-left: " + (2*spacing) + "px; padding-right: " + (2*spacing) + "px; } \
+				");
 			}
 
 			prevScroll = 0;

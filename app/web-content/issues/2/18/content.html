@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#page-indicator {
+				width: 100%;
+				position: flex;
+				z-index: 1;
+				text-align: center;
+				display: none;
+			}
+			.dot {
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				border-radius: 5px;
+				margin: 3px;
+			}
+			.dot.active {
+			}
+
+			.cem-card {
+				position: relative;
+				/*transition: box-shadow .25s;*/
+				/*border-radius: 2px;*/
+				/*-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);*/
+				/*box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);*/
+				max-width: 100%;
+			}
+			.card-action {
+				padding: 20px;
+				padding-top: 48px;
+				transition: color .3s ease;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				border-top-left-radius: 24px;
+				border-top-right-radius: 24px;
+				color: white;
+				text-align: center;
+			}
+			.card-action.title {
+				padding: 40px;
+				padding-top: 80px;
+				border-radius: 24px;
+				font-size: x-large;
+				text-transform: uppercase;
+			}
+			.card-content {
+				border-radius: 0 0 2px 2px;
+				padding-bottom: 10px;
+				padding-top: 10px;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				/*font-style: italic;*/
+				/*margin: 10px;*/
+			}
+			.card-content:nth-child(3n+2) {
+				background-color: #fff9f0;				
+			}
+			.card-content:nth-child(3n) {
+				background-color: #fff5e4;				
+			}
+			.card-content:nth-child(3n+1) {
+				background-color: #ffebd6;				
+				border-bottom-left-radius: 24px;
+				border-bottom-right-radius: 24px;
+			}
+			.card-content img {
+				padding-bottom: 4px;
+			}
+			.card-content .situation {
+				font-weight: bold;
+				display: block;
+			}
+			td:first-child {
+				padding-top: 4px;
+				padding-bottom: 4px;
+				text-align: center;
+				padding-right: 24px;
+			}
+
+			.swipe {
+				overflow: hidden;
+				visibility: hidden;
+				position: relative;
+			}
+			.swipe-wrap {
+				position: relative;
+			}
+			.swipe-wrap > div {
+				float: left;
+				width: 20px;
+				position: relative;
+				overflow: hidden;
+				overflow-y: auto;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="swipe.min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div id="page-indicator" style="position: absolute; z-index: 1;"></div>
+
+		<div id='swipeable' style='margin:0 auto;' class='swipe'>
+			<div class='swipe-wrap'>
+				<div>
+					<div class='top-margin'></div>
+					<div class='cem-card'>
+						<div class='card-action title'>Here we’ve got some examples of how to say things in different situations.</div>
+					</div>
+					<div class='bottom-margin'></div>
+				</div>
+			</div>
+		</div>
+
+		<div style="display: none;">
+			<a class="new-word" data-word="an acquaintance" data-type="n" data-en="someone who you know; a friend">acquaintance</a>
+			<a class="new-word" data-word="a hoop" data-type="n" data-en="a circular object / ring made of wood or plastic. You can jump through the big ones">hoops</a>
+			<a class="new-word" data-word="to split" data-type="vb inform" data-en="to leave. Literally, “to divide”">split</a>
+
+			<span data-start="7890" data-end="12860"></span>
+			<span data-start="12861" data-end="16000"></span>
+			<span data-start="16001" data-end="17856"></span>
+			<span data-start="17857" data-end="21950"></span>
+			<span data-start="21951" data-end="27325"></span>
+			<span data-start="27326" data-end="31058"></span>
+			<span data-start="31059" data-end="33402"></span>
+			<span data-start="33403" data-end="39240"></span>
+			<span data-start="39241" data-end="42187"></span>
+			<span data-start="42188" data-end="46000"></span>
+			<span data-start="46001" data-end="48753"></span>
+			<span data-start="48754" data-end="52596"></span>
+			<span data-start="52597" data-end="55969"></span>
+			<span data-start="55970" data-end="61000"></span>
+			<span data-start="61001" data-end="64389"></span>
+			<span data-start="64390" data-end="68099"></span>
+			<span data-start="68100" data-end="73438"></span>
+			<span data-start="73439" data-end="79142"></span>
+			<span data-start="79143" data-end="83111"></span>
+			<span data-start="83112" data-end="88957"></span>
+			<span data-start="88958" data-end="93881"></span>
+			<span data-start="93882" data-end="97968"></span>
+			<span data-start="97969" data-end="99762"></span>
+			<span data-start="99763" data-end="102000"></span>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			card_template = "\
+				<div>\
+					<div class='top-margin'></div>\
+					<div class='cem-card'>\
+						<div class='card-action'>{situation}</div>\
+						<div class='card-content'><table><tr><td><img src='formal.png'><span class='situation'>Formal</span></td><td>{formal}</td></tr></table></div>\
+						<div class='card-content'><table><tr><td><img src='relaxed.png'><span class='situation'>Relaxed</span></td><td>{relaxed}</td></tr></table></div>\
+						<div class='card-content'><table><tr><td><img src='informal.png'><span class='situation'>Informal</span></td><td>{informal}</td></tr></table></div>\
+					</div>\
+					<div class='bottom-margin'></div>\
+				</div>\
+			";
+			slangs = [['<span data-slide="1" data-start="7890" data-end="12860">Someone tells you something that you think is untrue.</span>', '<span data-slide="1" data-start="12861" data-end="16000">That is not factual.</span>', '<span data-slide="1" data-start="16001" data-end="17856">That isn’t true.</span>', '<span data-slide="1" data-start="17857" data-end="21950">That’s rubbish; that’s nonsense.</span>'], ['<span data-slide="2" data-start="21951" data-end="27325">You are describing an <a class="new-word" data-word="an acquaintance" data-type="n" data-en="someone who you know; a friend" style="color: white;">acquaintance</a>. You don’t like this person at all.</span>', '<span data-slide="2" data-start="27326" data-end="31058">He is absolutely despicable.</span>', '<span data-slide="2" data-start="31059" data-end="33402">He isn’t very nice.</span>', '<span data-slide="2" data-start="33403" data-end="39240">He’s scum; he’s the scum of the earth.</span>'], ['<span data-slide="3" data-start="39241" data-end="42187">You suggest playing some pool.</span>', '<span data-slide="3" data-start="42188" data-end="46000">May I suggest a game of pool?</span>', '<span data-slide="3" data-start="46001" data-end="48753">Do you want to play some pool?</span>', '<span data-slide="3" data-start="48754" data-end="52596">Wanna shoot some pool?</span>'], ['<span data-slide="4" data-start="52597" data-end="55969">You suggest playing basketball.</span>', '<span data-slide="4" data-start="55970" data-end="61000">Would you care to engage in a game of basketball?</span>', '<span data-slide="4" data-start="61001" data-end="64389">Do you want to play some basketball?</span>', '<span data-slide="4" data-start="64390" data-end="68099">Wanna shoot some <a class="new-word" data-word="a hoop" data-type="n" data-en="a circular object / ring made of wood or plastic. You can jump through the big ones">hoops</a>?</span>'], ['<span data-slide="5" data-start="68100" data-end="73438">You are describing the weather and the recent three days of rain.</span>', '<span data-slide="5" data-start="73439" data-end="79142">It has rained for three consecutive days with no respite.</span>', '<span data-slide="5" data-start="79143" data-end="83111">It’s been raining for three days without stopping.</span>', '<span data-slide="5" data-start="83112" data-end="88957">It’s been chucking it down for three days solid.</span>'], ['<span data-slide="6" data-start="88958" data-end="93881">You are at a party with some friends. You suggest leaving.</span>', '<span data-slide="6" data-start="93882" data-end="97968">May I suggest that we depart?</span>', '<span data-slide="6" data-start="97969" data-end="99762">Shall we go?</span>', '<span data-slide="6" data-start="99763" data-end="102000">Let’s <a class="new-word" data-word="to split" data-type="vb inform" data-en="to leave. Literally, “to divide”">split</a>.</span>']];
+			var i = 0;
+			slangs.forEach(function(slang) {
+				$('.swipe-wrap').append(card_template.replace(/\{situation\}/g, slang[0]).replace(/\{formal\}/g, slang[1]).replace(/\{relaxed\}/g, slang[2]).replace(/\{informal\}/, slang[3]));
+				$('#page-indicator').append('<span class="dot"></span>');
+				i++;
+			});
+			$('#page-indicator').append('<span class="dot"></span>');
+
+			adjustCustomLayout = function(options) {
+				brightcolor = tinycolor(accentColor).brighten().brighten();
+				brightcolor.setAlpha(.7);
+				darkColor = tinycolor(accentColor).darken().darken().darken();
+				darkColor.setAlpha(.7);
+
+					// .cem-card { background-color: " + tinycolor(accentColor).lighten().lighten() + "; padding-top: " + verticalMargin + "px; padding-right: " + horizontalMargin + "px; padding-bottom: " + verticalMargin + "px; padding-left: " + horizontalMargin + "px; margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+				$('#local-rules').text("\
+					.cem-card { margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+					.card-content { color: " + newWordColor + "; } \
+					.top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.bottom-margin { height: " + bottomMargin + "px; } \
+					#page-indicator { margin-top: " + (topMargin+2*verticalMargin) + "px; } \
+					.swipe-wrap > div { height: " + height + "px; } \
+					.dot { background-color: " + brightcolor.toRgbString() + "; } \
+					.dot.active { background-color: " + darkColor.toRgbString() + "; } \
+					.card-content, .card-action { margin-bottom: " + spacing + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					.card-action { background-color: " + tinycolor(accentColor).darken() + "; } \
+				");
+			}
+
+			setCurrentSlide = function(index) {
+				$('#page-indicator').show();
+				$('#page-indicator .dot').eq(index).addClass('active');
+
+				if(typeof(window.swipeable) == 'object' && typeof(window.swipeable.kill) == 'function')
+					window.swipeable.kill();
+
+				window.swipeable = $('#swipeable').Swipe({
+					startSlide: index,
+					callback: function(index,elem) {
+						$('#page-indicator .dot').removeClass('active');
+						$('#page-indicator .dot').eq(index).addClass('active');
+
+						currentSlide = index;
+						saveInstanceState();
+					},
+				}).data('Swipe');
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					currentSlide: currentSlide,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				setCurrentSlide(state.currentSlide || 0);
+
+				restoringInstanceState = false;
+			}
+
+			highlight = function(timePoint) {
+				$('.highlight').removeClass('highlight');
+				t = $('[data-start=' + timePoint + ']');
+				t.addClass('highlight');
+				u = parseInt(t.data('slide'));
+				if(u >= 0)
+					window.swipeable.slide(u);
+			}
+		</script>
+
+	</body>
+</html>

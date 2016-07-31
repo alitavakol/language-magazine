@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			@font-face {
+				font-family: 'toast';
+				src: url('fledgling-sb.ttf');
+			}
+			body {
+				overflow-y: scroll;
+				border: solid 1px black;
+			}
+			h1, h3 {
+				margin-bottom: -8px;
+				font-weight: lighter;
+			}
+			h1 {
+				font-family: 'toast';
+				font-size: 6.5em;
+				text-align: center;
+				margin-top: 5px;
+				margin-bottom: 6px;
+				position: relative;
+				z-index: 1;
+				line-height: 0.7;
+			}
+			h4 {
+				font-weight: bold;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+				margin-bottom: 2px;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			img {
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				padding: 6px;
+			}
+			#plate {
+				float: right;
+				margin: 16px;
+				margin-right: 24px;
+				-webkit-transform: rotate(4deg);
+				transform: rotate(4deg);
+				max-width: 50%;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+
+	<body>
+		<h3>HERE’S ANOTHER RECIPE FOR YOU TO TRY AT HOME. <span style="font-weight: normal;">THIS MONTH: CHICKEN FAJITAS.</span> YUMMY!</h3>
+		<h1>chicken fajitas</h1>
+
+		<img src="chicken.png" class="img-responsive" style="width: 100%;">
+
+		<div style="position: relative; bottom: 72px; margin-bottom: -72px;">
+			<img id="plate" src="food.png" class="img-responsive">
+			<div style="height: 96px;"></div>
+
+			<h4>Ingredients</h4>
+			<ul>
+				<li><span>4 chicken breasts</span></li>
+				<li><span>4 tbsp oil or butter</span></li>
+				<li><span>1 large onion</span></li>
+				<li><span>1 green, red or yellow pepper (or a bit of all three)</span></li>
+				<li><span><a class="new-word" data-word="fajita" data-type="n" data-en="a thin strip of marinated and grilled meat">fajitas</a></span></li>
+			</ul>
+
+			<h4>Method</h4>
+			<ul>
+				<li><span><a class="new-word" data-word="to slice" data-type="vb" data-en="to cut into thin pieces">Slice</a> the chicken into long <a class="new-word" data-word="a strip" data-type="n" data-en="a long, thin piece of something">strips</a> and <a class="new-word" data-word="to fry" data-type="cv" data-en="to cook in oil">fry</a> with the oil in a pan.</span></li>
+				<li><span>For a <a class="new-word" data-word="caramelised" data-type="adj" data-en="if sugar “caramelises”, it turns to caramel">caramelised</a> efect, <a class="new-word" data-word="to stir in" data-type="phr vb" data-en="to add whilst stirring (moving the food with a spoon)">stir in</a> a small amount of brown sugar.</span></li>
+				<li><span>Cook until light brown.</span></li>
+				<li><span><a class="new-word" data-word="to chop" data-type="vb" data-en="to cut">Chop</a> the pepper and onions into strips and <a class="new-word" data-word="to sauté" data-type="vb" data-en="to cook quickly in oil">sauté</a> in a separate pan.</span></li>
+				<li><span>Place small amounts of the chicken and vegetables into fajitas.</span></li>
+				<li><span>Add one (or as many as you like) of these <a class="new-word" data-word="a topping" data-type="n" data-en="food that is placed on top of other food">toppings</a>: sour cream, refried beans, cheese or guacamole.</span></li>
+				<li><span>Roll up the fajitas and serve.</span></li>
+			</ul>
+
+			<h4>Marinade</h4>
+			For even tastier chicken, you could make a <a class="new-word" data-word="a marinade" data-type="n" data-en="a sauce which you put over meat / fish before cooking it">marinade</a> with the following:
+			<ul>
+				<li><span>2 tbsp balsamic vinegar</span></li>
+				<li><span>1 tbsp lemon juice</span></li>
+				<li><span>2 tsp olive oil</span></li>
+				<li><span>1/2 tsp dried oregano</span></li>
+			</ul>
+			Mix it all together with the chicken in a bowl or seal-proof bag. Leave in the refrigerator for 8 hours.<br>
+			Delicious! <span class="accent">✪</span>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { margin-right: " + horizontalMargin + "px; margin-left: " + horizontalMargin + "px; margin-top: " + (topMargin+verticalMargin) + "px; margin-bottom: " + verticalMargin + "px; padding-right: " + normalPadding + "px; padding-left: " + normalPadding + "px; padding-bottom: " + normalPadding + "px; } \
+					h1, h4, li { color: " + tinycolor(accentColor).darken() + "; } \
+					li > span { color: #" + textColor + "; } \
+					img { background: #" + backgroundColor + "; } \
+				");
+			}
+
+			container = $('body')[0];
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				container.scrollTop = (state['scroll'] || 0) * container.scrollHeight;
+				prevScroll = container.scrollTop / container.scrollHeight;
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = container.scrollTop / container.scrollHeight;
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = container.scrollTop;
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

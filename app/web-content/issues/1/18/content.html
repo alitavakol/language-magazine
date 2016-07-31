@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			@font-face {
+				font-family: 'Blokletters';
+				src: url('GochiHand-Regular.ttf');
+			}
+			body {
+				overflow-y: scroll;
+			}
+			h1 {
+				margin-top: 0;
+				font-weight: bold;
+				text-transform: uppercase;
+			}
+			h4 {
+				margin-top: 0;
+				text-transform: uppercase;
+			}
+			ol {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+				margin-bottom: 16px;
+				padding: 4px;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			#top-margin {
+				font-size: 200%;
+				line-height: 95%;
+				margin-bottom: 0;
+				padding-bottom: 0;
+				color: white;
+			}
+			.row img {
+				border: solid 2px black;
+			}
+			input {
+				font-family: 'Blokletters';
+				background-color: transparent;
+				/*font-size: small;*/
+				margin-bottom: 12px;
+				margin-top: 0;
+				padding-top: 0;
+				padding-bottom: 0;
+				height: inherit;
+				width: 100%;
+				border: 0;
+				border-bottom: solid 1px #888;
+				font-size: 1.2em;
+			}
+			input:focus {
+				outline: none;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<h1 id="top-margin"><span class="accent-light">Dr.</span> Fingers’</h1>
+			<h4 class="accent">Error Correction Clinic</h4>
+
+			<h4 style="font-weight: 300;">In this section Dr. Fingers identifies and corrects typical errors.</h4>
+
+			<div class="row">
+				<div class="col-xs-6">
+					<img src="1.jpg" style="width: 100%;">
+				</div>
+				<div class="col-xs-6">
+					<img src="2.jpg" style="width: 100%;">
+				</div>
+			</div>
+
+			<h4 style="margin-top: 20px;"><span class="accent">❶</span> <b>Exercise</b></h4>
+			<p>Read the following sentences. Can you correct them? Then listen to check.</p>
+			<ol>
+				<li><span data-start="13828" data-end="23499">This is the man which son won the competition. <input type="text"></span></li>
+				<li><span data-start="23500" data-end="34857">The town in which the office is located in is in the north. <input type="text"></span></li>
+				<li><span data-start="34858" data-end="43929">Sorry, I wasn’t meaning to hit you. <input type="text"></span></li>
+				<li><span data-start="43930" data-end="52588">I cut while I was chopping the carrots. <input type="text"></span></li>
+				<li><span data-start="52589" data-end="60800">“This is fantastic,” they told. <input type="text"></span></li>
+				<li><span data-start="60801" data-end="68474">She told to me the story. <input type="text"></span></li>
+			</ol>
+
+			<img src="3.jpg" style="width: 100%;">
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					#top-margin { padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; padding-top: " + (topMargin+verticalMargin+16) + "px; background-color: #" + accentColor + "; margin-left: -" + horizontalMargin + "px; } \
+					#bottom-margin { height: " + (bottomMargin-16) + "px; } \
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					.accent-light { color: " + tinycolor(accentColor).lighten().lighten().lighten() + "; } \
+					li:nth-child(even) { background: -webkit-linear-gradient(left, " + tinycolor(accentColor).lighten().lighten().lighten().lighten().toRgbString() + ", white); } \
+				");
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

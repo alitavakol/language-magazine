@@ -1,34 +1,53 @@
 package me.ali.coolenglishmagazine;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.os.IBinder;
+import android.net.Uri;
+import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
+import com.farsitel.bazaar.IUpdateCheckService;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.Locale;
 
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.Account;
+import me.ali.coolenglishmagazine.util.DividerDrawerItem;
 import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
+import me.ali.coolenglishmagazine.util.NetworkHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class RootActivity extends AppCompatActivity implements
+        Account.Callbacks,
         GalleryOfIssuesFragment.OnFragmentInteractionListener,
         CoolEnglishTimesFragment.OnFragmentInteractionListener,
         ReadmeFragment.OnFragmentInteractionListener,
@@ -60,11 +79,25 @@ public class RootActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // force change locale based on value of "locale" preference
+        String languageToLoad = preferences.getString("locale", "fa");
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = getResources().getConfiguration(); // http://stackoverflow.com/a/24908330
+        config.locale = locale;
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+
         super.onCreate(savedInstanceState);
+
+        preferences.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+
         setContentView(R.layout.activity_root);
 
         if (savedInstanceState != null) {
             drawer_selection = savedInstanceState.getInt("drawer_selection");
+            signingIn = savedInstanceState.getBoolean("signing_in");
 
         } else {
             // show the gallery of issues fragment by default
@@ -76,27 +109,110 @@ public class RootActivity extends AppCompatActivity implements
         }
 
         setupNavigationDrawer();
+
+        // show navigation drawer on first start
+        if (!preferences.getBoolean("drawer_welcome_shown", false)) {
+            drawer.openDrawer();
+            preferences.edit().putBoolean("drawer_welcome_shown", true).apply();
+        }
+
+//        account = new Account(this);
+
+        if (!processWasRunning) { // check for updates if app's process has just started
+            initUpdateCheckService();
+            processWasRunning = false;
+        }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+        releaseUpdateCheckService();
+    }
+
+    protected SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if (key.equals("locale"))
+                recreate();
+        }
+    };
+
+    ImageView profilePicture;
+    TextView userName, userEmail;
+    CircularProgressView circularProgressView;
 
     protected void setupNavigationDrawer() {
         // manually load drawer header, and apply custom typeface to it.
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        View headerView = inflater.inflate(R.layout.drawer_header, null);
-        ((TextView) headerView).setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.UBUNTU_BOLD));
+        ViewGroup headerView = (ViewGroup) inflater.inflate(R.layout.drawer_header, null);
+
+        profilePicture = (ImageView) headerView.findViewById(R.id.profile_image);
+        userName = (TextView) headerView.findViewById(R.id.user_name);
+        userEmail = (TextView) headerView.findViewById(R.id.user_email);
+        circularProgressView = (CircularProgressView) headerView.findViewById(R.id.progress_bar);
+
+//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        updateProfileInfo(preferences.getString("user_image", null), preferences.getString("user_name", null), preferences.getString("user_email", null), preferences.getString("user_id_token", null));
+
+        if (signingIn)
+            showProgressDialog();
+
+        ((TextView) headerView.findViewById(R.id.app_name)).setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.UBUNTU_BOLD));
+
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                if (!hasSavedLogIn)
+//                    account.signIn();
+            }
+        });
+        headerView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+//                if (!hasSavedLogIn)
+//                    return false;
+//
+//                AlertDialog.Builder builder = new AlertDialog.Builder(RootActivity.this);
+//                builder.setMessage(R.string.sign_out_warning)
+//                        .setTitle(R.string.sign_out_warning_title)
+//                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                account.signOut();
+//                            }
+//                        })
+//                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                            }
+//                        })
+//                        .setCancelable(true)
+//                        .show();
+//                return true;
+                return false;
+            }
+        });
 
         final PrimaryDrawerItem galleryOfIssues = new PrimaryDrawerItem().withName(R.string.gallery_of_issues).withIcon(GoogleMaterial.Icon.gmd_playlist_play).withSelectedColorRes(R.color.primary);
         final PrimaryDrawerItem englishTimes = new PrimaryDrawerItem().withName(R.string.cool_english_times).withIcon(GoogleMaterial.Icon.gmd_alarm).withSelectedColorRes(R.color.primary);
         final PrimaryDrawerItem readme = new PrimaryDrawerItem().withName(R.string.readme).withIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied).withSelectedColorRes(R.color.primary);
         final PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info_outline).withSelectedColorRes(R.color.primary);
 
-        drawer = new DrawerBuilder().withSliderBackgroundColorRes(R.color.accent)
-                .withHeaderDivider(false).withActivity(this).withHeader(headerView).addDrawerItems(
+        drawer = new DrawerBuilder()
+                .withSliderBackgroundColorRes(R.color.accent)
+                .withHeaderDivider(false)
+                .withActivity(this)
+                .withHeader(headerView)
+                .addDrawerItems(
                         galleryOfIssues,
                         englishTimes,
                         readme,
                         new DividerDrawerItem(),
                         about
-                ).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawer_selection == position)
@@ -143,7 +259,9 @@ public class RootActivity extends AppCompatActivity implements
                         drawer_selection = position;
                         return false;
                     }
-                }).withSelectedItemByPosition(drawer_selection).build();
+                })
+                .withSelectedItemByPosition(drawer_selection)
+                .build();
     }
 
     @Override
@@ -151,6 +269,7 @@ public class RootActivity extends AppCompatActivity implements
         super.onSaveInstanceState(outState);
         if (drawer != null) {
             outState.putInt("drawer_selection", drawer.getCurrentSelectedPosition());
+            outState.putBoolean("signing_in", signingIn);
         }
     }
 
@@ -241,4 +360,133 @@ public class RootActivity extends AppCompatActivity implements
         }
     }
 
+    /**
+     * Google APIs account sign-in helper
+     */
+    protected Account account;
+
+    /**
+     * shows whether or not user is signed in to their android account. user was logged-in before,
+     * but the log-in status may not be up to date. it means that user's name, email and profile photo
+     * is stored in preferences as a result of their past log-in.
+     */
+    boolean hasSavedLogIn;
+
+    /**
+     * if true, we are in the process of signing in. show progress indicator.
+     */
+    protected boolean signingIn;
+
+    public void showProgressDialog() {
+        circularProgressView.setVisibility(View.VISIBLE);
+        profilePicture.setVisibility(View.GONE);
+        circularProgressView.startAnimation();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (account != null)
+            account.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void hideProgressDialog() {
+        circularProgressView.setVisibility(View.GONE);
+        profilePicture.setVisibility(View.VISIBLE);
+        circularProgressView.clearAnimation();
+    }
+
+    /**
+     * updates user profile info on drawer.
+     */
+    public void updateProfileInfo(String personPhoto, String displayName, String email, String userId, boolean signedOut) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        hasSavedLogIn = !signedOut && (userId != null || preferences.contains("user_email"));
+
+        displayName = preferences.getString("user_name", getString(R.string.sign_in_name));
+        email = preferences.getString("user_email", getString(R.string.sign_in_email));
+        personPhoto = preferences.getString("user_image", null);
+
+        if (personPhoto != null) {
+            int w = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 36, getResources().getDisplayMetrics());
+            Picasso
+                    .with(this)
+                    .load(Uri.parse(personPhoto))
+                    .resize(w, w)
+                    .centerCrop()
+                    .into(profilePicture);
+        } else {
+            profilePicture.setImageDrawable(new IconicsDrawable(this).icon(GoogleMaterial.Icon.gmd_account_circle).sizeDp(36).colorRes(android.R.color.secondary_text_dark));
+        }
+
+        userName.setText(displayName);
+        userEmail.setText(email);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (account != null)
+            account.silentSignIn();
+    }
+
+    public void signingIn(boolean signingIn) {
+        this.signingIn = signingIn;
+    }
+
+    IUpdateCheckService updateCheckService;
+    UpdateServiceConnection updateServiceConnection;
+
+    /**
+     * @see <a href="https://cafebazaar.ir/developers/docs/bazaar-services/update-check/?l=fa">Bazaar documentation</a>
+     */
+    class UpdateServiceConnection implements ServiceConnection {
+        public void onServiceConnected(ComponentName name, IBinder boundService) {
+            updateCheckService = IUpdateCheckService.Stub.asInterface(boundService);
+            try {
+                long vCode = updateCheckService.getVersionCode(getPackageName());
+                if (vCode > getPackageManager().getPackageInfo(getPackageName(), 0).versionCode) {
+                    Snackbar
+                            .make(findViewById(R.id.root_fragment), R.string.update_available, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.update, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    NetworkHelper.launchAppStoreUpdate(RootActivity.this);
+                                }
+                            }).setActionTextColor(getResources().getColor(R.color.primary_light))
+                            .show();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            releaseUpdateCheckService();
+        }
+
+        public void onServiceDisconnected(ComponentName name) {
+            updateCheckService = null;
+            LogHelper.e(TAG, "UpdateServiceConnection disconnected");
+        }
+    }
+
+    private void initUpdateCheckService() {
+        updateServiceConnection = new UpdateServiceConnection();
+        Intent i = new Intent("com.farsitel.bazaar.service.UpdateCheckService.BIND").setPackage("com.farsitel.bazaar");
+        bindService(i, updateServiceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    /**
+     * Un-binds this activity from Bazaar service.
+     */
+    private void releaseUpdateCheckService() {
+        if (updateServiceConnection != null)
+            unbindService(updateServiceConnection);
+        updateServiceConnection = null;
+    }
+
+    /**
+     * determines whether app's process has just run from scratch.
+     */
+    public static boolean processWasRunning;
 }

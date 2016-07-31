@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#page-indicator {
+				width: 100%;
+				position: flex;
+				z-index: 1;
+				text-align: center;
+				display: none;
+			}
+			.dot {
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				border-radius: 5px;
+				margin: 3px;
+				/* background-color: #8999A6; */
+			}
+			.dot.active {
+				/* background-color: azure; */
+			}
+
+			.cem-card {
+				position: relative;
+				transition: box-shadow .25s;
+				border-radius: 2px;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				max-width: 100%;
+			}
+			.cem-card .card-image {
+				position: relative;
+			}
+			.cem-card .card-image img {
+				display: block;
+				border-radius: 2px 2px 0 0;
+				position: relative;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+			}
+			.cem-card .card-image .card-title {
+				color: #fff;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-top: 10px;
+				padding-bottom: 10px;
+				text-transform: uppercase;
+				background-color: black;
+				font-weight: bold;
+				background-color: rgba(0,0,0,.5);
+				font-size: 18px;
+			}
+			.cem-card .card-content {
+				border-radius: 0 0 2px 2px;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-bottom: 10px;
+				padding-top: 10px;
+				font-style: italic;
+			}
+			.cem-card .card-action {
+				border-top: 1px solid rgba(0,0,0,0.2);
+				padding: 20px;
+				padding-bottom: 0;
+				transition: color .3s ease;
+				text-transform: uppercase;
+				text-decoration: none;
+				-webkit-tap-highlight-color: transparent;
+			}
+
+			.swipe {
+				overflow: hidden;
+				visibility: hidden;
+				position: relative;
+			}
+			.swipe-wrap {
+				position: relative;
+			}
+			.swipe-wrap > div {
+				float: left;
+				width: 20px;
+				position: relative;
+				overflow: hidden;
+				overflow-y: auto;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="swipe.min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div id="page-indicator" style="position: absolute; z-index: 1;"></div>
+
+		<div id='swipeable' style='margin:0 auto;' class='swipe'>
+			<div class='swipe-wrap'></div>
+		</div>
+
+		<div style="display: none;">
+			<span data-start="2787" data-end="4500"></span>
+			<span data-start="10001" data-end="11401"></span>
+			<span data-start="18491" data-end="20141"></span>
+			<span data-start="27385" data-end="29516"></span>
+			<span data-start="35619" data-end="37148"></span>
+			<span data-start="44001" data-end="46000"></span>
+			<span data-start="54632" data-end="55770"></span>
+			<span data-start="63049" data-end="64400"></span>
+			<span data-start="4501" data-end="6944"></span>
+			<span data-start="11402" data-end="14500"></span>
+			<span data-start="20142" data-end="24307"></span>
+			<span data-start="29517" data-end="33270"></span>
+			<span data-start="37149" data-end="41388"></span>
+			<span data-start="46001" data-end="50700"></span>
+			<span data-start="55771" data-end="57908"></span>
+			<span data-start="64401" data-end="66700"></span>
+			<span data-start="6945" data-end="10000"></span>
+			<span data-start="14501" data-end="18490"></span>
+			<span data-start="24308" data-end="27384"></span>
+			<span data-start="33271" data-end="35618"></span>
+			<span data-start="41389" data-end="44000"></span>
+			<span data-start="50701" data-end="54631"></span>
+			<span data-start="57909" data-end="63048"></span>
+			<span data-start="66701" data-end="70700"></span>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			card_template = "\
+				<div>\
+					<div class='top-margin'></div>\
+					<div class='cem-card'>\
+						<div class='card-image'>\
+							<img class='img-responsive' src='{img}'>\
+							<span class='card-title'>{verb}</span>\
+						</div>\
+						<div class='card-action'>{def}</div>\
+						<div class='card-content'><p>{example}</p></div>\
+					</div>\
+					<div class='bottom-margin'></div>\
+				</div>\
+			";
+			verbs = ['<span data-slide="0" data-start="2787" data-end="4500">Ask someone over</span>', '<span data-slide="1" data-start="10001" data-end="11401">Come over</span>', '<span data-slide="2" data-start="18491" data-end="20141">Bring someone along</span>', '<span data-slide="3" data-start="27385" data-end="29516">Come a/round / go a/round</span>', '<span data-slide="4" data-start="35619" data-end="37148">invite a/round</span>', '<span data-slide="5" data-start="44001" data-end="46000">Drop in / by</span>', '<span data-slide="6" data-start="54632" data-end="55770">Invite out</span>', '<span data-slide="7" data-start="63049" data-end="64400">Get together</span>'];
+			defs = ['<span data-slide="0" data-start="4501" data-end="6944">To invite someone to come to your house.</span>', '<span data-slide="1" data-start="11402" data-end="14500">if someone “comes over”, they come to your house.</span>', '<span data-slide="2" data-start="20142" data-end="24307">if you “bring someone along” to an event, you take that person with you.</span>', '<span data-slide="3" data-start="29517" data-end="33270">if you “go around” to someone’s house, you visit that person’s house.</span>', '<span data-slide="4" data-start="37149" data-end="41388">If you “invite someone around”, you invite them to come to your house.</span>', '<span data-slide="5" data-start="46001" data-end="50700">To visit someone for a short period of time, often without an invitation.</span>', '<span data-slide="6" data-start="55771" data-end="57908">To ask someone to go out with you.</span>', '<span data-slide="7" data-start="64401" data-end="66700">When people “get together”, they meet.</span>'];
+			images = ['ask.png', 'over.png', 'bring.png', 'around.png', 'invite.png', 'drop.png', 'out.png', 'get.png'];
+			examples = ['<span data-slide="0" data-start="6945" data-end="10000">“I’d like to ask Jim over for lunch this weekend.”</span>', '<span data-slide="1" data-start="14501" data-end="18490">“Would you like to come over this Friday evening? we’re having a little party.”</span>', '<span data-slide="2" data-start="24308" data-end="27384">“You can bring Sally along – she’s a lot of fun.”</span>', '<span data-slide="3" data-start="33271" data-end="35618">“What time shall I come round?”</span>', '<span data-slide="4" data-start="41389" data-end="44000">“I invited her round to my house.”</span>', '<span data-slide="5" data-start="50701" data-end="54631">“Feel free to drop by any time you like – I’m always here.”</span>', '<span data-slide="6" data-start="57909" data-end="63048">“She invited me out last Friday and we went to the cinema and then to a restaurant.”</span>', '<span data-slide="7" data-start="66701" data-end="70700">“They got together to celebrate their victory.”</span>'];
+			var i = 0;
+			verbs.forEach(function(verb) {
+				$('.swipe-wrap').append(card_template.replace(/\{verb\}/g, verb).replace(/\{img\}/g, images[i]).replace(/\{def\}/g, defs[i]).replace(/\{example\}/, examples[i]));
+				$('#page-indicator').append('<span class="dot"></span>');
+				i++;
+			});
+
+			adjustCustomLayout = function(options) {
+				brightcolor = tinycolor(accentColor).brighten().brighten();
+				brightcolor.setAlpha(.7);
+				darkColor = tinycolor(accentColor).darken().darken();
+				darkColor.setAlpha(.7);
+
+				$('#local-rules').text("\
+					.cem-card { background-color: #" + accentColor + "; margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+					.card-content { color: " + newWordColor + "; } \
+					.top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.bottom-margin { height: " + bottomMargin + "px; } \
+					#page-indicator { margin-top: " + (topMargin+2*verticalMargin-8) + "px; } \
+					.swipe-wrap > div { height: " + height + "px; } \
+					.dot { background-color: " + brightcolor.toRgbString() + "; } \
+					.dot.active { background-color: " + darkColor.toRgbString() + "; }"
+				);
+			}
+
+			setCurrentSlide = function(index) {
+				$('#page-indicator').show();
+				$('#page-indicator .dot').eq(index).addClass('active');
+
+				if(typeof(window.swipeable) == 'object' && typeof(window.swipeable.kill) == 'function')
+					window.swipeable.kill();
+
+				window.swipeable = $('#swipeable').Swipe({
+					startSlide: index,
+					callback: function(index,elem) {
+						$('#page-indicator .dot').removeClass('active');
+						$('#page-indicator .dot').eq(index).addClass('active');
+
+						currentSlide = index;
+						saveInstanceState();
+					},
+				}).data('Swipe');
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					currentSlide: currentSlide,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				setCurrentSlide(state.currentSlide || 0);
+
+				restoringInstanceState = false;
+			}
+
+			highlight = function(timePoint) {
+				$('.highlight').removeClass('highlight');
+				t = $('[data-start=' + timePoint + ']');
+				t.addClass('highlight');
+				u = parseInt(t.data('slide'));
+				if(u >= 0)
+					window.swipeable.slide(u);
+			}
+		</script>
+
+	</body>
+</html>

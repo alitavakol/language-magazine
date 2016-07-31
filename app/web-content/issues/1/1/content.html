@@ -9,10 +9,11 @@
 		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
 
 		<!-- Bootstrap -->
-		<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
 
 		<!-- Bootstrap Material Design -->
-		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
 
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
@@ -20,11 +21,16 @@
 		</style>
 
 		<style type="text/css">
-			#lock {
-				-webkit-tap-highlight-color: rgba(0,0,0,0);
+			body {
+				overflow-y: scroll;
 			}
-			h1 {
+			h1, h3 {
 				margin-top: 0;
+			}
+			.lockable {
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
 			}
 		</style>
 
@@ -39,66 +45,62 @@
 		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
 
 		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
 	</head>
 
 	<body>
-		<div class="poster hidden"></div>
-
-		<div class="cem-container">
+		<div class="foundation">
 			<div id="top-margin"></div>
 
 			<h1>Coffee Food</h1>
 			<h3>New report says that coffee in the morning is a meal in a cup.</h3>
 
-			<div id="lock" style="height: 80px; background-image: url('key-enter-access-door-place-512.png'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
-
-			<div class="transcript hidden">
-				<p><span data-start="12280" data-end="14860">What do you have for breakfast?</span> <span data-start="14861" data-end="24836">A new report says that the coffee you have in the morning may contain up to 50% of the <a class="new-word" data-word="a calorie" data-type="n" data-en="a unit of energy-producing chemicals in a food or drink; if you eat/drink lots of calories and don’t exercise, the calories become fat." data-fa="یک واحد از مواد تولید کننده‌ی انرژی در مواد غذایی">calories</a> you need for the whole day.</span> <span data-start="24837" data-end="32600">Some of the cups of coffee <a class="new-word" data-word="tested" data-type="adj" data-en="if something is “tested”, someone examines it to decide if it is good/bad/useful" data-fa="آزمایش شده، بررسی شده">tested</a> by a <a class="new-word" data-word="a consumer" data-type="n" data-en="someone who consumes or uses an object; a “consumer” of coffee buys/drinks coffee" data-fa="مصرف کننده">consumer</a> magazine had almost 400 calories.</span> <span data-start="32601" data-end="42400"><a class="new-word" data-word="a researcher" data-type="n" data-en="a person who investigates a certain object or idea" data-fa="پژوهشگر">Researchers</a> said that the <a class="new-word" data-word="full-fat milk" data-type="n" data-en="milk with all of the natural cream and fat; the fat has not been reduced/skimmed" data-fa="شیر پر چرب">full-fat milk</a>, cream and chocolate in the coffees contains most of the calories.</span> <span data-start="42401" data-end="47670">A <a class="new-word" data-word="skimmed milk" data-type="n" data-en="milk that does not have the natural fat and cream; also called “reduced fat” milk" data-fa="شیر کم چرب">skimmed milk</a> cappuccino only had about 30 calories.</span> <span data-start="47671" data-end="52485">But the worst thing about the coffee shops is the food.</span> <span data-start="52486" data-end="63450">A <a class="new-word" data-word="a slice" data-type="n" data-en="a thin piece or part of something, usually cake, pizza, bread, etc." data-fa="یک تکه یا برش کوچک">slice</a> of chocolate cake may have more than 600 calories; and some sandwiches can have as many as 500 calories.</span> <span data-start="63451" data-end="75700">The report said, “You might be surprised to know that some coffee shop sandwiches contain more calories, fat and salt than a fast-food hamburger.”</span> <span data-start="75701" data-end="86470">In Britain, the recommended daily intake of calories for women is 2,000 calories, and for men it is 2,500.</span> <span data-start="86471" data-end="93600">So, a coffee and a <a class="new-word" data-word="a snack" data-type="n" data-en="a small quantity of food that is not part of a full meal" data-fa="خوراک مختصر، خوراک سر پایی">snack</a> could give you almost half that amount alone.</span> <span class="accent"> ★</span></p>
-			</div>
+			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p style="margin: 0;">
+					<span data-start="12280" data-end="14860">What do you have for breakfast?</span> <span data-start="14861" data-end="24836">A new report says that the coffee you have in the morning may contain up to 50% of the <a class="new-word" data-word="a calorie" data-type="n" data-en="a unit of energy-producing chemicals in a food or drink; if you eat/drink lots of calories and don’t exercise, the calories become fat." data-fa="یک واحد از مواد تولید کننده‌ی انرژی در مواد غذایی">calories</a> you need for the whole day.</span> <span data-start="24837" data-end="32600">Some of the cups of coffee <a class="new-word" data-word="tested" data-type="adj" data-en="if something is “tested”, someone examines it to decide if it is good/bad/useful" data-fa="آزمایش شده، بررسی شده">tested</a> by a <a class="new-word" data-word="a consumer" data-type="n" data-en="someone who consumes or uses an object; a “consumer” of coffee buys/drinks coffee" data-fa="مصرف کننده">consumer</a> magazine had almost 400 calories.</span> <span data-start="32601" data-end="42400"><a class="new-word" data-word="a researcher" data-type="n" data-en="a person who investigates a certain object or idea" data-fa="پژوهشگر">Researchers</a> said that the <a class="new-word" data-word="full-fat milk" data-type="n" data-en="milk with all of the natural cream and fat; the fat has not been reduced/skimmed" data-fa="شیر پر چرب">full-fat milk</a>, cream and chocolate in the coffees contains most of the calories.</span> <span data-start="42401" data-end="47670">A <a class="new-word" data-word="skimmed milk" data-type="n" data-en="milk that does not have the natural fat and cream; also called “reduced fat” milk" data-fa="شیر کم چرب">skimmed milk</a> cappuccino only had about 30 calories.</span> <span data-start="47671" data-end="52485">But the worst thing about the coffee shops is the food.</span> <span data-start="52486" data-end="63450">A <a class="new-word" data-word="a slice" data-type="n" data-en="a thin piece or part of something, usually cake, pizza, bread, etc." data-fa="یک تکه یا برش کوچک">slice</a> of chocolate cake may have more than 600 calories; and some sandwiches can have as many as 500 calories.</span> <span data-start="63451" data-end="75700">The report said, “You might be surprised to know that some coffee shop sandwiches contain more calories, fat and salt than a fast-food hamburger.”</span> <span data-start="75701" data-end="86470">In Britain, the recommended daily intake of calories for women is 2,000 calories, and for men it is 2,500.</span> <span data-start="86471" data-end="93600">So, a coffee and a <a class="new-word" data-word="a snack" data-type="n" data-en="a small quantity of food that is not part of a full meal" data-fa="خوراک مختصر، خوراک سر پایی">snack</a> could give you almost half that amount alone.</span> <span class="accent"> ★</span>
+				</p>
+			</div></div>
 
 			<div id="bottom-margin"></div>
 		</div>
 
 		<script type="text/javascript">
-			adjustCustomLayout = function(options) {
-				t = "(rgba(18,18,18,0.8), rgba(18,18,18,0), rgba(18,18,18,0.8)), url('download.jpg')";
+			restoringInstanceState = false;
 
+			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
-					.cem-container { height: " + height + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
 					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
-					#bottom-margin { height: " + (bottomMargin-verticalMargin) + "px; } \
-					.poster { background-image: -webkit-linear-gradient" + t + "; background-image: linear-gradient" + t + "; height: " + height + "px; } "
-				);
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					h1 { color: #" + accentColor + "; font-weight: bold; } \
+				");
 			}
+
+			prevScroll = 0;
 
 			lock = function(b) {
 				transcriptLocked = b;
 
 				if(b) {
-					$('.transcript').addClass('hidden');
-					$('.poster').removeClass('hidden');
-					$('#lock').css('display', '');
-					$('h1').removeClass('alt');
-					$('h3').removeClass('alt');
+					$('#transcript').css('background-image', 'url("key-enter-access-door-place-512.png")').children().css('visibility', 'hidden');
+					$('.lockable').css({'background-image': "url('download.jpg')", border: 'solid 1px black'});
 
 				} else {
-					$('.transcript').removeClass('hidden');
-					$('.poster').addClass('hidden');
-					$('#lock').css('display', 'none');
-					$('h1').addClass('alt');
-					$('h3').addClass('alt');
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').css({'background-image': '', border: 'solid 1px transparent'});
 				}
-
-				// if(typeof(app) != 'undefined') {
-				// 	app.autoHideToolbarOnScroll(!transcriptLocked);
-				// }
 
 				saveInstanceState();
 			}
 
 			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
 				outState = {
 					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
 				};
 
 				if(typeof(app) != 'undefined')
@@ -106,18 +108,24 @@
 			}
 
 			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
 				state = JSON.parse(savedInstanceState);
 
 				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
 			}
 
 			taphold = false;
-			$('#lock').tap(function() {
+			$('.lockable').tap(function() {
 				if(transcriptLocked && !taphold)
 					app.makeToast('Tap and hold to reveal transcript.', false);
 				taphold = false;
 			});
-			$('#lock').taphold(function() {
+			$('.lockable').taphold(function() {
 				taphold = true;
 				if(transcriptLocked)
 					app.lockTranscript(!transcriptLocked);
@@ -125,7 +133,30 @@
 
 			if(typeof(app) != 'undefined')
 				app.showLockControls(true);
-		</script>
 
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
 	</body>
 </html>

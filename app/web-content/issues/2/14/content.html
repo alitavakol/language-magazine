@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h1 {
+				margin-top: 0;
+			}
+			h1, h4 {
+				text-transform: uppercase;
+			}
+			h4 {
+				margin-bottom: -16px;
+			}
+			ol, ul {
+				margin-top: 36px;
+				padding-left: 1.2em;
+			}
+			ol > li {
+				/*font-size: larger;*/
+				font-weight: bold;
+			}
+			.col-a {
+				color: #ce0000;
+			}
+			.col-b {
+				color: #2c9e06;
+			}
+			ol > li > span {
+				font-weight: normal;
+				/*font-size: medium;*/
+				color: black;
+				padding: 4px;
+			}
+			li {
+				margin-bottom: 8px;
+			}
+			input {
+				display: inline-block;
+				padding-top: 0;
+				padding-bottom: 0;
+				/*margin-left: 4px;*/
+				width: 1.7em;
+				border: solid 1px black;
+				text-align: center;
+				vertical-align: middle;
+				font-weight: bold;
+				text-transform: lowercase;
+				height: 90%;
+				color: black;
+			}
+			input.fake {
+				visibility: hidden;
+				width: .1em;
+			}
+			input:focus {
+				outline: none;
+			}
+			.img {
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);				
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				padding: 4px;
+				background-color: white;
+				/*width: 50%;*/
+				margin-top: 8px;
+				margin-bottom: 8px;
+			}
+			.rotate-right {
+				-webkit-transform: rotate(-6deg);
+				transform: rotate(-6deg);
+			}
+			.rotate-left {
+				-webkit-transform: rotate(7deg);
+				transform: rotate(7deg);
+			}
+			.float-right {
+				margin-left: 16px;
+				margin-right: 4px;
+				float: right;
+				clear: right;
+			}
+			.hot {
+				background-color: #eedd00;
+			}
+			.correct {
+				background-color: lightgreen;
+			}
+			.incorrect {
+				background-color: lightcoral;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<h1>Little Jokes</h1>
+			<h4>Match each joke beginning (1 to 8) with its ending (a-h). Then, listen to check your answers.</h4>
+
+			<div class="transcript row">
+				<div class="col-md-6">
+					<ol class="first">
+						<li class="col-a"><span data-start="7146" data-end="11000">What should you do if you find a snake in your bed?</span> <input type="text" readonly="true" data-ans="d"></li>
+						<div class="img float-right rotate-left"><img src="snake.png"></div>
+						<li class="col-a"><span data-start="18121" data-end="23450">I always wondered why babies spend so much time sucking their <a class="new-word" data-word="a thumb" datat-type="n" data-en="the thick finger on your hand">thumbs</a>.</span> <input type="text" readonly="true" data-ans="f"></li>
+						<li class="col-a"><span data-start="31032" data-end="34083">Waitress, there’s a fly in my soup.</span> <input type="text" readonly="true" data-ans="a"></li>
+						<div class="img float-right rotate-right" style="margin-right: 4px; margin-top: -16px;"><img src="soup.png"></div>
+						<li class="col-a"><span data-start="43782" data-end="46620">Waitress, my plate is wet.</span> <input type="text" readonly="true" data-ans="g"></li>
+						<li class="col-a"><span data-start="56255" data-end="59433">Waitress is there soup <a class="new-word" data-word="a menu" datat-type="n" data-en="a piece of paper with a list of food that a restaurant serves">on the menu</a>.</span> <input type="text" readonly="true" data-ans="e"></li>
+						<li class="col-a"><span data-start="67607" data-end="70472">Waitress, there’s a button in my soup?</span> <input type="text" readonly="true" data-ans="c"></li>
+						<li class="col-a"><span class="accent">Customer:</span> <span data-start="78929" data-end="83000">Waiter, this <a class="new-word" data-word="a lobster" datat-type="n" data-en="a sea creature with a hard shell, two claws and eight legs">lobster</a> has only got one <a class="new-word" data-word="a claw" datat-type="n" data-en="a part of a lobster / crab / scorpion that is at the end of its legs">claw</a>?</span><br><span class="accent">Waiter:</span> <span data-start="83001" data-end="85815">He must have been in a fight, madam.</span> <input type="text" readonly="true" data-ans="h"></li>
+						<li class="col-a"><span data-start="92505" data-end="94818">What’s on television tonight?</span> <input type="text" readonly="true" data-ans="b"></li>
+					</ol>
+				</div>
+
+				<div class="col-md-6 second">
+					<ol type="a" class="second">
+						<li class="col-b" data-choice="a"><span data-start="34084" data-end="43781">Don’t worry, ma'am. The spider in the bread will get it.</span><input type="text" class="fake"></li>
+						<div class="float-right" style="margin-left: 4px; margin-right: -12px;"><img src="lobster.png"></div>
+						<li class="col-b" data-choice="b"><span data-start="94819" data-end="108690">The same as always: a <a class="new-word" data-word="a vase" datat-type="n" data-en="a container for flowers">vase</a> of flowers and a bowl of fruit.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="c"><span data-start="70473" data-end="78928">Thank you, ma'am. I wondered what had happened to it.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="d"><span data-start="11001" data-end="18120">Sleep in the wardrobe.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="e"><span data-start="59434" data-end="67606">No ma'am, I <a class="new-word" data-word="to wipe off" datat-type="phr vb" data-en="to clean">wiped it all off</a>.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="f"><span data-start="23451" data-end="31031">Then I tasted baby food.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="g"><span data-start="46621" data-end="56254">It’s not wet ma'am, that’s the soup.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="h"><span class="accent">Customer:</span> <span data-start="85816" data-end="92504">Well, bring me the winner.</span><input type="text" class="fake"></li>
+					</ol>
+				</div>
+			</div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			prev_input = null;
+			$('.col-a').tap(function() {
+				t = $(this).find('input');
+				if(prev_input != null) {
+					prev_input.val(prev_input_val).change();
+				}
+
+				$('.col-b > span').addClass('hot');
+				prev_input = t;
+				prev_input_val = prev_input.val();
+				prev_input.val('?').change();
+			});
+			$('.col-b').tap(function () {
+				$('.col-b > span').removeClass('hot');
+				if(typeof(prev_input) != 'undefined') {
+					prev_input.val($(this).data('choice')).change();
+					prev_input = null;
+				}
+			});
+			$('input').on('change', function() {
+				$(this).removeClass('correct incorrect');
+				if(this.value != '?' && this.value != '')
+					$(this).addClass($(this).data('ans') == this.value ? 'correct' : 'incorrect');
+				saveInstanceState();
+			});
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + (bottomMargin) + "px; } \
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					h1 { color: #" + accentColor + "; font-weight: bold; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+					inputs: $('input').map(function() { return this.value == '?' ? prev_input_val : this.value; }).get(),
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				if(state['inputs']) {
+					$('input').map(function(i) {
+						$(this).val(state.inputs[i]).change();
+					});
+				}
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

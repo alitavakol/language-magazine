@@ -67,9 +67,21 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
                 textStyle.setBigContentTitle(context.getResources().getString(R.string.cool_english_times));
                 textStyle.bigText(context.getResources().getString(R.string.cool_english_time_notification_text, item.title));
-                textStyle.setSummaryText(context.getResources().getQuantityString(
-                        R.plurals.cool_english_time_notification_summary_text,
-                        waitingItem.hitCount, waitingItem.hitCount));
+
+                // standard plurals does not support numbers zero and one in FA
+                String summaryText;
+                switch (waitingItem.practiceCount) {
+                    case 0:
+                        summaryText = context.getString(R.string.cool_english_time_notification_summary_text_0);
+                        break;
+                    case 1:
+                        summaryText = context.getString(R.string.cool_english_time_notification_summary_text_1);
+                        break;
+                    default:
+                        summaryText = context.getString(R.string.cool_english_time_notification_summary_text_2, waitingItem.practiceCount);
+                        break;
+                }
+                textStyle.setSummaryText(summaryText);
 
                 // Moves the expanded layout object into the notification object.
                 builder.setStyle(textStyle);

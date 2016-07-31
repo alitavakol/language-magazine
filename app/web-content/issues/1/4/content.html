@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Read &amp; Listen</title>
 		<meta charset="utf-8">
 
 		<!-- Material Design fonts -->
@@ -9,7 +8,8 @@
 		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
 
 		<!-- Bootstrap -->
-		<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
 
 		<!-- Bootstrap Material Design -->
 		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
@@ -42,18 +42,28 @@
 				height: 86px !important;
 			}
 			.list-group-item {
-				padding-bottom: 16px !important;
+				padding-bottom: 8px !important;
+				padding-top: 8px !important;
 			}
 			.list-group-item .row-content {
 				width: inherit !important;
 			}
 			.list-group-item .row-picture {
-				padding-right: 16px;
+				padding-right: 8px;
 				float: left;
-				padding-bottom: 16px;
+				/*padding-bottom: 8px;*/
+				/*padding-top: 8px;*/
 			}
 			.list-group .list-group-item .my-list-group-item-heading {
 				font-weight: bold;
+				margin-top: 0;
+				margin-bottom: .4em;
+			}
+			.list-group-item-text {
+				display: table-cell;
+			}
+			h1, h3 {
+				color: white;
 			}
 		</style>
 
@@ -68,6 +78,7 @@
 		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
 
 		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
 	</head>
 
 	<body>

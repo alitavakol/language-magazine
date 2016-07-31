@@ -1,0 +1,18 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/changeLog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/constant_margin"
+        android:layout_marginEnd="@dimen/constant_margin"
+        android:layout_marginLeft="@dimen/constant_margin"
+        android:layout_marginRight="@dimen/constant_margin"
+        android:layout_marginStart="@dimen/constant_margin"
+        android:layout_marginTop="@dimen/constant_margin"
+        android:textColor="@android:color/black"
+        tools:text="@string/aboutLibraries_description_special1_text" />
+</ScrollView>

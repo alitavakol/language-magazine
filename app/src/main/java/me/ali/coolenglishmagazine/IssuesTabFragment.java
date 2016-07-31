@@ -1,15 +1,19 @@
 package me.ali.coolenglishmagazine;
 
 import android.app.DownloadManager;
+import android.content.DialogInterface;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
+import android.view.ContextThemeWrapper;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +22,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -70,7 +75,7 @@ public class IssuesTabFragment extends Fragment implements
     public static final int COMPLETED_ISSUES = 2;
 
     /**
-     * category of issues to include
+     * category of issues to include. (tab index)
      */
     public int filter;
 
@@ -169,6 +174,8 @@ public class IssuesTabFragment extends Fragment implements
         while (adapter.preNotifyDataSetChanged(true, galleryOfIssuesFragment.magazines.ISSUES))
             adapter.ignoreItemChanged = true;
         adapter.ignoreItemChanged = false;
+
+        updateHelpContainer();
     }
 
     @Override
@@ -348,6 +355,7 @@ public class IssuesTabFragment extends Fragment implements
             if (updateHeaders() || changed) {
                 recyclerView.invalidateItemDecorations();
                 galleryOfIssuesFragment.finishActionMode();
+                updateHelpContainer();
             }
 
             return changed;
@@ -477,11 +485,11 @@ public class IssuesTabFragment extends Fragment implements
                 holder.itemView.post(new Runnable() {
                     @Override
                     public void run() {
-                        int w = holder.itemView.getWidth();
+                        int w = holder.itemView.getMeasuredWidth();
                         int h = 4 * w / 3;
 
                         Picasso
-                                .with(getActivity())
+                                .with(holder.itemView.getContext())
                                 .load(new File(issue.rootDirectory, Magazines.Issue.posterFileName))
                                 .resize(w, h)
                                 .centerCrop()
@@ -499,13 +507,13 @@ public class IssuesTabFragment extends Fragment implements
                 });
             }
 
-            final int status = Magazines.getDownloadStatus(getContext(), issue);
+            final int status = filter == 0 ? -4 : Magazines.getDownloadStatus(getContext(), issue);
             boolean enableTimer = true;
 
             switch (status) {
                 case DownloadManager.STATUS_PENDING:
                 case DownloadManager.STATUS_PAUSED:
-                    LogHelper.i(TAG, "pending");
+                    LogHelper.d(TAG, "pending");
                     holder.progressBar.setVisibility(View.VISIBLE);
                     if (!holder.progressBar.isIndeterminate()) {
                         holder.progressBar.setIndeterminate(true);
@@ -514,17 +522,17 @@ public class IssuesTabFragment extends Fragment implements
                     break;
 
                 case DownloadManager.STATUS_RUNNING:
-                    LogHelper.i(TAG, "running");
+                    LogHelper.d(TAG, "running");
                     holder.progressBar.setVisibility(View.VISIBLE);
                     if (holder.progressBar.isIndeterminate()) {
                         holder.progressBar.setIndeterminate(false);
                         holder.progressBar.resetAnimation();
                     }
-                    holder.progressBar.setProgress(holder.dl_progress);
+                    holder.progressBar.setProgress(holder.dl_progress[0]);
                     break;
 
                 case -3: // the issue is being extracted
-                    LogHelper.i(TAG, "extracting");
+                    LogHelper.d(TAG, "extracting");
                     holder.progressBar.setVisibility(View.VISIBLE);
                     if (!holder.progressBar.isIndeterminate()) {
                         holder.progressBar.setIndeterminate(true);
@@ -533,7 +541,7 @@ public class IssuesTabFragment extends Fragment implements
                     break;
 
                 default:
-                    LogHelper.i(TAG, "default");
+                    LogHelper.d(TAG, "default");
                     holder.progressBar.setVisibility(View.GONE);
                     enableTimer = false;
                     break;
@@ -553,13 +561,13 @@ public class IssuesTabFragment extends Fragment implements
                                     int position = holder.getAdapterPosition();
                                     if (position != RecyclerView.NO_POSITION)
                                         onBindViewHolder(holder, position);
-                                    LogHelper.i(TAG, "dl_progress: " + holder.dl_progress);
+                                    LogHelper.d(TAG, "dl_progress: " + holder.dl_progress[0]);
                                 }
                             });
                         }
                     }, 0, 3000);
                     IssuesTabFragment.issue2timer.put(issue, timer);
-                    LogHelper.i(TAG, "timer created for ", issue.title);
+                    LogHelper.d(TAG, "timer created for ", issue.title);
                 }
 
             } else {
@@ -567,7 +575,7 @@ public class IssuesTabFragment extends Fragment implements
                 if (timer != null) {
                     timer.cancel();
                     IssuesTabFragment.issue2timer.remove(issue);
-                    LogHelper.i(TAG, "timer for ", issue.title, " cancelled");
+                    LogHelper.d(TAG, "timer for ", issue.title, " cancelled");
                 }
             }
 
@@ -589,7 +597,7 @@ public class IssuesTabFragment extends Fragment implements
             public final CircularProgressView progressBar;
             public final ImageView checkMarkImageView;
 
-            public int dl_progress;
+            public int[] dl_progress = new int[3];
 
             public ViewHolder(View view) {
                 super(view);
@@ -601,7 +609,7 @@ public class IssuesTabFragment extends Fragment implements
 
                 checkMarkImageView = (ImageView) view.findViewById(R.id.check_mark);
                 if (checkMarkImageView != null)
-                    checkMarkImageView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_check).sizeDp(36).paddingRes(R.dimen.padding_normal).colorRes(R.color.primary));
+                    checkMarkImageView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_check).sizeDp(36).paddingDp(8).colorRes(R.color.primary));
             }
         }
 
@@ -689,21 +697,23 @@ public class IssuesTabFragment extends Fragment implements
         inflater.inflate(R.menu.issues_list_action_mode, menu);
 
         if (filter == 1 || filter == 2)
-            menu.findItem(R.id.action_download).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_file_download).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true).setVisible(true).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            menu.findItem(R.id.action_download).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_file_download).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true).setVisible(true).setShowAsActionFlags(filter == 1 ? MenuItem.SHOW_AS_ACTION_ALWAYS : MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+        if (filter == 0 || filter == 1)
+            menu.findItem(R.id.action_mark_complete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_assignment_turned_in).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
 
         if (filter == 0) {
-            menu.findItem(R.id.action_mark_complete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_thumb_up).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
             menu.findItem(R.id.action_delete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
         }
 
         if (filter == 2) {
-            menu.findItem(R.id.action_mark_incomplete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_thumb_down).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
-            menu.findItem(R.id.action_free).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
+            menu.findItem(R.id.action_mark_incomplete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_assignment_late).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
+            menu.findItem(R.id.action_free).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_disc_full).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
         }
 
         if (filter == 1) {
-            menu.findItem(R.id.action_cancel).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_clear).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true).setVisible(true).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             menu.findItem(R.id.action_delete_permanently).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete_forever).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
+            menu.findItem(R.id.action_cancel).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_clear).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true).setVisible(true).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
 
         return true;
@@ -722,17 +732,45 @@ public class IssuesTabFragment extends Fragment implements
         for (int i = selectedItemPositions.size() - 1; i >= 0; i--)
             selectedIssues[i] = issues.get(selectedItemPositions.get(i));
 
+        final Magazines.Issue[] selectedIssues_;
+        AlertDialog.Builder builder;
+
+        final FragmentActivity context = getActivity();
+
         switch (menuItem.getItemId()) {
-            case R.id.action_delete:
             case R.id.action_cancel:
+                for (Magazines.Issue issue : selectedIssues) {
+                    Magazines.cancelDownload(context, issue);
+                    Magazines.computeIssueStatus(context, issue);
+                    issue.setStatus(issue.getStatus());
+                }
+                break;
+
+            case R.id.action_delete:
             case R.id.action_free:
-                for (Magazines.Issue issue : selectedIssues)
-                    Magazines.deleteIssue(getActivity(), issue, false);
+                selectedIssues_ = selectedIssues;
+                builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AppTheme));
+                builder.setMessage(R.string.issue_delete_confirmation_message)
+                        .setTitle(R.string.issue_delete_confirmation_title)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                for (Magazines.Issue issue : selectedIssues_)
+                                    Magazines.deleteIssue(context, issue, false);
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setCancelable(true)
+                        .show();
                 break;
 
             case R.id.action_delete_permanently:
                 for (Magazines.Issue issue : selectedIssues)
-                    Magazines.deleteIssue(getActivity(), issue, true);
+                    Magazines.deleteIssue(context, issue, true);
                 break;
 
             case R.id.action_mark_complete:
@@ -742,14 +780,13 @@ public class IssuesTabFragment extends Fragment implements
 
             case R.id.action_mark_incomplete:
                 for (Magazines.Issue issue : selectedIssues)
-                    Magazines.reopen(getActivity(), issue);
+                    Magazines.reopen(context, issue);
                 break;
 
             case R.id.action_download:
                 for (Magazines.Issue issue : selectedIssues) {
                     try {
-                        if (!(new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists()))
-                            Magazines.download(getActivity(), issue);
+                        Magazines.download(context, issue);
                     } catch (IOException e) {
                         LogHelper.e(TAG, e.getMessage());
                     }
@@ -832,5 +869,62 @@ public class IssuesTabFragment extends Fragment implements
     }
 
     GestureDetectorCompat gestureDetector;
+
+    /**
+     * shows help if adapter has no items
+     */
+    protected void updateHelpContainer() {
+        final View layoutView = getView();
+        if (layoutView == null)
+            return;
+
+        final View helpContainer = layoutView.findViewById(R.id.help_container);
+
+        if (adapter.getItemCount() > 0) {
+            helpContainer.setVisibility(View.GONE);
+            return;
+        }
+
+        helpContainer.setVisibility(View.VISIBLE);
+
+//        if (getResources().getConfiguration().locale.getLanguage().equals("fa"))
+//            FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC_REGULAR));
+
+        final ImageButton imageButton = (ImageButton) layoutView.findViewById(R.id.add);
+        final TextView helpTextView = (TextView) layoutView.findViewById(R.id.help);
+
+        switch (filter) {
+            case 0:
+                imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_file_download).sizeDp(72).colorRes(R.color.colorContextHelp));
+                helpTextView.setText(R.string.about_saved_issues);
+                break;
+
+            case 1:
+                imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_refresh).sizeDp(72).colorRes(R.color.colorContextHelp));
+                helpTextView.setText(R.string.about_available_issues);
+                break;
+
+            case 2:
+                imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_assignment_turned_in).sizeDp(72).colorRes(R.color.colorContextHelp));
+                imageButton.setClickable(false);
+                imageButton.setEnabled(false);
+                helpTextView.setText(R.string.about_completed_issues);
+                break;
+        }
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (filter) {
+                    case 0:
+                        galleryOfIssuesFragment.viewPager.setCurrentItem(AVAILABLE_ISSUES, true);
+                        break;
+                    case 1:
+                        onRefresh();
+                        break;
+                }
+            }
+        });
+    }
 
 }

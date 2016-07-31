@@ -1,8 +1,18 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>News Stories</title>
 		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
 
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
@@ -10,94 +20,59 @@
 		</style>
 
 		<style type="text/css">
-			.label {
-				margin: 10px;
-				background-color: red;
-				padding: 6px;
+			body {
+				overflow-y: scroll;
+			}
+			.cem-label {
 				display: inline-block;
-				color: white;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				margin: 4px;
+			}
+			.label-container {
+				margin: -4px;
+				margin-bottom: 12px;
+			}
+			h4 {
+				font-weight: 400;
+				margin-top: 20px;
+			}
+			h5 {
+				padding-top: 6px;
+				padding-bottom: 6px;
 				font-weight: bold;
-				text-transform: capitalize;
-				position: relative;
-				transform: rotate(4deg);
+				border-bottom: 1px solid;
 			}
-			.figcaption {
-				padding: 6px;
+			h1, h3 {
+				margin-top: 0;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
 				font-weight: bold;
-				text-transform: capitalize;
-				text-align: center;
 			}
-
-			#pinterest {
-				margin: 0 auto;
-				/*padding-bottom: 15px;*/
+			li > span {
+				font-weight: normal;
 			}
-			#list {
-				width: 100%;
-				overflow: hidden;
-				margin-bottom: 15px;
-				-webkit-column-count: 3;
-				-webkit-column-gap: 15px;
-				-webkit-column-fill: auto;
-				column-count: 3;
-				column-gap: 15px;
-				column-fill: auto;
+			.lockable {
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
 			}
-			.brick {
-				margin-bottom: 15px;
-				-webkit-column-break-inside: avoid;
-				-moz-column-break-inside: avoid;
-				column-break-inside: avoid;
+			.box {
+				border: 3px solid;
 			}
-			@media only screen and ( max-width: 480px ) {
-				#list
-				{
-					-webkit-column-count: 2;
-					-webkit-column-gap: 15px;
-					column-count: 2;
-					column-gap: 15px;
-				}
-			}
-			@media only screen and ( max-width: 240px ) {
-				#list
-				{
-					-webkit-column-count: auto;
-					column-count: auto;
-				}
-			}
-
-			#page-indicator {
-				width: 100%;
-				position: absolute;
-				z-index: 1;
-				text-align: center;
-				display: none;
-			}
-			.dot {
-				display: inline-block;
-				width: 8px;
-				height: 8px;
-				border-radius: 4px;
-				/* background-color: #8999A6; */
-			}
-			.dot.active {
-				/* background-color: azure; */
-			}
-
-			.swipe {
-				overflow: hidden;
-				visibility: hidden;
-				position: relative;
-			}
-			.swipe-wrap {
-				overflow: hidden;
-				position: relative;
-			}
-			.swipe-wrap > div {
-				float: left;
-				width: 20px;
-				position: relative;
-				overflow: hidden;
+			#broken-finger {
+				-webkit-transform: rotate(-6deg);
+				transform: rotate(-6deg);
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				margin: 15px;
+				float: right;
+				max-width: 50%;
 			}
 		</style>
 
@@ -105,176 +80,138 @@
 		</style>
 
 		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
-		<script src="../../../jquery-1.11.3.min.js"></script>
-		<script src="swipe.modified.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
 		<script src="file:///android_asset/tinycolor-min.js"></script>
-		<script src="../../../tinycolor-min.js"></script>
-		<script src="jquery-ui.min.js"></script>
-		<script src="jquery.ui.touch-punch.min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
 
 		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
 	</head>
 
 	<body>
-		<div id="page-indicator">
-			<span class="dot"></span>
-			<span class="dot"></span>
-		</div>
+		<div class="foundation">
+			<div id="top-margin"></div>
 
-		<div id='swipeable' style='margin:0 auto;' class='swipe'>
-			<div class='swipe-wrap'>
-				<div>
-					<div id="pre-reading" class="container">
-						<div id="label-container">
-							<h4>Match each form of transport with its corresponding picture. Drag names and drop them into correct pictures.</h4>
-							<ul style="padding: 10px; text-align: center;" />
-						</div>
+			<h1>Funeral Foibles</h1>
+			<h3>Funeral parlour disasters.</h3>
 
-						<div id="pinterest">
-							<div id="list"></div>
-						</div>
-						<h4>Now swipe right, and listen to the article. Then read transcript to verify your listening skills. ➜</h4>
-					</div>
-				</div>
+			<h4><span class="accent">❶</span> <b>Pre reading</b></h4>
+			<p>You are going to read three stories about incidents in <a class="new-word" data-word="a funeral parlour" data-type="n" data-en="the place where dead people are prepared for burial">funeral parlours</a>. Look at the words in each column. What do you think the stories are about?</p>
 
-				<div>
-					<div class="poster hidden"></div>
-
-					<div class="container">
-						<h1>Train Anger</h1>
-						<h3>A doctor gets angry on a train.</h3>
-
-				 		<div class="transcript hidden">
-							<p><span data-start="14428" data-end="23390">A doctor was on a train. He ordered some food. But when the food came, he got very angry. Why?</span></p>
-							<p><span data-start="23391" data-end="28805">Dr. Russell Walshaw was on a train. He was travelling to London.</span> <span data-start="28806" data-end="33810">At the time of the incident, he was in the first class <a class="new-word" data-word="a dining carriage" data-type="n" data-en="a special car/carriage in a train where people eat and there is a restaurant" data-fa="واگن اختصاصی به عنوان رستوران">dining carriage</a>.</span> <span data-start="33811" data-end="39440">The 66-year-old doctor was sitting there when a <a class="new-word" data-word="a steward" data-type="n" data-en="a person who works on a train/airplane serving food, helping passengers, etc" data-fa="خدمت‌کار قطار یا هواپیما">steward</a> came to talk to him.</span> <span data-start="39441" data-end="42619">The steward wanted to prepare the tables for lunch.</span> <span data-start="42620" data-end="47320">So, he asked the doctor <a class="new-word" data-word="politely" data-type="adv" data-en="with respect; considerately; not rudely" data-fa="محترمانه">politely</a>, “Would you mind moving, please?”</span> <span data-start="47321" data-end="54988">However, the doctor didn’t want to move. He had just finished eating breakfast and he was working on his <a class="new-word" data-word="a laptop" data-type="n" data-en="a small, portable computer that opens and closes like a book" data-fa="لپ‌تاپ">laptop</a>.</span> <span data-start="54989" data-end="58988">“You can <a class="new-word" data-word="to lay the table" data-type="exp" data-en="to prepare a table for eating: to put plates, glasses, forks, knives, etc on it" data-fa="چیدن و آماده کردن میز غذاخوری">lay the table</a> around me,” the doctor said.</span></p>
-							<p><span data-start="58989" data-end="63590">The doctor continued working until the steward came back to lay the table.</span> <span data-start="63591" data-end="66210">But then the problems started.</span> <span data-start="66211" data-end="72540">“The steward put the <a class="new-word" data-word="a plate" data-type="n" data-en="a round, flat ceramic object on which you put food to eat" data-fa="بشقاب">plate</a> down on the table very <a class="new-word" data-word="forcefully" data-type="adv" data-en="with a lot of force" data-fa="با فشار">forcefully</a>,” the doctor explained.</span> <span data-start="72541" data-end="79643">“I shouted at the steward. But he just walked away. I was so angry that I threw a plate.”</span></p>
-							<p><span data-start="79644" data-end="86020">The doctor was given a <a class="new-word" data-word="a warning" data-type="n" data-en="if you give someone a “warning”, you tell them of a possible danger in the future" data-fa="هشدار نسبت به خطر پیش رو">warning</a> from the General Medical Council in London (The GMC).</span> <span data-start="86021" data-end="90049">They said that the doctor’s actions were “unacceptable”.</span> <span data-start="90050" data-end="95733">In his defence, the doctor said that he had been responding to the steward’s aggression.</span> <span data-start="95734" data-end="102400">“The steward <a class="new-word" data-word="to drop" data-type="vb" data-en="to let something fall from your hands; if something “drops”, it falls accidentally" data-fa="ناگهان انداختن">dropped</a> the plate on my table and showed <a class="new-word" data-word="bad manners" data-type="exp" data-en="if you have “bad manners”, you are not polite to someone; you say/do rude things" data-fa="اخلاق بد و نا ملایم">bad manners</a>,” the doctor explained.</span> <span data-start="102401" data-end="114800">“Also, I didn’t throw the plate at him, I threw the plate in his general direction. I’m sorry that it hit him. Perhaps I should have just shouted at him instead.”</span> <span class="accent"> ★</span></p>
-						</div>
-					</div>
-				</div>
+			<h5>Story 1</h5>
+			<div class="label-container">
+				<div class='cem-label'>taking a nap</div>
+				<div class='cem-label'>damage</div>
+				<div class='cem-label'>feet hanging out</div>
+				<div class='cem-label'>drunk</div>
 			</div>
+
+			<h5>Story 2</h5>
+			<div class="label-container">
+				<div class="cem-label">hid</div>
+				<div class="cem-label">broke into</div>
+				<div class="cem-label">play dead</div>
+			</div>
+
+			<h5>Story 3</h5>
+			<div class="label-container">
+				<div class="cem-label">funeral</div>
+				<div class="cem-label">phone call</div>
+				<div class="cem-label">ghost</div>
+				<div class="cem-label">pleased</div>
+			</div>
+
+			<h4><span class="accent">❷</span> <b>Listening</b></h4>
+			<p>Listen to the stories and see if your predictions were correct.</p>
+
+			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p>
+					<span data-start="12000" data-end="19240">Some strange things are happening in the least likely places: <a class="new-word" data-word="a funeral home" data-type="n US" data-en="the American English word for the place where dead people are prepared for burial">funeral homes</a>.</span> <span data-start="19241" data-end="30000">In one incident, local authorities in upstate New York <a class="new-word" data-word="to book" data-type="vb" data-en="if the police “book” you, they oicially record your name and the ofence that they may charge you with">booked</a> a 20-year-old man for <a class="new-word" data-word="to break in" data-type="phr vb" data-en="to enter private property illegally">breaking in</a> and <a class="new-word" data-word="to take nap" data-type="exp" data-en="to sleep for a short period, usually in the middle of the day">taking a nap</a> in a coffin.</span> <span data-start="30001" data-end="39500">The funeral director’s wife woke up to find a pair of trousers on the floor, and feet hanging out of a <a class="new-word" data-word="a coffin" data-type="n" data-en="a box for a dead body">coffin</a>.</span> <span data-start="39501" data-end="46170">The man was drunk, and caused more than $4,000 in damages.</span>
+				</p>
+				<p>
+					<span data-start="46171" data-end="53000">In another incident in Valencia, Spain, a thief broke into a funeral parlour.</span> <span data-start="53001" data-end="59000">When he realised the police had arrived, he <a class="new-word" data-word="to hide" data-type="vb" data-en="to go in a place where others can’t see/find you">hid</a> in a glass-topped coffin.</span> <span data-start="59001" data-end="66550">He tried to <a class="new-word" data-word="to play dead" data-type="exp" data-en="to act as if you are dead">play dead</a>, but his breathing and dirty street clothes <a class="new-word" data-word="to give you away" data-type="exp" data-en="if something “gives you away”, it shows others what you are really doing">gave him away</a>.</span>
+				</p>
+				<p>
+					<span data-start="66551" data-end="71300">A third incident resulted in a happy ending.</span> <span data-start="71301" data-end="78900">A Canadian man’s family was at his funeral when his daughter got a phone call... from her dad.</span> <span data-start="78901" data-end="83200">Thinking she was talking to a ghost, she screamed.</span> <span data-start="83201" data-end="89500">Days earlier, the family were informed that the man had been hit by a train.</span> <span data-start="89501" data-end="95000">However, he had been incorrectly identified as the <a class="new-word" data-word="the deceased" data-type="n" data-en="the dead person">deceased</a>.</span> <span data-start="95001" data-end="99700">Later, the man read his own <a class="new-word" data-word="an obituary" data-type="n" data-en="a report/article/speech about someone (their life, character, etc) after they have died">obituary</a> in the newspaper.</span> <span data-start="99701" data-end="105750">Apparently, he was pleased with it and is saving it for another day.</span> <span class="accent">✪</span>
+				</p>
+			</div></div>
+
+			<h4><span class="accent">❸</span> <b>Questions</b></h4>
+			<p>True or false?</p>
+			<ol style="margin-bottom: 24px;">
+				<li><span>In the first story the man found was a funeral director.</span></li>
+				<li><span>In the second story the man got away with his crime.</span></li>
+				<li><span>In the third story a man disappeared from his coin.</span></li>
+			</ol>
+
+			<div class="box fill-accent">
+				<img id="broken-finger" class="img-responsive" src='break-into.jpg'>
+				<h4 style="margin-top: 0; font-weight: bold;"><i>Phrasal verb alert!</i></h4>
+				<h4><i>break into</i></h4>
+				<p>
+					To “break into” a house or building is to enter it without authority or permission. This is the crime known as 'burglary'. The noun is a “break in”. For example: 
+					<ol>
+						<li><span>They broke into the bank.</span></li>
+						<li><span>There was a break-in last night.</span></li>
+					</ol>
+				</p>
+			</div>
+
+			<div class="box fill-light">
+				<h4 style="margin-top: 0; font-weight: bold;"><i>Discussion</i></h4>
+				<ol>
+					<li><span>Has anyone ever broken into the building where you work? What did they take?</span></li>
+					<li><span>Where’s the worst place in your country/city for break-ins? Why is it so bad?</span></li>
+				</ol>
+			</div>
+
+			<div id="bottom-margin"></div>
 		</div>
 
 		<script type="text/javascript">
-			var pics = ['balloon', 'bus', 'train', 'helicopter', 'motorbike', 'bicycle', 'ship', 'car'];
-			var mix = [2,5,1,7,0,6,4,3];
-			var baseWidth = $(window).width() / 8;
-			var widths = [6, 4, 6, 4, 2, 2, 6, 4];
-			var temp = "<div class='brick rounded-corners droppable' data-label='{index}'><img src='{index}.jpg' width='100%'><div class='figcaption'>‌</div></div>";
-			var temp2 = "<li class='label draggable'>{index}</li>";
-			var html = '', html2 = '';
-			for (var i = 0; i < 8; ++i) {
-				html += temp.replace(/\{width\}/g, widths[i] * baseWidth).replace(/\{index\}/g, pics[i]);
-				html2 += temp2.replace(/\{index\}/g, pics[mix[i]]);
-			}
-			$("#pinterest #list").html(html);
-			$("#label-container > ul").html(html2);
-
-			currentSlide = 0;
-			transcriptLocked = true;
-
-			$('.draggable').draggable({
-				scroll: true,
-				stack: '#freewall',
-				revert: true,
-				revertDuration: 0,
-				scrollSpeed: 10,
-				containment: '#pre-reading',
-				start: function(ev, ui) {
-					disableSwipe = true;
-				},
-				stop: function(ev, ui) {
-					disableSwipe = false;
-				},
-			});
-			$('.droppable').droppable({
-				activate: function(ev, ui) {
-				},
-				deactivate: function(ev, ui) {
-				},
-				drop: function( event, ui ) {
-					if($(this).data('label') == ui.draggable.html()) {
-						$(this).find('.figcaption').html(ui.draggable.css('visibility', 'hidden').html());
-					} else {
-						if(typeof(app) != 'undefined')
-							app.makeToast('That\'s not right.', false);
-					}
-				}
-			});
-			$(".draggable").mousedown(function(e){ e.stopPropagation();return false;});
+			restoringInstanceState = false;
 
 			adjustCustomLayout = function(options) {
-				t = "(rgba(18,18,18,0.8), rgba(18,18,18,0), rgba(18,18,18,0.8)), url('angry-doctor.jpg')";
-
 				$('#local-rules').text("\
-					.container { padding-bottom: " + verticalMargin + "px; padding-top: " + (topMargin+verticalMargin+12) + "px; height: " + (height-topMargin-2*verticalMargin-12) + "px; margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
-					.label { background-color: #" + accentColor + "; } \
-					.figcaption { color: #" + newWordColor + "; } \
-					.brick { border: solid 1px #" + textColor + "; } \
-					#page-indicator { margin-top: " + (topMargin) + "px; } \
-					.swipe-wrap > div { height: " + height + "px; } \
-					.dot { background-color: " + tinycolor(accentColor).lighten().lighten().toHexString() + "; } \
-					.dot.active { background-color: " + tinycolor(accentColor).darken().darken().toHexString() + "; } \
-					.poster { background-image: -webkit-linear-gradient" + t + "; background-image: linear-gradient" + t + "; height: " + height + "px; } \
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					h1 { color: " + tinycolor(accentColor).darken() + "; font-weight: bold; } \
+					h5 { border-color: #" + accentColor + "; color: #" + accentColor + "; } \
+					.cem-label { color: #" + backgroundColor + "; background-color: #" + textColor + "; -webkit-box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; } \
+					.box { padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
+					.fill-accent { background-color: " + highlightColor + "; } \
+					.fill-light { background-color: " + tinycolor(highlightColor).lighten() + "; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
 				");
 			}
+
+			prevScroll = 0;
 
 			lock = function(b) {
 				transcriptLocked = b;
 
 				if(b) {
-					$('.transcript').addClass('hidden');
-					$('.poster').removeClass('hidden');
-					$('h1').removeClass('alt');
-					$('h3').removeClass('alt');
+					$('#transcript').css('background-image', 'url("key-enter-access-door-place-512.png")').children().css('visibility', 'hidden');
+					$('.lockable').css('background-image', "url('coffin.jpg')");
 
 				} else {
-					$('.transcript').removeClass('hidden');
-					$('.poster').addClass('hidden');
-					$('h1').addClass('alt');
-					$('h3').addClass('alt');
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').css('background-image', '');
 				}
 
-				onSlideChanged();
 				saveInstanceState();
 			}
 
-			setCurrentSlide = function(index) {
-				$('#page-indicator').show();
-				$('#page-indicator .dot').eq(index).addClass('active');
-
-				if(typeof(swipeable) == 'object' && typeof(swipeable.kill) == 'function')
-					swipeable.kill();
-
-				swipeable = $('#swipeable').Swipe({
-					startSlide: index,
-					stopPropagation: true,
-					continuous: false,
-					callback: function(index,elem) {
-						currentSlide = index;
-						$('#page-indicator .dot').removeClass('active').eq(index).addClass('active');
-						onSlideChanged();
-						saveInstanceState();
-					},
-				}).data('Swipe');				
-
-				//currentSlide = index;
-			}
-
-			onSlideChanged = function() {
-				if(typeof(app) != 'undefined') {
-					app.showLockControls(currentSlide == 1);
-					app.autoHideToolbarOnScroll(currentSlide != 1 || !transcriptLocked);
-					setTimeout(function() {
-						app.hideMediaControllerForSpace(currentSlide != 1);
-					}, currentSlide == 1 ? 0 : 2000);
-				}
-			}
-
 			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
 				outState = {
-					currentSlide: currentSlide,
 					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
 				};
 
 				if(typeof(app) != 'undefined')
@@ -282,15 +219,55 @@
 			}
 
 			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
 				state = JSON.parse(savedInstanceState);
 
-				setCurrentSlide(state.currentSlide);
-				lock(state.transcriptLocked);
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
 			}
 
-			setCurrentSlide(currentSlide);
-			lock(transcriptLocked);
-		</script>
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
 
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
 	</body>
 </html>

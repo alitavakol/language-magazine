@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "224266369585",
+    "project_id": "hot-english-magazine"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224266369585:android:64af6b1e48743080",
+        "android_client_info": {
+          "package_name": "me.ali.coolenglishmagazine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224266369585-dr0jmfupdpkfsgv44pe5lu4r6c4vamr1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "me.ali.coolenglishmagazine",
+            "certificate_hash": "33DE8DF2DD575E77ACB5BD9D80318168253F6F52"
+          }
+        },
+        {
+          "client_id": "224266369585-6bmchc90b34tck2btli9dp57c7c51155.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "me.ali.coolenglishmagazine",
+            "certificate_hash": "061587CC63B7628D7E713440D5278412701A5E0B"
+          }
+        },
+        {
+          "client_id": "224266369585-bov1vrlu7qs6mo53litfkur95j6nlggf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdqoQD3Ss5qqicM5Bby86ZoKxCdl1RuVY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

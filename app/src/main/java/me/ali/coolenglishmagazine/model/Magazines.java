@@ -3,6 +3,7 @@ package me.ali.coolenglishmagazine.model;
 import android.app.DownloadManager;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
@@ -86,6 +87,11 @@ public class Magazines {
             File input = new File(issueRootDirectory, Issue.manifestFileName);
             final Document doc = Jsoup.parse(input, "UTF-8", "");
 
+//            MessageDigest digest = MessageDigest.getInstance( "SHA-1" );
+//            byte[] bytes = toHash.getBytes("UTF-8");
+//            digest.update(bytes, 0, bytes.length);
+//            bytes = digest.digest();
+
             Element e = doc.getElementsByTag("issue").first();
             if (e == null) {
                 throw new IOException("Invalid manifest file.");
@@ -98,6 +104,9 @@ public class Magazines {
             issue.subtitle = e.attr("subtitle");
             issue.description = e.attr("description");
             issue.id = Integer.parseInt(issueRootDirectory.getName());
+            issue.price = e.attr("price");
+            issue.purchased = Boolean.parseBoolean(e.attr("purchased"));
+            issue.free = Boolean.parseBoolean(e.attr("free"));
 
             computeIssueStatus(context, issue);
 
@@ -148,7 +157,7 @@ public class Magazines {
         /**
          * file containing issue properties
          */
-        protected static final String manifestFileName = "manifest.xml";
+        public static final String manifestFileName = "manifest.xml";
 
         /**
          * issue introduction (details) page
@@ -164,6 +173,17 @@ public class Magazines {
          * if this file is present, issue is downloaded and available to read offline.
          */
         public static final String downloadedFileName = "downloaded";
+
+        public static final String signatureFreeFileName = "signature-free";
+
+        public static final String signaturePaidFileName = "signature-paid";
+
+//        /**
+//         * if this file is present, user has downloaded full-text "free" version of the issue.
+//         * this file is included in free issue's zip archive.
+//         * NOTE: completely free issues do not contain this file.
+//         */
+//        public static final String paidContentDownloadedFileName = "free-content-downloaded";
 
         /**
          * if this file is present, issue is the currently active one.
@@ -266,6 +286,20 @@ public class Magazines {
         }
 
         protected Set<OnStatusChangedListener> listeners = new HashSet<>();
+
+        /**
+         * price of the full-text version of this issue. if null or length is zero,
+         * price is unknown, and has to be fetched from app store.
+         */
+        public String price;
+
+        public boolean purchased;
+
+        public boolean free;
+
+//        public String purchaseToken;
+
+        public boolean paidContentIsValid, freeContentIsValid;
     }
 
     /**
@@ -286,8 +320,10 @@ public class Magazines {
                 || status == DownloadManager.STATUS_PAUSED
                 || status == DownloadManager.STATUS_RUNNING
                 || status == -3 // extracting
-                || new File(issue.rootDirectory, Magazines.Issue.downloadedFileName).exists())
+                || new File(issue.rootDirectory, Issue.downloadedFileName).exists())
             return -1;
+
+        boolean wifiOnly = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("download_plan", "1")) == 0;
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(getIssueDownloadUrl(context, issue)))
                 .setDescription(issue.title)
@@ -295,7 +331,7 @@ public class Magazines {
                 .setDestinationUri(Uri.fromFile(getIssueLocalDownloadUri(context, issue)))
                 .setVisibleInDownloadsUi(false)
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-                .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+                .setAllowedNetworkTypes(wifiOnly ? DownloadManager.Request.NETWORK_WIFI : (DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE));
 
         final DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         issue.setStatus(Issue.Status.downloading);
@@ -306,15 +342,19 @@ public class Magazines {
      * @return URL from which the zip archive of the given issue can be downloaded.
      */
     public static String getIssueDownloadUrl(Context context, Issue issue) {
-        final Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(context).getString("server_address", context.getResources().getString(R.string.pref_default_server_address)));
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        final Uri uri = Uri.parse(preferences.getString("server_address", context.getResources().getString(R.string.pref_default_server_address)));
+
         // http://docs.oracle.com/javase/tutorial/networking/urls/urlInfo.html
-        return uri.toString() + "/api/issues/" + Integer.parseInt(issue.rootDirectory.getName()) + "?app_version=" + BuildConfig.VERSION_CODE;
+        return uri.toString() + "/api/issues/" + Integer.parseInt(issue.rootDirectory.getName())
+                + "?app_version=" + BuildConfig.VERSION_CODE;
     }
 
     /**
-     * @return download percentage
+     * @return download percentage, bytes downloaded, total bytes
      */
-    public static int getDownloadProgress(Context context, Issue issue) {
+    public static int[] getDownloadProgress(Context context, Issue issue) {
         final String issueDownloadUrl = getIssueDownloadUrl(context, issue);
 
         DownloadManager.Query query = new DownloadManager.Query();
@@ -322,21 +362,22 @@ public class Magazines {
         Cursor cursor = ((DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE)).query(query);
         final int uriIndex = cursor.getColumnIndex(DownloadManager.COLUMN_URI);
 
-        int progress = 0;
+        int progress = 0, bytes_downloaded = 0, bytes_total = 0;
 
         // TODO: consider when there may be more than one query result for a single URI
         while (cursor.moveToNext()) {
             final String cursorUrl = cursor.getString(uriIndex);
             if (cursorUrl.equals(issueDownloadUrl)) {
-                int bytes_downloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-                int bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-                progress = bytes_total != 0 ? (bytes_downloaded * 100 / bytes_total) : 0;
+                bytes_downloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+                progress = bytes_total != 0 ? (int) ((double) bytes_downloaded / (double) bytes_total * 100.0) : 0;
                 break;
             }
         }
 
         cursor.close();
-        return progress;
+
+        return new int[]{progress, bytes_downloaded, bytes_total};
     }
 
     /**
@@ -358,7 +399,7 @@ public class Magazines {
             if (cursorUrl.equals(issueDownloadUrl)) {
                 status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
                 if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                    if (getIssueLocalDownloadUri(context, issue).exists()) {
+                    if (!new File(issue.rootDirectory, Issue.downloadedFileName).exists()) {
                         status = -3; // custom value indicating that the issue is being extracted.
                     }
                 }
@@ -423,13 +464,11 @@ public class Magazines {
     }
 
     /**
-     * deletes issue. it remains in available issues, and need to be downloaded again by user.
+     * update status yourself after calling this.
      *
-     * @param context   activity context
-     * @param issue     issue to delete content and make available for download
-     * @param permanent if true, deletes root folder completely, so it won't be visible in available issues list.
+     * @param issue issue to cancel download of.
      */
-    public static void deleteIssue(Context context, Issue issue, boolean permanent) {
+    public static void cancelDownload(Context context, Issue issue) {
         ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
 
         // delete download if it is downloading
@@ -444,6 +483,17 @@ public class Magazines {
                 }
             }, 1000);
         }
+    }
+
+    /**
+     * deletes issue. it remains in available issues, and need to be downloaded again by user.
+     *
+     * @param context   activity context
+     * @param issue     issue to delete content and make available for download
+     * @param permanent if true, deletes root folder completely, so it won't be visible in available issues list.
+     */
+    public static void deleteIssue(Context context, Issue issue, boolean permanent) {
+        cancelDownload(context, issue);
 
         if (!permanent) {
             File[] files = issue.rootDirectory.listFiles();
@@ -455,6 +505,8 @@ public class Magazines {
                 }
             }
             FileHelper.delete(new File(issue.rootDirectory, Magazines.Issue.downloadedFileName));
+            FileHelper.delete(new File(issue.rootDirectory, Issue.signaturePaidFileName));
+            FileHelper.delete(new File(issue.rootDirectory, Issue.signatureFreeFileName));
 
             computeIssueStatus(context, issue);
             issue.setStatus(issue.status);
@@ -491,5 +543,15 @@ public class Magazines {
         FileHelper.delete(new File(issue.rootDirectory, Issue.completedFileName));
         computeIssueStatus(context, issue);
         issue.setStatus(issue.status);
+    }
+
+    /**
+     * returns SKU of products (issues in this case).
+     *
+     * @param issue issue for which SKU is needed.
+     * @return SKU of the specified issue
+     */
+    public static String getSku(Issue issue) {
+        return "HEM_" + issue.id;
     }
 }

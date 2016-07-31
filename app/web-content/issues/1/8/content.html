@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>News Stories</title>
-
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -11,10 +9,11 @@
 		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
 
 		<!-- Bootstrap -->
-		<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
 
 		<!-- Bootstrap Material Design -->
-		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
 
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
@@ -22,6 +21,9 @@
 		</style>
 
 		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
 			.illustrative {
 				background-repeat: no-repeat;
 				background-size: cover;
@@ -50,9 +52,6 @@
 			h5 {
 				font-weight: bold;
 			}
-			ul {
-				-webkit-padding-start: 16px;
-			}
 
 			tr > td:first-child {
 				font-weight: bold;
@@ -63,6 +62,9 @@
 			}
 			td {
 				vertical-align: top;
+			}
+			ol, ul {
+				padding-left: 1.2em;
 			}
 		</style>
 
@@ -75,10 +77,11 @@
 		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
 
 		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
 	</head>
 
 	<body>
-		<div class="cem-container">
+		<div class="foundation">
 			<div id="top-margin"></div>
 
 			<h1 class="alt">Musical Instruments</h1>
@@ -206,24 +209,24 @@
 				</div>\
 			";
 			i = 1;
-			['Electric guitar ', 'Acoustic guitar ', 'Amp', 'Bass guitar', 'Sheet music ', 'Trombone ', 'Clarinet ', 'Harmonica', 'Drums ', 'Saxophone', 'Cello', 'Violin', 'Accordion ', 'Piano', 'Trumpet ', 'Flute'].forEach(function(title) {
+			['Electric guitar', 'Acoustic guitar', 'Amp', 'Bass guitar', 'Sheet music', 'Trombone', 'Clarinet', 'Harmonica', 'Drums', 'Saxophone', 'Cello', 'Violin', 'Accordion', 'Piano', 'Trumpet', 'Flute'].forEach(function(title) {
 				$('#instruments').append(template.replace(/\{img\}/g, i++).replace(/\{title\}/g, title));
 			});
 
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
-					.cem-container { height: " + height + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
 					h4 { color: #" + accentColor + "; } \
 					.row { margin-left: -" + spacing + "px; margin-right: -" + spacing + "px; } \
 					.col-xs-6, .col-md-6 { padding-left: " + spacing + "px; padding-right: " + spacing + "px; padding-bottom: " + (2*spacing) + "px; } \
 					.title { background-color: #" + accentColor + "; } \
 					.acnt, tr:nth-child(odd) { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
 					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
-					#bottom-margin { height: " + (bottomMargin) + "px; }"
-				);
+					#bottom-margin { height: " + (bottomMargin) + "px; } \
+				");
 			}
 
-			container = $('.cem-container')[0];
 			prevScroll = 0;
 
 			saveInstanceState = function() {
@@ -242,14 +245,14 @@
 				restoringInstanceState = true;
 				state = JSON.parse(savedInstanceState);
 
-				container.scrollTop = ((state['scroll'] || 0) * container.scrollHeight);
-				prevScroll = container.scrollTop / container.scrollHeight;
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
 
 				restoringInstanceState = false;
 			}
 
 			setInterval(function() {
-				scroll = container.scrollTop / container.scrollHeight;
+				scroll = $('body').scrollTop() / $('body').height();
 				if(scroll != prevScroll) {
 					prevScroll = scroll;
 					saveInstanceState();
@@ -258,26 +261,19 @@
 
 			lastScrollTop = 0;
 			if(typeof(app) != 'undefined') {
-				$('.cem-container').scroll(function() {
-					if(container.scrollTop < topMargin) {
-						if(container.scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
 							app.setToolbarScrollable(false);
 
 					} else if(lastScrollTop < topMargin)
 							app.setToolbarScrollable(true);
 
-					lastScrollTop = container.scrollTop;
+					lastScrollTop = scrollTop;
 				});
 			}
-
-			// var t = $('#broken-finger');
-			// var w = Math.min(t.width(), t.parent().width() / 3);
-			// var h = w * t.height() / t.width();
-			// t.data('width', w).data('height', h).css({width: w, height: h});
-			// $('.wrap-ready').slickWrap({
-			// 	sourceImage: true,
-			// });
-			// t.parent().css('height', h);
 		</script>
 
 	</body>

@@ -3,8 +3,10 @@ package me.ali.coolenglishmagazine;
 import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.IBinder;
@@ -12,15 +14,22 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.JavascriptInterface;
@@ -44,6 +53,8 @@ import org.jsoup.select.Elements;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -53,9 +64,11 @@ import java.util.concurrent.TimeUnit;
 
 import me.ali.coolenglishmagazine.broadcast_receivers.AlarmBroadcastReceiver;
 import me.ali.coolenglishmagazine.model.MagazineContent;
+import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.model.WaitingItems;
 import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
+import me.ali.coolenglishmagazine.util.NetworkHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
@@ -122,13 +135,50 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         try {
             item = MagazineContent.getItem(new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
 
+            final Magazines.Issue issue = item.getIssue(this);
+            final MagazineContent magazineContent = new MagazineContent();
+            magazineContent.loadItems(issue);
+            magazineContent.validateSignatures(this, issue);
+
+            if (!BuildConfig.DEBUG && !item.free && !issue.paidContentIsValid) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getApplicationContext(), R.style.AppTheme));
+                builder.setMessage(R.string.paid_item_error)
+                        .setTitle(R.string.paid_item_error_title)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ItemListFragment.launchIssueDetailsActivity(getApplicationContext(), issue);
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setCancelable(true);
+
+                AlertDialog alert = builder.create();
+                alert.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+                alert.show();
+
+                throw new Exception("paid content signature is incorrect.");
+            }
+
+            if (!BuildConfig.DEBUG && item.free && !issue.freeContentIsValid)
+                throw new Exception("free content signature is incorrect.");
+
+            if (item.version > getPackageManager().getPackageInfo(getPackageName(), 0).versionCode) {
+                NetworkHelper.showUpgradeDialog(getApplicationContext());
+                throw new Exception("Item version is greater than app version");
+            }
+
             webContentFile = new File(item.rootDirectory, MagazineContent.Item.contentFileName);
             final Document doc = Jsoup.parse(webContentFile, "UTF-8", "");
 
             newWords = getNewWords(doc);
             timePoints = getTimePoints(doc);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             finish();
             return;
@@ -292,6 +342,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         if (webViewJavaScriptInterface != null) {
             webView.removeJavascriptInterface("app");
+            webView.destroy();
             webViewJavaScriptInterface = null;
         }
     }
@@ -413,11 +464,13 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     public void onResume() {
         super.onResume();
         MusicService.readAndListenActivityResumed = true;
+        webView.resumeTimers();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        webView.pauseTimers();
         MusicService.readAndListenActivityResumed = false;
     }
 
@@ -448,8 +501,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             // start ACTION_PREPARE even if this item has no audio. this will help user concentrate better on the opened item.
             Intent startIntent = new Intent(ReadAndListenActivity.this, MusicService.class);
             startIntent.setAction(MusicService.ACTION_PREPARE);
-            if (item.audioFileName.length() > 0)
+            if (item.audioFileName.length() > 0) {
                 startIntent.putExtra("dataSource", new File(item.rootDirectory, item.audioFileName).getAbsolutePath());
+                startIntent.putExtra("duration", item.duration);
+            }
             startService(startIntent);
         }
 
@@ -519,7 +574,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onMediaStateChanged(int state) {
-        LogHelper.i(TAG, "media playback state: ", state);
+        LogHelper.d(TAG, "media playback state: ", state);
 
         if (state == PlaybackStateCompat.STATE_FAST_FORWARDING || state == PlaybackStateCompat.STATE_REWINDING)
             state = this.state;
@@ -639,6 +694,14 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             }
         }
 
+        // sort time points
+        Collections.sort(timePoints, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] p1, int[] p2) {
+                return p1[0] - p2[0];
+            }
+        });
+
         return timePoints;
     }
 
@@ -650,7 +713,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             NewWord newWord = new NewWord();
             newWord.definition = new HashMap<>();
 
-            newWord.type = span.attr("data-type");
+            newWord.type = span.attr("data-type") + ' '; // italic text crop workaround
             newWord.definition.put("en", span.attr("data-en"));
             newWord.definition.put("fa", span.attr("data-fa"));
 
@@ -735,13 +798,19 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                     LayoutInflater layoutInflater = ReadAndListenActivity.this.getLayoutInflater();//.cloneInContext(new ContextThemeWrapper(ReadAndListenActivity.this, R.style.ReadAndListenTheme_BeginnerLevel));
                     View popupView = layoutInflater.inflate(R.layout.word_definition, null);
 
-                    // could not apply level theme to this popup view. do it manually :(
-                    TextView textViewNewWord = (TextView) popupView.findViewById(R.id.new_word);
-                    textViewNewWord.setText(phrase);
-                    textViewNewWord.setTextColor(getResources().getIntArray(R.array.levelColors)[item.level]);
-                    textViewNewWord.setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.UBUNTU_BOLD));
+                    final String newWordAndType = getString(R.string.new_word_and_type, phrase, newWord.type);
+                    final SpannableStringBuilder sb = new SpannableStringBuilder(newWordAndType);
+                    sb.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.primary_light)), phrase.length(), newWordAndType.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    sb.setSpan(new StyleSpan(Typeface.ITALIC), phrase.length(), newWordAndType.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    sb.setSpan(new StyleSpan(Typeface.BOLD), 0, phrase.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 
-                    ((TextView) popupView.findViewById(R.id.word_type)).setText(newWord.type);
+                    // could not apply level theme to this popup view. do it manually :(
+                    TextView textViewNewWord = (TextView) popupView.findViewById(R.id.new_word_and_type);
+                    textViewNewWord.setText(sb);
+                    textViewNewWord.setTextColor(getResources().getIntArray(R.array.levelColors)[item.level]);
+                    textViewNewWord.setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.UBUNTU));
+
+//                    ((TextView) popupView.findViewById(R.id.word_type)).setText(newWord.type);
 
                     final TextView textViewEn = (TextView) popupView.findViewById(R.id.def_en);
                     final String en = newWord.definition.get("en");
@@ -832,10 +901,14 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         public void setToolbarScrollable(final boolean scrollable) {
             runOnUiThread(new Runnable() {
                 public void run() {
+                    boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+                    if (tabletSize)
+                        return;
+
                     AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
                     params.setScrollFlags(scrollable ? AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS : 0);
                     toolbar.setLayoutParams(params);
-                    if(scrollable)
+                    if (scrollable)
                         appBar.setExpanded(false);
                 }
             });

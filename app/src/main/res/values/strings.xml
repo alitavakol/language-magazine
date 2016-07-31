@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Hot English Magazine</string>
-    <string name="app_website">http://www.alitavakol.me</string>
+    <string name="app_website">https://cafebazaar.ir/developer/777214402747/</string>
+    <string name="app_icon_url">https://cafebazaar.ir/media/upload/icons/me.ali.coolenglishmagazine.png</string>
 
     <string name="gallery_of_issues">Gallery of Issues</string>
     <string name="cool_english_times">Hot English Times</string>
@@ -16,8 +17,8 @@
     <string name="unlock">Reveal transcript</string>
     <string name="unlock_hint">Tap and hold to reveal transcript.</string>
 
-    <string name="add_all_to_waiting_list">Add all items to hot english times</string>
-    <string name="add_to_waiting_list">Add to hot english times</string>
+    <string name="add_all_to_waiting_list">Add all items to Hot English Times</string>
+    <string name="add_to_waiting_list">Add to Hot English Times</string>
     <string name="already_in_waiting_list">Item “%s” is already added.</string>
 
     <string name="view_issue_details">See magazine introduction</string>
@@ -40,27 +41,29 @@
     <string name="add_alarm">Add new alarm</string>
 
     <string name="check_connection">Make sure your device is online.</string>
+    <string name="login_required">باید کافه بازار نصب باشه و توش sign-in کرده باشی.</string>
     <string name="network_error">Could not connect to server.</string>
-    <string name="server_message_dialog_title">Server message:</string>
+    <string name="server_message_dialog_title">Server message</string>
     <string name="upgrade_message">The “Hot English Magazine” app is old. Please upgrade to a more recent version.</string>
     <string name="update_success">Sync completed successfully.</string>
     <string name="unzip_error">Unknown error occurred.</string>
+    <string name="issue_delete_confirmation_message">This will remove selected issue’s content from device storage to free up space.</string>
+    <string name="issue_delete_confirmation_title">Sure?</string>
 
     <!-- for issue download notification -->
     <string name="issue_downloaded_notification">New issue downloaded. Let’s start<![CDATA[!]]></string>
 
     <!-- for cool english times -->
-    <string name="cool_english_time_notification_text_short">Time to learn a lesson<![CDATA[!]]></string>
-    <string name="cool_english_time_notification_text">You have to learn “%s” now<![CDATA[!]]></string>
+    <string name="cool_english_time_notification_text_short">Hot English Time<![CDATA[!]]></string>
+    <string name="cool_english_time_notification_text">You have to practise “%s” now<![CDATA[!]]></string>
 
-    <plurals name="cool_english_time_notification_summary_text">
-        <item quantity="one">You have learnt this item %d time so far.</item>
-        <item quantity="other">You have learnt this item %d times so far.</item>
-    </plurals>
+    <string name="cool_english_time_notification_summary_text_0">You have not practised this item yet.</string>
+    <string name="cool_english_time_notification_summary_text_1">You have practised this item 1 time so far.</string>
+    <string name="cool_english_time_notification_summary_text_2">You have practised this item %d times so far.</string>
 
     <plurals name="pending_count">
-        <item quantity="one">Remaining %d time to learn.</item>
-        <item quantity="other">Remaining %d times to learn.</item>
+        <item quantity="one">Remaining %d practise.</item>
+        <item quantity="other">Remaining %d practises.</item>
     </plurals>
 
     <string name="alarm_already_exists">Alarm for this time already exists.</string>
@@ -96,16 +99,36 @@
         <item>-1</item>
     </string-array>
 
-    <string name="pref_title_item_learn_repeat_count">Repeat reading &amp; listening</string>
-    <string-array name="pref_item_learn_repeat_count">
-        <item>5 times per lesson</item>
-        <item>8 times per lesson (recommended)</item>
-        <item>11 times per lesson</item>
+    <string name="pref_title_language">Locale</string>
+    <string-array name="pref_item_language">
+        <item>English (United States)</item>
+        <item>Farsi (Iran)</item>
     </string-array>
-    <string-array name="pref_item_learn_repeat_count_values">
-        <item>5</item>
+    <string-array name="pref_item_language_values">
+        <item>en</item>
+        <item>fa</item>
+    </string-array>
+
+    <string name="pref_title_download_plan">Download networks</string>
+    <string-array name="pref_download_plan">
+        <item>Wifi only</item>
+        <item>Wifi and mobile data</item>
+    </string-array>
+    <string-array name="pref_download_plan_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string name="pref_title_item_practice_count">Lesson practice count</string>
+    <string-array name="pref_item_practice_count">
+        <item>8 times per lesson</item>
+        <item>12 times per lesson (recommended)</item>
+        <item>15 times per lesson</item>
+    </string-array>
+    <string-array name="pref_item_practice_count_values">
         <item>8</item>
-        <item>11</item>
+        <item>12</item>
+        <item>15</item>
     </string-array>
 
     <string name="pref_title_navigate_audio_with_volume_buttons">Volume buttons navigate playback</string>
@@ -123,12 +146,13 @@
     <string name="pref_category_playback_options">Audio Playback Options</string>
     <string name="pref_category_program">The Hot English Program</string>
     <string name="pref_category_notification_options">Notification Options</string>
+    <string name="pref_category_general">General Options</string>
 
     <!-- Example settings for Data & Sync -->
     <string name="pref_header_data_sync">Data &amp; sync</string>
 
     <string name="pref_title_server_address">Server address</string>
-    <string name="pref_default_server_address">http://10.0.2.2:3000</string>
+    <string name="pref_default_server_address">http://alitavakol.me/hem</string>
 
     <string name="pref_title_sync_frequency">Sync frequency</string>
     <string-array name="pref_sync_frequency_titles">
@@ -177,11 +201,14 @@
         <item>@string/advancedLevel</item>
     </array>
 
+    <string name="purchase">Purchase</string>
     <string name="download">Download</string>
+    <string name="download_full_text">Download Full-Text</string>
+    <string name="ok">Okay</string>
     <string name="cancel">Cancel</string>
     <string name="open">Open</string>
-    <string name="delete">Delete</string>
-    <string name="retry_download">Retry Download</string>
+    <string name="delete_issue">Delete issue</string>
+    <string name="retry_download">Retry download</string>
     <string name="complete">Complete</string>
     <string name="reopen">Incomplete</string>
 
@@ -198,14 +225,15 @@
     <string name="complete_selected_issues">Mark as complete</string>
     <string name="incomplete_selected_issues">Mark as incomplete</string>
     <string name="permanently_delete_selected_issues">Delete permanently</string>
+    <string name="download_progress">%1$s / %2$s</string>
 
     <string name="download_failed_msg">Download failed with error code %d</string>
     <string name="sync_complete">Update complete!</string>
     <string name="syncing">Updating&#8230;</string>
     <string name="cancel_syncing">Stop</string>
 
-    <string name="my_issues">On My Device</string>
-    <string name="available_issues">Available for Download</string>
+    <string name="my_issues">On my device</string>
+    <string name="available_issues">Available for download</string>
     <string name="completed_issues">Completed</string>
 
     <!-- issues list tab titles -->
@@ -221,11 +249,11 @@
     <string name="alarms">Times</string>
     <string name="waiting_list">Waiting List</string>
 
-    <string name="active_issue">Currently Learning</string>
-    <string name="saved_issues">Other Saved Issues</string>
+    <string name="active_issue">Currently learning</string>
+    <string name="saved_issues">Other saved issues</string>
     <string name="downloading_issues">Downloading</string>
-    <string name="more_available_issues">More Available Magazines</string>
-    <string name="deleted_issues">Deleted Magazines</string>
+    <string name="more_available_issues">More available magazines</string>
+    <string name="deleted_issues">Deleted magazines</string>
 
     <!-- issues list fragments section header titles -->
     <array name="issue_list_header_titles">
@@ -238,17 +266,15 @@
     </array>
 
     <!-- share fragment -->
-    <string name="share_title">Would you share us?</string>
+    <string name="share_dialog_title">Would you share us?</string>
     <string name="activity_not_found">Action is not supported by device.</string>
 
     <!-- https://developers.facebook.com/apps/1288023007880543/ -->
     <string name="facebook_app_id">1288023007880543</string>
 
-    <string name="facebook_share_description">The Hot English Magazine android app guides you in English language learning, in a hot and easy way. And of course with fun!</string>
-    <string name="facebook_share_title">The Hot English Magazine Android App</string>
-
-    <string name="share_description">The Hot English Magazine android app (http://www.alitavakol.me) guides you in English language learning, in a hot and easy way. And of course with fun!</string>
-    <string name="share_description_html">The <a href='http://www.alitavakol.me'>Hot English Magazine android app</a> guides you in English language learning, in a hot and easy way. And of course with fun!</string>
+    <string name="share_description" formatted="false">Do you want to speak English confidently in 6 months or less?\n\nWith 7 important rules of learning English, the Hot English Magazine app teaches you how to speak powerfully, confidently and successfully: \n1- Learn phrases, not words!\n2- Don’t study grammar!\n3- Listen first.\n4- Slow, deep learning is best.\n5- Use point of view stories.\n6- Listen only to real English.\n7- Listen &amp; answer mini-stories.\n\nTo read more about the rules, and learn with the Hot English Magazine, see: %1$s</string>
+    <string name="share_description_twitter">Learn to think in English &amp; speak fluently with the Hot English Magazine app!\n</string>
+    <string name="share_title">Hey! Let’s learn with the Hot English Magazine!</string>
 
     <string name="copied_to_clipboard">Copied to clipboard!</string>
 
@@ -257,6 +283,8 @@
     <string name="bullet">&#8226;</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
+    <string name="toggle_language">Change language</string>
+
     <string name="readme_intro_1">Hi,\n\nDo you want to <b>speak English confidently in 6 months or less?</b></string>
     <string name="readme_intro_2">Can you read English but <b>cannot speak well</b>?</string>
     <string name="readme_intro_3">Do you feel <b>stressed or nervous</b> when speaking English?</string>
@@ -276,7 +304,7 @@
     <string name="readme_rule_1_3">Improve your vocabulary</string>
     <string name="readme_rule_1_4">Improve your pronunciation</string>
 
-    <string name="readme_rule_2" formatted="false"><b>Rule 2: Don’t study grammar!</b>\n\nThis is rule No. 2&#8212; and this is a big one! Are you surprised?\n\nRule 2 is a key part of the system that has helped business leaders, government officials, and <b>people like you</b> finally <b>speak English confidently in 6 months or less</b>!\n\nPut away your grammar books. <b>Grammar books are for children!</b> Grammar rules teach you to think about English, you want to speak automatically&#8212; without thinking!\n\nWith Effortless English, you learn English without grammar study. You speak English naturally. English speaking isn’t a formula you memorize&#8212; it’s a skill you must use instantly and effortlessly.\n\nSo, Rule No. 2 is <b>Don’t Study Grammar!</b></string>
+    <string name="readme_rule_2" formatted="false"><b>Rule 2: Don’t study grammar!</b>\n\nThis is rule No. 2&#8212; and this is a big one! Are you surprised?\n\nRule 2 is a key part of the system that has helped business leaders, government officials, and <b>people like you</b> finally <b>speak English confidently in 6 months or less</b>!\n\nPut away your grammar books. <b>Grammar books are for children!</b> Grammar rules teach you to think about English, you want to speak automatically&#8212; without thinking!\n\nWith the Hot English Magazine, you learn English without grammar study. You speak English naturally. English speaking isn’t a formula you memorize&#8212; it’s a skill you must use instantly and effortlessly.\n\nSo, Rule No. 2 is <b>Don’t Study Grammar!</b></string>
 
     <string name="one">1.</string>
     <string name="two">2.</string>
@@ -285,6 +313,7 @@
     <string name="five">5.</string>
     <string name="six">6.</string>
     <string name="seven">7.</string>
+
     <string name="readme_slogan_1"><b>The Hot English Magazine Code</b></string>
     <string name="readme_slogan_2">We Do The Best We Can.</string>
     <string name="readme_slogan_3">We Do The Right Thing.</string>
@@ -308,7 +337,7 @@
     <string name="readme_rule_4_2">“I’m a very serious student. When studying English in Korea, I memorized 10,000 English words for a big national test. Ten Thousand! My problem was&#8212; I couldn’t USE them. I could pass an English test. But I could not understand native speakers.”</string>
     <string name="readme_rule_4_3">\n<b>Slow, Deep Learning Is Best</b>\n\nHyun learned a lot of words in a short time. Her learning was short and shallow. That’s why she quickly forgot the words. That’s why she could not use them.\n\nThe secret to speaking easily is to learn every word &amp; phrase DEEPLY.\n\nIt’s not enough to know a definition. It’s not enough to remember for a test. You must put the word deep into your brain.\n\nTo speak English easily, you must repeat each lesson many times. You must learn English deeply.</string>
     <string name="readme_rule_4_4">Learn deeply, speak easily.</string>
-    <string name="readme_rule_4_5">How do you learn deeply? Easy&#8212; just repeat all lessons or listening many times. For example, if you have an audio book, listen to the first chapter 30 times before you go to the second chapter. You could listen to the first chapter 3 times each day, for 10 days.\n\nStop trying to hurry&#8211; this isn’t a race!  “Learning” a lot of words is useless if you can’t <b>UNDERSTAND</b> and USE them in real conversation.</string>
+    <string name="readme_rule_4_5">How do you learn deeply? Easy&#8212; just repeat all lessons or listening many times. For example, if you have an audio book, listen to the first chapter 30 times before you go to the second chapter. You could listen to the first chapter 5 times each day, for 6 days.\n\nStop trying to hurry&#8211; this isn’t a race!  “Learning” a lot of words is useless if you can’t <b>UNDERSTAND</b> and USE them in real conversation.</string>
 
     <string name="readme_rule_5_1"><b>Rule 5: Use Point Of View Stories</b>\n\nYou remember that on Rule No. 2, I told you never to study grammar rules. But, of course, you want to use correct English grammar.\n\nMaybe you are thinking, “How can I learn English grammar if I don’t study English grammar rules?” Well, Now I will tell you.\n\nSome people may be thinking, “But I love studying grammar rules!” These people also enjoy going to the dentist ;)\n\nFor everyone else, grammar rules are both boring and useless. Grammar books are for children!\n\n\n<b>A Story</b>\n\nMiyuki did very well on grammar tests. She knew all of the grammar rules. She knew English verbs.\n\nBut Miyuki had a problem. She couldn’t USE the grammar in a real conversation. She could explain the past tense, but when speaking, she would say “Yesterday I GO to school”.\n\nMiyuki was confused.  How could her grammar tests be so good, but her speaking so bad?\n\nMiyuki said:</string>
     <string name="readme_rule_5_2">“I knew all the grammar rules, but I couldn’t speak correctly. I couldn’t feel English grammar. After using Point of View stories, I feel it and use it correctly.\nNow my grammar is great when I speak. I never think about it, I just automatically use correct grammar. Thank you!”</string>
@@ -344,11 +373,79 @@
     <string name="aboutLibraries_description_special1_name">Changes</string>
     <string name="aboutLibraries_description_special1_text">
         <![CDATA[
-        <b>Version 1.0</b><br/>
-        - First release on 1395/3/2
+        <h4>Version 2.0</h4>
+        <b>-</b> Add sign-in with Google account<br>
+        <b>-</b> Implement Bazaar in-app billing<br>
+        <b>-</b> Farsi translation of readme<br>
+        <b>-</b> Show context help<br>
+        <b>-</b> Bug fixes<br>
+        <b>-</b> Released on 1395/5/4<br>
+        <h4>Version 1.0</h4>
+        <b>-</b> First release on 1395/3/2<br>
         ]]>
     </string>
 
     <!-- content descriptions -->
     <string name="wait">Please wait.</string>
+
+    <string name="about_alarms">Dedicate some of your day’s free times to learning English. With the <b>Hot English Times</b> program, I advise you to create at least 5 alarm clocks. Good alarm time examples are: when you commute to work, before sleep, etc.</string>
+    <string name="about_waiting_list">To append a lesson to the Hot English Times program, select “Add to Hot English Times” menu item from issue’s table of contents, or from within the lesson.</string>
+    <string name="about_saved_issues">Browse and download available <b>Hot English Magazine</b> issues from the tab on the right.</string>
+    <string name="about_available_issues">Swipe down to get latest list of available <b>Hot English Magazine</b> issues from the web. New issue is published every two weeks!</string>
+    <string name="about_completed_issues">When you finish practising a magazine, move it here. Tap &amp; hold on issue cover to see available options.</string>
+
+    <!-- Bazaar -->
+    <string name="price_title">Full-text price:</string>
+    <string name="tap_to_refresh"><u>refresh</u></string>
+    <string name="tap_to_refresh_disabled">refresh</string>
+    <string name="refreshing"><i>refreshing&#8230;</i></string>
+    <string name="unknown_price">unknown</string>
+    <string name="free">Free</string>
+    <string name="iab_query_error">Could not connect to in-app billing service.</string>
+    <string name="iab_response_result_error">Unknown error occurred. Please try again in a few minutes.</string>
+    <string name="free_download_warning">This will download free version of selected magazine issues. To grab full-text version of them, see each issue’s introduction.</string>
+    <string name="free_download_warning_single">This will download the free version. To grab full-text version of this magazine, you will have to purchase it.</string>
+    <string name="free_download_warning_title">Download warning</string>
+    <string name="visit_app_store">توی کافه بازار نظر بده...</string>
+
+    <!-- Google sign in -->
+    <string name="sign_in_name">Let’s sign in!</string>
+    <string name="sign_in_email">Tap here to sign in and get more features.</string>
+    <string name="sign_in_failed">The sign in attempt didn’t succeed with the current account.</string>
+    <string name="sign_in_cancelled">Sign in cancelled.</string>
+    <string name="sign_in_cancelled_maybe">Sign in cancelled. Network connection is required.</string>
+    <string name="sign_in_error">Sign in failed with unknown reason.</string>
+    <string name="sign_out_error">Sign out failed with unknown reason.</string>
+    <string name="sign_out_warning">Sure to sign out of the account?</string>
+    <string name="sign_out_warning_title">Sign out</string>
+    <string name="sign_in_network_error">Network error has occurred.</string>
+    <string name="sign_in_invalid_account">Account is invalid.</string>
+    <string name="sign_in_required">Sign in required.</string>
+    <string name="sign_in_to_access">To verify owner identity, you need to sign in.</string>
+    <string name="sign_in_to_access_title">Sign in required</string>
+    <string name="signing_in">Please wait&#8230;</string>
+
+    <!-- purchase -->
+    <string name="sign_in_required_for_purchase">You need to sign in before starting the purchase flow. Would you?</string>
+    <string name="tnx_for_purchase">Full-text version of this issue is available!</string>
+    <string name="purchase_failed">Purchase failed with unknown reason.</string>
+    <string name="signature_download_error">Server error occurred. Please refresh later.</string>
+    <string name="purchase_error">Purchase error %d occurred.</string>
+    <string name="purchase_signature_error">Purchase response data signature is incorrect.</string>
+    <string name="paid_item_error">This item is available in paid version of the magazine. Would you like to proceed with the purchase?</string>
+    <string name="paid_item_error_title">Paid content</string>
+
+    <string name="update_available">Update is available!</string>
+    <string name="update">Install</string>
+    <string name="app_store_not_found">لطفاً کافه بازار رو نصب کنید.</string>
+
+    <string name="dont_show_again">دوباره نمایش نده!</string>
+    <string name="owner_warning_title">هشدار</string>
+    <string name="owner_warning">در صورت خرید، شما می‌پذیرید که محتوای خریداری شده متعلق به %1$s با آدرس ایمیل %2$s خواهد بود؛ و دسترسی به آن، فقط هنگامی فراهم است که همان فرد در این نرم‌افزار sign-in کرده باشد.</string>
+    <string name="accept">قبول</string>
+    <string name="reject">انصراف</string>
+    <string name="incorrect_owner">خرید این محتوا قبلاً به نام فرد دیگری در کافه بازار ثبت شده است. لطفاً حساب کاربری خود را بررسی کنید.</string>
+    <string name="incorrect_owner_title">خطا</string>
+```
+    <string name="new_word_and_type">%1$s\u0020\u0020\u0020\u0020%2$s</string>
 </resources>

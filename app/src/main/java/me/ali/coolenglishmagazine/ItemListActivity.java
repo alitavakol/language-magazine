@@ -3,6 +3,8 @@ package me.ali.coolenglishmagazine;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +16,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
 import me.ali.coolenglishmagazine.model.MagazineContent;
+import me.ali.coolenglishmagazine.util.Account;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -36,8 +39,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * {@link ItemListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class ItemListActivity extends AppCompatActivity
-        implements ItemListFragment.Callbacks {
+public class ItemListActivity extends AppCompatActivity implements
+        ItemListFragment.Callbacks,
+        Account.Callbacks {
 
     private static final String TAG = LogHelper.makeLogTag(ItemListActivity.class);
 
@@ -51,8 +55,20 @@ public class ItemListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_app_bar);
 
+        if (savedInstanceState != null) {
+            signingIn = savedInstanceState.getBoolean("signing_in");
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
+
+        if (!getResources().getBoolean(R.bool.isTablet) && getResources().getBoolean(R.bool.isLandscape)) {
+            AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+            if (params != null) {
+                params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
+                toolbar.setLayoutParams(params);
+            }
+        }
 
         TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
         toolbarTitle.setText(getTitle());
@@ -70,13 +86,19 @@ public class ItemListActivity extends AppCompatActivity
         final String issueRootDirectory = getIntent().getStringExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY);
         arguments.putString(IssueDetailActivity.ARG_ROOT_DIRECTORY, issueRootDirectory);
 
-        ItemListFragment fragment = new ItemListFragment();
-        fragment.setArguments(arguments);
+        itemListFragment = new ItemListFragment();
+        itemListFragment.setArguments(arguments);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frameLayout, fragment)
+                .replace(R.id.frameLayout, itemListFragment)
                 .commit();
+
+//        account = new Account(this);
+        if (signingIn)
+            showProgressDialog();
     }
+
+    ItemListFragment itemListFragment;
 
     @Override
     public void onNewIntent(Intent intent) {
@@ -133,4 +155,56 @@ public class ItemListActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Google APIs account sign-in helper
+     */
+    public Account account;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (account != null)
+            account.silentSignIn();
+    }
+
+    Snackbar snackbar;
+
+    boolean signingIn;
+
+    public void showProgressDialog() {
+        if (account != null && !account.silentlySigningIn) {
+            snackbar = Snackbar.make(findViewById(R.id.frameLayout), R.string.signing_in, Snackbar.LENGTH_INDEFINITE);
+            snackbar.show();
+            signingIn = true;
+        }
+    }
+
+    public void hideProgressDialog() {
+        if (snackbar != null) {
+            snackbar.dismiss();
+            snackbar = null;
+        }
+        signingIn = false;
+    }
+
+    public void updateProfileInfo(String personPhoto, String displayName, String email, String userId, boolean signedOut) {
+        if (itemListFragment != null && account != null && !account.silentlySigningIn)
+            itemListFragment.signatureChanged(this);
+    }
+
+    public void signingIn(boolean signingIn) {
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (account != null)
+            account.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("signing_in", signingIn);
+    }
 }

@@ -8,3 +8,5 @@
 /captures
 /app/web-content/issues/*.zip
 /app/web-content/issues/latest-issue-number
+/app/web-content/issues/*-
+signature-free

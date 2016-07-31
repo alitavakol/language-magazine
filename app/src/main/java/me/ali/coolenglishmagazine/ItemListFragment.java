@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -26,10 +27,12 @@ import android.widget.TextView;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
 import java.io.File;
 import java.io.IOException;
 
+import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
 import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
 import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.model.Magazines;
@@ -85,9 +88,12 @@ public class ItemListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        final FragmentActivity context = getActivity();
+
         try {
-            issue = Magazines.getIssue(getActivity(), new File(getArguments().getString(IssueDetailActivity.ARG_ROOT_DIRECTORY)));
+            issue = Magazines.getIssue(context, new File(getArguments().getString(IssueDetailActivity.ARG_ROOT_DIRECTORY)));
             magazineContent.loadItems(issue);
+            magazineContent.validateSignatures(context, issue); // verify free and paid signatures
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -96,7 +102,7 @@ public class ItemListFragment extends Fragment {
         // this fragment wants to add menu items to action bar.
         setHasOptionsMenu(true);
 
-        ((NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
+        ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
     }
 
     @Override
@@ -157,12 +163,14 @@ public class ItemListFragment extends Fragment {
                     int w = holder.itemView.getWidth();
                     int h = w / 2;
 
-                    Picasso
-                            .with(getActivity())
+                    RequestCreator r = Picasso
+                            .with(holder.itemView.getContext())
                             .load(new File(item.rootDirectory, item.posterFileName))
                             .resize(w, h)
-                            .centerCrop()
-                            .into(holder.posterImageView);
+                            .centerCrop();
+                    if ((item.free && !issue.freeContentIsValid) || (!item.free && !issue.paidContentIsValid))
+                        r.transform(new GrayscaleTransformation());
+                    r.into(holder.posterImageView);
                 }
             });
 
@@ -210,7 +218,8 @@ public class ItemListFragment extends Fragment {
 
                             switch (id) {
                                 case R.id.action_add_to_waiting_list:
-                                    WaitingItems.appendToWaitingList(getActivity(), item);
+                                    if ((item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid))
+                                        WaitingItems.appendToWaitingList(getActivity(), item);
                                     return true;
                             }
 
@@ -219,11 +228,56 @@ public class ItemListFragment extends Fragment {
                     });
                 }
             });
+            holder.overflowImageButton.setVisibility((item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid) ? View.VISIBLE : View.GONE);
 
             ((ViewGroup) holder.itemView).getChildAt(0).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mCallbacks.onItemSelected(magazineContent.ITEMS.get(recyclerView.getChildAdapterPosition(holder.itemView)));
+
+//                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+//                    final String userId = preferences.getString("user_id", "");
+//                    if (!BuildConfig.DEBUG && !item.free && issue.purchased && userId.length() == 0) {
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//                        builder.setMessage(R.string.sign_in_to_access)
+//                                .setTitle(R.string.sign_in_to_access_title)
+//                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        ((ItemListActivity) getActivity()).account.signIn();
+//                                    }
+//                                })
+//                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                    }
+//                                })
+//                                .setCancelable(true)
+//                                .show();
+//
+//                    } else if (!BuildConfig.DEBUG && !item.free && !issue.paidContentIsValid) {
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//                        builder.setMessage(R.string.paid_item_error)
+//                                .setTitle(R.string.paid_item_error_title)
+//                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        final FragmentActivity activity = getActivity();
+//                                        activity.finish();
+//                                        launchIssueDetailsActivity(activity, issue);
+//                                    }
+//                                })
+//                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                    }
+//                                })
+//                                .setCancelable(true)
+//                                .show();
+//
+//                    } else if (BuildConfig.DEBUG || !item.free || issue.freeContentIsValid) {
+//                        mCallbacks.onItemSelected(magazineContent.ITEMS.get(recyclerView.getChildAdapterPosition(holder.itemView)));
+//                    }
                 }
             });
         }
@@ -317,15 +371,12 @@ public class ItemListFragment extends Fragment {
         switch (id) {
             case R.id.action_add_to_waiting_list:
                 for (MagazineContent.Item item : magazineContent.ITEMS)
-                    WaitingItems.appendToWaitingList(getActivity(), item);
+                    if ((item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid))
+                        WaitingItems.appendToWaitingList(getActivity(), item);
                 return true;
 
             case R.id.action_open_issue_details:
-                getActivity().finish();
-
-                Intent intent = new Intent(getActivity(), IssueDetailActivity.class);
-                intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
-                startActivity(intent);
+                launchIssueDetailsActivity(getActivity(), issue);
                 return true;
 
             case R.id.action_mark_complete:
@@ -338,6 +389,18 @@ public class ItemListFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    protected static void launchIssueDetailsActivity(Context context, Magazines.Issue issue) {
+        Intent intent = new Intent(context, IssueDetailActivity.class);
+        intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    public void signatureChanged(Context context) {
+        magazineContent.validateSignatures(context, issue);
+        adapter.notifyDataSetChanged();
     }
 
 }

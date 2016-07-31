@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			.illustrative {
+				background-repeat: no-repeat;
+				background-size: cover;
+				background-position: center;
+				padding-bottom: 120%;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				border: 2px solid;
+				text-align: center;
+				position: relative;
+			}
+			.title {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				padding: 4px;
+				border-radius: 16px;
+				margin: 8px;
+				opacity: 0.95;
+				font-weight: bold;
+			}
+			h1 {
+				margin-top: 0;
+				margin-bottom: 24px;
+			}
+			h3 {
+				font-weight: 300;
+				text-transform: uppercase;
+			}
+			h4 {
+				font-weight: bold;
+			}
+
+			tr > td:first-child {
+				font-weight: bold;
+				text-align: right;
+			}
+			tr > td:last-child {
+				padding-left: 16px;
+			}
+			td {
+				vertical-align: top;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			#instruments {
+				margin-bottom: 16px;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<h3 style="margin-top: 0;">Let’s talk about&#8230;</h3>
+			<h1 class="accent">Driving in the City</h1>
+
+			<div id="instruments" class="row"></div>
+
+			<h4>Useful Expressions</h4>
+			<ul>
+				<li><span data-start="7700" data-end="10450">There’s a zebra crossing just ahead.</span></li>
+				<li><span data-start="10451" data-end="13300">Take the first turning on the right.</span></li>
+				<li><span data-start="13301" data-end="15400">This is a dead-end street.</span></li>
+				<li><span data-start="15401" data-end="17720">You need to go over the bridge.</span></li>
+				<li><span data-start="17721" data-end="20077">The rush-hour traffic is terrible.</span></li>
+				<li><span data-start="20078" data-end="22850">We got caught in a traffic jam.</span></li>
+				<li><span data-start="22851" data-end="24834">You need to go through the tunnel.</span></li>
+				<li><span data-start="24835" data-end="27386">Turn right at the roundabout.</span></li>
+			</ul>
+
+			<h3 data-start="27387" data-end="37071">In this dialogue, Sally is driving when she gets into an argument with a pedestrian.</h3>	
+			<table>
+				<tr>
+					<td>Allan:</td>
+					<td><span data-start="41881" data-end="47456">Hey, watch out! That’s a red light, and I’m on a pedestrian crossing!</span></td>
+				</tr>
+				<tr>
+					<td>Sally:</td>
+					<td><span data-start="47457" data-end="50162">Sorry! Are you OK?</span></td>
+				</tr>
+				<tr>
+					<td>Allan:</td>
+					<td><span data-start="50163" data-end="53847">I’m all right, but your front wheel is on the kerb.</span></td>
+				</tr>
+				<tr>
+					<td>Sally:</td>
+					<td><span data-start="53848" data-end="62330">I’m just so tired. I’ve been stuck in a traffic jam for two hours and I didn’t get any sleep last night.</span></td>
+				</tr>
+				<tr>
+					<td>Allan:</td>
+					<td><span data-start="62331" data-end="69386">That’s hardly my problem. And in case you didn’t know, this is a dead-end street.</span></td>
+				</tr>
+				<tr>
+					<td>Sally:</td>
+					<td><span data-start="69387" data-end="77243">Whoops! I’m a bit lost. You don’t happen to know where Marstone Street is, do you?</span></td>
+				</tr>
+				<tr>
+					<td>Allan:</td>
+					<td><span data-start="77244" data-end="79255">Yep.</span></td>
+				</tr>
+				<tr>
+					<td>Sally:</td>
+					<td><span data-start="79256" data-end="85104">So, erm, could you, erm, give me directions?</span></td>
+				</tr>
+				<tr>
+					<td>Allan:</td>
+					<td><span data-start="85105" data-end="90774">OK. Drive straight on for about 350 metres.</span></td>
+				</tr>
+				<tr>
+					<td>Sally:</td>
+					<td><span data-start="90775" data-end="93362">OK. Straight on.</span></td>
+				</tr>
+				<tr>
+					<td>Allan:</td>
+					<td><span data-start="93363" data-end="100359">When you get to the traffic lights, take the first turning on the left and then drive straight on again.</span></td>
+				</tr>
+				<tr>
+					<td>Sally:</td>
+					<td><span data-start="100360" data-end="104561">Traffic lights. First turning, erm, left.</span></td>
+				</tr>
+				<tr>
+					<td>Allan:</td>
+					<td><span data-start="104562" data-end="112350">Then, after about another 200 metres and a few speed bumps, you get to a roundabout&#8230;</span></td>
+				</tr>
+				<tr>
+					<td>Sally:</td>
+					<td><span data-start="112351" data-end="113700">A roundabout&#8230;</span></td>
+				</tr>
+				<tr>
+					<td>Allan:</td>
+					<td><span data-start="113701" data-end="116708">&#8230;and you take the first turning on the right.</span></td>
+				</tr>
+				<tr>
+					<td>Sally:</td>
+					<td><span data-start="116709" data-end="118015">&#8230;on the right.</span></td>
+				</tr>
+				<tr>
+					<td>Allan:</td>
+					<td><span data-start="118016" data-end="129800">Then, you go over a bridge and through a tunnel. Then, you turn right and then left and then right again, and it’s just there on the left.</span></td>
+				</tr>
+				<tr>
+					<td>Sally:</td>
+					<td><span data-start="129801" data-end="136735">A bridge. A tunnel. Right, left, right&#8230; OK. I think I’ve got it.</span></td>
+				</tr>
+				<tr>
+					<td>Allan:</td>
+					<td><span data-start="136736" data-end="138350">You can’t miss it!</span></td>
+				</tr>
+				<tr>
+					<td>Sally:</td>
+					<td><span data-start="138351" data-end="150910">OK. Bye! Thanks. Right! Now, what did he say? Drive straight on, then first left&#8230;</span></td>
+				</tr>
+			</table>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			template = "\
+				<div class='col-xs-6 col-sm-4 col-md-3 col-lg-2'>\
+					<div class='illustrative' style=\"background-image: url('{img}.jpg');\">\
+						<div class='title'>{title}</div>\
+					</div>\
+				</div>\
+			";
+			i = 0;
+			['Zebra crossing', 'Kerb', 'Turning', 'Roundabout', 'Traffic jam', 'Bridge', 'Pedestrian crossing', 'Speed bump', 'Rush hour', 'Tunnel', 'Dead-end street / cul-de-sac', 'Traffic light', 'Pedestrian'].forEach(function(title) {
+				$('#instruments').append(template.replace(/\{img\}/g, ++i).replace(/\{title\}/g, title));
+			});
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					.row { margin-left: -" + spacing + "px; margin-right: -" + spacing + "px; } \
+					.col-xs-6, .col-md-6 { padding-left: " + spacing + "px; padding-right: " + spacing + "px; padding-bottom: " + (2*spacing) + "px; } \
+					.title { background-color: #" + accentColor + "; } \
+					.acnt, tr:nth-child(odd) { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + (bottomMargin) + "px; } \
+					ul > li { color: #" + accentColor + "; } \
+					ul > li > span { color: #" + textColor + "; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+
+	</body>
+</html>

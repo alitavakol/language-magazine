@@ -9,8 +9,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.graphics.BitmapFactory;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -77,6 +82,16 @@ public class MusicService extends Service implements
     private String dataSource = null;
 
     /**
+     * duration in milliseconds reported by manifest.xml
+     */
+    private float duration;
+
+    /**
+     * duration reported by {@link MediaPlayer#getDuration()}
+     */
+    private float duration_;
+
+    /**
      * helps us to keep playback notification visible unless media source changes,
      */
     private String previousDataSource;
@@ -89,10 +104,17 @@ public class MusicService extends Service implements
     public void onCreate() {
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AudioPlaybackWakelockTag");
+
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
     }
 
     public void onDestroy() {
         LogHelper.d("music service onDestroy");
+
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+
         if (mediaSession != null) {
             mediaController.getTransportControls().stop();
             mediaSession.release();
@@ -128,7 +150,7 @@ public class MusicService extends Service implements
             initMediaSessions();
 
         if (ACTION_PREPARE.equals(action)) {
-            handlePrepareRequest(intent.getStringExtra("dataSource"));
+            handlePrepareRequest(intent.getStringExtra("dataSource"), intent.getIntExtra("duration", 0));
 
         } else if (ACTION_PLAY.equals(action)) {
             mediaController.getTransportControls().play();
@@ -142,6 +164,7 @@ public class MusicService extends Service implements
         } else if (ACTION_STOP_BY_USER.equals(action)) {
             removeNotification = true;
             mediaController.getTransportControls().stop();
+            disableShadeDetection();
 
         } else if (ACTION_FAST_FORWARD.equals(action)) {
             mediaController.getTransportControls().fastForward();
@@ -261,6 +284,7 @@ public class MusicService extends Service implements
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(PLAYBACK_NOTIFICATION_ID, notification);
+        enableShakeDetection();
         removeNotification = false;
 
         return notification;
@@ -274,18 +298,19 @@ public class MusicService extends Service implements
     }
 
     public int getDuration() {
-        return (mediaPlayer != null) ? mediaPlayer.getDuration() : 0;
+        return mediaPlayer != null ? (int) duration : 0;
     }
 
     public int getCurrentMediaPosition() {
         return (mediaPlayer != null) ? mediaPlayer.getCurrentPosition() : 0;
     }
 
-    private void handlePrepareRequest(String dataSource) {
+    private void handlePrepareRequest(String dataSource, int duration) {
         if (mediaPlayer != null && !this.dataSource.equals(dataSource)) {
             previousDataSource = this.dataSource;
 
             this.dataSource = dataSource;
+            this.duration = duration;
             mediaController.getTransportControls().stop();
 
             // handleStopRequest will call this function later, so do nothing at the moment.
@@ -295,6 +320,7 @@ public class MusicService extends Service implements
         if (dataSource == null || !dataSource.equals(previousDataSource)) { // remove notification if data source has changed.
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.cancel(PLAYBACK_NOTIFICATION_ID);
+            disableShadeDetection();
             previousDataSource = dataSource;
         }
 
@@ -311,6 +337,7 @@ public class MusicService extends Service implements
 
             try {
                 this.dataSource = dataSource;
+                this.duration = duration;
 
                 mediaPlayer.setDataSource(dataSource);
                 mediaPlayer.prepareAsync(); // prepare async to not block main thread
@@ -329,17 +356,16 @@ public class MusicService extends Service implements
     public void onPrepared(MediaPlayer player) {
         LogHelper.i(TAG, "Media prepared.");
 
-        if (onMediaStateChangedListener != null)
+        if (onMediaStateChangedListener != null) {
+            if (duration == 0)
+                duration = mediaPlayer.getDuration();
+            duration_ = mediaPlayer.getDuration();
             onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_STOPPED);
+        }
     }
 
     AudioManager audioManager;
     private ComponentName mediaButtonReceiverComponent;
-
-    /**
-     * prevents device from sleeping, so we can detect shake.
-     */
-    PowerManager.WakeLock wakeLock;
 
     private void handlePlayRequest() {
         if (mediaPlayer != null) {
@@ -356,9 +382,8 @@ public class MusicService extends Service implements
             if (requestAudioFocusResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                 audioManager.registerMediaButtonEventReceiver(mediaButtonReceiverComponent);
 
-                if (paused) { // rewind to start of audio snippet
-                    mediaPlayer.seekTo(floorPosition(getCurrentMediaPosition(), 0, false));
-                }
+                if (paused) // rewind to start of audio snippet
+                    seekTo(floorPosition(getCurrentMediaPosition(), 0, false));
 
                 mediaPlayer.start();
                 paused = false;
@@ -391,7 +416,7 @@ public class MusicService extends Service implements
 //                        }
 //                    }
 //                });
-                wakeLock.acquire();
+//                wakeLock.acquire();
 //                ShakeDetector.start();
             }
         }
@@ -446,14 +471,14 @@ public class MusicService extends Service implements
 
 //            ShakeDetector.stop();
 //            ShakeDetector.destroy();
-            if (wakeLock.isHeld())
-                wakeLock.release();
+//            if (wakeLock.isHeld())
+//                wakeLock.release();
         }
 
         if (onMediaStateChangedListener != null)
             onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_STOPPED);
 
-        handlePrepareRequest(dataSource);
+        handlePrepareRequest(dataSource, (int) duration);
     }
 
     public void handlePauseRequest() {
@@ -516,7 +541,7 @@ public class MusicService extends Service implements
     public void seekTo(int position) {
         try {
             if (mediaPlayer != null && (mediaPlayer.isPlaying() || paused))
-                mediaPlayer.seekTo(position);
+                mediaPlayer.seekTo((int) (position * duration_ / duration) + 10); // workaround: sometimes it seeks to previous time span with 1 ms error
 
         } catch (IllegalStateException e) {
             LogHelper.e(TAG, e.getMessage());
@@ -627,6 +652,8 @@ public class MusicService extends Service implements
          */
         boolean ignore;
 
+        long lastVolumeChangeTime;
+
         public SettingsContentObserver(Handler handler) {
             super(handler);
 
@@ -649,7 +676,8 @@ public class MusicService extends Service implements
 
             LogHelper.i(TAG, uri.toString());
 
-            if (ignore) {
+            long currentVolumeChangeTime = System.currentTimeMillis();
+            if (ignore || currentVolumeChangeTime - lastVolumeChangeTime < 120) {
                 ignore = false;
                 return;
             }
@@ -674,10 +702,13 @@ public class MusicService extends Service implements
             }
 
             if (useVolumeButtonsAsPlaybackNavigation) {
-                if (previousVolume > currentVolume)
+                if (previousVolume > currentVolume) {
                     rewind();
-                else if (previousVolume < currentVolume)
+                    lastVolumeChangeTime = currentVolumeChangeTime;
+                } else if (previousVolume < currentVolume) {
                     fastForward();
+                    lastVolumeChangeTime = currentVolumeChangeTime;
+                }
 
                 // undo volume change
                 if (currentVolume != previousVolume) {
@@ -693,5 +724,152 @@ public class MusicService extends Service implements
             }
         }
     }
+
+    /**
+     * prevents device from sleeping, so we can detect shake.
+     */
+    PowerManager.WakeLock wakeLock;
+
+    private SensorManager sensorManager;
+
+    /**
+     * acceleration apart from gravity
+     */
+    private float accel;
+
+    /**
+     * current acceleration including gravity
+     */
+    private float accelCurrent;
+
+    /**
+     * last acceleration including gravity
+     */
+    private float accelLast;
+
+    /**
+     * last time device was shaken
+     */
+    private long lastShakeTime;
+
+//    /**
+//     * helps ignore heavy shakes if device was not calm before
+//     */
+//    boolean ignoreNextShake;
+
+    /**
+     * counts number of consecutively intensive shakes
+     */
+    int shakeCount;
+
+//    int sumAccelSign;
+
+    private final SensorEventListener sensorEventListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+            accelLast = accelCurrent;
+            accelCurrent = x * x + y * y + z * z;
+            float delta = accelCurrent - accelLast;
+            accel = .75f * accel + .25f * Math.abs(delta); // perform low-cut filter
+
+            final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            boolean isInteractive;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+                isInteractive = pm.isInteractive();
+            } else {
+                isInteractive = pm.isScreenOn();
+            }
+            if (isInteractive)
+                return;
+
+//            android.util.Log.i(TAG, "" + accel);
+
+            if (accel > 325) {
+                shakeCount++;
+                if (shakeCount < 3)
+                    return;
+                shakeCount = 0;
+
+//                // device should accelerate positively and negatively to be counted as shake
+//                sumAccelSign += Math.signum(accel);
+//                if(sumAccelSign == shakeCount || sumAccelSign == -shakeCount)
+//                    return;
+//                sumAccelSign = 0;
+
+                long shakeTime = System.currentTimeMillis();
+                if (shakeTime - lastShakeTime < 2000)
+                    return;
+                lastShakeTime = shakeTime;
+
+//                if (ignoreNextShake)
+//                    return;
+//                ignoreNextShake = true;
+
+                if (mediaPlayer != null && mediaPlayer.isPlaying())
+                    mediaController.getTransportControls().pause();
+                else
+                    mediaController.getTransportControls().play();
+
+//            } else if (accel < 50) {
+//                ignoreNextShake = false;
+//                shakeCount = 0;
+
+            } else {
+                shakeCount = 0;
+//                sumAccelSign = 0;
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    };
+
+    /**
+     * enables shake to pause/resume playback. it is recommended to enable it if and only if playback
+     * notification is present in the status bar.
+     */
+    protected void enableShakeDetection() {
+        boolean shakeToPausePlayback = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(MusicService.this).getString("shake_behaviour", "0")) == 1;
+        if (!shakeToPausePlayback) {
+            disableShadeDetection();
+
+        } else if (!wakeLock.isHeld()) {
+            final Sensor accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            if (accelerometer != null) {
+                if (sensorManager.registerListener(sensorEventListener, accelerometer, SensorManager.SENSOR_DELAY_NORMAL)) {
+                    accel = 0;
+                    accelCurrent = SensorManager.GRAVITY_EARTH;
+                    accelLast = SensorManager.GRAVITY_EARTH;
+                    wakeLock.acquire();
+                }
+            }
+        }
+    }
+
+    /**
+     * disables shake to pause/resume playback.
+     */
+    public void disableShadeDetection() {
+        if (wakeLock.isHeld()) {
+            sensorManager.unregisterListener(sensorEventListener);
+            wakeLock.release();
+        }
+    }
+
+    /**
+     * enables/disables shake to pause/resume playback if preference changes while playing
+     */
+    protected SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if (key.equals("shake_behaviour") && mediaPlayer != null && (mediaPlayer.isPlaying() || paused))
+                enableShakeDetection();
+        }
+    };
 
 }

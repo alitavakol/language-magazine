@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#page-indicator {
+				width: 100%;
+				position: absolute;
+				z-index: 1;
+				text-align: center;
+				display: none;
+			}
+			.dot {
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				border-radius: 5px;
+				margin: 3px;
+				/* background-color: #8999A6; */
+			}
+			.dot.active {
+				/* background-color: azure; */
+			}
+
+			.cem-card {
+				position: relative;
+				transition: box-shadow .25s;
+				border-radius: 2px;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				max-width: 100%;
+			}
+			.cem-card .card-image {
+				position: relative;
+			}
+			.cem-card .card-image img {
+				display: block;
+				border-radius: 2px 2px 0 0;
+				position: relative;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+			}
+			.cem-card .card-image .card-title {
+				color: #fff;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-top: 10px;
+				padding-bottom: 10px;
+				text-transform: uppercase;
+				background-color: black;
+				font-weight: bold;
+				background-color: rgba(0,0,0,.5);
+				font-size: 18px;
+			}
+			.cem-card .card-content {
+				border-radius: 0 0 2px 2px;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-bottom: 10px;
+				padding-top: 10px;
+				font-style: italic;
+			}
+			.cem-card .card-action {
+				border-top: 1px solid rgba(0,0,0,0.2);
+				padding: 20px;
+				padding-bottom: 0;
+				transition: color .3s ease;
+				text-transform: uppercase;
+				text-decoration: none;
+				-webkit-tap-highlight-color: transparent;
+			}
+			.card-action.title {
+				padding: 40px;
+				padding-top: 60px;
+				font-size: large;
+				text-transform: uppercase;
+				text-align: center;
+				border-top: none;
+			}
+
+			.swipe {
+				overflow: hidden;
+				visibility: hidden;
+				position: relative;
+			}
+			.swipe-wrap {
+				position: relative;
+			}
+			.swipe-wrap > div {
+				float: left;
+				width: 20px;
+				position: relative;
+				overflow: hidden;
+				overflow-y: auto;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="swipe.min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div id="page-indicator"></div>
+
+		<div id='swipeable' style='margin:0 auto;' class='swipe'>
+			<div class='swipe-wrap'>
+				<div>
+					<div class='top-margin'></div>
+					<div class='cem-card' style="border-radius: 2px;">
+						<div class='card-action title'>
+							<p>This month we are looking at some general animal idioms.</p>
+						</div>
+					</div>
+					<div class='bottom-margin'></div>
+				</div>
+			</div>
+		</div>
+
+		<div style="display: none;">
+			<span data-start="1819" data-end="3375"></span>
+			<span data-start="10898" data-end="13641"></span>
+			<span data-start="24531" data-end="27391"></span>
+			<span data-start="37185" data-end="39530"></span>
+			<span data-start="51384" data-end="53058"></span>
+			<span data-start="63581" data-end="66423"></span>
+			<span data-start="3376" data-end="6547"></span>
+			<span data-start="13642" data-end="19372"></span>
+			<span data-start="27392" data-end="33699"></span>
+			<span data-start="39531" data-end="45932"></span>
+			<span data-start="53059" data-end="57831"></span>
+			<span data-start="66424" data-end="77719"></span>
+			<span data-start="6548" data-end="10897"></span>
+			<span data-start="19373" data-end="24530"></span>
+			<span data-start="33700" data-end="37184"></span>
+			<span data-start="45933" data-end="51383"></span>
+			<span data-start="57832" data-end="63580"></span>
+			<span data-start="77720" data-end="84842"></span>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			card_template = "\
+				<div>\
+					<div class='top-margin'></div>\
+					<div class='cem-card'>\
+						<div class='card-image'>\
+							<img class='img-responsive' src='{img}.jpg'>\
+							<span class='card-title'>{verb}</span>\
+						</div>\
+						<div class='card-action'>{def}</div>\
+						<div class='card-content'><p>{example}</p></div>\
+					</div>\
+					<div class='bottom-margin'></div>\
+				</div>\
+			";
+			verbs = ['<span data-slide="1" data-start="1819" data-end="3375">Have a Cow</span>', '<span data-slide="2" data-start="10898" data-end="13641">Hit/score a bull’s eye</span>', '<span data-slide="3" data-start="24531" data-end="27391">Stag party/night</span>', '<span data-slide="4" data-start="37185" data-end="39530">Hen party/night</span>', '<span data-slide="5" data-start="51384" data-end="53058">Badger someone</span>', '<span data-slide="6" data-start="63581" data-end="66423">Make a mountain out of a molehill</span>'];
+			defs = ['<span data-slide="1" data-start="3376" data-end="6547">To become very angry or upset about something.</span>', '<span data-slide="2" data-start="13642" data-end="19372">if you “score a bull’s eye”, something you do is very successful.</span>', '<span data-slide="3" data-start="27392" data-end="33699">A party for a man who is going to get married. The guests are usually only his male friends.</span>', '<span data-slide="4" data-start="39531" data-end="45932">A party for a woman who is going to get married. The guests are usually only her female friends.</span>', '<span data-slide="5" data-start="53059" data-end="57831">To annoy someone by repeatedly asking them a lot of questions.</span>', '<span data-slide="6" data-start="66424" data-end="77719">if you “make a mountain out of a molehill”, you make a minor issue appear to be a very serious problem.</span>'];
+			examples = ['<span data-slide="1" data-start="6548" data-end="10897">“I thought Jim was going to have a cow when I told him I’d lost his key.”</span>', '<span data-slide="2" data-start="19373" data-end="24530">“Sally really hit the bull’s eye with her invention, and now she’s super-rich.”</span><br><span style="font-style: normal; font-size: 90%;">[A “bull’s-eye is a small circular object that you shoot a gun, etc. at.]</span>', '<span data-slide="3" data-start="33700" data-end="37184">“Bob had to wear a silly costume for his stag night.”</span>', '<span data-slide="4" data-start="45933" data-end="51383">“For Sally’s hen night, they went out for dinner. After that, they went to a nightclub.”</span>', '<span data-slide="5" data-start="57832" data-end="63580">“I left my job three months ago, but since then they’ve been badgering me to go back.”</span>', '<span data-slide="6" data-start="77720" data-end="84842">“You did one bad exam. Stop worrying about it. You’re making a mountain out of a molehill.”</span><br><span style="font-style: normal; font-size: 90%;">[A mole is a small animal with black fur.]</span>'];
+			var i = 0;
+			$('#page-indicator').append('<span class="dot"></span>');
+			verbs.forEach(function(verb) {
+				$('.swipe-wrap').append(card_template.replace(/\{verb\}/g, verb).replace(/\{img\}/g, i+1).replace(/\{def\}/g, defs[i]).replace(/\{example\}/, examples[i]));
+				$('#page-indicator').append('<span class="dot"></span>');
+				i++;
+			});
+
+			adjustCustomLayout = function(options) {
+				brightcolor = tinycolor(accentColor).brighten().brighten();
+				brightcolor.setAlpha(.7);
+				darkColor = tinycolor(accentColor).darken().darken();
+				darkColor.setAlpha(.7);
+
+				$('#local-rules').text("\
+					.cem-card { background-color: #" + accentColor + "; margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+					.card-content { color: " + newWordColor + "; } \
+					.top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.bottom-margin { height: " + bottomMargin + "px; } \
+					#page-indicator { margin-top: " + (topMargin+2*verticalMargin-8) + "px; } \
+					.swipe-wrap > div { height: " + height + "px; } \
+					.dot { background-color: " + brightcolor.toRgbString() + "; } \
+					.dot.active { background-color: " + darkColor.toRgbString() + "; }"
+				);
+			}
+
+			setCurrentSlide = function(index) {
+				$('#page-indicator').show();
+				$('#page-indicator .dot').eq(index).addClass('active');
+
+				if(typeof(window.swipeable) == 'object' && typeof(window.swipeable.kill) == 'function')
+					window.swipeable.kill();
+
+				window.swipeable = $('#swipeable').Swipe({
+					startSlide: index,
+					callback: function(index,elem) {
+						$('#page-indicator .dot').removeClass('active');
+						$('#page-indicator .dot').eq(index).addClass('active');
+
+						currentSlide = index;
+						saveInstanceState();
+					},
+				}).data('Swipe');
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					currentSlide: currentSlide,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				setCurrentSlide(state.currentSlide || 0);
+
+				restoringInstanceState = false;
+			}
+
+			highlight = function(timePoint) {
+				$('.highlight').removeClass('highlight');
+				t = $('[data-start=' + timePoint + ']');
+				t.addClass('highlight');
+				u = parseInt(t.data('slide'));
+				if(u >= 0)
+					window.swipeable.slide(u);
+			}
+		</script>
+
+	</body>
+</html>
