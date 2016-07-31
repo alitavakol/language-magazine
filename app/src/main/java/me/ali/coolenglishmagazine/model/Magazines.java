@@ -399,7 +399,7 @@ public class Magazines {
             if (cursorUrl.equals(issueDownloadUrl)) {
                 status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
                 if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                    if (getIssueLocalDownloadUri(context, issue).exists()) {
+                    if (!new File(issue.rootDirectory, Issue.downloadedFileName).exists()) {
                         status = -3; // custom value indicating that the issue is being extracted.
                     }
                 }
