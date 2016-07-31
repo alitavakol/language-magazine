@@ -35,6 +35,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -233,7 +234,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
 
             updatePriceGui();
 
-            account = new Account(this);
+//            account = new Account(this);
             if (signingIn)
                 showProgressDialog();
 
@@ -757,7 +758,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
 
             setAppStoreQueryButtonsEnabled(true);
 
-        } else {
+        } else if (account != null) {
             account.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -812,6 +813,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
     protected void updatePriceGui() {
         priceTextView.setText(issue.price.length() > 0 ? issue.price : getString(R.string.unknown_price));
         buttonPurchase.setVisibility(issue.purchased || issue.free ? View.GONE : View.VISIBLE);
+//        buttonPurchase.setAlpha(buttonDownload.getVisibility() == View.VISIBLE ? .7f : 1);
     }
 
     private ILoginCheckService loginCheckService;
@@ -864,7 +866,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
     boolean signingIn;
 
     public void showProgressDialog() {
-        if (!account.silentlySigningIn) {
+        if (account != null && !account.silentlySigningIn) {
             snackbar = Snackbar.make(findViewById(R.id.issue_detail_container), R.string.signing_in, Snackbar.LENGTH_INDEFINITE);
             snackbar.show();
             signingIn = true;
@@ -947,7 +949,8 @@ public class IssueDetailActivity extends AppCompatActivity implements
             });
         }
 
-        account.silentSignIn();
+        if (account != null)
+            account.silentSignIn();
     }
 
     @Override
@@ -1021,6 +1024,10 @@ public class IssueDetailActivity extends AppCompatActivity implements
                     Toast.makeText(IssueDetailActivity.this, R.string.signature_download_error, Toast.LENGTH_SHORT).show();
             }
         }, null);
+
+        request.setRetryPolicy(new DefaultRetryPolicy(10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         // Add the request to the RequestQueue.
         requestQueue.add(request);
