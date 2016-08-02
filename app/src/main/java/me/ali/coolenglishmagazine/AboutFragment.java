@@ -116,8 +116,9 @@ public class AboutFragment extends Fragment {
 
         LibsBuilder libsBuilder = new LibsBuilder()
                 .withAutoDetect(false)
-                .withLibraries("aboutlibraries", "design", "appcompat_v7", "calligraphy", "facebook", "support_v4", "picasso", "jsoup", "recyclerview_v7")
-                .withExcludedLibraries("materialize", "fastadapter", "AndroidIconics")
+                .withSortEnabled(false)
+                .withLibraries("effortless", "hem")
+                .withExcludedLibraries("materialize", "fastadapter", "AboutLibraries", "AndroidIconics", "materialdrawer", "design", "appcompat_v7", "calligraphy")
                 .withAboutIconShown(true)
                 .withLibsRecyclerViewListener(new LibsConfiguration.LibsRecyclerViewListener() {
                     @Override

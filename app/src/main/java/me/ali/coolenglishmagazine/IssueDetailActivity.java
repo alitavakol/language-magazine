@@ -985,8 +985,10 @@ public class IssueDetailActivity extends AppCompatActivity implements
         final Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(this).getString("server_address", getString(R.string.pref_default_server_address)));
         String url = uri.toString() + "/api/issues/" + issue.id + "/signature";
 
+        url += "?app_version=" + BuildConfig.VERSION_CODE;
+
         // purchase token must be present
-        url += "?purchase_token=" + purchaseToken;
+        url += "&purchase_token=" + purchaseToken;
 
 //        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 //        if (preferences.contains("user_id"))
