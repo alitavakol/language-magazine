@@ -102,8 +102,9 @@ public class IssueDetailFragment extends Fragment {
                                 + ", newWordColor: 0xf8f8f8" // new word color
                                 + "});";
                         webView.loadUrl(command);
-//                      webView.loadUrl("javascript:restoreInstanceState(" + new JSONArray(Arrays.asList(webViewState)) + ");");
-                        webView.loadUrl("javascript:app.onAdjustLayoutComplete();");
+//                        webView.loadUrl("javascript:restoreInstanceState(" + new JSONArray(Arrays.asList(webViewState)) + ");");
+//                        webView.loadUrl("javascript:app.onAdjustLayoutComplete();");
+                        webView.loadUrl("javascript:setTimeout(function() { app.onAdjustLayoutComplete(); }, 600);");
                     }
                 }
             });
