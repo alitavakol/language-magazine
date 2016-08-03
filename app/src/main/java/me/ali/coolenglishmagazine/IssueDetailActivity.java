@@ -546,12 +546,18 @@ public class IssueDetailActivity extends AppCompatActivity implements
     @Override
     public void onScrollChanged(int deltaX, int deltaY) {
         int scrollY = mScrollView.getScrollY();
-        mPhotoViewContainer.setTranslationY(scrollY * 0.5f);
+        if (coverImageView != null) {
+            final float coverHeight = (float) coverImageView.getHeight();
+            final float headerHeight = (float) mHeaderSession.getHeight();
+            mPhotoViewContainer.setTranslationY(scrollY * Math.min(.5f, headerHeight / coverHeight));
+        }
         mHeaderSession.setTranslationY(Math.max(headerTranslation, scrollY));
 //        mHeaderSession.setElevation(scrollY > headerTranslation ? 10 : 0);
     }
 
     int headerTranslation;
+
+    ImageView coverImageView;
 
     /**
      * adjust top margin and translationY of views contained in the FrameLayout, which depends on measured height of them
@@ -567,9 +573,12 @@ public class IssueDetailActivity extends AppCompatActivity implements
             BitmapFactory.decodeFile(coverImageFile.getAbsolutePath(), options);
             float aspectRatio = (float) options.outHeight / (float) options.outWidth;
 
-            final ImageView coverImageView = (ImageView) findViewById(R.id.cover);
+            int headerHeight = mHeaderSession.getHeight();
+
+            coverImageView = (ImageView) findViewById(R.id.cover);
             int targetWidth = mScrollView.getMeasuredWidth();
-            int targetHeight = Math.min((int) (targetWidth * aspectRatio), 5 * mScrollView.getMeasuredHeight() / 7);
+            final int viewHeight = mScrollView.getMeasuredHeight();
+            int targetHeight = Math.min((int) (targetWidth * aspectRatio), Math.max(viewHeight - 5 * headerHeight / 4, viewHeight / 8));
 
             Picasso
                     .with(IssueDetailActivity.this)
@@ -579,7 +588,6 @@ public class IssueDetailActivity extends AppCompatActivity implements
                     .into(coverImageView);
 
             headerTranslation = targetHeight;
-            int headerHeight = mHeaderSession.getHeight();
 
             FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) issueDetailsContainer.getLayoutParams();
             lp.bottomMargin = headerTranslation + headerHeight;
