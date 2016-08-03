@@ -18,52 +18,47 @@
 
 		<style type="text/css">
 			@font-face {
-				font-family: 'toast';
-				src: url('fledgling-sb.ttf');
+				font-family: kust;
+				src: url("StrejkaRegular.ttf")
 			}
 			body {
 				overflow-y: scroll;
-				border: solid 1px black;
 			}
-			h1, h3 {
-				margin-bottom: -8px;
-				font-weight: lighter;
+			h1, h4 {
+				margin-top: 0;
+				text-transform: uppercase;
 			}
-			h1 {
-				font-family: 'toast';
-				font-size: 6.5em;
-				text-align: center;
-				margin-top: 5px;
-				margin-bottom: 6px;
-				position: relative;
-				z-index: 1;
-				line-height: 0.7;
+			.lockable {
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
+				background-image: url('wall.jpg');
 			}
-			h4 {
-				font-weight: bold;
+			#transcript {
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: center;
+				text-align: -webkit-center;
 			}
-			ol, ul {
-				padding-left: 1.2em;
-				margin-bottom: 2px;
+			#transcript p {
+				font-family: 'kust';
+				font-size: 3em;
+				line-height: 85%;
+				margin: 0;
+				padding: 0;
+				display: table-cell;
+				vertical-align: middle;
 			}
-			li {
-				font-weight: bold;
+			#transcript div {
+				display: table;
 			}
-			li > span {
-				font-weight: normal;
+			#transcript div:nth-child(even) p {
+				-webkit-transform: rotate(-3deg);
+				transform: rotate(-3deg);
 			}
-			img {
-				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
-				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
-				padding: 6px;
-			}
-			#plate {
-				float: right;
-				margin: 16px;
-				margin-right: 24px;
-				-webkit-transform: rotate(4deg);
-				transform: rotate(4deg);
-				max-width: 50%;
+			#transcript div:nth-child(odd) p {
+				-webkit-transform: rotate(3deg);
+				transform: rotate(3deg);
 			}
 		</style>
 
@@ -72,6 +67,8 @@
 
 		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
 		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
 		<script src="file:///android_asset/tinycolor-min.js"></script>
 		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
 
@@ -83,45 +80,20 @@
 	</head>
 
 	<body>
-		<h3>HERE’S ANOTHER RECIPE FOR YOU TO TRY AT HOME. <span style="font-weight: normal;">THIS MONTH: CHICKEN FAJITAS.</span> YUMMY!</h3>
-		<h1>chicken fajitas</h1>
+		<div class="foundation">
+			<div id="top-margin"></div>
 
-		<img src="chicken.png" class="img-responsive" style="width: 100%;">
+			<h1>Graffiti</h1>
+			<h4>Here are some more examples of british toilet graffiti.</h4>
 
-		<div style="position: relative; bottom: 72px; margin-bottom: -72px;">
-			<img id="plate" src="food.png" class="img-responsive">
-			<div style="height: 96px;"></div>
-
-			<h4>Ingredients</h4>
-			<ul>
-				<li><span>4 chicken breasts</span></li>
-				<li><span>4 tbsp oil or butter</span></li>
-				<li><span>1 large onion</span></li>
-				<li><span>1 green, red or yellow pepper (or a bit of all three)</span></li>
-				<li><span><a class="new-word" data-word="fajita" data-type="n" data-en="a thin strip of marinated and grilled meat">fajitas</a></span></li>
-			</ul>
-
-			<h4>Method</h4>
-			<ul>
-				<li><span><a class="new-word" data-word="to slice" data-type="vb" data-en="to cut into thin pieces">Slice</a> the chicken into long <a class="new-word" data-word="a strip" data-type="n" data-en="a long, thin piece of something">strips</a> and <a class="new-word" data-word="to fry" data-type="cv" data-en="to cook in oil">fry</a> with the oil in a pan.</span></li>
-				<li><span>For a <a class="new-word" data-word="caramelised" data-type="adj" data-en="if sugar “caramelises”, it turns to caramel">caramelised</a> efect, <a class="new-word" data-word="to stir in" data-type="phr vb" data-en="to add whilst stirring (moving the food with a spoon)">stir in</a> a small amount of brown sugar.</span></li>
-				<li><span>Cook until light brown.</span></li>
-				<li><span><a class="new-word" data-word="to chop" data-type="vb" data-en="to cut">Chop</a> the pepper and onions into strips and <a class="new-word" data-word="to sauté" data-type="vb" data-en="to cook quickly in oil">sauté</a> in a separate pan.</span></li>
-				<li><span>Place small amounts of the chicken and vegetables into fajitas.</span></li>
-				<li><span>Add one (or as many as you like) of these <a class="new-word" data-word="a topping" data-type="n" data-en="food that is placed on top of other food">toppings</a>: sour cream, refried beans, cheese or guacamole.</span></li>
-				<li><span>Roll up the fajitas and serve.</span></li>
-			</ul>
-
-			<h4>Marinade</h4>
-			For even tastier chicken, you could make a <a class="new-word" data-word="a marinade" data-type="n" data-en="a sauce which you put over meat / fish before cooking it">marinade</a> with the following:
-			<ul>
-				<li><span>2 tbsp balsamic vinegar</span></li>
-				<li><span>1 tbsp lemon juice</span></li>
-				<li><span>2 tsp olive oil</span></li>
-				<li><span>1/2 tsp dried oregano</span></li>
-			</ul>
-			Mix it all together with the chicken in a bowl or seal-proof bag. Leave in the refrigerator for 8 hours.<br>
-			Delicious! <span class="accent">✪</span>
+			<div class="lockable"><div id="transcript">
+				<div><p><span data-start="11127" data-end="13565">Death is <a class="new-word" data-word="hereditary" data-type="adj" data-en="an illness / condition / trait that is passed on to a child by the parents">hereditary</a>.</span></p></div>
+				<div><p><span data-start="23691" data-end="28110">Always be sincere... even when you don’t mean it.</span></p></div>
+				<div><p><span data-start="30000" data-end="35050">The road to success is usually under construction.</span></p></div>
+				<div><p><span data-start="41549" data-end="47831">I am nobody. Nobody is perfect. Therefore, I must be perfect!</span></p></div>
+				<div><p><span data-start="52672" data-end="57100">Maturity is knowing when and where to be <a class="new-word" data-word="immature" data-type="adj" data-en="childish; not adult">immature</a>.</span></p></div>
+				<div><p><span data-start="59510" data-end="62440">I never met a chocolate I didn’t like.</span></p></div>
+			</div></div>
 		</div>
 
 		<script type="text/javascript">
@@ -129,21 +101,36 @@
 
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
-					body { margin-right: " + horizontalMargin + "px; margin-left: " + horizontalMargin + "px; margin-top: " + (topMargin+verticalMargin) + "px; margin-bottom: " + verticalMargin + "px; padding-right: " + normalPadding + "px; padding-left: " + normalPadding + "px; padding-bottom: " + normalPadding + "px; } \
-					h1, h4, li { color: " + tinycolor(accentColor).darken() + "; } \
-					li > span { color: #" + textColor + "; } \
-					img { background: #" + backgroundColor + "; } \
+					.foundation { padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#transcript { padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; padding-top: " + (2*verticalMargin) + "px; padding-bottom: " + bottomMargin + "px; } \
+					#transcript p { padding-top: " + spacing + "px; padding-bottom: " + spacing + "px; } \
+					.lockable { padding-bottom: " + horizontalMargin + "px; margin-left: -" + horizontalMargin + "px; margin-right: -" + horizontalMargin + "px; margin-top: " + (2*verticalMargin) + "px; } \
+					h1 { color: #" + accentColor + "; font-weight: bold; } \
+					#transcript div:nth-child(even) p { color: " + tinycolor(accentColor).darken() + "; } \
 				");
 			}
 
-			container = $('body')[0];
 			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key-enter-access-door-place-512.png")').children().css('visibility', 'hidden');
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+				}
+
+				saveInstanceState();
+			}
 
 			saveInstanceState = function() {
 				if(restoringInstanceState)
 					return;
 
 				outState = {
+					transcriptLocked: transcriptLocked,
 					scroll: prevScroll,
 				};
 
@@ -155,14 +142,31 @@
 				restoringInstanceState = true;
 				state = JSON.parse(savedInstanceState);
 
-				container.scrollTop = (state['scroll'] || 0) * container.scrollHeight;
-				prevScroll = container.scrollTop / container.scrollHeight;
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
 
 				restoringInstanceState = false;
 			}
 
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
 			setInterval(function() {
-				scroll = container.scrollTop / container.scrollHeight;
+				scroll = $('body').scrollTop() / $('body').height();
 				if(scroll != prevScroll) {
 					prevScroll = scroll;
 					saveInstanceState();
@@ -172,7 +176,7 @@
 			lastScrollTop = 0;
 			if(typeof(app) != 'undefined') {
 				$(document).scroll(function() {
-					scrollTop = container.scrollTop;
+					scrollTop = $(document).scrollTop();
 
 					if(scrollTop < topMargin) {
 						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
@@ -184,6 +188,10 @@
 					lastScrollTop = scrollTop;
 				});
 			}
+
+			$('#transcript p').each(function() {
+				$(this).parent().css("height", this.getBoundingClientRect().height);
+			});
 		</script>
 	</body>
 </html>

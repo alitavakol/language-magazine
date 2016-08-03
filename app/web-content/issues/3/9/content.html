@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			h1 {
+				font-weight: bold;
+				margin-top: 0;
+			}
+			h5 {
+				font-style: italic;
+			}
+			h4 {
+				font-weight: 400;
+				margin-top: 20px;
+			}
+			.title {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				text-align: center;
+				color: white;
+				padding: 16px;
+				text-shadow: 1px 0px 2px rgba(150, 150, 150, 1);
+			}
+			body {
+				overflow-y: scroll;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+
+			.grid-item {
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: cover;
+				border: solid 2px black;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				width: 100%;
+				/* whatever width you want */
+				display: inline-block;
+				position: relative;
+			}
+			.grid-item:after {
+				padding-top: 100%;
+				/* 16:9 ratio */
+				display: block;
+				content: '';
+			}
+			.main {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				right: 0;
+				left: 0;
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+
+			.label-base {
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: -4px;
+				text-align: center;
+			}
+			.label-container {
+				display: inline-block;
+				padding-left: 8px;
+				padding-right: 8px;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				margin-left: 8px;
+				margin-right: 8px;
+				margin-top: 6px;
+				margin-bottom: 6px;
+				-webkit-box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+			}
+			.label-container.gone {
+				opacity: .2;
+				-webkit-box-shadow: inherit;
+				box-shadow: inherit;
+			}
+			.label-base .label-container {
+				display: none;
+			}
+			#labels {
+				margin-left: -8px;
+				padding-bottom: 16px;
+				text-align: center;
+			}
+
+			.box {
+				border: 3px solid;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="jquery-ui.min.js"></script>
+		<script src="jquery.ui.touch-punch.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<div style="position: relative;">
+				<img src="cover.jpg" style="width: 100%; border: solid 2px black;">
+				<img src="bone.png" style="position: absolute; bottom: 2px; width: 75%; left: 0;">
+				<div class="title">
+					<h1>Haunted House</h1>
+					<h5>Selling a skeleton.</h5>
+				</div>
+			</div>
+
+			<h4><span class="accent">❶</span> <b>Pre listening</b></h4>
+			<p>Match the names to the pictures.</p>
+			<div id="labels"></div>
+			<div id="pics" class="row"></div>
+
+			<h4><span class="accent">❷</span> <b>Discussion</b></h4>
+			<ol>
+				<li><span>What’s typically in a haunted house? For example: A ghost in a cupboard.</span></li>
+				<li><span>Have you ever seen a ghost?</span></li>
+				<li><span>Have you ever been in a frightening house?</span></li>
+			</ol>
+
+			<h4><span class="accent">❸</span> <b>Listening I</b></h4>
+			<p>Listen many times. What is in the haunted house?</p>
+
+			<h4><span class="accent">❹</span> <b>Listening II</b></h4>
+			<p>True or false?</p>
+			<ol>
+				<li><span>The haunted house in York is very modern.</span></li>
+				<li><span>The house is now used for businesses.</span></li>
+				<li><span>The ghost doesn’t disturb anyone.</span></li>
+				<li><span>Ben believes the ghost could be a selling point.</span></li>
+				<li><span>In another household in Scotland, there is another popular ghost.</span></li>
+			</ol>
+
+			<div class="box fill-light">
+				<h4 style="margin-top: 0; font-weight: bold;">Grammar Spot</h4>
+				<p>Look at the example from the text: “They grew quite fond of Tom.”<br>“To be fond of someone” is to like someone. The noun is “fondness”. So, what does “to grow fond of someone” mean? See if you can write the name of someone you have always been very fond of, and the name of someone you have grown fond of recently.</p>
+			</div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<div style="display: none;">
+			<span data-start="12583" data-end="17308"></span>
+			<span data-start="17309" data-end="19688"></span>
+			<span data-start="19689" data-end="21757"></span>
+			<span data-start="21758" data-end="26169"></span>
+			<span data-start="26170" data-end="29259"></span>
+			<span data-start="29260" data-end="34136"></span>
+			<span data-start="34137" data-end="36394"></span>
+			<span data-start="36395" data-end="40100"></span>
+			<span data-start="40101" data-end="44130"></span>
+			<span data-start="44131" data-end="47151"></span>
+			<span data-start="47152" data-end="49132"></span>
+			<span data-start="49133" data-end="51878"></span>
+			<span data-start="51879" data-end="56354"></span>
+			<span data-start="56355" data-end="58305"></span>
+			<span data-start="58306" data-end="62749"></span>
+			<span data-start="62750" data-end="68809"></span>
+			<span data-start="68810" data-end="71031"></span>
+			<span data-start="71032" data-end="73834"></span>
+			<span data-start="73835" data-end="78652"></span>
+			<span data-start="78653" data-end="83379"></span>
+			<span data-start="83380" data-end="87526"></span>
+			<span data-start="87527" data-end="59565"></span>
+			<span data-start="59566" data-end="95600"></span>
+			<span data-start="95601" data-end="100420"></span>
+			<span data-start="100421" data-end="103898"></span>
+			<span data-start="103899" data-end="107984"></span>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			var label_template = "<div class='label-container draggable' data-label='{img}'>{label}</div>";
+			var attached_label_template = "<div class='label-base'><div class='label-container'>{label}</div></div>";
+			var img_template = "\
+				<div class='col-xs-6 col-sm-4 col-md-3 col-lg-2'>\
+					<div class='grid-item' data-label='{img}'><div class='main' style='background-image: url(\"{img}.png\");'></div></div>\
+				</div>\
+			";
+
+			container = $('#pics');
+			'abcde'.split('').forEach(function(c) {
+				container.append(img_template.replace(/\{img\}/g, c));
+			});
+			container = $('#labels');
+			[['ghost', 'b'], ['bat', 'c'], ['mummy', 'd'], ['vampire', 'e'], ['werewolf', 'a']].forEach(function(label) {
+					container.append(label_template.replace(/\{label\}/g, label[0]).replace(/\{img\}/g, label[1]));
+					$(".grid-item[data-label='" + label[1] + "']").append(attached_label_template.replace(/\{label\}/g, label[0]));
+			});
+
+			dropped_elements = [];
+
+			$('.draggable').draggable({
+				revert: 'invalid',
+				containment: 'body',
+				zIndex: 2,
+				appendTo: 'body',
+				helper: 'clone',
+				scrollSensitivity: 40,
+				scrollSpeed: 10,
+				start: function(e,u) {
+					$('.label-container').removeClass('selected');
+					$(e.target).addClass('gone');
+				},
+				stop: function(e,u) {
+					if(!$(e.target).data('gone'))
+						$(e.target).removeClass('gone').trigger('tap');
+				},
+			});
+			$('.draggable').tap(function() {
+				if(!$(this).hasClass('gone')) {
+					$('.label-container').removeClass('selected');
+					$(this).addClass('selected');
+				}
+			});
+
+			$('.grid-item').droppable({
+				activate: function(ev, ui) {
+				},
+				deactivate: function(ev, ui) {
+				},
+				drop: function(event, ui) {
+					drop(ui.draggable, $(this));
+				}
+			});
+			$('.grid-item').tap(function() {
+				drop($('.draggable.selected'), $(this));
+			});
+
+			drop = function(dropped, dropzone) {
+				if(!dropped.length || !dropzone.length)
+					return;
+
+				var label = dropzone.data('label');
+				if(label == dropped.data('label')) {
+					dropzone.find('.label-container').css('display', 'inline-block');
+					dropped.draggable('disable');
+					dropped.data('gone', true).removeClass('selected').addClass('gone');
+
+					if(dropped_elements.indexOf(label) == -1) {
+						dropped_elements.push(label);
+						saveInstanceState();
+					}
+
+				} else {
+					dropped.removeClass('gone');
+					$('.label-container').removeClass('selected');
+					if(typeof(app) != 'undefined')
+						app.makeToast('That\'s not right.', false);
+				}
+			}
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					.label-container { background-color: " + highlightColor + "; } \
+					.label-container.selected { background-color: #" + accentColor + "; } \
+					.row { margin-left: -" + spacing + "px; margin-right: -" + spacing + "px; } \
+					.col-xs-6 { padding-left: " + spacing + "px; padding-right: " + spacing + "px; } \
+					.grid-item { margin-bottom: " + spacing + "px; } \
+					.fill-light { background-color: " + tinycolor(highlightColor).lighten() + "; } \
+					.box { padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+					dropped_elements: dropped_elements,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				dropped_elements = state['dropped_elements'] || [];
+				dropped_elements.forEach(function(label) {
+					drop($(".label-container[data-label='" + label + "']"), $(".grid-item[data-label='" + label + "']"));
+				});
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+		</script>
+	</body>
+</html>

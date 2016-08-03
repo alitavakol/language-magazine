@@ -20,39 +20,59 @@
 		</style>
 
 		<style type="text/css">
-			@font-face {
-				font-family: 'amega';
-				src: url('MCF_AmegaStar.ttf');
-			}
 			body {
 				overflow-y: scroll;
 			}
-			h1 {
-				margin-top: 0;
-				padding-top: 80%;
-				/*font-family: 'amega';*/
-				font-size: xx-large;
-				color: white;
-				background: -webkit-linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.5));
-				/*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
-				text-shadow: 1px 0px 6px rgba(50,50,50,1);
-				padding-bottom: 16px;
+			.cem-label {
+				display: inline-block;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				margin: 4px;
+			}
+			.label-container {
+				margin: -4px;
+				margin-bottom: 12px;
 			}
 			h4 {
-				text-transform: uppercase;
+				font-weight: 400;
+				margin-top: 20px;
 			}
-			.frame {
-				padding: 4px;
-				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
-				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+			h5 {
+				padding-top: 6px;
+				padding-bottom: 6px;
+				font-weight: bold;
+				border-bottom: 1px solid;
 			}
-			.foundation {
-				text-align: center;
+			h1, h3 {
+				margin-top: 0;
 			}
-			.restrict {
-				text-align: left;
-				max-width: 24cm;
-				display: inline-block;
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			.lockable {
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+			.box {
+				border: 3px solid;
+			}
+			#broken-finger {
+				-webkit-transform: rotate(-6deg);
+				transform: rotate(-6deg);
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				margin: 15px;
+				float: right;
+				max-width: 50%;
 			}
 		</style>
 
@@ -61,6 +81,8 @@
 
 		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
 		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
 		<script src="file:///android_asset/tinycolor-min.js"></script>
 		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
 
@@ -72,77 +94,80 @@
 		<div class="foundation">
 			<div id="top-margin"></div>
 
-			<div class="restrict">
-				<div style="-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); background: url('cover.png'); background-size: cover; background-repeat: no-repeat; background-position: center; text-align: center;">
-					<h1>Posh English</h1>
-				</div>
-				<h4 style="font-weight: 300;">Our monthly look at English accents from around the world in both English-speaking and non-English-speaking countries. This month: the Posh English accent. </h4>
+			<h1>Funeral Foibles</h1>
+			<h3>Funeral parlour disasters.</h3>
 
-				<p>The posh English accent is typically an upper-class English accent. Famous people with a posh English accent include Sir Laurence Olivier, the Queen, Prince Charles, Prince Harry, Prince William, David Cameron, Helen Mirren and Hugh Grant.</p>
-				<img src="man.png" style="max-width: 30%; float: right; border: solid 1px black; padding-left: 8px; margin-left: 4px; width: 5cm;">
-				<p>Posh people can be found all over the country, but like to congregate in the London area of Kensington and Chelsea, particularly in Sloane Square and Sloane Street (hence one of their nicknames, Sloane Rangers).</p>
-				<p>The posh person’s “bible” is The Official Sloane Ranger Handbook by British writer Peter York. It tells posh people everything they need to know about how to be posh.</p>
-				<p>Typical “posh” jobs include advertising executives, army officers, farmers, PR agents, art gallery managers, secretaries (for posh banks), journalists, lawyers, wine merchants, auctioneers, art dealers and City of London bankers.</p>
-				<p>Posh people often have unusual nicknames, such as Spiffy, Buffy, Gussie, Bingie, Buffy, Tuppy, Oofy, Barmy and Strangely Brown.</p>
-				<p>In the winter, posh people like to ski in Val d’Isere (in France), Aspen (Colorado) or Verbier (in Switzerland). In the summer you can find posh people in the Caribbean, Monaco, the Greek Isles and Cannes.</p>
-				<p>Now sit back and listen to Charles telling us all about the Posh English accent. <span class="accent">✪</span></p>
+			<h4><span class="accent">❶</span> <b>Pre reading</b></h4>
+			<p>You are going to read three stories about incidents in <a class="new-word" data-word="a funeral parlour" data-type="n" data-en="the place where dead people are prepared for burial">funeral parlours</a>. Look at the words in each column. What do you think the stories are about?</p>
+
+			<h5>Story 1</h5>
+			<div class="label-container">
+				<div class='cem-label'>taking a nap</div>
+				<div class='cem-label'>damage</div>
+				<div class='cem-label'>feet hanging out</div>
+				<div class='cem-label'>drunk</div>
+			</div>
+
+			<h5>Story 2</h5>
+			<div class="label-container">
+				<div class="cem-label">hid</div>
+				<div class="cem-label">broke into</div>
+				<div class="cem-label">play dead</div>
+			</div>
+
+			<h5>Story 3</h5>
+			<div class="label-container">
+				<div class="cem-label">funeral</div>
+				<div class="cem-label">phone call</div>
+				<div class="cem-label">ghost</div>
+				<div class="cem-label">pleased</div>
+			</div>
+
+			<h4><span class="accent">❷</span> <b>Listening</b></h4>
+			<p>Listen to the stories and see if your predictions were correct.</p>
+
+			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p>
+					<span data-start="12000" data-end="19240">Some strange things are happening in the least likely places: <a class="new-word" data-word="a funeral home" data-type="n US" data-en="the American English word for the place where dead people are prepared for burial">funeral homes</a>.</span> <span data-start="19241" data-end="30000">In one incident, local authorities in upstate New York <a class="new-word" data-word="to book" data-type="vb" data-en="if the police “book” you, they oicially record your name and the ofence that they may charge you with">booked</a> a 20-year-old man for <a class="new-word" data-word="to break in" data-type="phr vb" data-en="to enter private property illegally">breaking in</a> and <a class="new-word" data-word="to take nap" data-type="exp" data-en="to sleep for a short period, usually in the middle of the day">taking a nap</a> in a coffin.</span> <span data-start="30001" data-end="39500">The funeral director’s wife woke up to find a pair of trousers on the floor, and feet hanging out of a <a class="new-word" data-word="a coffin" data-type="n" data-en="a box for a dead body">coffin</a>.</span> <span data-start="39501" data-end="46170">The man was drunk, and caused more than $4,000 in damages.</span>
+				</p>
+				<p>
+					<span data-start="46171" data-end="53000">In another incident in Valencia, Spain, a thief broke into a funeral parlour.</span> <span data-start="53001" data-end="59000">When he realised the police had arrived, he <a class="new-word" data-word="to hide" data-type="vb" data-en="to go in a place where others can’t see/find you">hid</a> in a glass-topped coffin.</span> <span data-start="59001" data-end="66550">He tried to <a class="new-word" data-word="to play dead" data-type="exp" data-en="to act as if you are dead">play dead</a>, but his breathing and dirty street clothes <a class="new-word" data-word="to give you away" data-type="exp" data-en="if something “gives you away”, it shows others what you are really doing">gave him away</a>.</span>
+				</p>
+				<p>
+					<span data-start="66551" data-end="71300">A third incident resulted in a happy ending.</span> <span data-start="71301" data-end="78900">A Canadian man’s family was at his funeral when his daughter got a phone call... from her dad.</span> <span data-start="78901" data-end="83200">Thinking she was talking to a ghost, she screamed.</span> <span data-start="83201" data-end="89500">Days earlier, the family were informed that the man had been hit by a train.</span> <span data-start="89501" data-end="95000">However, he had been incorrectly identified as the <a class="new-word" data-word="the deceased" data-type="n" data-en="the dead person">deceased</a>.</span> <span data-start="95001" data-end="99700">Later, the man read his own <a class="new-word" data-word="an obituary" data-type="n" data-en="a report/article/speech about someone (their life, character, etc) after they have died">obituary</a> in the newspaper.</span> <span data-start="99701" data-end="105750">Apparently, he was pleased with it and is saving it for another day.</span> <span class="accent">✪</span>
+				</p>
+			</div></div>
+
+			<h4><span class="accent">❸</span> <b>Questions</b></h4>
+			<p>True or false?</p>
+			<ol style="margin-bottom: 24px;">
+				<li><span>In the first story the man found was a funeral director.</span></li>
+				<li><span>In the second story the man got away with his crime.</span></li>
+				<li><span>In the third story a man disappeared from his coin.</span></li>
+			</ol>
+
+			<div class="box fill-accent">
+				<img id="broken-finger" class="img-responsive" src='break-into.jpg'>
+				<h4 style="margin-top: 0; font-weight: bold;"><i>Phrasal verb alert!</i></h4>
+				<h4><i>break into</i></h4>
+				<p>
+					To “break into” a house or building is to enter it without authority or permission. This is the crime known as 'burglary'. The noun is a “break in”. For example: 
+					<ol>
+						<li><span>They broke into the bank.</span></li>
+						<li><span>There was a break-in last night.</span></li>
+					</ol>
+				</p>
+			</div>
+
+			<div class="box fill-light">
+				<h4 style="margin-top: 0; font-weight: bold;"><i>Discussion</i></h4>
+				<ol>
+					<li><span>Has anyone ever broken into the building where you work? What did they take?</span></li>
+					<li><span>Where’s the worst place in your country/city for break-ins? Why is it so bad?</span></li>
+				</ol>
 			</div>
 
 			<div id="bottom-margin"></div>
-
-			<div style="display: none;">
-				<span data-start="10117" data-end="14599"></span>
-				<span data-start="14600" data-end="20399"></span>
-				<span data-start="20400" data-end="24784"></span>
-				<span data-start="24785" data-end="32899"></span>
-				<span data-start="32900" data-end="39829"></span>
-				<span data-start="39830" data-end="49251"></span>
-				<span data-start="49252" data-end="56751"></span>
-				<span data-start="56752" data-end="63699"></span>
-				<span data-start="63700" data-end="68847"></span>
-				<span data-start="68848" data-end="74070"></span>
-				<span data-start="74071" data-end="78999"></span>
-				<span data-start="79000" data-end="84029"></span>
-				<span data-start="84030" data-end="92589"></span>
-				<span data-start="92590" data-end="101164"></span>
-				<span data-start="101165" data-end="106273"></span>
-				<span data-start="106274" data-end="118659"></span>
-				<span data-start="118660" data-end="123925"></span>
-				<span data-start="123926" data-end="127455"></span>
-				<span data-start="127456" data-end="134339"></span>
-				<span data-start="134340" data-end="145731"></span>
-				<span data-start="145732" data-end="151418"></span>
-				<span data-start="151419" data-end="157198"></span>
-				<span data-start="157199" data-end="162599"></span>
-				<span data-start="162600" data-end="165543"></span>
-				<span data-start="165544" data-end="169345"></span>
-				<span data-start="169346" data-end="172989"></span>
-				<span data-start="172990" data-end="175788"></span>
-				<span data-start="175789" data-end="182768"></span>
-				<span data-start="182769" data-end="186966"></span>
-				<span data-start="186967" data-end="191074"></span>
-				<span data-start="191075" data-end="195499"></span>
-				<span data-start="195500" data-end="204099"></span>
-				<span data-start="204100" data-end="208845"></span>
-				<span data-start="208846" data-end="215144"></span>
-				<span data-start="215145" data-end="220991"></span>
-				<span data-start="220992" data-end="226451"></span>
-				<span data-start="226452" data-end="230099"></span>
-				<span data-start="230100" data-end="233973"></span>
-				<span data-start="233974" data-end="238972"></span>
-				<span data-start="238973" data-end="240941"></span>
-				<span data-start="240942" data-end="245570"></span>
-				<span data-start="245571" data-end="245570"></span>
-				<span data-start="250109" data-end="250108"></span>
-				<span data-start="251690" data-end="251689"></span>
-				<span data-start="254553" data-end="254552"></span>
-				<span data-start="257780" data-end="257779"></span>
-				<span data-start="263250" data-end="263249"></span>
-				<span data-start="270960" data-end="270959"></span>
-				<span data-start="274700" data-end="274699"></span>
-				<span data-start="280577" data-end="280576"></span>
-				<span data-start="288587" data-end="298000"></span>
-			</div>
 		</div>
 
 		<script type="text/javascript">
@@ -150,22 +175,42 @@
 
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
-					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
-					#bottom-margin { height: " + bottomMargin + "px; } \
 					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
 					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
-					.title { color: " + tinycolor(accentColor).darken().darken() + "; } \
-					.accent2 { color: " + tinycolor(accentColor).darken() + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					h1 { color: " + tinycolor(accentColor).darken() + "; font-weight: bold; } \
+					h5 { border-color: #" + accentColor + "; color: #" + accentColor + "; } \
+					.cem-label { color: #" + backgroundColor + "; background-color: #" + textColor + "; -webkit-box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; } \
+					.box { padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
+					.fill-accent { background-color: " + highlightColor + "; } \
+					.fill-light { background-color: " + tinycolor(highlightColor).lighten() + "; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
 				");
 			}
 
 			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key-enter-access-door-place-512.png")').children().css('visibility', 'hidden');
+					$('.lockable').css('background-image', "url('coffin.jpg')");
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').css('background-image', '');
+				}
+
+				saveInstanceState();
+			}
 
 			saveInstanceState = function() {
 				if(restoringInstanceState)
 					return;
 
 				outState = {
+					transcriptLocked: transcriptLocked,
 					scroll: prevScroll,
 				};
 
@@ -177,11 +222,28 @@
 				restoringInstanceState = true;
 				state = JSON.parse(savedInstanceState);
 
+				lock(state.transcriptLocked || true);
+
 				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
 				prevScroll = $('body').scrollTop() / $('body').height();
 
 				restoringInstanceState = false;
 			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
 
 			setInterval(function() {
 				scroll = $('body').scrollTop() / $('body').height();

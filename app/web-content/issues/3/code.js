@@ -7,6 +7,10 @@ adjustLayout = function(options) {
 	topMargin = (options['topMargin'] || 0) / window.devicePixelRatio;
 	bottomMargin = (options['bottomMargin'] || 0) / window.devicePixelRatio;
 	height = (options['height'] || 0) / window.devicePixelRatio;
+	verticalMargin = (options['verticalMargin'] || 0) / window.devicePixelRatio;
+	horizontalMargin = (options['horizontalMargin'] || 0) / window.devicePixelRatio;
+	spacing = (options['spacing'] || 8) / window.devicePixelRatio;
+	normalPadding = (options['normalPadding'] || options['verticalMargin']) / window.devicePixelRatio;
 
 	textColor = ((options['textColor'] || 0) & 0xffffff).toString(16);
 	while(textColor.length < 6) textColor = '0' + textColor;
@@ -21,36 +25,18 @@ adjustLayout = function(options) {
 	}
 	newWordColor = tinycolor(textColor).saturate().saturate().toHexString();
 
-	if(typeof(setCurrentSlide) == 'function')
-		viewPagerHeight = 28;
-	else
-		viewPagerHeight = 0;
-
 	css = "\
-		.card { margin-top: " + (topMargin+28) + "px; background-color: #" + accentColor + "; } \
 		.highlight { background-color: " + highlightColor + "; } \
 		body { color: #" + textColor + "; } \
 		.accent { color: #" + accentColor + "; } \
 		.new-word, dd, dt { color: " + newWordColor + "; } \
-		#page-indicator { margin-top: " + topMargin + "px; } \
-		.container { padding-bottom: " + bottomMargin + "px; padding-top: " + (topMargin+viewPagerHeight) + "px; height: " + (height-topMargin-bottomMargin-viewPagerHeight) + "px; } \
-		h1.alt { color: " + newWordColor + "; } \
-		h3.alt { color: " + newWordColor + "; } \
-		.swipe-wrap > div { height: " + height + "px; } \
-		.card-content { color: " + newWordColor + "; } \
-		.dot { background-color: #" + textColor + "; } \
-		.dot.active { background-color: " + newWordColor + "; } \
 	"
 
 	if(options['backgroundColor']) {
 		backgroundColor = (options['backgroundColor'] & 0xffffff).toString(16);
 		while(backgroundColor.length < 6) backgroundColor = '0' + backgroundColor;
-		css += "h1 { color: #" + backgroundColor + "; }"
-		css += "h3 { color: #" + backgroundColor + "; }"
-
 	} else {
-		css += "h1 { color: #" + accentColor + "; }"
-		css += "h3 { color: #" + accentColor + "; }"
+		backgroundColor = 'ffffff';
 	}
 
 	$('#dynamic-rules').text(css);
@@ -58,39 +44,8 @@ adjustLayout = function(options) {
 	adjustCustomLayout(options);
 }
 
-if(typeof(app) == 'undefined') { // on web browser
-	$(document).ready(function() {
-		if(typeof(lock) == 'function') {
-				$('body').append('<button id="buttonToggleLock" style="position: absolute; top: 0; z-index: 2;">Toggle Show/Hide</button>');
-				$('#buttonToggleLock').click(function() {
-					lock(!window.transcriptLocked);
-				});
-		}
-
-		if(typeof(setCurrentSlide) == 'function')
-			$('body').append("<button  style='position: absolute; top: 0; float: right; right: 50px; z-index: 2;' onclick='swipeable.prev()'>Previous</button> <button  style='position: absolute; top: 0; float: right; right: 0; z-index: 2;' onclick='swipeable.next()'>Next</button>");
-
-		//adjustLayout(0, 0, $(window).height(), 0x9688, 0x888888, 0xf5f5f5, 0);
-		adjustLayout({
-			topMargin: 20,
-			horizontalMargin: 10,
-			bottomMargin: 0,
-			height: $(window).height(), 
-			accentColor: 0x9688, 
-			textColor: 0xc5c5c5, 
-			newWordColor: 0xf8f8f8
-		});
-
-		if(typeof(lock) == 'function')
-			lock(false);
-
-		if(typeof(setCurrentSlide) == 'function')
-			setCurrentSlide(0);
-	});
-}
-
 $(document).ready(function() {
-	$('a').click(function() {
+	$('a.new-word').click(function() {
 		if(typeof(app) != 'undefined') {
 			var rect = this.getBoundingClientRect();
 			app.showGlossary($(this).data('word'), rect.left  * window.devicePixelRatio, rect.top * window.devicePixelRatio, $(this).height() * window.devicePixelRatio);

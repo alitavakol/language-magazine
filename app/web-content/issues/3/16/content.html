@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			@font-face {
+				font-family: 'toast';
+				src: url('Lorano-ExtraLight.ttf');
+			}
+			body {
+				overflow-y: scroll;
+				border: solid 1px black;
+			}
+			h3 {
+				/*margin-bottom: -8px;*/
+				font-weight: lighter;
+				text-transform: uppercase;
+			}
+			h1 {
+				font-family: 'toast';
+				/*font-size: 5em;*/
+				/*font-weight: bold;*/
+				text-align: center;
+				/*margin-top: 5px;*/
+				/*margin-bottom: -6px;*/
+				position: relative;
+				z-index: 1;
+				/*line-height: 0.7;*/
+			}
+			h4 {
+				font-weight: bold;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+				margin-bottom: 2px;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			img {
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				padding: 6px;
+			}
+			#plate {
+				float: right;
+				margin: 16px;
+				margin-right: 24px;
+				-webkit-transform: rotate(4deg);
+				transform: rotate(4deg);
+				max-width: 50%;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+
+	<body>
+		<h1>Chicken Cordon Bleu</h1>
+		<h3>Here’s another recipe for you to try at home. <b>This month: Chicken Cordon Bleu</b> – perfect for an evening meal.</h3>
+
+		<img src="cover.png" style="width: 100%;">
+
+		<div style="position: relative; bottom: 72px; margin-bottom: -72px;">
+			<img id="plate" src="food.png" class="img-responsive">
+			<div style="height: 96px;"></div>
+
+			<h4>Ingredients</h4>
+			<ul>
+				<li><span>4 <a class="new-word" data-word="skinless" data-type="adj" data-en="with no skin">skinless</a>, <a class="new-word" data-word="boneless" data-type="adj" data-en="with no bones">boneless</a> chicken <a class="new-word" data-word="a (chicken) breast" data-type="n" data-en="the front part of a chicken's body where there is a lot of meat">breast</a> halves</span></li>
+				<li><span>4 teaspoon salt</span></li>
+				<li><span>1/8 teaspoon ground black pepper</span></li>
+				<li><span>6 <a class="new-word" data-word="a slice" data-type="n" data-en="a thin piece of something">slices</a> Swiss cheese</span></li>
+				<li><span>4 slices ham</span></li>
+				<li><span>2 cup <a class="new-word" data-word="breadcrumbs" data-type="n" data-en="very small pieces of bread">breadcrumbs</a></span></li>
+			</ul>
+
+			<h4>Method</h4>
+			<ul>
+				<li><span>Pre-heat the oven to 175 degrees C.</span></li>
+				<li><span><a class="new-word" data-word="to pound" data-type="vb" data-en="to hit something in order to make it thinner">Pound</a> the chicken.</span></li>
+				<li><span>Sprinkle salt and pepper on both sides of each piece of chicken.</span></li>
+				<li><span>Place 1 cheese slice and 1 ham slice on top of each breast.</span></li>
+				<li><span>Roll up each breast, and secure with a <a class="new-word" data-word="a toothpick" data-type="n" data-en="a thin, wooden stick used for cleaning your teeth">toothpick</a>.</span></li>
+				<li><span>Place in a baking tray, and sprinkle chicken evenly with breadcrumbs.</span></li>
+				<li><span>Bake for 30 to 35 minutes.</span></li>
+				<li><span><a class="new-word" data-word="to remove" data-type="vb" data-en="to take out / away">Remove</a> from oven, and place 1/2 cheese slice on top of each breast.</span></li>
+				<li><span>Return to oven for 3 to 5 minutes, or until cheese has melted.</span></li>
+				<li><span>Remove toothpicks, and serve immediately. <span class="accent">✪</span></span></li>
+			</ul>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { margin-right: " + horizontalMargin + "px; margin-left: " + horizontalMargin + "px; margin-top: " + (topMargin+verticalMargin) + "px; margin-bottom: " + verticalMargin + "px; padding-right: " + normalPadding + "px; padding-left: " + normalPadding + "px; padding-bottom: " + normalPadding + "px; } \
+					h1, h4, li { color: " + tinycolor(accentColor).darken() + "; } \
+					li > span { color: #" + textColor + "; } \
+					img { background: #" + backgroundColor + "; } \
+				");
+			}
+
+			container = $('body')[0];
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				container.scrollTop = (state['scroll'] || 0) * container.scrollHeight;
+				prevScroll = container.scrollTop / container.scrollHeight;
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = container.scrollTop / container.scrollHeight;
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = container.scrollTop;
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

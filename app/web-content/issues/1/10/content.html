@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>News Stories</title>
-
+		<title>Funeral Foibles</title>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<!-- Material Design fonts -->
 		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
@@ -14,91 +12,76 @@
 		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
 
-		<!-- Bootstrap Material Design -->
-		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
-
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
 		<style id="dynamic-rules">
 		</style>
 
 		<style type="text/css">
-			#title-container {
-				background-color: rgba(50,50,50,.8);
-				display: inline-block;
+			body {
+				overflow-y: scroll;
+			}
+			.grid {
+				margin: 0 auto;
+			}
+			.grid-item {
+				width: 200px;
+				height: 150px;
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: cover;
+				border: solid 3px;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				margin-bottom: 20px;
+			}
+			.grid-item--width2 {
+				width: 420px;
+			}
+			.grid-item--height2 {
+				height: 320px;
+			}
+			.grid-item--height4 {
+				height: 640px;
+			}
+			h1, h3 {
+				margin-top: 0;
+			}
+			h4 {
+				font-weight: bold;
+				margin-top: 20px;
+			}
+			.label-base {
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				text-align: center;
+				opacity: .9;
+				font-size: 80%;
 			}
 			.label-container {
 				display: inline-block;
-				padding: 10px;
-				margin-left: 10px;
-				margin-right: 10px;
+				padding: 8px;
+				margin-left: 8px;
+				margin-right: 8px;
 				margin-top: 6px;
 				margin-bottom: 6px;
 				-webkit-box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
 				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
-				font-weight: bold;
 			}
 			.label-container.gone {
 				opacity: .2;
 				-webkit-box-shadow: inherit;
 				box-shadow: inherit;
 			}
-			.label-container.attached {
-				visibility: hidden;
-			}
-			.label-base {
-				position: absolute;
-				left: 0;
-				right: 0;
-				bottom: -16px;
-				vertical-align: center;
-			}
-			.visible {
-				visibility: visible !important;
-			}
-			.image-container {
-				text-align: center;
-				padding: 8px;
-				margin-bottom: 12px;
-			}
-			#images {
-				padding: 10px;
-				padding-top: 16px;
-			}
-			#images img {
-				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
-				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
-				width: 100%;
+			.label-base .label-container {
+				display: none;
 			}
 			#labels {
-				margin-left: -10px;
-			}
-			body {
-				overflow-y: scroll;
-			}
-			#strip {
-				position: fixed;
-				top: 0;
-				left: 0;
-			}
-			h1, h3 {
-				margin-top: 0;
-			}
-			h4 {
-				font-weight: 400;
-				margin-top: 20px;
-			}
-			ol, ul {
-				padding-left: 1.2em;
-			}
-			li {
-				font-weight: bold;
-			}
-			li > span {
-				font-weight: normal;
-			}
-			.box {
-				border: dotted 1px black;
+				margin-left: -8px;
+				padding-bottom: 16px;
+				text-align: center;
 			}
 		</style>
 
@@ -107,104 +90,60 @@
 
 		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
 		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
-		<script src="jquery-ui.min.js"></script>
-		<script src="jquery.ui.touch-punch.min.js"></script>
 		<script src="file:///android_asset/tinycolor-min.js"></script>
 		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="masonry.pkgd.min.js"></script>
+		<script src="jquery-ui.min.js"></script>
+		<script src="jquery.ui.touch-punch.min.js"></script>
 		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
 		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
 
 		<script src="../code.js"></script>
 		<script src="../debug.js"></script>
+
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	</head>
 
 	<body>
-		<div id="strip"></div>
-		<div id="top-margin"></div>
+		<div class="foundation">
+			<div id="top-margin"></div>
 
-		<h1>Extreme Yoga</h1>
-		<h3>Yoga in the air.</h3>
+			<h1>Trivia Matching</h1>
 
-		<img src="cover.jpg" style="width: 100%; border: solid 1px black;">
+			<h4>Excercise</h4>
+			<p style="font-weight: 300; text-transform: uppercase;">See if you can do this matching exercise. Look at the list of things, and the photos. Match the name of each thing in the list below.</p>
 
-		<h4><span class="accent">❶</span> <b>Pre listening</b></h4>
-		<p>Match the words to the pictures.</p>
-		<div class="box">
 			<div id="labels"></div>
-			<div id="images" class="row"></div>
-		</div>
 
-		<h4><span class="accent">❷</span> <b>Discussion</b></h4>
-		<ol>
-			<li><span>Do you do any of the activities from above? Which ones?</span></li>
-			<li><span>What are the beneits of these activities?</span></li>
-			<li><span>Which activities from above would you like to try? Why? Why not?</span></li>
-		</ol>
+			<div class="grid">
+				<div class="grid-item" style="background-image: url('A.png');" data-label='A'></div>
+				<div class="grid-item" style="background-image: url('H.png');" data-label='H'></div>
+				<div class="grid-item" style="background-image: url('C.png');" data-label='C'></div>
+				<div class="grid-item" style="background-image: url('F.png');" data-label='F'></div>
+				<div class="grid-item" style="background-image: url('J.png');" data-label='J'></div>
+				<div class="grid-item grid-item--height2" style="background-image: url('K.png');" data-label='K'></div>
+				<div class="grid-item" style="background-image: url('G.png');" data-label='G'></div>
+				<div class="grid-item grid-item--width2 grid-item--height4" style="background-image: url('I.png');" data-label='I'></div>
+				<div class="grid-item" style="background-image: url('D.png');" data-label='D'></div>
+				<div class="grid-item" style="background-image: url('B.png');" data-label='B'></div>
+				<div class="grid-item" style="background-image: url('L.png');" data-label='L'></div>
+				<div class="grid-item" style="background-image: url('E.png');" data-label='E'></div>
+			</div>
 
-		<h4><span class="accent">❸</span> <b>Listening I</b></h4>
-		<p>You are going to listen to an article about a new form of physical exercise. Listen once. Which activity is it?</p>
-		<ol>
-			<li><span>jogging</span></li>
-			<li><span>yoga</span></li>
-			<li><span>aerobics</span></li>
-		</ol>
-
-		<h4><span class="accent">❹</span> <b>Listening II</b></h4>
-		<p>Listen again. True or false?</p>
-		<ol>
-			<li><span>Slackline Yoga is a type of yoga practised in the circus.</span></li>
-			<li><span>Slackline Yoga was invented by rock climbers.</span></li>
-			<li><span>Acroyoga is yoga in water.</span></li>
-			<li><span>David lives in a big house with lots of land.</span></li>
-			<li><span>If you can’t go to one of his workshops, you can buy the DVD.</span></li>
-		</ol>
-
-		<div id="bottom-margin"></div>
-
-		<div style="display: none;">
-			<span data-start="0" data-end="7000"></span>
-			<span data-start="7001" data-end="9700"></span>
-			<span data-start="9701" data-end="14000"></span>
-			<span data-start="14001" data-end="16500"></span>
-			<span data-start="16501" data-end="19300"></span>
-			<span data-start="19301" data-end="23750"></span>
-			<span data-start="23751" data-end="26950"></span>
-			<span data-start="26951" data-end="30700"></span>
-			<span data-start="30701" data-end="34400"></span>
-			<span data-start="34401" data-end="36960"></span>
-			<span data-start="36961" data-end="44100"></span>
-			<span data-start="44101" data-end="46160"></span>
-			<span data-start="46161" data-end="49600"></span>
-			<span data-start="49601" data-end="53100"></span>
-			<span data-start="53101" data-end="55550"></span>
-			<span data-start="55551" data-end="58660"></span>
-			<span data-start="58661" data-end="60230"></span>
-			<span data-start="60231" data-end="62270"></span>
-			<span data-start="62271" data-end="67350"></span>
-			<span data-start="67351" data-end="71200"></span>
-			<span data-start="71201" data-end="74770"></span>
-			<span data-start="74771" data-end="77700"></span>
-			<span data-start="77701" data-end="79550"></span>
-			<span data-start="79551" data-end="81900"></span>
-			<span data-start="81901" data-end="85560"></span>
+			<div id="bottom-margin"></div>
 		</div>
 
 		<script type="text/javascript">
 			restoringInstanceState = false;
 
-			var mixed_label_ids = [3, 5, 1, 4, 0, 2];
-			var images = [['pilates.jpg', 'pilates'], ['step.jpg', 'step'], ['yoga.jpg', 'yoga'], ['jog.jpg', 'jogging'], ['gym.jpg', 'working out at the gym'], ['aerobics.jpg', 'aerobics']];
-			var image_template = "<div class='image-container col-xs-6 col-sm-4 col-md-3 col-lg-2' data-label='{label}'><img src='{img}' class='img-circle img-responsive'><div class='label-base'><div class='label-container attached'>{label}</div></div></div>";
-			var label_template = "<div class='label-container draggable' data-label='{label}'>{label}</div>";
-
-			container = $('#images');
-			images.forEach(function(img) {
-				 container.append(image_template.replace('{img}', img[0]).replace(/\{label\}/g, img[1]));
-			});
+			var label_template = "<div class='label-container draggable' data-image='{img}.jpg' data-label='{img}'>{label}</div>";
+			var attached_label_template = "<div class='label-base'><div class='label-container'>{label}</div></div>";
 
 			container = $('#labels');
-			mixed_label_ids.forEach(function(id) {
-				 container.append(label_template.replace(/\{label\}/g, images[id][1]));
+			[['A dwarf', 'J'], ['Grumpy', 'D'], ['To sneeze', 'I'], ['Sleepy', 'C'], ['A miner', 'B'], ['Extras (in a film)', 'E'], ['A sign of the zodiac', 'A'], ['A gate (in an airport)', 'F'], ['A guest', 'G'], ['A horseshoe', 'L'], ['Someone hanging upside down', 'K'], ['A nightmare', 'H']].forEach(function(label) {
+					container.append(label_template.replace(/\{label\}/g, label[0]).replace(/\{img\}/g, label[1]));
+					$(".grid-item[data-label='" + label[1] + "']").append(attached_label_template.replace(/\{label\}/g, label[0]));
 			});
 
 			dropped_elements = [];
@@ -233,7 +172,7 @@
 				}
 			});
 
-			$('.image-container').droppable({
+			$('.grid-item').droppable({
 				activate: function(ev, ui) {
 				},
 				deactivate: function(ev, ui) {
@@ -242,7 +181,7 @@
 					drop(ui.draggable, $(this));
 				}
 			});
-			$('.image-container').tap(function() {
+			$('.grid-item').tap(function() {
 				drop($('.draggable.selected'), $(this));
 			});
 
@@ -251,8 +190,8 @@
 					return;
 
 				var label = dropzone.data('label');
-				if(label == dropped.html()) {
-					dropzone.find('.label-container').addClass('visible');
+				if(label == dropped.data('label')) {
+					dropzone.find('.label-container').css('display', 'inline-block');
 					dropped.draggable('disable');
 					dropped.data('gone', true).removeClass('selected').addClass('gone');
 
@@ -270,16 +209,40 @@
 			}
 
 			adjustCustomLayout = function(options) {
+				var columnWidth = $('.foundation').width() - 2*horizontalMargin - spacing;
+				if(columnWidth > 800) {
+					columnWidth /= 5;
+				}
+				else if(columnWidth > 640)
+					columnWidth /= 4;
+				else if(columnWidth > 320)
+					columnWidth /= 3;
+				else
+					columnWidth /= 2;
+				columnWidth -= spacing;
+				columnHeight = 3 * columnWidth / 4;
+
 				$('#local-rules').text("\
-					body { padding-left: " + (2*horizontalMargin) + "px; padding-right: " + horizontalMargin + "px; } \
-					#strip { width: " + horizontalMargin + "px; height: " + height + "px; background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
 					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
-					#bottom-margin { height: " + bottomMargin + "px; } \
+					#bottom-margin { height: " + (verticalMargin-spacing) + "px; } \
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + (horizontalMargin-spacing) + "px; background-color: #" + backgroundColor + "; } \
+					.grid { margin-right: -" + spacing + "px; } \
+					.grid-item { margin-bottom: " + spacing + "px; } \
+					.grid-item { width: " + columnWidth + "px; height: " + columnHeight + "px; } \
+					.grid-item--height2 { height: " + (2*columnHeight+spacing) + "px; } \
+					.grid-item--height4 { height: " + (4*columnHeight+3*spacing) + "px; } \
+					.grid-item--width2 { width: " + (2*columnWidth+spacing) + "px; } \
 					.label-container { background-color: " + highlightColor + "; } \
 					.label-container.selected { background-color: #" + accentColor + "; } \
 					h1 { color: " + tinycolor(accentColor).darken() + "; font-weight: bold; } \
-					.box { padding-top: " + spacing + "px; padding-left: " + (2*spacing) + "px; padding-right: " + (2*spacing) + "px; } \
 				");
+
+				$('.grid').masonry({
+					itemSelector: '.grid-item',
+					columnWidth: columnWidth,
+					gutter: spacing,
+				});
 			}
 
 			prevScroll = 0;
@@ -303,7 +266,7 @@
 
 				dropped_elements = state['dropped_elements'] || [];
 				dropped_elements.forEach(function(label) {
-					drop($(".label-container[data-label='" + label + "']"), $(".image-container[data-label='" + label + "']"));
+					drop($(".label-container[data-label='" + label + "']"), $(".grid-item[data-label='" + label + "']"));
 				});
 
 				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
@@ -320,6 +283,5 @@
 				}
 			}, 3000);
 		</script>
-
 	</body>
 </html>

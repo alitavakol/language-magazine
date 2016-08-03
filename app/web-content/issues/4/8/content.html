@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			@font-face {
+				font-family: kust;
+				src: url("StrejkaRegular.ttf")
+			}
+			body {
+				overflow-y: scroll;
+			}
+			h1, h4 {
+				margin-top: 0;
+				text-transform: uppercase;
+			}
+			.lockable {
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
+				background-image: url('wall.jpg');
+			}
+			#transcript {
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: center;
+				text-align: -webkit-center;
+			}
+			#transcript p {
+				font-family: 'kust';
+				font-size: 3em;
+				line-height: 85%;
+				margin: 0;
+				padding: 0;
+				display: table-cell;
+				vertical-align: middle;
+			}
+			#transcript div {
+				display: table;
+			}
+			#transcript div:not(:last-child) {
+				margin-bottom: 16px;
+			}
+			#transcript div:nth-child(even) p {
+				-webkit-transform: rotate(-3deg);
+				transform: rotate(-3deg);
+			}
+			#transcript div:nth-child(odd) p {
+				-webkit-transform: rotate(3deg);
+				transform: rotate(3deg);
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<h1>Graffiti</h1>
+			<h4>Here are some more examples of british toilet graffiti.</h4>
+
+			<div class="lockable"><div id="transcript">
+				<div><p><span data-start="11255" data-end="18546">Bigamy is having one husband too many. Monogamy is the same thing.</span></p></div>
+				<div><p><span data-start="18547" data-end="26730">Political ability is the ability to <a class="new-word" data-word="to foretell" data-type="vb" data-en="to predict">foretell</a> what is going to happen tomorrow, next week, and next year.</span> <span data-start="26731" data-end="36630">And to have the ability afterwards to explain why it didn’t happen.</span></p></div>
+				<div><p><span data-start="36631" data-end="42933">From the moment I <a class="new-word" data-word="to pick up" data-type="phr vb" data-en="to take in your hands">picked up</a> this book until I laid it down, I was <a class="new-word" data-word="convulsed with laughter" data-type="exp" data-en="laughing so much that your stomach hurts">convulsed with laughter</a>.</span> <span data-start="42934" data-end="51000">Someday I intend to read it.</span></p></div>
+				<div><p><span data-start="51001" data-end="64700">Everything you read in the newspapers is absolutely true, except for the rare story of which you happen to have <a class="new-word" data-word="to have first-hand knowledge of something" data-type="exp" data-en="to know about something through experience">first-hand knowledge</a>.</span></p></div>
+				<div><p><span data-start="64701" data-end="79990">A celebrity is a person who works hard all his life to become well-known, then wears dark glasses to avoid being recognised.</span></p></div>
+			</div></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					.foundation { padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#transcript { padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; padding-top: " + (2*verticalMargin) + "px; padding-bottom: " + bottomMargin + "px; } \
+					#transcript p { padding-top: " + spacing + "px; padding-bottom: " + spacing + "px; } \
+					.lockable { padding-bottom: " + horizontalMargin + "px; margin-left: -" + horizontalMargin + "px; margin-right: -" + horizontalMargin + "px; margin-top: " + (2*verticalMargin) + "px; } \
+					h1 { color: #" + accentColor + "; font-weight: bold; } \
+					#transcript div:nth-child(even) p { color: " + tinycolor(accentColor).darken() + "; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key-enter-access-door-place-512.png")').children().css('visibility', 'hidden');
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+				}
+
+				saveInstanceState();
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+
+			$('#transcript p').each(function() {
+				$(this).parent().css("height", this.getBoundingClientRect().height);
+			});
+		</script>
+	</body>
+</html>

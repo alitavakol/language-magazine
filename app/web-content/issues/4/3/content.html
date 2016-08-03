@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h1, h3 {
+				margin-top: 0;
+			}
+			h4 {
+				font-weight: 400;
+				margin-top: 20px;
+			}
+			.lockable {
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			.frame {
+				/*padding: 4px;*/
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+			}
+			.box {
+				border: 3px solid;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<h1>Wikipedia Vandals</h1>
+			<h3>The pros and cons of Wikipedia.</h3>
+
+			<h4><span class="accent">❶</span> <b>Pre-reading</b></h4>
+			<p>Can you answer these general knowledge questions? Where would you go to find the answers?</p>
+			<ol>
+				<li><span>What’s the currency of Ireland?</span></li>
+				<li><span>How many tentacles does an octopus have?</span></li>
+				<li><span>Who’s the Queen of Denmark?</span></li>
+				<li><span>Who lived at 221b Baker Street?</span></li>
+				<li><span>What’s the capital of Thailand?</span></li>
+				<li><span>In which year did the Second World War end?</span></li>
+				<li><span>How tall is Mount Everest?</span></li>
+				<li><span>Who wrote A Tale of Two Cities?</span></li>
+			</ol>
+
+			<h4><span class="accent">❷</span> <b>Listening</b></h4>
+			<p>What are the pros and cons of Wikipedia? Think. Then, listen to the article to compare your ideas. Listen many times!</p>
+			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p><span data-start="12509" data-end="15273">What do you do when you need to <a class="new-word" data-word="to look up" data-type="phr vb" data-en="to find information in a book, encyclopaedia or on the internet">look</a> something <a class="new-word" data-word="to look up" data-type="phr vb" data-en="to find information in a book, encyclopaedia or on the internet">up</a>?</span> <span data-start="15274" data-end="20543">Go to the library? Open an encyclopaedia? Click onto the internet?</span> <span data-start="20544" data-end="26361">These days, most people go straight to Wikipedia, the online encyclopaedia.</span> <span data-start="26362" data-end="29000">But how <a class="new-word" data-word="reliable" data-type="adj" data-en="if something is “reliable”, you can depend on it and trust it">reliable</a> is it?</span></p> 
+				<p><img src="vandal.jpg" style="float: right; margin-left: 8px; width: 50%; max-width: 8cm; margin-top: 4px; margin-bottom: 4px;" class="frame"><span data-start="29001" data-end="34031">There’s no denying the popularity and usefulness of Wikipedia.</span> <span data-start="34032" data-end="44316">It attracts a massive 78 million visitors every month, and the site is available in more than 270 different languages.</span> <span data-start="44317" data-end="53728">It’s one of the most <a class="new-word" data-word="comprehensive" data-type="adj" data-en="if a website is “comprehensive”, it has lots of information">comprehensive</a> resources available, and it’s got much more information than an ordinary encyclopaedia.</span> <span data-start="53729" data-end="60215">The site is updated on a daily basis by thousands of people around the world.</span> <span data-start="60216" data-end="66320">Anyone with an internet connection can <a class="new-word" data-word="to log on" data-type="phr vb" data-en="to enter your username and password in order to enter a website">log on</a> and edit the contents or add a new page.</span> <span data-start="66321" data-end="68861">And you don’t need any formal <a class="new-word" data-word="training" data-type="n" data-en="if you receive “training”, you are taught how to do something">training</a>.</span></p> 
+				<p><span data-start="68862" data-end="72401">Of course, there are some controls.</span> <span data-start="72402" data-end="79770">Wikipedia has a team of more than 1,500 administrators who check for false information.</span> <span data-start="79771" data-end="86808">And <a class="new-word" data-word="a prime target" data-type="n" data-en="someone who will probably be affected by something">prime targets</a> for <a class="new-word" data-word="malicious" data-type="adj" data-en="nasty, horrible, not nice, not pleasant, designed to hurt others">malicious</a> comments (such as politicians) are <a class="new-word" data-word="off-limits" data-type="adj" data-en="if something is “off-limits”, it is not possible to access it">off-limits</a> to public editing.</span> <span data-start="86809" data-end="92481">But with more than 16 million articles to <a class="new-word" data-word="to keep an eye on" data-type="exp" data-en="to watch something in order to make sure it’s all right">keep an eye on</a>, it isn’t easy.</span> <span data-start="92482" data-end="102655">So, while Wikipedia benefits from being constantly updated with information from all over the world, it’s also <a class="new-word" data-word="open" data-type="adj" data-en="if a website is “open”, people can access it easily">open</a> to “<a class="new-word" data-word="a vandal" data-type="n" data-en="a person who breaks or ruins things for fun">vandals</a>”.</span></p> 
+				<p><span data-start="102656" data-end="107000">Some of the damage is easy to notice.</span> <span data-start="107001" data-end="113090">One <a class="new-word" data-word="a prankster" data-type="n" data-en="a person who plays jokes on other people, or who tricks people">prankster</a> drew <a class="new-word" data-word="the devil" data-type="n" data-en="Satan - the evil person who lives in hell">devil</a> <a class="new-word" data-word="horns" data-type="n" data-en="two sharp objects on the head of a cow, bull, goat, Satan, etc.">horns</a> and a <a class="new-word" data-word="a moustache" data-type="n" data-en="a line of hair just above the mouth">moustache</a> on Microsoft chairman Bill Gate’s photo,</span> <span data-start="113091" data-end="127971">while another edited Greek philosopher Plato’s biography to say he was a “Hawaiian weather man who is widely believed to have been a student of ‘Barney the Purple Dinosaur’ and to have been deeply influenced by his dog, Cutie.”</span></p>
+				<p><img src="norman.jpg" style="float: right; margin-left: 8px; width: 40%; max-width: 6cm; margin-bottom: 4px; padding: 4px;" class="frame"><span data-start="127972" data-end="131104">But other things are harder to <a class="new-word" data-word="to spot" data-type="vb" data-en="to notice / to see">spot</a>.</span> <span data-start="131105" data-end="139504">The most common form of vandalism involves adding <a class="new-word" data-word="tiny" data-type="adj" data-en="very small">tiny</a> items of false information into the biography of a famous person.</span> <span data-start="139505" data-end="150856">Incredibly, some of this misinformation has appeared in newspapers, with <i>The Daily Mail</i>, <i>The Guardian</i> and <i>The Independent</i> all having <a class="new-word" data-word="to fall victim to" data-type="exp" data-en="if you “fall victim to” a trick, you are the victim of that trick or joke">fallen victim to</a> the <a class="new-word" data-word="a prank" data-type="n" data-en="a joke or trick played on someone in order to make them look stupid">pranks</a>.</span> <span data-start="150857" data-end="163372">For example, in an <a class="new-word" data-word="an obituary" data-type="n" data-en="a story about someone’s life written after they die">obituary</a> for British comedian <a class="new-word" data-word="Sir Norman Wisdom" data-type="n" data-en="a popular comedy actor from Britain (1915 to 2010)">Sir Norman Wisdom</a>, one newspaper claimed that he co-wrote Dame Vera Lynn’s <a class="new-word" data-word="a wartime hit" data-type="n" data-en="a song that was popular during the war">wartime hit</a> “There’ll be Bluebirds over the White Cliffs of Dover”.</span> <span data-start="163373" data-end="165446">He did no such thing.</span> <span data-start="165447" data-end="175106">And in another article, it was reported that TV <a class="new-word" data-word="a theme tune" data-type="n" data-en="a song played at the start of every episode of a TV series">theme tune</a> composer Ronnie Hazlehurst had written the <i>S Club 7</i> hit “Reach”.</span> <span data-start="175107" data-end="177630">Once again, not true.</span></p>
+				<p style="margin-bottom: 0;"><span data-start="177631" data-end="186426">So, if you’re going to use any information from Wikipedia, make sure you <a class="new-word" data-word="to double-check" data-type="exp" data-en="to examine something twice to make sure that it’s all right">double-check</a> it first.</span> <span class="accent">✪</span></p>
+			</div></div>
+
+			<h4><span class="accent">❸</span> <b>Reading</b></h4>
+			<p>Read the article and find the answers to these questions.</p>
+			<ol>
+				<li><span>How many different languages is the site available in?</span></li>
+				<li><span>How often is the site updated?</span></li>
+				<li><span>How many administrators are there?</span></li>
+				<li><span>Why are politicians off-limits to public editing?</span></li>
+				<li><span>What did one prankster do to an image of Bill Gates?</span></li>
+				<li><span>What was wrong with Norman Wisdom’s obituary?</span></li>
+			</ol>
+
+			<h4><span class="accent">❹</span> <b>Language Focus<br><span class="accent">Expressions with <i>fall</i></span></b></h4>
+			<p>Look at this extract from the article on this page, <span style="font-weight: 300;">“&#8230;all having fallen victim to the pranks&#8230;”</span> The writer has used an expression with the verb <i>fall</i>: <i>to fall victim to something</i>. Complete the sentences with your own words.</p>
+			<ol>
+				<li><span>I fell asleep at ... last night.</span></li> 
+				<li><span>I fell out with my best friend because ...</span></li> 
+				<li><span>I fell down while I was ...</span></li> 
+				<li><span>They fell about laughing at ...</span></li> 
+ 			</ol>
+
+			<h4><span class="accent">❺</span> <b>Discussion</b></h4>
+			<ol>
+				<li><span>Do you use Wikipedia? What do you think of it?</span></li>
+				<li><span>What did you use before Wikipedia?</span></li>
+				<li><span>What other websites do you use to find out information?</span></li>
+			</ol>
+
+			<div class="box fill-light">
+				<h4 style="margin-top: 0; font-weight: bold;">Wikipedia</h4>
+				<p>is a non-profit website funded by donations. It was launched on 15th January (2001), which some users celebrate as “Wikipedia Day”. A person who writes or edits pages is known as a Wikipedian. “Wiki” means “quick” in Hawaiian language.</p>
+				<img src="wiki.png" style="width: 100%;">
+			</div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					#top-margin { height:" + (topMargin+verticalMargin) +"px; } \
+					#bottom-margin { height:" + bottomMargin +"px; } \
+					body { background: -webkit-linear-gradient(#" + accentColor +",#" + backgroundColor +"); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left:" + horizontalMargin +"px; padding-left:" + horizontalMargin +"px; padding-right:" + horizontalMargin +"px; background-color: #" + backgroundColor +"; } \
+					h1 { color:" + tinycolor(accentColor).darken() +"; font-weight: bold; } \
+					.fill-light { background-color: " + tinycolor(highlightColor).lighten() + "; } \
+					.box { padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key-enter-access-door-place-512.png")').children().css('visibility', 'hidden');
+					$('.lockable').css({'background-image':"url('cover.jpg')", border: 'solid 1px black'});
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').css({'background-image': '', border: 'solid 1px white'});
+				}
+
+				saveInstanceState();
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+					transcriptLocked: transcriptLocked,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				lock(state.transcriptLocked || true);
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

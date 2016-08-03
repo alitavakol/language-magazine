@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<title>Useful Verbs and Expressions</title>
 		<meta charset="utf-8">
 
 		<!-- Material Design fonts -->
@@ -44,7 +45,7 @@
 				transition: box-shadow .25s;
 				border-radius: 2px;
 				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
-				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+		    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
 				max-width: 100%;
 			}
 			.cem-card .card-image {
@@ -150,10 +151,10 @@
 					<div class='bottom-margin'></div>\
 				</div>\
 			";
-			verbs = ['Phone / call somebody', 'Talk to somebody', 'Have a drink with somebody', 'Have a chat with someone', 'Meet somebody', 'Arrange to meet somebody'];
-			defs = ['TO USE THE TELEPHONE / YOUR MOBILE TO TALK TO SOMEONE.', 'To have a conversation with someone.', 'To go to a bar in order to drink something with someone.', 'To talk informally or casually with someone.', 'To see somebody at a specific time and place.', 'To organise a time and a place to meet someone.'];
-			images = ['call.jpg', 'talk.jpg', 'drink.jpg', 'chat.jpg', 'meet.jpg', 'arrange.jpg'];
-			examples = ['“I’ll call you later.”', '“I’ll talk to you about it later.”', '“It’s nice to have a drink with you.”', '“let’s have a chat about our holidays.”', '“when shall we meet again?”', '“What time did we arrange to meet? you still aren’t here.”'];
+			verbs = ['To pitch a tent', 'To go on a hike', 'To build a fire', 'To catch fish', 'To roast marshmallows', 'To set up camp'];
+			defs = ['To assemble a tent.', 'To go for a long walk in the country.', 'To make a fire from materials such as wood and sticks.', 'To use a fishing rod and/or line to get fish.', 'To cook marshmallows over a fire.', 'If you “set up camp”, you organise your campsite by putting your tent, supplies and food in order.'];
+			images = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg'];
+			examples = ['“The first thing we did when we got to the campsite was pitch our tent.”', '“We plan to go on a hike in Fisher Canyon.”', '“If we want to eat dinner, we should probably build a fire first.”', '“My mum and I caught seven fish in three hours down at the lake.”', '“Sean loves to roast marshmallows when we go camping.”', '“My friends and I left home in the morning because we wanted to set up camp before dark.”'];
 			var i = 0;
 			verbs.forEach(function(verb) {
 				$('.swipe-wrap').append(card_template.replace(/\{verb\}/g, verb).replace(/\{img\}/g, images[i]).replace(/\{def\}/g, defs[i]).replace(/\{example\}/, examples[i]));
@@ -202,7 +203,7 @@
 				};
 
 				if(typeof(app) != 'undefined')
-					app.saveInstanceState(JSON.stringify(outState));
+    				app.saveInstanceState(JSON.stringify(outState));
 			}
 
 			restoreInstanceState = function(savedInstanceState) {

@@ -23,40 +23,82 @@
 		</style>
 
 		<style type="text/css">
-			.wrap-ready {
+			#title-container {
+				background-color: rgba(50,50,50,.8);
+				display: inline-block;
 			}
-			#broken-finger {
-				-webkit-transform: rotate(4deg);
-				transform: rotate(4deg);
-				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
-				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
-				/*padding: 5px;*/
-				margin: 15px;
-				margin-top: 28px;
-				margin-bottom: 4px;
-				float: right;
-				max-width: 50%;
+			.label-container {
+				display: inline-block;
+				padding: 10px;
+				margin-left: 10px;
+				margin-right: 10px;
+				margin-top: 6px;
+				margin-bottom: 6px;
+				-webkit-box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				font-weight: bold;
 			}
-			#snail {
-				-webkit-transform: rotate(-3deg);
-				transform: rotate(-3deg);
-				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
-				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
-				/*padding: 10px;*/
-				margin: 10px;
-				margin-top: 36px;
-				float: right;
-				width: 35%;
-				max-width: 160px;
+			.label-container.gone {
+				opacity: .2;
+				-webkit-box-shadow: inherit;
+				box-shadow: inherit;
+			}
+			.label-container.attached {
+				visibility: hidden;
+			}
+			.label-base {
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: -16px;
+				vertical-align: center;
+			}
+			.visible {
+				visibility: visible !important;
+			}
+			.image-container {
+				text-align: center;
+				padding: 8px;
+				margin-bottom: 12px;
+			}
+			#images {
+				padding: 10px;
+				padding-top: 16px;
+			}
+			#images img {
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				width: 100%;
+			}
+			#labels {
+				margin-left: -10px;
+			}
+			body {
+				overflow-y: scroll;
+			}
+			#strip {
+				position: fixed;
+				top: 0;
+				left: 0;
+			}
+			h1, h3 {
+				margin-top: 0;
 			}
 			h4 {
-				margin-top: 24px;
+				font-weight: 400;
+				margin-top: 20px;
 			}
-			p {
-				margin: 0 0 0px;
+			ol, ul {
+				padding-left: 1.2em;
 			}
-			h1 {
-				margin-top: 0;
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			.box {
+				border: dotted 1px black;
 			}
 		</style>
 
@@ -65,62 +107,181 @@
 
 		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
 		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="jquery-ui.min.js"></script>
+		<script src="jquery.ui.touch-punch.min.js"></script>
 		<script src="file:///android_asset/tinycolor-min.js"></script>
 		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
 
 		<script src="../code.js"></script>
 		<script src="../debug.js"></script>
 	</head>
 
 	<body>
-		<div class="cem-container">
-			<div id="top-margin"></div>
+		<div id="strip"></div>
+		<div id="top-margin"></div>
 
-			<h1 class="alt">Story Time</h1>
-			<h3 class="alt"><span data-start="8583" data-end="13300">Jokes, anecdotes and stories as told by native english speakers.</span></h3>
+		<h1>Extreme Yoga</h1>
+		<h3>Yoga in the air.</h3>
 
-			<div class="transcript">
-				<h4><span data-start="15000" data-end="16980">Easy Solutions</span></h4>
-				<p><span class='acnt'>Patient:</span> <span data-start="16981" data-end="21450">Doctor, I have a pain in my eye whenever I drink tea.</span></p>
-				<p><span class='acnt'>Doctor:</span> <span data-start="21451" data-end="25400">Take the <a class="new-word" data-word="a spoon" data-type="n" data-en="an object you use for eating soup or other liquid food" data-fa="قاشق">spoon</a> out of the <a class="new-word" data-word="a mug" data-type="n" data-en="a cup for cofee / tea" data-fa="فنجان">mug</a> before you drink.</span></p>
+		<img src="cover.jpg" style="width: 100%; border: solid 1px black;">
 
-				<h4><span data-start="31800" data-end="33400">Attention Seeker</span></h4>
-				<p><span class='acnt'>Patient:</span> <span data-start="33401" data-end="38650">Doctor! You’ve got to help me! Nobody ever listens to me.</span> <span data-start="38651" data-end="42050">No one ever pays any attention to what I have to say.</span></p>
-				<p><span class='acnt'>Doctor:</span> <span data-start="42051" data-end="45100">Next please!</span></p>
+		<h4><span class="accent">❶</span> <b>Pre listening</b></h4>
+		<p>Match the words to the pictures.</p>
+		<div class="box">
+			<div id="labels"></div>
+			<div id="images" class="row"></div>
+		</div>
 
-				<img id="snail" class="wrap-ready img-responsive" src='snail-front.jpg'>
-				<h4><span data-start="49800" data-end="51700">Slow Times</span></h4>
-				<p><span data-start="51701" data-end="61150">A <a class="new-word" data-word="a snail" data-type="n" data-en="a little animal with a hard shell on its back" data-fa="حلزون">snail</a> walks into a bar and the barman tells him there’s a strict policy about having snails in the bar and <a class="new-word" data-word="to kick someone out" data-type="phr vb" data-en="to order someone to leave a place, often with physical force" data-fa="با لگد کسی را بیرون کردن">kicks him out</a>.</span> <span data-start="61151" data-end="65820">A year later, that same snail re-enters the bar and asks the barman,</span> <span data-start="65821" data-end="69000">“What did you do that for?”</span></p>
+		<h4><span class="accent">❷</span> <b>Discussion</b></h4>
+		<ol>
+			<li><span>Do you do any of the activities from above? Which ones?</span></li>
+			<li><span>What are the beneits of these activities?</span></li>
+			<li><span>Which activities from above would you like to try? Why? Why not?</span></li>
+		</ol>
 
-				<h4><span data-start="75680" data-end="79000">Mistaken Identity</span></h4>
-				<p><span class='acnt'>Lady Bracket:</span> <span data-start="79001" data-end="85300">Just look at that young person with the short hair and blue jeans.</span> <span data-start="83251" data-end="85300">Is it a boy or a girl?</span></p>
-				<p><span class='acnt'>Jane:</span> <span data-start="85301" data-end="88200">It’s a girl. She’s my daughter.</span></p>
-				<p><span class='acnt'>Lady Bracket:</span> <span data-start="88201" data-end="92500">Oh, I’m sorry. I didn't know that you were her father.</span></p>
-				<p><span class='acnt'>Jane:</span> <span data-start="92501" data-end="97400">I’m not. I’m her mother.</span></p>
+		<h4><span class="accent">❸</span> <b>Listening I</b></h4>
+		<p>You are going to listen to an article about a new form of physical exercise. Listen once. Which activity is it?</p>
+		<ol>
+			<li><span>jogging</span></li>
+			<li><span>yoga</span></li>
+			<li><span>aerobics</span></li>
+		</ol>
 
-				<img id="broken-finger" class="wrap-ready img-responsive" src='broken-finger.png'>
-				<h4><span data-start="101700" data-end="103600">Painful Problems</span></h4>
-				<p><span data-start="103601" data-end="110000">A man goes to the doctor and says, “Doctor, wherever I touch, it hurts.”</span> <span data-start="110001" data-end="112450">The doctor asks, “What do you mean?”</span> <span data-start="112451" data-end="116560">The man says, “When I touch my <a class="new-word" data-word="a shoulder" data-type="n" data-en="the joint at the top of your arm" data-fa="شانه (عضوی از بدن)">shoulder</a>, it really hurts.</span> <span data-start="116561" data-end="119600">If I touch my <a class="new-word" data-word="a knee" data-type="n" data-en="the joint in the middle of your leg" data-fa="زانو">knee</a> – OUCH!</span> <span data-start="119601" data-end="123700">When I touch my <a class="new-word" data-word="a forehead" data-type="n" data-en="the part of your face at the top – just below your hair" data-fa="پیشانی">forehead</a>, it really, really hurts.”</span></p>
-				<p><span data-start="123701" data-end="132000">The doctor says, “I know what’s wrong with you – you’ve broken your finger!”</span> <span class="accent">★</span></p>
-			</div>
+		<h4><span class="accent">❹</span> <b>Listening II</b></h4>
+		<p>Listen again. True or false?</p>
+		<ol>
+			<li><span>Slackline Yoga is a type of yoga practised in the circus.</span></li>
+			<li><span>Slackline Yoga was invented by rock climbers.</span></li>
+			<li><span>Acroyoga is yoga in water.</span></li>
+			<li><span>David lives in a big house with lots of land.</span></li>
+			<li><span>If you can’t go to one of his workshops, you can buy the DVD.</span></li>
+		</ol>
 
-			<div id="bottom-margin"></div>
+		<div id="bottom-margin"></div>
+
+		<div style="display: none;">
+			<span data-start="0" data-end="7000"></span>
+			<span data-start="7001" data-end="9700"></span>
+			<span data-start="9701" data-end="14000"></span>
+			<span data-start="14001" data-end="16500"></span>
+			<span data-start="16501" data-end="19300"></span>
+			<span data-start="19301" data-end="23750"></span>
+			<span data-start="23751" data-end="26950"></span>
+			<span data-start="26951" data-end="30700"></span>
+			<span data-start="30701" data-end="34400"></span>
+			<span data-start="34401" data-end="36960"></span>
+			<span data-start="36961" data-end="44100"></span>
+			<span data-start="44101" data-end="46160"></span>
+			<span data-start="46161" data-end="49600"></span>
+			<span data-start="49601" data-end="53100"></span>
+			<span data-start="53101" data-end="55550"></span>
+			<span data-start="55551" data-end="58660"></span>
+			<span data-start="58661" data-end="60230"></span>
+			<span data-start="60231" data-end="62270"></span>
+			<span data-start="62271" data-end="67350"></span>
+			<span data-start="67351" data-end="71200"></span>
+			<span data-start="71201" data-end="74770"></span>
+			<span data-start="74771" data-end="77700"></span>
+			<span data-start="77701" data-end="79550"></span>
+			<span data-start="79551" data-end="81900"></span>
+			<span data-start="81901" data-end="85560"></span>
 		</div>
 
 		<script type="text/javascript">
 			restoringInstanceState = false;
 
-			adjustCustomLayout = function(options) {
-				$('#local-rules').text("\
-					.cem-container { height: " + height + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
-					h4 { color: #" + accentColor + "; } \
-					.acnt { color: " + tinycolor(accentColor).darken().darken() + "; } \
-					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
-					#bottom-margin { height: " + (bottomMargin) + "px; }"
-				);
+			var mixed_label_ids = [3, 5, 1, 4, 0, 2];
+			var images = [['pilates.jpg', 'pilates'], ['step.jpg', 'step'], ['yoga.jpg', 'yoga'], ['jog.jpg', 'jogging'], ['gym.jpg', 'working out at the gym'], ['aerobics.jpg', 'aerobics']];
+			var image_template = "<div class='image-container col-xs-6 col-sm-4 col-md-3 col-lg-2' data-label='{label}'><img src='{img}' class='img-circle img-responsive'><div class='label-base'><div class='label-container attached'>{label}</div></div></div>";
+			var label_template = "<div class='label-container draggable' data-label='{label}'>{label}</div>";
+
+			container = $('#images');
+			images.forEach(function(img) {
+				 container.append(image_template.replace('{img}', img[0]).replace(/\{label\}/g, img[1]));
+			});
+
+			container = $('#labels');
+			mixed_label_ids.forEach(function(id) {
+				 container.append(label_template.replace(/\{label\}/g, images[id][1]));
+			});
+
+			dropped_elements = [];
+
+			$('.draggable').draggable({
+				revert: 'invalid',
+				containment: 'body',
+				zIndex: 2,
+				appendTo: 'body',
+				helper: 'clone',
+				scrollSensitivity: 40,
+				scrollSpeed: 10,
+				start: function(e,u) {
+					$('.label-container').removeClass('selected');
+					$(e.target).addClass('gone');
+				},
+				stop: function(e,u) {
+					if(!$(e.target).data('gone'))
+						$(e.target).removeClass('gone').trigger('tap');
+				},
+			});
+			$('.draggable').tap(function() {
+				if(!$(this).hasClass('gone')) {
+					$('.label-container').removeClass('selected');
+					$(this).addClass('selected');
+				}
+			});
+
+			$('.image-container').droppable({
+				activate: function(ev, ui) {
+				},
+				deactivate: function(ev, ui) {
+				},
+				drop: function(event, ui) {
+					drop(ui.draggable, $(this));
+				}
+			});
+			$('.image-container').tap(function() {
+				drop($('.draggable.selected'), $(this));
+			});
+
+			drop = function(dropped, dropzone) {
+				if(!dropped.length || !dropzone.length)
+					return;
+
+				var label = dropzone.data('label');
+				if(label == dropped.html()) {
+					dropzone.find('.label-container').addClass('visible');
+					dropped.draggable('disable');
+					dropped.data('gone', true).removeClass('selected').addClass('gone');
+
+					if(dropped_elements.indexOf(label) == -1) {
+						dropped_elements.push(label);
+						saveInstanceState();
+					}
+
+				} else {
+					dropped.removeClass('gone');
+					$('.label-container').removeClass('selected');
+					if(typeof(app) != 'undefined')
+						app.makeToast('That\'s not right.', false);
+				}
 			}
 
-			container = $('.cem-container')[0];
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { padding-left: " + (2*horizontalMargin) + "px; padding-right: " + horizontalMargin + "px; } \
+					#strip { width: " + horizontalMargin + "px; height: " + height + "px; background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					.label-container { background-color: " + highlightColor + "; } \
+					.label-container.selected { background-color: #" + accentColor + "; } \
+					h1 { color: " + tinycolor(accentColor).darken() + "; font-weight: bold; } \
+					.box { padding-top: " + spacing + "px; padding-left: " + (2*spacing) + "px; padding-right: " + (2*spacing) + "px; } \
+				");
+			}
+
 			prevScroll = 0;
 
 			saveInstanceState = function() {
@@ -128,6 +289,7 @@
 					return;
 
 				outState = {
+					dropped_elements: dropped_elements,
 					scroll: prevScroll,
 				};
 
@@ -139,42 +301,24 @@
 				restoringInstanceState = true;
 				state = JSON.parse(savedInstanceState);
 
-				container.scrollTop = ((state['scroll'] || 0) * container.scrollHeight);
-				prevScroll = container.scrollTop / container.scrollHeight;
+				dropped_elements = state['dropped_elements'] || [];
+				dropped_elements.forEach(function(label) {
+					drop($(".label-container[data-label='" + label + "']"), $(".image-container[data-label='" + label + "']"));
+				});
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
 
 				restoringInstanceState = false;
 			}
 
 			setInterval(function() {
-				scroll = container.scrollTop / container.scrollHeight;
+				scroll = $('body').scrollTop() / $('body').height();
 				if(scroll != prevScroll) {
 					prevScroll = scroll;
 					saveInstanceState();
 				}
 			}, 3000);
-
-			lastScrollTop = 0;
-			if(typeof(app) != 'undefined') {
-				$('.cem-container').scroll(function() {
-					if(container.scrollTop < topMargin) {
-						if(container.scrollTop < lastScrollTop && lastScrollTop >= topMargin)
-							app.setToolbarScrollable(false);
-
-					} else if(lastScrollTop < topMargin)
-							app.setToolbarScrollable(true);
-
-					lastScrollTop = container.scrollTop;
-				});
-			}
-
-			// var t = $('#broken-finger');
-			// var w = Math.min(t.width(), t.parent().width() / 3);
-			// var h = w * t.height() / t.width();
-			// t.data('width', w).data('height', h).css({width: w, height: h});
-			// $('.wrap-ready').slickWrap({
-			// 	sourceImage: true,
-			// });
-			// t.parent().css('height', h);
 		</script>
 
 	</body>

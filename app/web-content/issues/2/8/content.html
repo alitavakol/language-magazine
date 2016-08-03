@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<!-- Material Design fonts -->
 		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
@@ -11,81 +12,45 @@
 		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
 
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
 		<style id="dynamic-rules">
 		</style>
 
 		<style type="text/css">
-			@font-face {
-				font-family: 'elia';
-				src: url('SantEliaScriptBoldDEMO.otf');
-			}
-			h1 {
-				font-weight: bold;
-				font-family: 'elia';
-				font-size: 3em;
-				display: inline-block;
-			}
-			h4 {
-				font-weight: 400;
-				margin-top: 20px;
-			}
-			.foundation {
+			body {
 				overflow-y: scroll;
 			}
-			#bottom-margin {
-				clear: both;
+			h1, h3 {
+				margin-top: 0;
+			}
+			tr > td:first-child {
+				font-weight: bold;
+				text-align: right;
+			}
+			tr > td:last-child {
+				padding-left: 16px;
+			}
+			td {
+				vertical-align: top;
 			}
 			ol, ul {
 				padding-left: 1.2em;
 			}
-			li {
-				font-weight: bold;
+			h4 {
+				text-transform: uppercase;
+				font-weight: 300;
+				margin-top: 24px;
+				margin-bottom: 16px;
 			}
-			li > span {
-				font-weight: normal;
-			}
-			.box {
-				border: 3px solid;
-				text-align: center;
-				font-style: italic;
-				font-size: 1.25em;
-			}
-			.photo {
-				float: right;
-				-webkit-transform: rotate(6deg);
-				transform: rotate(6deg);
-				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
-				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+			.frame {
 				padding: 4px;
-				margin-right: 12px;
-				margin-top: -16px;
-				margin-left: 8px;
-				max-width: 40%;
-			}
-			.img-circle {
-				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
-				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
-				width: 100%;
-				margin-top: 16px;
-			}
-			.row {
-				margin-left: 0;
-				margin-right: 0;
-				margin-top: 12px;
-				max-width: 480px;
-				display: inline-block;
-			}
-			.col-xs-4 {
-				padding-left: 0;
-				padding-right: 0;
-			}
-			.shifted-down {
-				margin-top: 18%;
-			}
-			.shifted-up {
-				margin-top: -18%;
+				background-color: white;
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
 			}
 		</style>
 
@@ -99,103 +64,82 @@
 
 		<script src="../code.js"></script>
 		<script src="../debug.js"></script>
-
-		<!--Let browser know website is optimized for mobile-->
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	</head>
 
 	<body>
 		<div class="foundation">
 			<div id="top-margin"></div>
 
-			<div style="text-align: center;">
-				<img src="art.png" class="art">
-				<div>
-					<h1>Human Billboard</h1>
-				</div>
-				<img src="art.png" class="art" style="-webkit-transform: rotate(180deg); transform: rotate(180deg);">
+			<h3 class="alt">US Bar Chats</h3>
+			<h1 class="alt">Bugs!</h1>
+			<h4>This month, Tammy and Evan are talking about bugs (insects).</h4>
+
+			<div class="transcript">
+				<table>
+					<tr>
+						<td>Evan:</td>
+						<td><span data-start="14123" data-end="21839">So the other day I was in my apartment and I went into the bathroom and there was a giant cockroach in the toilet.</span></td>
+					</tr>
+					<tr>
+						<td>Tammy:</td>
+						<td>Ewww!</td>
+					</tr>
+					<tr>
+						<td>Evan:</td>
+						<td><span data-start="21840" data-end="26348">Yeah, <a class="new-word" data-word="no kidding" data-type="exp" data-en="I am not joking; I am being serious">no kidding</a>. It started making these crazy noises and then it flew away.</span></td>
+					</tr>
+					<tr>
+						<td>Tammy:</td>
+						<td><span data-start="26349" data-end="27489">Oh, that’s horrible.</span></td>
+					</tr>
+					<tr>
+						<td>Evan:</td>
+						<td><span data-start="27490" data-end="34134">Yes, I was&#8230; I was <a class="new-word" data-word="devastated" data-type="adj" data-en="shocked; very sad; emotionally destroyed">devastated</a>. I didn’t know what to do. Do you have any strange or crazy fears of bugs?</span></td>
+					</tr>
+					<tr>
+						<td>Tammy:</td>
+						<td><span data-start="34135" data-end="42540">I do actually. It’s kind of embarrassing to mention but I am afraid of water bugs or cockroaches or anything pretty much that <a class="new-word" data-word="to go crunch" data-type="exp" data-en="if something goes “crunch”, it makes a breaking noise as you tread on it">goes crunch</a> under your shoe.</span></td>
+					</tr>
+					<tr>
+						<td>Evan:</td>
+						<td><span data-start="42541" data-end="43760">Eww, water bugs.</span></td>
+					</tr>
+					<tr>
+						<td>Tammy:</td>
+						<td><span data-start="43761" data-end="45831">I know! They fly!</span></td>
+					</tr>
+					<tr>
+						<td>Evan:</td>
+						<td><span data-start="45832" data-end="48086">What happens if you see a water bug?</span></td>
+					</tr>
+					<tr>
+						<td>Tammy:</td>
+						<td><span data-start="48087" data-end="58269">One of two things, that whole flight or fr&#8230; erm&#8230; fight&#8230; <a class="new-word" data-word="a flight-or-fight reaction" data-type="n" data-en="an automatic, instinctive reaction that occurs when you are in danger. “Flight” refers to the act of running away / escaping; “fight” refers to the act of staying and fighting the danger">flight-or-fight reaction</a>. Either I sit there and scream and do absolutely nothing or I run out.</span></td>
+					</tr>
+					<tr>
+						<td>Evan:</td>
+						<td><span data-start="58270" data-end="60797">What happened the last time you saw a water bug?</span></td>
+					</tr>
+					<tr>
+						<td>Tammy:</td>
+						<td><span data-start="60798" data-end="67629">Well the last time I saw a water bug, my cousin kicked it at me and I left the building. I ran out of the apartment and I waited in the street.</span></td>
+					</tr>
+					<tr>
+						<td>Evan:</td>
+						<td><span data-start="67630" data-end="70150">And you’re scarred emotionally forever.</span></td>
+					</tr>
+					<tr>
+						<td>Tammy:</td>
+						<td><span data-start="70151" data-end="72850">Yes, I am!</span> <span class="accent">✪</span></td>
+					</tr>
+				</table>
 			</div>
 
-			<div style="text-align: center;">
-				<div class="row">
-					<div class="col-xs-4 shifted-down">
-						<img src="1.png" class="img-circle">
-					</div>
-					<div class="col-xs-4">
-						<img src="2.png" class="img-circle">
-					</div>
-					<div class="col-xs-4 shifted-down">
-						<img src="3.png" class="img-circle">
-					</div>
-					<div class="col-xs-4">
-						<img src="4.png" class="img-circle">
-					</div>
-					<div class="col-xs-4  shifted-up">
-						<img src="5.png" class="img-circle">
-					</div>
-					<div class="col-xs-4">
-						<img src="6.png" class="img-circle">
-					</div>
-					<div class="col-xs-4"></div>
-					<div class="col-xs-4 shifted-up">
-						<img src="7.png" class="img-circle">
-					</div>
-				</div>
-			</div>
-
-			<h4><span class="accent">❶</span> <b>Discussion</b></h4>
-			<ol>
-				<li><span>Look at the pictures of the tattoos? Which ones do you like? Which ones don’t you like?</span></li>
-				<li><span>If you had a tattoo, where would you have it? Why?</span></li>
-				<li><span>What’s your opinion of tattoos? Do you like them? Why? Why not?</span></li>
-			</ol>
-
-			<h4><span class="accent">❷</span> <b>Listening I</b></h4>
-			<p>Look at the subtitle below. What do you think the conversation is about? What do the words mean? Listen and check.</p>
-			<div class="box">Man auctions face for ad spot.</div>
-
-			<h4><span class="accent">❸</span> <b>Listening II</b></h4>
-			<img src="II.png" class="photo">
-			<p>
-				What’s the speaker’s opinion on the following?
-				<ol>
-					<li><span>tattoo advertising</span></li>
-					<li><span>his family and tattoos</span></li>
-					<li><span>charity</span></li>
-				</ol>
-			</p>
+			<img src="1.png" class="frame" style="-webkit-transform: rotate(-5deg); transform: rotate(-5deg); margin-left: 15%; margin-top: 16px;">
+			<img src="2.png" class="frame" style="-webkit-transform: rotate(10deg); transform: rotate(10deg); display: block; margin-left: 25%; margin-top: -16px;">
+			<img id="bugs" src="bugs.png" style="margin-top: -36px;">
 
 			<div id="bottom-margin"></div>
-		</div>
-
-		<div style="display: none;">
-			<span data-start="11000" data-end="15111"></span>
-			<span data-start="15112" data-end="18825"></span>
-			<span data-start="18826" data-end="24110"></span>
-			<span data-start="24111" data-end="26550"></span>
-			<span data-start="26551" data-end="32550"></span>
-			<span data-start="32551" data-end="35820"></span>
-			<span data-start="35821" data-end="37450"></span>
-			<span data-start="37451" data-end="44550"></span>
-			<span data-start="44551" data-end="48453"></span>
-			<span data-start="48454" data-end="50900"></span>
-			<span data-start="50901" data-end="55000"></span>
-			<span data-start="55001" data-end="56610"></span>
-			<span data-start="56611" data-end="58150"></span>
-			<span data-start="58151" data-end="59600"></span>
-			<span data-start="59601" data-end="62280"></span>
-			<span data-start="62281" data-end="64700"></span>
-			<span data-start="64701" data-end="68050"></span>
-			<span data-start="68051" data-end="70250"></span>
-			<span data-start="70251" data-end="71780"></span>
-			<span data-start="71781" data-end="74040"></span>
-			<span data-start="74041" data-end="78350"></span>
-			<span data-start="78351" data-end="80100"></span>
-			<span data-start="80101" data-end="83400"></span>
-			<span data-start="83401" data-end="86280"></span>
-			<span data-start="86281" data-end="89100"></span>
-			<span data-start="89101" data-end="94500"></span>
-			<span data-start="94501" data-end="97400"></span>
 		</div>
 
 		<script type="text/javascript">
@@ -203,17 +147,17 @@
 
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
-					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
-					#bottom-margin { height: " + (verticalMargin+bottomMargin-parseInt($('p').css('margin-bottom'))) + "px; } \
 					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
-					.foundation { height: " + height + "px; margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
-					.box { background-color: " + tinycolor(highlightColor).lighten() + "; padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					h1 { color: #" + accentColor + "; } \
+					.row { margin-left: -" + spacing + "px; margin-right: -" + spacing + "px; } \
+					.acnt, tr:nth-child(odd) { color: " + tinycolor(accentColor).darken().darken() + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + (bottomMargin-16) + "px; } \
+					#bugs { margin-left: -" + horizontalMargin + "px; display: block; } \
 				");
-
-				$('.art').width($('h1').width());
 			}
 
-			container = $('.foundation')[0];
 			prevScroll = 0;
 
 			saveInstanceState = function() {
@@ -232,14 +176,14 @@
 				restoringInstanceState = true;
 				state = JSON.parse(savedInstanceState);
 
-				container.scrollTop = (state['scroll'] || 0) * container.scrollHeight;
-				prevScroll = container.scrollTop / container.scrollHeight;
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
 
 				restoringInstanceState = false;
 			}
 
 			setInterval(function() {
-				scroll = container.scrollTop / container.scrollHeight;
+				scroll = $('body').scrollTop() / $('body').height();
 				if(scroll != prevScroll) {
 					prevScroll = scroll;
 					saveInstanceState();
@@ -248,17 +192,20 @@
 
 			lastScrollTop = 0;
 			if(typeof(app) != 'undefined') {
-				$('.foundation').scroll(function() {
-					if(container.scrollTop < topMargin) {
-						if(container.scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
 							app.setToolbarScrollable(false);
 
 					} else if(lastScrollTop < topMargin)
 							app.setToolbarScrollable(true);
 
-					lastScrollTop = container.scrollTop;
+					lastScrollTop = scrollTop;
 				});
 			}
 		</script>
+
 	</body>
 </html>
