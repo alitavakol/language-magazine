@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -86,12 +87,16 @@ public class ItemListActivity extends AppCompatActivity implements
         final String issueRootDirectory = getIntent().getStringExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY);
         arguments.putString(IssueDetailActivity.ARG_ROOT_DIRECTORY, issueRootDirectory);
 
-        itemListFragment = new ItemListFragment();
-        itemListFragment.setArguments(arguments);
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        final String tag = "ITEM_LIST_FRAGMENT";
+        if (fragmentManager.findFragmentByTag(tag) == null) {
+            itemListFragment = new ItemListFragment();
+            itemListFragment.setArguments(arguments);
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frameLayout, itemListFragment)
-                .commit();
+            fragmentManager.beginTransaction()
+                    .add(R.id.frameLayout, itemListFragment, tag)
+                    .commit();
+        }
 
 //        account = new Account(this);
         if (signingIn)

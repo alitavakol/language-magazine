@@ -48,8 +48,10 @@ public class FeedbackFragment extends DialogFragment {
     @Override
     public void onStop() {
         super.onStop();
-        if (requestQueue != null)
+        if (requestQueue != null) {
             requestQueue.cancelAll(this);
+            requestQueue = null;
+        }
     }
 
     private RequestQueue requestQueue;

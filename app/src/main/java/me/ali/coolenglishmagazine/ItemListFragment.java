@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -31,6 +33,8 @@ import com.squareup.picasso.RequestCreator;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
 import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
@@ -103,6 +107,15 @@ public class ItemListFragment extends Fragment {
         setHasOptionsMenu(true);
 
         ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        Set<String> newSavedIssues = preferences.getStringSet("new_saved_issues", new HashSet<String>(0));
+        final String id = Integer.toString(issue.id);
+        if (newSavedIssues.contains(id)) {
+            newSavedIssues = new HashSet<>(newSavedIssues);
+            newSavedIssues.remove(id);
+            preferences.edit().putStringSet("new_saved_issues", newSavedIssues).apply();
+        }
     }
 
     @Override

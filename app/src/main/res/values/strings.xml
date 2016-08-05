@@ -232,8 +232,8 @@
     <string name="syncing">Updating&#8230;</string>
     <string name="cancel_syncing">Stop</string>
 
-    <string name="my_issues">On my device</string>
-    <string name="available_issues">Available for download</string>
+    <string name="my_issues">Saved</string>
+    <string name="available_issues">Downloadable</string>
     <string name="completed_issues">Completed</string>
 
     <!-- issues list tab titles -->
@@ -450,6 +450,6 @@
     <string name="reject">انصراف</string>
     <string name="incorrect_owner">خرید این محتوا قبلاً به نام فرد دیگری در کافه بازار ثبت شده است. لطفاً حساب کاربری خود را بررسی کنید.</string>
     <string name="incorrect_owner_title">خطا</string>
-```
+    ```
     <string name="new_word_and_type">%1$s\u0020\u0020\u0020\u0020%2$s</string>
 </resources>

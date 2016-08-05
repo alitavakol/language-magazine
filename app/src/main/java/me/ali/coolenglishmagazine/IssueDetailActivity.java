@@ -222,7 +222,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
                 fragment.setArguments(arguments);
 
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.issue_detail_container, fragment)
+                        .replace(R.id.issue_detail_container, fragment)
                         .commit();
 
             } else {

@@ -341,7 +341,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         super.onDestroy();
 
         if (webViewJavaScriptInterface != null) {
-            webView.removeJavascriptInterface("app");
             webView.destroy();
             webViewJavaScriptInterface = null;
         }

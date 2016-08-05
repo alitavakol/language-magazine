@@ -36,6 +36,8 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_gravity="center"
+                    android:background="@drawable/circle"
+                    app:cpv_color="@color/primary"
                     app:cpv_animAutostart="true"
                     app:cpv_indeterminate="false" />
 

@@ -104,7 +104,7 @@ public class IssueDetailFragment extends Fragment {
                         webView.loadUrl(command);
 //                        webView.loadUrl("javascript:restoreInstanceState(" + new JSONArray(Arrays.asList(webViewState)) + ");");
 //                        webView.loadUrl("javascript:app.onAdjustLayoutComplete();");
-                        webView.loadUrl("javascript:setTimeout(function() { app.onAdjustLayoutComplete(); }, 600);");
+                        webView.loadUrl("javascript:setTimeout(function() { app.onAdjustLayoutComplete(); }, 300);");
                     }
                 }
             });
@@ -122,10 +122,8 @@ public class IssueDetailFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (webView != null) {
-            webView.removeJavascriptInterface("app");
+        if (webView != null)
             webView.destroy();
-        }
     }
 
     /**
