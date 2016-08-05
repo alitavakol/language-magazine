@@ -122,4 +122,6 @@
     <style name="floating_action_button">
         <item name="android:layout_margin">0dp</item>
     </style>
+
+    <style name="SplashTheme" parent="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
 </resources>
