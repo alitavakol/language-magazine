@@ -70,7 +70,7 @@ public class Magazines {
     /**
      * a mapping from issue root directories to {@link Issue}, to prevent duplicate objects of the same issue, and have the {@link Issue.OnStatusChangedListener} instance value stable.
      */
-    static HashMap<File, Issue> file2issue = new HashMap<>();
+    public static HashMap<File, Issue> file2issue = new HashMap<>();
 
     public static Issue getIssue(Context context, File issueRootDirectory) throws IOException, NumberFormatException {
         Issue issue = file2issue.get(issueRootDirectory);

@@ -13,6 +13,9 @@ import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.mikepenz.iconics.view.IconicsTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +75,9 @@ public class CoolEnglishTimesFragment extends Fragment {
         finishActionMode();
     }
 
+    ViewPager viewPager;
+    TabLayout tabLayout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -80,15 +86,10 @@ public class CoolEnglishTimesFragment extends Fragment {
 
         mListener.onToolbarCreated((Toolbar) view.findViewById(R.id.toolbar_actionbar), R.string.cool_english_times);
 
-        final ViewPager viewPager = (ViewPager) view.findViewById(R.id.view_pager);
+        viewPager = (ViewPager) view.findViewById(R.id.view_pager);
+        tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
+
         setupViewPager(viewPager);
-
-        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(currentTabIndex).select();
-
-        Typeface typeface = FontManager.getTypeface(getActivity(), FontManager.UBUNTU_LIGHT);
-        FontManager.markAsIconContainer(tabLayout, typeface);
 
         return view;
     }
@@ -132,10 +133,10 @@ public class CoolEnglishTimesFragment extends Fragment {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
 
         AlarmsTabFragment alarmsTabFragment = AlarmsTabFragment.newInstance();
-        adapter.addFragment(alarmsTabFragment, R.string.alarms);
+        adapter.addFragment(alarmsTabFragment, R.string.alarms, R.string.alarms_icon);
 
         WaitingListFragment waitingListFragment = WaitingListFragment.newInstance();
-        adapter.addFragment(waitingListFragment, R.string.waiting_list);
+        adapter.addFragment(waitingListFragment, R.string.waiting_list, R.string.waiting_list_icon);
 
         viewPager.setAdapter(adapter);
 
@@ -153,6 +154,17 @@ public class CoolEnglishTimesFragment extends Fragment {
             public void onPageScrollStateChanged(int state) {
             }
         });
+
+        tabLayout.setupWithViewPager(viewPager);
+
+        for (int i = 0; i < 2; i++)
+            tabLayout.getTabAt(i).setCustomView(adapter.getTabView(i));
+
+        viewPager.setCurrentItem(1 - currentTabIndex);
+        viewPager.setCurrentItem(currentTabIndex);
+
+        Typeface typeface = FontManager.getTypeface(getActivity(), FontManager.UBUNTU_LIGHT);
+        FontManager.markAsIconContainer(tabLayout, typeface);
     }
 
     /**
@@ -168,6 +180,7 @@ public class CoolEnglishTimesFragment extends Fragment {
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
+        private final List<String> mFragmentIconList = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);
@@ -183,14 +196,22 @@ public class CoolEnglishTimesFragment extends Fragment {
             return mFragmentList.size();
         }
 
-        public void addFragment(Fragment fragment, int titleId) {
+        public void addFragment(Fragment fragment, int titleId, int iconId) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(getResources().getString(titleId));
+            mFragmentIconList.add(getResources().getString(iconId));
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
+        }
+
+        public View getTabView(int position) {
+            View v = LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);
+            ((TextView) v.findViewById(R.id.tab_title)).setText(mFragmentTitleList.get(position));
+            ((IconicsTextView) v.findViewById(R.id.tab_icon)).setText(mFragmentIconList.get(position));
+            return v;
         }
     }
 

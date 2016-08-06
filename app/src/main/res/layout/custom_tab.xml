@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content">
+
+    <com.mikepenz.iconics.view.IconicsTextView
+        android:id="@+id/tab_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_alignBottom="@+id/tab_title"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        android:textColor="@drawable/tab_color" />
 
     <TextView
         android:id="@+id/tab_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/tab_icon"
+        android:layout_toRightOf="@id/tab_icon"
         android:textAllCaps="true"
         android:textColor="@drawable/tab_color" />
 
-    <TextView
-        android:id="@+id/bullet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="2dp"
-        android:layout_marginStart="2dp"
-        android:text="●"
-        android:textColor="@drawable/tab_color"
-        android:visibility="invisible" />
-
-</LinearLayout>
+</RelativeLayout>

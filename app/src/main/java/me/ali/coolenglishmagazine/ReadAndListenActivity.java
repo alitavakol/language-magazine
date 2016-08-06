@@ -261,6 +261,9 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         toolbarTitle.setText(item.type);
 
         webView = (WebView) findViewById(R.id.webView);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webViewJavaScriptInterface = new WebViewJavaScriptInterface();
+        webView.addJavascriptInterface(webViewJavaScriptInterface, "app");
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
                 final String command = "javascript:adjustLayout({"
@@ -288,9 +291,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 }
             }
         });
-        webView.getSettings().setJavaScriptEnabled(true);
-        webViewJavaScriptInterface = new WebViewJavaScriptInterface();
-        webView.addJavascriptInterface(webViewJavaScriptInterface, "app");
         webView.setVerticalScrollBarEnabled(false);
         // prevent long click, because jquery mobile handles it to unlock transcript.
         webView.setOnLongClickListener(new View.OnLongClickListener() {

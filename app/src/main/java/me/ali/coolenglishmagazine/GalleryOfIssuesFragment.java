@@ -31,6 +31,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.mikepenz.iconics.view.IconicsTextView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -192,7 +193,7 @@ public class GalleryOfIssuesFragment extends Fragment {
         adapter = new ViewPagerAdapter(getChildFragmentManager());
 
         for (int i = 0; i < 3; i++)
-            adapter.addFragment(i, getResources().obtainTypedArray(R.array.issue_list_tab_titles).getResourceId(i, 0));
+            adapter.addFragment(i);
 
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(adapter.getCount() - 1);
@@ -217,7 +218,7 @@ public class GalleryOfIssuesFragment extends Fragment {
         for (int i = 0; i < 3; i++)
             tabLayout.getTabAt(i).setCustomView(adapter.getTabView(i));
 
-//        tabLayout.getTabAt(currentTabIndex).select();
+        viewPager.setCurrentItem(2 - currentTabIndex);
         viewPager.setCurrentItem(currentTabIndex);
 
         Typeface typeface = FontManager.getTypeface(getActivity(), FontManager.UBUNTU_LIGHT);
@@ -239,6 +240,7 @@ public class GalleryOfIssuesFragment extends Fragment {
 
         public final List<IssuesTabFragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
+        private final List<String> mFragmentIconList = new ArrayList<>();
         public final List<Blinker> blinkers = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager) {
@@ -278,12 +280,13 @@ public class GalleryOfIssuesFragment extends Fragment {
             return mFragmentList.size();
         }
 
-        public void addFragment(int tabIndex, int titleId) {
+        public void addFragment(int tabIndex) {
             IssuesTabFragment fragment = (IssuesTabFragment) fragmentManager.findFragmentByTag("ISSUES_TAB_" + tabIndex);
             if (fragment == null)
                 fragment = IssuesTabFragment.newInstance(tabIndex);
             mFragmentList.add(fragment);
-            mFragmentTitleList.add(getResources().getString(titleId));
+            mFragmentTitleList.add(getResources().getString(getResources().obtainTypedArray(R.array.issue_list_tab_titles).getResourceId(tabIndex, 0)));
+            mFragmentIconList.add(getResources().getString(getResources().obtainTypedArray(R.array.issue_list_tab_icons).getResourceId(tabIndex, 0)));
             blinkers.add(new Blinker());
         }
 
@@ -294,8 +297,8 @@ public class GalleryOfIssuesFragment extends Fragment {
 
         public View getTabView(int position) {
             View v = LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);
-            TextView tabTitle = (TextView) v.findViewById(R.id.tab_title);
-            tabTitle.setText(mFragmentTitleList.get(position));
+            ((TextView) v.findViewById(R.id.tab_title)).setText(mFragmentTitleList.get(position));
+            ((IconicsTextView) v.findViewById(R.id.tab_icon)).setText(mFragmentIconList.get(position));
             blinkers.get(position).setTabView(v);
             return v;
         }
@@ -303,7 +306,7 @@ public class GalleryOfIssuesFragment extends Fragment {
 
     public class Blinker {
         View view;
-        TextView bullet;
+        View bullet;
         boolean visible;
 
         Runnable runnable = new Runnable() {
@@ -313,7 +316,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                     return;
 
                 if (bullet == null && view != null)
-                    bullet = (TextView) view.findViewById(R.id.bullet);
+                    bullet = view.findViewById(R.id.tab_icon);
 
                 if (bullet != null) {
                     visible = !visible;
@@ -353,17 +356,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                 timer = null;
             }
             if (bullet != null)
-                bullet.setVisibility(View.INVISIBLE);
-        }
-
-        public void on() {
-            stop();
-            if (bullet != null)
                 bullet.setVisibility(View.VISIBLE);
-        }
-
-        public void off() {
-            stop();
         }
     }
 
@@ -648,7 +641,7 @@ public class GalleryOfIssuesFragment extends Fragment {
 
         switch (filter) {
             case IssuesTabFragment.AVAILABLE_ISSUES:
-                if (magazines.ISSUES.size() == 0) // blink if no issue previews are fetched
+                if (Magazines.file2issue.size() == 0) // blink if no issue previews are fetched
                     start = true;
                 else {
                     int latestSaved = findFirstMissingIssueNumber(context) - 1;

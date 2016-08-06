@@ -89,6 +89,9 @@ public class IssueDetailFragment extends Fragment {
 
         else {
             webView = (WebView) rootView.findViewById(R.id.webView);
+            webView.setBackgroundColor(Color.TRANSPARENT);
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.addJavascriptInterface(new WebViewJavaScriptInterface(), "app");
             webView.setWebViewClient(new WebViewClient() {
                 public void onPageFinished(WebView view, String url) {
                     if (isAttached) { // when activity is finished/finishing, becomes null
@@ -108,9 +111,6 @@ public class IssueDetailFragment extends Fragment {
                     }
                 }
             });
-            webView.getSettings().setJavaScriptEnabled(true);
-            webView.setBackgroundColor(Color.TRANSPARENT);
-            webView.addJavascriptInterface(new WebViewJavaScriptInterface(), "app");
 
             final File input = new File(issue.rootDirectory, Magazines.Issue.contentFileName);
             webView.loadUrl(input.toURI().toString());
