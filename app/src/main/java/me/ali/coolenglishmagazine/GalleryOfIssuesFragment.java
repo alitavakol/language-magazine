@@ -584,13 +584,18 @@ public class GalleryOfIssuesFragment extends Fragment {
      * @param context activity context
      */
     void fetchLatestIssueNumber(Context context) {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         if (!NetworkHelper.isOnline(context)) {
             latestAvailableIssueNumberOnServer = preferences.getInt("latestAvailableIssueNumberOnServer", 0);
             updateBlinker(IssuesTabFragment.AVAILABLE_ISSUES);
             return;
         }
+
+        final long currentTime = System.currentTimeMillis();
+        long lastUpdateCheck = preferences.getLong("last_update_check", currentTime - 365L * 24L * 3600L * 1000L);
+        if (currentTime - lastUpdateCheck < 3L * 24L * 3600L * 1000L) // don't check if last update occurred less than 3 days ago
+            return;
 
         if (requestQueue == null)
             requestQueue = Volley.newRequestQueue(context);
@@ -604,12 +609,20 @@ public class GalleryOfIssuesFragment extends Fragment {
                 latestAvailableIssueNumberOnServer = Integer.parseInt(new String(response));
                 Activity activity = getActivity();
                 if (activity != null)
-                    PreferenceManager.getDefaultSharedPreferences(activity).edit().putInt("latestAvailableIssueNumberOnServer", latestAvailableIssueNumberOnServer).apply();
+                    PreferenceManager.getDefaultSharedPreferences(activity).edit()
+                            .putInt("latestAvailableIssueNumberOnServer", latestAvailableIssueNumberOnServer)
+                            .putLong("last_update_check", currentTime)
+                            .apply();
                 updateBlinker(IssuesTabFragment.AVAILABLE_ISSUES);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Activity activity = getActivity();
+                if (activity != null) {
+                    latestAvailableIssueNumberOnServer = PreferenceManager.getDefaultSharedPreferences(activity).getInt("latestAvailableIssueNumberOnServer", 0);
+                    updateBlinker(IssuesTabFragment.AVAILABLE_ISSUES);
+                }
             }
         }, null);
 

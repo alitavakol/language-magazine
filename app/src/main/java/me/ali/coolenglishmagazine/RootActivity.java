@@ -425,7 +425,16 @@ public class RootActivity extends AppCompatActivity implements
 
     @Override
     public void onStart() {
+        // force change locale based on value of "locale" preference
+        String languageToLoad = PreferenceManager.getDefaultSharedPreferences(this).getString("locale", "fa");
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = getResources().getConfiguration(); // http://stackoverflow.com/a/24908330
+        config.locale = locale;
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+
         super.onStart();
+
         if (account != null)
             account.silentSignIn();
     }

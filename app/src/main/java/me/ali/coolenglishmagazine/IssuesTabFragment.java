@@ -43,6 +43,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 
@@ -910,9 +911,6 @@ public class IssuesTabFragment extends Fragment implements
 
         helpContainer.setVisibility(View.VISIBLE);
 
-//        if (getResources().getConfiguration().locale.getLanguage().equals("fa"))
-//            FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC_REGULAR));
-
         final ImageButton imageButton = (ImageButton) layoutView.findViewById(R.id.add);
         final TextView helpTextView = (TextView) layoutView.findViewById(R.id.help);
 
@@ -934,6 +932,10 @@ public class IssuesTabFragment extends Fragment implements
                 helpTextView.setText(R.string.about_completed_issues);
                 break;
         }
+
+//        FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(),
+//                helpTextView.getText().toString().contains("ا") ? FontManager.ADOBE_ARABIC : FontManager.UBUNTU
+//        ));
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -39,6 +39,7 @@ import java.util.List;
 
 import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.model.WaitingItems;
+import me.ali.coolenglishmagazine.util.FontManager;
 
 
 public class WaitingListFragment extends Fragment implements
@@ -110,9 +111,14 @@ public class WaitingListFragment extends Fragment implements
 
         helpContainer.setVisibility(View.VISIBLE);
 
-//        if (getResources().getConfiguration().locale.getLanguage().equals("fa")) {
-//            FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC_REGULAR));
-//            ((TextView) layoutView.findViewById(R.id.english_text)).setTypeface(FontManager.getTypeface(getActivity(), FontManager.UBUNTU_BOLD));
+//        if (((TextView) helpContainer.findViewById(R.id.help)).getText().toString().contains("ا")) {
+//            FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC));
+//            final TextView englishText = (TextView) layoutView.findViewById(R.id.english_text);
+//            if (englishText != null)
+//                englishText.setTypeface(FontManager.getTypeface(getActivity(), FontManager.UBUNTU));
+//
+//        } else {
+//            FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.UBUNTU));
 //        }
 
         ImageButton imageButton = (ImageButton) layoutView.findViewById(R.id.add);

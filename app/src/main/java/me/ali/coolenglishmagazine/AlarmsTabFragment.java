@@ -52,6 +52,7 @@ import java.util.Locale;
 
 import me.ali.coolenglishmagazine.broadcast_receivers.AlarmBroadcastReceiver;
 import me.ali.coolenglishmagazine.broadcast_receivers.BootReceiver;
+import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.widget.MyAnalogClock;
 
@@ -223,8 +224,9 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
 
         helpContainer.setVisibility(View.VISIBLE);
 
-//        if (getResources().getConfiguration().locale.getLanguage().equals("fa"))
-//            FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC_REGULAR));
+//        FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(),
+//                ((TextView) helpContainer.findViewById(R.id.help)).getText().toString().contains("ا") ? FontManager.ADOBE_ARABIC : FontManager.UBUNTU
+//        ));
 
         ImageButton add = (ImageButton) layoutView.findViewById(R.id.add);
         add.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_alarm_add).sizeDp(72).colorRes(R.color.colorContextHelp));
