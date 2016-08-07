@@ -6,7 +6,8 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
@@ -20,6 +21,8 @@ import com.mikepenz.iconics.view.IconicsTextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.ali.coolenglishmagazine.model.WaitingItems;
+import me.ali.coolenglishmagazine.util.Blinker;
 import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
@@ -70,6 +73,13 @@ public class CoolEnglishTimesFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        for (Blinker blinker : adapter.blinkers)
+            blinker.stop();
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         finishActionMode();
@@ -77,6 +87,7 @@ public class CoolEnglishTimesFragment extends Fragment {
 
     ViewPager viewPager;
     TabLayout tabLayout;
+    public ViewPagerAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -130,13 +141,10 @@ public class CoolEnglishTimesFragment extends Fragment {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+        adapter = new ViewPagerAdapter(getChildFragmentManager());
 
-        AlarmsTabFragment alarmsTabFragment = AlarmsTabFragment.newInstance();
-        adapter.addFragment(alarmsTabFragment, R.string.alarms, R.string.alarms_icon);
-
-        WaitingListFragment waitingListFragment = WaitingListFragment.newInstance();
-        adapter.addFragment(waitingListFragment, R.string.waiting_list, R.string.waiting_list_icon);
+        adapter.addFragment(0);
+        adapter.addFragment(1);
 
         viewPager.setAdapter(adapter);
 
@@ -177,18 +185,45 @@ public class CoolEnglishTimesFragment extends Fragment {
             actionMode.finish();
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    class ViewPagerAdapter extends PagerAdapter {
+        FragmentManager fragmentManager;
+
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
         private final List<String> mFragmentIconList = new ArrayList<>();
+        public final List<Blinker> blinkers = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
+            fragmentManager = manager;
+        }
+
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
         }
 
         @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
+        public Fragment instantiateItem(ViewGroup container, int position) {
+            Fragment fragment = getItem(position);
+            String tag = null;
+            switch (position) {
+                case 0:
+                    tag = "ALARMS_TAB_FRAGMENT";
+                    break;
+                case 1:
+                    tag = "WAITING_LIST_TAB_FRAGMENT";
+                    break;
+            }
+            if (fragmentManager.findFragmentByTag(tag) == null) {
+                FragmentTransaction trans = fragmentManager.beginTransaction();
+                trans.add(container.getId(), fragment, tag);
+                trans.commit();
+            }
+            return fragment;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object fragment) {
+            return ((Fragment) fragment).getView() == view;
         }
 
         @Override
@@ -196,10 +231,35 @@ public class CoolEnglishTimesFragment extends Fragment {
             return mFragmentList.size();
         }
 
-        public void addFragment(Fragment fragment, int titleId, int iconId) {
+        public void addFragment(int tabIndex) {
+            Fragment fragment = null;
+            int titleId = 0, iconId = 0;
+            String tag;
+
+            switch (tabIndex) {
+                case 0:
+                    tag = "ALARMS_TAB_FRAGMENT";
+                    fragment = fragmentManager.findFragmentByTag(tag);
+                    if (fragment == null)
+                        fragment = AlarmsTabFragment.newInstance();
+                    titleId = R.string.alarms;
+                    iconId = R.string.alarms_icon;
+                    break;
+
+                case 1:
+                    tag = "WAITING_LIST_TAB_FRAGMENT";
+                    fragment = fragmentManager.findFragmentByTag(tag);
+                    if (fragment == null)
+                        fragment = WaitingListFragment.newInstance();
+                    titleId = R.string.waiting_list;
+                    iconId = R.string.waiting_list_icon;
+                    break;
+            }
+
             mFragmentList.add(fragment);
             mFragmentTitleList.add(getResources().getString(titleId));
             mFragmentIconList.add(getResources().getString(iconId));
+            blinkers.add(new Blinker());
         }
 
         @Override
@@ -211,8 +271,34 @@ public class CoolEnglishTimesFragment extends Fragment {
             View v = LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);
             ((TextView) v.findViewById(R.id.tab_title)).setText(mFragmentTitleList.get(position));
             ((IconicsTextView) v.findViewById(R.id.tab_icon)).setText(mFragmentIconList.get(position));
+            blinkers.get(position).setTabView(v);
             return v;
         }
+    }
+
+    /**
+     * blinks tab titles if some tabs require user notice.
+     *
+     * @param filter tab index
+     */
+    public void updateBlinker(int filter) {
+        Context context = getActivity();
+        if (context == null)
+            return;
+
+        boolean start = false;
+
+        switch (filter) {
+            case 0:
+                start = ((AlarmsTabFragment) adapter.mFragmentList.get(0)).alarms.size() == 0 && WaitingItems.waitingItems != null && WaitingItems.waitingItems.size() > 0;
+                break;
+        }
+
+        Blinker blinker = adapter.blinkers.get(filter);
+        if (start)
+            blinker.start();
+        else
+            blinker.stop();
     }
 
 }

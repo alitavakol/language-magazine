@@ -39,7 +39,6 @@ import java.util.List;
 
 import me.ali.coolenglishmagazine.model.MagazineContent;
 import me.ali.coolenglishmagazine.model.WaitingItems;
-import me.ali.coolenglishmagazine.util.FontManager;
 
 
 public class WaitingListFragment extends Fragment implements
@@ -139,6 +138,7 @@ public class WaitingListFragment extends Fragment implements
     public void onResume() {
         super.onResume();
         coolEnglishTimesFragment = (CoolEnglishTimesFragment) getActivity().getSupportFragmentManager().findFragmentByTag(CoolEnglishTimesFragment.FRAGMENT_TAG);
+        coolEnglishTimesFragment.updateBlinker(0);
     }
 
     @Override
@@ -417,6 +417,7 @@ public class WaitingListFragment extends Fragment implements
                     adapter.notifyItemRemoved(position);
                 }
                 WaitingItems.saveWaitingItems(getActivity());
+                coolEnglishTimesFragment.updateBlinker(0);
                 break;
 
             default:

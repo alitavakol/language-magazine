@@ -39,10 +39,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.Blinker;
 import me.ali.coolenglishmagazine.util.FileHelper;
 import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.InputStreamVolleyRequest;
@@ -304,62 +303,6 @@ public class GalleryOfIssuesFragment extends Fragment {
         }
     }
 
-    public class Blinker {
-        View view;
-        View bullet;
-        boolean visible;
-
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if (stopped)
-                    return;
-
-                if (bullet == null && view != null)
-                    bullet = view.findViewById(R.id.tab_icon);
-
-                if (bullet != null) {
-                    visible = !visible;
-                    bullet.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
-                }
-            }
-        };
-
-        Handler handler = new Handler();
-        Timer timer;
-
-        boolean stopped;
-
-        public void setTabView(View view) {
-            this.view = view;
-            bullet = null;
-        }
-
-        public void start() {
-            if (timer != null)
-                return;
-
-            stopped = false;
-            timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    handler.post(runnable);
-                }
-            }, 0, 500);
-        }
-
-        public void stop() {
-            stopped = true;
-            if (timer != null) {
-                timer.cancel();
-                timer = null;
-            }
-            if (bullet != null)
-                bullet.setVisibility(View.VISIBLE);
-        }
-    }
-
     /**
      * issue number of the first missing issue
      */
@@ -586,16 +529,19 @@ public class GalleryOfIssuesFragment extends Fragment {
     void fetchLatestIssueNumber(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        if (!NetworkHelper.isOnline(context)) {
-            latestAvailableIssueNumberOnServer = preferences.getInt("latestAvailableIssueNumberOnServer", 0);
-            updateBlinker(IssuesTabFragment.AVAILABLE_ISSUES);
-            return;
-        }
+//        if (!NetworkHelper.isOnline(context)) {
+//            latestAvailableIssueNumberOnServer = preferences.getInt("latestAvailableIssueNumberOnServer", 0);
+//            updateBlinker(IssuesTabFragment.AVAILABLE_ISSUES);
+//            return;
+//        }
 
         final long currentTime = System.currentTimeMillis();
         long lastUpdateCheck = preferences.getLong("last_update_check", currentTime - 365L * 24L * 3600L * 1000L);
-        if (currentTime - lastUpdateCheck < 3L * 24L * 3600L * 1000L) // don't check if last update occurred less than 3 days ago
+        if (currentTime - lastUpdateCheck < 3L * 24L * 3600L * 1000L) { // don't check if last update occurred less than 3 days ago
+            latestAvailableIssueNumberOnServer = PreferenceManager.getDefaultSharedPreferences(context).getInt("latestAvailableIssueNumberOnServer", 0);
+            updateBlinker(IssuesTabFragment.AVAILABLE_ISSUES);
             return;
+        }
 
         if (requestQueue == null)
             requestQueue = Volley.newRequestQueue(context);
