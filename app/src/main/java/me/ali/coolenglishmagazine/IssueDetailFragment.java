@@ -3,6 +3,7 @@ package me.ali.coolenglishmagazine;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -91,7 +92,8 @@ public class IssueDetailFragment extends Fragment {
             webView = (WebView) rootView.findViewById(R.id.webView);
             webView.setBackgroundColor(Color.TRANSPARENT);
             webView.getSettings().setJavaScriptEnabled(true);
-            webView.addJavascriptInterface(new WebViewJavaScriptInterface(), "app");
+            final WebViewJavaScriptInterface javaScriptInterface = new WebViewJavaScriptInterface();
+            webView.addJavascriptInterface(javaScriptInterface, "app");
             webView.setWebViewClient(new WebViewClient() {
                 public void onPageFinished(WebView view, String url) {
                     if (isAttached) { // when activity is finished/finishing, becomes null
@@ -107,7 +109,13 @@ public class IssueDetailFragment extends Fragment {
                         webView.loadUrl(command);
 //                        webView.loadUrl("javascript:restoreInstanceState(" + new JSONArray(Arrays.asList(webViewState)) + ");");
 //                        webView.loadUrl("javascript:app.onAdjustLayoutComplete();");
-                        webView.loadUrl("javascript:setTimeout(function() { app.onAdjustLayoutComplete(); }, 300);");
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                javaScriptInterface.onAdjustLayoutComplete();
+                            }
+                        }, 1500);
+//                        webView.loadUrl("javascript:setTimeout(function() { app.onAdjustLayoutComplete(); }, 300);");
                     }
                 }
             });
