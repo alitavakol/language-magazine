@@ -3,8 +3,10 @@ package me.ali.coolenglishmagazine;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GestureDetectorCompat;
@@ -43,7 +45,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import me.ali.coolenglishmagazine.model.Magazines;
-import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 
@@ -797,8 +798,19 @@ public class IssuesTabFragment extends Fragment implements
                 break;
 
             case R.id.action_mark_complete:
-                for (Magazines.Issue issue : selectedIssues)
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                Set<String> newSavedIssues = new HashSet<>(preferences.getStringSet("new_saved_issues", new HashSet<String>(0)));
+
+                for (Magazines.Issue issue : selectedIssues) {
                     Magazines.markCompleted(issue);
+
+                    final String id = Integer.toString(issue.id);
+                    if (newSavedIssues.contains(id)) {
+                        newSavedIssues.remove(id);
+                    }
+                }
+
+                preferences.edit().putStringSet("new_saved_issues", newSavedIssues).apply();
                 break;
 
             case R.id.action_mark_incomplete:
