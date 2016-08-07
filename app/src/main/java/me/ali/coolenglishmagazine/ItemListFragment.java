@@ -247,50 +247,6 @@ public class ItemListFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     mCallbacks.onItemSelected(magazineContent.ITEMS.get(recyclerView.getChildAdapterPosition(holder.itemView)));
-
-//                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-//                    final String userId = preferences.getString("user_id", "");
-//                    if (!BuildConfig.DEBUG && !item.free && issue.purchased && userId.length() == 0) {
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//                        builder.setMessage(R.string.sign_in_to_access)
-//                                .setTitle(R.string.sign_in_to_access_title)
-//                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        ((ItemListActivity) getActivity()).account.signIn();
-//                                    }
-//                                })
-//                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                    }
-//                                })
-//                                .setCancelable(true)
-//                                .show();
-//
-//                    } else if (!BuildConfig.DEBUG && !item.free && !issue.paidContentIsValid) {
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//                        builder.setMessage(R.string.paid_item_error)
-//                                .setTitle(R.string.paid_item_error_title)
-//                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        final FragmentActivity activity = getActivity();
-//                                        activity.finish();
-//                                        launchIssueDetailsActivity(activity, issue);
-//                                    }
-//                                })
-//                                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                    }
-//                                })
-//                                .setCancelable(true)
-//                                .show();
-//
-//                    } else if (BuildConfig.DEBUG || !item.free || issue.freeContentIsValid) {
-//                        mCallbacks.onItemSelected(magazineContent.ITEMS.get(recyclerView.getChildAdapterPosition(holder.itemView)));
-//                    }
                 }
             });
         }

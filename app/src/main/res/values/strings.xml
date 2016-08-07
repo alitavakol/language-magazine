@@ -385,9 +385,10 @@
     <string name="aboutLibraries_description_special1_text">
         <![CDATA[
         <h4>Version 2.2</h4>
+        <b>-</b> Enhanced user interface<br>
         <b>-</b> Expose content references<br>
-        <b>-</b> Bug fixes<br>
-        <b>-</b> Released on 1395/5/20<br>
+        <b>-</b> Bug fixes &amp; performance improvements<br>
+        <b>-</b> Released on 1395/5/16<br>
         <h4>Version 2.0</h4>
         <b>-</b> Add sign-in with Google account<br>
         <b>-</b> Implement Bazaar in-app billing<br>

@@ -52,7 +52,6 @@ import java.util.Locale;
 
 import me.ali.coolenglishmagazine.broadcast_receivers.AlarmBroadcastReceiver;
 import me.ali.coolenglishmagazine.broadcast_receivers.BootReceiver;
-import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.widget.MyAnalogClock;
 
@@ -90,6 +89,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
     public void onResume() {
         super.onResume();
         coolEnglishTimesFragment = (CoolEnglishTimesFragment) getActivity().getSupportFragmentManager().findFragmentByTag(CoolEnglishTimesFragment.FRAGMENT_TAG);
+        coolEnglishTimesFragment.updateBlinker(0);
     }
 
     @Override
@@ -140,6 +140,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
                 }
 
                 alarms.add(alarm);
+                coolEnglishTimesFragment.updateBlinker(0);
 
                 // sorting with respect to time
                 Collections.sort(alarms, new Comparator<Alarm>() {
@@ -321,7 +322,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
         }
     }
 
-    ArrayList<Alarm> alarms;
+    public ArrayList<Alarm> alarms;
 
     /**
      * list of alarms is saved in this file, within the internal files directory.
@@ -538,6 +539,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
                     turnOffAlarm(alarm);
                 }
                 saveAlarms();
+                coolEnglishTimesFragment.updateBlinker(0);
                 break;
 
             default:
