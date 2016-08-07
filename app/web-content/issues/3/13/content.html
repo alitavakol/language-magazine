@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			.cem-label {
+				display: inline-block;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				margin: 4px;
+			}
+			.label-container {
+				margin: -4px;
+				margin-bottom: 12px;
+			}
+			h4 {
+				font-weight: 400;
+				margin-top: 20px;
+			}
+			h5 {
+				padding-top: 6px;
+				padding-bottom: 6px;
+				font-weight: bold;
+				border-bottom: 1px solid;
+			}
+			h1, h3 {
+				margin-top: 0;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			.lockable {
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+			.box {
+				border: 3px solid;
+			}
+			.frame {
+				padding: 4px;
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+			}
+			input {
+				display: inline-block;
+				padding-top: 0;
+				padding-bottom: 0;
+				/*margin-left: 4px;*/
+				width: 1.7em;
+				border: solid 1px #888;
+				text-align: center;
+				vertical-align: middle;
+				font-weight: bold;
+				text-transform: lowercase;
+			}
+			input:focus {
+				outline: none;
+			}
+			th {
+				text-align: center;
+			}
+			td, th {
+				padding: 8px;
+			}
+			table, th, td {
+				border: 1px solid black;
+			}
+			td div {
+				padding-left: 6px;
+				border-left: solid 3px transparent;
+			}
+			.hot {
+				border-left: solid 3px black;
+			}
+			.correct {
+				background-color: lightgreen;
+			}
+			.incorrect {
+				background-color: lightcoral;
+			}
+			.col-a {
+				max-width: 30%;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<h1>Staycations</h1>
+			<h3>Vacations at home.</h3>
+
+			<h4><span class="accent">❶</span> <b>Pre reading</b></h4>
+			<p>Match the cities to their definitions. Which one would you like to visit on holiday? Why? What would you like to do there?</p>
+			<table style="width: 100%;">
+				<tr>
+					<th>City</th>
+					<th>Definition</th>
+				</tr>
+				<tr>
+					<td nowrap="true" class="col-a">Moscow,<br>Russia<br><input type="text" readonly="true" data-ans="e"></td>
+					<td class="col-b" data-choice="a"><div><b>a. </b>Victoria Harbour and its most famous culinary dish, Dim Sum</div></td>
+				</tr>
+				<tr>
+					<td nowrap="true" class="col-a">London,<br>England<br><input type="text" readonly="true" data-ans="b"></td>
+					<td class="col-b" data-choice="b"><div><b>b. </b>Big Ben and British Parliament are in this city</div></td>
+				</tr>
+				<tr>
+					<td nowrap="true" class="col-a">Seoul,<br>Korea<br><input type="text" readonly="true" data-ans="c"></td>
+					<td class="col-b" data-choice="c"><div><b>c. </b>hosted the 1988 Summer Olympics and the 2002 FIFA World Cup</div></td>
+				</tr>
+				<tr>
+					<td nowrap="true" class="col-a">Tokyo,<br>Japan<br><input type="text" readonly="true" data-ans="d"></td>
+					<td class="col-b" data-choice="d"><div><b>d. </b>has the Imperial Palace and was also destroyed by the famous movie monster Godzilla</div></td>
+				</tr>
+				<tr>
+					<td nowrap="true" class="col-a">Hong Kong,<br>China<br><input type="text" readonly="true" data-ans="a"></td>
+					<td class="col-b" data-choice="e"><div><b>e. </b>known for the Kremlin, the Moskva River also runs through this city</div></td>
+				</tr>
+			</table>
+
+			<h4><span class="accent">❷</span> <b>Listening</b></h4>
+			<p>A staycation involves staying at home and having a holiday there (either literally in your home or in your home country or city). What do you think is the idea behind a staycation? What sort of things can you do on a staycation? Make notes. Then, listen and check. Were any of your ideas mentioned?</p>
+
+			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p><span data-start="12076" data-end="19716">Can’t afford to go away on holiday? Take a “staycation” – a vacation at home.</span></p>
+				<p><img src="a.png" style="float: right; margin-left: 8px; width: 40%; max-width: 5cm; margin-top: 4px; margin-bottom: 4px;" class="frame"><span data-start="19717" data-end="25548">A recent study shows American families are not travelling much this year.</span> <span data-start="25549" data-end="39255">Rising gas and food prices, along with job insecurity and a <a class="new-word" data-word="a struggling economy" data-type="n" data-en="an economy in difficulty, with inancial problems">struggling economy</a> means thousands of people choose to stay close to home, instead of <a class="new-word" data-word="to hop on" data-type="phr vb" data-en="to jump on; to enter">hopping on</a> a plane or driving somewhere.</span> <span data-start="39256" data-end="46529"><a class="new-word" data-word="a retailer" data-type="n" data-en="a shop; a shop owner; a business (or business person) that owns a number of shops">Retailers</a> see Americans buying a lot less than normal, as people have less money to spend.</span> <span data-start="46530" data-end="59647">National <a class="new-word" data-word="a department store chain" data-type="n" data-en="a group of large department stores (buildings with many shops) under common ownership/management">department store chains</a> such as Wal-Mart and Target are <a class="new-word" data-word="to push" data-type="vb" data-en="to promote; to emphasise">pushing</a> low-cost vacation activities along with the traditional barbeque and camping equipment sold this time of year.</span> <span data-start="59648" data-end="66280">Both stores have launched summer ad campaigns that focus on fun in the <a class="new-word" data-word="a backyard" data-type="n" data-en="an area next to a house where children play, dogs live, people have BBQs, etc">backyard</a>.</span> <span data-start="66281" data-end="72400">“Americans still want to have a holiday,” said Wal-Mart spokeswoman Melissa O'Brien.</span> <span data-start="72401" data-end="79672">“They want to enjoy those quick weekend <a class="new-word" data-word="a getaway" data-type="n" data-en="a short holiday">getaways</a> and socialising around the backyard <a class="new-word" data-word="a cookout" data-type="n" data-en="a meal cooked and served outside; a BBQ">cookout</a>.”</span></p>
+				<p style="margin-bottom:"><span data-start="79673" data-end="86675">But even with low-cost staycations, many Americans are <a class="new-word" data-word="to watch your wallet" data-type="exp" data-en="to be careful about the amount of money you spend">watching their wallets</a>.</span> <span data-start="86676" data-end="92890">Those backyard barbecues cost 6% more this year than last year.</span> <span data-start="92891" data-end="98700">However, people are spending more money on home decorating, retailers report.</span> <span data-start="98701" data-end="105900">And they buy items like <a class="new-word" data-word="scented" data-type="adj" data-en="with a nice fragrance (smell)">scented</a> <a class="new-word" data-word="a candle" data-type="n" data-en="a wax stick that burns slowly and creates ligh">candles</a> and plants – things to make staying home more pleasant.</span> <span data-start="105901" data-end="111444">At least you can be surrounded by beautiful things on your staycation.</span> <span class="accent">✪</span></p>
+			</div></div>
+
+			<h4><span class="accent">❸</span> <b>Reading</b></h4>
+			<p>Choose the correct definitions of words and expressions from the article.</p>
+			<ol>
+				<li><span>a <b>struggling</b> economy. Is this an economy in difficulty or is it a positive description?</span></li>
+				<li><span>a department store <b>chain</b>. What’s a chain?</span></li>
+				<li><span>a <b>backyard</b>. Which two words is this noun composed of? Do you know what either word means? Clue: It’s connected to the house.</span></li>
+				<li><span>a weekend <b>getaway</b>. Which two words is this noun composed of? Do you know what either word means? Can it be a verb? How is it used as a verb?</span></li>
+				<li><span>to <b>watch your wallets</b>. Do you think this is literal or figurative? Why would you be “watching your wallet”?</span></li>
+			</ol>
+
+			<div class="row">
+				<div class="col-sm-6"><div class="box fill-light">
+					<h4 style="margin-top: 0; font-weight: bold;"><i>Language tip</i></h4>
+					<p>When you come across a word you don’t know, it’s very important to stop and try to break the word down into smaller parts. In many cases, this will help you work out the meaning. Try it!</p>
+				</div></div>
+				<div class="col-sm-6"><div class="box fill-light">
+					<h4 style="margin-top: 0; font-weight: bold;"><i>Word focus</i></h4>
+					<p>It is very fashionable to create words from new phenomena. Can you think of any in English or in your own language?</p>
+				</div></div>
+			</div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			prev_input = null;
+			$('.col-a').tap(function() {
+				$('td div').addClass('hot');
+				if(prev_input != null) {
+					prev_input.val(prev_input_val).change();
+				}
+				prev_input = $(this).find('input');
+				prev_input_val = prev_input.val();
+				prev_input.val('?').change();
+			});
+			$('.col-b').tap(function () {
+				$('td div').removeClass('hot');
+				if(typeof(prev_input) != 'undefined') {
+					prev_input.val($(this).data('choice')).change();
+					prev_input = null;
+				}
+			});
+			$('input').on('change', function() {
+				$(this).removeClass('correct incorrect');
+				if(this.value != '?' && this.value != '')
+					$(this).addClass($(this).data('ans') == this.value ? 'correct' : 'incorrect');
+				saveInstanceState();
+			});
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					h1 { color: " + tinycolor(accentColor).darken() + "; font-weight: bold; } \
+					h5 { border-color: #" + accentColor + "; color: #" + accentColor + "; } \
+					.box { padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
+					.fill-accent { background-color: " + highlightColor + "; } \
+					.fill-light { background-color: " + tinycolor(highlightColor).lighten() + "; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					th { background-color: " + tinycolor(accentColor).lighten() + "; } \
+					.arrow { color: " + tinycolor(accentColor).darken().darken() + "; } \
+					table { background: linear-gradient(white, " + tinycolor(accentColor).lighten().lighten().lighten().toRgbString() + "); background: -webkit-linear-gradient(white, " + tinycolor(accentColor).lighten().lighten().lighten().toRgbString() + "); } \
+				");
+			}
+
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key-enter-access-door-place-512.png")').children().css('visibility', 'hidden');
+					$('.lockable').css({'background-image': "url('cover.png')", border: 'solid 1px black'});
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').css({'background-image': '', border: 'solid 1px white'});
+				}
+
+				saveInstanceState();
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+					inputs: $('input').map(function() { return this.value == '?' ? prev_input_val : this.value; }).get(),
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				if(state['inputs']) {
+					$('input').map(function(i) {
+						$(this).val(state.inputs[i]).change();
+					});
+				}
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

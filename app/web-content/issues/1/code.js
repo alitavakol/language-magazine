@@ -10,6 +10,7 @@ adjustLayout = function(options) {
 	verticalMargin = (options['verticalMargin'] || 0) / window.devicePixelRatio;
 	horizontalMargin = (options['horizontalMargin'] || 0) / window.devicePixelRatio;
 	spacing = (options['spacing'] || 8) / window.devicePixelRatio;
+	normalPadding = (options['normalPadding'] || options['verticalMargin']) / window.devicePixelRatio;
 
 	textColor = ((options['textColor'] || 0) & 0xffffff).toString(16);
 	while(textColor.length < 6) textColor = '0' + textColor;
@@ -34,6 +35,8 @@ adjustLayout = function(options) {
 	if(options['backgroundColor']) {
 		backgroundColor = (options['backgroundColor'] & 0xffffff).toString(16);
 		while(backgroundColor.length < 6) backgroundColor = '0' + backgroundColor;
+	} else {
+		backgroundColor = 'ffffff';
 	}
 
 	$('#dynamic-rules').text(css);

@@ -232,9 +232,12 @@
     <string name="syncing">Updating&#8230;</string>
     <string name="cancel_syncing">Stop</string>
 
-    <string name="my_issues">On my device</string>
-    <string name="available_issues">Available for download</string>
+    <string name="my_issues">Saved</string>
+    <string name="my_issues_icon">{gmd-sd-card}</string>
+    <string name="available_issues">Downloadable</string>
+    <string name="available_issues_icon">{faw-cloud-download}</string>
     <string name="completed_issues">Completed</string>
+    <string name="completed_issues_icon">{gmd-assignment-turned-in}</string>
 
     <!-- issues list tab titles -->
     <array name="issue_list_tab_titles">
@@ -243,11 +246,19 @@
         <item>@string/completed_issues</item>
     </array>
 
+    <array name="issue_list_tab_icons">
+        <item>@string/my_issues_icon</item>
+        <item>@string/available_issues_icon</item>
+        <item>@string/completed_issues_icon</item>
+    </array>
+
     <string name="media_error">Cannot access device storage.</string>
 
     <!-- cool english times fragment tab titles -->
     <string name="alarms">Times</string>
+    <string name="alarms_icon">{gmd-alarm}</string>
     <string name="waiting_list">Waiting List</string>
+    <string name="waiting_list_icon">{gmd-format-list-bulleted}</string>
 
     <string name="active_issue">Currently learning</string>
     <string name="saved_issues">Other saved issues</string>
@@ -367,12 +378,17 @@
     <string name="error_empty_message">Please write a message!</string>
 
     <!-- about libraries -->
-    <string name="aboutLibraries_description_text"><![CDATA[Development of the <b>Hot English Magazine</b> android application has been made possible with the help of these libraries:]]></string>
+    <string name="aboutLibraries_description_text"><![CDATA[Development of the <b>Hot English Magazine</b> android application wouldn’t be possible without:]]></string>
     <string name="aboutLibraries_description_special2_name">Feedback</string>
     <string name="aboutLibraries_description_special3_name">Share</string>
     <string name="aboutLibraries_description_special1_name">Changes</string>
     <string name="aboutLibraries_description_special1_text">
         <![CDATA[
+        <h4>Version 2.2</h4>
+        <b>-</b> Enhanced user interface<br>
+        <b>-</b> Expose content references<br>
+        <b>-</b> Bug fixes &amp; performance improvements<br>
+        <b>-</b> Released on 1395/5/16<br>
         <h4>Version 2.0</h4>
         <b>-</b> Add sign-in with Google account<br>
         <b>-</b> Implement Bazaar in-app billing<br>
@@ -446,6 +462,6 @@
     <string name="reject">انصراف</string>
     <string name="incorrect_owner">خرید این محتوا قبلاً به نام فرد دیگری در کافه بازار ثبت شده است. لطفاً حساب کاربری خود را بررسی کنید.</string>
     <string name="incorrect_owner_title">خطا</string>
-```
+    ```
     <string name="new_word_and_type">%1$s\u0020\u0020\u0020\u0020%2$s</string>
 </resources>

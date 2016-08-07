@@ -19,6 +19,7 @@
         android:contentDescription="@string/about_waiting_list_1" />
 
     <TextView
+        android:id="@+id/help"
         style="@style/AppTheme.Widget.TextView.ContextHelp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

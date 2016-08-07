@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Funeral Foibles</title>
 		<meta charset="utf-8">
 
 		<!-- Material Design fonts -->
@@ -12,73 +11,119 @@
 		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
 
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
 		<style id="dynamic-rules">
 		</style>
 
 		<style type="text/css">
-			h1, h3 {
-				margin-top: 0;
+			body {
+				overflow-y: scroll;
 			}
-			h3 {
-				text-transform: uppercase;
-				font-weight: 300;
+			.cem-label {
+				display: inline-block;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				margin: 4px;
+			}
+			.label-container {
+				margin: -4px;
+				margin-bottom: 12px;
 			}
 			h4 {
 				font-weight: 400;
 				margin-top: 20px;
 			}
-			.transcript img {
-				max-width: 35%;
-				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);				
-				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
-				padding: 4px;
-				margin-bottom: 8px;
+			h5 {
+				padding-top: 6px;
+				padding-bottom: 6px;
+				font-weight: bold;
+				border-bottom: 1px solid;
 			}
-			.column p:not(:first-of-type) {
-				padding-top: 16px;
+			h1, h3 {
+				margin-top: 0;
 			}
-			.column img:not(:first-of-type) {
-				margin-top: 24px;
+			ol, ul {
+				padding-left: 1.2em;
 			}
-			.rotate-right {
-				-webkit-transform: rotate(-6deg);
-				transform: rotate(-6deg);
+			li {
+				font-weight: bold;
 			}
-			.rotate-right-little {
-				-webkit-transform: rotate(-3deg);
-				transform: rotate(-3deg);
-			}
-			.rotate-left {
-				-webkit-transform: rotate(4deg);
-				transform: rotate(4deg);
-			}
-			.rotate-left-little {
-				-webkit-transform: rotate(2deg);
-				transform: rotate(2deg);
-			}
-			.float-left {
-				float: left;
-				margin-right: 16px;
-				clear: left;
-			}
-			.float-right {
-				margin-left: 16px;
-				/*margin-right: 8px;*/
-				float: right;
-				clear: right;
+			li > span {
+				font-weight: normal;
 			}
 			.lockable {
 				background-size: cover;
 				background-repeat: no-repeat;
 				background-position: center;
-				margin-top: 24px;
 			}
-			.transcript {
-				background-size: contain;
-				background-repeat: no-repeat;
-				background-position: center;
+			input {
+				display: inline-block;
+				padding-top: 0;
+				padding-bottom: 0;
+				/*margin-left: 4px;*/
+				width: 1.7em;
+				border: solid 1px black;
+				text-align: center;
+				vertical-align: middle;
+				font-weight: bold;
+				text-transform: lowercase;
+				/*height: 90%;*/
+				color: black;
+				margin-bottom: 4px;
+			}
+			input:focus {
+				outline: none;
+			}
+			.img-circle {
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				width: 90%;
+				/*margin-top: 16px;*/
+				/*border: solid 3px transparent;*/
+				/*padding: 8px;*/
+			}
+			.row {
+				margin-left: 0;
+				margin-right: 0;
+				/*margin-top: 12px;*/
+				max-width: 480px;
+				display: inline-block;
+			}
+			.label {
+				/*position: relative;*/
+				border: solid 2px black;
+				background-color: black;
+				color: white;
+				/*bottom: 36px;*/
+				display: inline-block;
+				padding-left: 8px;
+				padding-right: 8px;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				margin-bottom: 16px;
+				/*margin-top: -8px;*/
+			}
+			.correct {
+				background-color: lightgreen;
+			}
+			.incorrect {
+				background-color: lightcoral;
+			}
+			.no-margin {
+				padding-left: 0;
+				padding-right: 0;
+			}
+			.box {
+				border: dotted 1px black;
+				text-align: center;
 			}
 		</style>
 
@@ -87,51 +132,70 @@
 
 		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
 		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
-		<script src="file:///android_asset/tinycolor-min.js"></script>
-		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
-		<script src="jquery.columnizer.js"></script>
 		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
 		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
 
 		<script src="../code.js"></script>
 		<script src="../debug.js"></script>
-
-		<!--Let browser know website is optimized for mobile-->
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	</head>
 
 	<body>
 		<div class="foundation">
 			<div id="top-margin"></div>
 
-			<h1>Weird Trivia</h1>
-			<h3>This is another part in our mini-series on strange facts. Who ever thought the world was so unusual?</h3>
+			<h1>New Planet</h1>
+			<h3>A new planet has been discovered. But is that good news?</h3>
 
-			<div class="lockable"><div class="transcript">
-				<img src="dog.jpg" class="rotate-right float-right">
-				<p><span data-start="13830" data-end="25450">The tallest dog in the world is a Great Dane called Gibson. He is 107 centimetres tall.</span></p>
+			<h4><span class="accent">❶</span> <b>Pre reading</b></h4>
+			<p>Match the space words to the definitions.</p>
+			<div class="box">
+				<div class="row">
+				</div>
 
-				<img src="couple.jpg" class="rotate-right-little float-left dontend" style="margin-top: 8px;">
-				<p><span data-start="25451" data-end="35560">The first couple to be shown in bed together on <a class="new-word" data-word="prime time television" data-type="n" data-en="the time when most people are watching television">prime time television</a> was Fred and Wilma Flintstone.</span></p>
+				<ol type="a" style="text-align: left;">
+					<li><span>A vehicle for travelling in space. <input type="text" readonly="true" data-ans="4"></span></li>
+					<li><span>A person who travels into space. <input type="text" readonly="true" data-ans="8"></span></li>
+					<li><span>The place where all the planets, stars and universe exist. <input type="text" readonly="true" data-ans="6"></span></li>
+					<li><span>A giant ball of fire millions of light years away. <input type="text" readonly="true" data-ans="2"></span></li>
+					<li><span>The giant ball of fire that gives us light and keeps us warm. The Earth revolves around it once a year. <input type="text" readonly="true" data-ans="1"></span></li>
+					<li><span>The large rock which reflects sunlight at night. It revolves around the Earth once a month. <input type="text" readonly="true" data-ans="3"></span></li>
+					<li><span>A creature from another planet. <input type="text" readonly="true" data-ans="5"></span></li>
+					<li><span>Someone/something from the planet Mars. <input type="text" readonly="true" data-ans="7"></span></li>
+				</ol>
+			</div>
 
-				<img src="quack.jpg" class="rotate-left float-right dontend" style="margin-top: 0;">
-				<p style="clear: left;"><span data-start="35561" data-end="45150">A duck’s <a class="new-word" data-word="a quack" data-type="n" data-en="the sound a duck makes">quack</a> doesn’t echo, and no one knows why.</span></p> 
+			<h4><span class="accent">❷</span> <b>Listening</b></h4>
+			<p>This article is about the discovery of a new planet. What do you think could be so special about it? Think. Then, listen to the article to check your ideas. Listen many times!</p>
 
-				<img src="chain.jpg" class="rotate-right float-left dontend">
-				<p><span data-start="45151" data-end="53800">The longest ever human chain was made between Tentulia and Teknaf in Bangladesh in 2004.</span> <span data-start="53801" data-end="64170">It was 1,050 kilometres long and there were over 5 million people in it.</span></p>
-
-				<img src="mini.jpg" class="rotate-right-little float-left dontend" style="max-width: 50%;">
-				<p><span data-start="64171" data-end="70350">John Evans once <a class="new-word" data-word="to balance something on your head" data-type="exp" data-en="to put something on your head and to keep it there for a period of time even though it is unstable">balanced a Mini on his head</a> for 33 seconds.</span> <span data-start="70351" data-end="78100">It weighed 159.6 kilos.</span></p>
-
-				<img src="horse.jpg" class="rotate-left float-right dontend" style="max-width: 50%;">
-				<p style="clear: left;"><span data-start="78101" data-end="83350">Statues of famous people on horseback actually have a meaning to them.</span> <span data-start="83351" data-end="88950">If the front legs of the horse are both in the air, it means that the person died in battle.</span> <span data-start="88951" data-end="95270">If the horse has only one front leg in the air, the person died from wounds <a class="new-word" data-word="to inflict (a wound)" data-type="vb" data-en="to cause an injury; to cut someone">inflicted</a> in battle.</span> <span data-start="95271" data-end="108000">But if the four legs of the horse are all on the ground, it means the warrior died of natural causes.</span></p>
-
-				<img src="salute.jpg" class="rotate-right float-left dontend">
-				<p><span data-start="108001" data-end="116600">The modern military <a class="new-word" data-word="a salute" data-type="n" data-en="a movement made with the hand to the head as a sign of respect to a superior officer">salute</a> came from the tradition of knights in armour raising their visors when they passed the king on horseback.</span> <span data-start="116601" data-end="121420">This was done so that the king could identify each passing knight.</span> <span data-start="121421" data-end="131400">So, nowadays, the right-handed salute <a class="new-word" data-word="to hark back to" data-type="exp" data-en="if something “harks back to” another period, it is a reminder of that period">harks back to</a> the <a class="new-word" data-word="medieval" data-type="adj" data-en="from the Middle Ages (the 5th to the 16th century)">medieval</a> warriors.</span></p>
-
-				<img src="cat.jpg" class="rotate-left-little float-right dontend">
-				<p><span data-start="131401" data-end="141600">Researchers have found that, if a cat falls from the seventh floor of a building, its chances of surviving are much less than if it fell from higher up.</span> <span data-start="141601" data-end="147500">If it fell from the twentieth floor, it would have 30% more chance of surviving.</span> <span data-start="147501" data-end="157700">This is because apparently it takes the cat eight floors to realise what is happening to it and to correct its position.</span> <span class="accent">✪</span></p>
+			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p><span data-start="12066" data-end="16148">How would you like to <a class="new-word" data-word="to pack up" data-type="vb" data-en="if you “pack up”, you put your things in bags because you are planning to leave">pack up</a> and leave the country?</span> <span data-start="16149" data-end="19121">Not <a class="new-word" data-word="adventurous" data-type="adj" data-en="full of action and excitement">adventurous</a> enough for you?</span> <span data-start="19122" data-end="22441">Well, how about leaving the planet?</span> <span data-start="22442" data-end="27014">The idea may not be as ridiculous as you’d imagine.</span></p>
+				<p><span data-start="27015" data-end="31917">The big news is that a new planet has been discovered.</span> <span data-start="31918" data-end="40927">Its name is <i>Gliese 581 g</i>, and it’s 20 <a class="new-word" data-word="a light-year" data-type="n" data-en="the distance light travels in one year (10 trillion km)">light-years</a> away.</span> <span data-start="40928" data-end="46980">The planet is one of six discovered in the <i>Gliese 581</i> planetary system,</span> <span data-start="46981" data-end="54260">and it’s located at the perfect distance from the <a class="new-word" data-word="red dwarf" data-type="n" data-en="a star (or sun) which is much smaller and cooler than a normal star">red dwarf</a> star <i>Gliese 581</i>,</span> <span data-start="54261" data-end="59527">which is a type of sun, although much cooler than ours.</span></p>
+				<p><span data-start="59528" data-end="63330">Scientists are extremely excited.</span> <span data-start="63331" data-end="76455">It only took 11 years to find Gliese 581 g after the initial discovery of the system, which is a relatively short period in astronomy time.</span> <span data-start="76456" data-end="82626">“Either we’ve just been incredibly lucky in this early detection,</span> <span data-start="82627" data-end="90843">or we’re truly <a class="new-word" data-word="on the threshold of" data-type="exp" data-en="if you are “on the threshold of” something, you are very nearly there or it is about to happen">on the threshold of</a> a second <a class="new-word" data-word="Age of Discovery" data-type="n" data-en="a period between the 15th and 17th centuries when lots of countries were visited / colonised / discovered (often by Europeans who’d never been there before)">Age of Discovery</a>,” said astronomer Steven Bogt.</span></p>
+				<p><span data-start="90844" data-end="96421">The planet is referred to as a possible “Goldilocks planet”.</span> <span data-start="96422" data-end="102060">The name comes from the popular children’s story <i>Goldilocks and the Three Bears</i>,</span> <span data-start="102061" data-end="119416">in which a little girl (Goldilocks) has to choose between three things, and ignores the ones that are either too hot or big, or too cold or small, and <a class="new-word" data-word="to go for" data-type="phr vb" data-en="if you “go for” something, you choose it">goes for</a> the ones that are just right.</span> <span data-start="119417" data-end="130974">Experts believe the temperature on <i>Gliese 581 g</i> could be between -37°C and -12°C,</span> <span data-start="130975" data-end="135877">and <a class="new-word" data-word="atmospheric conditions" data-type="exp" data-en="the climate, temperature, type of air, etc. on a planet">atmospheric conditions</a> could permit the existence of water.</span> <span data-start="135878" data-end="140147">This could mean that it could be inhabited by humans.</span></p>
+				<p><span data-start="140148" data-end="143743">However, there are a couple of drawbacks.</span> <span data-start="143744" data-end="149405">For a start, the planet doesn’t <a class="new-word" data-word="to rotate" data-type="vb" data-en="to turn on an axis or central point">rotate</a> in the same way that earth does.</span> <span data-start="149406" data-end="157313">This means that half the planet is in <a class="new-word" data-word="perpetual" data-type="adj" data-en="continuously; all the time">perpetual</a> darkness, while the other is always light.</span> <span data-start="157314" data-end="167990">So, if you ever decided to go and live there, you’d need to work out whether you wanted a great <a class="new-word" data-word="a suntan" data-type="n" data-en="if you have a “suntan”, your skin has become darker because you have been outside in the sun">suntan</a> or fantastic nightlife.</span></p>
+				<p><span data-start="167991" data-end="175054">Secondly, you may also want to consider who your <a class="new-word" data-word="a neighbour" data-type="n" data-en="someone who lives close to you">neighbours</a> might be.</span> <span data-start="175055" data-end="187825">Bogt has said the possibility of <a class="new-word" data-word="alien life" data-type="n" data-en="living things from other planets">alien life</a> existing on the planet is “100%”, although no one’s sure exactly what form it’ll take</span> – <span data-start="187826" data-end="196350">it could be as <a class="new-word" data-word="insignificant" data-type="adj" data-en="not important">insignificant</a> as a <a class="new-word" data-word="a flea" data-type="n" data-en="a small insect that often lives in the hair of an animal">flea</a>, or as <a class="new-word" data-word="terrifying" data-type="adj" data-en="very scary or frightening">terrifying</a> as a 10-headed, <a class="new-word" data-word="fire-breathing" data-type="adj" data-en="a “fire-breathing” monster can blow fire from its mouth (like a dragon)">fire-breathing</a> monster.</span> <span data-start="196351" data-end="208774">However, “even the discovery of a <a class="new-word" data-word="a single-cell bacteria" data-type="n" data-en="a very small living thing; the simplest form of life">single-cell bacteria</a> on Gliese 581 g could <a class="new-word" data-word="to shake perceptions" data-type="exp" data-en="to change the way most people think about something">shake perceptions</a> about the uniqueness of life on Earth,” he added.</span></p>
+				<p><span data-start="208775" data-end="215530">Anyway, if you do fancy a trip to outer space, there’s some more good news.</span> <span data-start="215531" data-end="222992">Virgin Galactic is planning its first commercial flights into space by early 2012.</span> <span data-start="222993" data-end="233851">A great way to <a class="new-word" data-word="to get away from it all" data-type="exp" data-en="to have a holiday so you can forget about your everyday life / problems">get away from it all</a>&#8230; if you’ve got around €144,100 to spare!</span></p>
+				<p><span data-start="233852" data-end="243770">Of course, if you wanted to go to Gliese 581 g, you’d need to travel 190 trillion kilometres to get there.</span> <span data-start="243771" data-end="248500">But just think of the <a class="new-word" data-word="frequent flyer points" data-type="exp" data-en="points you get based on the number of kilometres you fly with a particular airline. Later, you can use these points to buy things (such as other flights)">frequent flyer points</a>!</span> <span class="accent">✪</span></p>
 			</div></div>
+
+			<h4><span class="accent">❸</span> <b>Reading</b></h4>
+			<p>Read the article. Then, answer the questions.</p>
+			<ol>
+				<li><span>What’s the name of the planet?</span></li>
+				<li><span>What’s the name of the red dwarf star that acts as its sun?</span></li>
+				<li><span>How long did it take to find it?</span></li>
+				<li><span>Why is the planet referred to as a Goldilocks planet?</span></li>
+				<li><span>Why is half the planet in perpetual darkness?</span></li>
+			</ol>
+
+			<h4><span class="accent">❹</span> <b>Discussion</b></h4>
+			<ol>
+				<li><span>Would you like to travel to outer space? Why? Why not?</span></li>
+				<li><span>Do you think humans will ever live on other planets? Why? Why not?</span></li>
+				<li><span>What’s your favourite science-fiction film? Why do you like it?</span></li>
+			</ol>
 
 			<div id="bottom-margin"></div>
 		</div>
@@ -139,56 +203,71 @@
 		<script type="text/javascript">
 			restoringInstanceState = false;
 
-			adjustCustomLayout = function(options) {
-				var width = $('.transcript').width();
-				if(width >= 768)
-					cols = 3;
-				else if(width >= 480)
-					cols = 2;
-				else
-					cols = 1;
+			template = '\
+				<div class="no-margin col-xs-6 col-sm-4 col-md-3" data-choice="{img}" style="position: relative;">\
+					<img src="{img}.jpg" class="img-circle">\
+					<h1 style="display: none; position: absolute; bottom: 60px; left: 0; right: 0; color: white; text-shadow: 1px 0px 6px rgba(50,50,50,1);">?</h1>\
+					<div class="label">{name}</div>\
+				</div>\
+			';
+			i = 0;
+			['1. Sun', '2. Star', '3. Moon', '4. Spaceship', '5. Alien', '6. Space', '7. Martian', '8. Astronaut'].forEach(function(name) {
+				$('.row').append(template.replace(/\{img\}/g, ++i).replace(/\{name\}/g, name));
+			});
 
-				css = "\
-					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
-					#bottom-margin { height: " + (cols > 1 ? bottomMargin : 0) + "px; } \
-					.column { margin-bottom: " + (cols > 1 ? 0 : bottomMargin) + "px; } \
-					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
-					.foundation { height: " + height + "px; overflow-y: scroll; margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
-					h1 { color: " + tinycolor(accentColor).darken() + "; font-weight: bold; } \
-				";
-
-				if(cols > 1) {
-					css += "\
-					.first.column { padding-right: " + (2*spacing) + "px; } \
-					.last.column { padding-left: " + (2*spacing) + "px; } \
-					";
+			prev_input = null;
+			$('input').parent().tap(function() {
+				t = $(this).find('input');
+				if(prev_input != null) {
+					prev_input.val(prev_input_val).change();
 				}
 
-				if(cols == 3)
-					css += ".column:nth-child(2) { padding-right: " + (2*spacing) + "px; padding-left: " + (2*spacing) + "px; }"
+				$('.row h1').show();
+				prev_input = t;
+				prev_input_val = prev_input.val();
+				prev_input.val('?').change();
+			});
+			$('.row').children().tap(function () {
+				$('.row h1').hide();
+				if(typeof(prev_input) != 'undefined') {
+					prev_input.val($(this).data('choice')).change();
+					prev_input = null;
+				}
+			});
+			$('input').on('change', function() {
+				$(this).removeClass('correct incorrect');
+				if(this.value != '?' && this.value != '')
+					$(this).addClass($(this).data('ans') == this.value ? 'correct' : 'incorrect');
+				saveInstanceState();
+			});
 
-				$('#local-rules').text(css);
-
-				$('.transcript').columnize({
-					columns: cols,
-				});
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					h1 { color: " + tinycolor(accentColor).darken() + "; font-weight: bold; } \
+					h5 { border-color: #" + accentColor + "; color: #" + accentColor + "; } \
+					.cem-label { color: #" + backgroundColor + "; background-color: #" + textColor + "; -webkit-box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					ul > li { color: #" + accentColor + "; } \
+					ul > li > span { color: #" + textColor + "; } \
+					.box { padding-top: " + (2*spacing) + "px; padding-left: " + spacing + "px; padding-right: " + spacing + "px; } \
+				");
 			}
 
-			container = $('.foundation')[0];
 			prevScroll = 0;
 
 			lock = function(b) {
 				transcriptLocked = b;
 
 				if(b) {
-					$('.transcript').css('background-image', 'url("key-enter-access-door-place-512.png")');
-					$('.lockable').css('background-image', "url('horse.jpg')");
-					$('.column').css({visibility: 'hidden', 'float': ''});
+					$('#transcript').css('background-image', 'url("key-enter-access-door-place-512.png")').children().css('visibility', 'hidden');
+					$('.lockable').css('background-image', "url('cover.jpg')");
 
 				} else {
-					$('.transcript').css('background-image', '');
+					$('#transcript').css('background-image', '').children().css('visibility', '');
 					$('.lockable').css('background-image', '');
-					$('.column').css({visibility: '', 'float': 'left'});
 				}
 
 				saveInstanceState();
@@ -201,6 +280,7 @@
 				outState = {
 					transcriptLocked: transcriptLocked,
 					scroll: prevScroll,
+					inputs: $('input').map(function() { return this.value == '?' ? prev_input_val : this.value; }).get(),
 				};
 
 				if(typeof(app) != 'undefined')
@@ -213,8 +293,14 @@
 
 				lock(state.transcriptLocked || true);
 
-				container.scrollTop = (state['scroll'] || 0) * container.scrollHeight;
-				prevScroll = container.scrollTop / container.scrollHeight;
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				if(state['inputs']) {
+					$('input').map(function(i) {
+						$(this).val(state.inputs[i]).change();
+					});
+				}
 
 				restoringInstanceState = false;
 			}
@@ -235,7 +321,7 @@
 				app.showLockControls(true);
 
 			setInterval(function() {
-				scroll = container.scrollTop / container.scrollHeight;
+				scroll = $('body').scrollTop() / $('body').height();
 				if(scroll != prevScroll) {
 					prevScroll = scroll;
 					saveInstanceState();
@@ -244,15 +330,17 @@
 
 			lastScrollTop = 0;
 			if(typeof(app) != 'undefined') {
-				$('.foundation').scroll(function() {
-					if(container.scrollTop < topMargin) {
-						if(container.scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
 							app.setToolbarScrollable(false);
 
 					} else if(lastScrollTop < topMargin)
 							app.setToolbarScrollable(true);
 
-					lastScrollTop = container.scrollTop;
+					lastScrollTop = scrollTop;
 				});
 			}
 		</script>

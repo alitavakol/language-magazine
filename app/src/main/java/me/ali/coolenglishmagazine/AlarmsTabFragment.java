@@ -89,6 +89,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
     public void onResume() {
         super.onResume();
         coolEnglishTimesFragment = (CoolEnglishTimesFragment) getActivity().getSupportFragmentManager().findFragmentByTag(CoolEnglishTimesFragment.FRAGMENT_TAG);
+        coolEnglishTimesFragment.updateBlinker(0);
     }
 
     @Override
@@ -139,6 +140,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
                 }
 
                 alarms.add(alarm);
+                coolEnglishTimesFragment.updateBlinker(0);
 
                 // sorting with respect to time
                 Collections.sort(alarms, new Comparator<Alarm>() {
@@ -223,8 +225,9 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
 
         helpContainer.setVisibility(View.VISIBLE);
 
-//        if (getResources().getConfiguration().locale.getLanguage().equals("fa"))
-//            FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC_REGULAR));
+//        FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(),
+//                ((TextView) helpContainer.findViewById(R.id.help)).getText().toString().contains("ا") ? FontManager.ADOBE_ARABIC : FontManager.UBUNTU
+//        ));
 
         ImageButton add = (ImageButton) layoutView.findViewById(R.id.add);
         add.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_alarm_add).sizeDp(72).colorRes(R.color.colorContextHelp));
@@ -319,7 +322,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
         }
     }
 
-    ArrayList<Alarm> alarms;
+    public ArrayList<Alarm> alarms;
 
     /**
      * list of alarms is saved in this file, within the internal files directory.
@@ -536,6 +539,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
                     turnOffAlarm(alarm);
                 }
                 saveAlarms();
+                coolEnglishTimesFragment.updateBlinker(0);
                 break;
 
             default:

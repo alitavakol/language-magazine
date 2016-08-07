@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Useful Verbs and Expressions</title>
 		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<!-- Material Design fonts -->
 		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
@@ -13,7 +13,7 @@
 		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
 
 		<!-- Bootstrap Material Design -->
-		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
 
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
@@ -21,96 +21,50 @@
 		</style>
 
 		<style type="text/css">
-			#page-indicator {
-				width: 100%;
-				position: flex;
-				z-index: 1;
-				text-align: center;
-				display: none;
+			body {
+				overflow-y: scroll;
 			}
-			.dot {
-				display: inline-block;
-				width: 10px;
-				height: 10px;
-				border-radius: 5px;
-				margin: 3px;
-				/* background-color: #8999A6; */
-			}
-			.dot.active {
-				/* background-color: azure; */
-			}
-
-			.cem-card {
-				position: relative;
-				transition: box-shadow .25s;
-				border-radius: 2px;
+			.illustrative {
+				background-repeat: no-repeat;
+				background-size: cover;
+				background-position: center;
+				padding-bottom: 120%;
 				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
-		    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
-				max-width: 100%;
-			}
-			.cem-card .card-image {
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				border: 2px solid;
+				text-align: center;
 				position: relative;
 			}
-			.cem-card .card-image img {
-				display: block;
-				border-radius: 2px 2px 0 0;
-				position: relative;
-				left: 0;
-				right: 0;
-				top: 0;
-				bottom: 0;
-				width: 100%;
-			}
-			.cem-card .card-image .card-title {
-				color: #fff;
+			.title {
 				position: absolute;
 				bottom: 0;
 				left: 0;
-				padding-left: 20px;
-				padding-right: 20px;
-				padding-top: 10px;
-				padding-bottom: 10px;
-				text-transform: uppercase;
-				background-color: black;
-				opacity: 0.7;
+				right: 0;
+				padding: 4px;
+				border-radius: 16px;
+				margin: 8px;
+				opacity: 0.95;
+				font-weight: bold;
 			}
-			.cem-card .card-title {
-				font-size: 20px;
-				font-weight: 300;
+			h1 {
+				margin-top: 0;
 			}
-			.cem-card .card-content {
-				border-radius: 0 0 2px 2px;
-				padding-left: 20px;
-				padding-right: 20px;
-				padding-bottom: 10px;
-				padding-top: 10px;
-				font-style: italic;
-			}
-			.cem-card .card-action {
-				border-top: 1px solid rgba(0,0,0,0.2);
-				padding: 20px;
-				padding-bottom: 0;
-				transition: color .3s ease;
-				text-transform: uppercase;
-				text-decoration: none;
-				-webkit-tap-highlight-color: transparent;
+			h5 {
 				font-weight: bold;
 			}
 
-			.swipe {
-				overflow: hidden;
-				visibility: hidden;
-				position: relative;
+			tr > td:first-child {
+				font-weight: bold;
+				text-align: right;
 			}
-			.swipe-wrap {
-				position: relative;
+			tr > td:last-child {
+				padding-left: 16px;
 			}
-			.swipe-wrap > div {
-				float: left;
-				width: 20px;
-				position: relative;
-				overflow: hidden;
-				overflow-y: auto;
+			td {
+				vertical-align: top;
+			}
+			ol, ul {
+				padding-left: 1.2em;
 			}
 		</style>
 
@@ -121,98 +75,204 @@
 		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
 		<script src="file:///android_asset/tinycolor-min.js"></script>
 		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
-		<script src="swipe.min.js"></script>
 
 		<script src="../code.js"></script>
 		<script src="../debug.js"></script>
 	</head>
 
 	<body>
-		<div id="page-indicator" style="position: absolute; z-index: 1;"></div>
+		<div class="foundation">
+			<div id="top-margin"></div>
 
-		<div id='swipeable' style='margin:0 auto;' class='swipe'>
-			<div class='swipe-wrap'></div>
+			<h1 class="alt">Musical Instruments</h1>
+
+			<h3 class="alt">Part I</h3>
+			<h4>Here you see a list of musical instruments:</h4>
+			<div id="instruments" class="row"></div>
+
+			<div class="transcript">
+				<h3 class="alt">Part II</h3>
+
+				<h4><span data-start="7900" data-end="12000">Listen and repeat these expressions.</span></h4>
+				<div class="row">
+					<div class="col-md-6">
+						<h5 class="acnt"><span data-start="12900" data-end="15200">Asking about music</span></h5>
+						<ul>
+							<li><span data-start="15201" data-end="17600">Can you play the guitar?</span></li>
+							<li><span data-start="17601" data-end="20000">Are you good at the piano?</span></li>
+							<li><span data-start="20001" data-end="23550">Do you know how to play any songs on the trumpet?</span></li>
+							<li><span data-start="23551" data-end="26600">Which instrument would you like to learn?</span></li>
+							<li><span data-start="26601" data-end="29350">Can you play those songs on the guitar?</span></li>
+							<li><span data-start="29351" data-end="32200">She’s really good at the piano.</span></li>
+						</ul>
+					</div>
+
+					<div class="col-md-6">
+						<h5 class="acnt"><span data-start="33300" data-end="35100">At the shop</span></h5>
+						<ul>
+							<li><span data-start="35101" data-end="37700">I’m looking for a guitar.</span></li>
+							<li><span data-start="37701" data-end="39950">Have you got any sheet music?</span></li>
+							<li><span data-start="39951" data-end="43000">Have you got a Beatles song book?</span></li>
+							<li><span data-start="43001" data-end="46200">I need some strings for my electric guitar.</span></li>
+							<li><span data-start="46201" data-end="48600">Do you sell guitar amps?</span></li>
+							<li><span data-start="48601" data-end="51300">Do you have any strings for a cello?</span></li>
+							<li><span data-start="51301" data-end="54400">I need to get my piano <a class="new-word" data-word="to tune" data-type="vb" data-en="to adjust a musical instrument so it produces the correct notes" data-fa="کوک کردن ساز">tuned</a>.</span></li>
+							<li><span data-start="54401" data-end="57720">What make of guitar would you like?</span></li>
+						</ul>
+					</div>
+				</div>
+
+				<h4><span data-start="61300" data-end="71000">Now listen to this dialogue. In this conversation, Sarah is in a music shop. She wants to buy a guitar.</span></h4>
+				<table>
+					<tr>
+						<td>Assisstant:</td>
+						<td><span data-start="76850" data-end="81200">Good morning. How may I help you?</span></td>
+					</tr>
+					<tr>
+						<td>Sarah:</td>
+						<td><span data-start="81201" data-end="84360">Hi, I’m interested in buying a guitar.</span></td>
+					</tr>
+					<tr>
+						<td>Assisstant:</td>
+						<td><span data-start="84361" data-end="86250">What type of guitar?</span></td>
+					</tr>
+					<tr>
+						<td>Sarah:</td>
+						<td><span data-start="86251" data-end="88120">An electric guitar.</span></td>
+					</tr>
+					<tr>
+						<td>Assisstant:</td>
+						<td><span data-start="88121" data-end="89900">Any particular make?</span></td>
+					</tr>
+					<tr>
+						<td>Sarah:</td>
+						<td><span data-start="89901" data-end="91620">No, I don’t mind.</span></td>
+					</tr>
+					<tr>
+						<td>Assisstant:</td>
+						<td><span data-start="91621" data-end="97700">Well, we’ve got a basic <a class="new-word" data-word="bottom-of-the-range" data-type="adj" data-en="cheap" data-fa="ارزان">bottom-of-the-range</a> one for 80 euros.</span></td>
+					</tr>
+					<tr>
+						<td>Sarah:</td>
+						<td><span data-start="97701" data-end="100630">I was looking to spend a bit more than that.</span></td>
+					</tr>
+					<tr>
+						<td>Assisstant:</td>
+						<td><span data-start="100631" data-end="111130">OK. Then we’ve got a <a class="new-word" data-word="middle-of-the-range" data-type="adj" data-en="not cheap and not expensive" data-fa="دارای قیمت مناسب و میانه">middle-of-the-range</a> guitar for 240 euros. It’s very good. Would you like to try it?</span></td>
+					</tr>
+					<tr>
+						<td>Sarah:</td>
+						<td><span data-start="111131" data-end="112570">Yes, OK.</span></td>
+					</tr>
+					<tr>
+						<td>Assisstant:</td>
+						<td><span data-start="112571" data-end="119000">It’s an Ibanez and it comes in three colours: black, red or green.</span></td>
+					</tr>
+					<tr>
+						<td>Sarah:</td>
+						<td><span data-start="133300" data-end="139050">(She tries it.) Yes, it’s very good. I think I’ll take this one. Does it come with a guitar case?</span></td>
+					</tr>
+					<tr>
+						<td>Assisstant:</td>
+						<td><span data-start="139051" data-end="143400">Yes, of course. Would you like an amp with it, too?</span></td>
+					</tr>
+					<tr>
+						<td>Sarah:</td>
+						<td><span data-start="143401" data-end="146700">No, I’ve got one already, thanks.</span></td>
+					</tr>
+					<tr>
+						<td>Assisstant:</td>
+						<td><span data-start="146701" data-end="152500">That’s 240 euros, please. Are you paying by credit card?</span></td>
+					</tr>
+					<tr>
+						<td>Sarah:</td>
+						<td><span data-start="152501" data-end="154050">Yes, here you are.</span></td>
+					</tr>
+					<tr>
+						<td>Assisstant:</td>
+						<td><span data-start="154051" data-end="156000">Thanks.</span></td>
+					</tr>
+				</table>
+			</div>
+
+			<div id="bottom-margin"></div>
 		</div>
 
 		<script type="text/javascript">
 			restoringInstanceState = false;
 
-			card_template = "\
-				<div>\
-					<div class='top-margin'></div>\
-					<div class='cem-card'>\
-						<div class='card-image'>\
-							<img class='img-responsive' src='{img}'>\
-							<span class='card-title'>{verb}</span>\
-						</div>\
-						<div class='card-action'>{def}</div>\
-						<div class='card-content'><p>{example}</p></div>\
+			template = "\
+				<div class='col-xs-6 col-sm-4 col-md-3 col-lg-2'>\
+					<div class='illustrative' style=\"background-image: url('{img}.jpg');\">\
+						<div class='title'>{title}</div>\
 					</div>\
-					<div class='bottom-margin'></div>\
 				</div>\
 			";
-			verbs = ['To pitch a tent', 'To go on a hike', 'To build a fire', 'To catch fish', 'To roast marshmallows', 'To set up camp'];
-			defs = ['To assemble a tent.', 'To go for a long walk in the country.', 'To make a fire from materials such as wood and sticks.', 'To use a fishing rod and/or line to get fish.', 'To cook marshmallows over a fire.', 'If you “set up camp”, you organise your campsite by putting your tent, supplies and food in order.'];
-			images = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg'];
-			examples = ['“The first thing we did when we got to the campsite was pitch our tent.”', '“We plan to go on a hike in Fisher Canyon.”', '“If we want to eat dinner, we should probably build a fire first.”', '“My mum and I caught seven fish in three hours down at the lake.”', '“Sean loves to roast marshmallows when we go camping.”', '“My friends and I left home in the morning because we wanted to set up camp before dark.”'];
-			var i = 0;
-			verbs.forEach(function(verb) {
-				$('.swipe-wrap').append(card_template.replace(/\{verb\}/g, verb).replace(/\{img\}/g, images[i]).replace(/\{def\}/g, defs[i]).replace(/\{example\}/, examples[i]));
-				$('#page-indicator').append('<span class="dot"></span>');
-				i++;
+			i = 1;
+			['Electric guitar', 'Acoustic guitar', 'Amp', 'Bass guitar', 'Sheet music', 'Trombone', 'Clarinet', 'Harmonica', 'Drums', 'Saxophone', 'Cello', 'Violin', 'Accordion', 'Piano', 'Trumpet', 'Flute'].forEach(function(title) {
+				$('#instruments').append(template.replace(/\{img\}/g, i++).replace(/\{title\}/g, title));
 			});
 
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
-					.cem-card { background-color: #" + accentColor + "; margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
-					.card-content { color: " + newWordColor + "; } \
-					.top-margin { height: " + (topMargin+verticalMargin) + "px; } \
-					.bottom-margin { height: " + verticalMargin + "px; } \
-					#page-indicator { margin-top: " + (topMargin+2*verticalMargin-8) + "px; } \
-					.swipe-wrap > div { height: " + height + "px; } \
-					.dot { background-color: " + tinycolor(accentColor).brighten().brighten().toHexString() + "; } \
-					.dot.active { background-color: " + tinycolor(accentColor).darken().darken().toHexString() + "; }"
-				);
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					h4 { color: #" + accentColor + "; } \
+					.row { margin-left: -" + spacing + "px; margin-right: -" + spacing + "px; } \
+					.col-xs-6, .col-md-6 { padding-left: " + spacing + "px; padding-right: " + spacing + "px; padding-bottom: " + (2*spacing) + "px; } \
+					.title { background-color: #" + accentColor + "; } \
+					.acnt, tr:nth-child(odd) { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + (bottomMargin) + "px; } \
+				");
 			}
 
-			setCurrentSlide = function(index) {
-				$('#page-indicator').show();
-				$('#page-indicator .dot').eq(index).addClass('active');
-
-				if(typeof(window.swipeable) == 'object' && typeof(window.swipeable.kill) == 'function')
-					window.swipeable.kill();
-
-				window.swipeable = $('#swipeable').Swipe({
-					startSlide: index,
-					callback: function(index,elem) {
-						$('#page-indicator .dot').removeClass('active');
-						$('#page-indicator .dot').eq(index).addClass('active');
-
-						currentSlide = index;
-						saveInstanceState();
-					},
-				}).data('Swipe');
-			}
+			prevScroll = 0;
 
 			saveInstanceState = function() {
 				if(restoringInstanceState)
 					return;
 
 				outState = {
-					currentSlide: currentSlide,
+					scroll: prevScroll,
 				};
 
 				if(typeof(app) != 'undefined')
-    				app.saveInstanceState(JSON.stringify(outState));
+					app.saveInstanceState(JSON.stringify(outState));
 			}
 
 			restoreInstanceState = function(savedInstanceState) {
 				restoringInstanceState = true;
 				state = JSON.parse(savedInstanceState);
 
-				setCurrentSlide(state.currentSlide || 0);
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
 
 				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
 			}
 		</script>
 

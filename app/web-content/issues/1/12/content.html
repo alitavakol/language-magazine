@@ -8,52 +8,101 @@
 		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
 
 		<!-- Bootstrap -->
-		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
-
-		<!-- Bootstrap Material Design -->
-		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+		<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
 
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
 		<style id="dynamic-rules">
 		</style>
 
-
 		<style type="text/css">
-			@font-face {
-				font-family: 'thin';
-				src: url('Umbra-Regular.otf');
-			}
 			body {
 				overflow-y: scroll;
 			}
-			h1, h3 {
+			h1 {
 				margin-top: 0;
 			}
-			h3 {
+			h1, h4 {
 				text-transform: uppercase;
-				font-family: 'thin';
 			}
 			h4 {
-				text-transform: uppercase;
+				margin-bottom: -16px;
 			}
-			.title {
-				margin-top: 24px;
+			ol, ul {
+				margin-top: 36px;
+				padding-left: 1.2em;
+			}
+			ol > li {
+				/*font-size: larger;*/
 				font-weight: bold;
 			}
-			.frame {
+			.col-a {
+				color: #ce0000;
+			}
+			.col-b {
+				color: #2c9e06;
+			}
+			ol > li > span {
+				font-weight: normal;
+				/*font-size: medium;*/
+				color: black;
 				padding: 4px;
-				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
-				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
 			}
-			.foundation {
-				text-align: center;
+			li {
+				margin-bottom: 8px;
 			}
-			.restrict {
-				text-align: left;
-				max-width: 20cm;
+			input {
 				display: inline-block;
+				padding-top: 0;
+				padding-bottom: 0;
+				/*margin-left: 4px;*/
+				width: 1.7em;
+				border: solid 1px black;
+				text-align: center;
+				vertical-align: middle;
+				font-weight: bold;
+				text-transform: lowercase;
+				height: 90%;
+				color: black;
+			}
+			input.fake {
+				visibility: hidden;
+				width: .1em;
+			}
+			input:focus {
+				outline: none;
+			}
+			.img {
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);				
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				padding: 4px;
+				background-color: white;
+				/*width: 50%;*/
+				margin-top: 8px;
+				margin-bottom: 8px;
+			}
+			.rotate-right {
+				-webkit-transform: rotate(-6deg);
+				transform: rotate(-6deg);
+			}
+			.rotate-left {
+				-webkit-transform: rotate(7deg);
+				transform: rotate(7deg);
+			}
+			.float-right {
+				margin-left: 16px;
+				margin-right: 4px;
+				float: right;
+				clear: right;
+			}
+			.hot {
+				background-color: #eedd00;
+			}
+			.correct {
+				background-color: lightgreen;
+			}
+			.incorrect {
+				background-color: lightcoral;
 			}
 		</style>
 
@@ -62,97 +111,95 @@
 
 		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
 		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
 		<script src="file:///android_asset/tinycolor-min.js"></script>
 		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
 
 		<script src="../code.js"></script>
 		<script src="../debug.js"></script>
+
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	</head>
 
 	<body>
 		<div class="foundation">
 			<div id="top-margin"></div>
 
-			<div class="restrict">
-				<h1 class="accent">Poland</h1>
-				<img src="wp14a514e3.png" style="border: solid 2px black; width: 100%;">
-				<h4 style="font-weight: 300;">Our monthly look at English accents from around the world in both English-speaking and non-English-speaking countries. This month: the Polish English accent. </h4>
+			<h1>Little Jokes</h1>
+			<h4>Match each joke beginning (1 to 8) with its ending (a-h). Then, listen to check your answers.</h4>
 
-				<h4 class="title">Poland</h4>
-				<div><span class="accent2">●</span> Poland (Polska) is a country located in Central Europe. It has borders with many countries, including Germany, the Czech Republic, the Ukraine and Slovakia.</div>
-				<div><span class="accent2">●</span> The capital of Poland is Warsaw.</div>
-				<div><span class="accent2">●</span> The population is approximately 38 million.</div>
-				<div><span class="accent2">●</span> Poland’s first free elections after the fall of the Iron Curtain were in 1990. They were won by Lech Walesa.</div>
-				<div><span class="accent2">●</span> Poland became a member of NATO in 1999.</div>
-				<div><span class="accent2">●</span> Poland became a member of the European Union in 2004.</div>
-				<div><span class="accent2">●</span> Prime Minister: Donald Tusk.</div>
-				<div><span class="accent2">●</span> Recently-deceased president: Lech Kaczynski.</div>
-				<img src="map.jpg" class="frame" style="width: 100%; margin-top: 16px;">
+			<div class="transcript row">
+				<div class="col-md-6">
+					<ol class="first">
+						<li class="col-a"><span data-start="7146" data-end="11000">What should you do if you find a snake in your bed?</span> <input type="text" readonly="true" data-ans="d"></li>
+						<div class="img float-right rotate-left"><img src="snake.png"></div>
+						<li class="col-a"><span data-start="18121" data-end="23450">I always wondered why babies spend so much time sucking their <a class="new-word" data-word="a thumb" datat-type="n" data-en="the thick finger on your hand">thumbs</a>.</span> <input type="text" readonly="true" data-ans="f"></li>
+						<li class="col-a"><span data-start="31032" data-end="34083">Waitress, there’s a fly in my soup.</span> <input type="text" readonly="true" data-ans="a"></li>
+						<div class="img float-right rotate-right" style="margin-right: 4px; margin-top: -16px;"><img src="soup.png"></div>
+						<li class="col-a"><span data-start="43782" data-end="46620">Waitress, my plate is wet.</span> <input type="text" readonly="true" data-ans="g"></li>
+						<li class="col-a"><span data-start="56255" data-end="59433">Waitress is there soup <a class="new-word" data-word="a menu" datat-type="n" data-en="a piece of paper with a list of food that a restaurant serves">on the menu</a>.</span> <input type="text" readonly="true" data-ans="e"></li>
+						<li class="col-a"><span data-start="67607" data-end="70472">Waitress, there’s a button in my soup?</span> <input type="text" readonly="true" data-ans="c"></li>
+						<li class="col-a"><span class="accent">Customer:</span> <span data-start="78929" data-end="83000">Waiter, this <a class="new-word" data-word="a lobster" datat-type="n" data-en="a sea creature with a hard shell, two claws and eight legs">lobster</a> has only got one <a class="new-word" data-word="a claw" datat-type="n" data-en="a part of a lobster / crab / scorpion that is at the end of its legs">claw</a>?</span><br><span class="accent">Waiter:</span> <span data-start="83001" data-end="85815">He must have been in a fight, madam.</span> <input type="text" readonly="true" data-ans="h"></li>
+						<li class="col-a"><span data-start="92505" data-end="94818">What’s on television tonight?</span> <input type="text" readonly="true" data-ans="b"></li>
+					</ol>
+				</div>
 
-				<h4 class="title">Famous people from Poland</h4>
-				<p>Millions of Polish people have emigrated from their country over the years. So, apart from the many famous Poles from Poland, there are also many Americans and British people of Polish descent who are famous.</p>
-				<img src="copernicus.jpg" class="frame" style="float: left; width: 3cm; max-width: 30%; margin-right: 8px; margin-top: 4px; margin-bottom: 4px;">
-				<div><span class="accent2">● Nicolaus Copernicus</span> (1473-1543) – famous astronomer.</div>
-				<div><span class="accent2">● Frederic Chopin</span> (1810-1849) – musician and composer.</div>
-				<div><span class="accent2">● Marie Curie</span> (1867-1934) – physicist and chemist.</div>
-				<div><span class="accent2">● Lech Walesa</span> (1943) – political activist and co-founder of Solidarity – Poland’s first independent trade union.</div>
-				<div><span class="accent2">● Pope John Paul II</span> (Karol Wojtyla) (1920-2005) – the first Pope of Polish origin.</div>
-				<img src="Joseph Conrad.jpg" class="frame" style="float: right; width: 4cm; max-width: 40%; margin-left: 8px; margin-top: 4px; margin-bottom: 4px;">
-				<div><span class="accent2">● Joseph Conrad</span> (1857-1924) – a British subject of Polish origin who wrote many famous books in English, including Heart of Darkness, which was the inspiration for the film Apocalypse Now.</div>
-				<div><span class="accent2">● Michael Anthony Sobolewski</span> (1954) – founding member of the hard rock band Van Halen.</div>
-				<div><span class="accent2">● Sir Arthur John Gielgud</span> (1904-2000) – English actor, director, and producer of Polish origin.</div>
-				<div><span class="accent2">● Helena Rubinstein</span> (1870-1965) – a cosmetics industrialist and founder of Helena Rubinstein, Incorporated.</div>
-				<div><span class="accent2">● Gloria Swanson</span> (1899-1983) – actress of the Silent Era who had Polish ancestry.</div>
-
-				<h4 class="title">Listening</h4>
-				<p>Now sit back and listen to Natalia telling us all about the Polish English accent. <span class="accent">✪</span></p> 
+				<div class="col-md-6 second">
+					<ol type="a" class="second">
+						<li class="col-b" data-choice="a"><span data-start="34084" data-end="43781">Don’t worry, ma'am. The spider in the bread will get it.</span><input type="text" class="fake"></li>
+						<div class="float-right" style="margin-left: 4px; margin-right: -12px;"><img src="lobster.png"></div>
+						<li class="col-b" data-choice="b"><span data-start="94819" data-end="108690">The same as always: a <a class="new-word" data-word="a vase" datat-type="n" data-en="a container for flowers">vase</a> of flowers and a bowl of fruit.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="c"><span data-start="70473" data-end="78928">Thank you, ma'am. I wondered what had happened to it.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="d"><span data-start="11001" data-end="18120">Sleep in the wardrobe.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="e"><span data-start="59434" data-end="67606">No ma'am, I <a class="new-word" data-word="to wipe off" datat-type="phr vb" data-en="to clean">wiped it all off</a>.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="f"><span data-start="23451" data-end="31031">Then I tasted baby food.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="g"><span data-start="46621" data-end="56254">It’s not wet ma'am, that’s the soup.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="h"><span class="accent">Customer:</span> <span data-start="85816" data-end="92504">Well, bring me the winner.</span><input type="text" class="fake"></li>
+					</ol>
+				</div>
 			</div>
 
 			<div id="bottom-margin"></div>
-
-			<div style="display: none;">
-				<span data-start="9800" data-end="13465"></span>
-				<span data-start="13466" data-end="21349"></span>
-				<span data-start="21350" data-end="26205"></span>
-				<span data-start="26206" data-end="35099"></span>
-				<span data-start="35100" data-end="39249"></span>
-				<span data-start="39250" data-end="42349"></span>
-				<span data-start="42350" data-end="46399"></span>
-				<span data-start="46400" data-end="49459"></span>
-				<span data-start="49460" data-end="54304"></span>
-				<span data-start="54305" data-end="57379"></span>
-				<span data-start="57380" data-end="66726"></span>
-				<span data-start="66727" data-end="71084"></span>
-				<span data-start="71085" data-end="77292"></span>
-				<span data-start="77293" data-end="82643"></span>
-				<span data-start="82644" data-end="88092"></span>
-				<span data-start="88093" data-end="96781"></span>
-				<span data-start="96782" data-end="108631"></span>
-				<span data-start="108632" data-end="113201"></span>
-				<span data-start="113202" data-end="119499"></span>
-				<span data-start="119500" data-end="121629"></span>
-				<span data-start="121630" data-end="129254"></span>
-				<span data-start="129255" data-end="134999"></span>
-				<span data-start="135000" data-end="139221"></span>
-				<span data-start="139222" data-end="142999"></span>
-				<span data-start="143000" data-end="148799"></span>
-				<span data-start="148800" data-end="152857"></span>
-				<span data-start="152858" data-end="156754"></span>
-				<span data-start="156755" data-end="167500"></span>
-			</div>
 		</div>
 
 		<script type="text/javascript">
 			restoringInstanceState = false;
 
+			prev_input = null;
+			$('.col-a').tap(function() {
+				t = $(this).find('input');
+				if(prev_input != null) {
+					prev_input.val(prev_input_val).change();
+				}
+
+				$('.col-b > span').addClass('hot');
+				prev_input = t;
+				prev_input_val = prev_input.val();
+				prev_input.val('?').change();
+			});
+			$('.col-b').tap(function () {
+				$('.col-b > span').removeClass('hot');
+				if(typeof(prev_input) != 'undefined') {
+					prev_input.val($(this).data('choice')).change();
+					prev_input = null;
+				}
+			});
+			$('input').on('change', function() {
+				$(this).removeClass('correct incorrect');
+				if(this.value != '?' && this.value != '')
+					$(this).addClass($(this).data('ans') == this.value ? 'correct' : 'incorrect');
+				saveInstanceState();
+			});
+
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
 					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
-					#bottom-margin { height: " + bottomMargin + "px; } \
+					#bottom-margin { height: " + (bottomMargin) + "px; } \
 					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
 					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
-					.title { color: " + tinycolor(accentColor).darken().darken() + "; } \
-					.accent2 { color: " + tinycolor(accentColor).darken() + "; } \
+					h1 { color: #" + accentColor + "; font-weight: bold; } \
 				");
 			}
 
@@ -164,6 +211,7 @@
 
 				outState = {
 					scroll: prevScroll,
+					inputs: $('input').map(function() { return this.value == '?' ? prev_input_val : this.value; }).get(),
 				};
 
 				if(typeof(app) != 'undefined')
@@ -176,6 +224,12 @@
 
 				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
 				prevScroll = $('body').scrollTop() / $('body').height();
+
+				if(state['inputs']) {
+					$('input').map(function(i) {
+						$(this).val(state.inputs[i]).change();
+					});
+				}
 
 				restoringInstanceState = false;
 			}

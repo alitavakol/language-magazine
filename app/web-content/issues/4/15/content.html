@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h3 {
+				margin-top: 0;
+				text-transform: uppercase;
+				font-weight: bold;
+			}
+			h4 {
+				text-transform: uppercase;
+			}
+			img {
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				width: 100%;
+			}
+			ol {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+				color: inherit;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<div class="accent" style="text-transform: uppercase;">Word of the Month</div>
+			<h3>Bouncebackability</h3>
+			<img src="cover.png">
+			<h4 style="font-weight: 300;">This month we are looking at the word “bouncebackability”.</h4>
+
+			<p>Basically, “to bounce back” is a phrasal verb that means to recover quickly after failing, suffering a defeat or having difficulties. For example:</p>
+			<ol type="a">
+				<li><span>She lost the first round, but bounced back to win the competition.</span></li>
+				<li><span>We all thought he’d disappear after that humiliating <a class="new-word" data-word="a revelation" data-type="n" data-en="information that becomes public">revelation</a>, but he bounced back a few years later.</span></li>
+			</ol>
+			<p>Literally, “bouncing” is the action that a ball makes when thrown at a surface. The term “bouncebackability” is derived from the phrasal verb "to bounce back", and is attributed to football manager Iain Dowie. Back in 2003, Dowie came to Crystal Palace football club as manager <a class="new-word" data-word="mid-season" data-type="adj" data-en="half-way through the football season">mid-season</a>. At the time, the club was <a class="new-word" data-word="in dire straits" data-type="exp" data-en="with extreme difficulties; in a lot of trouble">in dire straits</a>. They were in 19th position in <a class="new-word" data-word="Division One" data-type="n" data-en="Division One is the second most important division in English football">Division One</a>. However, under Dowie they improved and eventually won promotion to the <a class="new-word" data-word="the Premiership" data-type="n" data-en="the top division in English football">Premiership</a>. The following season they had a habit of conceding early goals only to equalise later. Dowie <a class="new-word" data-word="to coin a phrase / term" data-type="exp" data-en="to create a new phrase or word">coined the phrase</a> “bouncebackability” in reference to their ability to recover and the press started to use it. The following year, in 2005 The Collins English Dictionary included the word. Incidentally, Iain Dowie also <a class="new-word" data-word="to have a dubious title / honour" data-type="exp" data-en="to have a title for something bad">has the dubious title</a> of having broken his nose 25 times, so the word certainly applies to him.</p>
+			<p>Here are a few examples of the term in action. “This will be a great test of the famous Everton bouncebackability”, said Everton manager Mo Marley when his team was <a class="new-word" data-word="to knock out" data-type="phr vb" data-en="to defeat a team in a competition so that they are no longer in that competition">knocked out</a> of the <a class="new-word" data-word="the League Cup" data-type="n" data-en="a football competition of lesser importance than the main football competition (the FA Cup)">League Cup</a> several years ago. The term can also be used in politics. “As a former <a class="new-word" data-word="the cabinet" data-type="n" data-en="the central part of the British government; the ministers of state">cabinet</a> member of <a class="new-word" data-word="Major" data-type="n" data-en="John Major – a former British Conservative prime minister">Major’s</a> government, <a class="new-word" data-word="Michael Howard" data-type="n" data-en="a former British Conservative minister">Michael Howard</a> has an even harder job ahead of him. He has to show he has enough bouncebackability to get him into <a class="new-word" data-word="Number 10" data-type="n" data-en="the house where the British prime minister lives">Number 10</a>.”</p>
+			<p>The phrase is more relevant now in the era of reality TV as <a class="new-word" data-word="minor celebrity culture" data-type="n" data-en="the popularity of stars of reality TV shows such as Big Brother">minor celebrity culture</a> has developed. However, it appears that not many people who have appeared on Big Brother or other such TV shows have shown this talent for bouncing back. Andy Warhol once famously remarked that everyone would have 15 minutes of fame. Maybe he was right in a way&#8230; the fame would last 15 minutes and no more&#8230; with no bouncing back. <span class="accent">✪</span></p>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + verticalMargin + "px; } \
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					li { color: #" + accentColor + "; } \
+					li > span { color: #" + textColor + "; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>News Stories</title>
 		<meta charset="utf-8">
 
 		<!-- Material Design fonts -->
@@ -13,7 +12,7 @@
 		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
 
 		<!-- Bootstrap Material Design -->
-		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
 
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
@@ -21,16 +20,101 @@
 		</style>
 
 		<style type="text/css">
-			body {
-				overflow-y: scroll;
+			#page-indicator {
+				width: 100%;
+				position: absolute;
+				z-index: 1;
+				text-align: center;
+				display: none;
 			}
-			h1, h3 {
-				margin-top: 0;
+			.dot {
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				border-radius: 5px;
+				margin: 3px;
+				/* background-color: #8999A6; */
 			}
-			.lockable {
-				background-size: cover;
-				background-repeat: no-repeat;
-				background-position: center;
+			.dot.active {
+				/* background-color: azure; */
+			}
+
+			.cem-card {
+				position: relative;
+				transition: box-shadow .25s;
+				border-radius: 2px;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				max-width: 100%;
+			}
+			.cem-card .card-image {
+				position: relative;
+			}
+			.cem-card .card-image img {
+				display: block;
+				border-radius: 2px 2px 0 0;
+				position: relative;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+			}
+			.cem-card .card-image .card-title {
+				color: #fff;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-top: 10px;
+				padding-bottom: 10px;
+				text-transform: uppercase;
+				background-color: black;
+				font-weight: bold;
+				background-color: rgba(0,0,0,.5);
+				font-size: 18px;
+			}
+			.cem-card .card-content {
+				border-radius: 0 0 2px 2px;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-bottom: 10px;
+				padding-top: 10px;
+				font-style: italic;
+			}
+			.cem-card .card-action {
+				border-top: 1px solid rgba(0,0,0,0.2);
+				padding: 20px;
+				padding-bottom: 0;
+				transition: color .3s ease;
+				text-transform: uppercase;
+				text-decoration: none;
+				-webkit-tap-highlight-color: transparent;
+			}
+			.card-action.title {
+				padding: 40px;
+				padding-top: 60px;
+				font-size: large;
+				text-transform: uppercase;
+				text-align: center;
+				border-top: none;
+			}
+
+			.swipe {
+				overflow: hidden;
+				visibility: hidden;
+				position: relative;
+			}
+			.swipe-wrap {
+				position: relative;
+			}
+			.swipe-wrap > div {
+				float: left;
+				width: 20px;
+				position: relative;
+				overflow: hidden;
+				overflow-y: auto;
 			}
 		</style>
 
@@ -39,59 +123,124 @@
 
 		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
 		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
-		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
-		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
 		<script src="file:///android_asset/tinycolor-min.js"></script>
 		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="swipe.min.js"></script>
 
 		<script src="../code.js"></script>
 		<script src="../debug.js"></script>
 	</head>
 
 	<body>
-		<div class="foundation">
-			<div id="top-margin"></div>
+		<div id="page-indicator"></div>
 
-			<h1>Swimming Squirrel</h1>
-			<h3>Tourists see unususal swimmer.</h3>
+		<div id='swipeable' style='margin:0 auto;' class='swipe'>
+			<div class='swipe-wrap'>
+				<div>
+					<div class='top-margin'></div>
+					<div class='cem-card' style="border-radius: 2px;">
+						<div class='card-action title'>
+							<p>Here are some useful and interesting expressions for you to learn. This month we are looking at some expressions to describe the act of <span style="font-weight: bold;">“being wrong”</span>.</p>
+							<img src="dr.png" style="width: 40%; max-width: 3cm; margin-top: 16px;">
+						</div>
+					</div>
+					<div class='bottom-margin'></div>
+				</div>
+			</div>
+		</div>
 
-			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
-				<p style="margin: 0;">
-					<span data-start="12130" data-end="17000">Tourists on a boat in the north of England had a big <a class="new-word" data-word="a shock" data-type="n" data-en="something surprising and not expected" data-fa="حیرت زدگی، غافلگیری">shock</a>.</span> <span data-start="17001" data-end="19880">They were in the middle of a <a class="new-word" data-word="a lake" data-type="n" data-en="an area of fresh water (not sea water)" data-fa="برکه، دریاچه">lake</a>.</span> <span data-start="19881" data-end="24470">All of a sudden, they saw a <a class="new-word" data-word="a squirrel" data-type="n" data-en="an animal that lives in trees and who has a bushy tail (a tail with a lot of hair)" data-fa="سنجاب، موش خرما">squirrel</a> swimming.</span> <span data-start="24471" data-end="29920">This is very strange because it is difficult for most mammals to swim.</span> <span data-start="29921" data-end="33850">Also, squirrels are very small,</span> <span data-start="33851" data-end="36900">so it is even more difficult for them.</span> <span data-start="36901" data-end="43960">The squirrel had swum 274 meters from the side of the lake to the middle.</span> <span data-start="43961" data-end="48673">It was eventually rescued by the captain of the boat.</span> <span data-start="48674" data-end="52180">The squirrel was taken back to <a class="new-word" data-word="the shore" data-type="n" data-en="the area of land next to the sea" data-fa="ساحل کنار دریا">shore</a>.</span> <span data-start="52181" data-end="57800">“We don’t know what the squirrel was doing,” said Captain Edward McGregor.</span> <span data-start="57801" data-end="63190">Once back <a class="new-word" data-word="on land" data-type="exp" data-en="on the ground (not in the sea)" data-fa="روی زمین (خشکی)">on land</a>, the squirrel disappeared quickly.</span> <span class="accent"> ★</span>
-				</p>
-			</div></div>
+		<div style="display: none;">
+			<span data-start="19553" data-end="21718"></span>
+			<span data-start="28956" data-end="31599"></span>
+			<span data-start="42664" data-end="46169"></span>
+			<span data-start="52805" data-end="56222"></span>
+			<span data-start="63651" data-end="66942"></span>
+			<span data-start="73126" data-end="76700"></span>
+			<span data-start="85681" data-end="88667"></span>
+			<span data-start="21719" data-end="22934"></span>
+			<span data-start="31600" data-end="36413"></span>
+			<span data-start="46170" data-end="48362"></span>
+			<span data-start="56223" data-end="58320"></span>
+			<span data-start="66943" data-end="69262"></span>
+			<span data-start="76701" data-end="78728"></span>
+			<span data-start="88668" data-end="91090"></span>
+			<span data-start="22935" data-end="28955"></span>
+			<span data-start="36414" data-end="42663"></span>
+			<span data-start="48363" data-end="52804"></span>
+			<span data-start="58321" data-end="63650"></span>
+			<span data-start="69263" data-end="73125"></span>
+			<span data-start="78729" data-end="85680"></span>
+			<span data-start="91091" data-end="99454"></span>
 
-			<div id="bottom-margin"></div>
+			<a class="new-word" data-word="a track" data-type="n" data-en="“tracks” are long metal objects on which trains travel">track</a>
+			<a class="new-word" data-word="to scratch" data-type="vb" data-en="if you “scratch” yourself, you move your fingers over a part of your body because it itches">scratch</a>
+			<a class="new-word" data-word="to bark" data-type="vb" data-en="when a dog “barks”, it makes a sound from its mouth">barking</a>
+			<a class="new-word" data-word="a peg" data-type="n" data-en="a small piece of wood or metal that is used for fastening something. For example, a “clothes peg” is for holding clothes on the clothes line">peg</a>
 		</div>
 
 		<script type="text/javascript">
 			restoringInstanceState = false;
 
+			card_template = "\
+				<div>\
+					<div class='top-margin'></div>\
+					<div class='cem-card'>\
+						<div class='card-image'>\
+							<img class='img-responsive' src='{img}.jpg'>\
+							<span class='card-title'>{verb}</span>\
+						</div>\
+						<div class='card-action'>{def}</div>\
+						<div class='card-content'><p>{example}</p></div>\
+					</div>\
+					<div class='bottom-margin'></div>\
+				</div>\
+			";
+			verbs = ['<span data-slide="1" data-start="19553" data-end="21718">Be wide of the mark</span>', '<span data-slide="2" data-start="28956" data-end="31599">Be on the wrong track</span>', '<span data-slide="3" data-start="42664" data-end="46169">Not be up to scratch</span>', '<span data-slide="4" data-start="52805" data-end="56222">Be barking up the wrong tree</span>', '<span data-slide="5" data-start="63651" data-end="66942">Not be your cup of tea</span>', '<span data-slide="6" data-start="73126" data-end="76700">Be like a square peg in a round hole</span>', '<span data-slide="7" data-start="85681" data-end="88667">Back the wrong horse</span>'];
+			defs = ['<span data-slide="1" data-start="21719" data-end="22934">To be wrong.</span>', '<span data-slide="2" data-start="31600" data-end="36413">To be doing something badly; To have the wrong idea about something.</span>', '<span data-slide="3" data-start="46170" data-end="48362">Not to be acceptable.</span>', '<span data-slide="4" data-start="56223" data-end="58320">To be wrong about something.</span>', '<span data-slide="5" data-start="66943" data-end="69262">Not be something that you like.</span>', '<span data-slide="6" data-start="76701" data-end="78728">Not to be appropriate.</span>', '<span data-slide="7" data-start="88668" data-end="91090">To support someone who fails.</span>'];
+			examples = ['<span data-slide="1" data-start="22935" data-end="28955">“If that’s your answer then you are still very wide of the mark.”</span>', '<span data-slide="2" data-start="36414" data-end="42663">“I think the government are on the wrong <a class="new-word" data-word="a track" data-type="n" data-en="“tracks” are long metal objects on which trains travel">track</a> with their ideas on privatising the railways.”</span>', '<span data-slide="3" data-start="48363" data-end="52804">“Your latest work is just not up to <a class="new-word" data-word="to scratch" data-type="vb" data-en="if you “scratch” yourself, you move your fingers over a part of your body because it itches">scratch</a>.”</span>', '<span data-slide="4" data-start="58321" data-end="63650">“If you think I’m going to help you with this, you’re <a class="new-word" data-word="to bark" data-type="vb" data-en="when a dog “barks”, it makes a sound from its mouth">barking</a> up the wrong tree.”</span>', '<span data-slide="5" data-start="69263" data-end="73125">“Frank is not really my cup of tea.”</span>', '<span data-slide="6" data-start="78729" data-end="85680">“She’s just not the right sort of person we need here; she’s like a square <a class="new-word" data-word="a peg" data-type="n" data-en="a small piece of wood or metal that is used for fastening something. For example, a “clothes peg” is for holding clothes on the clothes line">peg</a> in a round hole.”</span>', '<span data-slide="7" data-start="91091" data-end="99454">“We gave our support to the liberal politician, but he lost the election. I think we backed the wrong horse.”</span>'];
+			var i = 0;
+			$('#page-indicator').append('<span class="dot"></span>');
+			verbs.forEach(function(verb) {
+				$('.swipe-wrap').append(card_template.replace(/\{verb\}/g, verb).replace(/\{img\}/g, i+1).replace(/\{def\}/g, defs[i]).replace(/\{example\}/, examples[i]));
+				$('#page-indicator').append('<span class="dot"></span>');
+				i++;
+			});
+
 			adjustCustomLayout = function(options) {
+				brightcolor = tinycolor(accentColor).brighten().brighten();
+				brightcolor.setAlpha(.7);
+				darkColor = tinycolor(accentColor).darken().darken();
+				darkColor.setAlpha(.7);
+
 				$('#local-rules').text("\
-					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
-					#bottom-margin { height: " + bottomMargin + "px; } \
-					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
-					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
-					h1 { color: #" + accentColor + "; font-weight: bold; } \
-				");
+					.cem-card { background-color: #" + accentColor + "; margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+					.card-content { color: " + newWordColor + "; } \
+					.top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.bottom-margin { height: " + bottomMargin + "px; } \
+					#page-indicator { margin-top: " + (topMargin+2*verticalMargin-8) + "px; } \
+					.swipe-wrap > div { height: " + height + "px; } \
+					.dot { background-color: " + brightcolor.toRgbString() + "; } \
+					.dot.active { background-color: " + darkColor.toRgbString() + "; }"
+				);
 			}
 
-			prevScroll = 0;
+			setCurrentSlide = function(index) {
+				$('#page-indicator').show();
+				$('#page-indicator .dot').eq(index).addClass('active');
 
-			lock = function(b) {
-				transcriptLocked = b;
+				if(typeof(window.swipeable) == 'object' && typeof(window.swipeable.kill) == 'function')
+					window.swipeable.kill();
 
-				if(b) {
-					$('#transcript').css('background-image', 'url("key-enter-access-door-place-512.png")').children().css('visibility', 'hidden');
-					$('.lockable').css({'background-image': "url('swimming-squirrel.jpg')", border: 'solid 1px black'});
+				window.swipeable = $('#swipeable').Swipe({
+					startSlide: index,
+					callback: function(index,elem) {
+						$('#page-indicator .dot').removeClass('active');
+						$('#page-indicator .dot').eq(index).addClass('active');
 
-				} else {
-					$('#transcript').css('background-image', '').children().css('visibility', '');
-					$('.lockable').css({'background-image': '', border: 'solid 1px transparent'});
-				}
-
-				saveInstanceState();
+						currentSlide = index;
+						saveInstanceState();
+					},
+				}).data('Swipe');
 			}
 
 			saveInstanceState = function() {
@@ -99,8 +248,7 @@
 					return;
 
 				outState = {
-					transcriptLocked: transcriptLocked,
-					scroll: prevScroll,
+					currentSlide: currentSlide,
 				};
 
 				if(typeof(app) != 'undefined')
@@ -111,52 +259,20 @@
 				restoringInstanceState = true;
 				state = JSON.parse(savedInstanceState);
 
-				lock(state.transcriptLocked || true);
-
-				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
-				prevScroll = $('body').scrollTop() / $('body').height();
+				setCurrentSlide(state.currentSlide || 0);
 
 				restoringInstanceState = false;
 			}
 
-			taphold = false;
-			$('.lockable').tap(function() {
-				if(transcriptLocked && !taphold)
-					app.makeToast('Tap and hold to reveal transcript.', false);
-				taphold = false;
-			});
-			$('.lockable').taphold(function() {
-				taphold = true;
-				if(transcriptLocked)
-					app.lockTranscript(!transcriptLocked);
-			});
-
-			if(typeof(app) != 'undefined')
-				app.showLockControls(true);
-
-			setInterval(function() {
-				scroll = $('body').scrollTop() / $('body').height();
-				if(scroll != prevScroll) {
-					prevScroll = scroll;
-					saveInstanceState();
-				}
-			}, 3000);
-
-			lastScrollTop = 0;
-			if(typeof(app) != 'undefined') {
-				$(document).scroll(function() {
-					scrollTop = $(document).scrollTop();
-
-					if(scrollTop < topMargin) {
-						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
-							app.setToolbarScrollable(false);
-
-					} else if(lastScrollTop < topMargin)
-							app.setToolbarScrollable(true);
-
-					lastScrollTop = scrollTop;
-				});
+			highlight = function(timePoint) {
+				$('.highlight').removeClass('highlight');
+				t = $('[data-start=' + timePoint + ']');
+				t.addClass('highlight');
+				u = parseInt(t.data('slide'));
+				if(u >= 0)
+					window.swipeable.slide(u);
 			}
 		</script>
+
 	</body>
 </html>

@@ -70,7 +70,7 @@ public class Magazines {
     /**
      * a mapping from issue root directories to {@link Issue}, to prevent duplicate objects of the same issue, and have the {@link Issue.OnStatusChangedListener} instance value stable.
      */
-    static HashMap<File, Issue> file2issue = new HashMap<>();
+    public static HashMap<File, Issue> file2issue = new HashMap<>();
 
     public static Issue getIssue(Context context, File issueRootDirectory) throws IOException, NumberFormatException {
         Issue issue = file2issue.get(issueRootDirectory);
@@ -400,7 +400,10 @@ public class Magazines {
                 status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
                 if (status == DownloadManager.STATUS_SUCCESSFUL) {
                     if (!new File(issue.rootDirectory, Issue.downloadedFileName).exists()) {
+//                        if (getIssueLocalDownloadUri(context, issue).exists())
                         status = -3; // custom value indicating that the issue is being extracted.
+//                        else
+//                            status = -1;
                     }
                 }
                 break;
@@ -471,6 +474,15 @@ public class Magazines {
     public static void cancelDownload(Context context, Issue issue) {
         ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(DownloadCompleteBroadcastReceiver.ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id);
 
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        Set<String> newSavedIssues = preferences.getStringSet("new_saved_issues", new HashSet<String>(0));
+        final String id = Integer.toString(issue.id);
+        if (newSavedIssues.contains(id)) {
+            newSavedIssues = new HashSet<>(newSavedIssues);
+            newSavedIssues.remove(id);
+            preferences.edit().putStringSet("new_saved_issues", newSavedIssues).apply();
+        }
+
         // delete download if it is downloading
         final long downloadReference = getDownloadReference(context, issue);
         if (downloadReference != -1) {
@@ -512,8 +524,8 @@ public class Magazines {
             issue.setStatus(issue.status);
 
         } else {
-            issue.setStatus(Issue.Status.deleted);
             FileHelper.deleteRecursive(issue.rootDirectory);
+            issue.setStatus(Issue.Status.deleted);
             file2issue.remove(issue.rootDirectory);
         }
     }

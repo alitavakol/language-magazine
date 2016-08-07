@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Funeral Foibles</title>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			h1, h3 {
+				margin-top: 0;
+			}
+			h3 {
+				text-transform: uppercase;
+				font-weight: 300;
+			}
+			h4 {
+				font-weight: 400;
+				margin-top: 20px;
+			}
+			.transcript img {
+				max-width: 35%;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);				
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				padding: 4px;
+				margin-bottom: 8px;
+			}
+			.column p:not(:first-of-type) {
+				padding-top: 16px;
+			}
+			.column img:not(:first-of-type) {
+				margin-top: 24px;
+			}
+			.rotate-right {
+				-webkit-transform: rotate(-6deg);
+				transform: rotate(-6deg);
+			}
+			.rotate-right-little {
+				-webkit-transform: rotate(-3deg);
+				transform: rotate(-3deg);
+			}
+			.rotate-left {
+				-webkit-transform: rotate(4deg);
+				transform: rotate(4deg);
+			}
+			.rotate-left-little {
+				-webkit-transform: rotate(2deg);
+				transform: rotate(2deg);
+			}
+			.float-left {
+				float: left;
+				margin-right: 16px;
+				clear: left;
+			}
+			.float-right {
+				margin-left: 16px;
+				/*margin-right: 8px;*/
+				float: right;
+				clear: right;
+			}
+			.lockable {
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
+				margin-top: 24px;
+			}
+			.transcript {
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="jquery.columnizer.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<h1>Weird Trivia</h1>
+			<h3>This is another part in our mini-series on strange facts. Who ever thought the world was so unusual?</h3>
+
+			<div class="lockable"><div class="transcript">
+				<img src="dog.jpg" class="rotate-right float-right">
+				<p><span data-start="13830" data-end="25450">The tallest dog in the world is a Great Dane called Gibson. He is 107 centimetres tall.</span></p>
+
+				<img src="couple.jpg" class="rotate-right-little float-left dontend" style="margin-top: 8px;">
+				<p><span data-start="25451" data-end="35560">The first couple to be shown in bed together on <a class="new-word" data-word="prime time television" data-type="n" data-en="the time when most people are watching television">prime time television</a> was Fred and Wilma Flintstone.</span></p>
+
+				<img src="quack.jpg" class="rotate-left float-right dontend" style="margin-top: 0;">
+				<p style="clear: left;"><span data-start="35561" data-end="45150">A duck’s <a class="new-word" data-word="a quack" data-type="n" data-en="the sound a duck makes">quack</a> doesn’t echo, and no one knows why.</span></p> 
+
+				<img src="chain.jpg" class="rotate-right float-left dontend">
+				<p><span data-start="45151" data-end="53800">The longest ever human chain was made between Tentulia and Teknaf in Bangladesh in 2004.</span> <span data-start="53801" data-end="64170">It was 1,050 kilometres long and there were over 5 million people in it.</span></p>
+
+				<img src="mini.jpg" class="rotate-right-little float-left dontend" style="max-width: 50%;">
+				<p><span data-start="64171" data-end="70350">John Evans once <a class="new-word" data-word="to balance something on your head" data-type="exp" data-en="to put something on your head and to keep it there for a period of time even though it is unstable">balanced a Mini on his head</a> for 33 seconds.</span> <span data-start="70351" data-end="78100">It weighed 159.6 kilos.</span></p>
+
+				<img src="horse.jpg" class="rotate-left float-right dontend" style="max-width: 50%;">
+				<p style="clear: left;"><span data-start="78101" data-end="83350">Statues of famous people on horseback actually have a meaning to them.</span> <span data-start="83351" data-end="88950">If the front legs of the horse are both in the air, it means that the person died in battle.</span> <span data-start="88951" data-end="95270">If the horse has only one front leg in the air, the person died from wounds <a class="new-word" data-word="to inflict (a wound)" data-type="vb" data-en="to cause an injury; to cut someone">inflicted</a> in battle.</span> <span data-start="95271" data-end="108000">But if the four legs of the horse are all on the ground, it means the warrior died of natural causes.</span></p>
+
+				<img src="salute.jpg" class="rotate-right float-left dontend">
+				<p><span data-start="108001" data-end="116600">The modern military <a class="new-word" data-word="a salute" data-type="n" data-en="a movement made with the hand to the head as a sign of respect to a superior officer">salute</a> came from the tradition of knights in armour raising their visors when they passed the king on horseback.</span> <span data-start="116601" data-end="121420">This was done so that the king could identify each passing knight.</span> <span data-start="121421" data-end="131400">So, nowadays, the right-handed salute <a class="new-word" data-word="to hark back to" data-type="exp" data-en="if something “harks back to” another period, it is a reminder of that period">harks back to</a> the <a class="new-word" data-word="medieval" data-type="adj" data-en="from the Middle Ages (the 5th to the 16th century)">medieval</a> warriors.</span></p>
+
+				<img src="cat.jpg" class="rotate-left-little float-right dontend">
+				<p><span data-start="131401" data-end="141600">Researchers have found that, if a cat falls from the seventh floor of a building, its chances of surviving are much less than if it fell from higher up.</span> <span data-start="141601" data-end="147500">If it fell from the twentieth floor, it would have 30% more chance of surviving.</span> <span data-start="147501" data-end="157700">This is because apparently it takes the cat eight floors to realise what is happening to it and to correct its position.</span> <span class="accent">✪</span></p>
+			</div></div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				var width = $('.transcript').width();
+				if(width >= 768)
+					cols = 3;
+				else if(width >= 480)
+					cols = 2;
+				else
+					cols = 1;
+
+				css = "\
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + (cols > 1 ? bottomMargin : 0) + "px; } \
+					.column { margin-bottom: " + (cols > 1 ? 0 : bottomMargin) + "px; } \
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { height: " + height + "px; overflow-y: scroll; margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					h1 { color: " + tinycolor(accentColor).darken() + "; font-weight: bold; } \
+				";
+
+				if(cols > 1) {
+					css += "\
+					.first.column { padding-right: " + (2*spacing) + "px; } \
+					.last.column { padding-left: " + (2*spacing) + "px; } \
+					";
+				}
+
+				if(cols == 3)
+					css += ".column:nth-child(2) { padding-right: " + (2*spacing) + "px; padding-left: " + (2*spacing) + "px; }"
+
+				$('#local-rules').text(css);
+
+				$('.transcript').columnize({
+					columns: cols,
+				});
+			}
+
+			container = $('.foundation')[0];
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('.transcript').css('background-image', 'url("key-enter-access-door-place-512.png")');
+					$('.lockable').css('background-image', "url('horse.jpg')");
+					$('.column').css({visibility: 'hidden', 'float': ''});
+
+				} else {
+					$('.transcript').css('background-image', '');
+					$('.lockable').css('background-image', '');
+					$('.column').css({visibility: '', 'float': 'left'});
+				}
+
+				saveInstanceState();
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				container.scrollTop = (state['scroll'] || 0) * container.scrollHeight;
+				prevScroll = container.scrollTop / container.scrollHeight;
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = container.scrollTop / container.scrollHeight;
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$('.foundation').scroll(function() {
+					if(container.scrollTop < topMargin) {
+						if(container.scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = container.scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

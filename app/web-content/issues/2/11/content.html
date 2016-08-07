@@ -8,7 +8,11 @@
 		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
 
 		<!-- Bootstrap -->
-		<!-- <link rel="stylesheet" type="text/css" href="bootstrap.min.css"> -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
 
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
@@ -16,45 +20,39 @@
 		</style>
 
 		<style type="text/css">
+			@font-face {
+				font-family: 'amega';
+				src: url('MCF_AmegaStar.ttf');
+			}
+			body {
+				overflow-y: scroll;
+			}
 			h1 {
-				margin-bottom: 0;
-				font-size: 11vw;
-				margin-top: 16px;
+				margin-top: 0;
+				padding-top: 80%;
+				/*font-family: 'amega';*/
+				font-size: xx-large;
+				color: white;
+				background: -webkit-linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.5));
+				/*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
+				text-shadow: 1px 0px 6px rgba(50,50,50,1);
+				padding-bottom: 16px;
 			}
-			.inline-img {
-				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);				
-				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+			h4 {
+				text-transform: uppercase;
+			}
+			.frame {
 				padding: 4px;
-				/*width: 50%;*/
-				margin-top: 8px;
-				margin-bottom: 8px;
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
 			}
-			/*.rotate-right {
-				-webkit-transform: rotate(-6deg);
-				transform: rotate(-6deg);
+			.foundation {
+				text-align: center;
 			}
-			.rotate-right-little {
-				-webkit-transform: rotate(-3deg);
-				transform: rotate(-3deg);
-			}
-			.rotate-left {
-				-webkit-transform: rotate(4deg);
-				transform: rotate(4deg);
-			}
-			.rotate-left-little {
-				-webkit-transform: rotate(2deg);
-				transform: rotate(2deg);
-			}*/
-			.float-left {
-				float: left;
-				margin-right: 16px;
-				clear: left;
-			}
-			.float-right {
-				margin-left: 16px;
-				/*margin-right: 8px;*/
-				float: right;
-				clear: right;
+			.restrict {
+				text-align: left;
+				max-width: 24cm;
+				display: inline-block;
 			}
 		</style>
 
@@ -68,33 +66,83 @@
 
 		<script src="../code.js"></script>
 		<script src="../debug.js"></script>
-
-		<!--Let browser know website is optimized for mobile-->
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	</head>
 
 	<body>
-
 		<div class="foundation">
-			<div id="top-margin">Ireland’s wackiest priest.</div>
+			<div id="top-margin"></div>
 
-			<img src="cover.png" width="100%;">
+			<div class="restrict">
+				<div style="-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); background: url('cover.png'); background-size: cover; background-repeat: no-repeat; background-position: center; text-align: center;">
+					<h1>Posh English</h1>
+				</div>
+				<h4 style="font-weight: 300;">Our monthly look at English accents from around the world in both English-speaking and non-English-speaking countries. This month: the Posh English accent. </h4>
 
-			<h1>Father Neil Horan</h1>
-
-			<p style="text-transform: uppercase; color: #777;">In the upcoming summer olympics the brazilian authorities have a lot to worry about: terrorist plots, political protests, mosquitoes, the weather&#8230; but there is one other thing for the organisers of the olympics to be <a class="new-word" data-word="wary of" data-type="exp" data-en="worried or nervous about something" style="color: #555;">wary of</a>: Father Neil Horan.</p>
-
-			<div class="text">
-				<p>Neil Cornelius Horan was born in County Kerry, Ireland in 1947. He was <a class="new-word" data-word="to ordain" data-type="vb" data-en="to make someone a priest in a church service">ordained</a> as a priest in 1973 and worked as one in London, England. He first came to public attention in 2003 at the British Grand Prix in Silverstone racetrack. On this occasion, he ran onto the track. As Formula One cars <a class="new-word" data-word="to swerve" data-type="vb" data-en="to move / turn quickly so you don’t hit something">swerved</a> past him at 200 km/h he performed an <a class="new-word" data-word="an Irish jig" data-type="n" data-en="an Irish dance">Irish jig</a> while holding a banner saying, “Read the Bible. <img src="1.png" class="inline-img rotate-right-little float-left" style="max-width: 160px;"> The Bible is always right.” A <a class="new-word" data-word="a marshal" data-type="n" data-en="an official at a sporting event">marshal</a> wrestled Horan to the ground and the police arrested him. He spent two months in jail for this. A year later, police at the Epsom Derby (a major horseracing event) caught Father Horan at the side of the racetrack. They suspected he was going to run onto the racetrack. The police warned organisers of other sporting events about him.</p>
-
-				<p>One of his most <a class="new-word" data-word="infamous" data-type="adj" data-en="famous for something bad / negative">infamous</a> stunts took place in 2004 at the Olympics in Athens. During the men’s marathon, he jumped on the <a class="new-word" data-word="a frontrunner" data-type="n" data-en="the leader in a race">frontrunner</a> Vanderlai de Lima from Brazil, while holding a poster saying, “The Grand Prix Priest. Israel fulfilment of prophecy says the Bible, the <a class="new-word" data-word="The Second Coming" data-type="n" data-en="the time when Jesus returns to earth">Second Coming</a> is near”. De Lima lost the race and only got a Bronze Medal but he gained much respect for reacting so calmly to the incident. Horan got a <a class="new-word" data-word="a suspended sentence" data-type="n" data-en="a jail sentence that you only serve if you commit another crime">suspended sentence</a> while de Lima got an award for his Olympic spirit. Neil Horan says that he does these <a class="new-word" data-word="a stunt" data-type="n" data-en="an action designed to get publicity">stunts</a> to warn people about the end of the world.<img src="3.png" class="inline-img rotate-left-little float-right" style="max-width: 240px;"> He says that Jesus will return and rule the world from Jerusalem with the saints. Because of his views, he has been <a class="new-word" data-word="to defrock" data-type="vb" data-en="if a priest is “defrocked”, they can’t practise as a priest any more">defrocked</a> by the Catholic Church. He has also written several books on the subject. His family is very worried about him and want him to get psychiatric treatment. The Church has also requested this before.</p>
-
-				<p>Outside the World Cup Final in 2006, Horan was arrested by German police. He had sent a letter to the German <a class="new-word" data-word="the Chancellor" data-type="n" data-en="the elected leader of Germany">chancellor</a> Angela Merkel.<img src="2.png" class="inline-img rotate-left float-left" style="max-width: 240px;"> He said that he planned to hold a banner saying that, “Adolf Hitler was a good leader who was following the Word of Christ”. He also wanted to have a memorial for Hitler. This time he spent two months in jail. In 2009, he auditioned for the TV show Britain's Got Talent.</p>
-
-				<p>Neil Horan has been compared to Jimmy Jump, a Catalan <a class="new-word" data-word="a pitch invader" data-type="n" data-en="a member of the public who runs onto a playing field during an official game">pitch invader</a> who has been arrested and punished on numerous occasions. Jimmy doesn’t seem to want to stop and Horan is probably the same. So if you’re at the Olympics in Brazil and you see a small man wearing a <a class="new-word" data-word="a kilt" data-type="n" data-en="Scottish/Irish clothing for men. It is similar to a skirt.">kilt</a>, beware! <span class="accent">✪</span></p>
+				<p>The posh English accent is typically an upper-class English accent. Famous people with a posh English accent include Sir Laurence Olivier, the Queen, Prince Charles, Prince Harry, Prince William, David Cameron, Helen Mirren and Hugh Grant.</p>
+				<img src="man.png" style="max-width: 30%; float: right; border: solid 1px black; padding-left: 8px; margin-left: 4px; width: 5cm;">
+				<p>Posh people can be found all over the country, but like to congregate in the London area of Kensington and Chelsea, particularly in Sloane Square and Sloane Street (hence one of their nicknames, Sloane Rangers).</p>
+				<p>The posh person’s “bible” is The Official Sloane Ranger Handbook by British writer Peter York. It tells posh people everything they need to know about how to be posh.</p>
+				<p>Typical “posh” jobs include advertising executives, army officers, farmers, PR agents, art gallery managers, secretaries (for posh banks), journalists, lawyers, wine merchants, auctioneers, art dealers and City of London bankers.</p>
+				<p>Posh people often have unusual nicknames, such as Spiffy, Buffy, Gussie, Bingie, Buffy, Tuppy, Oofy, Barmy and Strangely Brown.</p>
+				<p>In the winter, posh people like to ski in Val d’Isere (in France), Aspen (Colorado) or Verbier (in Switzerland). In the summer you can find posh people in the Caribbean, Monaco, the Greek Isles and Cannes.</p>
+				<p>Now sit back and listen to Charles telling us all about the Posh English accent. <span class="accent">✪</span></p>
 			</div>
 
 			<div id="bottom-margin"></div>
+
+			<div style="display: none;">
+				<span data-start="10117" data-end="14599"></span>
+				<span data-start="14600" data-end="20399"></span>
+				<span data-start="20400" data-end="24784"></span>
+				<span data-start="24785" data-end="32899"></span>
+				<span data-start="32900" data-end="39829"></span>
+				<span data-start="39830" data-end="49251"></span>
+				<span data-start="49252" data-end="56751"></span>
+				<span data-start="56752" data-end="63699"></span>
+				<span data-start="63700" data-end="68847"></span>
+				<span data-start="68848" data-end="74070"></span>
+				<span data-start="74071" data-end="78999"></span>
+				<span data-start="79000" data-end="84029"></span>
+				<span data-start="84030" data-end="92589"></span>
+				<span data-start="92590" data-end="101164"></span>
+				<span data-start="101165" data-end="106273"></span>
+				<span data-start="106274" data-end="118659"></span>
+				<span data-start="118660" data-end="123925"></span>
+				<span data-start="123926" data-end="127455"></span>
+				<span data-start="127456" data-end="134339"></span>
+				<span data-start="134340" data-end="145731"></span>
+				<span data-start="145732" data-end="151418"></span>
+				<span data-start="151419" data-end="157198"></span>
+				<span data-start="157199" data-end="162599"></span>
+				<span data-start="162600" data-end="165543"></span>
+				<span data-start="165544" data-end="169345"></span>
+				<span data-start="169346" data-end="172989"></span>
+				<span data-start="172990" data-end="175788"></span>
+				<span data-start="175789" data-end="182768"></span>
+				<span data-start="182769" data-end="186966"></span>
+				<span data-start="186967" data-end="191074"></span>
+				<span data-start="191075" data-end="195499"></span>
+				<span data-start="195500" data-end="204099"></span>
+				<span data-start="204100" data-end="208845"></span>
+				<span data-start="208846" data-end="215144"></span>
+				<span data-start="215145" data-end="220991"></span>
+				<span data-start="220992" data-end="226451"></span>
+				<span data-start="226452" data-end="230099"></span>
+				<span data-start="230100" data-end="233973"></span>
+				<span data-start="233974" data-end="238972"></span>
+				<span data-start="238973" data-end="240941"></span>
+				<span data-start="240942" data-end="245570"></span>
+				<span data-start="245571" data-end="245570"></span>
+				<span data-start="250109" data-end="250108"></span>
+				<span data-start="251690" data-end="251689"></span>
+				<span data-start="254553" data-end="254552"></span>
+				<span data-start="257780" data-end="257779"></span>
+				<span data-start="263250" data-end="263249"></span>
+				<span data-start="270960" data-end="270959"></span>
+				<span data-start="274700" data-end="274699"></span>
+				<span data-start="280577" data-end="280576"></span>
+				<span data-start="288587" data-end="298000"></span>
+			</div>
 		</div>
 
 		<script type="text/javascript">
@@ -102,15 +150,15 @@
 
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
-					#top-margin { padding: 16px; padding-top: " + (topMargin+verticalMargin+16) + "px; background-color: #" + accentColor + "; margin-bottom: " + verticalMargin + "px; color: white; } \
-					#bottom-margin { height: " + verticalMargin + "px; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
 					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
-					.foundation { height: " + height + "px; overflow-y: auto; margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
-					h1 { color: #" + accentColor + "; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					.title { color: " + tinycolor(accentColor).darken().darken() + "; } \
+					.accent2 { color: " + tinycolor(accentColor).darken() + "; } \
 				");
 			}
 
-			container = $('.foundation')[0];
 			prevScroll = 0;
 
 			saveInstanceState = function() {
@@ -129,14 +177,14 @@
 				restoringInstanceState = true;
 				state = JSON.parse(savedInstanceState);
 
-				container.scrollTop = (state['scroll'] || 0) * container.scrollHeight;
-				prevScroll = container.scrollTop / container.scrollHeight;
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
 
 				restoringInstanceState = false;
 			}
 
 			setInterval(function() {
-				scroll = container.scrollTop / container.scrollHeight;
+				scroll = $('body').scrollTop() / $('body').height();
 				if(scroll != prevScroll) {
 					prevScroll = scroll;
 					saveInstanceState();
@@ -145,8 +193,8 @@
 
 			lastScrollTop = 0;
 			if(typeof(app) != 'undefined') {
-				$('.foundation').scroll(function() {
-					scrollTop = container.scrollTop;
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
 
 					if(scrollTop < topMargin) {
 						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)

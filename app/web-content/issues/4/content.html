@@ -1,40 +1,96 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>45 Irregular Past Simple Verbs!</title>
 		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../src/main/assets/bootstrap.min.css">
 
 		<link rel="stylesheet" type="text/css" href="styles.css">
 
 		<style id="dynamic-rules">
 		</style>
 
+		<style type="text/css">
+			p:first-of-type {
+				margin-top: 0;
+			}
+			.box {
+				border: solid 1px black;
+				background-color: rgba(255,224,178,.5);
+				text-transform: uppercase;
+				margin-top: 16px; 
+			}
+			body {
+				background-color: transparent;
+			}
+			.stat {
+				text-align: center;
+				border: solid 1px black;
+				padding: 4px;
+				font-size: .9em;
+				/*font-weight: 300;*/
+				margin-bottom: 4px;
+				position: relative;
+			}
+			.fill {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				z-index: -1;
+				opacity: .5;
+			}
+			h3 {
+				margin-top: 0;
+			}
+		</style>
+
 		<style id="local-rules">
 		</style>
 
-		<style type="text/css">
-		</style>
-
 		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
-		<script src="../../jquery-1.11.3.min.js"></script>
-		<script src="file:///android_asset/swipe.min.js"></script>
-		<script src="../../swipe.min.js"></script>
+		<script src="../../../src/main/assets/jquery-1.11.3.min.js"></script>
 		<script src="file:///android_asset/tinycolor-min.js"></script>
-		<script src="../../tinycolor-min.js"></script>
+		<script src="../../../src/main/assets/tinycolor-min.js"></script>
 
 		<script src="code.js"></script>
+		<script src="debug.js"></script>
 	</head>
 
 	<body>
-		<div class="container">
-			<div>Hi, everybody and welcome to another issue of Learn Hot English magazine – the fun magazine for learning English. This month, find out how to pronounce 45 irregular past tense verbs. This is extremely useful as we use these verbs in English all the time, so it’ll really help with your speaking, listening and writing. Try our little exercise to really make sure you learn them. Of course, that’s not all and we’ve more fun things for you to read and listen to so you can learn lots of useful English. We’ll be looking at some traditional English songs, futures with “going to” and Dollywood. Plus lots, lots more!</div>
+		<div id="top-margin"></div>
+
+		<h3>Introduction</h3>
+
+		<p>Hi, everybody and welcome to another issue of the Hot English Magazine – the fun magazine for learning English.</p>
+		<p>Zen, Infinity, October, London, Ireland, Apple, Solstice are all strange celebrity children’s names! But who would call their children something like that? Download this issue and read &amp; listen to an interesting article on this topic.</p>
+		<p>Of course, that’s not all and we’ve lots more fun things for you to read and listen to so you can learn lots of useful English. We’ll be looking at some quirky (silly) news stories, wikipedia vandals, useful idioms with animal names, the Polish English accent, and a lot more!</p>
+		<p>If you are an <b>upper-intermediate</b> or <b>advanced-level</b> student, this issue is for you. There are:</p>
+		<div class="stat"><div class="fill" style="width: 53%; background-color: #ae9b3c;"></div>8 Upper-Intermediate Lessons</div>
+		<div class="stat"><div class="fill" style="width: 47%; background-color: #607d8b;"></div>7 Advanced Lessons</div>
+		<p>Well, we hope you enjoy reading and listening to this issue of Hot English Magazine. Have fun, learn lots of English and see you all next time!</p>
+
+		<div class="box">
+			Remember to see <b>Readme section</b> of the application. There you will find 7 rules of learning a foreign language in the most effective and productive way. Then enjoy learning this magazine!
 		</div>
+
+		<div id="bottom-margin"></div>
 
 		<script type="text/javascript">
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
-					.container { margin-top: 0px; margin-bottom: 28px; height: inherit; } "
-				);
+					#top-margin { height: " + verticalMargin + "px; } \
+					#bottom-margin { height: " + verticalMargin + "px; } \
+					body { padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					.box { padding: " + spacing + "px; } \
+				");
+				$('.stat').last().css('margin-bottom', '16px');
 			}
 
 			saveInstanceState = function() {

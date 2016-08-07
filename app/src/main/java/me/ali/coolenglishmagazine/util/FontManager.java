@@ -14,9 +14,9 @@ public class FontManager {
     public static final String UBUNTU = "Ubuntu-Regular.ttf";
     public static final String UBUNTU_BOLD = "Ubuntu-Bold.ttf";
     public static final String UBUNTU_LIGHT = "Ubuntu-Light.ttf";
-    public static final String UBUNTU_ITALIC = "Ubuntu-Italic.ttf";
-    public static final String UBUNTU_MEDIUM = "Ubuntu-Medium.ttf";
-//    public static final String ADOBE_ARABIC_REGULAR = "AdobeArabic-Bold.ttf";
+//    public static final String UBUNTU_ITALIC = "Ubuntu-Italic.ttf";
+//    public static final String UBUNTU_MEDIUM = "Ubuntu-Medium.ttf";
+//    public static final String ADOBE_ARABIC = "AdobeArabic-Regular.otf";
 
     public static Typeface getTypeface(Context context, String font) {
         return Typeface.createFromAsset(context.getAssets(), font);

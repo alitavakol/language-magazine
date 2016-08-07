@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#title-container {
+				background-color: rgba(50,50,50,.4);
+				display: inline-block;
+			}
+			tr > td:first-child {
+				font-weight: bold;
+				text-align: right;
+			}
+			tr > td:last-child {
+				padding-left: 16px;
+			}
+			td {
+				vertical-align: top;
+			}
+			.list-group-item {
+				padding: 0 !important;
+			}
+			.row-picture img {
+				width: 86px !important;
+				height: 86px !important;
+			}
+			.list-group-item {
+				padding-bottom: 8px !important;
+				padding-top: 8px !important;
+			}
+			.list-group-item .row-content {
+				width: inherit !important;
+			}
+			.list-group-item .row-picture {
+				padding-right: 8px;
+				float: left;
+				/*padding-bottom: 8px;*/
+				/*padding-top: 8px;*/
+			}
+			.list-group .list-group-item .my-list-group-item-heading {
+				font-weight: bold;
+				margin-top: 0;
+				margin-bottom: .4em;
+			}
+			.list-group-item-text {
+				display: table-cell;
+			}
+			h1, h3 {
+				color: white;
+			}
+			.poster {
+				width: 100%;
+				overflow: hidden;
+				position: absolute;
+				top: 0;
+				z-index: -1;
+				background-position: center center;
+				background-repeat: no-repeat;
+				background-size: cover;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="poster"></div>
+
+		<div class="cem-container">
+			<div id="top-margin"></div>
+
+			<div id="title-container" class="panel panel-default">
+				<div class="panel-body">
+					<h1>The swimming pool</h1>
+					<h3>Learn some useful words and expressions to talk about the swimming pool.</h3>
+				</div>
+			</div>
+
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">VOCABULARY</h3>
+				</div>
+
+				<div class="panel-body" style="position: relative;">
+					<!-- https://scotch.io/bar-talk/different-tricks-on-how-to-make-bootstrap-columns-all-the-same-height -->
+					<div id="images" class="list-group row is-flex" style="margin-bottom: 0;"></div>
+				</div>
+			</div>
+
+			<div class="panel panel-info lockable">
+				<div class="panel-heading">
+					<h3 class="panel-title">(NOT SO) TYPICAL DIALOGUES</h3>
+				</div>
+
+				<div class="panel-body" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+					<div id="transcript">
+						<p><span data-start="8000" data-end="13000">In this conversation, alan is buying a ticket to go swimming.</span></p>
+						
+						<table>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="19940" data-end="23450">Good morning. I’d like a ticket for the pool, please.</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="23451" data-end="24500">Can you swim?</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="24501" data-end="25130">Yes.</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="25131" data-end="27400">Let’s see then. Do the breaststroke.</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="27401" data-end="28750">What? Here?</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="28751" data-end="36380">Yes. Come on. Show me how you do the breaststroke. (He does.) Well, that’s not very good, is it? Move your legs a bit.</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="36381" data-end="37400">I can’t.</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="37401" data-end="39210">Why? Can’t you swim?</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="39211" data-end="41310">Well, no. Not on land.</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="41311" data-end="48450">Right. Show me the crawl. (He does.) Ah, that’s better. Very fine. Now, did you bring a gun?</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="48451" data-end="50340">No. Do I need one?</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="50341" data-end="54000">Do you need one? Of course you need one. There are sharks in there.</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="54001" data-end="54700">Sharks?</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="54701" data-end="58500">No, only joking. Right, have you got a wet suit?</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="58501" data-end="60000">No, is it cold?</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="60001" data-end="63280">Of course it’s cold. (He gives him a wet suit.) And a mask?</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="63281" data-end="64200">No.</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="64201" data-end="65360">Here you are. (He gives him a mask.)</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="65361" data-end="67000">What do I need a mask for?</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="67001" data-end="70860">Well, the water is very dirty. Have you got a pair of trunks?</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="70861" data-end="72210">Oh, yes, I’ve got a pair of trunks.</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="72211" data-end="77700">Well, that’s good. OK. Now here’s your ticket. (He gives him a ticket.) Have fun, and one last thing.</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="77701" data-end="78320">What?</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="78321" data-end="79600">Don’t stop.</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="79601" data-end="80900">Don’t stop what?</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="80901" data-end="82080">Don’t stop swimming.</span></td>
+							</tr>
+							<tr>
+								<td>Alan:</td>
+								<td><span data-start="82081" data-end="82660">Why?</span></td>
+							</tr>
+							<tr>
+								<td>Employee:</td>
+								<td><span data-start="82661" data-end="86000">Because the crocodiles are very fast.</span></td>
+							</tr>
+						</table>
+
+						<img src="crocodile-wedding.jpg" style="width: 70%; display: block; margin: auto; margin-top: 20px;">
+					</div>
+				</div>
+			</div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			var template = "\
+				<div class='col-md-6'>\
+					<div class='list-group-item'>\
+						<div class='row-picture'>\
+							<img class='circle' src='{img}'>\
+						</div>\
+						<div>\
+							<h4 class='my-list-group-item-heading'>{title}</h4>\
+							<p class='list-group-item-text'>{def}</p>\
+						</div>\
+					</div>\
+				</div>";
+			var images = ['pool.jpg', '91018B.jpg', 'Lifeguard.jpg', '2000s_8_Large.jpg', 'footbath-to-pool.jpg', 'towel.jpg', 'gog.jpg', 'IMG_3757.gif', 'sqwd.jpg', 'arm-bands.jpg', 'TS2_diving_board.jpg', 'front-crawl.jpg', 'ded.jpg', 'backstroke.jpg', 'doggy-paddle.jpg', 'butterfly-stroke.jpg'];
+			var titles = ['Swimming pool', 'Baby pool (also known as the wading pool)', 'Lifeguard', 'Changing rooms', 'The footbath', 'Towel', 'Goggles', 'Swimming caps', 'Swimwear', 'Arm bands', 'Diving board', 'Crawl / front crawl', 'Breaststroke', 'Backstroke', 'Doggy paddling', 'The butterfly'];
+			var defs = ['the place where you swim.', 'a shallow pool for children.', 'the person who is there to protect the swimmers.', 'the place where you get changed and put on your swimming costume.', 'a little area of water designed to clean your feet.', 'the object you use to dry yourself.', 'the glasses you can use so you can see under the water.', 'tight rubber hats that you are obliged to wear in some swimming pools.', 'clothing you wear at the swimming pool. Men generally wear swimming trunks (or simply “trunks”), ', 'the plastic inflatable objects young swimmers wear around their arms.', 'a high concrete or plastic board that you can jump off.', 'this method of swimming consists of moving your arms over your head while kicking with your legs.', 'this consists of outward movements with your arms and legs.', 'this method consists of moving your arms backwards while kicking with your legs', 'this consists of moving your hands and legs in the water as a dog does.', 'this method consists of moving your arms in circular movements.'];
+			var i = 0;
+			images.forEach(function(img) {
+				$('#images').append(template.replace(/\{img\}/g, img).replace(/\{title\}/g, titles[i]).replace(/\{def\}/g, defs[i]));
+				i++;
+			});
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					.cem-container { height: " + height + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + (bottomMargin-verticalMargin) + "px; } \
+					#title-container { margin-top: " + (height-topMargin-bottomMargin-2*verticalMargin)/2 + "px; } \
+					.panel-tip { background-color: " + highlightColor + "; } \
+					tr:nth-child(odd) { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
+					.poster { background-image: url('111.jpg'); height: " + height + "px; } "
+				);
+			}
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('visibility', 'hidden');
+					$('.lockable').css('background-color', highlightColor);
+					$('.lockable .panel-body').css('background-image', "url('key-enter-access-door-place-512.png')");
+
+				} else {
+					$('#transcript').css('visibility', '');
+					$('.lockable').css('background-color', '');
+					$('.lockable .panel-body').css('background-image', '');
+				}
+
+				saveInstanceState();
+			}
+
+			container = $('.cem-container')[0];
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+				container.scrollTop = ((state['scroll'] || 0) * container.scrollHeight);
+				prevScroll = container.scrollTop / container.scrollHeight;
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable .panel-body').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable .panel-body').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = container.scrollTop / container.scrollHeight;
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$('.cem-container').scroll(function() {
+					if(container.scrollTop < topMargin) {
+						if(container.scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = container.scrollTop;
+				});
+			}
+		</script>
+
+	</body>
+</html>

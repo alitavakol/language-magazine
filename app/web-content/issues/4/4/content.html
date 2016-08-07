@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h4 {
+				font-weight: 400;
+				margin-top: 20px;
+			}
+			h5 {
+				padding-top: 6px;
+				padding-bottom: 6px;
+				font-weight: bold;
+				border-bottom: 1px solid;
+			}
+			h1, h3 {
+				margin-top: 0;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			ul > li {
+				margin-left: 16px;
+			}
+			.lockable {
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+			.who {
+				font-weight: 500;
+			}
+			input {
+				display: inline-block;
+				/*font-family: 'Blokletters';*/
+				margin-bottom: 4px;
+				margin-top: 0;
+				padding-top: 0;
+				padding-bottom: 0;
+				/*height: inherit;*/
+				width: 5em;
+				text-align: center;
+				border: 0;
+				border-bottom: dotted 1px #888;
+				vertical-align: middle;
+			}
+			input:focus {
+				outline: none;
+			}
+			.cem-label, .cem-label2 {
+				display: inline-block;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				margin: 4px;
+			}
+			.label-container, .label-container2 {
+				margin: -4px;
+				margin-bottom: 12px;
+			}
+			.frame {
+				padding: 4px;
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				background-color: white;
+			}
+			.floating {
+				margin-top: 4px;
+				margin-bottom: 4px;
+			}
+			.cem-label.gone {
+				opacity: .2;
+				box-shadow: none;
+				-webkit-box-shadow: none;
+			}
+			.box {
+				border: 3px solid;
+				/*max-width: 20cm;*/
+			}
+			td:first-child {
+				padding-right: 16px;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="jquery.columnizer.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<h1>Name Calling</h1>
+			<h3>Celebrity children names.</h3>
+
+			<h4><span class="accent">❶</span> <b>Pre reading</b></h4>
+			<p>Match the famous person to his / her child.</p>
+			<table>
+				<tr>
+					<td><b>1.</b> Paula Yates</td>
+					<td><b>a)</b> Brooklyn</td>
+				</tr>
+				<tr>
+					<td><b>2.</b> Michael Jackson</td>
+					<td><b>b)</b> Zola Ivy</td>
+				</tr>
+				<tr>
+					<td><b>3.</b> Sylvester Stallone</td>
+					<td><b>c)</b> Dixie</td>
+				</tr>
+				<tr>
+					<td><b>4.</b> Eddie Murphy</td>
+					<td><b>d)</b> Ireland</td>
+				</tr>
+				<tr>
+					<td><b>5.</b> Gwyneth Paltrow</td>
+					<td><b>e)</b> Prince Michael</td>
+				</tr>
+				<tr>
+					<td><b>6.</b> David Victoria Becham</td>
+					<td><b>f)</b> Apple</td>
+				</tr>
+				<tr>
+					<td><b>7.</b> Kim Bassinger</td>
+					<td><b>g)</b> Sage Moonblood</td>
+				</tr>
+			</table>
+
+			<h4><span class="accent">❷</span> <b>Listening</b></h4>
+
+			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p><span data-start="11861" data-end="18227">Do Moxie CrimeFighter and Pilot Inspektor* sound like videogames?</span> <span data-start="18228" data-end="22270">Believe it or not, both are children’s names.</span> <span data-start="22271" data-end="25627">But who would call their children something like that?</span></p>
+				<p><span data-start="25628" data-end="31201">The Hollywood elite seem to be obsessed with giving their children unusual names.</span> <span data-start="31202" data-end="35922">Psychologists <a class="new-word" data-word="to blame" data-type="vb" data-en="to say that someone is responsible for something ">blame</a> it on the <a class="new-word" data-word="competitiveness" data-type="n" data-en="trying to be better than everyone ">competitiveness</a> among stars.</span> <span data-start="35923" data-end="39700">Celebrities take baby naming to a higher level.</span> <span data-start="39701" data-end="45082">So, what motivates someone to name their kid Moxie or Pilot?</span> <span data-start="45083" data-end="50662"><a class="new-word" data-word="a shrink" data-type="n inform" data-en="a psychotherapist ">Shrinks</a> say that stars feel they have to <a class="new-word" data-word="to set yourself apart" data-type="exp" data-en="to try to be different ">set themselves apart</a> from normal people.</span> <span data-start="50663" data-end="61000">As celebrities, they are used to being adored, so they are afraid people won’t see them as special and different if their kids have boring names.</span> <span data-start="61001" data-end="68123">“They’re expressing their creativity, and they’re also expressing their fear,” says Dr Stuart Fischof.</span> <span data-start="68124" data-end="73202">“It would be very embarrassing for people to think of them as normal.”</span> <span data-start="73203" data-end="77896">But why punish an innocent baby with a crazy name?</span> <span data-start="77897" data-end="81126">Because it’s cool, say some.</span> <span data-start="81127" data-end="89680">“Everyone I know with an unusual name loves it,” says Moxie CrimeFighter’s dad, magician Penn Jillette.</span> <span data-start="89681" data-end="99929">“It’s only the <a class="new-word" data-word="a loser" data-type="n inform" data-en="a person who others consider a failure ">losers</a> named Dave that think having an unusual name is bad, and who cares what they think. They’re named Dave.”</span> <span data-start="99930" data-end="104742">Some say that celebrities are the “American aristocracy,”</span> <span data-start="104743" data-end="111318">so giving a baby a bizarre name is like a royal title, or <a class="new-word" data-word="a legacy" data-type="n" data-en="something that is passed from generation to generation ">legacy</a>.</span> <span class="accent">✪</span></p>
+			</div></div>
+
+			<h4><span class="accent">❸</span> <b>Reading</b></h4>
+			<p>Below are some unusual names. Which ones are mentioned in the article?</p>
+			<div class="label-container2">
+				<div class='cem-label2'>Zen</div>
+				<div class='cem-label2'>Infinity</div>
+				<div class='cem-label2'>October</div>
+				<div class='cem-label2'>London</div>
+				<div class='cem-label2'>Ireland</div>
+				<div class='cem-label2'>Apple</div>
+				<div class='cem-label2'>Solstice</div>
+				<div class='cem-label2'>Crimson</div>
+				<div class='cem-label2'>Tranquility</div>
+			</div>
+
+			<h4><span class="accent">❹</span> <b>Vocabulary focus & Discussion</b></h4>
+			<p>Complete the sentences with a word from below. Then ask and answer the questions.</p>
+			<div class="label-container">
+				<div class='cem-label'>nickname</div>
+				<div class='cem-label'>firstname</div>
+				<div class='cem-label'>surname</div>
+				<div class='cem-label'>names</div>
+			</div>
+			<ol>
+				<li class="fill-in"><span>Do you have a <input type="text" class="accent-dark" readonly="true" data-ans="nickname">? What’s the story behind it?</span></li>
+				<li class="fill-in"><span>What happens to your <input type="text" class="accent-dark" readonly="true" data-ans="surname"> in your culture when you get married?</span></li>
+				<li class="fill-in"><span>What is the most popular <input type="text" class="accent-dark" readonly="true" data-ans="firstname"> in your country?</span></li>
+				<li class="fill-in"><span> What are some of the most ridiculous celebrity <input type="text" class="accent-dark" readonly="true" data-ans="names"> in your country?</span></li>
+			</ol>
+
+			<div class="box fill-light">
+				<h4 style="font-weight: bold; margin-top: 8px;">Weird Names</h4>
+				<p>Hollywood’s obsessions with weird baby names began in the 1960s. <img src="1.png" class="frame floating" style="float: right; margin-left: 8px; width: 40%; max-width: 3cm;"> Musician Frank Zappa’s kids suffered through school with names like Diva Thin Muin, Dweezil and Moon Unit. Actress Shannyn Sossamon kept with the space-age theme 40 years later by naming her son Audio Science, in 2003. Michael Jackson’s children are Prince Michael, Prince Michael II (they call him Blanket,) and Paris Michael. <img src="2.png" class="frame floating" style="float: left; margin-right: 8px; width: 40%; max-width: 3cm;"> The <a class="new-word" data-word="late" data-type="adj" data-en="deceased, dead">late</a> British writer, Paula Yates was particularly creative in naming her daughters Heavenly Hiraani Tiger Lily, Fifi Trixibelle, Peaches Honeyblossom, and Pixie. Sylvester Stallone named his son Sage Moonblood. Funny man Eddie Murphy was obviously laughing when he named his daughter Zola Ivy. Thankfully, not all celebrity kid names are so original. Actress Gwyneth Paltrow named her daughter Apple. <img src="4.png" class="frame floating" style="float: right; margin-left: 8px; width: 50%; max-width: 3cm;"> “Apples are so sweet, and they’re wholesome, and it’s biblical,” she said in an interview with Oprah Winfrey. “And I just thought it sounded so lovely and clean.” The Bible is a popular reference book for celebrity baby names, and well-known places and family members are popular too. Footballer David Beckham and Spice Girl wife Victoria named their son Brooklyn and Alec Baldwin and Kim Bassinger chose Ireland. <img src="3.png" class="frame floating" style="float: left; margin-right: 8px; width: 50%; max-width: 3cm;"> And Jude Law named his daughter Iris after grandma. Child psychologists argue that maybe having such a different name alienates star kids from regular kids even more. In the end, being the child of a celebrity comes with its <a class="new-word" data-word="a burden" data-type="n" data-en="a source of great worry or stress">burdens</a>. But another therapist says that having an odd name is the least of the child’s problems. “With kids of celebrities, in all honesty, the other issues are so big this one pales in comparison.” Maybe Moxie CrimeFighter isn’t so bad after all.</p>
+			</div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			dropped_elements = [];
+
+			$('.cem-label').tap(function() {
+				if(!$(this).hasClass('gone')) {
+					$('.cem-label').removeClass('selected');
+					$(this).addClass('selected');
+				}
+			});
+			$('.fill-in').tap(function() {
+				drop($('.cem-label.selected'), $(this).find('input'));
+			});
+			drop = function(dropped, dropzone) {
+				if(!dropped.length || !dropzone.length)
+					return;
+
+				var label = dropzone.data('ans');
+				if(label == dropped.html()) {
+					dropzone.val(label);
+					dropped.removeClass('selected').addClass('gone');
+
+					if(dropped_elements.indexOf(label) == -1) {
+						dropped_elements.push(label);
+						saveInstanceState();
+					}
+
+				} else {
+					dropped.removeClass('gone');
+					$('.cem-label').removeClass('selected');
+					if(typeof(app) != 'undefined')
+						app.makeToast('That\'s not right.', false);
+				}
+			}
+
+			adjustCustomLayout = function(options) {
+				var width = $('.box').width();
+				if(width >= 480)
+					cols = 2;
+				else
+					cols = 1;
+
+				css = "\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					h1 { color: " + tinycolor(accentColor).darken() + "; font-weight: bold; } \
+					h5 { border-color: #" + accentColor + "; color: #" + accentColor + "; } \
+					.cem-label, .cem-label2 { color: #" + backgroundColor + "; background-color: #" + textColor + "; -webkit-box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; } \
+					.selected { background-color: #" + accentColor + "; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					li { color: #" + accentColor + "; } \
+					li > span { color: #" + textColor + "; } \
+					.accent-dark { color: " + tinycolor(accentColor).darken().toHexString() + "; } \
+					.box { padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
+					.fill-light { background-color: " + tinycolor(highlightColor).lighten() + "; } \
+				";
+
+				if(cols > 1) {
+					css += "\
+						.first.column { padding-right: " + (2.5*spacing) + "px; } \
+						last.column { padding-left: " + (2.5*spacing) + "px; } \
+					";
+				}
+
+				$('#local-rules').text(css);
+
+				if(cols > 1) {
+					$('.box').columnize({
+						columns: cols,
+					});
+				}
+			}
+
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key-enter-access-door-place-512.png")').children().css('visibility', 'hidden');
+					$('.lockable').css('background-image', "url('david.jpg')");
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').css('background-image', '');
+				}
+
+				saveInstanceState();
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+					dropped_elements: dropped_elements,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				dropped_elements = state['dropped_elements'] || [];
+				dropped_elements.forEach(function(label) {
+					drop($(".cem-label:contains('" + label + "')"), $("input[data-ans='" + label + "']"));
+				});
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

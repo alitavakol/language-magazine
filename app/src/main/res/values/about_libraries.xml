@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_hem">year;owner</string>
+    <!-- Author section -->
+    <string name="library_hem_author">T. Russell</string>
+    <string name="library_hem_authorWebsite">http://learnhotenglish.com</string>
+    <!-- Library section -->
+    <string name="library_hem_libraryName">Learn Hot English</string>
+    <string name="library_hem_libraryDescription"><![CDATA[This is a monthly magazine for improving your English, with a lot of content like: real English in genuine contexts, slang, british English, practical language, US English, useful expressions, &#8230;<br><br>Lessons are fun and easy-to-read, with helpful glossaries.<br><br>The magazine is for readers from 16 to 105 years old. And the levels range from pre-intermediate to advanced (CEF levels A2-C1).<br><br>Other fantastic features of the magazine are: ready-to-use lessons, fantastic 60-minute audio CD, teacher’s notes.<br><br>Great website with free material:<br><b>http://learnhotenglish.com</b>]]></string>
+    <string name="library_hem_libraryWebsite">http://learnhotenglish.com</string>
+    <string name="library_hem_libraryVersion" />
+    <!-- OpenSource section -->
+    <string name="library_hem_isOpenSource">false</string>
+    <string name="library_hem_repositoryLink" />
+    <!-- ClassPath for autoDetect section -->
+    <string name="library_hem_classPath" />
+    <!-- License section -->
+    <string name="library_hem_licenseId" />
+    <!-- Custom variables section -->
+
+    <string name="define_int_effortless">year;owner</string>
+    <!-- Author section -->
+    <string name="library_effortless_author">A. J. Hoge</string>
+    <string name="library_effortless_authorWebsite">http://effortlessenglishclub.com</string>
+    <!-- Library section -->
+    <string name="library_effortless_libraryName">Effortless English</string>
+    <string name="library_effortless_libraryDescription"><![CDATA[Do you feel embarrassed, nervous or shy when you try to speak English? Now you can feel strong and relaxed every time you speak!<br><br>Effortless English uses the best research in the world, from top experts such as: Dr. Stephen Krashen, Dr. James Asher, Dr. J. Marvin Brown, Dr. Ashley Hastings, Dr. Brenda Murphy, David Long and Blaine Ray. The research is clear&#8212; students who use Effortless English are better speakers than students who use textbooks, grammar, and self-study only.<br><br>In every country, in every possible situation, students who learn with Effortless English methods always win against students who use old methods.<br><br>Visit:<br><b>http://effortlessenglishclub.com</b>]]></string>
+    <string name="library_effortless_libraryWebsite">http://effortlessenglishclub.com</string>
+    <string name="library_effortless_libraryVersion" />
+    <!-- OpenSource section -->
+    <string name="library_effortless_isOpenSource">false</string>
+    <string name="library_effortless_repositoryLink" />
+    <!-- ClassPath for autoDetect section -->
+    <string name="library_effortless_classPath" />
+    <!-- License section -->
+    <string name="library_effortless_licenseId" />
+    <!-- Custom variables section -->
+</resources>

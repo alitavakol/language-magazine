@@ -1,5 +1,6 @@
 package me.ali.coolenglishmagazine;
 
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.graphics.Rect;
@@ -42,6 +43,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 
@@ -62,7 +64,7 @@ public class IssuesTabFragment extends Fragment implements
     /**
      * "my issues" tab index
      */
-    public static final int MY_ISSUES = 0;
+    public static final int SAVED_ISSUES = 0;
 
     /**
      * "available for download" issues tab index
@@ -95,12 +97,14 @@ public class IssuesTabFragment extends Fragment implements
         Bundle args = new Bundle();
         args.putInt(ARG_FILTER, filter);
         fragment.setArguments(args);
+        fragment.filter = filter;
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             filter = getArguments().getInt(ARG_FILTER);
         }
@@ -108,6 +112,8 @@ public class IssuesTabFragment extends Fragment implements
         if (filter == AVAILABLE_ISSUES) {
             setHasOptionsMenu(true);
         }
+
+        issues = new AutoSortableList();
     }
 
     @Override
@@ -168,7 +174,9 @@ public class IssuesTabFragment extends Fragment implements
     public void onResume() {
         super.onResume();
 
-        galleryOfIssuesFragment = (GalleryOfIssuesFragment) getActivity().getSupportFragmentManager().findFragmentByTag(GalleryOfIssuesFragment.FRAGMENT_TAG);
+        final FragmentActivity activity = getActivity();
+
+        galleryOfIssuesFragment = (GalleryOfIssuesFragment) activity.getSupportFragmentManager().findFragmentByTag(GalleryOfIssuesFragment.FRAGMENT_TAG);
 
         Magazines.addOnDataSetChangedListener(this);
         while (adapter.preNotifyDataSetChanged(true, galleryOfIssuesFragment.magazines.ISSUES))
@@ -176,6 +184,10 @@ public class IssuesTabFragment extends Fragment implements
         adapter.ignoreItemChanged = false;
 
         updateHelpContainer();
+        galleryOfIssuesFragment.updateBlinker(filter);
+
+        if (filter == AVAILABLE_ISSUES)
+            galleryOfIssuesFragment.fetchLatestIssueNumber(activity);
     }
 
     @Override
@@ -188,13 +200,14 @@ public class IssuesTabFragment extends Fragment implements
                 issue2timer.remove(issue);
             }
         }
+
         for (Magazines.Issue issue : galleryOfIssuesFragment.magazines.ISSUES) {
             issue.removeOnStatusChangedListener(this);
         }
         Magazines.removeOnDataSetChangedListener(this);
     }
 
-    protected IssuesRecyclerViewAdapter adapter = new IssuesRecyclerViewAdapter();
+    protected IssuesRecyclerViewAdapter adapter;
 
     /**
      * grid layout column count
@@ -202,6 +215,7 @@ public class IssuesTabFragment extends Fragment implements
     int nColumns;
 
     private void setupRecyclerView() {
+        adapter = new IssuesRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
 
         GridLayoutManager manager = new GridLayoutManager(getContext(), nColumns);
@@ -263,7 +277,11 @@ public class IssuesTabFragment extends Fragment implements
     /**
      * list of issues shown in this fragment (filtered by value of filter)
      */
-    private AutoSortableList issues = new AutoSortableList();
+    private AutoSortableList issues;
+
+    public int getIssuesCount() {
+        return issues.size();
+    }
 
     /**
      * header rows, which are of type {@link me.ali.coolenglishmagazine.model.Magazines.Issue}, but with an even {@link Magazines.Issue#status} value.
@@ -307,7 +325,7 @@ public class IssuesTabFragment extends Fragment implements
                 Magazines.Issue.Status status = issue.getStatus();
 
                 switch (filter) {
-                    case MY_ISSUES:
+                    case SAVED_ISSUES:
                         add = status == Magazines.Issue.Status.other_saved || status == Magazines.Issue.Status.active;
                         break;
 
@@ -356,6 +374,7 @@ public class IssuesTabFragment extends Fragment implements
                 recyclerView.invalidateItemDecorations();
                 galleryOfIssuesFragment.finishActionMode();
                 updateHelpContainer();
+                galleryOfIssuesFragment.updateBlinker(filter);
             }
 
             return changed;
@@ -507,7 +526,7 @@ public class IssuesTabFragment extends Fragment implements
                 });
             }
 
-            final int status = filter == 0 ? -4 : Magazines.getDownloadStatus(getContext(), issue);
+            final int status = filter == SAVED_ISSUES ? -4 : Magazines.getDownloadStatus(getContext(), issue);
             boolean enableTimer = true;
 
             switch (status) {
@@ -554,16 +573,19 @@ public class IssuesTabFragment extends Fragment implements
                     timer.schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            holder.dl_progress = Magazines.getDownloadProgress(getContext(), issue);
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    int position = holder.getAdapterPosition();
-                                    if (position != RecyclerView.NO_POSITION)
-                                        onBindViewHolder(holder, position);
-                                    LogHelper.d(TAG, "dl_progress: " + holder.dl_progress[0]);
-                                }
-                            });
+                            Activity context = getActivity();
+                            if (context != null) {
+                                holder.dl_progress = Magazines.getDownloadProgress(getContext(), issue);
+                                context.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        int position = holder.getAdapterPosition();
+                                        if (position != RecyclerView.NO_POSITION)
+                                            onBindViewHolder(holder, position);
+                                        LogHelper.d(TAG, "dl_progress: " + holder.dl_progress[0]);
+                                    }
+                                });
+                            }
                         }
                     }, 0, 3000);
                     IssuesTabFragment.issue2timer.put(issue, timer);
@@ -696,22 +718,22 @@ public class IssuesTabFragment extends Fragment implements
         MenuInflater inflater = actionMode.getMenuInflater();
         inflater.inflate(R.menu.issues_list_action_mode, menu);
 
-        if (filter == 1 || filter == 2)
+        if (filter == AVAILABLE_ISSUES || filter == COMPLETED_ISSUES)
             menu.findItem(R.id.action_download).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_file_download).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true).setVisible(true).setShowAsActionFlags(filter == 1 ? MenuItem.SHOW_AS_ACTION_ALWAYS : MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
-        if (filter == 0 || filter == 1)
+        if (filter == SAVED_ISSUES || filter == AVAILABLE_ISSUES)
             menu.findItem(R.id.action_mark_complete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_assignment_turned_in).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
 
-        if (filter == 0) {
+        if (filter == SAVED_ISSUES) {
             menu.findItem(R.id.action_delete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
         }
 
-        if (filter == 2) {
+        if (filter == COMPLETED_ISSUES) {
             menu.findItem(R.id.action_mark_incomplete).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_assignment_late).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
             menu.findItem(R.id.action_free).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_disc_full).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true);
         }
 
-        if (filter == 1) {
+        if (filter == AVAILABLE_ISSUES) {
             menu.findItem(R.id.action_delete_permanently).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_delete_forever).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
             menu.findItem(R.id.action_cancel).setIcon(new IconicsDrawable(getActivity(), GoogleMaterial.Icon.gmd_clear).sizeDp(24).paddingDp(4).colorRes(R.color.md_dark_primary_text)).setVisible(true).setVisible(true).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
@@ -769,6 +791,7 @@ public class IssuesTabFragment extends Fragment implements
                 break;
 
             case R.id.action_delete_permanently:
+                galleryOfIssuesFragment.firstMissingIssueNumber = 0;
                 for (Magazines.Issue issue : selectedIssues)
                     Magazines.deleteIssue(context, issue, true);
                 break;
@@ -791,6 +814,7 @@ public class IssuesTabFragment extends Fragment implements
                         LogHelper.e(TAG, e.getMessage());
                     }
                 }
+                recyclerView.getLayoutManager().scrollToPosition(issues.indexOf(headers[Magazines.Issue.Status.header_downloading.ordinal() / 2]));
                 break;
 
             default:
@@ -887,24 +911,21 @@ public class IssuesTabFragment extends Fragment implements
 
         helpContainer.setVisibility(View.VISIBLE);
 
-//        if (getResources().getConfiguration().locale.getLanguage().equals("fa"))
-//            FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(), FontManager.ADOBE_ARABIC_REGULAR));
-
         final ImageButton imageButton = (ImageButton) layoutView.findViewById(R.id.add);
         final TextView helpTextView = (TextView) layoutView.findViewById(R.id.help);
 
         switch (filter) {
-            case 0:
+            case SAVED_ISSUES:
                 imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_file_download).sizeDp(72).colorRes(R.color.colorContextHelp));
                 helpTextView.setText(R.string.about_saved_issues);
                 break;
 
-            case 1:
+            case AVAILABLE_ISSUES:
                 imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_refresh).sizeDp(72).colorRes(R.color.colorContextHelp));
                 helpTextView.setText(R.string.about_available_issues);
                 break;
 
-            case 2:
+            case COMPLETED_ISSUES:
                 imageButton.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_assignment_turned_in).sizeDp(72).colorRes(R.color.colorContextHelp));
                 imageButton.setClickable(false);
                 imageButton.setEnabled(false);
@@ -912,14 +933,18 @@ public class IssuesTabFragment extends Fragment implements
                 break;
         }
 
+//        FontManager.markAsIconContainer(helpContainer, FontManager.getTypeface(getActivity(),
+//                helpTextView.getText().toString().contains("ا") ? FontManager.ADOBE_ARABIC : FontManager.UBUNTU
+//        ));
+
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (filter) {
-                    case 0:
+                    case SAVED_ISSUES:
                         galleryOfIssuesFragment.viewPager.setCurrentItem(AVAILABLE_ISSUES, true);
                         break;
-                    case 1:
+                    case AVAILABLE_ISSUES:
                         onRefresh();
                         break;
                 }

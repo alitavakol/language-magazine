@@ -1,6 +1,8 @@
 package me.ali.coolenglishmagazine;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -12,13 +14,15 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -27,14 +31,17 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.mikepenz.iconics.view.IconicsTextView;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.util.Blinker;
 import me.ali.coolenglishmagazine.util.FileHelper;
 import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.InputStreamVolleyRequest;
@@ -104,14 +111,9 @@ public class GalleryOfIssuesFragment extends Fragment {
         mListener.onToolbarCreated((Toolbar) view.findViewById(R.id.toolbar_actionbar), R.string.gallery_of_issues);
 
         viewPager = (ViewPager) view.findViewById(R.id.view_pager);
+        tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
+
         setupViewPager();
-
-        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(currentTabIndex).select();
-
-        Typeface typeface = FontManager.getTypeface(getActivity(), FontManager.UBUNTU_LIGHT);
-        FontManager.markAsIconContainer(tabLayout, typeface);
 
         return view;
     }
@@ -128,10 +130,26 @@ public class GalleryOfIssuesFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        final FragmentActivity activity = getActivity();
+        PreferenceManager.getDefaultSharedPreferences(activity).registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
-        cancelSync(getActivity(), null);
+        final FragmentActivity activity = getActivity();
+        cancelSync(activity, null);
         finishActionMode();
+        PreferenceManager.getDefaultSharedPreferences(activity).unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        for (Blinker blinker : adapter.blinkers)
+            blinker.stop();
     }
 
     @Override
@@ -167,14 +185,14 @@ public class GalleryOfIssuesFragment extends Fragment {
     }
 
     public ViewPager viewPager;
+    protected TabLayout tabLayout;
+    public ViewPagerAdapter adapter;
 
     private void setupViewPager() {
-        final ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+        adapter = new ViewPagerAdapter(getChildFragmentManager());
 
-        for (int i = 0; i < 3; i++) {
-            IssuesTabFragment fragment = IssuesTabFragment.newInstance(i);
-            adapter.addFragment(fragment, getResources().obtainTypedArray(R.array.issue_list_tab_titles).getResourceId(i, 0));
-        }
+        for (int i = 0; i < 3; i++)
+            adapter.addFragment(i);
 
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(adapter.getCount() - 1);
@@ -193,6 +211,17 @@ public class GalleryOfIssuesFragment extends Fragment {
             public void onPageScrollStateChanged(int state) {
             }
         });
+
+        tabLayout.setupWithViewPager(viewPager);
+
+        for (int i = 0; i < 3; i++)
+            tabLayout.getTabAt(i).setCustomView(adapter.getTabView(i));
+
+        viewPager.setCurrentItem(2 - currentTabIndex);
+        viewPager.setCurrentItem(currentTabIndex);
+
+        Typeface typeface = FontManager.getTypeface(getActivity(), FontManager.UBUNTU_LIGHT);
+        FontManager.markAsIconContainer(tabLayout, typeface);
     }
 
     /**
@@ -205,17 +234,44 @@ public class GalleryOfIssuesFragment extends Fragment {
             actionMode.finish();
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    class ViewPagerAdapter extends PagerAdapter {
+        FragmentManager fragmentManager;
+
         public final List<IssuesTabFragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
+        private final List<String> mFragmentIconList = new ArrayList<>();
+        public final List<Blinker> blinkers = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
+            fragmentManager = manager;
+        }
+
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
         }
 
         @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
+        public Fragment instantiateItem(ViewGroup container, int position) {
+            Fragment fragment = getItem(position);
+            final String tag = "ISSUES_TAB_" + position;
+            if (fragmentManager.findFragmentByTag(tag) == null) {
+                FragmentTransaction trans = fragmentManager.beginTransaction();
+                trans.add(container.getId(), fragment, tag);
+                trans.commit();
+            }
+            return fragment;
+        }
+
+//        @Override
+//        public void destroyItem(ViewGroup container, int position, Object object) {
+//            FragmentTransaction trans = fragmentManager.beginTransaction();
+//            trans.remove(mFragmentList.remove(position));
+//            trans.commit();
+//        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object fragment) {
+            return ((Fragment) fragment).getView() == view;
         }
 
         @Override
@@ -223,14 +279,27 @@ public class GalleryOfIssuesFragment extends Fragment {
             return mFragmentList.size();
         }
 
-        public void addFragment(IssuesTabFragment fragment, int titleId) {
+        public void addFragment(int tabIndex) {
+            IssuesTabFragment fragment = (IssuesTabFragment) fragmentManager.findFragmentByTag("ISSUES_TAB_" + tabIndex);
+            if (fragment == null)
+                fragment = IssuesTabFragment.newInstance(tabIndex);
             mFragmentList.add(fragment);
-            mFragmentTitleList.add(getResources().getString(titleId));
+            mFragmentTitleList.add(getResources().getString(getResources().obtainTypedArray(R.array.issue_list_tab_titles).getResourceId(tabIndex, 0)));
+            mFragmentIconList.add(getResources().getString(getResources().obtainTypedArray(R.array.issue_list_tab_icons).getResourceId(tabIndex, 0)));
+            blinkers.add(new Blinker());
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
+        }
+
+        public View getTabView(int position) {
+            View v = LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);
+            ((TextView) v.findViewById(R.id.tab_title)).setText(mFragmentTitleList.get(position));
+            ((IconicsTextView) v.findViewById(R.id.tab_icon)).setText(mFragmentIconList.get(position));
+            blinkers.get(position).setTabView(v);
+            return v;
         }
     }
 
@@ -252,7 +321,7 @@ public class GalleryOfIssuesFragment extends Fragment {
     /**
      * volley network request queue
      */
-    RequestQueue requestQueue = null;
+    RequestQueue requestQueue;
 
     /**
      * saves received data into a temporary zip file, extracts it.
@@ -402,11 +471,10 @@ public class GalleryOfIssuesFragment extends Fragment {
                 }
             }, null);
 
-            request.setTag(this)
+            request.setTag(GalleryOfIssuesFragment.this)
                     .setRetryPolicy(new DefaultRetryPolicy(30000,
                             DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
 
             // Add the request to the RequestQueue.
             requestQueue.add(request);
@@ -422,7 +490,7 @@ public class GalleryOfIssuesFragment extends Fragment {
 
     protected void cancelSync(Context context, IssuesTabFragment.IssuesRecyclerViewAdapter adapter) {
         if (requestQueue != null) {
-            requestQueue.cancelAll(context);
+            requestQueue.cancelAll(GalleryOfIssuesFragment.this);
             requestQueue = null;
         }
 
@@ -449,6 +517,109 @@ public class GalleryOfIssuesFragment extends Fragment {
         while (new File(context.getExternalFilesDir(null), Integer.toString(i)).exists())
             i++;
         return i;
+    }
+
+    int latestAvailableIssueNumberOnServer;
+
+    /**
+     * get latest available issue's ID from server
+     *
+     * @param context activity context
+     */
+    void fetchLatestIssueNumber(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+//        if (!NetworkHelper.isOnline(context)) {
+//            latestAvailableIssueNumberOnServer = preferences.getInt("latestAvailableIssueNumberOnServer", 0);
+//            updateBlinker(IssuesTabFragment.AVAILABLE_ISSUES);
+//            return;
+//        }
+
+        final long currentTime = System.currentTimeMillis();
+        long lastUpdateCheck = preferences.getLong("last_update_check", currentTime - 365L * 24L * 3600L * 1000L);
+        if (currentTime - lastUpdateCheck < 3L * 24L * 3600L * 1000L) { // don't check if last update occurred less than 3 days ago
+            latestAvailableIssueNumberOnServer = PreferenceManager.getDefaultSharedPreferences(context).getInt("latestAvailableIssueNumberOnServer", 0);
+            updateBlinker(IssuesTabFragment.AVAILABLE_ISSUES);
+            return;
+        }
+
+        if (requestQueue == null)
+            requestQueue = Volley.newRequestQueue(context);
+
+        final Uri uri = Uri.parse(preferences.getString("server_address", getResources().getString(R.string.pref_default_server_address)));
+        final String url = uri.toString() + "/api/issues/latest?app_version=" + BuildConfig.VERSION_CODE;
+
+        InputStreamVolleyRequest request = new InputStreamVolleyRequest(Request.Method.GET, url, new Response.Listener<byte[]>() {
+            @Override
+            public void onResponse(byte[] response) {
+                latestAvailableIssueNumberOnServer = Integer.parseInt(new String(response));
+                Activity activity = getActivity();
+                if (activity != null)
+                    PreferenceManager.getDefaultSharedPreferences(activity).edit()
+                            .putInt("latestAvailableIssueNumberOnServer", latestAvailableIssueNumberOnServer)
+                            .putLong("last_update_check", currentTime)
+                            .apply();
+                updateBlinker(IssuesTabFragment.AVAILABLE_ISSUES);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Activity activity = getActivity();
+                if (activity != null) {
+                    latestAvailableIssueNumberOnServer = PreferenceManager.getDefaultSharedPreferences(activity).getInt("latestAvailableIssueNumberOnServer", 0);
+                    updateBlinker(IssuesTabFragment.AVAILABLE_ISSUES);
+                }
+            }
+        }, null);
+
+        request.setTag(GalleryOfIssuesFragment.this);
+
+        // Add the request to the RequestQueue.
+        requestQueue.add(request);
+    }
+
+    protected SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+            if (key.equals("new_saved_issues"))
+                updateBlinker(IssuesTabFragment.SAVED_ISSUES);
+        }
+    };
+
+    /**
+     * blinks tab titles if some tabs require user notice.
+     *
+     * @param filter tab index
+     */
+    public void updateBlinker(int filter) {
+        Context context = getActivity();
+        if (context == null)
+            return;
+
+        boolean start = false;
+
+        switch (filter) {
+            case IssuesTabFragment.AVAILABLE_ISSUES:
+                if (Magazines.file2issue.size() == 0) // blink if no issue previews are fetched
+                    start = true;
+                else {
+                    int latestSaved = findFirstMissingIssueNumber(context) - 1;
+                    if (latestAvailableIssueNumberOnServer > latestSaved) // blink if latest issue number on server is greater than what app knows
+                        start = true;
+                }
+                break;
+
+            case IssuesTabFragment.SAVED_ISSUES: // blinks saved issues tab, if unseen issues are there
+                int newSavedIssuesCount = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("new_saved_issues", new HashSet<String>(0)).size();
+                start = newSavedIssuesCount > 0;
+                break;
+        }
+
+        Blinker blinker = adapter.blinkers.get(filter);
+        if (start)
+            blinker.start();
+        else
+            blinker.stop();
     }
 
 }

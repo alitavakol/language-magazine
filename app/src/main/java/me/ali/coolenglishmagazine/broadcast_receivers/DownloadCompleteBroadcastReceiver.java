@@ -6,15 +6,19 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import me.ali.coolenglishmagazine.IssueDetailActivity;
 import me.ali.coolenglishmagazine.ItemListActivity;
@@ -130,6 +134,11 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
                 Magazines.computeIssueStatus(context, issue);
                 issue.setStatus(issue.getStatus());
                 LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(DownloadCompleteBroadcastReceiver.ACTION_DOWNLOAD_EXTRACTED));
+
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                Set<String> newSavedIssues = new HashSet<>(preferences.getStringSet("new_saved_issues", new HashSet<String>(0)));
+                newSavedIssues.add(Integer.toString(issue.id));
+                preferences.edit().putStringSet("new_saved_issues", newSavedIssues).apply();
 
             } catch (IOException e) {
                 LogHelper.e(TAG, e.getMessage());
