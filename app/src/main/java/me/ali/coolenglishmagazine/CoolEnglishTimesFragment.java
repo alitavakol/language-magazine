@@ -290,7 +290,8 @@ public class CoolEnglishTimesFragment extends Fragment {
 
         switch (filter) {
             case 0:
-                start = ((AlarmsTabFragment) adapter.mFragmentList.get(0)).alarms.size() == 0 && WaitingItems.waitingItems != null && WaitingItems.waitingItems.size() > 0;
+                if (adapter.mFragmentList.size() == 2)
+                    start = ((AlarmsTabFragment) adapter.mFragmentList.get(0)).alarms.size() == 0 && WaitingItems.waitingItems != null && WaitingItems.waitingItems.size() > 0;
                 break;
         }
 
