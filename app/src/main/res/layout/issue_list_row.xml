@@ -37,17 +37,32 @@
                     android:layout_height="60dp"
                     android:layout_gravity="center"
                     android:background="@drawable/circle"
-                    app:cpv_color="@color/primary"
                     app:cpv_animAutostart="true"
+                    app:cpv_color="@color/primary"
                     app:cpv_indeterminate="false" />
 
-                <ImageView
+                <com.mikepenz.iconics.view.IconicsTextView
                     android:id="@+id/check_mark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
-                    android:background="@color/accent"
-                    android:scaleType="center"
+                    android:background="@color/colorAccentTransparent"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="{gmd-check}"
+                    android:textColor="@color/primary_light"
+                    android:textSize="24sp"
+                    android:visibility="invisible" />
+
+                <com.mikepenz.iconics.view.IconicsTextView
+                    android:id="@+id/gift_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|start"
+                    android:background="@color/colorAccentMoreTransparent"
+                    android:padding="@dimen/spacing_normal"
+                    android:text="{faw-gift}"
+                    android:textColor="@color/primary_light"
+                    android:textSize="24sp"
                     android:visibility="invisible" />
             </FrameLayout>
 

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -140,18 +141,21 @@ public class IssueDetailFragment extends Fragment {
         @SuppressWarnings("unused")
         @JavascriptInterface
         public void onAdjustLayoutComplete() {
-            getActivity().runOnUiThread(new Runnable() {
-                public void run() {
-                    if (isAttached) {
-                        ((IssueDetailActivity) getActivity()).setOnScrollViewLayoutChangedListener();
-                        final View view = getView();
-                        if (view != null) {
-                            view.findViewById(R.id.hourglass).setVisibility(View.GONE);
-                            view.findViewById(R.id.webView).setVisibility(View.VISIBLE);
+            final FragmentActivity activity = getActivity();
+            if (activity != null)
+                activity.runOnUiThread(new Runnable() {
+                    public void run() {
+                        final FragmentActivity context = getActivity();
+                        if (isAttached && context != null) {
+                            ((IssueDetailActivity) context).setOnScrollViewLayoutChangedListener();
+                            final View view = getView();
+                            if (view != null) {
+                                view.findViewById(R.id.hourglass).setVisibility(View.GONE);
+                                view.findViewById(R.id.webView).setVisibility(View.VISIBLE);
+                            }
                         }
                     }
-                }
-            });
+                });
         }
     }
 }

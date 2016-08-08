@@ -671,7 +671,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
      * @param purchased new value for {@link me.ali.coolenglishmagazine.model.Magazines.Issue#purchased}
      */
     protected void savePurchaseInfo(String price, boolean purchased) {
-        if (!issue.purchased && purchased)
+        if (!issue.free && !issue.purchased && purchased)
             Toast.makeText(this, R.string.tnx_for_purchase, Toast.LENGTH_LONG).show();
 
         issue.price = price;
@@ -846,6 +846,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
                 loginCheckServiceConnection = null;
 
                 // fetch price information only if item is not purchased and price is unknown
+                // TODO: price might go down. users may purchase with new price!
                 if (!issue.purchased && issue.price.length() == 0) {
                     displayErrors = false;
                     requestPrice();

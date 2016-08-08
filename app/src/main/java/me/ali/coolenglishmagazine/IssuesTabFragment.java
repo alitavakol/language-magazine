@@ -602,11 +602,8 @@ public class IssuesTabFragment extends Fragment implements
                 }
             }
 
-            if (selectedItems.get(position, false)) {
-                holder.checkMarkImageView.setVisibility(View.VISIBLE);
-            } else {
-                holder.checkMarkImageView.setVisibility(View.GONE);
-            }
+            holder.checkMarkImageView.setVisibility(selectedItems.get(position, false) ? View.VISIBLE : View.GONE);
+            holder.freeImageView.setVisibility(issue.free && filter == AVAILABLE_ISSUES ? View.VISIBLE : View.INVISIBLE);
         }
 
         @Override
@@ -618,7 +615,8 @@ public class IssuesTabFragment extends Fragment implements
             public final TextView titleTextView, subtitleTextView;
             public final ImageView posterImageView;
             public final CircularProgressView progressBar;
-            public final ImageView checkMarkImageView;
+            public final View checkMarkImageView;
+            public final View freeImageView;
 
             public int[] dl_progress = new int[3];
 
@@ -629,10 +627,8 @@ public class IssuesTabFragment extends Fragment implements
                 subtitleTextView = (TextView) view.findViewById(R.id.subtitle);
                 posterImageView = (ImageView) view.findViewById(R.id.icon);
                 progressBar = (CircularProgressView) view.findViewById(R.id.progress);
-
-                checkMarkImageView = (ImageView) view.findViewById(R.id.check_mark);
-                if (checkMarkImageView != null)
-                    checkMarkImageView.setImageDrawable(new IconicsDrawable(getActivity()).icon(GoogleMaterial.Icon.gmd_check).sizeDp(36).paddingDp(8).colorRes(R.color.primary));
+                checkMarkImageView = view.findViewById(R.id.check_mark);
+                freeImageView = view.findViewById(R.id.gift_icon);
             }
         }
 
@@ -864,6 +860,7 @@ public class IssuesTabFragment extends Fragment implements
     public void onRefresh() {
         swipeContainer.setRefreshing(true);
         galleryOfIssuesFragment.syncAvailableIssuesList(getActivity(), -1, adapter);
+        galleryOfIssuesFragment.viewPager.setCurrentItem(AVAILABLE_ISSUES);
     }
 
     public void onIssueStatusChanged(Magazines.Issue issue) {
