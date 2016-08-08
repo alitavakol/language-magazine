@@ -619,19 +619,21 @@ public class GalleryOfIssuesFragment extends Fragment {
         if (start) {
             blinker.start();
 
-            RootActivity activity = (RootActivity) getActivity();
-            if (!activity.newIssuesAvailableWarningShown) {
-                Snackbar
-                        .make(getView(), R.string.new_issues_available, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.refresh, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                adapter.mFragmentList.get(IssuesTabFragment.AVAILABLE_ISSUES).onRefresh();
-                            }
-                        }).setActionTextColor(getResources().getColor(R.color.primary_light))
-                        .show();
+            if (filter == IssuesTabFragment.AVAILABLE_ISSUES) {
+                RootActivity activity = (RootActivity) getActivity();
+                if (!activity.newIssuesAvailableWarningShown) {
+                    Snackbar
+                            .make(getView(), R.string.new_issues_available, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.refresh, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    adapter.mFragmentList.get(IssuesTabFragment.AVAILABLE_ISSUES).onRefresh();
+                                }
+                            }).setActionTextColor(getResources().getColor(R.color.primary_light))
+                            .show();
 
-                activity.newIssuesAvailableWarningShown = true;
+                    activity.newIssuesAvailableWarningShown = true;
+                }
             }
 
         } else {
