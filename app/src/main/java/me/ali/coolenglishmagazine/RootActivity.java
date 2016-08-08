@@ -98,6 +98,7 @@ public class RootActivity extends AppCompatActivity implements
         if (savedInstanceState != null) {
             drawer_selection = savedInstanceState.getInt("drawer_selection");
             signingIn = savedInstanceState.getBoolean("signing_in");
+            newIssuesAvailableWarningShown = savedInstanceState.getBoolean("newIssuesAvailableWarningShown");
 
         } else {
             // show the gallery of issues fragment by default
@@ -118,9 +119,9 @@ public class RootActivity extends AppCompatActivity implements
 
 //        account = new Account(this);
 
-        if (!processWasRunning) { // check for updates if app's process has just started
+        if (savedInstanceState == null) {
             initUpdateCheckService();
-            processWasRunning = false;
+            newIssuesAvailableWarningShown = false;
         }
     }
 
@@ -270,6 +271,7 @@ public class RootActivity extends AppCompatActivity implements
         if (drawer != null) {
             outState.putInt("drawer_selection", drawer.getCurrentSelectedPosition());
             outState.putBoolean("signing_in", signingIn);
+            outState.putBoolean("newIssuesAvailableWarningShown", newIssuesAvailableWarningShown);
         }
     }
 
@@ -482,7 +484,8 @@ public class RootActivity extends AppCompatActivity implements
     private void initUpdateCheckService() {
         updateServiceConnection = new UpdateServiceConnection();
         Intent i = new Intent("com.farsitel.bazaar.service.UpdateCheckService.BIND").setPackage("com.farsitel.bazaar");
-        bindService(i, updateServiceConnection, Context.BIND_AUTO_CREATE);
+        if (!bindService(i, updateServiceConnection, Context.BIND_AUTO_CREATE))
+            updateServiceConnection = null;
     }
 
     /**
@@ -494,8 +497,6 @@ public class RootActivity extends AppCompatActivity implements
         updateServiceConnection = null;
     }
 
-    /**
-     * determines whether app's process has just run from scratch.
-     */
-    public static boolean processWasRunning;
+    public boolean newIssuesAvailableWarningShown;
+
 }

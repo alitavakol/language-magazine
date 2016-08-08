@@ -464,4 +464,6 @@
     <string name="incorrect_owner_title">خطا</string>
     ```
     <string name="new_word_and_type">%1$s\u0020\u0020\u0020\u0020%2$s</string>
+
+    <string name="new_issues_available">New issues available!</string>
 </resources>
