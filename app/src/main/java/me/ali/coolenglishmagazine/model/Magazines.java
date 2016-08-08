@@ -80,7 +80,7 @@ public class Magazines {
         boolean ok = new File(issueRootDirectory, Issue.contentFileName).exists()
                 && new File(issueRootDirectory, Issue.posterFileName).exists();
         if (!ok) {
-            throw new IOException("Cannot find issue introduction file.");
+            throw new IOException("Cannot find issue introduction and/or poster: " + issueRootDirectory.getAbsolutePath());
         }
 
         if (issue == null) {

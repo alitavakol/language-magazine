@@ -147,6 +147,7 @@ public class CoolEnglishTimesFragment extends Fragment {
         adapter.addFragment(1);
 
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(adapter.getCount() - 1);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -290,8 +291,11 @@ public class CoolEnglishTimesFragment extends Fragment {
 
         switch (filter) {
             case 0:
-                if (adapter.mFragmentList.size() == 2)
-                    start = ((AlarmsTabFragment) adapter.mFragmentList.get(0)).alarms.size() == 0 && WaitingItems.waitingItems != null && WaitingItems.waitingItems.size() > 0;
+                if (adapter.mFragmentList.size() == 2) {
+                    final ArrayList<AlarmsTabFragment.Alarm> alarms = ((AlarmsTabFragment) adapter.mFragmentList.get(0)).alarms;
+                    if (alarms != null)
+                        start = alarms.size() == 0 && WaitingItems.waitingItems != null && WaitingItems.waitingItems.size() > 0;
+                }
                 break;
         }
 
