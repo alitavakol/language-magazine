@@ -846,7 +846,8 @@ public class IssueDetailActivity extends AppCompatActivity implements
                 loginCheckServiceConnection = null;
 
                 // fetch price information only if item is not purchased and price is unknown
-                if (!issue.purchased && issue.price.length() == 0) {
+                // note: price might go down. users may purchase with new price!
+                if (!issue.purchased /*&& issue.price.length() == 0*/) {
                     displayErrors = false;
                     requestPrice();
                 }
