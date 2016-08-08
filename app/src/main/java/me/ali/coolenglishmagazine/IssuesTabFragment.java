@@ -860,6 +860,7 @@ public class IssuesTabFragment extends Fragment implements
     public void onRefresh() {
         swipeContainer.setRefreshing(true);
         galleryOfIssuesFragment.syncAvailableIssuesList(getActivity(), -1, adapter);
+        galleryOfIssuesFragment.viewPager.setCurrentItem(AVAILABLE_ISSUES);
     }
 
     public void onIssueStatusChanged(Magazines.Issue issue) {

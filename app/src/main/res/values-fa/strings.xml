@@ -27,7 +27,7 @@
     <string name="about_completed_issues">وقتی همه درس‌های یه مجله رو به تعداد کافی تمرین کردی و مجله رو تموم کردی، اون رو به این‌جا منتقل کن. انگشت رو چند لحظه روی جلد مجله نگه دار تا گزینه‌های بیشتر رو ببینی.</string>
 
     <!-- Readme fragment -->
-`    <string name="previous">قبلی</string>
+    <string name="previous">قبلی</string>
     <string name="next">بعدی</string>
 
     <string name="readme_intro_0">سلام دوست من!</string>

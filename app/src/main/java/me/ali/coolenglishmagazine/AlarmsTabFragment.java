@@ -141,6 +141,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
 
                 alarms.add(alarm);
                 coolEnglishTimesFragment.updateBlinker(0);
+                coolEnglishTimesFragment.viewPager.setCurrentItem(0);
 
                 // sorting with respect to time
                 Collections.sort(alarms, new Comparator<Alarm>() {

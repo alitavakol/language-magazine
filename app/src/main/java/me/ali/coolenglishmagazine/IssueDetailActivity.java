@@ -671,7 +671,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
      * @param purchased new value for {@link me.ali.coolenglishmagazine.model.Magazines.Issue#purchased}
      */
     protected void savePurchaseInfo(String price, boolean purchased) {
-        if (!issue.purchased && purchased)
+        if (!issue.free && !issue.purchased && purchased)
             Toast.makeText(this, R.string.tnx_for_purchase, Toast.LENGTH_LONG).show();
 
         issue.price = price;
