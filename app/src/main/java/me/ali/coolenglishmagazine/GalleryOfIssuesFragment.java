@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -31,6 +32,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.view.IconicsTextView;
 
 import java.io.File;
@@ -102,6 +105,8 @@ public class GalleryOfIssuesFragment extends Fragment {
         magazines.loadIssues(context);
     }
 
+    FloatingActionButton[] fab = new FloatingActionButton[3];
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -112,6 +117,33 @@ public class GalleryOfIssuesFragment extends Fragment {
 
         viewPager = (ViewPager) view.findViewById(R.id.view_pager);
         tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
+
+        fab[1] = (FloatingActionButton) view.findViewById(R.id.fab_refresh);
+        fab[1].setImageDrawable(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_refresh).sizeDp(24).colorRes(R.color.md_dark_primary_text));
+        fab[1].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.mFragmentList.get(IssuesTabFragment.AVAILABLE_ISSUES).onRefresh();
+            }
+        });
+
+        fab[0] = (FloatingActionButton) view.findViewById(R.id.fab_left);
+        fab[0].setImageDrawable(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_keyboard_arrow_left).sizeDp(24).colorRes(R.color.md_dark_primary_text));
+        fab[0].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager.setCurrentItem(IssuesTabFragment.SAVED_ISSUES);
+            }
+        });
+
+        fab[2] = (FloatingActionButton) view.findViewById(R.id.fab_right);
+        fab[2].setImageDrawable(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_keyboard_arrow_right).sizeDp(24).colorRes(R.color.md_dark_primary_text));
+        fab[2].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager.setCurrentItem(IssuesTabFragment.AVAILABLE_ISSUES);
+            }
+        });
 
         setupViewPager();
 
@@ -188,6 +220,34 @@ public class GalleryOfIssuesFragment extends Fragment {
     protected TabLayout tabLayout;
     public ViewPagerAdapter adapter;
 
+    final ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            finishActionMode();
+
+            final Boolean[] fabVisible = adapter.fabVisible.get(position);
+            if (fabVisible != null) {
+                for (int i = 0; i < 3; i++) {
+                    if (fab[i] == null)
+                        continue;
+
+                    if (fabVisible[i] != null && fabVisible[i])
+                        fab[i].show();
+                    else
+                        fab[i].hide();
+                }
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+        }
+    };
+
     private void setupViewPager() {
         adapter = new ViewPagerAdapter(getChildFragmentManager());
 
@@ -196,21 +256,7 @@ public class GalleryOfIssuesFragment extends Fragment {
 
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(adapter.getCount() - 1);
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                finishActionMode();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
+        viewPager.addOnPageChangeListener(onPageChangeListener);
 
         tabLayout.setupWithViewPager(viewPager);
 
@@ -241,6 +287,7 @@ public class GalleryOfIssuesFragment extends Fragment {
         private final List<String> mFragmentTitleList = new ArrayList<>();
         private final List<String> mFragmentIconList = new ArrayList<>();
         public final List<Blinker> blinkers = new ArrayList<>();
+        public final List<Boolean[]> fabVisible = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager) {
             fragmentManager = manager;
@@ -287,6 +334,7 @@ public class GalleryOfIssuesFragment extends Fragment {
             mFragmentTitleList.add(getResources().getString(getResources().obtainTypedArray(R.array.issue_list_tab_titles).getResourceId(tabIndex, 0)));
             mFragmentIconList.add(getResources().getString(getResources().obtainTypedArray(R.array.issue_list_tab_icons).getResourceId(tabIndex, 0)));
             blinkers.add(new Blinker());
+            fabVisible.add(new Boolean[3]);
         }
 
         @Override
@@ -608,11 +656,14 @@ public class GalleryOfIssuesFragment extends Fragment {
                     if (latestAvailableIssueNumberOnServer > latestSaved) // blink if latest issue number on server is greater than what app knows
                         start = true;
                 }
+                adapter.fabVisible.get(IssuesTabFragment.SAVED_ISSUES)[2] = start ? Boolean.TRUE : Boolean.FALSE;
+                adapter.fabVisible.get(IssuesTabFragment.AVAILABLE_ISSUES)[1] = start ? Boolean.TRUE : Boolean.FALSE;
                 break;
 
             case IssuesTabFragment.SAVED_ISSUES: // blinks saved issues tab, if unseen issues are there
                 int newSavedIssuesCount = PreferenceManager.getDefaultSharedPreferences(context).getStringSet("new_saved_issues", new HashSet<String>(0)).size();
                 start = newSavedIssuesCount > 0;
+                adapter.fabVisible.get(IssuesTabFragment.AVAILABLE_ISSUES)[0] = start ? Boolean.TRUE : Boolean.FALSE;
                 break;
         }
 
@@ -640,6 +691,8 @@ public class GalleryOfIssuesFragment extends Fragment {
         } else {
             blinker.stop();
         }
+
+        onPageChangeListener.onPageSelected(viewPager.getCurrentItem());
     }
 
 }
