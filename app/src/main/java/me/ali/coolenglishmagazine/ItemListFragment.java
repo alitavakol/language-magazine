@@ -116,7 +116,13 @@ public class ItemListFragment extends Fragment {
             newSavedIssues.remove(id);
             preferences.edit().putStringSet("new_saved_issues", newSavedIssues).apply();
         }
+        gift = preferences.getBoolean("upgrade_required", false);
     }
+
+    /**
+     * if true, app is an unlocked pro version
+     */
+    boolean gift;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -181,7 +187,7 @@ public class ItemListFragment extends Fragment {
                             .load(new File(item.rootDirectory, item.posterFileName))
                             .resize(w, h)
                             .centerCrop();
-                    if ((item.free && !issue.freeContentIsValid) || (!item.free && !issue.paidContentIsValid))
+                    if (!BuildConfig.DEBUG && !gift && ((item.free && !issue.freeContentIsValid) || (!item.free && !issue.paidContentIsValid)))
                         r.transform(new GrayscaleTransformation());
                     r.into(holder.posterImageView);
                 }
@@ -231,7 +237,7 @@ public class ItemListFragment extends Fragment {
 
                             switch (id) {
                                 case R.id.action_add_to_waiting_list:
-                                    if ((item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid))
+                                    if (BuildConfig.DEBUG || gift || (item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid))
                                         WaitingItems.appendToWaitingList(getActivity(), item);
                                     return true;
                             }
@@ -241,7 +247,7 @@ public class ItemListFragment extends Fragment {
                     });
                 }
             });
-            holder.overflowImageButton.setVisibility((item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid) ? View.VISIBLE : View.GONE);
+            holder.overflowImageButton.setVisibility(BuildConfig.DEBUG || gift || (item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid) ? View.VISIBLE : View.GONE);
 
             ((ViewGroup) holder.itemView).getChildAt(0).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -340,7 +346,7 @@ public class ItemListFragment extends Fragment {
         switch (id) {
             case R.id.action_add_to_waiting_list:
                 for (MagazineContent.Item item : magazineContent.ITEMS)
-                    if ((item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid))
+                    if (BuildConfig.DEBUG || gift || (item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid))
                         WaitingItems.appendToWaitingList(getActivity(), item);
                 return true;
 
