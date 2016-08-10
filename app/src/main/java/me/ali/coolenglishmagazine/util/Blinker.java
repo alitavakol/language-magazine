@@ -6,11 +6,8 @@ import android.view.View;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import me.ali.coolenglishmagazine.R;
-
 public class Blinker {
     View view;
-    View bullet;
     boolean visible;
 
     Runnable runnable = new Runnable() {
@@ -19,12 +16,9 @@ public class Blinker {
             if (stopped)
                 return;
 
-            if (bullet == null && view != null)
-                bullet = view.findViewById(R.id.tab_icon);
-
-            if (bullet != null) {
+            if (view != null) {
                 visible = !visible;
-                bullet.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+                view.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
             }
         }
     };
@@ -34,9 +28,8 @@ public class Blinker {
 
     boolean stopped;
 
-    public void setTabView(View view) {
+    public void setBlinkingView(View view) {
         this.view = view;
-        bullet = null;
     }
 
     public void start() {
@@ -59,7 +52,7 @@ public class Blinker {
             timer.cancel();
             timer = null;
         }
-        if (bullet != null)
-            bullet.setVisibility(View.VISIBLE);
+        if (view != null)
+            view.setVisibility(View.VISIBLE);
     }
 }

@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -109,6 +110,16 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
                 FileHelper.delete(f);
 
                 final Magazines.Issue issue = Magazines.getIssueFromFile(context, rootFile);
+
+                final DownloadManager dm = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+                final long reference = Magazines.getDownloadReference(context, issue);
+                dm.remove(reference);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dm.remove(reference); // http://stackoverflow.com/a/34797980
+                    }
+                }, 1000);
 
                 // prepare intent which is triggered if the notification is selected
                 Intent intent = new Intent(context, ItemListActivity.class);

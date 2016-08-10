@@ -297,8 +297,9 @@ public class GalleryOfIssuesFragment extends Fragment {
         public View getTabView(int position) {
             View v = LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);
             ((TextView) v.findViewById(R.id.tab_title)).setText(mFragmentTitleList.get(position));
-            ((IconicsTextView) v.findViewById(R.id.tab_icon)).setText(mFragmentIconList.get(position));
-            blinkers.get(position).setTabView(v);
+            final IconicsTextView iconicsTextView = (IconicsTextView) v.findViewById(R.id.tab_icon);
+            iconicsTextView.setText(mFragmentIconList.get(position));
+            blinkers.get(position).setBlinkingView(iconicsTextView);
             return v;
         }
     }
