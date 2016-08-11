@@ -4,6 +4,7 @@ package me.ali.coolenglishmagazine;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -69,10 +70,16 @@ public class FeedbackFragment extends DialogFragment {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
                 final EditText editText = (EditText) view.findViewById(R.id.edit_text);
                 final String message = editText.getText().toString();
                 if (message.length() == 0) {
                     Toast.makeText(context, R.string.error_empty_message, Toast.LENGTH_SHORT).show();
+                    return;
+
+                } else if (message.equals(getString(R.string.error_empty_message))) { // unlock pro version
+                    preferences.edit().putBoolean("upgrade_required", true).apply();
                     return;
                 }
 
@@ -85,7 +92,7 @@ public class FeedbackFragment extends DialogFragment {
                     final RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radio_group);
                     final String category = ((RadioButton) view.findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString();
 
-                    final Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(context).getString("server_address", getResources().getString(R.string.pref_default_server_address)));
+                    final Uri uri = Uri.parse(preferences.getString("server_address", getResources().getString(R.string.pref_default_server_address)));
                     final String url = uri.toString() + "/api/feedbacks.json";
 
                     Map<String, String> params = new HashMap<>();

@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -132,6 +133,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
         File webContentFile;
 
+        boolean gift = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("upgrade_required", false);
+
         try {
             item = MagazineContent.getItem(new File(getIntent().getStringExtra(ARG_ROOT_DIRECTORY)));
 
@@ -140,7 +143,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             magazineContent.loadItems(issue);
             magazineContent.validateSignatures(this, issue);
 
-            if (!BuildConfig.DEBUG && !item.free && !issue.paidContentIsValid) {
+            if (!BuildConfig.DEBUG && !gift && !item.free && !issue.paidContentIsValid) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getApplicationContext(), R.style.AppTheme));
                 builder.setMessage(R.string.paid_item_error)
                         .setTitle(R.string.paid_item_error_title)
@@ -164,7 +167,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 throw new Exception("paid content signature is incorrect.");
             }
 
-            if (!BuildConfig.DEBUG && item.free && !issue.freeContentIsValid)
+            if (!BuildConfig.DEBUG && !gift && item.free && !issue.freeContentIsValid)
                 throw new Exception("free content signature is incorrect.");
 
             if (item.version > getPackageManager().getPackageInfo(getPackageName(), 0).versionCode) {

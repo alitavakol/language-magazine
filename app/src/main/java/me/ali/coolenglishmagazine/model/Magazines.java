@@ -388,10 +388,12 @@ public class Magazines {
 
         DownloadManager.Query query = new DownloadManager.Query();
 
-        Cursor cursor = ((DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE)).query(query);
-        final int uriIndex = cursor.getColumnIndex(DownloadManager.COLUMN_URI);
-
         int status = -1;
+
+        Cursor cursor = ((DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE)).query(query);
+        if (cursor == null)
+            return status;
+        final int uriIndex = cursor.getColumnIndex(DownloadManager.COLUMN_URI);
 
         // TODO: consider when there may be more than one query result for a single URI
         while (cursor.moveToNext()) {
