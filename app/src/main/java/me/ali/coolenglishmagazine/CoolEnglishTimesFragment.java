@@ -3,6 +3,7 @@ package me.ali.coolenglishmagazine;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -296,6 +297,14 @@ public class CoolEnglishTimesFragment extends Fragment {
                     final ArrayList<AlarmsTabFragment.Alarm> alarms = ((AlarmsTabFragment) adapter.mFragmentList.get(0)).alarms;
                     if (alarms != null)
                         start = alarms.size() == 0 && WaitingItems.waitingItems != null && WaitingItems.waitingItems.size() > 0;
+
+                    final FloatingActionButton fabLeft = ((WaitingListFragment) adapter.mFragmentList.get(1)).fabLeft;
+                    if (fabLeft != null) {
+                        if (start)
+                            fabLeft.show();
+                        else
+                            fabLeft.hide();
+                    }
                 }
                 break;
         }

@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MotionEventCompat;
@@ -89,8 +90,19 @@ public class WaitingListFragment extends Fragment implements
         };
         adapter.registerAdapterDataObserver(adapterDataObserver);
 
+        fabLeft = (FloatingActionButton) v.findViewById(R.id.fab_left);
+        fabLeft.setImageDrawable(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_keyboard_arrow_left).sizeDp(24).colorRes(R.color.md_dark_primary_text));
+        fabLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                coolEnglishTimesFragment.viewPager.setCurrentItem(0);
+            }
+        });
+
         return v;
     }
+
+    public FloatingActionButton fabLeft;
 
     @Override
     public void onDestroyView() {

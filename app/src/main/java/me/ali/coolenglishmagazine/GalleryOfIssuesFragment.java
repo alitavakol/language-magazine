@@ -132,7 +132,7 @@ public class GalleryOfIssuesFragment extends Fragment {
         fab[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewPager.setCurrentItem(IssuesTabFragment.SAVED_ISSUES);
+                viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
             }
         });
 
@@ -141,7 +141,7 @@ public class GalleryOfIssuesFragment extends Fragment {
         fab[2].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewPager.setCurrentItem(IssuesTabFragment.AVAILABLE_ISSUES);
+                viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
             }
         });
 
