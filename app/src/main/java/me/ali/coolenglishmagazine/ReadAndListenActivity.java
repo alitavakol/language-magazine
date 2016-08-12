@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -793,6 +794,15 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         @SuppressWarnings("unused")
         @JavascriptInterface
         public void showGlossary(final String phrase, final int left, final int top, final int height) {
+            showGlossaryEx(phrase, left, top, height, true);
+        }
+
+        /**
+         * extended glossary popup window, that can have dark/light background
+         */
+        @SuppressWarnings("unused")
+        @JavascriptInterface
+        public void showGlossaryEx(final String phrase, final int left, final int top, final int height, final boolean dark) {
             runOnUiThread(new Runnable() {
                 public void run() {
                     final NewWord newWord = newWords.get(phrase);
@@ -802,7 +812,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
                     final String newWordAndType = getString(R.string.new_word_and_type, phrase, newWord.type);
                     final SpannableStringBuilder sb = new SpannableStringBuilder(newWordAndType);
-                    sb.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.primary_light)), phrase.length(), newWordAndType.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    sb.setSpan(new ForegroundColorSpan(getResources().getColor(dark ? R.color.primary_light : R.color.primary_dark)), phrase.length(), newWordAndType.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                     sb.setSpan(new StyleSpan(Typeface.ITALIC), phrase.length(), newWordAndType.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                     sb.setSpan(new StyleSpan(Typeface.BOLD), 0, phrase.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 
@@ -812,8 +822,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                     textViewNewWord.setTextColor(getResources().getIntArray(R.array.levelColors)[item.level]);
                     textViewNewWord.setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.UBUNTU));
 
-//                    ((TextView) popupView.findViewById(R.id.word_type)).setText(newWord.type);
-
                     final TextView textViewEn = (TextView) popupView.findViewById(R.id.def_en);
                     final String en = newWord.definition.get("en");
                     if (en.length() > 0)
@@ -821,13 +829,15 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                     else
                         textViewEn.setVisibility(View.GONE);
 
+                    final View separator = popupView.findViewById(R.id.separator);
+
                     final TextView textViewFa = (TextView) popupView.findViewById(R.id.def_fa);
                     final String fa = newWord.definition.get("fa");
                     if (fa.length() > 0)
                         textViewFa.setText(fa);
                     else {
                         textViewFa.setVisibility(View.GONE);
-                        popupView.findViewById(R.id.separator).setVisibility(View.GONE);
+                        separator.setVisibility(View.GONE);
                     }
 
                     final PopupWindow popupWindow = new PopupWindow(
@@ -844,6 +854,14 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                         // TODO find correct value for first parameter of this call
                         popupView.measure(View.MeasureSpec.makeMeasureSpec(webView.getWidth(), View.MeasureSpec.AT_MOST), View.MeasureSpec.UNSPECIFIED);
                         popupWindow.showAtLocation(webView, Gravity.TOP | Gravity.START, left, top + height - popupView.getMeasuredHeight() + webView.getTop());
+                    }
+
+                    if (!dark) {
+                        final int accentColor = getResources().getColor(R.color.accent);
+                        textViewEn.setTextColor(accentColor);
+                        textViewFa.setTextColor(accentColor);
+                        separator.setBackgroundColor(accentColor);
+                        ((CardView) popupView.findViewById(R.id.card)).setCardBackgroundColor(getResources().getColor(R.color.colorAccentOpposite));
                     }
                 }
             });

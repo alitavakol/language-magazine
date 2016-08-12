@@ -658,6 +658,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                 }
                 adapter.fabVisible.get(IssuesTabFragment.SAVED_ISSUES)[2] = start ? Boolean.TRUE : Boolean.FALSE;
                 adapter.fabVisible.get(IssuesTabFragment.AVAILABLE_ISSUES)[1] = start ? Boolean.TRUE : Boolean.FALSE;
+                adapter.fabVisible.get(IssuesTabFragment.COMPLETED_ISSUES)[0] = start ? Boolean.TRUE : Boolean.FALSE;
                 break;
 
             case IssuesTabFragment.SAVED_ISSUES: // blinks saved issues tab, if unseen issues are there
