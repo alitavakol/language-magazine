@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			.illustrative {
+				background-repeat: no-repeat;
+				background-size: cover;
+				background-position: center;
+				padding-bottom: 60%;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				border: 4px solid;
+				text-align: center;
+				position: relative;
+			}
+			.title {
+				background: white;
+				border: 4px solid;
+				padding: 8px;
+				display: inline-block;
+			}
+			.title-container {
+				position: absolute;
+				bottom: -4px;
+				left: 0;
+				right: 0;
+				margin: 0 auto;
+			}
+			h4 {
+				border: 2px solid;
+				padding: 16px;
+				width: 100%;
+				text-align: center;
+				margin-top: 16px;
+			}
+			h1 {
+				margin-top: 0;
+				font-weight: bold;
+			}
+			h3 {
+				margin-top: 0;
+				font-weight: 300;
+				text-transform: uppercase;
+				color: white;
+			}
+			#top-margin > p {
+				margin-top: 0;
+				font-style: italic;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			tr > td:first-child {
+				font-weight: bold;
+				text-align: right;
+			}
+			tr > td:last-child {
+				padding-left: 16px;
+			}
+			td {
+				vertical-align: top;
+			}
+			.frame {
+				padding: 4px;
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				background-color: white;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin">
+				<p>Useful language for successful communication.</p>
+				<h3><span style="opacity: .7;">Functional</span> Language</h3>
+			</div>
+			<h1>Guessing</h1>
+
+			<img src="cover.jpg" style="width: 100%;">
+
+			<div class="row">
+				<div class="col-md-4">
+					<h4 class="light"><span data-start="13369" data-end="16480">Asking someone to guess</span></h4>
+					<ul>
+						<img src="1.png" class="frame" style="width: 40%; max-width: 3cm; float: right; margin-left: 8px; margin-top: 4px; margin-bottom: 4px;">
+						<li><span data-start="16481" data-end="18900">What is it?</span></li>
+						<li><span data-start="18901" data-end="20537">What do you think it is? </span></li>
+						<li><span data-start="20538" data-end="22600">What do you reckon it is?</span></li>
+						<li><span data-start="22601" data-end="24050">Have a feel of it.</span></li>
+						<li><span data-start="24051" data-end="25150">Smell it.</span></li>
+						<li><span data-start="25151" data-end="26700">Go on, have a guess!</span></li>
+						<li><span data-start="26701" data-end="34113">You’re close! Warm! Warmer! Bingo! Correct!</span></li>
+					</ul>
+				</div>
+
+				<div class="col-md-4">
+					<h4 class="light"><span data-start="34114" data-end="36420">Guessing</span></h4>
+					<ul>
+						<li><span data-start="36421" data-end="38661">I think it’s a &#8230;</span></li>
+						<li><span data-start="38662" data-end="40450">I reckon it’s a &#8230;</span></li>
+						<li><span data-start="40451" data-end="42330">It might be a &#8230;</span></li>
+						<li><span data-start="42331" data-end="43613">It could be a &#8230;</span></li>
+						<li><span data-start="43614" data-end="45220">It looks like a &#8230;</span></li>
+						<li><span data-start="45221" data-end="46974">It feels like a &#8230;</span></li>
+						<li><span data-start="46975" data-end="48712">Perhaps, it’s a &#8230;</span></li>
+						<li><span data-start="48713" data-end="50200">Maybe it’s a &#8230;</span></li>
+						<li><span data-start="50201" data-end="52500">In my opinion, it’s a &#8230;</span></li>
+						<li><span data-start="52501" data-end="54150">I’d say that it’s a &#8230;</span></li>
+						<li><span data-start="54151" data-end="56276">Is it a &#8230; ?</span></li>
+						</ul>
+				</div>
+
+				<div class="col-md-4">
+					<h4><span data-start="56277" data-end="64800">Functional Conversation: The Guess</span></h4>
+					<table>
+						<tr>
+							<td>Dave:</td>
+							<td style="width: 100%;"><img src="2.png" class="frame" style="width: 60%; max-width: 3cm; float: right; margin-left: 8px; margin-top: 4px; margin-bottom: 4px;"><span data-start="64801" data-end="69804">So, what do you think it is?</span></td>
+						</tr>
+						<tr>
+							<td>Sally:</td>
+							<td><span data-start="69805" data-end="73589">I’m not sure.<br>It looks like a book.</span></td>
+						</tr>
+						<tr>
+							<td>Dave:</td>
+							<td><span data-start="73590" data-end="74744">Try again.</span></td>							
+						</tr>
+						<tr>
+							<td>Sally:</td>
+							<td><span data-start="74745" data-end="78497">Well, it feels like a CD or a DVD.</span></td>
+						</tr>
+						<tr>
+							<td>Dave:</td>
+							<td><span data-start="78498" data-end="79594">Closer.</span></td>
+						</tr>
+						<tr>
+							<td>Sally:</td>
+							<td><span data-start="79595" data-end="81362">Is it a DVD?</span></td>
+						</tr>
+						<tr>
+							<td>Dave:</td>
+							<td><span data-start="81363" data-end="83832">Bingo!</span></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					h4 { background: #" + accentColor + "; } \
+					h4.light { background: " + tinycolor(accentColor).lighten().lighten() + "; } \
+					ul { color: " + tinycolor(accentColor).darken().darken() + "; } \
+					h1 { color: #" + accentColor + "; } \
+					li > span { color: #" + textColor + "; } \
+					#top-margin { padding-top: " + (topMargin+verticalMargin) + "px; background-color: " + tinycolor(accentColor).lighten() + "; margin-left: -" + horizontalMargin + "px; margin-right: -" + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					#bottom-margin { height: " + (bottomMargin) + "px; } \
+					tr:nth-child(odd) { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+
+			if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+				app.setLongClickable(true);
+		</script>
+
+	</body>
+</html>
