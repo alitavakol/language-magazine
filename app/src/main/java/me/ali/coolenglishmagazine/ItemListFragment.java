@@ -196,14 +196,17 @@ public class ItemListFragment extends Fragment {
             holder.textViewTitle.setText(item.title);
             holder.textViewType.setText(item.type);
 
+            final int lastFlagId = item.flagFileName2 != null && item.flagFileName2.length() > 0 ?
+                    R.id.flag2 : R.id.flag;
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.textViewType.getLayoutParams();
+
             if (item.flagFileName != null && item.flagFileName.length() > 0) { // item has audio, so it has accent
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                     params.removeRule(RelativeLayout.ALIGN_START);
-                    params.addRule(RelativeLayout.END_OF, R.id.flag);
+                    params.addRule(RelativeLayout.END_OF, lastFlagId);
                 } else {
                     params.addRule(RelativeLayout.ALIGN_LEFT, 0); // http://stackoverflow.com/a/19916380
-                    params.addRule(RelativeLayout.RIGHT_OF, R.id.flag);
+                    params.addRule(RelativeLayout.RIGHT_OF, lastFlagId);
                 }
                 holder.flagImageView.setImageBitmap(BitmapFactory.decodeFile(new File(item.rootDirectory, item.flagFileName).getAbsolutePath()));
                 holder.flagImageView.setVisibility(View.VISIBLE);
@@ -218,6 +221,13 @@ public class ItemListFragment extends Fragment {
                 }
                 holder.flagImageView.setVisibility(View.GONE);
             }
+
+            if (lastFlagId == R.id.flag2) {
+                holder.flagImageView2.setImageBitmap(BitmapFactory.decodeFile(new File(item.rootDirectory, item.flagFileName2).getAbsolutePath()));
+                holder.flagImageView2.setVisibility(View.VISIBLE);
+            } else
+                holder.flagImageView2.setVisibility(View.GONE);
+
             holder.textViewType.setLayoutParams(params);
 
             holder.textViewLevel.setText(level);
@@ -264,7 +274,7 @@ public class ItemListFragment extends Fragment {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             final TextView textViewTitle, textViewType, textViewLevel;
-            final ImageView flagImageView, posterImageView;
+            final ImageView flagImageView, flagImageView2, posterImageView;
             final ImageButton overflowImageButton;
 
             public ViewHolder(View view) {
@@ -273,6 +283,7 @@ public class ItemListFragment extends Fragment {
                 textViewTitle = (TextView) view.findViewById(R.id.title);
                 textViewType = (TextView) view.findViewById(R.id.type);
                 flagImageView = (ImageView) view.findViewById(R.id.flag);
+                flagImageView2 = (ImageView) view.findViewById(R.id.flag2);
                 textViewLevel = (TextView) view.findViewById(R.id.level);
                 overflowImageButton = (ImageButton) view.findViewById(R.id.overflowMenu);
                 posterImageView = (ImageView) view.findViewById(R.id.poster);

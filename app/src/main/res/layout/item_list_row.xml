@@ -68,6 +68,19 @@
                 android:paddingStart="@dimen/spacing_normal"
                 android:scaleType="fitStart" />
 
+            <ImageView
+                android:id="@+id/flag2"
+                android:layout_width="32dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/type"
+                android:layout_alignTop="@+id/type"
+                android:layout_marginBottom="-4dp"
+                android:layout_marginTop="-2dp"
+                android:layout_toEndOf="@id/flag"
+                android:layout_toRightOf="@id/flag"
+                android:scaleType="fitStart"
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/type"
                 style="@style/Base.TextAppearance.AppCompat.Small"

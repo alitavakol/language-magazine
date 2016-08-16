@@ -119,8 +119,13 @@ public class IssueDetailFragment extends Fragment {
                 }
             });
 
-            final File input = new File(issue.rootDirectory, Magazines.Issue.contentFileName);
-            webView.loadUrl(input.toURI().toString());
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    final File input = new File(issue.rootDirectory, Magazines.Issue.contentFileName);
+                    webView.loadUrl(input.toURI().toString());
+                }
+            }, 1000);
         }
 
         return rootView;

@@ -933,6 +933,18 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 }
             });
         }
+
+        @SuppressWarnings("unused")
+        @JavascriptInterface
+        public void setLongClickable(final boolean longClickable) {
+            webView.setOnLongClickListener(longClickable ? null : new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    return true;
+                }
+            });
+            webView.setLongClickable(longClickable);
+        }
     }
 
     protected boolean mediaControllerHiddenForSpace;
