@@ -72,6 +72,11 @@ public class ReadmeFragment extends Fragment {
         }
 
         setHasOptionsMenu(true);
+
+        final RootActivity activity = (RootActivity) getActivity();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        preferences.edit().putBoolean("readme_seen", true).apply();
+        activity.updateIconBlinkers();
     }
 
     protected int currentCardIndex = 0;

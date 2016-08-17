@@ -285,7 +285,7 @@ public class CoolEnglishTimesFragment extends Fragment {
      * @param filter tab index
      */
     public void updateBlinker(int filter) {
-        Context context = getActivity();
+        RootActivity context = (RootActivity) getActivity();
         if (context == null)
             return;
 
@@ -309,11 +309,15 @@ public class CoolEnglishTimesFragment extends Fragment {
                 break;
         }
 
-        Blinker blinker = adapter.blinkers.get(filter);
-        if (start)
-            blinker.start();
-        else
-            blinker.stop();
+        for (int i = 0; i < 2; i++) {
+            Blinker blinker = adapter.blinkers.get(filter);
+            if (start && (context.attentionIndex == 2 || context.attentionIndex == -1))
+                blinker.start();
+            else
+                blinker.stop();
+
+            context.updateIconBlinkers();
+        }
     }
 
 }

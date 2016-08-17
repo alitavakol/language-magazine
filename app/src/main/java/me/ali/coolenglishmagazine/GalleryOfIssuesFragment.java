@@ -165,7 +165,6 @@ public class GalleryOfIssuesFragment extends Fragment {
     public void onStart() {
         super.onStart();
         final FragmentActivity activity = getActivity();
-        PreferenceManager.getDefaultSharedPreferences(activity).registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
     }
 
     @Override
@@ -174,7 +173,6 @@ public class GalleryOfIssuesFragment extends Fragment {
         final FragmentActivity activity = getActivity();
         cancelSync(activity, null);
         finishActionMode();
-        PreferenceManager.getDefaultSharedPreferences(activity).unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
     }
 
     @Override
@@ -287,6 +285,7 @@ public class GalleryOfIssuesFragment extends Fragment {
         private final List<String> mFragmentTitleList = new ArrayList<>();
         private final List<String> mFragmentIconList = new ArrayList<>();
         public final List<Blinker> blinkers = new ArrayList<>();
+        public final List<Boolean> userAttention = new ArrayList<>();
         public final List<Boolean[]> fabVisible = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager) {
@@ -334,6 +333,7 @@ public class GalleryOfIssuesFragment extends Fragment {
             mFragmentTitleList.add(getResources().getString(getResources().obtainTypedArray(R.array.issue_list_tab_titles).getResourceId(tabIndex, 0)));
             mFragmentIconList.add(getResources().getString(getResources().obtainTypedArray(R.array.issue_list_tab_icons).getResourceId(tabIndex, 0)));
             blinkers.add(new Blinker());
+            userAttention.add(Boolean.FALSE);
             fabVisible.add(new Boolean[3]);
         }
 
@@ -588,7 +588,7 @@ public class GalleryOfIssuesFragment extends Fragment {
         long lastUpdateCheck = preferences.getLong("last_update_check", currentTime - 365L * 24L * 3600L * 1000L);
         if (currentTime - lastUpdateCheck < 3L * 24L * 3600L * 1000L) { // don't check if last update occurred less than 3 days ago
             latestAvailableIssueNumberOnServer = PreferenceManager.getDefaultSharedPreferences(context).getInt("latestAvailableIssueNumberOnServer", 0);
-            updateBlinker(IssuesTabFragment.AVAILABLE_ISSUES);
+            updateBlinker((RootActivity) getActivity(), IssuesTabFragment.AVAILABLE_ISSUES);
             return;
         }
 
@@ -608,7 +608,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                             .putInt("latestAvailableIssueNumberOnServer", latestAvailableIssueNumberOnServer)
                             .putLong("last_update_check", currentTime)
                             .apply();
-                updateBlinker(IssuesTabFragment.AVAILABLE_ISSUES);
+                updateBlinker((RootActivity) getActivity(), IssuesTabFragment.AVAILABLE_ISSUES);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -616,7 +616,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                 Activity activity = getActivity();
                 if (activity != null) {
                     latestAvailableIssueNumberOnServer = PreferenceManager.getDefaultSharedPreferences(activity).getInt("latestAvailableIssueNumberOnServer", 0);
-                    updateBlinker(IssuesTabFragment.AVAILABLE_ISSUES);
+                    updateBlinker((RootActivity) getActivity(), IssuesTabFragment.AVAILABLE_ISSUES);
                 }
             }
         }, null);
@@ -627,21 +627,12 @@ public class GalleryOfIssuesFragment extends Fragment {
         requestQueue.add(request);
     }
 
-    protected SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-        @Override
-        public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-            if (key.equals("new_saved_issues"))
-                updateBlinker(IssuesTabFragment.SAVED_ISSUES);
-        }
-    };
-
     /**
      * blinks tab titles if some tabs require user notice.
      *
      * @param filter tab index
      */
-    public void updateBlinker(int filter) {
-        Context context = getActivity();
+    public void updateBlinker(RootActivity context, int filter) {
         if (context == null)
             return;
 
@@ -668,29 +659,39 @@ public class GalleryOfIssuesFragment extends Fragment {
                 break;
         }
 
-        Blinker blinker = adapter.blinkers.get(filter);
-        if (start) {
-            blinker.start();
+        for (int i = 0; i < 2; i++) {
+            Blinker blinker = adapter.blinkers.get(filter);
+            if (start) {
+                adapter.userAttention.set(filter, Boolean.TRUE);
 
-            if (filter == IssuesTabFragment.AVAILABLE_ISSUES) {
-                RootActivity activity = (RootActivity) getActivity();
-                if (!activity.newIssuesAvailableWarningShown) {
-                    Snackbar
-                            .make(getView(), R.string.new_issues_available, Snackbar.LENGTH_LONG)
-                            .setAction(R.string.refresh, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    adapter.mFragmentList.get(IssuesTabFragment.AVAILABLE_ISSUES).onRefresh();
-                                }
-                            }).setActionTextColor(getResources().getColor(R.color.primary_light))
-                            .show();
+                if (context.attentionIndex == 1 || context.attentionIndex == -1)
+                    blinker.start();
+                else
+                    blinker.stop();
 
-                    activity.newIssuesAvailableWarningShown = true;
+                if (i == 0 && filter == IssuesTabFragment.AVAILABLE_ISSUES) {
+                    RootActivity activity = (RootActivity) getActivity();
+                    if (!activity.newIssuesAvailableWarningShown) {
+                        Snackbar
+                                .make(getView(), R.string.new_issues_available, Snackbar.LENGTH_LONG)
+                                .setAction(R.string.refresh, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        adapter.mFragmentList.get(IssuesTabFragment.AVAILABLE_ISSUES).onRefresh();
+                                    }
+                                }).setActionTextColor(getResources().getColor(R.color.primary_light))
+                                .show();
+
+                        activity.newIssuesAvailableWarningShown = true;
+                    }
                 }
+
+            } else {
+                blinker.stop();
+                adapter.userAttention.set(filter, Boolean.FALSE);
             }
 
-        } else {
-            blinker.stop();
+            context.updateIconBlinkers();
         }
 
         onPageChangeListener.onPageSelected(viewPager.getCurrentItem());

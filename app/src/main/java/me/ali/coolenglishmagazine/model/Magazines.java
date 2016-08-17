@@ -384,6 +384,9 @@ public class Magazines {
      * @return download status (if there is any) or -1
      */
     public static int getDownloadStatus(Context context, Issue issue) {
+        if (context == null)
+            return -1;
+
         final String issueDownloadUrl = getIssueDownloadUrl(context, issue);
 
         DownloadManager.Query query = new DownloadManager.Query();

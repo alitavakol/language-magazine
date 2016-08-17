@@ -26,7 +26,7 @@ public class Blinker {
     Handler handler = new Handler();
     Timer timer;
 
-    boolean stopped;
+    public boolean stopped;
 
     public void setBlinkingView(View view) {
         this.view = view;

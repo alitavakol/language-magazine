@@ -82,7 +82,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-        alarms = importAlarms(getContext());
+        importAlarms(getContext());
     }
 
     @Override
@@ -286,7 +286,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
      * starts all alarms
      */
     public static void startAllAlarms(Context context) {
-        ArrayList<AlarmsTabFragment.Alarm> alarms = AlarmsTabFragment.importAlarms(context);
+        importAlarms(context);
         for (AlarmsTabFragment.Alarm alarm : alarms) {
             AlarmsTabFragment.turnOnAlarm(context, alarm);
         }
@@ -323,8 +323,6 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
         }
     }
 
-    public ArrayList<Alarm> alarms;
-
     /**
      * list of alarms is saved in this file, within the internal files directory.
      */
@@ -345,20 +343,22 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
         }
     }
 
-    public static ArrayList<Alarm> importAlarms(Context context) {
-        ArrayList<Alarm> alarms = new ArrayList<>();
+    public static ArrayList<Alarm> alarms;
 
-        try {
-            FileInputStream fileIn = new FileInputStream(new File(context.getFilesDir(), ALARMS_FILE_NAME));
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            alarms = (ArrayList<Alarm>) in.readObject();
-            in.close();
-            fileIn.close();
+    public static void importAlarms(Context context) {
+        if (alarms == null) {
+            alarms = new ArrayList<>();
 
-        } catch (Exception e) {
+            try {
+                FileInputStream fileIn = new FileInputStream(new File(context.getFilesDir(), ALARMS_FILE_NAME));
+                ObjectInputStream in = new ObjectInputStream(fileIn);
+                alarms = (ArrayList<Alarm>) in.readObject();
+                in.close();
+                fileIn.close();
+
+            } catch (Exception e) {
+            }
         }
-
-        return alarms;
     }
 
     /**

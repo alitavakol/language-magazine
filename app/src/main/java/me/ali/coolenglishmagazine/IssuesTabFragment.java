@@ -185,7 +185,7 @@ public class IssuesTabFragment extends Fragment implements
         adapter.ignoreItemChanged = false;
 
         updateHelpContainer();
-        galleryOfIssuesFragment.updateBlinker(filter);
+        galleryOfIssuesFragment.updateBlinker((RootActivity) getActivity(), filter);
 
         if (filter == AVAILABLE_ISSUES)
             galleryOfIssuesFragment.fetchLatestIssueNumber(activity);
@@ -375,7 +375,7 @@ public class IssuesTabFragment extends Fragment implements
                 recyclerView.invalidateItemDecorations();
                 galleryOfIssuesFragment.finishActionMode();
                 updateHelpContainer();
-                galleryOfIssuesFragment.updateBlinker(filter);
+                galleryOfIssuesFragment.updateBlinker((RootActivity) getActivity(), filter);
             }
 
             return changed;
@@ -576,7 +576,7 @@ public class IssuesTabFragment extends Fragment implements
                         public void run() {
                             Activity context = getActivity();
                             if (context != null) {
-                                holder.dl_progress = Magazines.getDownloadProgress(getContext(), issue);
+                                holder.dl_progress = Magazines.getDownloadProgress(context, issue);
                                 context.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
