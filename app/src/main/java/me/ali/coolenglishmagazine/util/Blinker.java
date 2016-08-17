@@ -8,7 +8,7 @@ import java.util.TimerTask;
 
 public class Blinker {
     View view;
-    boolean visible;
+    public boolean visible;
 
     Runnable runnable = new Runnable() {
         @Override
@@ -16,10 +16,12 @@ public class Blinker {
             if (stopped)
                 return;
 
-            if (view != null) {
-                visible = !visible;
+            visible = !visible;
+
+            if (listener != null)
+                listener.onTimerShot(Blinker.this);
+            else if (view != null)
                 view.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
-            }
         }
     };
 
@@ -52,7 +54,23 @@ public class Blinker {
             timer.cancel();
             timer = null;
         }
+
+        if (listener != null)
+            listener.onStop();
+
         if (view != null)
             view.setVisibility(View.VISIBLE);
     }
+
+    public void setOnTimerShot(OnTimerShot listener) {
+        this.listener = listener;
+    }
+
+    public interface OnTimerShot {
+        void onTimerShot(Blinker blinker);
+
+        void onStop();
+    }
+
+    OnTimerShot listener;
 }

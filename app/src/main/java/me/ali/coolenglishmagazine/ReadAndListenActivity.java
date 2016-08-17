@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.design.widget.AppBarLayout;
@@ -787,6 +789,72 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                     if (webViewJavaScriptInterface != null)
                         webViewJavaScriptInterface.showLockControls(useLockControls);
                     webView.loadUrl("javascript:lock(" + transcriptLocked + ");");
+
+                    if (!lock) {
+                        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ReadAndListenActivity.this);
+
+                        final String preferenceKeyListenFirstPopupShown = "listen_first_popup_shown";
+                        final String preferenceKeyGlossaryPopupIntroduced = "glossary_popup_introduced";
+
+                        if (!preferences.getBoolean(preferenceKeyListenFirstPopupShown, false)) {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        if (preferences.getBoolean(preferenceKeyListenFirstPopupShown, false))
+                                            return;
+
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(ReadAndListenActivity.this);
+                                        builder.setMessage(R.string.listen_first_popup_tooltip)
+                                                .setTitle(R.string.listen_first_popup_tooltip_title)
+                                                .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        startActivity(new Intent(ReadAndListenActivity.this, RootActivity.class).setAction(RootActivity.ACTION_SHOW_README).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                                                    }
+                                                })
+                                                .setNegativeButton(R.string.later, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                    }
+                                                })
+                                                .setCancelable(true)
+                                                .show();
+
+                                        preferences.edit().putBoolean(preferenceKeyListenFirstPopupShown, true).apply();
+
+                                    } catch (Exception e) {
+                                    }
+                                }
+                            }, 4000);
+
+                        } else if (!preferences.getBoolean(preferenceKeyGlossaryPopupIntroduced, false)) {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        if (preferences.getBoolean(preferenceKeyGlossaryPopupIntroduced, false))
+                                            return;
+
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(ReadAndListenActivity.this);
+                                        builder.setMessage(R.string.glossary_popup_tooltip)
+                                                .setTitle(R.string.glossary_popup_tooltip_title)
+                                                .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                    }
+                                                })
+                                                .setCancelable(true)
+                                                .show();
+
+                                        preferences.edit().putBoolean(preferenceKeyGlossaryPopupIntroduced, true).apply();
+
+                                    } catch (Exception e) {
+                                    }
+                                }
+                            }, 5000);
+                        }
+                    }
                 }
             });
         }

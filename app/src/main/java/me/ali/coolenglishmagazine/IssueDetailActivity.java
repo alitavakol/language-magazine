@@ -490,7 +490,8 @@ public class IssueDetailActivity extends AppCompatActivity implements
                 progressContainer.setVisibility(View.VISIBLE);
                 buttonCancel.setVisibility(View.GONE);
                 progressBar.setIndeterminate(true);
-                progressTextView.setVisibility(View.INVISIBLE);
+                progressTextView.setVisibility(View.VISIBLE);
+                progressTextView.setText(R.string.wait);
                 break;
 
             default:

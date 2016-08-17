@@ -155,4 +155,14 @@
     <string name="download_progress">%1$s \\ %2$s</string>
 
     <string name="iab_response_result_error">خطای نامشخص؛ لطفاً چند دقیقه بعد تلاش کنید.</string>
+
+    <string name="glossary_popup_tooltip">کلمه‌ها و عبارت‌های تازه، به طور <b>برجسته</b> نوشته شده‌اند. روی اون‌ها بزن تا معنی رو ببینی!</string>
+    <string name="glossary_popup_tooltip_title">می‌دونستی که&#8230;</string>
+    <string name="listen_first_popup_tooltip">راه درست یادگیری اینه که قبل از دیدن متن، چندین بار فقط گوش بدی. حالا ۷ قانون یادگیری زبان رو بخون!</string>
+    <string name="listen_first_popup_tooltip_title">اول گوش بده!</string>
+    <string name="hot_english_times_tooltip">تعدادی از وقت‌های آزاد خودت رو به یادگیری زبان اختصاص بده؛ تا من تو رو برای بادگیری زبان هدایت کنم!</string>
+    <string name="hot_english_times_tooltip_title">زنگ زبان</string>
+
+    <string name="close">باشه</string>
+    <string name="later">بعداً</string>
 </resources>

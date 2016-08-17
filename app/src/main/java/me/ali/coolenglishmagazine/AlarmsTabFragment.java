@@ -88,8 +88,9 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
     @Override
     public void onResume() {
         super.onResume();
-        coolEnglishTimesFragment = (CoolEnglishTimesFragment) getActivity().getSupportFragmentManager().findFragmentByTag(CoolEnglishTimesFragment.FRAGMENT_TAG);
-        coolEnglishTimesFragment.updateBlinker(0);
+        final RootActivity activity = (RootActivity) getActivity();
+        coolEnglishTimesFragment = (CoolEnglishTimesFragment) activity.getSupportFragmentManager().findFragmentByTag(CoolEnglishTimesFragment.FRAGMENT_TAG);
+        coolEnglishTimesFragment.updateBlinker(activity, 0);
     }
 
     @Override
@@ -132,15 +133,17 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
                 alarm.hour = selectedHour;
                 alarm.minute = selectedMinute;
 
+                final RootActivity activity = (RootActivity) getActivity();
+
                 for (Alarm a : alarms) {
                     if (alarm.getId() == a.getId()) {
-                        Toast.makeText(getContext(), R.string.alarm_already_exists, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, R.string.alarm_already_exists, Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
 
                 alarms.add(alarm);
-                coolEnglishTimesFragment.updateBlinker(0);
+                coolEnglishTimesFragment.updateBlinker(activity, 0);
                 coolEnglishTimesFragment.viewPager.setCurrentItem(0);
 
                 // sorting with respect to time
@@ -540,7 +543,7 @@ public class AlarmsTabFragment extends Fragment implements RecyclerView.OnItemTo
                     turnOffAlarm(alarm);
                 }
                 saveAlarms();
-                coolEnglishTimesFragment.updateBlinker(0);
+                coolEnglishTimesFragment.updateBlinker((RootActivity) getActivity(), 0);
                 break;
 
             default:

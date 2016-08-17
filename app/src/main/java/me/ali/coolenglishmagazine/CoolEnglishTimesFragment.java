@@ -284,8 +284,7 @@ public class CoolEnglishTimesFragment extends Fragment {
      *
      * @param filter tab index
      */
-    public void updateBlinker(int filter) {
-        RootActivity context = (RootActivity) getActivity();
+    public void updateBlinker(RootActivity context, int filter) {
         if (context == null)
             return;
 

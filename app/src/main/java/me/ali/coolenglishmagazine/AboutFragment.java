@@ -165,6 +165,8 @@ public class AboutFragment extends Fragment {
                 .replace(R.id.about_container, libsBuilder.supportFragment())
                 .commit();
 
+        ((RootActivity) getActivity()).updateIconBlinkers();
+
         return view;
     }
 
