@@ -205,12 +205,15 @@
     <string name="download">Download</string>
     <string name="download_full_text">Download Full-Text</string>
     <string name="ok">Okay</string>
+    <string name="close">Okay</string>
+    <string name="later">Later</string>
     <string name="cancel">Cancel</string>
     <string name="open">Open</string>
     <string name="delete_issue">Delete issue</string>
     <string name="retry_download">Retry download</string>
     <string name="complete">Complete</string>
     <string name="reopen">Incomplete</string>
+    <string name="wait">Please wait&#8230;</string>
 
     <string name="mark_complete">Mark issue as completed</string>
     <string name="mark_incomplete">Re-open this issue</string>
@@ -401,9 +404,6 @@
         ]]>
     </string>
 
-    <!-- content descriptions -->
-    <string name="wait">Please wait.</string>
-
     <string name="about_alarms">Dedicate some of your day’s free times to learning English. With the <b>Hot English Times</b> program, I advise you to create at least 5 alarm clocks. Good alarm time examples are: when you commute to work, before sleep, etc.</string>
     <string name="about_waiting_list">To append a lesson to the Hot English Times program, select “Add to Hot English Times” menu item from issue’s table of contents, or from within the lesson.</string>
     <string name="about_saved_issues">Browse and download available <b>Hot English Magazine</b> issues from the tab on the right.</string>
@@ -466,4 +466,11 @@
     <string name="new_word_and_type">%1$s\u0020\u0020\u0020\u0020%2$s</string>
 
     <string name="new_issues_available">New issues available!</string>
+
+    <string name="glossary_popup_tooltip">New words &amp; expressions are shown in <b>bold</b> font. Tap on them to view definition!</string>
+    <string name="glossary_popup_tooltip_title">Did you know&#8230;</string>
+    <string name="listen_first_popup_tooltip">You will learn much better if you try to listen first; and not looking at text. Read the 7 rules now!</string>
+    <string name="listen_first_popup_tooltip_title">Listen first!</string>
+    <string name="hot_english_times_tooltip">Dedicate some times to learn English. Create alarms for the Hot English Times now!</string>
+    <string name="hot_english_times_tooltip_title">Create alarms</string>
 </resources>

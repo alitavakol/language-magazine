@@ -1,7 +1,11 @@
 package me.ali.coolenglishmagazine.model;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 import java.io.File;
@@ -14,7 +18,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import me.ali.coolenglishmagazine.AlarmsTabFragment;
 import me.ali.coolenglishmagazine.R;
+import me.ali.coolenglishmagazine.RootActivity;
 import me.ali.coolenglishmagazine.util.LogHelper;
 
 public class WaitingItems {
@@ -98,7 +104,7 @@ public class WaitingItems {
      * @param item    lesson item to be added
      * @return false if item is already in the list, and true otherwise.
      */
-    public static boolean appendToWaitingList(Context context, MagazineContent.Item item) {
+    public static boolean appendToWaitingList(final Context context, MagazineContent.Item item) {
         importWaitingItems(context);
 
         WaitingItem waitingItem = new WaitingItem();
@@ -113,6 +119,38 @@ public class WaitingItems {
 
         waitingItems.add(waitingItem);
         saveWaitingItems(context);
+
+        AlarmsTabFragment.importAlarms(context);
+        if (AlarmsTabFragment.alarms.size() == 0) {
+            try {
+                final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                final String preferenceKeyHotEnglishTimesTooltipShown = "hot_english_times_tooltip_shown";
+
+                if (!preferences.getBoolean(preferenceKeyHotEnglishTimesTooltipShown, false)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage(R.string.hot_english_times_tooltip)
+                            .setTitle(R.string.hot_english_times_tooltip_title)
+                            .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    context.startActivity(new Intent(context, RootActivity.class).setAction(RootActivity.ACTION_SHOW_TIMES).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                                }
+                            })
+                            .setNegativeButton(R.string.later, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .setCancelable(true)
+                            .show();
+
+                    preferences.edit().putBoolean(preferenceKeyHotEnglishTimesTooltipShown, true).apply();
+                }
+
+            } catch (Exception e) {
+            }
+        }
+
 
         return true;
     }

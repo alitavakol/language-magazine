@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.IBinder;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -33,13 +34,16 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.OnPostBindViewListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.Locale;
 
 import me.ali.coolenglishmagazine.model.Magazines;
+import me.ali.coolenglishmagazine.model.WaitingItems;
 import me.ali.coolenglishmagazine.util.Account;
+import me.ali.coolenglishmagazine.util.Blinker;
 import me.ali.coolenglishmagazine.util.DividerDrawerItem;
 import me.ali.coolenglishmagazine.util.FontManager;
 import me.ali.coolenglishmagazine.util.LogHelper;
@@ -61,7 +65,12 @@ public class RootActivity extends AppCompatActivity implements
     public static final String ACTION_SHOW_DOWNLOADS = "me.ali.coolenglishmagazine.ACTION_SHOW_DOWNLOADS";
 
     /**
-     * intent action that activates cool english times fragment
+     * intent action that activates readme fragment
+     */
+    public static final String ACTION_SHOW_README = "me.ali.coolenglishmagazine.ACTION_SHOW_README";
+
+    /**
+     * intent action that activates hot english times fragment
      */
     public static final String ACTION_SHOW_TIMES = "me.ali.coolenglishmagazine.ACTION_SHOW_TIMES";
 
@@ -70,7 +79,9 @@ public class RootActivity extends AppCompatActivity implements
      */
     private boolean mTwoPane;
 
-    Fragment galleryOfIssuesFragment, coolEnglishTimesFragment, aboutFragment, readmeFragment;
+    GalleryOfIssuesFragment galleryOfIssuesFragment;
+    CoolEnglishTimesFragment coolEnglishTimesFragment;
+    Fragment aboutFragment, readmeFragment;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -96,26 +107,40 @@ public class RootActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_root);
 
         if (savedInstanceState != null) {
-            drawer_selection = savedInstanceState.getInt("drawer_selection");
+            drawerSelection = savedInstanceState.getInt("drawerSelection");
             signingIn = savedInstanceState.getBoolean("signing_in");
             newIssuesAvailableWarningShown = savedInstanceState.getBoolean("newIssuesAvailableWarningShown");
 
         } else {
-            // show the gallery of issues fragment by default
-            galleryOfIssuesFragment = GalleryOfIssuesFragment.newInstance(ACTION_SHOW_DOWNLOADS.equals(getIntent().getAction()) ? 1 : 0);
+            final String action = getIntent().getAction();
+            Fragment fragment;
+            String tag;
+
+            if (ACTION_SHOW_README.equals(action)) {
+                readmeFragment = ReadmeFragment.newInstance();
+                fragment = readmeFragment;
+                tag = ReadmeFragment.FRAGMENT_TAG;
+                drawerSelection = 3;
+
+            } else if (ACTION_SHOW_TIMES.equals(action)) {
+                coolEnglishTimesFragment = CoolEnglishTimesFragment.newInstance(0);
+                fragment = coolEnglishTimesFragment;
+                tag = CoolEnglishTimesFragment.FRAGMENT_TAG;
+                drawerSelection = 2;
+
+            } else {
+                // show the gallery of issues fragment by default
+                galleryOfIssuesFragment = GalleryOfIssuesFragment.newInstance(ACTION_SHOW_DOWNLOADS.equals(action) ? 1 : 0);
+                fragment = galleryOfIssuesFragment;
+                tag = GalleryOfIssuesFragment.FRAGMENT_TAG;
+            }
 
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.root_fragment, galleryOfIssuesFragment, GalleryOfIssuesFragment.FRAGMENT_TAG)
+                    .replace(R.id.root_fragment, fragment, tag)
                     .commit();
         }
 
         setupNavigationDrawer();
-
-        // show navigation drawer on first start
-        if (!preferences.getBoolean("drawer_welcome_shown", false)) {
-            drawer.openDrawer();
-            preferences.edit().putBoolean("drawer_welcome_shown", true).apply();
-        }
 
 //        account = new Account(this);
 
@@ -137,12 +162,145 @@ public class RootActivity extends AppCompatActivity implements
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             if (key.equals("locale"))
                 recreate();
+
+            else if (key.equals("new_saved_issues") && galleryOfIssuesFragment != null) {
+                galleryOfIssuesFragment.updateBlinker(RootActivity.this, IssuesTabFragment.SAVED_ISSUES);
+                if (coolEnglishTimesFragment != null)
+                    coolEnglishTimesFragment.updateBlinker(RootActivity.this, 0);
+            }
         }
     };
 
     ImageView profilePicture;
     TextView userName, userEmail;
     CircularProgressView circularProgressView;
+
+    static int[] drawerIconBlinkPriorities = new int[4];
+
+    /**
+     * index of drawer item which needs user attention; and drawer indicator is blinking for it.
+     */
+    int attentionIndex;
+
+    class OnPostBindDrawerIconListener implements OnPostBindViewListener {
+        int index;
+        Blinker blinker = new Blinker();
+
+        public OnPostBindDrawerIconListener(int drawerIndex) {
+            index = drawerIndex;
+        }
+
+        @Override
+        public void onBindView(IDrawerItem drawerItem, View view) {
+            int priority;
+
+            if (blinker != null)
+                blinker.stop();
+
+            switch (index) {
+                case 1: // gallery of issues
+                    if (galleryOfIssuesFragment == null || galleryOfIssuesFragment.adapter == null)
+                        return;
+
+                    boolean blink = false;
+                    for (Boolean b : galleryOfIssuesFragment.adapter.userAttention)
+                        blink = blink || b;
+                    if (!blink)
+                        return;
+
+                    priority = 10;
+                    break;
+
+                case 2: // hot english times
+                    WaitingItems.importWaitingItems(RootActivity.this);
+                    AlarmsTabFragment.importAlarms(RootActivity.this);
+                    if (WaitingItems.waitingItems.size() == 0 || AlarmsTabFragment.alarms.size() > 0)
+                        return;
+
+                    priority = 8;
+                    break;
+
+                case 3: // readme
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(RootActivity.this);
+                    if (preferences.getBoolean("readme_seen", false))
+                        return;
+
+                    priority = 9;
+                    break;
+
+                default:
+                    return;
+            }
+
+            drawerIconBlinkPriorities[index] = priority;
+
+            if (view != null)
+                blinker.setBlinkingView(((ViewGroup) view).getChildAt(0));
+
+            int j = 0;
+            for (int i = 1; i < drawerIconBlinkPriorities.length; i++) {
+                if (drawerIconBlinkPriorities[i] > drawerIconBlinkPriorities[j])
+                    j = i;
+            }
+            if (j == index)
+                blinker.start();
+        }
+    }
+
+    OnPostBindDrawerIconListener[] drawerIconListeners = new OnPostBindDrawerIconListener[4];
+
+    public void updateIconBlinkers() {
+        attentionIndex = -1;
+        for (int i = 0; i < drawerIconBlinkPriorities.length; i++)
+            drawerIconBlinkPriorities[i] = 0;
+
+        for (OnPostBindDrawerIconListener listener : drawerIconListeners)
+            if (listener != null)
+                listener.onBindView(null, null);
+
+        // again after updating priorities
+        for (OnPostBindDrawerIconListener listener : drawerIconListeners)
+            if (listener != null)
+                listener.onBindView(null, null);
+
+        attentionIndex = -1;
+        int j = 0;
+        for (int i = 1; i < drawerIconBlinkPriorities.length; i++) {
+            if (drawerIconBlinkPriorities[i] > drawerIconBlinkPriorities[j]) {
+                attentionIndex = i;
+                j = i;
+            }
+        }
+
+        if (attentionIndex != -1 && drawerSelection != attentionIndex) {
+            if (drawerIndicatorBlinker == null) {
+                drawerIndicatorBlinker = new Blinker();
+                drawerIndicatorBlinker.setOnTimerShot(onBlinkerTimerShot);
+            }
+            drawerIndicatorBlinker.start();
+        }
+
+        if (drawerIndicatorBlinker != null
+                && (attentionIndex == -1 || drawerSelection == attentionIndex)) {
+            drawerIndicatorBlinker.stop();
+        }
+    }
+
+    Blinker drawerIndicatorBlinker;
+    Blinker.OnTimerShot onBlinkerTimerShot = new Blinker.OnTimerShot() {
+        BitmapDrawable dummy = new BitmapDrawable();
+
+        @Override
+        public void onTimerShot(Blinker blinker) {
+            drawer.getActionBarDrawerToggle().setHomeAsUpIndicator(dummy);
+            drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(blinker.visible || blinker.stopped);
+        }
+
+        @Override
+        public void onStop() {
+            drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
+        }
+    };
 
     protected void setupNavigationDrawer() {
         // manually load drawer header, and apply custom typeface to it.
@@ -196,16 +354,24 @@ public class RootActivity extends AppCompatActivity implements
             }
         });
 
-        final PrimaryDrawerItem galleryOfIssues = new PrimaryDrawerItem().withName(R.string.gallery_of_issues).withIcon(GoogleMaterial.Icon.gmd_playlist_play).withSelectedColorRes(R.color.primary);
-        final PrimaryDrawerItem englishTimes = new PrimaryDrawerItem().withName(R.string.cool_english_times).withIcon(GoogleMaterial.Icon.gmd_alarm).withSelectedColorRes(R.color.primary);
-        final PrimaryDrawerItem readme = new PrimaryDrawerItem().withName(R.string.readme).withIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied).withSelectedColorRes(R.color.primary);
-        final PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info_outline).withSelectedColorRes(R.color.primary);
+        drawerIconListeners[1] = new OnPostBindDrawerIconListener(1);
+        final PrimaryDrawerItem galleryOfIssues = new PrimaryDrawerItem().withName(R.string.gallery_of_issues).withIcon(GoogleMaterial.Icon.gmd_playlist_play).withSelectedColorRes(R.color.primary).withPostOnBindViewListener(drawerIconListeners[1]).withIdentifier(1);
+
+        drawerIconListeners[2] = new OnPostBindDrawerIconListener(2);
+        final PrimaryDrawerItem englishTimes = new PrimaryDrawerItem().withName(R.string.cool_english_times).withIcon(GoogleMaterial.Icon.gmd_alarm).withSelectedColorRes(R.color.primary).withPostOnBindViewListener(drawerIconListeners[2]).withIdentifier(2);
+
+        drawerIconListeners[3] = new OnPostBindDrawerIconListener(3);
+        final PrimaryDrawerItem readme = new PrimaryDrawerItem().withName(R.string.readme).withIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied).withSelectedColorRes(R.color.primary).withPostOnBindViewListener(drawerIconListeners[3]).withIdentifier(3);
+
+        final PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info_outline).withSelectedColorRes(R.color.primary).withIdentifier(5);
 
         drawer = new DrawerBuilder()
                 .withSliderBackgroundColorRes(R.color.accent)
                 .withHeaderDivider(false)
                 .withActivity(this)
+                .withHasStableIds(true)
                 .withHeader(headerView)
+                .withShowDrawerOnFirstLaunch(true)
                 .addDrawerItems(
                         galleryOfIssues,
                         englishTimes,
@@ -216,52 +382,59 @@ public class RootActivity extends AppCompatActivity implements
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if (drawer_selection == position)
+                        if (drawerSelection == position)
                             return false;
 
                         Fragment fragment = null;
                         String tag = null;
+
                         switch (position) {
                             case 1:
+                                tag = GalleryOfIssuesFragment.FRAGMENT_TAG;
+                                galleryOfIssuesFragment = (GalleryOfIssuesFragment) getSupportFragmentManager().findFragmentByTag(tag);
                                 if (galleryOfIssuesFragment == null)
                                     galleryOfIssuesFragment = GalleryOfIssuesFragment.newInstance(0);
                                 fragment = galleryOfIssuesFragment;
-                                tag = GalleryOfIssuesFragment.FRAGMENT_TAG;
                                 break;
+
                             case 2:
+                                tag = CoolEnglishTimesFragment.FRAGMENT_TAG;
+                                coolEnglishTimesFragment = (CoolEnglishTimesFragment) getSupportFragmentManager().findFragmentByTag(tag);
                                 if (coolEnglishTimesFragment == null)
                                     coolEnglishTimesFragment = CoolEnglishTimesFragment.newInstance(0);
                                 fragment = coolEnglishTimesFragment;
-                                tag = CoolEnglishTimesFragment.FRAGMENT_TAG;
                                 break;
+
                             case 3:
+                                tag = ReadmeFragment.FRAGMENT_TAG;
+                                readmeFragment = getSupportFragmentManager().findFragmentByTag(tag);
                                 if (readmeFragment == null)
                                     readmeFragment = ReadmeFragment.newInstance();
                                 fragment = readmeFragment;
-                                tag = ReadmeFragment.FRAGMENT_TAG;
                                 break;
+
                             case 5:
+                                tag = AboutFragment.FRAGMENT_TAG;
+                                aboutFragment = getSupportFragmentManager().findFragmentByTag(tag);
                                 if (aboutFragment == null)
                                     aboutFragment = AboutFragment.newInstance();
                                 fragment = aboutFragment;
-                                tag = AboutFragment.FRAGMENT_TAG;
                                 break;
                         }
 
                         if (fragment != null) {
                             getSupportFragmentManager().beginTransaction()
-//                            .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                                     .replace(R.id.root_fragment, fragment, tag)
                                     .commit();
                         } else {
                             Toast.makeText(RootActivity.this, "item clicked: " + position, Toast.LENGTH_SHORT).show();
                         }
 
-                        drawer_selection = position;
+                        drawerSelection = position;
                         return false;
                     }
                 })
-                .withSelectedItemByPosition(drawer_selection)
+                .withSelectedItemByPosition(drawerSelection)
                 .build();
     }
 
@@ -269,7 +442,7 @@ public class RootActivity extends AppCompatActivity implements
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (drawer != null) {
-            outState.putInt("drawer_selection", drawer.getCurrentSelectedPosition());
+            outState.putInt("drawerSelection", drawer.getCurrentSelectedPosition());
             outState.putBoolean("signing_in", signingIn);
             outState.putBoolean("newIssuesAvailableWarningShown", newIssuesAvailableWarningShown);
         }
@@ -306,7 +479,7 @@ public class RootActivity extends AppCompatActivity implements
     /**
      * selected drawer item position
      */
-    int drawer_selection = 1;
+    int drawerSelection = 1;
 
     public void onToolbarCreated(Toolbar toolbar, int titleRes) {
         setSupportActionBar(toolbar);
@@ -326,7 +499,7 @@ public class RootActivity extends AppCompatActivity implements
         if (drawer != null && drawer.isDrawerOpen()) {
             drawer.closeDrawer();
 
-        } else if (drawer_selection != 1 && drawer != null) {
+        } else if (drawerSelection != 1 && drawer != null) {
             // when gallery of issues fragment is not active, navigate to it instead of exiting
             drawer.setSelectionAtPosition(1, true);
 
@@ -439,6 +612,26 @@ public class RootActivity extends AppCompatActivity implements
 
         if (account != null)
             account.silentSignIn();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateIconBlinkers();
+        drawer.getActionBarDrawerToggle().setHomeAsUpIndicator(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_language).sizeDp(24).paddingDp(4).colorRes(R.color.primary));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        for (OnPostBindDrawerIconListener listener : drawerIconListeners) {
+            if (listener != null && listener.blinker != null)
+                listener.blinker.stop();
+        }
+
+        if (drawerIndicatorBlinker != null)
+            drawerIndicatorBlinker.stop();
     }
 
     public void signingIn(boolean signingIn) {

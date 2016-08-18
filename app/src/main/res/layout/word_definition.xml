@@ -15,6 +15,7 @@
         android:padding="@dimen/constant_margin">
 
         <android.support.v7.widget.CardView
+            android:id="@+id/card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/accent">

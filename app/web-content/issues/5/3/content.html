@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			.illustrative {
+				background-repeat: no-repeat;
+				background-size: cover;
+				background-position: center;
+				padding-bottom: 125%;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				border: 2px solid;
+				text-align: center;
+				position: relative;
+			}
+			.title {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				padding: 4px;
+				border-radius: 16px;
+				margin: 8px;
+				opacity: 0.9;
+				font-weight: bold;
+			}
+			h1 {
+				margin-top: 0;
+				margin-bottom: 24px;
+				font-weight: bold;
+			}
+			h3 {
+				font-weight: 300;
+				text-transform: uppercase;
+			}
+			h4 {
+				font-weight: bold;
+			}
+
+			tr > td:first-child {
+				font-weight: bold;
+				text-align: right;
+			}
+			tr > td:last-child {
+				padding-left: 16px;
+			}
+			td {
+				vertical-align: top;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			#instruments {
+				margin-bottom: 16px;
+			}
+			.frame {
+				padding: 4px;
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				background-color: white;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<h3 style="margin-top: 0; margin-bottom: 0;">Let’s talk about&#8230;</h3>
+			<h1 class="accent">Sports</h1>
+
+			<div id="instruments" class="row"></div>
+
+			<h4>Useful Expressions</h4>
+			<ul>
+				<li><span data-start="11090" data-end="12950">What’s your favourite sport?</span></li>
+				<li><span data-start="12951" data-end="14992">Do you do much exercise?</span></li>
+				<li><span data-start="14993" data-end="17430">What equipment do you need for this sport?</span></li>
+				<li><span data-start="17431" data-end="18948">Are you any good at tennis?</span></li>
+				<li><span data-start="18949" data-end="20900">Have you won any tournaments?</span></li>
+				<li><span data-start="20901" data-end="22550">How often do you go <a class="new-word" data-word="to jog" data-type="vb" data-en="to run as a form of exercise">jogging</a>?</span></li>
+				<li><span data-start="22551" data-end="24850">Can I borrow your tennis racket, please?</span></li>
+				<li><span data-start="24851" data-end="26600">Would you like to join our team?</span></li>
+				<li><span data-start="26601" data-end="28883">We need someone to <a class="new-word" data-word="to make up a team" data-type="exp" data-en="if you need someone to “make up a team”, you need an extra person for the team">make up a team</a>.</span></li>
+				<li><span data-start="28884" data-end="30570">It’s your turn to serve.</span></li>
+				<li><span data-start="30571" data-end="32500">We should <a class="new-word" data-word="to warm up" data-type="exp" data-en="to prepare yourself before a sport by stretching or doing exercises">warm up</a> first.</span></li>
+				<li><span data-start="32501" data-end="33781">You go in goal.</span></li>
+				<li><span data-start="33782" data-end="35976">Let’s take turns to go in goal.</span></li>
+				<li><span data-start="35977" data-end="39900">Have you got any swimming trunks I could borrow?</span></li>
+			</ul>
+
+			<h3><span data-start="39901" data-end="49059">Now listen to this dialogue. In this conversation, Olivia and Fran are talking about their favourite sports.</span></h3>
+			<div style="position: relative; margin-bottom: 16px;">
+				<img src="cover.jpg" class="frame" style="width: 100%;">
+				<img src="see.jpg" class="frame" style="position: absolute; top: -8px; left: 24px; width: 25%; -webkit-transform: rotate(4deg); transform: rotate(4deg);">
+			</div>
+			<table>
+				<tr>
+					<td>Olivia:</td>
+					<td><span data-start="52050" data-end="54500">Hey, Fran, what’s your favourite sport?</span></td>
+				</tr>
+				<tr>
+					<td>Fran:</td>
+					<td><span data-start="54501" data-end="56220">I like football. And yours?</span></td>
+				</tr>
+				<tr>
+					<td>Olivia:</td>
+					<td><span data-start="56221" data-end="58702">I prefer basketball, actually.</span></td>
+				</tr>
+				<tr>
+					<td>Fran:</td>
+					<td><span data-start="58703" data-end="60742">I’m not really into basketball.</span></td>
+				</tr>
+				<tr>
+					<td>Olivia:</td>
+					<td><span data-start="60743" data-end="62297">So, do you play in a team?</span></td>
+				</tr>
+				<tr>
+					<td>Fran:</td>
+					<td><span data-start="62298" data-end="65559">Yes, the Bolton Braves. We’re playing in a mini-league.</span></td>
+				</tr>
+				<tr>
+					<td>Olivia:</td>
+					<td><span data-start="65560" data-end="67779">What position are you in the league table?</span></td>
+				</tr>
+				<tr>
+					<td>Fran:</td>
+					<td><span data-start="67780" data-end="71300">We’re fourth at the moment, but we’ve got a difficult game ahead this week.</span></td>
+				</tr>
+				<tr>
+					<td>Olivia:</td>
+					<td><span data-start="71301" data-end="72103">Why?</span></td>
+				</tr>
+				<tr>
+					<td>Fran:</td>
+					<td><span data-start="72104" data-end="74359">We’re playing against the top team.</span></td>
+				</tr>
+				<tr>
+					<td>Olivia:</td>
+					<td><span data-start="74360" data-end="76371">Oh, well. Good luck.</span></td>
+				</tr>
+				<tr>
+					<td>Fran:</td>
+					<td><span data-start="76372" data-end="80350">Thanks. What about you? Do you play in any teams?</span></td>
+				</tr>
+				<tr>
+					<td>Olivia:</td>
+					<td><span data-start="80351" data-end="83350">Not at the moment, but I’m in a tennis tournament.</span></td>
+				</tr>
+				<tr>
+					<td>Fran:</td>
+					<td><span data-start="83351" data-end="84740">Oh, right. How are you doing?</span></td>
+				</tr>
+				<tr>
+					<td>Olivia:</td>
+					<td><span data-start="84741" data-end="89000">Not too bad. We haven’t been eliminated yet. It’s a doubles tournament.</span></td>
+				</tr>
+				<tr>
+					<td>Fran:</td>
+					<td><span data-start="89001" data-end="90067">So, who’s your partner?</span></td>
+				</tr>
+				<tr>
+					<td>Olivia:</td>
+					<td><span data-start="90068" data-end="91983">Sally Barnes. Do you know her?</span></td>
+				</tr>
+				<tr>
+					<td>Fran:</td>
+					<td><span data-start="91984" data-end="94980">Oh, yes. She’s got a <a class="new-word" data-word="wicked" data-type="adj inform" data-en="very good">wicked</a> serve.</span></td>
+				</tr>
+				<tr>
+					<td>Olivia:</td>
+					<td><span data-start="94981" data-end="97917"><a class="new-word" data-word="tell me about it" data-type="exp" data-en="an informal way of saying, “Yes, I know.”">Tell me about it</a>.</span></td>
+				</tr>
+			</table>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			template = "\
+				<div class='col-xs-6 col-sm-4 col-md-3 col-lg-2'>\
+					<div class='illustrative' style=\"background-image: url('{img}.png');\">\
+						<div class='title'>{title}</div>\
+					</div>\
+				</div>\
+			";
+			i = 0;
+			['Volleyball', 'Football (soccer)', 'American football', 'Basketball', 'Cricket', 'Baseball', 'Tennis', 'Hockey', 'Swimming', 'Golf', 'Cycling', 'Rugby', 'Ice-skating', 'Cheerleading', 'Diving', 'Gymnastics'].forEach(function(title) {
+				$('#instruments').append(template.replace(/\{img\}/g, ++i).replace(/\{title\}/g, title));
+			});
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					.row { margin-left: -" + spacing + "px; margin-right: -" + spacing + "px; } \
+					.col-xs-6, .col-md-6 { padding-left: " + spacing + "px; padding-right: " + spacing + "px; padding-bottom: " + (2*spacing) + "px; } \
+					.title { background-color: #" + accentColor + "; } \
+					.acnt, tr:nth-child(odd) { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + (bottomMargin) + "px; } \
+					ul > li { color: #" + accentColor + "; } \
+					ul > li > span { color: #" + textColor + "; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+
+			if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+				app.setLongClickable(true);
+		</script>
+
+	</body>
+</html>

@@ -170,6 +170,7 @@ public class MagazineContent {
             item.audioFileName = e.attr("audio");
             item.posterFileName = e.attr("poster");
             item.flagFileName = e.attr("flag");
+            item.flagFileName2 = e.attr("flag2");
             item.type = e.attr("type");
             item.level = Integer.parseInt(e.attr("level"));
             item.free = Boolean.parseBoolean(e.attr("free"));
@@ -206,6 +207,11 @@ public class MagazineContent {
          * accent shown by country flag
          */
         public String flagFileName;
+
+        /**
+         * second accent shown by country flag
+         */
+        public String flagFileName2;
 
         /**
          * file containing lesson item properties

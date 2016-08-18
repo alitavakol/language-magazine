@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h1 {
+				font-weight: bold;
+			}
+			h5 {
+				font-style: italic;
+			}
+			.title {
+				position: relative;
+				margin-bottom: 16px;
+			}
+			.title-container {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				padding: 16px;
+				color: white;
+				text-shadow: 1px 0px 6px rgba(50,50,50,1);
+				background: -webkit-linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.8));
+			}
+			.dotted {
+				background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
+				background-image: repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
+				-webkit-background-size: 5px 5px;
+				background-size: 5px 5px;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<div class="title">
+				<img src="man.png" style="width: 100%; -webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);">
+				<div class="title-container">
+					<h1>Language Barrier</h1>
+					<h5>Man who planned to walk to India forced to quit because of language barrier.</h5>
+				</div>
+			</div>
+
+			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p>
+					<span data-start="12250" data-end="16455">Have you ever been in a country where you couldn’t speak the language?</span> <span data-start="16456" data-end="18903">Was it a difficult experience?</span> <span data-start="18904" data-end="24069">Mark Boyle, 28, wanted to walk from England to India.</span> <span data-start="24070" data-end="29779">He <a class="new-word" data-word="to set off" data-type="phr vb" data-en="to start a journey">set off</a> with just a few T-shirts, a <a class="new-word" data-word="a bandage" data-type="n" data-en="a piece of material to put on a cut/injury">bandage</a> and a pair of sandals.</span> <span data-start="29780" data-end="33265">And he didn’t take any money with him.</span> <span data-start="33266" data-end="39586">He was hoping that kind strangers would provide him with food and <a class="new-word" data-word="accommodation" data-type="n" data-en="a house/apartment/place to sleep">accommodation</a>.</span> <span data-start="39587" data-end="45000">He had no problems travelling through England where they speak English.</span> <span data-start="45001" data-end="48390">But he had to cancel his trip in France.</span> <span data-start="48391" data-end="50667">He couldn’t speak French.</span> <span data-start="50668" data-end="55850">And not many people spoke English in the rural areas where he was.</span> <span data-start="55851" data-end="61800">So, many people thought he was an <a class="new-word" data-word="an asylum seeker" data-type="n" data-en="a person from another country who goes to another country to escape persecution">asylum seeker</a> and didn’t help him.</span> <span data-start="61801" data-end="71893">He said, “I had to <a class="new-word" data-word="to reassess (a situation)" data-type="exp" data-en="to reconsider a situation and to evaluate your opinion of it">reassess</a> the whole situation because I was out of food, hadn’t slept in days and was really cold.”</span> <span data-start="71894" data-end="76786">He added, “I feel very <a class="new-word" data-word="disappointed" data-type="adj" data-en="not pleased with the results">disappointed</a> to have abandoned the trip.</span> <span data-start="76787" data-end="22430">But I intend to learn French and to try again as soon as I feel ready.”</span> <span class="accent">✪</span>
+				</p>
+			</div></div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+				}
+
+				saveInstanceState();
+
+				if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+					app.setLongClickable(!b);
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>
