@@ -11,35 +11,44 @@
 		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
 
-		<!-- Bootstrap Material Design -->
-		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
-
 		<link rel="stylesheet" type="text/css" href="../styles.css">
 
 		<style id="dynamic-rules">
 		</style>
 
 		<style type="text/css">
+			@font-face {
+				font-family: 'toast';
+				src: url('Lorano-ExtraLight.ttf');
+			}
 			body {
 				overflow-y: scroll;
+				border: solid 1px black;
+			}
+			h3 {
+				font-weight: lighter;
+				text-transform: uppercase;
+			}
+			h1, h2 {
+				font-family: 'toast';
+				text-align: center;
+				position: relative;
+				z-index: 1;
+			}
+			h1 {
+				margin-top: 0;
+				font-weight: bold;
+			}
+			h2 {
+				font-weight: 300;
 			}
 			h4 {
 				font-weight: bold;
-				margin-top: 20px;
-			}
-			h3 {
-				margin-top: 0;
-				text-transform: uppercase;
-				position: absolute;
-				bottom: 0;
-				right: 0;
-				text-align: center;
-				background-color: rgba(255,255,255,.8);
-				margin-left: 30%;
-				padding: 8px;
+				margin-top: 16px;
 			}
 			ol, ul {
 				padding-left: 1.2em;
+				margin-bottom: 2px;
 			}
 			li {
 				font-weight: bold;
@@ -47,14 +56,18 @@
 			li > span {
 				font-weight: normal;
 			}
-			.dotted {
-				background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
-				background-image: repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
-				-webkit-background-size: 5px 5px;
-				background-size: 5px 5px;
+			img {
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				padding: 6px;
 			}
-			.box {
-				border: solid 2px black;
+			#plate {
+				float: right;
+				margin: 16px;
+				margin-right: 24px;
+				-webkit-transform: rotate(4deg);
+				transform: rotate(4deg);
+				max-width: 50%;
 			}
 		</style>
 
@@ -63,65 +76,45 @@
 
 		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
 		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
-		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
-		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
 		<script src="file:///android_asset/tinycolor-min.js"></script>
 		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
 
 		<script src="../code.js"></script>
 		<script src="../debug.js"></script>
+
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	</head>
 
 	<body>
-		<div class="foundation">
-			<div id="top-margin"></div>
+		<h2>Green Bean</h2>
+		<h1>Casserole</h1>
+		<h3>Here’s another recipe for you to try at home. <b>This month: Green Bean Casserole</b> – a great <a class="new-word" data-word="side dish" data-type="n" data-en="not the main item on the menu">side dish</a> to enjoy with a big group of people!</h3>
 
-			<div style="position: relative; margin-bottom: 16px;">
-				<img src="cover.jpg" style="width: 100%;">
-				<h3>Strange things about the British!</h3>
-			</div>
+		<img src="cover.png" style="width: 100%;">
 
-			<h4><span class="accent">❶</span> <b>Think about it</b></h4>
-			<p>What things do you find strange about the British? What do you think people would find strange about the people or customs in your country? What are some of the strangest customs that you’ve come across in your travels? Would you like to live in a foreign country? Why? Why not? Which one?</p>
+		<div style="position: relative; bottom: 72px; margin-bottom: -72px;">
+			<img id="plate" src="food.png" class="img-responsive">
+			<div style="height: 96px;"></div>
 
-			<h4><span class="accent">❷</span> <b>Pre-reading</b></h4>
-			<p>How would you describe the British? Use the following words to help you answer the question: food, honesty, anger, alcohol, class, tea, drinks, work, the pub, customs, habits&#8230; Other?</p>
+			<h4>Ingredients</h4>
+			<ul>
+				<li><span>1 can of cream of mushroom soup</span></li>
+				<li><span>125 ml of shredded cheddar cheese</span></li>
+				<li><span>Small packet of chopped bacon bits</span></li>
+				<li><span>3 medium-sized tins of green beans (<a class="new-word" data-word="to drain" data-type="vb" data-en="remove the liquid from something">drained</a>). Alternatively, use fresh produce</span></li>
+				<li><span>1 can of French fried onions (optional)</span></li>
+			</ul>
 
-			<h4><span class="accent">❸</span> <b>Listening</b></h4>
-			<p id="comments">Listen to the article to compare your ideas from the Pre-reading activity. Which comments about the British do you agree with? Listen many times and don’t look at the transcript!</p>
-
-			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
-				<p style="padding-top: 0;"><span data-start="9263" data-end="11935">What comes to mind when you think of Britain?</span> <span data-start="11936" data-end="20598">Buckingham Palace, a pint of beer, a double-decker bus, horse racing, fish and chips, cricket&#8230;</span> <span data-start="20599" data-end="23023">What about British people?</span> <span data-start="23024" data-end="29400">The Guardian newspaper asked foreigners living in the UK for their opinions on the British.</span> <span data-start="29401" data-end="31969">Here are some of their answers.</span> <span style="opacity: .8; font-style: italic;">[Please note: as the speakers are non-natives, there are some examples of non-Standard English.]</span></p>
-				<p><span data-start="31970" data-end="36098">“The strangest&#8230; well for me, can I say food?</span> <span data-start="36099" data-end="39891">Like, for example, that you eat on the <a class="new-word" data-word="a couch" data-type="n" data-en="a sofa; a long, soft chair that two or three people can sit on">couch</a> not on a table.”</span> <span data-start="39892" data-end="44683">(Irene, 23, a small business owner from Italy)</span></p>
-				<p><span data-start="44684" data-end="52270">“When a British person has a problem with another person they don’t actually come and tell that person directly in their face.”</span> <span data-start="52271" data-end="58137">(Felicia, 37, an <a class="new-word" data-word="obstetrics" data-type="n" data-en="the branch of medicine that is concerned with pregnancy and giving birth">obstetrics</a> and <a class="new-word" data-word="gynaecology" data-type="n" data-en="the branch of medicine which deals with women's diseases and conditions">gynaecology</a> consultant from Romania)</span></p>
-				<p><span data-start="58138" data-end="63651">“Here, if you’ve done something really good, they will say ‘This is not bad.’”</span> <span data-start="63652" data-end="68137">(Spela, 41, a graphic designer from Slovenia)</span></p>
-				<p><span data-start="68138" data-end="74950">“I find it strange that British people are so much <a class="new-word" data-word="into" data-type="exp" data-en="if you’re “into” something, you like it">into</a> beer and, you know, not into wine.</span> <span data-start="74951" data-end="76499">But that’s just me!”</span> <span data-start="76500" data-end="80651">(Valeria, 32, a journalist from France)</span></p>
-				<p><span data-start="80652" data-end="88714">“I find it strange seeing that they still accept this so-called ‘<a class="new-word" data-word="the class system" data-type="n" data-en="the way that society is divided into different classes: working class, middle class, etc.">class system</a>’, you know, in education, you know, in the modern world.”</span> <span data-start="88715" data-end="93749">(Dick, 75, a retired oil executive from the Netherlands)</span></p>
-				<p><span data-start="93750" data-end="100328">“I really don’t know, just drinking tea with milk but I had it myself and it’s OK.”</span> <span data-start="100329" data-end="105601">(Janis, 25, a cook and psychology student from Latvia)</span></p>
-				<p><span data-start="105602" data-end="112503">“Here in England I see so many people and it’s 3 degrees Celsius, and they have <a class="new-word" data-word="short sleeves" data-type="n" data-en="if someone is in “short sleeves”, they’re wearing a T-shirt or a shirt with no “sleeves” (the part of the shirt that covers your arms)">short sleeves</a> and I don’t understand it.</span> <span data-start="112504" data-end="115322"><a class="new-word" data-word="fingers crossed" data-type="exp" data-en="when people say “fingers crossed”, they mean “good luck”">Fingers crossed</a> to them, they are heroes for me.”</span> <span data-start="115323" data-end="119983">(Jakub, 36, a wine waiter from the Czech Republic)</span></p>
-				<p><span data-start="119984" data-end="124684">“The strangest thing about British people is probably lunchtime <a class="new-word" data-word="a pint" data-type="n" data-en="a measurement of liquid that’s about half a litre (500 ml)">pints</a>.</span> <span data-start="124685" data-end="130199">It always shocks me to go from a meeting to the bar to have a pint, back to the meeting&#8230;”</span> <span data-start="130200" data-end="134659">(Hector, 26, an entrepreneur from Cyprus)</span></p>
-				<p><span data-start="134660" data-end="141958">“The mixes they do with food, I would never understand why in a very English pub there’s a Thai restaurant&#8230; why?</span> <span data-start="141959" data-end="144920">Why do they put <a class="new-word" data-word="sweet corn" data-type="n" data-en="a long vegetable covered in small yellow seeds. The seeds can also be referred to as sweet corn">sweet corn</a> in tuna&#8230; why?”</span> <span data-start="144921" data-end="149190">(Helena, 27, a businessperson from Spain)</span></p>
-				<p><span data-start="149191" data-end="154313">“People are very fond of <a class="new-word" data-word="to queue" data-type="vb" data-en="if you “queue”, you wait in a line so you can be served in a shop, etc.">queuing</a>, that’s a <a class="new-word" data-word="a stereotype" data-type="n" data-en="a very general and typical image of someone or a group of people">stereotype</a> but it’s true.</span> <span data-start="154314" data-end="156900">I think I’ve <a class="new-word" data-word="to get into the spirit" data-type="exp" data-en="if you “get into the spirit” of something, you start doing the same things as everyone else (in this case, queuing)">gotten into the spirit</a> as well,</span> <span data-start="156901" data-end="161264">so whenever I am in another country and people don’t queue I get very angry,</span> <span data-start="161265" data-end="164050">so I think I am slowly becoming more British.”</span> <span data-start="164051" data-end="167536">(Philipp, 23, a law student from Austria)</span></p>
-				<p><span data-start="167537" data-end="170627">How strange!</span> <span class="accent">✪</span></p>
-			</div></div>
-
-			<h4><span class="accent">❹</span> <b>Reading</b></h4>
-			<p>Read the article. Then, answer the questions.<br><span style="font-style: italic;">Who thinks it’s strange that the British &#8230;</span></p>
-			<ol>
-				<li><span>&#8230; still accept the class system?</span></li>
-				<li><span>&#8230; eat on the couch?</span></li>
-				<li><span>&#8230; drink beer at lunchtime?</span></li>
-				<li><span>&#8230; don’t like wine?</span></li>
-				<li><span>&#8230; have Asian restaurants in their pubs?</span></li>
-				<li><span>&#8230; drink their tea with milk?</span></li>
-			</ol>
-
-			<div class="box">
-				<img src="youtube.png" style="width: 20%; max-width: 2cm; margin-bottom: 8px;">
-				<p style="margin-bottom: 0;">Watch this video with some Americans saying what they think of the British. Search YouTube for <b>“What do Americans think of the British?”</b>.</p>
-			</div>
-
-			<div id="bottom-margin"></div>
+			<h4>Method</h4>
+			<ul>
+				<li><span>In a small saucepan, heat the soup, cheese and bacon pieces on medium/low heat.</span></li>
+				<li><span>Stir the mixture until the cheese is <a class="new-word" data-word="to melt" data-type="adj" data-en="to change from a solid to a liquid">melted</a>.</span></li>
+				<li><span>Drain the juice from the green beans, and put them in a standard-size oven safe dish.</span></li>
+				<li><span>Pour the soup mixture on top of the green beans, and make sure that it is evenly coated.</span></li>
+				<li><span>Top the mixture with French fried onions (optional)</span></li>
+				<li><span>Bake at 150℃ until the onions are slightly browned. Or, if you make it without the onions, place in the oven for 15-20 minutes. As a side dish, it makes about 6 servings. <span class="accent">✪</span></span></li>
+			</ul>
 		</div>
 
 		<script type="text/javascript">
@@ -129,44 +122,21 @@
 
 			adjustCustomLayout = function(options) {
 				$('#local-rules').text("\
-					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
-					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
-					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
-					.box { padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
-					#bottom-margin { height: " + bottomMargin + "px; } \
-					.accent-dark { color: " + tinycolor(accentColor).darken().darken() + "; } \
-					.box { background-color: " + tinycolor(accentColor).lighten().lighten().lighten() + "; text-align: center; } \
+					body { margin-right: " + horizontalMargin + "px; margin-left: " + horizontalMargin + "px; margin-top: " + (topMargin+verticalMargin) + "px; margin-bottom: " + verticalMargin + "px; padding-right: " + normalPadding + "px; padding-left: " + normalPadding + "px; padding-bottom: " + normalPadding + "px; } \
+					h1, h2, h4, li { color: " + tinycolor(accentColor).darken() + "; } \
+					li > span { color: #" + textColor + "; } \
+					img { background: #" + backgroundColor + "; } \
 				");
 			}
 
+			container = $('body')[0];
 			prevScroll = 0;
-
-			lock = function(b) {
-				transcriptLocked = b;
-
-				if(b) {
-					$('#transcript').css('background-image', 'url("key.png")').children().css('visibility', 'hidden');
-					$('.lockable').addClass('dotted');
-					$('#comments').css('opacity', 1);
-
-				} else {
-					$('#transcript').css('background-image', '').children().css('visibility', '');
-					$('.lockable').removeClass('dotted');
-					$('#comments').css('opacity', .5);
-				}
-
-				saveInstanceState();
-
-				if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
-					app.setLongClickable(!b);
-			}
 
 			saveInstanceState = function() {
 				if(restoringInstanceState)
 					return;
 
 				outState = {
-					transcriptLocked: transcriptLocked,
 					scroll: prevScroll,
 				};
 
@@ -178,31 +148,14 @@
 				restoringInstanceState = true;
 				state = JSON.parse(savedInstanceState);
 
-				lock(state.transcriptLocked || true);
-
-				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
-				prevScroll = $('body').scrollTop() / $('body').height();
+				container.scrollTop = (state['scroll'] || 0) * container.scrollHeight;
+				prevScroll = container.scrollTop / container.scrollHeight;
 
 				restoringInstanceState = false;
 			}
 
-			taphold = false;
-			$('.lockable').tap(function() {
-				if(transcriptLocked && !taphold)
-					app.makeToast('Tap and hold to show text.', false);
-				taphold = false;
-			});
-			$('.lockable').taphold(function() {
-				taphold = true;
-				if(transcriptLocked)
-					app.lockTranscript(!transcriptLocked);
-			});
-
-			if(typeof(app) != 'undefined')
-				app.showLockControls(true);
-
 			setInterval(function() {
-				scroll = $('body').scrollTop() / $('body').height();
+				scroll = container.scrollTop / container.scrollHeight;
 				if(scroll != prevScroll) {
 					prevScroll = scroll;
 					saveInstanceState();
@@ -212,7 +165,7 @@
 			lastScrollTop = 0;
 			if(typeof(app) != 'undefined') {
 				$(document).scroll(function() {
-					scrollTop = $(document).scrollTop();
+					scrollTop = container.scrollTop;
 
 					if(scrollTop < topMargin) {
 						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)

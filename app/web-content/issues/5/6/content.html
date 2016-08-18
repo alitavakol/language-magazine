@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<!-- Material Design fonts -->
 		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
@@ -24,69 +23,75 @@
 			body {
 				overflow-y: scroll;
 			}
-			.illustrative {
-				background-repeat: no-repeat;
-				background-size: cover;
-				background-position: center;
-				padding-bottom: 60%;
-				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
-				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
-				border: 4px solid;
-				text-align: center;
-				position: relative;
-			}
-			.title {
-				background: white;
-				border: 4px solid;
-				padding: 8px;
+			.cem-label {
 				display: inline-block;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				margin: 4px;
 			}
-			.title-container {
-				position: absolute;
-				bottom: -4px;
-				left: 0;
-				right: 0;
-				margin: 0 auto;
+			.label-container {
+				margin: -4px;
+				margin-bottom: 12px;
 			}
 			h4 {
-				border: 2px solid;
-				padding: 16px;
-				width: 100%;
-				text-align: center;
-				margin-top: 16px;
+				font-weight: 400;
+				margin-top: 20px;
 			}
 			h1 {
 				margin-top: 0;
+				font-style: italic;
 				font-weight: bold;
+				text-shadow: 0px 0px 4px rgba(0, 0, 0, .7);
 			}
-			h3 {
+			.subtitle {
 				margin-top: 0;
 				font-weight: 300;
-				text-transform: uppercase;
-				color: white;
-			}
-			#top-margin > p {
-				margin-top: 0;
 				font-style: italic;
+				padding-bottom: 16px;
+				font-size: 1.2em;
 			}
 			ol, ul {
 				padding-left: 1.2em;
 			}
-			tr > td:first-child {
+			li {
 				font-weight: bold;
-				text-align: right;
 			}
-			tr > td:last-child {
-				padding-left: 16px;
+			li > span {
+				font-weight: normal;
 			}
-			td {
-				vertical-align: top;
+			.lockable {
+				color: #ddd;
+				border-left: solid 2px black;
+				border-right: solid 2px black;
+				border-bottom: solid 2px black;
+			}
+			.box {
+				border: 3px solid;
+			}
+			.new-word, .new-word:focus, .new-word:hover {
+				color: white;
 			}
 			.frame {
 				padding: 4px;
 				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
 				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
 				background-color: white;
+			}
+			.dotted {
+				background-image: -webkit-repeating-radial-gradient(center center, rgba(250,250,250,.2), rgba(250,250,250,.2) 1px, transparent 1px, transparent 100%);
+				background-image: repeating-radial-gradient(center center, rgba(250,250,250,.2), rgba(250,250,250,.2) 1px, transparent 1px, transparent 100%);
+				-webkit-background-size: 3px 3px;
+				-moz-background-size: 3px 3px;
+				background-size: 3px 3px;
+			}
+			#title-container {
+				position: absolute;
+				bottom: 0;
+				text-align: center;
+				width: 100%;
+				color: white;
 			}
 		</style>
 
@@ -95,6 +100,8 @@
 
 		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
 		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
 		<script src="file:///android_asset/tinycolor-min.js"></script>
 		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
 
@@ -104,79 +111,64 @@
 
 	<body>
 		<div class="foundation">
-			<div id="top-margin">
-				<p>Useful language for successful communication.</p>
-				<h3><span style="opacity: .7;">Functional</span> Language</h3>
+			<div id="top-margin"></div>
+
+			<div style="position: relative;
+			border-left: solid 2px black; border-right: solid 2px black; border-top: solid 2px black;">
+				<img src="cover.jpg" style="width: 100%;">
+				<div id="title-container">
+					<h1>Home Wreckers</h1>
+					<p class="subtitle">Demolished by accident.</p>
+				</div>
 			</div>
-			<h1>Guessing</h1>
 
-			<img src="cover.jpg" style="width: 100%;">
+			<div class="lockable dotted"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p><span data-start="12300" data-end="15400">What if your house suddenly disappeared?</span> <span data-start="15401" data-end="20230">Annie Wilson of Dallas Texas came home to an unpleasant surprise.</span> <span data-start="20231" data-end="24750">A construction company <a class="new-word" data-word="to pull down" data-type="vb" data-en="to destroy a building on purpose">had pulled down</a> her house while she was at work.</span> <span data-start="24751" data-end="27335">And it was all a <a class="new-word" data-word="a joke" data-type="n" data-en="something said or done to make people laugh">joke</a>.</span></p> 
+				<p><span data-start="27336" data-end="30930">Annie lives next to Jackson State University.</span> <span data-start="30931" data-end="34694">At the time, the university wanted to <a class="new-word" data-word="to expand" data-type="v" data-en="to become larger">expand</a>.</span> <span data-start="34695" data-end="40121">Previously, the university had bought a small piece of land next to Annie’s house.</span> <span data-start="40122" data-end="46430">Later, they offered Annie $8,000 for her <a class="new-word" data-word="property" data-type="n" data-en="a piece of land that is owned by someone">property</a>, but she didn’t want to sell.</span> <span data-start="46431" data-end="55021">Nothing happened until some Jackson State students placed <a class="new-word" data-word="a sign" data-type="n" data-en="a piece of wood / metal / plastic, etc. with a message on it">signs</a> next to the house saying “Property of Jackson State”.</span> <span data-start="55022" data-end="60316">That same day, and completely coincidentally, a <a class="new-word" data-word="a contractor" data-type="n" data-en="a person or company that does work for other people or companies">contractor</a> came.</span> <span data-start="60317" data-end="64892">They <a class="new-word" data-word="to demolish" data-type="vb" data-en="to destroy a building completely">demolished</a> her house, thinking it was property of the university.</span></p>
+				<p><span data-start="64893" data-end="68920">As you can imagine, Annie didn’t think the <a class="new-word" data-word="a prank" data-type="n" data-en="a trick or joke">prank</a> was very funny.</span> <span data-start="68921" data-end="73179">Now, she is trying to <a class="new-word" data-word="to get compensation" data-type="exp" data-en="to receive something (in this case, money) because something bad happened to you">get compensation</a>, and “it’s a <a class="new-word" data-word="a nightmare" data-type="n" data-en="a very unpleasant situation; it can also mean a bad dream">nightmare</a>”.</span> <span data-start="73180" data-end="76071">She is asking for $30,000 dollars.</span> <span data-start="76072" data-end="81000">She lost everything, including some valuable <a class="new-word" data-word="antique" data-type="adj" data-en="something made long ago; something old and often valuable">antique</a> furniture.</span> <span data-start="81001" data-end="84950">The students responsible also <a class="new-word" data-word="to face" data-type="vb" data-en="to deal with, to confront">face</a> charges.</span> <span data-start="84951" data-end="89629">They may also have to pay Annie for damages.</span> ✪</p>
+			</div></div>
 
-			<div class="row">
-				<div class="col-md-4">
-					<h4 class="light"><span data-start="13369" data-end="16480">Asking someone to guess</span></h4>
-					<ul>
-						<img src="1.png" class="frame" style="width: 40%; max-width: 3cm; float: right; margin-left: 8px; margin-top: 4px; margin-bottom: 4px;">
-						<li><span data-start="16481" data-end="18900">What is it?</span></li>
-						<li><span data-start="18901" data-end="20537">What do you think it is? </span></li>
-						<li><span data-start="20538" data-end="22600">What do you reckon it is?</span></li>
-						<li><span data-start="22601" data-end="24050">Have a feel of it.</span></li>
-						<li><span data-start="24051" data-end="25150">Smell it.</span></li>
-						<li><span data-start="25151" data-end="26700">Go on, have a guess!</span></li>
-						<li><span data-start="26701" data-end="34113">You’re close! Warm! Warmer! Bingo! Correct!</span></li>
-					</ul>
-				</div>
+			<h4><span class="accent">❶</span> <b>Pre reading</b></h4>
+			<p>Look at the headlines below. What do you think these stories are about?</p>
+			<div style="font-style: italic; font-weight: 300;">
+				<p>A shop sells a left-handed Whopper</p>
+				<p>Farmers grow successful Swiss spaghetti harvest</p>
+				<p>Motorists see a UFO land in London</p>
+				<p>House is pulled down by contractors</p>
+			</div>
 
-				<div class="col-md-4">
-					<h4 class="light"><span data-start="34114" data-end="36420">Guessing</span></h4>
-					<ul>
-						<li><span data-start="36421" data-end="38661">I think it’s a &#8230;</span></li>
-						<li><span data-start="38662" data-end="40450">I reckon it’s a &#8230;</span></li>
-						<li><span data-start="40451" data-end="42330">It might be a &#8230;</span></li>
-						<li><span data-start="42331" data-end="43613">It could be a &#8230;</span></li>
-						<li><span data-start="43614" data-end="45220">It looks like a &#8230;</span></li>
-						<li><span data-start="45221" data-end="46974">It feels like a &#8230;</span></li>
-						<li><span data-start="46975" data-end="48712">Perhaps, it’s a &#8230;</span></li>
-						<li><span data-start="48713" data-end="50200">Maybe it’s a &#8230;</span></li>
-						<li><span data-start="50201" data-end="52500">In my opinion, it’s a &#8230;</span></li>
-						<li><span data-start="52501" data-end="54150">I’d say that it’s a &#8230;</span></li>
-						<li><span data-start="54151" data-end="56276">Is it a &#8230; ?</span></li>
-						</ul>
-				</div>
+			<h4><span class="accent">❷</span> <b>Listening</b></h4>
+			<p>Listen many time without looking at the transcript. Which of the above pranks is described in the article?</p>
 
-				<div class="col-md-4">
-					<h4><span data-start="56277" data-end="64800">Functional Conversation: The Guess</span></h4>
-					<table>
-						<tr>
-							<td>Dave:</td>
-							<td style="width: 100%;"><img src="2.png" class="frame" style="width: 60%; max-width: 3cm; float: right; margin-left: 8px; margin-top: 4px; margin-bottom: 4px;"><span data-start="64801" data-end="69804">So, what do you think it is?</span></td>
-						</tr>
-						<tr>
-							<td>Sally:</td>
-							<td><span data-start="69805" data-end="73589">I’m not sure.<br>It looks like a book.</span></td>
-						</tr>
-						<tr>
-							<td>Dave:</td>
-							<td><span data-start="73590" data-end="74744">Try again.</span></td>							
-						</tr>
-						<tr>
-							<td>Sally:</td>
-							<td><span data-start="74745" data-end="78497">Well, it feels like a CD or a DVD.</span></td>
-						</tr>
-						<tr>
-							<td>Dave:</td>
-							<td><span data-start="78498" data-end="79594">Closer.</span></td>
-						</tr>
-						<tr>
-							<td>Sally:</td>
-							<td><span data-start="79595" data-end="81362">Is it a DVD?</span></td>
-						</tr>
-						<tr>
-							<td>Dave:</td>
-							<td><span data-start="81363" data-end="83832">Bingo!</span></td>
-						</tr>
-					</table>
-				</div>
+			<h4><span class="accent">❸</span> <b>Reading</b></h4>
+			<p>Use the words below to retell the story.</p>
+			<div class="label-container">
+				<div class="cem-label">Texas</div>
+				<div class="cem-label">construction company</div>
+				<div class="cem-label">Jackson State University</div>
+				<div class="cem-label">$8,000</div>
+				<div class="cem-label">signs</div>
+				<div class="cem-label">demolished</div>
+				<div class="cem-label">$30,000</div>
+				<div class="cem-label">compensation</div>
+			</div>
+
+			<h4><span class="accent">❹</span> <b>Discussion</b></h4>
+			<ol>
+				<li><span>Have you ever played a trick on someone? What happened?</span></li>
+				<li><span>What are some typical pranks from your country?</span></li>
+				<li><span>When do people play pranks from your country? Is there a special day for playing pranks?</span></li>
+			</ol>
+
+			<div class="box fill-light">
+				<h4 style="margin-top: 0; font-weight: bold;"><i>Language spot: Collocations</i></h4>
+				<p>Remember to learn verbs with the nouns. These are called collocations. For example, <img src="lie.png" class="frame" style="float: right; width: 50%; max-width: 3cm; margin-top: 4px; margin-bottom: 4px; margin-left: 8px;"> “to tell a joke”. More nouns used with the verb “to tell”:</p>
+				<ol>
+					<li><span>to tell a lie</span></li>
+					<li><span>to tell a story</span></li>
+					<li><span>to tell the truth</span></li>
+				</ol>
+				<p style="margin-bottom: 0;">What do you think they mean?</p>
 			</div>
 
 			<div id="bottom-margin"></div>
@@ -189,24 +181,44 @@
 				$('#local-rules').text("\
 					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
 					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
-					h4 { background: #" + accentColor + "; } \
-					h4.light { background: " + tinycolor(accentColor).lighten().lighten() + "; } \
-					ul { color: " + tinycolor(accentColor).darken().darken() + "; } \
-					h1 { color: #" + accentColor + "; } \
-					li > span { color: #" + textColor + "; } \
-					#top-margin { padding-top: " + (topMargin+verticalMargin) + "px; background-color: " + tinycolor(accentColor).lighten() + "; margin-left: -" + horizontalMargin + "px; margin-right: -" + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
-					#bottom-margin { height: " + (bottomMargin) + "px; } \
-					tr:nth-child(odd) { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.cem-label { color: #" + backgroundColor + "; background-color: #" + textColor + "; -webkit-box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; } \
+					.box { padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
+					.fill-accent { background-color: " + highlightColor + "; } \
+					.fill-light { background-color: " + tinycolor(highlightColor).lighten() + "; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					.lockable { padding-left: " + spacing + "px; padding-right: " + spacing + "px; background-color: #" + textColor + "; } \
+					.highlight { background-color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
+					#title-container { background: -webkit-linear-gradient(" + tinycolor(textColor).setAlpha(0).toRgbString() + "," + tinycolor(textColor).toRgbString() + "); } \
 				");
 			}
 
 			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+				}
+
+				saveInstanceState();
+
+				if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+					app.setLongClickable(!b);
+			}
 
 			saveInstanceState = function() {
 				if(restoringInstanceState)
 					return;
 
 				outState = {
+					transcriptLocked: transcriptLocked,
 					scroll: prevScroll,
 				};
 
@@ -218,11 +230,28 @@
 				restoringInstanceState = true;
 				state = JSON.parse(savedInstanceState);
 
+				lock(state.transcriptLocked || true);
+
 				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
 				prevScroll = $('body').scrollTop() / $('body').height();
 
 				restoringInstanceState = false;
 			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to show text.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
 
 			setInterval(function() {
 				scroll = $('body').scrollTop() / $('body').height();
@@ -248,9 +277,17 @@
 				});
 			}
 
-			if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
-				app.setLongClickable(true);
+			if(typeof(app) != 'undefined') {
+				if(typeof(app.showGlossaryEx) == 'function') {
+					$(document).ready(function() {
+						$('a.new-word').prop('onclick', null).off('click').click(function() {
+							var rect = this.getBoundingClientRect();
+							app.showGlossaryEx($(this).data('word'), rect.left  * window.devicePixelRatio, rect.top * window.devicePixelRatio, $(this).height() * window.devicePixelRatio, false);
+							return false;
+						});
+					});
+				}
+			}
 		</script>
-
 	</body>
 </html>
