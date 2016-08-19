@@ -186,8 +186,11 @@
 
     <string name="pref_title_ringtone">Notification ringtone</string>
     <string name="pref_ringtone_silent">Silent</string>
-
     <string name="pref_title_vibrate">Vibrate</string>
+
+    <string name="tooltips_reset">Helpful tips will popup again!</string>
+    <string name="pref_summary_reset_tooltips">Show again helpful messages when appropriate.</string>
+    <string name="pref_title_reset_tooltips">Reset help tips</string>
 
     <string name="beginnerLevel">Beginner</string>
     <string name="intermediateLevel">Intermediate</string>
@@ -387,6 +390,9 @@
     <string name="aboutLibraries_description_special1_name">Changes</string>
     <string name="aboutLibraries_description_special1_text">
         <![CDATA[
+        <h4>Version 2.4</h4>
+        <b>-</b> Show help tips when appropriate<br>
+        <b>-</b> Blink to grab attention<br>
         <h4>Version 2.2</h4>
         <b>-</b> Enhanced user interface<br>
         <b>-</b> Expose content references<br>
