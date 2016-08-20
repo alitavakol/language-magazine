@@ -27,8 +27,8 @@
     <string name="about_completed_issues">وقتی همه درس‌های یه مجله رو به تعداد کافی تمرین کردی و مجله رو تموم کردی، اون رو به این‌جا منتقل کن. انگشت رو چند لحظه روی جلد مجله نگه دار تا گزینه‌های بیشتر رو ببینی.</string>
 
     <!-- Readme fragment -->
-    <string name="previous">قبلی</string>
-    <string name="next">بعدی</string>
+    <string name="previous"><b>قبلی</b></string>
+    <string name="next"><b>بعدی</b></string>
 
     <string name="readme_intro_0">سلام دوست من!</string>
     <string name="readme_intro_1">دوست داری توی ۶ ماه یا کمتر، با اعتماد به نفس کامل انگلیسی صحبت کنی؟</string>
@@ -157,11 +157,12 @@
     <string name="iab_response_result_error">خطای نامشخص؛ لطفاً چند دقیقه بعد تلاش کنید.</string>
 
     <string name="glossary_popup_tooltip">کلمه‌ها و عبارت‌های تازه، به طور <b>برجسته</b> نوشته شده‌اند. روی اون‌ها بزن تا معنی رو ببینی!</string>
-    <string name="glossary_popup_tooltip_title">می‌دونستی که&#8230;</string>
+    <string name="tooltip_title">می‌دونستی که&#8230;</string>
     <string name="listen_first_popup_tooltip">راه درست یادگیری اینه که قبل از دیدن متن، چندین بار فقط گوش بدی. حالا ۷ قانون یادگیری زبان رو بخون!</string>
     <string name="listen_first_popup_tooltip_title">اول گوش بده!</string>
     <string name="hot_english_times_tooltip">تعدادی از وقت‌های آزاد خودت رو به یادگیری زبان اختصاص بده؛ تا من تو رو برای بادگیری زبان هدایت کنم!</string>
     <string name="hot_english_times_tooltip_title">زنگ زبان</string>
+    <string name="volume_nav_tooltip">موقعی که نمایش‌گر خاموش هست، با <b>دکمه‌های تنظیم صدا</b> می‌تونی پخش صوت رو جلو و عقب کنی!\nتنظیمات برنامه رو ببین.</string>
 
     <string name="close">باشه</string>
     <string name="later">بعداً</string>

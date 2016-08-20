@@ -474,9 +474,10 @@
     <string name="new_issues_available">New issues available!</string>
 
     <string name="glossary_popup_tooltip">New words &amp; expressions are shown in <b>bold</b> font. Tap on them to view definition!</string>
-    <string name="glossary_popup_tooltip_title">Did you know&#8230;</string>
+    <string name="tooltip_title">Did you know&#8230;</string>
     <string name="listen_first_popup_tooltip">You will learn much better if you try to listen first; and not looking at text. Read the 7 rules now!</string>
     <string name="listen_first_popup_tooltip_title">Listen first!</string>
     <string name="hot_english_times_tooltip">Dedicate some times to learn English. Create alarms for the Hot English Times now!</string>
     <string name="hot_english_times_tooltip_title">Create alarms</string>
+    <string name="volume_nav_tooltip">You can <b>fast-forward or rewind audio playback with volume buttons</b> of your device, when screen is off!\nSee preferences.</string>
 </resources>

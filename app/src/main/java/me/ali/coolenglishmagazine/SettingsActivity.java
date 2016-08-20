@@ -34,8 +34,8 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
 
-        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        toolbarTitle.setText(R.string.action_settings);
+        if (toolbar != null)
+            ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText(R.string.action_settings);
 
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
@@ -82,6 +82,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 .remove("listen_first_popup_shown")
                                 .remove("glossary_popup_introduced")
                                 .remove("hot_english_times_tooltip_shown")
+                                .remove("volume_nav_tooltip_shown")
 //                                .remove("readme_seen")
                                 .apply();
 

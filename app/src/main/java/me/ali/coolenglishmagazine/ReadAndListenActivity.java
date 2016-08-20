@@ -76,7 +76,7 @@ import me.ali.coolenglishmagazine.util.NetworkHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
-public class ReadAndListenActivity extends AppCompatActivity implements View.OnClickListener, MusicService.OnMediaStateChangedListener, SeekBar.OnSeekBarChangeListener {
+public class ReadAndListenActivity extends AppCompatActivity implements View.OnClickListener, MusicService.OnMediaEventListener, SeekBar.OnSeekBarChangeListener {
 
     private static final String TAG = LogHelper.makeLogTag(ReadAndListenActivity.class);
 
@@ -498,7 +498,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             musicService = ((MusicService.MusicBinder) service).getService();
             LogHelper.d(TAG, "Bound to music service.");
 
-            musicService.setOnMediaStateChangedListener(ReadAndListenActivity.this);
+            musicService.setMediaEventListener(ReadAndListenActivity.this);
             boundToMusicService = true;
 
             musicService.setTimePoints(timePoints);
@@ -648,6 +648,40 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         }
 
         this.state = state;
+    }
+
+    @Override
+    public void onCompletion() {
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ReadAndListenActivity.this);
+
+        final String preferenceVolumePlaybackPopupShown = "volume_nav_tooltip_shown";
+
+        if (!preferences.getBoolean(preferenceVolumePlaybackPopupShown, false)) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        if (preferences.getBoolean(preferenceVolumePlaybackPopupShown, false))
+                            return;
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ReadAndListenActivity.this);
+                        builder.setMessage(R.string.volume_nav_tooltip)
+                                .setTitle(R.string.tooltip_title)
+                                .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                })
+                                .setCancelable(true)
+                                .show();
+
+                        preferences.edit().putBoolean(preferenceVolumePlaybackPopupShown, true).apply();
+
+                    } catch (Exception e) {
+                    }
+                }
+            }, 3000);
+        }
     }
 
     /**
@@ -838,7 +872,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
                                         AlertDialog.Builder builder = new AlertDialog.Builder(ReadAndListenActivity.this);
                                         builder.setMessage(R.string.glossary_popup_tooltip)
-                                                .setTitle(R.string.glossary_popup_tooltip_title)
+                                                .setTitle(R.string.tooltip_title)
                                                 .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
