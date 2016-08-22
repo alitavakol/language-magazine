@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ import me.ali.coolenglishmagazine.util.Account;
 import me.ali.coolenglishmagazine.util.Blinker;
 import me.ali.coolenglishmagazine.util.DividerDrawerItem;
 import me.ali.coolenglishmagazine.util.FontManager;
+import me.ali.coolenglishmagazine.util.Identification;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.util.NetworkHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -306,6 +308,7 @@ public class RootActivity extends AppCompatActivity implements
         // manually load drawer header, and apply custom typeface to it.
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         ViewGroup headerView = (ViewGroup) inflater.inflate(R.layout.drawer_header, null);
+        ((TextView) headerView.findViewById(R.id.app_name)).setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.UBUNTU_BOLD));
 
         profilePicture = (ImageView) headerView.findViewById(R.id.profile_image);
         userName = (TextView) headerView.findViewById(R.id.user_name);
@@ -317,8 +320,6 @@ public class RootActivity extends AppCompatActivity implements
 
         if (signingIn)
             showProgressDialog();
-
-        ((TextView) headerView.findViewById(R.id.app_name)).setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.UBUNTU_BOLD));
 
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -364,6 +365,19 @@ public class RootActivity extends AppCompatActivity implements
         final PrimaryDrawerItem readme = new PrimaryDrawerItem().withName(R.string.readme).withIcon(GoogleMaterial.Icon.gmd_sentiment_satisfied).withSelectedColorRes(R.color.primary).withPostOnBindViewListener(drawerIconListeners[3]).withIdentifier(3);
 
         final PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info_outline).withSelectedColorRes(R.color.primary).withIdentifier(5);
+
+        ViewGroup footerView = (ViewGroup) inflater.inflate(R.layout.drawer_footer, null);
+        ((TextView) footerView.findViewById(R.id.material_drawer_name)).setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.UBUNTU));
+        footerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.closeDrawer();
+
+                FragmentManager fm = getSupportFragmentManager();
+                GemFragment fragment = new GemFragment();
+                fragment.show(fm, "gemFragment");
+            }
+        });
 
         drawer = new DrawerBuilder()
                 .withSliderBackgroundColorRes(R.color.accent)
@@ -429,12 +443,15 @@ public class RootActivity extends AppCompatActivity implements
                         } else {
                             Toast.makeText(RootActivity.this, "item clicked: " + position, Toast.LENGTH_SHORT).show();
                         }
-
                         drawerSelection = position;
                         return false;
                     }
                 })
                 .withSelectedItemByPosition(drawerSelection)
+                .withStickyFooter(footerView)
+                .withFooterClickable(true)
+//                .withStickyFooterShadow(false)
+                .withStickyFooterDivider(true)
                 .build();
     }
 

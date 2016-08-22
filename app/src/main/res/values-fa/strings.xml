@@ -166,4 +166,10 @@
 
     <string name="close">باشه</string>
     <string name="later">بعداً</string>
+
+    <string name="gem_dialog_hint">یه شماره رایگان بهت هدیه میدم! من رو به سه نفر از کسانی که دوستشون داری معرفی کن تا من رو روی گوشی‌شون نصب کنن؛ بعد به هر سه تاشون بگو که بهت الماس پرتاب کنن!</string>
+    <string name="gem_dialog_title">سه الماس و یک مجله رایگان!</string>
+    <string name="throw_button_title">پرتاب الماس</string>
+    <string name="share_button_title">معرفی من به دوستان</string>
+    <string name="wait">چند لحظه&#8230;</string>
 </resources>

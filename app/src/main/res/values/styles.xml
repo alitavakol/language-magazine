@@ -124,4 +124,24 @@
     </style>
 
     <style name="SplashTheme" parent="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">#212121</item>
+        <item name="android:textColorSecondary">#323232</item>
+        <item name="android:textViewStyle">@style/AppTheme.Widget.TextView</item>
+        <item name="colorButtonNormal">@color/accent</item>
+        <item name="android:buttonStyle">?android:attr/buttonStyleSmall</item>
+    </style>
+
+    <style name="AppTheme.Widget.TextView.Readme.Bold" parent="AppTheme.Widget.TextView.Readme">
+        <item name="fontPath">Ubuntu-Bold.ttf</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="AppTheme.Widget.TextView.Readme.Button" parent="AppTheme.Widget.TextView.Readme">
+        <item name="android:textSize">16sp</item>
+    </style>
 </resources>

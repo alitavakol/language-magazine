@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Hot English Magazine</string>
-    <string name="app_website">https://cafebazaar.ir/developer/777214402747/</string>
-    <string name="app_icon_url">https://cafebazaar.ir/media/upload/icons/me.ali.coolenglishmagazine.png</string>
+    <string name="app_website">http://cafebazaar.ir/app/me.ali.coolenglishmagazine/</string>
+    <string name="app_icon_url">http://cafebazaar.ir/media/upload/icons/me.ali.coolenglishmagazine.png</string>
 
     <string name="gallery_of_issues">Gallery of Issues</string>
     <string name="cool_english_times">Hot English Times</string>
@@ -292,6 +292,7 @@
     <string name="share_description" formatted="false">Do you want to speak English confidently in 6 months or less?\n\nWith 7 important rules of learning English, the Hot English Magazine app teaches you how to speak powerfully, confidently and successfully: \n1- Learn phrases, not words!\n2- Don’t study grammar!\n3- Listen first.\n4- Slow, deep learning is best.\n5- Use point of view stories.\n6- Listen only to real English.\n7- Listen &amp; answer mini-stories.\n\nTo read more about the rules, and learn with the Hot English Magazine, see: %1$s</string>
     <string name="share_description_twitter">Learn to think in English &amp; speak fluently with the Hot English Magazine app!\n</string>
     <string name="share_title">Hey! Let’s learn with the Hot English Magazine!</string>
+    <string name="share_description_short" formatted="false">Hey friend! Install the Hot English Magazine app, and learn to listen and speak English with a lot of fun! %1$s</string>
 
     <string name="copied_to_clipboard">Copied to clipboard!</string>
 
@@ -468,7 +469,7 @@
     <string name="reject">انصراف</string>
     <string name="incorrect_owner">خرید این محتوا قبلاً به نام فرد دیگری در کافه بازار ثبت شده است. لطفاً حساب کاربری خود را بررسی کنید.</string>
     <string name="incorrect_owner_title">خطا</string>
-    ```
+
     <string name="new_word_and_type">%1$s\u0020\u0020\u0020\u0020%2$s</string>
 
     <string name="new_issues_available">New issues available!</string>
@@ -480,4 +481,14 @@
     <string name="hot_english_times_tooltip">Dedicate some times to learn English. Create alarms for the Hot English Times now!</string>
     <string name="hot_english_times_tooltip_title">Create alarms</string>
     <string name="volume_nav_tooltip">You can <b>fast-forward or rewind audio playback with volume buttons</b> of your device, when screen is off!\nSee preferences.</string>
+
+    <string name="gift_drawer_label">Throw a Gem!</string>
+    <string name="gem_path_prefix">/hem/gem</string>
+    <string name="gem_host">alitavakol.me</string>
+
+    <string name="gem_dialog_hint"><b>Get a bonus free magazine issue!</b> Share this app with <b>three friends</b>, and ask them to throw you a gem!</string>
+    <string name="gem_dialog_title">Bonus!</string>
+    <string name="throw_button_title">Throw a Gem</string>
+    <string name="share_button_title">Tell a Friend</string>
+    <string name="throw_share_title">Thanks mate. Here is your gem!</string>
 </resources>

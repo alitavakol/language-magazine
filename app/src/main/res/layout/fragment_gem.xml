@@ -1,0 +1,62 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/constant_margin"
+    android:paddingTop="@dimen/constant_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/AppTheme.Widget.TextView.Readme.Bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/constant_margin"
+            android:layout_marginLeft="@dimen/constant_margin"
+            android:layout_marginRight="@dimen/constant_margin"
+            android:layout_marginStart="@dimen/constant_margin"
+            android:paddingBottom="@dimen/padding_normal"
+            android:text="@string/gem_dialog_title" />
+
+        <TextView
+            style="@style/AppTheme.Widget.TextView.Readme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/constant_margin"
+            android:layout_marginLeft="@dimen/constant_margin"
+            android:layout_marginRight="@dimen/constant_margin"
+            android:layout_marginStart="@dimen/constant_margin"
+            android:paddingBottom="@dimen/padding_normal"
+            android:text="@string/gem_dialog_hint" />
+
+        <Button
+            android:id="@+id/buttonShare"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/constant_margin"
+            android:layout_marginLeft="@dimen/constant_margin"
+            android:layout_marginRight="@dimen/constant_margin"
+            android:layout_marginStart="@dimen/constant_margin"
+            android:text="@string/share_button_title"
+            android:textAppearance="@style/AppTheme.Widget.TextView.Readme.Button"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimaryLight" />
+
+        <Button
+            android:id="@+id/buttonThrow"
+            style="@style/Widget.AppCompat.Button"
+            android:textAllCaps="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/constant_margin"
+            android:layout_marginLeft="@dimen/constant_margin"
+            android:layout_marginRight="@dimen/constant_margin"
+            android:layout_marginStart="@dimen/constant_margin"
+            android:text="@string/throw_button_title"
+            android:textAppearance="@style/AppTheme.Widget.TextView.Readme.Button"
+            android:textColor="@color/colorPrimaryLight" />
+    </LinearLayout>
+</ScrollView>
