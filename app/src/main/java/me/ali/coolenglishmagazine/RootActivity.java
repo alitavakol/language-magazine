@@ -47,7 +47,6 @@ import me.ali.coolenglishmagazine.util.Account;
 import me.ali.coolenglishmagazine.util.Blinker;
 import me.ali.coolenglishmagazine.util.DividerDrawerItem;
 import me.ali.coolenglishmagazine.util.FontManager;
-import me.ali.coolenglishmagazine.util.Identification;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.util.NetworkHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -182,7 +181,7 @@ public class RootActivity extends AppCompatActivity implements
     /**
      * index of drawer item which needs user attention; and drawer indicator is blinking for it.
      */
-    int attentionIndex;
+    int attentionIndex = -1;
 
     class OnPostBindDrawerIconListener implements OnPostBindViewListener {
         int index;
@@ -274,16 +273,30 @@ public class RootActivity extends AppCompatActivity implements
             }
         }
 
-        if (attentionIndex != -1 && drawerSelection != attentionIndex) {
+        if (attentionIndex == -1) { // blink gem drawer footer if not seen
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            if (!preferences.getBoolean("gem_seen", false)) {
+                if (footerIconBlinker == null)
+                    footerIconBlinker = new Blinker();
+                if (footerView != null)
+                    footerIconBlinker.setBlinkingView(footerView.findViewById(R.id.material_drawer_icon));
+                footerIconBlinker.start();
+
+            } else if (footerIconBlinker != null)
+                footerIconBlinker.stop();
+
+        } else if (footerIconBlinker != null)
+            footerIconBlinker.stop();
+
+        if ((attentionIndex != -1 && drawerSelection != attentionIndex)
+                || (attentionIndex == -1 && footerIconBlinker != null && !footerIconBlinker.stopped)) {
             if (drawerIndicatorBlinker == null) {
                 drawerIndicatorBlinker = new Blinker();
                 drawerIndicatorBlinker.setOnTimerShot(onBlinkerTimerShot);
             }
             drawerIndicatorBlinker.start();
-        }
 
-        if (drawerIndicatorBlinker != null
-                && (attentionIndex == -1 || drawerSelection == attentionIndex)) {
+        } else if (drawerIndicatorBlinker != null) {
             drawerIndicatorBlinker.stop();
         }
     }
@@ -294,8 +307,16 @@ public class RootActivity extends AppCompatActivity implements
 
         @Override
         public void onTimerShot(Blinker blinker) {
-            drawer.getActionBarDrawerToggle().setHomeAsUpIndicator(dummy);
-            drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(blinker.visible || blinker.stopped);
+            try {
+                if ((attentionIndex != -1 && drawerIconListeners[attentionIndex].blinker.view != null)
+                        || (footerIconBlinker != null && !footerIconBlinker.stopped)) {
+                    drawer.getActionBarDrawerToggle().setHomeAsUpIndicator(dummy);
+                    drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(blinker.visible || blinker.stopped);
+                }
+
+            } catch (Exception e) {
+                blinker.stop();
+            }
         }
 
         @Override
@@ -303,6 +324,9 @@ public class RootActivity extends AppCompatActivity implements
             drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
         }
     };
+
+    Blinker footerIconBlinker;
+    ViewGroup footerView;
 
     protected void setupNavigationDrawer() {
         // manually load drawer header, and apply custom typeface to it.
@@ -366,7 +390,7 @@ public class RootActivity extends AppCompatActivity implements
 
         final PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info_outline).withSelectedColorRes(R.color.primary).withIdentifier(5);
 
-        ViewGroup footerView = (ViewGroup) inflater.inflate(R.layout.drawer_footer, null);
+        footerView = (ViewGroup) inflater.inflate(R.layout.drawer_footer, null);
         ((TextView) footerView.findViewById(R.id.material_drawer_name)).setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.UBUNTU));
         footerView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -398,6 +422,9 @@ public class RootActivity extends AppCompatActivity implements
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawerSelection == position)
                             return false;
+
+                        if (drawerSelection == 3 && readmeFragment != null)
+                            ((ReadmeFragment) readmeFragment).setSeen(RootActivity.this);
 
                         Fragment fragment = null;
                         String tag = null;
@@ -450,7 +477,6 @@ public class RootActivity extends AppCompatActivity implements
                 .withSelectedItemByPosition(drawerSelection)
                 .withStickyFooter(footerView)
                 .withFooterClickable(true)
-//                .withStickyFooterShadow(false)
                 .withStickyFooterDivider(true)
                 .build();
     }
@@ -649,6 +675,9 @@ public class RootActivity extends AppCompatActivity implements
 
         if (drawerIndicatorBlinker != null)
             drawerIndicatorBlinker.stop();
+
+        if (footerIconBlinker != null)
+            footerIconBlinker.stop();
     }
 
     public void signingIn(boolean signingIn) {

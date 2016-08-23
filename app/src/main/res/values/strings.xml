@@ -482,13 +482,16 @@
     <string name="hot_english_times_tooltip_title">Create alarms</string>
     <string name="volume_nav_tooltip">You can <b>fast-forward or rewind audio playback with volume buttons</b> of your device, when screen is off!\nSee preferences.</string>
 
-    <string name="gift_drawer_label">Throw a Gem!</string>
+    <string name="gift_drawer_label">Apprise!</string>
     <string name="gem_path_prefix">/hem/gem</string>
     <string name="gem_host">alitavakol.me</string>
 
-    <string name="gem_dialog_hint"><b>Get a bonus free magazine issue!</b> Share this app with <b>three friends</b>, and ask them to throw you a gem!</string>
-    <string name="gem_dialog_title">Bonus!</string>
-    <string name="throw_button_title">Throw a Gem</string>
-    <string name="share_button_title">Tell a Friend</string>
+    <string name="gem_dialog_hint"><b>Get a bonus free magazine issue!</b> Recommend me to <b>three friends</b>, and ask them all to send gems to you!</string>
+    <string name="gem_dialog_share_hint">Want to tell a friend about me?</string>
+    <string name="gem_dialog_throw_hint">Want to send a gem to who recommended me?</string>
+    <string name="gem_dialog_title"> Bonus!</string>
+    <string name="throw_button_title">Send a Gem</string>
+    <string name="share_button_title">Recommend Me</string>
     <string name="throw_share_title">Thanks mate. Here is your gem!</string>
+    <string name="thrown_gem_text">Hey! Take your gem! Open it: %1$s</string>
 </resources>

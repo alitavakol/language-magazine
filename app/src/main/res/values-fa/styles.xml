@@ -37,8 +37,8 @@
     </style>
 
     <style name="Widget.AppCompat.Button.Borderless.Fa" parent="Widget.AppCompat.Button.Borderless">
-        <item name="fontPath">AdobeArabic-Regular.otf</item>
-        <item name="android:textSize">18sp</item>
+        <item name="fontPath">AdobeArabic-Bold.ttf</item>
+        <item name="android:textSize">22sp</item>
     </style>
 
     <style name="AppTheme.Widget.TextView.Readme.Button" parent="AppTheme.Widget.TextView.Readme.Bold">

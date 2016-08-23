@@ -2,8 +2,10 @@ package me.ali.coolenglishmagazine;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -28,6 +30,13 @@ public class GemFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogTheme);
+
+        final RootActivity activity = (RootActivity) getActivity();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        if (!preferences.getBoolean("gem_seen", false)) {
+            preferences.edit().putBoolean("gem_seen", true).apply();
+            activity.updateIconBlinkers();
+        }
     }
 
     Button buttonThrow, buttonShare;
@@ -43,7 +52,7 @@ public class GemFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 final Context context = getContext();
-                ShareFragment.openShareSelector(context, getString(R.string.throw_share_title), Identification.getGemUrl(context));
+                ShareFragment.openShareSelector(context, getString(R.string.throw_share_title), getString(R.string.thrown_gem_text, Identification.getGemUrl(context)));
 
                 disableButtons((Button) v);
                 new Handler().postDelayed(new Runnable() {
@@ -73,7 +82,7 @@ public class GemFragment extends DialogFragment {
                         } catch (Exception e) {
                         }
                     }
-                }, 2000);
+                }, 3000);
             }
         });
 

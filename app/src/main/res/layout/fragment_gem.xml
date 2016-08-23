@@ -18,7 +18,8 @@
             android:layout_marginRight="@dimen/constant_margin"
             android:layout_marginStart="@dimen/constant_margin"
             android:paddingBottom="@dimen/padding_normal"
-            android:text="@string/gem_dialog_title" />
+            android:text="@string/gem_dialog_title"
+            android:textColor="@color/primary_dark" />
 
         <TextView
             style="@style/AppTheme.Widget.TextView.Readme"
@@ -31,6 +32,16 @@
             android:paddingBottom="@dimen/padding_normal"
             android:text="@string/gem_dialog_hint" />
 
+        <TextView
+            style="@style/AppTheme.Widget.TextView.Readme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/constant_margin"
+            android:layout_marginLeft="@dimen/constant_margin"
+            android:layout_marginRight="@dimen/constant_margin"
+            android:layout_marginStart="@dimen/constant_margin"
+            android:text="@string/gem_dialog_share_hint" />
+
         <Button
             android:id="@+id/buttonShare"
             style="@style/Widget.AppCompat.Button"
@@ -40,22 +51,35 @@
             android:layout_marginLeft="@dimen/constant_margin"
             android:layout_marginRight="@dimen/constant_margin"
             android:layout_marginStart="@dimen/constant_margin"
+            android:minHeight="0dp"
             android:text="@string/share_button_title"
-            android:textAppearance="@style/AppTheme.Widget.TextView.Readme.Button"
             android:textAllCaps="true"
+            android:textAppearance="@style/AppTheme.Widget.TextView.Readme.Button"
             android:textColor="@color/colorPrimaryLight" />
 
-        <Button
-            android:id="@+id/buttonThrow"
-            style="@style/Widget.AppCompat.Button"
-            android:textAllCaps="true"
+        <TextView
+            style="@style/AppTheme.Widget.TextView.Readme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/constant_margin"
             android:layout_marginLeft="@dimen/constant_margin"
             android:layout_marginRight="@dimen/constant_margin"
             android:layout_marginStart="@dimen/constant_margin"
+            android:paddingTop="@dimen/padding_normal"
+            android:text="@string/gem_dialog_throw_hint" />
+
+        <Button
+            android:id="@+id/buttonThrow"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/constant_margin"
+            android:layout_marginLeft="@dimen/constant_margin"
+            android:layout_marginRight="@dimen/constant_margin"
+            android:layout_marginStart="@dimen/constant_margin"
+            android:minHeight="0dp"
             android:text="@string/throw_button_title"
+            android:textAllCaps="true"
             android:textAppearance="@style/AppTheme.Widget.TextView.Readme.Button"
             android:textColor="@color/colorPrimaryLight" />
     </LinearLayout>
