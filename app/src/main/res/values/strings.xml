@@ -480,4 +480,7 @@
     <string name="hot_english_times_tooltip">Dedicate some times to learn English. Create alarms for the Hot English Times now!</string>
     <string name="hot_english_times_tooltip_title">Create alarms</string>
     <string name="volume_nav_tooltip">You can <b>fast-forward or rewind audio playback with volume buttons</b> of your device, when screen is off!\nSee preferences.</string>
+
+    <string name="rate_app_title">Rate Me!</string>
+    <string name="rate_app">Would you leave a comment and rate this app?</string>
 </resources>

@@ -162,8 +162,11 @@
     <string name="listen_first_popup_tooltip_title">اول گوش بده!</string>
     <string name="hot_english_times_tooltip">تعدادی از وقت‌های آزاد خودت رو به یادگیری زبان اختصاص بده؛ تا من تو رو برای بادگیری زبان هدایت کنم!</string>
     <string name="hot_english_times_tooltip_title">زنگ زبان</string>
-    <string name="volume_nav_tooltip">موقعی که نمایش‌گر خاموش هست، با <b>دکمه‌های تنظیم صدا</b> می‌تونی پخش صوت رو جلو و عقب کنی!\nتنظیمات برنامه رو ببین.</string>
+    <string name="volume_nav_tooltip">موقعی که نمایش‌گر خاموش هست، با <b>دکمه‌های تنظیم صدا</b> می‌تونی پخش گفتار رو جلو و عقب کنی!\nتنظیمات برنامه رو ببین.</string>
 
     <string name="close">باشه</string>
     <string name="later">بعداً</string>
+
+    <string name="rate_app_title">نظرسنجی</string>
+    <string name="rate_app">برای بهتر شدن برنامه و حمایت از سازنده‌اش، لطفاً نظرتون رو به ما برسونید و به برنامه امتیاز بدید.</string>
 </resources>
