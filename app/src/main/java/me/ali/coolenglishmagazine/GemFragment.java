@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Toast;
 
 import me.ali.coolenglishmagazine.util.Identification;
 
@@ -52,18 +53,23 @@ public class GemFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 final Context context = getContext();
-                ShareFragment.openShareSelector(context, getString(R.string.throw_share_title), getString(R.string.thrown_gem_text, Identification.getGemUrl(context)));
+                try {
+                    ShareFragment.openShareSelector(context, getString(R.string.throw_share_title), getString(R.string.thrown_gem_text, Identification.getGemUrl(context)));
 
-                disableButtons((Button) v);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            dismiss();
-                        } catch (Exception e) {
+                    disableButtons((Button) v);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                dismiss();
+                            } catch (Exception e) {
+                            }
                         }
-                    }
-                }, 2000);
+                    }, 2000);
+
+                } catch (Exception e) {
+                    Toast.makeText(context, R.string.gem_not_supported, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

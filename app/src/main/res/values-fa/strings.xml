@@ -174,4 +174,12 @@
     <string name="throw_button_title">خال بفرست</string>
     <string name="share_button_title">من رو سفارش کن</string>
     <string name="wait">چند لحظه&#8230;</string>
+    <string name="new_gem_msg_1">تا الآن %d خال به دست آورده‌ای!</string>
+    <string name="new_gem_msg_2">@string/new_gem_msg_1</string>
+    <string name="new_gem_msg_3">تا الآن %d خال به دست آورده‌ای و یک شماره از مجله به عنوان هدیه بهت تقدیم میشه! هر وقت که مجله‌ی دلخواه خودت رو انتخاب کردی، فرآیند خرید رو براش آغاز کن؛ به جای پرداخت نقدی، از خال‌هایی که به دست آوردی هزینه خواهد شد.</string>
+    <string name="new_gem_msg_4">تا الآن %d خال به دست آورده‌ای! از لطف تو متشکرم؛ البته به خاطر داشته باش که با این روش، تنها یک بار شماره‌ی رایگان هدیه می‌گیری.</string>
+    <string name="new_gem_msg_title">خال جدید</string>
+    <string name="new_gem_error_title">خطا</string>
+    <string name="new_gem_error">سرور پیغام خطا فرستاد: %s</string>
+    <string name="gem_network_error">لطفاً اتصال اینترنت رو برقرار کنید و مجددا تلاش کنید.</string>
 </resources>

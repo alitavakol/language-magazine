@@ -494,4 +494,14 @@
     <string name="share_button_title">Recommend Me</string>
     <string name="throw_share_title">Thanks mate. Here is your gem!</string>
     <string name="thrown_gem_text">Hey! Take your gem! Open it: %1$s</string>
+    <string name="gem_not_supported">Sorry, your device does not support this feature.</string>
+    <string name="server_error">Server error occurred.</string>
+    <string name="new_gem_msg_1">You have got %d gem now!</string>
+    <string name="new_gem_msg_2">You have got %d gems now!</string>
+    <string name="new_gem_msg_3">You have got %d gems now! You will get your bonus free issue, when you are about to purchase it.</string>
+    <string name="new_gem_msg_4">You have got %d gems now! Thank you, but you can get only one bonus free issue.</string>
+    <string name="new_gem_msg_title">Gem received</string>
+    <string name="new_gem_error_title">Error</string>
+    <string name="new_gem_error">Server responded: %s</string>
+    <string name="gem_network_error">Please connect to internet, and try again.</string>
 </resources>

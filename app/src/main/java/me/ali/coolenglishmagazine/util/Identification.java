@@ -5,6 +5,7 @@ import android.provider.Settings;
 
 import java.security.MessageDigest;
 
+import me.ali.coolenglishmagazine.BuildConfig;
 import me.ali.coolenglishmagazine.R;
 
 /**
@@ -17,35 +18,27 @@ public class Identification {
      *
      * @return ID
      */
-    public static String getUniqueDeviceID(Context context) {
-        // Thanks to @Roman SL!
-        // http://stackoverflow.com/a/4789483/950427
-        // Only devices with API >= 9 have android.os.Build.SERIAL
-        // http://developer.android.com/reference/android/os/Build.html#SERIAL
-        // If a user upgrades software or roots their device, there will be a duplicate entry
-        try {
-            String serial = android.os.Build.class.getField("SERIAL").get(null).toString();
+    public static String getUniqueDeviceID(Context context) throws Exception {
+        String serial = android.os.Build.class.getField("SERIAL").get(null).toString();
+        if (!BuildConfig.DEBUG && serial.contains("unknown"))
+            throw new Exception("Serial is not defined.");
 
-            final String android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-            if (android_id != null)
-                serial += android_id;
+        final String android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        if (android_id != null)
+            serial += android_id;
 
-            MessageDigest md5 = MessageDigest.getInstance("MD5");
-            md5.update(serial.getBytes());
-            byte[] hash = md5.digest();
-            StringBuilder sb = new StringBuilder(32 + 1);
-            for (byte b : hash)
-                sb.append(String.format("%02x", b));
+        MessageDigest md5 = MessageDigest.getInstance("MD5");
+        md5.update(serial.getBytes());
+        byte[] hash = md5.digest();
+        StringBuilder sb = new StringBuilder(32 + 1);
+        for (byte b : hash)
+            sb.append(String.format("%02x", b));
 
-            // Go ahead and return the serial for api => 9
-            return sb.substring(24) + serial;
-
-        } catch (Exception e) {
-            return null;
-        }
+        // Go ahead and return the serial for api => 9
+        return sb.substring(0, 14) + serial;
     }
 
-    public static String getGemUrl(Context context) {
+    public static String getGemUrl(Context context) throws Exception {
         return "http://" + context.getString(R.string.gem_host) + context.getString(R.string.gem_path_prefix) + "?id=" + getUniqueDeviceID(context);
     }
 }
