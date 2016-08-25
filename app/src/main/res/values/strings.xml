@@ -504,4 +504,5 @@
     <string name="new_gem_error_title">Error</string>
     <string name="new_gem_error">Server responded: %s</string>
     <string name="gem_network_error">Please connect to internet, and try again.</string>
+    <string name="gem_experimental">Note: This is an experimental feature, and may not work on your device.</string>
 </resources>

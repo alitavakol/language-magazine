@@ -64,6 +64,9 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="AppTheme.Widget.TextView.Readme.Italic.Small" parent="AppTheme.Widget.TextView.Italic">
+    </style>
+
     <style name="AppTheme.Widget.TextView.ContextHelp" parent="android:Widget.Holo.Light.TextView">
         <!--<item name="fontPath">Ubuntu-Bold.ttf</item>-->
         <item name="android:textSize">18sp</item>

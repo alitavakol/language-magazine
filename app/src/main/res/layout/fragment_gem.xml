@@ -82,5 +82,18 @@
             android:textAllCaps="true"
             android:textAppearance="@style/AppTheme.Widget.TextView.Readme.Button"
             android:textColor="@color/colorPrimaryLight" />
+
+        <TextView
+            style="@style/AppTheme.Widget.TextView.Readme.Italic.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/constant_margin"
+            android:layout_marginLeft="@dimen/constant_margin"
+            android:layout_marginRight="@dimen/constant_margin"
+            android:layout_marginStart="@dimen/constant_margin"
+            android:layout_marginTop="@dimen/padding_normal"
+            android:paddingTop="@dimen/padding_normal"
+            android:text="@string/gem_experimental"
+            android:textColor="@color/colorAccentTransparent" />
     </LinearLayout>
 </ScrollView>

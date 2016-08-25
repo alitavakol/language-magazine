@@ -182,4 +182,5 @@
     <string name="new_gem_error_title">خطا</string>
     <string name="new_gem_error">سرور پیغام خطا فرستاد: %s</string>
     <string name="gem_network_error">لطفاً اتصال اینترنت رو برقرار کنید و مجددا تلاش کنید.</string>
+    <string name="gem_experimental">توجه: این یک ویژگی تازه است و ممکن است روی دستگاه شما کار نکند.</string>
 </resources>

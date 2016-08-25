@@ -31,6 +31,10 @@
         <item name="fontPath">AdobeArabic-Italic.otf</item>
     </style>
 
+    <style name="AppTheme.Widget.TextView.Readme.Italic.Small" parent="AppTheme.Widget.TextView.Readme.Italic">
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="AppTheme.Widget.TextView.Small" parent="Base.TextAppearance.AppCompat.Small">
         <item name="fontPath">AdobeArabic-Regular.otf</item>
         <item name="android:textSize">18sp</item>
