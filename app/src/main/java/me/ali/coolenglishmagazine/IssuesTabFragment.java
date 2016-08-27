@@ -821,7 +821,7 @@ public class IssuesTabFragment extends Fragment implements
                     StatFs stat = new StatFs(selectedIssues[0].rootDirectory.getAbsolutePath());
                     long bytesAvailable;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
-                        bytesAvailable = stat.getBlockSizeLong() * stat.getAvailableBlocksLong();
+                        bytesAvailable = stat.getBlockSizeLong() * stat.getAvailableBlocksLong() / 1024L / 1024L;
                     else
                         bytesAvailable = (long) stat.getBlockSize() * (long) stat.getAvailableBlocks() / 1024L / 1024L;
 
