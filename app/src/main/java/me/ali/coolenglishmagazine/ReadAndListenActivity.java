@@ -1,6 +1,7 @@
 package me.ali.coolenglishmagazine;
 
 import android.app.NotificationManager;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,6 +10,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -76,7 +78,7 @@ import me.ali.coolenglishmagazine.util.NetworkHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
-public class ReadAndListenActivity extends AppCompatActivity implements View.OnClickListener, MusicService.OnMediaStateChangedListener, SeekBar.OnSeekBarChangeListener {
+public class ReadAndListenActivity extends AppCompatActivity implements View.OnClickListener, MusicService.OnMediaEventListener, SeekBar.OnSeekBarChangeListener {
 
     private static final String TAG = LogHelper.makeLogTag(ReadAndListenActivity.class);
 
@@ -498,7 +500,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             musicService = ((MusicService.MusicBinder) service).getService();
             LogHelper.d(TAG, "Bound to music service.");
 
-            musicService.setOnMediaStateChangedListener(ReadAndListenActivity.this);
+            musicService.setMediaEventListener(ReadAndListenActivity.this);
             boundToMusicService = true;
 
             musicService.setTimePoints(timePoints);
@@ -648,6 +650,86 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         }
 
         this.state = state;
+    }
+
+    @Override
+    public void onCompletion() {
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ReadAndListenActivity.this);
+
+        final String preferenceVolumePlaybackPopupShown = "volume_nav_tooltip_shown";
+        final String preferenceRateAppCounter = "rate_app_counter";
+        final String preferenceRateAppDialogShown = "rate_app_shown";
+
+        if (!preferences.getBoolean(preferenceVolumePlaybackPopupShown, false)) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        if (preferences.getBoolean(preferenceVolumePlaybackPopupShown, false))
+                            return;
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ReadAndListenActivity.this);
+                        builder.setMessage(R.string.volume_nav_tooltip)
+                                .setTitle(R.string.tooltip_title)
+                                .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                })
+                                .setCancelable(true)
+                                .show();
+
+                        preferences.edit().putBoolean(preferenceVolumePlaybackPopupShown, true).apply();
+
+                    } catch (Exception e) {
+                    }
+                }
+            }, 3000);
+        }
+
+        if (!preferences.getBoolean(preferenceRateAppDialogShown, false)) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        int rateAppCounter = preferences.getInt(preferenceRateAppCounter, 1);
+                        if (rateAppCounter % 10 == 0) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ReadAndListenActivity.this);
+                            builder.setMessage(R.string.rate_app)
+                                    .setTitle(R.string.rate_app_title)
+                                    .setIcon(new IconicsDrawable(ReadAndListenActivity.this).icon(FontAwesome.Icon.faw_comments_o).sizeDp(72).colorRes(R.color.primary_dark))
+                                    .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            try {
+                                                // open Bazaar to rate this app
+                                                Intent intent = new Intent(Intent.ACTION_EDIT);
+                                                intent.setData(Uri.parse("bazaar://details?id=" + getPackageName()));
+                                                intent.setPackage("com.farsitel.bazaar");
+                                                startActivity(intent);
+
+                                                preferences.edit().putBoolean(preferenceRateAppDialogShown, true).apply();
+
+                                            } catch (ActivityNotFoundException e) {
+                                                Toast.makeText(ReadAndListenActivity.this, R.string.app_store_not_found, Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.later, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                        }
+                                    })
+                                    .setCancelable(true)
+                                    .show();
+                        }
+                        preferences.edit().putInt(preferenceRateAppCounter, rateAppCounter + 1).apply();
+
+                    } catch (Exception e) {
+                    }
+                }
+            }, 2000);
+        }
     }
 
     /**
@@ -807,6 +889,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                                         AlertDialog.Builder builder = new AlertDialog.Builder(ReadAndListenActivity.this);
                                         builder.setMessage(R.string.listen_first_popup_tooltip)
                                                 .setTitle(R.string.listen_first_popup_tooltip_title)
+                                                .setIcon(new IconicsDrawable(ReadAndListenActivity.this).icon(FontAwesome.Icon.faw_eye_slash).sizeDp(72).colorRes(R.color.primary_dark))
                                                 .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
@@ -838,7 +921,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
                                         AlertDialog.Builder builder = new AlertDialog.Builder(ReadAndListenActivity.this);
                                         builder.setMessage(R.string.glossary_popup_tooltip)
-                                                .setTitle(R.string.glossary_popup_tooltip_title)
+                                                .setTitle(R.string.tooltip_title)
+                                                .setIcon(new IconicsDrawable(ReadAndListenActivity.this).icon(FontAwesome.Icon.faw_language).sizeDp(72).colorRes(R.color.primary_dark))
                                                 .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {

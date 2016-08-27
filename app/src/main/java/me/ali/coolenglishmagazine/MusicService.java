@@ -133,6 +133,9 @@ public class MusicService extends Service implements
 
         // user has learnt this item. increment hit count if it is in the list of waiting items.
         WaitingItems.incrementHitCount(this, item);
+
+        if (mediaEventListener != null)
+            mediaEventListener.onCompletion();
     }
 
     @Override
@@ -211,8 +214,8 @@ public class MusicService extends Service implements
 
                                          if (mediaPlayer != null) {
                                              fastForward();
-                                             if (onMediaStateChangedListener != null)
-                                                 onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_FAST_FORWARDING);
+                                             if (mediaEventListener != null)
+                                                 mediaEventListener.onMediaStateChanged(PlaybackStateCompat.STATE_FAST_FORWARDING);
                                          }
                                      }
 
@@ -223,8 +226,8 @@ public class MusicService extends Service implements
 
                                          if (mediaPlayer != null) {
                                              rewind();
-                                             if (onMediaStateChangedListener != null)
-                                                 onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_REWINDING);
+                                             if (mediaEventListener != null)
+                                                 mediaEventListener.onMediaStateChanged(PlaybackStateCompat.STATE_REWINDING);
                                          }
                                      }
 
@@ -356,11 +359,11 @@ public class MusicService extends Service implements
     public void onPrepared(MediaPlayer player) {
         LogHelper.i(TAG, "Media prepared.");
 
-        if (onMediaStateChangedListener != null) {
+        if (mediaEventListener != null) {
             if (duration == 0)
                 duration = mediaPlayer.getDuration();
             duration_ = mediaPlayer.getDuration();
-            onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_STOPPED);
+            mediaEventListener.onMediaStateChanged(PlaybackStateCompat.STATE_STOPPED);
         }
     }
 
@@ -395,8 +398,8 @@ public class MusicService extends Service implements
 //                        buildNotification(generateAction(android.R.drawable.ic_media_pause, "Pause", ACTION_PAUSE)));
                 buildNotification(generateAction(android.R.drawable.ic_media_pause, "Pause", ACTION_PAUSE));
 
-                if (onMediaStateChangedListener != null)
-                    onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_PLAYING);
+                if (mediaEventListener != null)
+                    mediaEventListener.onMediaStateChanged(PlaybackStateCompat.STATE_PLAYING);
 
                 // prevent maximum volume
                 audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, Math.min(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC), audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC) - 1), 0);
@@ -475,8 +478,8 @@ public class MusicService extends Service implements
 //                wakeLock.release();
         }
 
-        if (onMediaStateChangedListener != null)
-            onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_STOPPED);
+        if (mediaEventListener != null)
+            mediaEventListener.onMediaStateChanged(PlaybackStateCompat.STATE_STOPPED);
 
         handlePrepareRequest(dataSource, (int) duration);
     }
@@ -504,8 +507,8 @@ public class MusicService extends Service implements
 //            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 //            notificationManager.notify(PLAYBACK_NOTIFICATION_ID, getNotification(false));
 
-            if (onMediaStateChangedListener != null)
-                onMediaStateChangedListener.onMediaStateChanged(PlaybackStateCompat.STATE_PAUSED);
+            if (mediaEventListener != null)
+                mediaEventListener.onMediaStateChanged(PlaybackStateCompat.STATE_PAUSED);
 
             buildNotification(generateAction(android.R.drawable.ic_media_play, "Play", ACTION_PLAY));
         }
@@ -522,20 +525,22 @@ public class MusicService extends Service implements
         }
     }
 
-    public interface OnMediaStateChangedListener {
+    public interface OnMediaEventListener {
         void onMediaStateChanged(int state);
+
+        void onCompletion();
     }
 
-    protected OnMediaStateChangedListener onMediaStateChangedListener = null;
+    protected OnMediaEventListener mediaEventListener = null;
 
-    public void setOnMediaStateChangedListener(OnMediaStateChangedListener listener) {
-        onMediaStateChangedListener = listener;
-        onMediaStateChangedListener.onMediaStateChanged(mediaPlayer == null ? PlaybackStateCompat.STATE_NONE : (mediaPlayer.isPlaying() ? PlaybackStateCompat.STATE_PLAYING : (paused ? PlaybackStateCompat.STATE_PAUSED : PlaybackStateCompat.STATE_STOPPED)));
+    public void setMediaEventListener(OnMediaEventListener listener) {
+        mediaEventListener = listener;
+        mediaEventListener.onMediaStateChanged(mediaPlayer == null ? PlaybackStateCompat.STATE_NONE : (mediaPlayer.isPlaying() ? PlaybackStateCompat.STATE_PLAYING : (paused ? PlaybackStateCompat.STATE_PAUSED : PlaybackStateCompat.STATE_STOPPED)));
     }
 
-    public void removeOnMediaStateChangedListener(OnMediaStateChangedListener listener) {
-        if (listener == onMediaStateChangedListener)
-            onMediaStateChangedListener = null;
+    public void removeOnMediaStateChangedListener(OnMediaEventListener listener) {
+        if (listener == mediaEventListener)
+            mediaEventListener = null;
     }
 
     public void seekTo(int position) {

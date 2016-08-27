@@ -2,6 +2,7 @@ package me.ali.coolenglishmagazine;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -12,7 +13,9 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -26,10 +29,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.farsitel.bazaar.IUpdateCheckService;
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.iconics.typeface.IIcon;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
@@ -37,8 +48,14 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.OnPostBindViewListener;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 
 import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.model.WaitingItems;
@@ -46,6 +63,7 @@ import me.ali.coolenglishmagazine.util.Account;
 import me.ali.coolenglishmagazine.util.Blinker;
 import me.ali.coolenglishmagazine.util.DividerDrawerItem;
 import me.ali.coolenglishmagazine.util.FontManager;
+import me.ali.coolenglishmagazine.util.Identification;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import me.ali.coolenglishmagazine.util.NetworkHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -147,7 +165,105 @@ public class RootActivity extends AppCompatActivity implements
         if (savedInstanceState == null) {
             initUpdateCheckService();
             newIssuesAvailableWarningShown = false;
+            processNewIntent(getIntent());
         }
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        processNewIntent(intent);
+    }
+
+    protected void processNewIntent(Intent intent) {
+        final Uri intentData = intent.getData();
+        if (intentData != null) {
+            try {
+                final String target_uuid = intentData.getQueryParameter("id");
+                final String uuid = Identification.getUniqueDeviceID(this);
+
+                if (uuid != null && uuid.length() > 0 && target_uuid != null && target_uuid.length() > 0) {
+                    if (NetworkHelper.isOnline(this)) {
+                        if (requestQueue == null)
+                            requestQueue = Volley.newRequestQueue(this);
+
+                        final Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(RootActivity.this).getString("server_address", getResources().getString(R.string.pref_default_server_address)));
+                        final String url = uri.toString() + "/gem/create?app_version=" + BuildConfig.VERSION_CODE;
+
+                        Map<String, String> params = new HashMap<>();
+                        params.put("appriser_uuid", uuid);
+                        params.put("target_uuid", target_uuid);
+
+                        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject o) {
+                                try {
+                                    final int gemCount = o.getInt("gem_count");
+                                    int id;
+                                    switch (gemCount) {
+                                        case 1:
+                                            id = R.string.new_gem_msg_1;
+                                            break;
+                                        case 2:
+                                            id = R.string.new_gem_msg_2;
+                                            break;
+                                        case 3:
+                                            id = R.string.new_gem_msg_3;
+                                            break;
+                                        default:
+                                            id = R.string.new_gem_msg_4;
+                                    }
+                                    alertDialog(getString(R.string.new_gem_msg_title), getString(id, gemCount), FontAwesome.Icon.faw_diamond);
+
+                                } catch (JSONException e) {
+                                    alertDialog(getString(R.string.new_gem_error_title), getString(R.string.server_error), FontAwesome.Icon.faw_diamond);
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError volleyError) {
+                                if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
+                                    try {
+                                        JSONObject jo = new JSONObject(new String(volleyError.networkResponse.data));
+                                        Iterator<String> keys = jo.keys();
+                                        if (keys.hasNext())
+                                            alertDialog(getString(R.string.new_gem_error_title), getString(R.string.new_gem_error, jo.getJSONArray(keys.next()).getString(0)), FontAwesome.Icon.faw_diamond);
+                                        return;
+
+                                    } catch (JSONException e) {
+                                    }
+                                }
+                                alertDialog(getString(R.string.new_gem_error_title), getString(R.string.network_error), FontAwesome.Icon.faw_diamond);
+                            }
+                        });
+
+                        request.setTag(RootActivity.this);
+                        requestQueue.add(request);
+
+                    } else {
+                        alertDialog(getString(R.string.new_gem_error_title), getString(R.string.gem_network_error), FontAwesome.Icon.faw_diamond);
+                    }
+                }
+
+            } catch (Exception e) {
+                alertDialog(getString(R.string.new_gem_error_title), getString(R.string.gem_not_supported), FontAwesome.Icon.faw_diamond);
+            }
+        }
+    }
+
+    public void alertDialog(String title, String text, IIcon icon) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(RootActivity.this);
+        builder
+                .setMessage(text)
+                .setTitle(title)
+                .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        if (icon != null)
+            builder.setIcon(new IconicsDrawable(RootActivity.this).icon(icon).sizeDp(72).colorRes(R.color.primary_dark));
+        builder.show();
     }
 
     @Override
@@ -156,6 +272,18 @@ public class RootActivity extends AppCompatActivity implements
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
         releaseUpdateCheckService();
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (requestQueue != null)
+            requestQueue.cancelAll(this);
+    }
+
+    /**
+     * volley network request queue
+     */
+    RequestQueue requestQueue = null;
 
     protected SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
@@ -180,7 +308,7 @@ public class RootActivity extends AppCompatActivity implements
     /**
      * index of drawer item which needs user attention; and drawer indicator is blinking for it.
      */
-    int attentionIndex;
+    int attentionIndex = -1;
 
     class OnPostBindDrawerIconListener implements OnPostBindViewListener {
         int index;
@@ -221,8 +349,7 @@ public class RootActivity extends AppCompatActivity implements
                     break;
 
                 case 3: // readme
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(RootActivity.this);
-                    if (preferences.getBoolean("readme_seen", false))
+                    if (PreferenceManager.getDefaultSharedPreferences(RootActivity.this).getBoolean("readme_seen", false))
                         return;
 
                     priority = 9;
@@ -272,16 +399,30 @@ public class RootActivity extends AppCompatActivity implements
             }
         }
 
-        if (attentionIndex != -1 && drawerSelection != attentionIndex) {
+        if (attentionIndex == -1) { // blink gem drawer footer if not seen
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            if (!preferences.getBoolean("gem_seen", false)) {
+                if (footerIconBlinker == null)
+                    footerIconBlinker = new Blinker();
+                if (footerView != null)
+                    footerIconBlinker.setBlinkingView(footerView.findViewById(R.id.material_drawer_icon));
+                footerIconBlinker.start();
+
+            } else if (footerIconBlinker != null)
+                footerIconBlinker.stop();
+
+        } else if (footerIconBlinker != null)
+            footerIconBlinker.stop();
+
+        if ((attentionIndex != -1 && drawerSelection != attentionIndex)
+                || (attentionIndex == -1 && footerIconBlinker != null && !footerIconBlinker.stopped)) {
             if (drawerIndicatorBlinker == null) {
                 drawerIndicatorBlinker = new Blinker();
                 drawerIndicatorBlinker.setOnTimerShot(onBlinkerTimerShot);
             }
             drawerIndicatorBlinker.start();
-        }
 
-        if (drawerIndicatorBlinker != null
-                && (attentionIndex == -1 || drawerSelection == attentionIndex)) {
+        } else if (drawerIndicatorBlinker != null) {
             drawerIndicatorBlinker.stop();
         }
     }
@@ -292,8 +433,16 @@ public class RootActivity extends AppCompatActivity implements
 
         @Override
         public void onTimerShot(Blinker blinker) {
-            drawer.getActionBarDrawerToggle().setHomeAsUpIndicator(dummy);
-            drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(blinker.visible || blinker.stopped);
+            try {
+                if ((attentionIndex != -1 && drawerIconListeners[attentionIndex].blinker.view != null)
+                        || (footerIconBlinker != null && !footerIconBlinker.stopped)) {
+                    drawer.getActionBarDrawerToggle().setHomeAsUpIndicator(dummy);
+                    drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(blinker.visible || blinker.stopped);
+                }
+
+            } catch (Exception e) {
+                blinker.stop();
+            }
         }
 
         @Override
@@ -302,10 +451,14 @@ public class RootActivity extends AppCompatActivity implements
         }
     };
 
+    Blinker footerIconBlinker;
+    ViewGroup footerView;
+
     protected void setupNavigationDrawer() {
         // manually load drawer header, and apply custom typeface to it.
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         ViewGroup headerView = (ViewGroup) inflater.inflate(R.layout.drawer_header, null);
+        ((TextView) headerView.findViewById(R.id.app_name)).setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.UBUNTU_BOLD));
 
         profilePicture = (ImageView) headerView.findViewById(R.id.profile_image);
         userName = (TextView) headerView.findViewById(R.id.user_name);
@@ -317,8 +470,6 @@ public class RootActivity extends AppCompatActivity implements
 
         if (signingIn)
             showProgressDialog();
-
-        ((TextView) headerView.findViewById(R.id.app_name)).setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.UBUNTU_BOLD));
 
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -365,6 +516,19 @@ public class RootActivity extends AppCompatActivity implements
 
         final PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withIcon(GoogleMaterial.Icon.gmd_info_outline).withSelectedColorRes(R.color.primary).withIdentifier(5);
 
+        footerView = (ViewGroup) inflater.inflate(R.layout.drawer_footer, null);
+        ((TextView) footerView.findViewById(R.id.material_drawer_name)).setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.UBUNTU));
+        footerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.closeDrawer();
+
+                FragmentManager fm = getSupportFragmentManager();
+                GemFragment fragment = new GemFragment();
+                fragment.show(fm, "gemFragment");
+            }
+        });
+
         drawer = new DrawerBuilder()
                 .withSliderBackgroundColorRes(R.color.accent)
                 .withHeaderDivider(false)
@@ -384,6 +548,9 @@ public class RootActivity extends AppCompatActivity implements
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawerSelection == position)
                             return false;
+
+                        if (drawerSelection == 3 && readmeFragment != null)
+                            ((ReadmeFragment) readmeFragment).setSeen(RootActivity.this);
 
                         Fragment fragment = null;
                         String tag = null;
@@ -429,12 +596,14 @@ public class RootActivity extends AppCompatActivity implements
                         } else {
                             Toast.makeText(RootActivity.this, "item clicked: " + position, Toast.LENGTH_SHORT).show();
                         }
-
                         drawerSelection = position;
                         return false;
                     }
                 })
                 .withSelectedItemByPosition(drawerSelection)
+                .withStickyFooter(footerView)
+                .withFooterClickable(true)
+                .withStickyFooterDivider(true)
                 .build();
     }
 
@@ -632,6 +801,9 @@ public class RootActivity extends AppCompatActivity implements
 
         if (drawerIndicatorBlinker != null)
             drawerIndicatorBlinker.stop();
+
+        if (footerIconBlinker != null)
+            footerIconBlinker.stop();
     }
 
     public void signingIn(boolean signingIn) {

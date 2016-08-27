@@ -72,11 +72,27 @@ public class ReadmeFragment extends Fragment {
         }
 
         setHasOptionsMenu(true);
+    }
 
-        final RootActivity activity = (RootActivity) getActivity();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-        preferences.edit().putBoolean("readme_seen", true).apply();
-        activity.updateIconBlinkers();
+    public void onResume() {
+        super.onResume();
+        ((RootActivity) getActivity()).updateIconBlinkers();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        setSeen((RootActivity) getActivity());
+    }
+
+    public void setSeen(RootActivity activity) {
+        if (activity != null) {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+            if (!preferences.getBoolean("readme_seen", false)) {
+                preferences.edit().putBoolean("readme_seen", true).apply();
+                activity.updateIconBlinkers();
+            }
+        }
     }
 
     protected int currentCardIndex = 0;

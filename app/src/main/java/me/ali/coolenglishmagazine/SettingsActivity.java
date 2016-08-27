@@ -1,6 +1,7 @@
 package me.ali.coolenglishmagazine;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -32,8 +34,8 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
 
-        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        toolbarTitle.setText(R.string.action_settings);
+        if (toolbar != null)
+            ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText(R.string.action_settings);
 
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
@@ -69,6 +71,26 @@ public class SettingsActivity extends AppCompatActivity {
             bindPreferenceSummaryToValue(findPreference("repeat_count"));
             bindPreferenceSummaryToValue(findPreference("locale"));
             bindPreferenceSummaryToValue(findPreference("download_plan"));
+
+            findPreference("reset_tooltips").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    final Context context = getActivity();
+                    if (context != null) {
+                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                        preferences.edit()
+                                .remove("listen_first_popup_shown")
+                                .remove("glossary_popup_introduced")
+                                .remove("hot_english_times_tooltip_shown")
+                                .remove("volume_nav_tooltip_shown")
+//                                .remove("readme_seen")
+                                .apply();
+
+                        Toast.makeText(context, R.string.tooltips_reset, Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                }
+            });
         }
 
         /**

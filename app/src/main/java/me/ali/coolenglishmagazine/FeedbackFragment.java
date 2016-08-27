@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -135,16 +136,22 @@ public class FeedbackFragment extends DialogFragment {
         view.findViewById(R.id.visitAppStore).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final FragmentActivity activity = getActivity();
                 try {
                     // open Bazaar to upgrade this app
                     Intent intent = new Intent(Intent.ACTION_EDIT);
-                    intent.setData(Uri.parse("bazaar://details?id=" + getActivity().getPackageName()));
+                    intent.setData(Uri.parse("bazaar://details?id=" + activity.getPackageName()));
                     intent.setPackage("com.farsitel.bazaar");
                     startActivity(intent);
+
+                    PreferenceManager.getDefaultSharedPreferences(activity)
+                            .edit()
+                            .putBoolean("rate_app_shown", true)
+                            .apply();
                     dismiss();
 
                 } catch (ActivityNotFoundException e) {
-                    Toast.makeText(getActivity(), R.string.app_store_not_found, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, R.string.app_store_not_found, Toast.LENGTH_SHORT).show();
                 }
             }
         });
