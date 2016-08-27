@@ -45,7 +45,6 @@
     <string name="network_error">Could not connect to server.</string>
     <string name="server_message_dialog_title">Server message</string>
     <string name="upgrade_message">The “Hot English Magazine” app is old. Please upgrade to a more recent version.</string>
-    <string name="update_success">Sync completed successfully.</string>
     <string name="unzip_error">Unknown error occurred.</string>
     <string name="issue_delete_confirmation_message">This will remove selected issue’s content from device storage to free up space.</string>
     <string name="issue_delete_confirmation_title">Sure?</string>
@@ -391,6 +390,9 @@
     <string name="aboutLibraries_description_special1_name">Changes</string>
     <string name="aboutLibraries_description_special1_text">
         <![CDATA[
+        <h4>Version 3.0</h4>
+        <b>-</b> Apprise to get a bonus free magazine<br>
+        <b>-</b> Various GUI enhancements<br>
         <h4>Version 2.4</h4>
         <b>-</b> Show help tips when appropriate<br>
         <b>-</b> Blink to grab attention<br>
@@ -510,4 +512,6 @@
 
     <string name="rate_app_title">Rate Me!</string>
     <string name="rate_app">Would you leave a comment and rate this app?</string>
+
+    <string name="low_space">Device storage free space is low.</string>
 </resources>
