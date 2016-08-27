@@ -28,6 +28,9 @@ import android.view.ContextThemeWrapper;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
+
 import me.ali.coolenglishmagazine.R;
 
 /**
@@ -54,6 +57,7 @@ public class NetworkHelper {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AppTheme));
         builder.setMessage(R.string.upgrade_message)
                 .setTitle(R.string.server_message_dialog_title)
+                .setIcon(new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_system_update_alt).sizeDp(72).colorRes(R.color.primary_dark))
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

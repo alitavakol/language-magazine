@@ -152,6 +152,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                 AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getApplicationContext(), R.style.AppTheme));
                 builder.setMessage(R.string.paid_item_error)
                         .setTitle(R.string.paid_item_error_title)
+                        .setIcon(new IconicsDrawable(ReadAndListenActivity.this).icon(FontAwesome.Icon.faw_credit_card_alt).sizeDp(72).colorRes(R.color.primary_dark))
                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -671,6 +672,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                         AlertDialog.Builder builder = new AlertDialog.Builder(ReadAndListenActivity.this);
                         builder.setMessage(R.string.volume_nav_tooltip)
                                 .setTitle(R.string.tooltip_title)
+                                .setIcon(new IconicsDrawable(ReadAndListenActivity.this).icon(FontAwesome.Icon.faw_music).sizeDp(72).colorRes(R.color.primary_dark))
                                 .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {

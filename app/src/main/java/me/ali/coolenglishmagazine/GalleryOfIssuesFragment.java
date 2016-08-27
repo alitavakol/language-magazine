@@ -497,7 +497,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                         Context context = getActivity();
                         if (context != null) {
                             cancelSync(context, adapter);
-                            Toast.makeText(context, R.string.update_success, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.sync_complete, Toast.LENGTH_SHORT).show();
                         }
 //                        updateInAppBillingData();
                     }
