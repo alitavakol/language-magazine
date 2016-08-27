@@ -8,6 +8,9 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -130,6 +133,7 @@ public class WaitingItems {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setMessage(R.string.hot_english_times_tooltip)
                             .setTitle(R.string.hot_english_times_tooltip_title)
+                            .setIcon(new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_alarm_add).sizeDp(72).colorRes(R.color.primary_dark))
                             .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

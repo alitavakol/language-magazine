@@ -165,79 +165,88 @@ public class RootActivity extends AppCompatActivity implements
         if (savedInstanceState == null) {
             initUpdateCheckService();
             newIssuesAvailableWarningShown = false;
+            processNewIntent(getIntent());
+        }
+    }
 
-            final Uri intentData = getIntent().getData();
-            if (intentData != null) {
-                try {
-                    final String target_uuid = intentData.getQueryParameter("id");
-                    final String uuid = Identification.getUniqueDeviceID(this);
+    @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        processNewIntent(intent);
+    }
 
-                    if (uuid != null && uuid.length() > 0 && target_uuid != null && target_uuid.length() > 0) {
-                        if (NetworkHelper.isOnline(this)) {
-                            if (requestQueue == null)
-                                requestQueue = Volley.newRequestQueue(this);
+    protected void processNewIntent(Intent intent) {
+        final Uri intentData = intent.getData();
+        if (intentData != null) {
+            try {
+                final String target_uuid = intentData.getQueryParameter("id");
+                final String uuid = Identification.getUniqueDeviceID(this);
 
-                            final Uri uri = Uri.parse(preferences.getString("server_address", getResources().getString(R.string.pref_default_server_address)));
-                            final String url = uri.toString() + "/gem/create";
+                if (uuid != null && uuid.length() > 0 && target_uuid != null && target_uuid.length() > 0) {
+                    if (NetworkHelper.isOnline(this)) {
+                        if (requestQueue == null)
+                            requestQueue = Volley.newRequestQueue(this);
 
-                            Map<String, String> params = new HashMap<>();
-                            params.put("appriser_uuid", uuid);
-                            params.put("target_uuid", target_uuid);
+                        final Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(RootActivity.this).getString("server_address", getResources().getString(R.string.pref_default_server_address)));
+                        final String url = uri.toString() + "/gem/create?app_version=" + BuildConfig.VERSION_CODE;
 
-                            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject o) {
+                        Map<String, String> params = new HashMap<>();
+                        params.put("appriser_uuid", uuid);
+                        params.put("target_uuid", target_uuid);
+
+                        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject o) {
+                                try {
+                                    final int gemCount = o.getInt("gem_count");
+                                    int id;
+                                    switch (gemCount) {
+                                        case 1:
+                                            id = R.string.new_gem_msg_1;
+                                            break;
+                                        case 2:
+                                            id = R.string.new_gem_msg_2;
+                                            break;
+                                        case 3:
+                                            id = R.string.new_gem_msg_3;
+                                            break;
+                                        default:
+                                            id = R.string.new_gem_msg_4;
+                                    }
+                                    alertDialog(getString(R.string.new_gem_msg_title), getString(id, gemCount), FontAwesome.Icon.faw_diamond);
+
+                                } catch (JSONException e) {
+                                    alertDialog(getString(R.string.new_gem_error_title), getString(R.string.server_error), FontAwesome.Icon.faw_diamond);
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError volleyError) {
+                                if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
                                     try {
-                                        final int gemCount = o.getInt("gem_count");
-                                        int id;
-                                        switch (gemCount) {
-                                            case 1:
-                                                id = R.string.new_gem_msg_1;
-                                                break;
-                                            case 2:
-                                                id = R.string.new_gem_msg_2;
-                                                break;
-                                            case 3:
-                                                id = R.string.new_gem_msg_3;
-                                                break;
-                                            default:
-                                                id = R.string.new_gem_msg_4;
-                                        }
-                                        alertDialog(getString(R.string.new_gem_msg_title), getString(id, gemCount), FontAwesome.Icon.faw_diamond);
+                                        JSONObject jo = new JSONObject(new String(volleyError.networkResponse.data));
+                                        Iterator<String> keys = jo.keys();
+                                        if (keys.hasNext())
+                                            alertDialog(getString(R.string.new_gem_error_title), getString(R.string.new_gem_error, jo.getJSONArray(keys.next()).getString(0)), FontAwesome.Icon.faw_diamond);
+                                        return;
 
                                     } catch (JSONException e) {
-                                        alertDialog(getString(R.string.new_gem_error_title), getString(R.string.server_error), FontAwesome.Icon.faw_diamond);
                                     }
                                 }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError volleyError) {
-                                    if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
-                                        try {
-                                            JSONObject jo = new JSONObject(new String(volleyError.networkResponse.data));
-                                            Iterator<String> keys = jo.keys();
-                                            if (keys.hasNext())
-                                                alertDialog(getString(R.string.new_gem_error_title), getString(R.string.new_gem_error, jo.getJSONArray(keys.next()).getString(0)), FontAwesome.Icon.faw_diamond);
-                                            return;
+                                alertDialog(getString(R.string.new_gem_error_title), getString(R.string.network_error), FontAwesome.Icon.faw_diamond);
+                            }
+                        });
 
-                                        } catch (JSONException e) {
-                                        }
-                                    }
-                                    alertDialog(getString(R.string.new_gem_error_title), getString(R.string.network_error), FontAwesome.Icon.faw_diamond);
-                                }
-                            });
+                        request.setTag(RootActivity.this);
+                        requestQueue.add(request);
 
-                            request.setTag(RootActivity.this);
-                            requestQueue.add(request);
-
-                        } else {
-                            alertDialog(getString(R.string.new_gem_error_title), getString(R.string.gem_network_error), FontAwesome.Icon.faw_diamond);
-                        }
+                    } else {
+                        alertDialog(getString(R.string.new_gem_error_title), getString(R.string.gem_network_error), FontAwesome.Icon.faw_diamond);
                     }
-
-                } catch (Exception e) {
-                    alertDialog(getString(R.string.new_gem_error_title), getString(R.string.gem_not_supported), FontAwesome.Icon.faw_diamond);
                 }
+
+            } catch (Exception e) {
+                alertDialog(getString(R.string.new_gem_error_title), getString(R.string.gem_not_supported), FontAwesome.Icon.faw_diamond);
             }
         }
     }
@@ -340,8 +349,7 @@ public class RootActivity extends AppCompatActivity implements
                     break;
 
                 case 3: // readme
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(RootActivity.this);
-                    if (preferences.getBoolean("readme_seen", false))
+                    if (PreferenceManager.getDefaultSharedPreferences(RootActivity.this).getBoolean("readme_seen", false))
                         return;
 
                     priority = 9;

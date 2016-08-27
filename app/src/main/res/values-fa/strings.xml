@@ -180,7 +180,8 @@
     <string name="new_gem_msg_4">تا الآن %d خال به دست آورده‌ای! از لطف تو متشکرم؛ البته به خاطر داشته باش که با این روش، تنها یک بار شماره‌ی رایگان هدیه می‌گیری.</string>
     <string name="new_gem_msg_title">خال جدید</string>
     <string name="new_gem_error_title">خطا</string>
-    <string name="new_gem_error">سرور پیغام خطا فرستاد: %s</string>
+    <string name="new_gem_error">سرور پیغام خطا فرستاد:\n<b>%s</b></string>
     <string name="gem_network_error">لطفاً اتصال اینترنت رو برقرار کنید و مجددا تلاش کنید.</string>
     <string name="gem_experimental">توجه: این یک ویژگی تازه است و ممکن است روی دستگاه شما کار نکند.</string>
+    <string name="bonus_issue">این شماره به خاطر خال‌هایی که به دست آوردی، بهت هدیه شد!</string>
 </resources>

@@ -454,6 +454,7 @@
     <string name="purchase_failed">Purchase failed with unknown reason.</string>
     <string name="signature_download_error">Server error occurred. Please refresh later.</string>
     <string name="purchase_error">Purchase error %d occurred.</string>
+    <string name="unknown_purchase_error">Unknown purchase error occurred.</string>
     <string name="purchase_signature_error">Purchase response data signature is incorrect.</string>
     <string name="paid_item_error">This item is available in paid version of the magazine. Would you like to proceed with the purchase?</string>
     <string name="paid_item_error_title">Paid content</string>
@@ -502,7 +503,8 @@
     <string name="new_gem_msg_4">You have got %d gems now! Thank you, but you can get only one bonus free issue.</string>
     <string name="new_gem_msg_title">Gem received</string>
     <string name="new_gem_error_title">Error</string>
-    <string name="new_gem_error">Server responded: %s</string>
+    <string name="new_gem_error">Server responded:\n<b>%s</b></string>
     <string name="gem_network_error">Please connect to internet, and try again.</string>
     <string name="gem_experimental">Note: This is an experimental feature, and may not work on your device.</string>
+    <string name="bonus_issue">You have got your bonus free issue now!</string>
 </resources>

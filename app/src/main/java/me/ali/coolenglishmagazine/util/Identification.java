@@ -24,8 +24,9 @@ public class Identification {
             throw new Exception("Serial is not defined.");
 
         final String android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-        if (android_id != null)
-            serial += android_id;
+        if (android_id == null)
+            throw new Exception("ANDROID_ID is not defined.");
+        serial += android_id;
 
         MessageDigest md5 = MessageDigest.getInstance("MD5");
         md5.update(serial.getBytes());

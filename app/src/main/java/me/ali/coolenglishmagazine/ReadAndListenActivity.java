@@ -841,6 +841,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                                         AlertDialog.Builder builder = new AlertDialog.Builder(ReadAndListenActivity.this);
                                         builder.setMessage(R.string.listen_first_popup_tooltip)
                                                 .setTitle(R.string.listen_first_popup_tooltip_title)
+                                                .setIcon(new IconicsDrawable(ReadAndListenActivity.this).icon(FontAwesome.Icon.faw_eye_slash).sizeDp(72).colorRes(R.color.primary_dark))
                                                 .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
@@ -873,6 +874,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                                         AlertDialog.Builder builder = new AlertDialog.Builder(ReadAndListenActivity.this);
                                         builder.setMessage(R.string.glossary_popup_tooltip)
                                                 .setTitle(R.string.tooltip_title)
+                                                .setIcon(new IconicsDrawable(ReadAndListenActivity.this).icon(FontAwesome.Icon.faw_language).sizeDp(72).colorRes(R.color.primary_dark))
                                                 .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
