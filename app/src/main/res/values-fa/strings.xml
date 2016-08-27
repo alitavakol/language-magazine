@@ -167,6 +167,24 @@
     <string name="close">باشه</string>
     <string name="later">بعداً</string>
 
+    <string name="gem_dialog_hint">یه شماره رایگان بهت هدیه میدم! من رو به <b>سه نفر</b> از کسانی که دوستشون داری معرفی کن تا من رو روی گوشی‌شون نصب کنن؛ بعد بهشون بگو که برات خال بفرستن! <b>با سه تا خال، یه شماره رایگان هدیه می‌گیری!</b></string>
+    <string name="gem_dialog_share_hint">من رو به کسی معرفی می‌کنی؟</string>
+    <string name="gem_dialog_throw_hint">اگه دوستت من رو بهت معرفی کرده، براش خال بفرست:</string>
+    <string name="gem_dialog_title"> سه تا خال و یک مجله رایگان!</string>
+    <string name="throw_button_title">خال بفرست</string>
+    <string name="share_button_title">من رو سفارش کن</string>
+    <string name="wait">چند لحظه&#8230;</string>
+    <string name="new_gem_msg_1">تا الآن %d خال به دست آورده‌ای!</string>
+    <string name="new_gem_msg_2">@string/new_gem_msg_1</string>
+    <string name="new_gem_msg_3">تا الآن %d خال به دست آورده‌ای و یک شماره از مجله به عنوان هدیه بهت تقدیم میشه! هر وقت که مجله‌ی دلخواه خودت رو انتخاب کردی، فرآیند خرید رو براش آغاز کن؛ به جای پرداخت نقدی، از خال‌هایی که به دست آوردی هزینه خواهد شد.</string>
+    <string name="new_gem_msg_4">تا الآن %d خال به دست آورده‌ای! از لطف تو متشکرم؛ البته به خاطر داشته باش که با این روش، تنها یک بار شماره‌ی رایگان هدیه می‌گیری.</string>
+    <string name="new_gem_msg_title">خال جدید</string>
+    <string name="new_gem_error_title">خطا</string>
+    <string name="new_gem_error">سرور پیغام خطا فرستاد:\n<b>%s</b></string>
+    <string name="gem_network_error">لطفاً اتصال اینترنت رو برقرار کنید و مجددا تلاش کنید.</string>
+    <string name="gem_experimental">توجه: این یک ویژگی تازه است و ممکن است روی دستگاه شما کار نکند.</string>
+    <string name="bonus_issue">این شماره به خاطر خال‌هایی که به دست آوردی، بهت هدیه شد!</string>
+
     <string name="rate_app_title">نظرسنجی</string>
     <string name="rate_app">برای بهتر شدن برنامه و حمایت از سازنده‌اش، لطفاً نظرتون رو به ما برسونید و به برنامه امتیاز بدید.</string>
 </resources>

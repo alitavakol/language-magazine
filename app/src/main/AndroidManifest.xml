@@ -84,7 +84,20 @@
         <activity
             android:name=".RootActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.FitScreen" />
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.FitScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="@string/gem_host"
+                    android:pathPrefix="@string/gem_path_prefix"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
 
         <activity android:name=".SettingsActivity" />
 

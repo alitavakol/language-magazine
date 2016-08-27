@@ -42,6 +42,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.farsitel.bazaar.ILoginCheckService;
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
@@ -65,6 +66,7 @@ import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.util.Account;
 import me.ali.coolenglishmagazine.util.IabHelper;
 import me.ali.coolenglishmagazine.util.IabResult;
+import me.ali.coolenglishmagazine.util.Identification;
 import me.ali.coolenglishmagazine.util.InputStreamVolleyRequest;
 import me.ali.coolenglishmagazine.util.Inventory;
 import me.ali.coolenglishmagazine.util.LogHelper;
@@ -254,18 +256,18 @@ public class IssueDetailActivity extends AppCompatActivity implements
     }
 
     /**
-     * shows owner warning. it user accepts, calls {@link #doPurchase(SharedPreferences)}
+     * shows owner warning. it user accepts, calls {@link #doPurchase()}
      * to perform purchase.
      */
     private void startPurchaseFlow() {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(IssueDetailActivity.this);
 
         if (!preferences.getBoolean("show_owner_account_warning", true)) {
-            doPurchase(preferences);
+            doPurchase();
             return;
         }
 
-        doPurchase(preferences);
+        doPurchase();
 
 //        String user_name = preferences.getString("user_name", "");
 //        String user_email = preferences.getString("user_email", "");
@@ -294,22 +296,66 @@ public class IssueDetailActivity extends AppCompatActivity implements
 
     /**
      * performs the purchase flow, which is supposed to occur after showing terms to the user.
-     *
-     * @param preferences default shared preferences
      */
-    public void doPurchase(SharedPreferences preferences) {
+    public void doPurchase() {
+        setAppStoreQueryButtonsEnabled(false);
 
+        try { // check if user has enough gems to get this issue as a bonus
+            final Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(this).getString("server_address", getString(R.string.pref_default_server_address)));
+            String url = uri.toString() + "/gem/redeem?app_version=" + BuildConfig.VERSION_CODE;
+
+            url += "&uuid=" + Identification.getUniqueDeviceID(this);
+            url += "&sku=" + Magazines.getSku(issue);
+
+            if (requestQueue == null)
+                requestQueue = Volley.newRequestQueue(this);
+
+            InputStreamVolleyRequest request = new InputStreamVolleyRequest(Request.Method.GET, url, new Response.Listener<byte[]>() {
+                @Override
+                public void onResponse(byte[] response) {
+                    requestSignaturePaid(issue.price, null);
+
+                    new AlertDialog.Builder(IssueDetailActivity.this)
+                            .setTitle(R.string.gem_dialog_title)
+                            .setMessage(R.string.bonus_issue)
+                            .setIcon(new IconicsDrawable(IssueDetailActivity.this).icon(FontAwesome.Icon.faw_diamond).sizeDp(72).colorRes(R.color.primary_dark))
+                            .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .show();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    doPurchaseWithAppStore();
+                }
+            }, null);
+
+            requestQueue.add(request);
+
+        } catch (Exception e) {
+            doPurchaseWithAppStore();
+        }
+    }
+
+    /**
+     * launches app store purchase, after checking for user's gems for bonus issue fails.
+     */
+    protected void doPurchaseWithAppStore() {
         try {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
             final JSONObject developerPayload = new JSONObject();
             developerPayload.put("owner", preferences.getString("user_id", ""));
-
-            setAppStoreQueryButtonsEnabled(false);
 
             iabHelper.flagEndAsync();
             iabHelper.launchPurchaseFlow(IssueDetailActivity.this, Magazines.getSku(issue), issue.id, iabPurchaseFinishedListener, developerPayload.toString());
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Toast.makeText(this, getString(R.string.unknown_purchase_error), Toast.LENGTH_SHORT).show();
+            setAppStoreQueryButtonsEnabled(true);
         }
     }
 
@@ -650,7 +696,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
 
                     PublicKey key = Security.generatePublicKey(IabHelper.getPublicKey());
                     if (Security.verify(key, purchaseData, dataSignature)) {
-                        requestSignaturePaid(price, true, purchase.getToken());
+                        requestSignaturePaid(price, purchase.getToken());
                         return;
 
                     } else {
@@ -658,6 +704,9 @@ public class IssueDetailActivity extends AppCompatActivity implements
                             Toast.makeText(IssueDetailActivity.this, R.string.purchase_failed, Toast.LENGTH_SHORT).show();
                         LogHelper.i(TAG, "purchase data signature is invalid.");
                     }
+
+                } else { // user may have this issue as a bonus in exchange for collected gems
+                    requestSignaturePaid(price, null);
                 }
             }
 
@@ -728,7 +777,6 @@ public class IssueDetailActivity extends AppCompatActivity implements
 
                             // https://cafebazaar.ir/developers/docs/iab/reference/
                             if (sku.equals(Magazines.getSku(issue)) && purchaseState == 0) {
-
 //                                // notify user if the purchase has been made some time ago with another app account,
 //                                // so, they have to change bazaar account to buy again, or change app account to
 //                                // what was at that time.
@@ -747,7 +795,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
 //                                            .show();
 //                                }
 
-                                requestSignaturePaid(issue.price, true, jo.getString("purchaseToken"));
+                                requestSignaturePaid(issue.price, jo.getString("purchaseToken"));
                                 return;
                             }
 
@@ -987,18 +1035,27 @@ public class IssueDetailActivity extends AppCompatActivity implements
      * requests and saves paid content signature from server.
      * on success, it calls {@link #savePurchaseInfo(String, boolean)} to save purchase data.
      */
-    protected void requestSignaturePaid(final String price, final boolean purchased, final String purchaseToken) {
+    protected void requestSignaturePaid(final String price, final String purchaseToken) {
         // Instantiate the RequestQueue.
         if (requestQueue == null)
             requestQueue = Volley.newRequestQueue(this);
 
         final Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(this).getString("server_address", getString(R.string.pref_default_server_address)));
-        String url = uri.toString() + "/api/issues/" + issue.id + "/signature";
-
-        url += "?app_version=" + BuildConfig.VERSION_CODE;
+        String url = uri.toString() + "/api/issues/" + issue.id + "/signature?app_version=" + BuildConfig.VERSION_CODE;
 
         // purchase token must be present
-        url += "&purchase_token=" + purchaseToken;
+        if (purchaseToken != null)
+            url += "&purchase_token=" + purchaseToken;
+
+        else { // check if user has this issue as a bonus
+            try {
+                url += "&uuid=" + Identification.getUniqueDeviceID(this);
+
+            } catch (Exception e) {
+                setAppStoreQueryButtonsEnabled(true);
+                return;
+            }
+        }
 
 //        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 //        if (preferences.contains("user_id"))
@@ -1013,7 +1070,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
                     f.write(response, 0, response.length);
                     f.close();
 
-                    savePurchaseInfo(price, purchased);
+                    savePurchaseInfo(price, true);
 
                     updatePriceGui();
                     updateFab();
@@ -1032,7 +1089,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
 
                 if (!NetworkHelper.isOnline(IssueDetailActivity.this))
                     Toast.makeText(IssueDetailActivity.this, R.string.check_connection, Toast.LENGTH_SHORT).show();
-                else
+                else if (error.networkResponse == null || error.networkResponse.statusCode / 100 == 5 /* server error */)
                     Toast.makeText(IssueDetailActivity.this, R.string.signature_download_error, Toast.LENGTH_SHORT).show();
             }
         }, null);

@@ -172,14 +172,7 @@ public class ShareFragment extends DialogFragment {
         moreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TITLE, getString(R.string.share_title));
-                sendIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_title));
-                sendIntent.putExtra(Intent.EXTRA_TEXT, share_description);
-                sendIntent.setType("text/plain");
-                startActivity(sendIntent);
-
+                openShareSelector(getContext(), getString(R.string.share_title), share_description);
                 dismiss();
             }
         });
@@ -188,5 +181,15 @@ public class ShareFragment extends DialogFragment {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         return v;
+    }
+
+    public static void openShareSelector(Context context, String title, String description) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TITLE, title);
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, title);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, description);
+        sendIntent.setType("text/plain");
+        context.startActivity(sendIntent);
     }
 }
