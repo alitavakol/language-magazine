@@ -2,13 +2,18 @@ package me.ali.coolenglishmagazine.model;
 
 import android.app.DownloadManager;
 import android.app.NotificationManager;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 import org.jsoup.Jsoup;
@@ -314,7 +319,40 @@ public class Magazines {
      *
      * @return download reference number, or -1 if issue is already downloaded/downloading
      */
-    public static long download(Context context, Issue issue) throws IOException {
+    public static long download(final Context context, Issue issue) throws IOException {
+        // check if download manager is disabled
+        // http://stackoverflow.com/a/25389247/1994239
+        final String packageName = "com.android.providers.downloads";
+        int downloadManagerState = context.getPackageManager().getApplicationEnabledSetting(packageName);
+        if (downloadManagerState == PackageManager.COMPONENT_ENABLED_STATE_DISABLED ||
+                downloadManagerState == PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER
+                || downloadManagerState == PackageManager.COMPONENT_ENABLED_STATE_DISABLED_UNTIL_USED) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setMessage(R.string.download_manager_disabled)
+                    .setTitle(R.string.new_gem_error_title)
+                    .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            try {
+                                //Open the specific App Info page:
+                                Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                intent.setData(Uri.parse("package:" + packageName));
+                                context.startActivity(intent);
+
+                            } catch (ActivityNotFoundException e) {
+                                //Open the generic Apps page:
+                                Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+                                context.startActivity(intent);
+                            }
+                        }
+                    })
+                    .setCancelable(true)
+                    .show();
+
+            throw new IOException("Download manager is disabled.");
+        }
+
         final int status = getDownloadStatus(context, issue);
         if (status == DownloadManager.STATUS_PENDING
                 || status == DownloadManager.STATUS_PAUSED
@@ -441,6 +479,8 @@ public class Magazines {
         DownloadManager.Query query = new DownloadManager.Query();
 
         Cursor cursor = ((DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE)).query(query);
+        if (cursor == null)
+            return -1;
         final int uriIndex = cursor.getColumnIndex(DownloadManager.COLUMN_URI);
 
         long result = -1;
