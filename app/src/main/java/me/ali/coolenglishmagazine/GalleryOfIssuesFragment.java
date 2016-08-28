@@ -38,7 +38,6 @@ import com.mikepenz.iconics.view.IconicsTextView;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -395,12 +394,16 @@ public class GalleryOfIssuesFragment extends Fragment {
                 f.write(response, 0, response.length);
                 f.close();
 
-                ZipHelper.unzip(zipFile, context.getExternalFilesDir(null));
+                File rootDirectory = ZipHelper.unzip(zipFile, context.getExternalFilesDir(null), true);
 
                 FileHelper.delete(zipFile);
+
+                if (rootDirectory == null)
+                    throw new Exception("Could not unzip");
+
                 return true;
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 return false;
             }
         }
@@ -428,7 +431,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                 } else {
                     final FragmentActivity activity = getActivity();
                     if (activity != null)
-                        Toast.makeText(activity, R.string.sync_complete, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, R.string.update_success, Toast.LENGTH_LONG).show();
                     success = false; // force jump into the following if block
 //                    updateInAppBillingData();
                 }
@@ -497,7 +500,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                         Context context = getActivity();
                         if (context != null) {
                             cancelSync(context, adapter);
-                            Toast.makeText(context, R.string.sync_complete, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.update_success, Toast.LENGTH_LONG).show();
                         }
 //                        updateInAppBillingData();
                     }
@@ -628,7 +631,7 @@ public class GalleryOfIssuesFragment extends Fragment {
     }
 
     /**
-     * blinks tab titles if some tabs require user notice.
+     * blinks tab titles and toggles visibility of floating action buttons if some tabs require user notice.
      *
      * @param filter tab index
      */
@@ -657,6 +660,12 @@ public class GalleryOfIssuesFragment extends Fragment {
                 start = newSavedIssuesCount > 0;
                 adapter.fabVisible.get(IssuesTabFragment.AVAILABLE_ISSUES)[0] = start ? Boolean.TRUE : Boolean.FALSE;
                 break;
+        }
+
+        try {
+            if (adapter.mFragmentList.get(IssuesTabFragment.SAVED_ISSUES).getIssuesCount() == 0)
+                adapter.fabVisible.get(IssuesTabFragment.SAVED_ISSUES)[2] = Boolean.TRUE;
+        } catch (Exception e) {
         }
 
         for (int i = 0; i < 2; i++) {

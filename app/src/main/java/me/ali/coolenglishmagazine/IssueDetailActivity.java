@@ -11,11 +11,9 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.StatFs;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
@@ -164,26 +162,14 @@ public class IssueDetailActivity extends AppCompatActivity implements
                 }
 
                 protected void startDownload() {
-                    StatFs stat = new StatFs(issue.rootDirectory.getAbsolutePath());
-                    long bytesAvailable;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
-                        bytesAvailable = stat.getBlockSizeLong() * stat.getAvailableBlocksLong();
-                    else
-                        bytesAvailable = (long) stat.getBlockSize() * (long) stat.getAvailableBlocks();
+                    try {
+                        downloadReference = Magazines.download(IssueDetailActivity.this, issue);
 
-                    if (bytesAvailable > 50L * 1024L * 1024L) {
-                        try {
-                            downloadReference = Magazines.download(IssueDetailActivity.this, issue);
+                    } catch (IOException e) {
+                        LogHelper.e(TAG, e.getMessage());
 
-                        } catch (IOException e) {
-                            LogHelper.e(TAG, e.getMessage());
-
-                        } finally {
-                            updateFab();
-                        }
-
-                    } else {
-                        Toast.makeText(IssueDetailActivity.this, R.string.low_space, Toast.LENGTH_LONG).show();
+                    } finally {
+                        updateFab();
                     }
                 }
             });
