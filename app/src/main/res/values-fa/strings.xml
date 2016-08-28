@@ -187,4 +187,7 @@
 
     <string name="rate_app_title">نظرسنجی</string>
     <string name="rate_app">برای بهتر شدن برنامه و حمایت از سازنده‌اش، لطفاً نظرتون رو به ما برسونید و به برنامه امتیاز بدید.</string>
+
+    <string name="download_manager_disabled">سرویس دانلود غیر فعال است. می‌خواهی فعالش کنی؟</string>
+    <string name="accept">باشه</string>
 </resources>

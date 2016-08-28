@@ -101,6 +101,11 @@ public class RootActivity extends AppCompatActivity implements
     CoolEnglishTimesFragment coolEnglishTimesFragment;
     Fragment aboutFragment, readmeFragment;
 
+    /**
+     * selected tab within drawer fragments
+     */
+    int tabIndex;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -176,6 +181,21 @@ public class RootActivity extends AppCompatActivity implements
     }
 
     protected void processNewIntent(Intent intent) {
+        final String action = intent.getAction();
+        if (ACTION_SHOW_README.equals(action)) {
+            drawer.setSelection(3, true);
+            return;
+        }
+        if (ACTION_SHOW_TIMES.equals(action)) {
+            drawer.setSelection(2, true);
+            return;
+        }
+        if (ACTION_SHOW_DOWNLOADS.equals(action)) {
+            tabIndex = IssuesTabFragment.AVAILABLE_ISSUES;
+            drawer.setSelection(1, true);
+            return;
+        }
+
         final Uri intentData = intent.getData();
         if (intentData != null) {
             try {
@@ -560,7 +580,8 @@ public class RootActivity extends AppCompatActivity implements
                                 tag = GalleryOfIssuesFragment.FRAGMENT_TAG;
                                 galleryOfIssuesFragment = (GalleryOfIssuesFragment) getSupportFragmentManager().findFragmentByTag(tag);
                                 if (galleryOfIssuesFragment == null)
-                                    galleryOfIssuesFragment = GalleryOfIssuesFragment.newInstance(0);
+                                    galleryOfIssuesFragment = GalleryOfIssuesFragment.newInstance(tabIndex);
+                                tabIndex = 0;
                                 fragment = galleryOfIssuesFragment;
                                 break;
 
