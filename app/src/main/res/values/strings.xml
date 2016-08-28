@@ -45,6 +45,7 @@
     <string name="network_error">Could not connect to server.</string>
     <string name="server_message_dialog_title">Server message</string>
     <string name="upgrade_message">The “Hot English Magazine” app is old. Please upgrade to a more recent version.</string>
+    <string name="update_success">Update complete! Remember to refresh in a few days!</string>
     <string name="unzip_error">Unknown error occurred.</string>
     <string name="issue_delete_confirmation_message">This will remove selected issue’s content from device storage to free up space.</string>
     <string name="issue_delete_confirmation_title">Sure?</string>
@@ -233,7 +234,6 @@
     <string name="download_progress">%1$s / %2$s</string>
 
     <string name="download_failed_msg">Download failed with error code %d</string>
-    <string name="sync_complete">Update complete!</string>
     <string name="syncing">Updating&#8230;</string>
     <string name="cancel_syncing">Stop</string>
 
