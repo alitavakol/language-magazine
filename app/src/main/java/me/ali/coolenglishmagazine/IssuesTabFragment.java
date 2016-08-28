@@ -5,9 +5,7 @@ import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.StatFs;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -30,7 +28,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -818,21 +815,8 @@ public class IssuesTabFragment extends Fragment implements
 
             case R.id.action_download:
                 try {
-                    StatFs stat = new StatFs(selectedIssues[0].rootDirectory.getAbsolutePath());
-                    long bytesAvailable;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
-                        bytesAvailable = stat.getBlockSizeLong() * stat.getAvailableBlocksLong() / 1024L / 1024L;
-                    else
-                        bytesAvailable = (long) stat.getBlockSize() * (long) stat.getAvailableBlocks() / 1024L / 1024L;
-
                     for (Magazines.Issue issue : selectedIssues) {
-                        if (bytesAvailable > 50L)
-                            Magazines.download(context, issue);
-                        else {
-                            Toast.makeText(context, R.string.low_space, Toast.LENGTH_LONG).show();
-                            break;
-                        }
-                        bytesAvailable -= 50L;
+                        Magazines.download(context, issue);
                     }
 
                     final int idx = issues.indexOf(headers[Magazines.Issue.Status.header_downloading.ordinal() / 2]);
