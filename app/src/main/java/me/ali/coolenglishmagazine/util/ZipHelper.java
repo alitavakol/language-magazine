@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -20,50 +19,45 @@ public class ZipHelper {
      *
      * @param zipFile         file to extract
      * @param targetDirectory destination
-     * @return first encountered file/folder
-     * @throws IOException
+     * @param deleteOnError   delete root file of extraction on failure
+     * @return first encountered file/folder or null on failure
      */
-    public static File unzip(File zipFile, File targetDirectory) throws IOException {
-        ZipInputStream zis = new ZipInputStream(new BufferedInputStream(new FileInputStream(zipFile)));
+    public static File unzip(File zipFile, File targetDirectory, boolean deleteOnError) {
         File rootFile = null;
 
-//        try {
-        ZipEntry ze;
-        int count;
-        byte[] buffer = new byte[8192];
+        try {
+            ZipInputStream zis = new ZipInputStream(new BufferedInputStream(new FileInputStream(zipFile)));
 
-        while ((ze = zis.getNextEntry()) != null) {
-            File file = new File(targetDirectory, ze.getName());
-            File dir = ze.isDirectory() ? file : file.getParentFile();
+            ZipEntry ze;
+            int count;
+            byte[] buffer = new byte[8192];
 
-            if (rootFile == null)
-                rootFile = file;
+            while ((ze = zis.getNextEntry()) != null) {
+                File file = new File(targetDirectory, ze.getName());
+                File dir = ze.isDirectory() ? file : file.getParentFile();
 
-            if (!dir.isDirectory() && !dir.mkdirs())
-                throw new FileNotFoundException("Failed to ensure directory: " +
-                        dir.getAbsolutePath());
+                if (!dir.isDirectory() && !dir.mkdirs())
+                    throw new FileNotFoundException("Failed to ensure directory: " + dir.getAbsolutePath());
 
-            if (ze.isDirectory())
-                continue;
+                if (rootFile == null)
+                    rootFile = dir;
 
-            FileOutputStream fout = new FileOutputStream(file);
+                if (ze.isDirectory())
+                    continue;
 
-//                try {
-            while ((count = zis.read(buffer)) != -1)
-                fout.write(buffer, 0, count);
-//                } finally {
-            fout.close();
-//                }
+                FileOutputStream outputStream = new FileOutputStream(file);
+                while ((count = zis.read(buffer)) != -1)
+                    outputStream.write(buffer, 0, count);
+                outputStream.close();
+            }
 
-            // if time should be restored as well
-            long time = ze.getTime();
-            if (time > 0)
-                file.setLastModified(time);
+            zis.close();
+
+        } catch (Exception e) {
+            if (deleteOnError && rootFile != null)
+                FileHelper.delete(rootFile);
+            rootFile = null;
         }
-
-//        } finally {
-        zis.close();
-//        }
 
         return rootFile;
     }

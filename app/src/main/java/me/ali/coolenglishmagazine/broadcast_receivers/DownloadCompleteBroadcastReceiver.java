@@ -17,7 +17,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -92,67 +91,72 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
 
         @Override
         protected File doInBackground(Object... params) {
-            context = (Context) params[0];
             f = (File) params[1];
-
-            try {
-                return ZipHelper.unzip(f, context.getExternalFilesDir(null));
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
+            context = (Context) params[0];
+            return ZipHelper.unzip(f, context.getExternalFilesDir(null), false);
         }
 
         @Override
         protected void onPostExecute(File rootFile) {
+            Magazines.Issue issue = null;
+
             try {
-                FileHelper.delete(f);
+                if (rootFile == null) {
+                    issue = Magazines.getIssueFromFile(context, f);
+                    Toast.makeText(context, R.string.extract_error, Toast.LENGTH_LONG).show();
+                    throw new Exception("Could not unzip");
 
-                final Magazines.Issue issue = Magazines.getIssueFromFile(context, rootFile);
+                } else {
+                    issue = Magazines.getIssueFromFile(context, rootFile);
 
-                final DownloadManager dm = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-                final long reference = Magazines.getDownloadReference(context, issue);
-                dm.remove(reference);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        dm.remove(reference); // http://stackoverflow.com/a/34797980
-                    }
-                }, 1000);
+                    final DownloadManager dm = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+                    final long reference = Magazines.getDownloadReference(context, issue);
+                    dm.remove(reference);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            dm.remove(reference); // http://stackoverflow.com/a/34797980
+                        }
+                    }, 1000);
 
-                // prepare intent which is triggered if the notification is selected
-                Intent intent = new Intent(context, ItemListActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
+                    // prepare intent which is triggered if the notification is selected
+                    Intent intent = new Intent(context, ItemListActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra(IssueDetailActivity.ARG_ROOT_DIRECTORY, issue.rootDirectory.getAbsolutePath());
 
-                // use System.currentTimeMillis() to have a unique ID for the pending intent
-                PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
+                    // use System.currentTimeMillis() to have a unique ID for the pending intent
+                    PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
 
-                // build notification
-                // the addAction re-use the same intent to keep the example short
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
-                        .setContentTitle(issue.subtitle)
-                        .setContentText(context.getResources().getString(R.string.issue_downloaded_notification))
-                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.notification_large_icon))
-                        .setSmallIcon(R.drawable.sunglasses)
-                        .setColor(context.getResources().getColor(R.color.primary_dark))
-                        .setContentIntent(pIntent)
-                        .setAutoCancel(true);
+                    // build notification
+                    // the addAction re-use the same intent to keep the example short
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+                            .setContentTitle(issue.subtitle)
+                            .setContentText(context.getResources().getString(R.string.issue_downloaded_notification))
+                            .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.notification_large_icon))
+                            .setSmallIcon(R.drawable.sunglasses)
+                            .setColor(context.getResources().getColor(R.color.primary_dark))
+                            .setContentIntent(pIntent)
+                            .setAutoCancel(true);
 
-                ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id, builder.build());
+                    ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(ISSUE_DOWNLOADED_NOTIFICATION_ID + issue.id, builder.build());
 
-                Magazines.computeIssueStatus(context, issue);
-                issue.setStatus(issue.getStatus());
-                LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(DownloadCompleteBroadcastReceiver.ACTION_DOWNLOAD_EXTRACTED));
+                    Magazines.computeIssueStatus(context, issue);
+                    issue.setStatus(issue.getStatus());
 
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-                Set<String> newSavedIssues = new HashSet<>(preferences.getStringSet("new_saved_issues", new HashSet<String>(0)));
-                newSavedIssues.add(Integer.toString(issue.id));
-                preferences.edit().putStringSet("new_saved_issues", newSavedIssues).apply();
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                    Set<String> newSavedIssues = new HashSet<>(preferences.getStringSet("new_saved_issues", new HashSet<String>(0)));
+                    newSavedIssues.add(Integer.toString(issue.id));
+                    preferences.edit().putStringSet("new_saved_issues", newSavedIssues).apply();
+                }
 
-            } catch (IOException e) {
+            } catch (Exception e) {
+                if (issue != null)
+                    Magazines.deleteIssue(context, issue, false);
                 LogHelper.e(TAG, e.getMessage());
+
+            } finally {
+                FileHelper.delete(f);
+                LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(DownloadCompleteBroadcastReceiver.ACTION_DOWNLOAD_EXTRACTED));
             }
         }
     }

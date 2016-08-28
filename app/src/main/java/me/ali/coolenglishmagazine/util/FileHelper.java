@@ -20,9 +20,11 @@ public class FileHelper {
      * @param file file to delete
      */
     public static void delete(File file) {
-        final File to = new File(file.getAbsolutePath() + System.currentTimeMillis());
-        if (file.renameTo(to))
-            to.delete();
+        if (file != null) {
+            final File to = new File(file.getAbsolutePath() + System.currentTimeMillis());
+            if (file.renameTo(to))
+                to.delete();
+        }
     }
 
 }
