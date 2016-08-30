@@ -145,7 +145,7 @@ public class WaitingItems {
                                 public void onClick(DialogInterface dialog, int which) {
                                 }
                             })
-                            .setCancelable(true)
+                            .setCancelable(false)
                             .show();
 
                     preferences.edit().putBoolean(preferenceKeyHotEnglishTimesTooltipShown, true).apply();

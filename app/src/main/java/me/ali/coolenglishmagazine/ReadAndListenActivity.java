@@ -678,7 +678,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                                     public void onClick(DialogInterface dialog, int which) {
                                     }
                                 })
-                                .setCancelable(true)
+                                .setCancelable(false)
                                 .show();
 
                         preferences.edit().putBoolean(preferenceVolumePlaybackPopupShown, true).apply();
@@ -722,7 +722,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                                         public void onClick(DialogInterface dialog, int which) {
                                         }
                                     })
-                                    .setCancelable(true)
+                                    .setCancelable(false)
                                     .show();
                         }
                         preferences.edit().putInt(preferenceRateAppCounter, rateAppCounter + 1).apply();
@@ -903,7 +903,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                                                     public void onClick(DialogInterface dialog, int which) {
                                                     }
                                                 })
-                                                .setCancelable(true)
+                                                .setCancelable(false)
                                                 .show();
 
                                         preferences.edit().putBoolean(preferenceKeyListenFirstPopupShown, true).apply();
@@ -930,7 +930,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                                                     public void onClick(DialogInterface dialog, int which) {
                                                     }
                                                 })
-                                                .setCancelable(true)
+                                                .setCancelable(false)
                                                 .show();
 
                                         preferences.edit().putBoolean(preferenceKeyGlossaryPopupIntroduced, true).apply();
