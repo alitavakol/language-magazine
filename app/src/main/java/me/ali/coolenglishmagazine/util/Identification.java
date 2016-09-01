@@ -17,6 +17,7 @@ public class Identification {
      * Return pseudo unique ID prepended by its MD5 checksum for validation
      *
      * @return ID
+     * @throws Exception if ANDROID_ID cannot be found
      */
     public static String getUniqueDeviceID(Context context) throws Exception {
         String serial = android.os.Build.class.getField("SERIAL").get(null).toString();
