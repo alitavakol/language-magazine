@@ -32,7 +32,7 @@ import me.ali.coolenglishmagazine.util.LogHelper;
  */
 public class IssueDetailFragment extends Fragment {
 
-    private static final String TAG = LogHelper.makeLogTag(ReadAndListenActivity.class);
+    private static final String TAG = LogHelper.makeLogTag(IssuesTabFragment.class);
 
     /**
      * The magazine issue this fragment is presenting.
