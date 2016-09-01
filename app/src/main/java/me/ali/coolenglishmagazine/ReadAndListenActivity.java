@@ -28,14 +28,12 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.JavascriptInterface;
@@ -148,30 +146,8 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             magazineContent.loadItems(issue);
             magazineContent.validateSignatures(this, issue);
 
-            if (!BuildConfig.DEBUG && !gift && !item.free && !issue.paidContentIsValid) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getApplicationContext(), R.style.AppTheme));
-                builder.setMessage(R.string.paid_item_error)
-                        .setTitle(R.string.paid_item_error_title)
-                        .setIcon(new IconicsDrawable(ReadAndListenActivity.this).icon(FontAwesome.Icon.faw_credit_card_alt).sizeDp(72).colorRes(R.color.primary_dark))
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ItemListFragment.launchIssueDetailsActivity(getApplicationContext(), issue);
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .setCancelable(true);
-
-                AlertDialog alert = builder.create();
-                alert.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-                alert.show();
-
+            if (!BuildConfig.DEBUG && !gift && !item.free && !issue.paidContentIsValid)
                 throw new Exception("paid content signature is incorrect.");
-            }
 
             if (!BuildConfig.DEBUG && !gift && item.free && !issue.freeContentIsValid)
                 throw new Exception("free content signature is incorrect.");
@@ -188,7 +164,13 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             timePoints = getTimePoints(doc);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            try {
+                Intent intent = new Intent();
+                intent.putExtra("issue_root_directory", item.getIssue(this).rootDirectory.getAbsolutePath());
+                setResult(RESULT_CANCELED, intent);
+            } catch (IOException ioe) {
+                setResult(RESULT_CANCELED);
+            }
             finish();
             return;
         }
