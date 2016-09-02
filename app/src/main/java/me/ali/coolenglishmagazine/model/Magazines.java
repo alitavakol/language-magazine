@@ -16,6 +16,9 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -588,6 +591,34 @@ public class Magazines {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * asks user if they want to delete completed issues, and free up space.
+     *
+     * @param context context
+     * @param issues  an array of issues to delete if user accepts.
+     */
+    public static void showFreeUpSpaceDialog(final Context context, final Issue[] issues) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder
+                .setMessage(R.string.free_up_space_question)
+                .setTitle(R.string.free_up_space_question_title)
+                .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for (Issue issue : issues)
+                            deleteIssue(context, issue, false);
+                    }
+                })
+                .setNegativeButton(R.string.later, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setIcon(new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_disc_full).sizeDp(72).colorRes(R.color.primary_dark))
+                .setCancelable(false)
+                .show();
     }
 
     /**

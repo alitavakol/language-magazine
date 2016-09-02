@@ -515,4 +515,7 @@
     <string name="rate_app">Would you leave a comment and rate this app?</string>
 
     <string name="extract_error">Could not install the magazine. Device storage free space may be low.</string>
+
+    <string name="free_up_space_question">Would you like to free up space used by completed issues, and save device storage space?</string>
+    <string name="free_up_space_question_title">Free up</string>
 </resources>

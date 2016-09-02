@@ -444,6 +444,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
 
             case R.id.action_mark_complete:
                 Magazines.markCompleted(issue);
+                Magazines.showFreeUpSpaceDialog(this, new Magazines.Issue[]{issue});
                 break;
 
             case R.id.action_mark_incomplete:
