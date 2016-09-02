@@ -750,8 +750,11 @@ public class RootActivity extends AppCompatActivity implements
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (account != null)
             account.onActivityResult(requestCode, resultCode, data);
+
+        ReadAndListenActivity.handleActivityResult(this, requestCode, resultCode, data);
     }
 
     public void hideProgressDialog() {

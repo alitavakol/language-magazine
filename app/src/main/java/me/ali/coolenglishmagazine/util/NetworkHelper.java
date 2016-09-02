@@ -23,11 +23,13 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.view.ContextThemeWrapper;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
@@ -53,21 +55,32 @@ public class NetworkHelper {
      *
      * @param context activity context
      */
-    public static void showUpgradeDialog(final Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AppTheme));
-        builder.setMessage(R.string.upgrade_message)
-                .setTitle(R.string.server_message_dialog_title)
-                .setIcon(new IconicsDrawable(context).icon(GoogleMaterial.Icon.gmd_system_update_alt).sizeDp(72).colorRes(R.color.primary_dark))
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        launchAppStoreUpdate(context);
-                    }
-                })
-                .setCancelable(true);
-        AlertDialog alert = builder.create();
-        alert.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-        alert.show();
+    public static void showUpgradeDialog(final Context context, boolean systemAlert) {
+        if (!systemAlert || Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AppTheme));
+            builder.setMessage(R.string.upgrade_message)
+                    .setTitle(R.string.server_message_dialog_title)
+                    .setIcon(new IconicsDrawable(context).icon(FontAwesome.Icon.faw_server).sizeDp(72).colorRes(R.color.primary_dark))
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            launchAppStoreUpdate(context);
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .setCancelable(false);
+            AlertDialog alert = builder.create();
+            if (systemAlert)
+                alert.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+            alert.show();
+
+        } else {
+            Toast.makeText(context, R.string.upgrade_message, Toast.LENGTH_LONG).show();
+        }
     }
 
     public static void launchAppStoreUpdate(Context context) {

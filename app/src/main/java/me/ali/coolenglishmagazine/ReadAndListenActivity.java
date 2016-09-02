@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.ActionBar;
@@ -146,14 +147,16 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             magazineContent.loadItems(issue);
             magazineContent.validateSignatures(this, issue);
 
-            if (!BuildConfig.DEBUG && !gift && !item.free && !issue.paidContentIsValid)
+            if (!BuildConfig.DEBUG && !gift && !item.free && !issue.paidContentIsValid) {
+                setResult(RESULT_CANCELED, new Intent().putExtra("payment_required", true).putExtra("item_directory", item.rootDirectory.getAbsolutePath()));
                 throw new Exception("paid content signature is incorrect.");
+            }
 
             if (!BuildConfig.DEBUG && !gift && item.free && !issue.freeContentIsValid)
                 throw new Exception("free content signature is incorrect.");
 
             if (item.version > getPackageManager().getPackageInfo(getPackageName(), 0).versionCode) {
-                NetworkHelper.showUpgradeDialog(getApplicationContext());
+                setResult(RESULT_CANCELED, new Intent().putExtra("upgrade_required", true));
                 throw new Exception("Item version is greater than app version");
             }
 
@@ -164,13 +167,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
             timePoints = getTimePoints(doc);
 
         } catch (Exception e) {
-            try {
-                Intent intent = new Intent();
-                intent.putExtra("issue_root_directory", item.getIssue(this).rootDirectory.getAbsolutePath());
-                setResult(RESULT_CANCELED, intent);
-            } catch (IOException ioe) {
-                setResult(RESULT_CANCELED);
-            }
             finish();
             return;
         }
@@ -1087,4 +1083,52 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
 
     protected AppBarLayout appBar;
     protected Toolbar toolbar;
+
+    /**
+     * request code to launch {@link ReadAndListenActivity} via {@link FragmentActivity#startActivityForResult(android.content.Intent, int)
+     */
+    protected static final int RC_LESSON_ACTIVITY = Magazines.MAX_ISSUES + 2;
+
+    /**
+     * to launch {@link ReadAndListenActivity}, start it via {@link FragmentActivity#startActivityForResult(android.content.Intent, int)}
+     * and then call this function from the {@link FragmentActivity#onActivityResult(int, int, android.content.Intent)}
+     * to handle result and show relevant alert.
+     *
+     * @param context     application context
+     * @param requestCode the request code from {@link FragmentActivity#onActivityResult(int, int, android.content.Intent)}
+     * @param resultCode  the result code from {@link FragmentActivity#onActivityResult(int, int, android.content.Intent)}
+     * @param data        the data argument of {@link FragmentActivity#onActivityResult(int, int, android.content.Intent)}
+     */
+    public static void handleActivityResult(final Context context, int requestCode, int resultCode, final Intent data) {
+        if (requestCode == RC_LESSON_ACTIVITY && resultCode == RESULT_CANCELED && data != null) {
+            if (data.getBooleanExtra("payment_required", false)) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage(R.string.paid_item_error)
+                        .setTitle(R.string.paid_item_error_title)
+                        .setIcon(new IconicsDrawable(context).icon(FontAwesome.Icon.faw_credit_card_alt).sizeDp(72).colorRes(R.color.primary_dark))
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    ItemListFragment.launchIssueDetailsActivity(
+                                            context,
+                                            Magazines.getIssue(context, new File(data.getStringExtra("item_directory")).getParentFile())
+                                    );
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setCancelable(true)
+                        .show();
+
+            } else if (data.getBooleanExtra("upgrade_required", false))
+                NetworkHelper.showUpgradeDialog(context, false);
+        }
+    }
 }

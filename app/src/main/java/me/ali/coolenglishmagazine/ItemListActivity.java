@@ -1,28 +1,22 @@
 package me.ali.coolenglishmagazine;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
-import java.io.File;
-
 import me.ali.coolenglishmagazine.model.MagazineContent;
-import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.util.Account;
 import me.ali.coolenglishmagazine.util.LogHelper;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -129,7 +123,7 @@ public class ItemListActivity extends AppCompatActivity implements
         // for the selected item ID.
         Intent intent = new Intent(this, ReadAndListenActivity.class);
         intent.putExtra(ReadAndListenActivity.ARG_ROOT_DIRECTORY, item.rootDirectory.getAbsolutePath());
-        startActivityForResult(intent, RC_LESSON_ACTIVITY);
+        startActivityForResult(intent, ReadAndListenActivity.RC_LESSON_ACTIVITY);
     }
 
     @Override
@@ -206,40 +200,14 @@ public class ItemListActivity extends AppCompatActivity implements
     public void signingIn(boolean signingIn) {
     }
 
-    protected static final int RC_LESSON_ACTIVITY = Magazines.MAX_ISSUES + 2;
-
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (account != null)
             account.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == RC_LESSON_ACTIVITY && resultCode == RESULT_CANCELED && data != null) {
-            final String issueRootDirectory = data.getStringExtra("issue_root_directory");
-            if (issueRootDirectory != null) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage(R.string.paid_item_error)
-                        .setTitle(R.string.paid_item_error_title)
-                        .setIcon(new IconicsDrawable(ItemListActivity.this).icon(FontAwesome.Icon.faw_credit_card_alt).sizeDp(72).colorRes(R.color.primary_dark))
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                try {
-                                    ItemListFragment.launchIssueDetailsActivity(getApplicationContext(), Magazines.getIssue(ItemListActivity.this, new File(issueRootDirectory)));
-                                } catch (Exception e) {
-                                }
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .setCancelable(true)
-                        .show();
-            }
-        }
+        ReadAndListenActivity.handleActivityResult(this, requestCode, resultCode, data);
     }
 
     @Override
