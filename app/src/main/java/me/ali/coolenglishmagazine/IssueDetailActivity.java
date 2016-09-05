@@ -336,6 +336,10 @@ public class IssueDetailActivity extends AppCompatActivity implements
                 }
             }, null);
 
+            request.setRetryPolicy(new DefaultRetryPolicy(10000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
             requestQueue.add(request);
 
         } catch (Exception e) {
@@ -829,6 +833,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
         buttonPurchase.setEnabled(enabled);
         buttonPurchase.setClickable(enabled);
         buttonPurchase.setTextColor(enabled ? getResources().getColor(R.color.primary_light) : getResources().getColor(R.color.linkColorDisabled));
+        buttonPurchase.setText(enabled ? R.string.purchase : R.string.wait);
         tapToRefreshButton.setClickable(enabled);
         tapToRefreshButton.setEnabled(enabled);
         tapToRefreshButton.setText(enabled ? R.string.tap_to_refresh : R.string.tap_to_refresh_disabled);
