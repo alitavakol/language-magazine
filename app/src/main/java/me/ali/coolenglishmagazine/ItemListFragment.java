@@ -349,6 +349,8 @@ public class ItemListFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
+        final FragmentActivity activity = getActivity();
+
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -358,19 +360,20 @@ public class ItemListFragment extends Fragment {
             case R.id.action_add_to_waiting_list:
                 for (MagazineContent.Item item : magazineContent.ITEMS)
                     if (BuildConfig.DEBUG || gift || (item.free && issue.freeContentIsValid) || (!item.free && issue.paidContentIsValid))
-                        WaitingItems.appendToWaitingList(getActivity(), item);
+                        WaitingItems.appendToWaitingList(activity, item);
                 return true;
 
             case R.id.action_open_issue_details:
-                launchIssueDetailsActivity(getActivity(), issue);
+                launchIssueDetailsActivity(activity, issue);
                 return true;
 
             case R.id.action_mark_complete:
                 Magazines.markCompleted(issue);
+                Magazines.showFreeUpSpaceDialog(activity, new Magazines.Issue[]{issue});
                 return true;
 
             case R.id.action_mark_incomplete:
-                Magazines.reopen(getActivity(), issue);
+                Magazines.reopen(activity, issue);
                 return true;
         }
 

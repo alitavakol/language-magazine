@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -746,7 +747,7 @@ public class IssuesTabFragment extends Fragment implements
     public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
         List<Integer> selectedItemPositions = adapter.getSelectedItems();
 
-        Magazines.Issue[] selectedIssues = new Magazines.Issue[selectedItemPositions.size()];
+        final Magazines.Issue[] selectedIssues = new Magazines.Issue[selectedItemPositions.size()];
         for (int i = selectedItemPositions.size() - 1; i >= 0; i--)
             selectedIssues[i] = issues.get(selectedItemPositions.get(i));
 
@@ -804,6 +805,16 @@ public class IssuesTabFragment extends Fragment implements
                         newSavedIssues.remove(id);
                     }
                 }
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Activity context = getActivity();
+                        if (context != null)
+                            Magazines.showFreeUpSpaceDialog(context, selectedIssues);
+                    }
+                }, 800);
+                galleryOfIssuesFragment.viewPager.setCurrentItem(COMPLETED_ISSUES);
 
                 preferences.edit().putStringSet("new_saved_issues", newSavedIssues).apply();
                 break;

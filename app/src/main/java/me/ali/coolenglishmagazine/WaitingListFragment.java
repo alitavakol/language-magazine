@@ -248,7 +248,7 @@ public class WaitingListFragment extends Fragment implements
                         if (coolEnglishTimesFragment.actionMode == null) {
                             Intent intent = new Intent(getActivity(), ReadAndListenActivity.class);
                             intent.putExtra(ReadAndListenActivity.ARG_ROOT_DIRECTORY, waitingItem.itemRootDirectory.getAbsolutePath());
-                            startActivity(intent);
+                            getActivity().startActivityForResult(intent, ReadAndListenActivity.RC_LESSON_ACTIVITY);
                         }
                     }
                 });

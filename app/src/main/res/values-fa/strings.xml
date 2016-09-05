@@ -190,4 +190,7 @@
 
     <string name="download_manager_disabled">سرویس دانلود غیر فعال است. می‌خواهی فعالش کنی؟</string>
     <string name="accept">باشه</string>
+`
+    <string name="free_up_space_question">مایل هستی تا حجمی که مجله‌های تموم شده گرفته‌اند رو آزاد کنی؟ چون فضای خالی حافظه‌ی دستگاه زیاد میشه و می‌تونی مجله‌های جدیدتر رو هم دانلود کنی.</string>
+    <string name="free_up_space_question_title">آزاد کردن حافظه</string>
 </resources>

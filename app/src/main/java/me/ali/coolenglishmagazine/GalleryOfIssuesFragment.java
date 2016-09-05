@@ -509,7 +509,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     if (error.networkResponse != null && error.networkResponse.statusCode == 426) { // 426 Upgrade Required
-                        NetworkHelper.showUpgradeDialog(getActivity());
+                        NetworkHelper.showUpgradeDialog(getActivity(), false);
 
                     } else {
                         Context context = getActivity();

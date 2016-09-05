@@ -71,7 +71,7 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
                     int reason = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_REASON));
 
                     if (reason == 426) { // 426 Upgrade Required
-                        NetworkHelper.showUpgradeDialog(context);
+                        NetworkHelper.showUpgradeDialog(context, true);
 
                     } else {
                         Toast.makeText(context, context.getResources().getString(R.string.download_failed_msg, reason), Toast.LENGTH_LONG).show();
