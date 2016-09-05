@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h1 {
+				color: white;
+				margin-top: 0;
+				padding: 8px;
+			}
+			h1, h4 {
+				text-transform: uppercase;
+			}
+			h4 {
+				margin-bottom: -16px;
+				font-weight: 300;
+			}
+			ol, ul {
+				margin-top: 36px;
+				padding-left: 1.2em;
+			}
+			ol > li {
+				/*font-size: larger;*/
+				font-weight: bold;
+			}
+			.col-a {
+				color: #6ea020;
+			}
+			.col-b {
+				color: #2c9e96;
+			}
+			ol > li > span {
+				font-weight: normal;
+				/*font-size: medium;*/
+				color: black;
+				padding: 4px;
+			}
+			li {
+				margin-bottom: 8px;
+			}
+			input {
+				display: inline-block;
+				padding-top: 0;
+				padding-bottom: 0;
+				/*margin-left: 4px;*/
+				width: 1.7em;
+				border: solid 1px black;
+				text-align: center;
+				vertical-align: middle;
+				font-weight: bold;
+				text-transform: lowercase;
+				height: 90%;
+				color: black;
+			}
+			input.fake {
+				visibility: hidden;
+				width: .1em;
+			}
+			input:focus {
+				outline: none;
+			}
+			.img {
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);				
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				padding: 4px;
+				background-color: white;
+				/*width: 50%;*/
+				margin-top: 8px;
+				margin-bottom: 8px;
+			}
+			.rotate-right {
+				-webkit-transform: rotate(-6deg);
+				transform: rotate(-6deg);
+			}
+			.rotate-left {
+				-webkit-transform: rotate(7deg);
+				transform: rotate(7deg);
+			}
+			.float-right {
+				margin-left: 16px;
+				margin-right: 4px;
+				float: right;
+				clear: right;
+			}
+			.hot {
+				background-color: #eedd00;
+			}
+			.correct {
+				background-color: lightgreen;
+			}
+			.incorrect {
+				background-color: lightcoral;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+
+	<body>
+		<div class="foundation">
+
+			<h1><span style="opacity: .7;">Little</span> Jokes</h1>
+			<h4>Match each joke beginning (1 to 8) with its ending (a-h). Then, listen to check your answers.</h4>
+
+			<div class="transcript row">
+				<div class="col-md-6">
+					<ol class="first">
+						<li class="col-a"><span data-start="7206" data-end="10515">What’s worse than a giraffe with a <a class="new-word" data-word="a sore throat" data-type="n" data-en="if you have “a sore throat”, the back of your mouth hurts">sore throat</a>?</span> <input type="text" readonly="true" data-ans="h"></li>
+						<div class="img float-right rotate-left"><img src="1.png"></div>
+						<div class="img float-right rotate-right" style="margin-right: 4px; margin-top: -16px;"><img src="2.png"></div>
+						<li class="col-a"><span data-start="15504" data-end="18670">What did the fire-fighter say when the church <a class="new-word" data-word="to catch fire" data-type="exp" data-en="if something “catches fire”, it starts to burn">caught fire</a>?</span> <input type="text" readonly="true" data-ans="a"></li>
+						<li class="col-a"><span data-start="23170" data-end="26328">What do ghosts like about tall buildings?</span> <input type="text" readonly="true" data-ans="b"></li>
+						<li class="col-a"><span data-start="32713" data-end="34814">Where do dogs keep their money?</span> <input type="text" readonly="true" data-ans="c"></li>
+						<li class="col-a"><span data-start="40684" data-end="43097">Where would you send a <a class="new-word" data-word="sick" data-type="adj" data-en="ill">sick</a> <a class="new-word" data-word="a mule" data-type="n" data-en="an animal whose parents are a horse and a donkey">mule</a>?</span> <input type="text" readonly="true" data-ans="d"></li>
+						<li class="col-a"><span data-start="48977" data-end="51478">Where would you send a sick Dalmatian?</span> <input type="text" readonly="true" data-ans="e"></li>
+						<li class="col-a"><span data-start="58495" data-end="61421">What did one strawberry say to the other strawberry?</span> <input type="text" readonly="true" data-ans="f"></li>
+						<li class="col-a"><span data-start="69310" data-end="71769">Why did King Kong join the army?</span> <input type="text" readonly="true" data-ans="g"></li>
+					</ol>
+				</div>
+
+				<div class="col-md-6 second">
+					<ol type="A" class="second">
+						<li class="col-b" data-choice="a"><span data-start="18671" data-end="23169"><a class="new-word" data-word="holy smoke!" data-type="exp" data-en="an expression used to show panic or surprise">Holy smoke</a>!</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="b"><span data-start="26329" data-end="32712">They have lots of “<a class="new-word" data-word="to scare" data-type="vb" data-en="to frighten someone">scare</a> cases”.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="c"><span data-start="34815" data-end="40683">“<a class="new-word" data-word="Barklay’s" data-type="n" data-en="a combination of Barclays Bank and “bark” - the sound a dog makes">Barklays</a>” Bank.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="d"><span data-start="43098" data-end="48976">To “horsepital”.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="e"><span data-start="51479" data-end="58494">To the “dogtor”.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="f"><span data-start="61422" data-end="69309">We’re <a class="new-word" data-word="to be in a jam" data-type="exp" data-en="to be in a very difficult situation">in a real jam</a> now.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="g"><span data-start="71770" data-end="81098">Because he wanted to know about “<a class="new-word" data-word="gorilla warfare" data-type="exp" data-en="a “guerilla” soldier fights as part of an unofficial army. A “gorilla” is an animal similar to an ape">gorilla warfare</a>”.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="h"><span data-start="10516" data-end="15503">A <a class="new-word" data-word="a centipede" data-type="n" data-en="a long and thin insect with lots of legs">centipede</a> with <a class="new-word" data-word="sore" data-type="adj" data-en="painful">sore</a> feet.</span><input type="text" class="fake"></li>
+					</ol>
+				</div>
+			</div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			prev_input = null;
+			$('.col-a').tap(function() {
+				t = $(this).find('input');
+				if(prev_input != null) {
+					prev_input.val(prev_input_val).change();
+				}
+
+				$('.col-b > span').addClass('hot');
+				prev_input = t;
+				prev_input_val = prev_input.val();
+				prev_input.val('?').change();
+			});
+			$('.col-b').tap(function () {
+				$('.col-b > span').removeClass('hot');
+				if(typeof(prev_input) != 'undefined') {
+					prev_input.val($(this).data('choice')).change();
+					prev_input = null;
+				}
+			});
+			$('input').on('change', function() {
+				$(this).removeClass('correct incorrect');
+				if(this.value != '?' && this.value != '')
+					$(this).addClass($(this).data('ans') == this.value ? 'correct' : 'incorrect');
+				saveInstanceState();
+			});
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					h1 { padding-top: " + (topMargin+verticalMargin) + "px; font-weight: bold; background-color: " + tinycolor(accentColor).darken() + "; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+					inputs: $('input').map(function() { return this.value == '?' ? prev_input_val : this.value; }).get(),
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				if(state['inputs']) {
+					$('input').map(function(i) {
+						$(this).val(state.inputs[i]).change();
+					});
+				}
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h1, h3 {
+				margin-top: 0;
+				color: white;
+			}
+			h1 {
+				margin-bottom: 0;
+				font-size: 7vw;
+			}
+			h3 {
+				font-size: 5vw;
+				font-weight: 300;
+			}
+			h4 {
+				font-weight: 400;
+				margin-top: 20px;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			.frame {
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				padding: 4px;
+			}
+			.box {
+				border: 3px solid;
+			}
+			.dotted {
+				background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.6), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+				background-image: repeating-radial-gradient(center center, rgba(0,0,0,.6), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+				-webkit-background-size: 5px 5px;
+				background-size: 5px 5px;
+			}
+			#heading {
+				position: relative;
+			}
+			#title-container {
+				position: absolute;
+				bottom: 0;
+				right: 0;
+				text-align: right;
+				text-shadow: 1px 0px 6px rgba(50,50,50,1);
+			}
+			input {
+				display: inline-block;
+				padding-top: 0;
+				padding-bottom: 0;
+				width: 1.5em;
+				border: solid 1px darkgray;
+				text-align: center;
+				vertical-align: baseline;
+				font-weight: bold;
+				height: 85%;
+				color: black;
+			}
+			input.fake {
+				visibility: hidden;
+				width: .1em;
+			}
+			input:focus {
+				outline: none;
+			}
+			.hot {
+				background-color: #eedd00;
+			}
+			.correct {
+				background-color: lightgreen;
+			}
+			.incorrect {
+				background-color: lightcoral;
+			}
+			.second {
+				padding-top: 16px;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<div id="heading">
+				<img src="cover.jpg" style="width: 100%; border: solid 2px black;">
+				<div id="title-container">
+					<h3>Obama calls<br>journalist “sweetie”.</h3>
+					<h1>Sweet Slip-Up</h1>
+				</div>
+			</div>
+
+			<h4><span class="accent">❶</span> <b>Pre-listening - political gaffes</b></h4>
+			<p>Match the political gaffes (1-10) to the speakers (A-J).</p>
+			<div class="row" style="margin-bottom: 0;">
+				<div class="col-md-6">
+					<ol class="first">
+						<li class="col-a"><span>“Today is now a very good day to get out anything we want to bury.”</span> <input type="text" readonly="true" data-ans="D"></li>
+						<li class="col-a"><span>“Read my lips: no more taxes.”</span> <input type="text" readonly="true" data-ans="J"></li>
+						<li class="col-a"><span>“I am not part of the problem. I am a Democrat.”</span> <input type="text" readonly="true" data-ans="A"></li>
+						<li class="col-a"><span>“Hold on a second, sweetie.”</span> <input type="text" readonly="true" data-ans="I"></li>
+						<li class="col-a"><span>“He [Mahatma Gandhi] reminds me of a gas station attendant.”</span> <input type="text" readonly="true" data-ans="E"></li>
+						<li class="col-a"><span>“The American people believe English should be the official language of the government. &#8230;We should replace bilingual education with immersion in English so people learn the common language of the country and they learn the language of prosperity, not the language of living in a ghetto.”</span> <input type="text" readonly="true" data-ans="G"></li>
+						<li class="col-a"><span>“We’ve got to pause and ask ourselves: How much clean air do we need?”</span> <input type="text" readonly="true" data-ans="C"></li>
+						<li class="col-a"><span>“I have opinions of my own – strong opinions – but I don’t always agree with them.”</span> <input type="text" readonly="true" data-ans="F"></li>
+						<li class="col-a"><span>“If you take out the killings, Washington actually has a very low crime rate.”</span> <input type="text" readonly="true" data-ans="H"></li>
+						<li class="col-a"><span>“You know, if I were a single man, I might ask that mummy out. That’s a good-looking mummy!”</span> <input type="text" readonly="true" data-ans="B"></li>
+					</ol>
+				</div>
+
+				<div class="col-md-6">
+					<ol type="A" class="second">
+						<li class="col-b" data-choice="A"><span>Vice President Al Gore.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="B"><span>President Bill Clinton, on examining the recently-discovered Inca mummy “Juanita”.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="C"><span>Lee Iacocca – ex CEO of Chrysler and Ford.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="D"><span>Jo Moore – Labour government minister advisor. Written in an e-mail just after the World Trade Center bombings in September 2001.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="E"><span>Hilary Clinton.</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="F"><span>George W. Bush</span><input type="text" class="fake"></li>
+						<li class="col-b" data-choice="G"><span>Newt Gingrich, Republican politician.</span></li>
+						<li class="col-b" data-choice="H"><span>Marion Barry – mayor of Washington, D.C.</span></li>
+						<li class="col-b" data-choice="I"><span>Barack Obama, speaking directly to a journalist.</span></li>
+						<li class="col-b" data-choice="J"><span>George W. Bush</span></li>
+					</ol>
+				</div>
+			</div>
+
+			<h4 style="margin-top: 12px;"><span class="accent">❷</span> <b>Listening I</b></h4>
+			<p>Listen to the conversation once. Which gaffes from the previous exercise are mentioned? Who said them?</p>
+
+			<h4><span class="accent">❸</span> <b>Listening II</b></h4>
+			<p>Listen again and complete the sentences with the exact words.</p>
+			<ol>
+				<li><span>Barack Obama’s campaign for President of the United States is being called &#8230;</span></li>
+				<li><span>Many view the term as &#8230;</span></li>
+				<li><span>Obama described this slip-up as &#8230;</span></li>
+				<li><span>Obama has made a series of political gaffes &#8230;</span></li>
+				<li><span>But he’s not the only one to &#8230;</span></li>
+				<li><span>She [Hilary] was blasted by the media for &#8230;</span></li>
+			</ol>
+
+			<h4><span class="accent">❹</span> <b>Discussion</b></h4>
+			<ol>
+				<li><span>Do you think Obama’s comment should be considered sexist? Why? Why not?</span></li>
+				<li><span>Would there be a similar reaction to the incident in your country? Why? Why not?</span></li>
+				<li><span>Is it important to be careful about the type of language we use? Why? Why not?</span></li>
+ 			</ol>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<div style="display: none;">
+			<span data-start="10800" data-end="12485"></span>
+			<span data-start="12486" data-end="14815"></span>
+			<span data-start="14816" data-end="19589"></span>
+			<span data-start="19590" data-end="21291"></span>
+			<span data-start="21292" data-end="28321"></span>
+			<span data-start="28322" data-end="32199"></span>
+			<span data-start="32200" data-end="34593"></span>
+			<span data-start="34594" data-end="35319"></span>
+			<span data-start="35320" data-end="38880"></span>
+			<span data-start="38881" data-end="39839"></span>
+			<span data-start="39840" data-end="43634"></span>
+			<span data-start="43635" data-end="48439"></span>
+			<span data-start="48440" data-end="54041"></span>
+			<span data-start="54042" data-end="55468"></span>
+			<span data-start="55469" data-end="56679"></span>
+			<span data-start="56680" data-end="66519"></span>
+			<span data-start="66520" data-end="68934"></span>
+			<span data-start="68935" data-end="73200"></span>
+			<span data-start="73201" data-end="77286"></span>
+			<span data-start="77287" data-end="84420"></span>
+			<span data-start="84421" data-end="85973"></span>
+			<span data-start="85974" data-end="87800"></span>
+			<span data-start="87801" data-end="90370"></span>
+			<span data-start="90371" data-end="91643"></span>
+			<span data-start="91644" data-end="94445"></span>
+			<span data-start="94446" data-end="100000"></span>
+			<span data-start="100001" data-end="107772"></span>
+			<span data-start="107773" data-end="113737"></span>
+			<span data-start="113738" data-end="121966"></span>
+			<span data-start="121967" data-end="125161"></span>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			prev_input = null;
+			$('.col-a').tap(function() {
+				t = $(this).find('input');
+				if(prev_input != null) {
+					prev_input.val(prev_input_val).change();
+				}
+
+				$('.col-b > span').addClass('hot');
+				prev_input = t;
+				prev_input_val = prev_input.val();
+				prev_input.val('?').change();
+			});
+			$('.col-b').tap(function () {
+				$('.col-b > span').removeClass('hot');
+				if(typeof(prev_input) != 'undefined') {
+					prev_input.val($(this).data('choice')).change();
+					prev_input = null;
+				}
+			});
+			$('input').on('change', function() {
+				$(this).removeClass('correct incorrect');
+				if(this.value != '?' && this.value != '')
+					$(this).addClass($(this).data('ans') == this.value ? 'correct' : 'incorrect');
+				saveInstanceState();
+			});
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					#top-margin { height:" + (topMargin+verticalMargin) +"px; } \
+					#bottom-margin { height:" + bottomMargin +"px; } \
+					body { background: -webkit-linear-gradient(#" + accentColor +",#" + backgroundColor +"); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left:" + horizontalMargin +"px; padding-left:" + horizontalMargin +"px; padding-right:" + horizontalMargin +"px; background-color: #" + backgroundColor +"; } \
+					#title-container { margin: " + horizontalMargin + "px; } \
+					.fill-light { background-color: " + tinycolor(highlightColor).lighten() + "; } \
+					.accent-dark { color: " + tinycolor(highlightColor).darken().darken() + "; } \
+					.box { padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+					inputs: $('input').map(function() { return this.value == '?' ? prev_input_val : this.value; }).get(),
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				if(state['inputs']) {
+					$('input').map(function(i) {
+						$(this).val(state.inputs[i]).change();
+					});
+				}
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+
+			if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+				app.setLongClickable(true);
+		</script>
+	</body>
+</html>

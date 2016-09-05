@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#page-indicator {
+				width: 100%;
+				position: flex;
+				z-index: 1;
+				text-align: center;
+				display: none;
+			}
+			.dot {
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				border-radius: 5px;
+				margin: 3px;
+			}
+			.dot.active {
+			}
+
+			.cem-card {
+				position: relative;
+				max-width: 100%;
+			}
+			.card-action {
+				padding: 20px;
+				padding-top: 48px;
+				transition: color .3s ease;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				border-top-left-radius: 24px;
+				border-top-right-radius: 24px;
+				color: white;
+				text-align: center;
+			}
+			.card-action.title {
+				padding: 40px;
+				padding-top: 80px;
+				border-radius: 24px;
+				font-size: x-large;
+				text-transform: uppercase;
+			}
+			.card-content {
+				border-radius: 0 0 2px 2px;
+				padding-bottom: 10px;
+				padding-top: 10px;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				/*font-style: italic;*/
+				/*margin: 10px;*/
+			}
+			.card-content:nth-child(3n+2) {
+				background-color: #FBF0EB;				
+			}
+			.card-content:nth-child(3n) {
+				background-color: #F8E5DC;				
+			}
+			.card-content:nth-child(3n+1) {
+				background-color: #F5DACE;				
+				border-bottom-left-radius: 24px;
+				border-bottom-right-radius: 24px;
+			}
+			.card-content img {
+				padding-bottom: 4px;
+			}
+			.card-content .situation {
+				font-weight: bold;
+				display: block;
+			}
+			td:first-child {
+				padding-top: 4px;
+				padding-bottom: 4px;
+				text-align: center;
+				padding-right: 24px;
+			}
+
+			.swipe {
+				overflow: hidden;
+				visibility: hidden;
+				position: relative;
+			}
+			.swipe-wrap {
+				position: relative;
+			}
+			.swipe-wrap > div {
+				float: left;
+				width: 20px;
+				position: relative;
+				overflow: hidden;
+				overflow-y: auto;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="swipe.min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div id="page-indicator" style="position: absolute; z-index: 1;"></div>
+
+		<div id='swipeable' style='margin:0 auto;' class='swipe'>
+			<div class='swipe-wrap'>
+				<div>
+					<div class='top-margin'></div>
+					<div class='cem-card'>
+						<div class='card-action title'>Here we’ve got some examples of how to say things in different situations.</div>
+					</div>
+					<div class='bottom-margin'></div>
+				</div>
+			</div>
+		</div>
+
+		<div style="display: none;">
+			<span data-start="7946" data-end="10660"></span>
+			<span data-start="10661" data-end="15551"></span>
+			<span data-start="15552" data-end="17900"></span>
+			<span data-start="17901" data-end="21336"></span>
+			<span data-start="21337" data-end="26534"></span>
+			<span data-start="26535" data-end="30860"></span>
+			<span data-start="30861" data-end="34201"></span>
+			<span data-start="34202" data-end="37400"></span>
+			<span data-start="37401" data-end="42170"></span>
+			<span data-start="42171" data-end="46192"></span>
+			<span data-start="46193" data-end="48754"></span>
+			<span data-start="48755" data-end="52981"></span>
+			<span data-start="52982" data-end="59350"></span>
+			<span data-start="59351" data-end="65800"></span>
+			<span data-start="65801" data-end="68391"></span>
+			<span data-start="68392" data-end="71012"></span>
+			<span data-start="71013" data-end="75614"></span>
+			<span data-start="75615" data-end="81000"></span>
+			<span data-start="81001" data-end="83771"></span>
+			<span data-start="83772" data-end="90226"></span>
+			<span data-start="90227" data-end="94551"></span>
+			<span data-start="94552" data-end="99451"></span>
+			<span data-start="99452" data-end="102673"></span>
+			<span data-start="102674" data-end="107243"></span>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			card_template = "\
+				<div>\
+					<div class='top-margin'></div>\
+					<div class='cem-card'>\
+						<div class='card-action'>{situation}</div>\
+						<div class='card-content'><table><tr><td><img src='formal.png'><span class='situation'>Formal</span></td><td>{formal}</td></tr></table></div>\
+						<div class='card-content'><table><tr><td><img src='relaxed.png'><span class='situation'>Relaxed</span></td><td>{relaxed}</td></tr></table></div>\
+						<div class='card-content'><table><tr><td><img src='informal.png'><span class='situation'>Informal</span></td><td>{informal}</td></tr></table></div>\
+					</div>\
+					<div class='bottom-margin'></div>\
+				</div>\
+			";
+			slangs = [
+				['<span data-slide="1" data-start="7946" data-end="10660">A friend really likes reading.</span>', '<span data-slide="1" data-start="10661" data-end="15551">He peruses a substantial amount of written literature.</span>', '<span data-slide="1" data-start="15552" data-end="17900">He reads quite a lot.</span>', '<span data-slide="1" data-start="17901" data-end="21336">He’s a bit of a book worm.</span>'], 
+				['<span data-slide="2" data-start="21337" data-end="26534">You tell a friend that something is actually quite serious.</span>', '<span data-slide="2" data-start="26535" data-end="30860">It is a cause for considerable concern.</span>', '<span data-slide="2" data-start="30861" data-end="34201">It’s actually quite serious.</span>', '<span data-slide="2" data-start="34202" data-end="37400">It’s no laughing matter.</span>'], 
+				['<span data-slide="3" data-start="37401" data-end="42170">A friend’s grandfather has a weak heart.</span>', '<span data-slide="3" data-start="42171" data-end="46192">His heart is somewhat debilitated.</span>', '<span data-slide="3" data-start="46193" data-end="48754">He’s got a weak heart.</span>', '<span data-slide="3" data-start="48755" data-end="52981">He’s got a dodgy ticker.</span>'], 
+				['<span data-slide="4" data-start="52982" data-end="59350">You have just finished explaining something. Now you would like to go over the main points.</span>', '<span data-slide="4" data-start="59351" data-end="65800">In conclusion,I would like to reiterate the salient points once again.</span>', '<span data-slide="4" data-start="65801" data-end="68391">Just to summarise…</span>', '<span data-slide="4" data-start="68392" data-end="71012">In a nutshell…</span>'], 
+				['<span data-slide="5" data-start="71013" data-end="75614">A friend is a bit disorganised and not tidy.</span>', '<span data-slide="5" data-start="75615" data-end="81000">He is of a disorganised and disorderly nature.</span>', '<span data-slide="5" data-start="81001" data-end="83771">He’s a bit messy.</span>', '<span data-slide="5" data-start="83772" data-end="90226">He’s a real slob; He’s a bit of a pig.</span>'], 
+				['<span data-slide="6" data-start="90227" data-end="94551">You agree with what someone has just said.</span>', '<span data-slide="6" data-start="94552" data-end="99451"><b>A:</b> It’s a great show.<br><b>B:</b> I am of a similar opinion.</span>', '<span data-slide="6" data-start="99452" data-end="102673"><b>A:</b> It’s a great show.<br><b>B:</b> I agree.</span>', '<span data-slide="6" data-start="102674" data-end="107243"><b>A:</b> It’s a great show.<br><b>B:</b> Ditto.</span>']
+			];
+			var i = 0;
+			slangs.forEach(function(slang) {
+				$('.swipe-wrap').append(card_template.replace(/\{situation\}/g, slang[0]).replace(/\{formal\}/g, slang[1]).replace(/\{relaxed\}/g, slang[2]).replace(/\{informal\}/, slang[3]));
+				$('#page-indicator').append('<span class="dot"></span>');
+				i++;
+			});
+			$('#page-indicator').append('<span class="dot"></span>');
+
+			adjustCustomLayout = function(options) {
+				brightcolor = tinycolor(accentColor).brighten().brighten();
+				brightcolor.setAlpha(.7);
+				darkColor = tinycolor(accentColor).darken().darken().darken();
+				darkColor.setAlpha(.7);
+
+				$('#local-rules').text("\
+					.cem-card { margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+					.card-content { color: " + newWordColor + "; } \
+					.top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.bottom-margin { height: " + bottomMargin + "px; } \
+					#page-indicator { margin-top: " + (topMargin+2*verticalMargin) + "px; } \
+					.swipe-wrap > div { height: " + height + "px; } \
+					.dot { background-color: " + brightcolor.toRgbString() + "; } \
+					.dot.active { background-color: " + darkColor.toRgbString() + "; } \
+					.card-content, .card-action { margin-bottom: " + spacing + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					.card-action { background-color: " + tinycolor(accentColor).darken() + "; } \
+				");
+			}
+
+			setCurrentSlide = function(index) {
+				$('#page-indicator').show();
+				$('#page-indicator .dot').eq(index).addClass('active');
+
+				if(typeof(window.swipeable) == 'object' && typeof(window.swipeable.kill) == 'function')
+					window.swipeable.kill();
+
+				window.swipeable = $('#swipeable').Swipe({
+					startSlide: index,
+					callback: function(index,elem) {
+						$('#page-indicator .dot').removeClass('active');
+						$('#page-indicator .dot').eq(index).addClass('active');
+
+						currentSlide = index;
+						saveInstanceState();
+					},
+				}).data('Swipe');
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					currentSlide: currentSlide,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				setCurrentSlide(state.currentSlide || 0);
+
+				restoringInstanceState = false;
+			}
+
+			highlight = function(timePoint) {
+				$('.highlight').removeClass('highlight');
+				t = $('[data-start=' + timePoint + ']');
+				t.addClass('highlight');
+				u = parseInt(t.data('slide'));
+				if(u >= 0)
+					window.swipeable.slide(u);
+			}
+		</script>
+
+	</body>
+</html>

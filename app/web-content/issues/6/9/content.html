@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h4 {
+				font-weight: 400;
+				margin-top: 20px;
+			}
+			h5 {
+				padding-top: 6px;
+				padding-bottom: 6px;
+				font-weight: bold;
+				border-bottom: 1px solid;
+			}
+			h1, h3 {
+				margin-top: 8px;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			ul > li {
+				margin-left: 16px;
+			}
+			input {
+				display: inline-block;
+				/*font-family: 'Blokletters';*/
+				margin-bottom: 4px;
+				margin-top: 0;
+				padding-top: 0;
+				padding-bottom: 0;
+				/*height: inherit;*/
+				width: 8em;
+				text-align: center;
+				border: 0;
+				border-bottom: dotted 1px #888;
+				vertical-align: middle;
+			}
+			input:focus {
+				outline: none;
+			}
+			.cem-label {
+				display: inline-block;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				margin: 4px;
+			}
+			.label-container {
+				margin: -4px;
+				margin-bottom: 12px;
+			}
+			.cem-label.gone {
+				opacity: .2;
+				box-shadow: none;
+				-webkit-box-shadow: none;
+			}
+			ol ol {
+				margin-bottom: 8px;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<h1>The Dental Appointment</h1>
+			<img src="1.png" style="width: 100%; -webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);">
+
+			<h4><span class="accent">❶</span> <b>Discussion</b></h4>
+			<ol>
+				<li><span>How often do you go to the dentist?</span></li>
+				<li><span>When was the last time you went?</span></li>
+				<li><span>What did you have done?</span></li>
+				<li><span>How do you book your appointments?</span></li>
+			</ol>
+
+			<h4><span class="accent">❷</span> <b>Listening I</b></h4>
+			<p>Listen once and answer these questions.</p>
+			<ol>
+				<li><span>What time does the caller want an appointment?</span></li>
+				<ol type="a">
+					<li><span>09:30</span></li>
+					<li><span>10:00</span></li>
+				</ol>
+				<li><span>What time does the caller get an appointment for?</span></li>
+				<ol type="a">
+					<li><span>09:30</span></li>
+					<li><span>10:00</span></li>
+				</ol>
+				<li><span>What is the caller’s address?</span></li>
+				<ol type="a">
+					<li><span>29 Okaysha Road</span></li>
+					<li><span>29 Acacia Road</span></li>
+				</ol>
+			</ol>
+
+			<h4><span class="accent">❸</span> <b>Listening II</b></h4>
+			<p>Listen again and complete the sentences with a word or expression from below.</p>
+			<div class="label-container">
+				<div class='cem-label'>didn’t catch</div>
+				<div class='cem-label'>see you</div>
+				<div class='cem-label'>the appointment</div>
+				<div class='cem-label'>wisdom teeth</div>
+				<div class='cem-label'>on Friday</div>
+				<div class='cem-label'>is booked up</div>
+			</div>
+			<ol>
+				<li class="fill-in"><span>I have a bad toothache and think it’s my <input type="text" class="accent-dark" readonly="true" data-ans="wisdom teeth">.</span></li>
+				<li class="fill-in"><span>When would you like <input type="text" class="accent-dark" readonly="true" data-ans="the appointment">?</span></li>
+				<li class="fill-in"><span>Well, Doctor McClean <input type="text" class="accent-dark" readonly="true" data-ans="is booked up"> tomorrow.</span></li>
+				<li class="fill-in"><span>&#8230; but there are some slots <input type="text" class="accent-dark" readonly="true" data-ans="on Friday"> if you want.</span></li>
+				<li class="fill-in"><span>Oh, I’m sorry. I <input type="text" class="accent-dark" readonly="true" data-ans="didn’t catch"> your name?</span></li>
+				<li class="fill-in"><span>We’ll <input type="text" class="accent-dark" readonly="true" data-ans="see you"> on Friday.</span></li>
+			</ol>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<div style="display: none;">
+			<span data-start="13121" data-end="17139"></span>
+			<span data-start="17140" data-end="23053"></span>
+			<span data-start="23054" data-end="26409"></span>
+			<span data-start="26410" data-end="28893"></span>
+			<span data-start="28894" data-end="34315"></span>
+			<span data-start="34317" data-end="39216"></span>
+			<span data-start="39217" data-end="42530"></span>
+			<span data-start="42531" data-end="44239"></span>
+			<span data-start="44240" data-end="47470"></span>
+			<span data-start="47471" data-end="49880"></span>
+			<span data-start="49881" data-end="52400"></span>
+			<span data-start="52401" data-end="53807"></span>
+			<span data-start="53808" data-end="57306"></span>
+			<span data-start="57307" data-end="59470"></span>
+			<span data-start="59471" data-end="65890"></span>
+			<span data-start="65891" data-end="70304"></span>
+			<span data-start="70305" data-end="73141"></span>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			dropped_elements = [];
+
+			$('.cem-label').tap(function() {
+				if(!$(this).hasClass('gone')) {
+					$('.cem-label').removeClass('selected');
+					$(this).addClass('selected');
+				}
+			});
+			$('.fill-in').tap(function() {
+				drop($('.cem-label.selected'), $(this).find('input'));
+			});
+			drop = function(dropped, dropzone) {
+				if(!dropped.length || !dropzone.length)
+					return;
+
+				var label = dropzone.data('ans');
+				if(label == dropped.html()) {
+					dropzone.val(label);
+					dropped.removeClass('selected').addClass('gone');
+
+					if(dropped_elements.indexOf(label) == -1) {
+						dropped_elements.push(label);
+						saveInstanceState();
+					}
+
+				} else {
+					dropped.removeClass('gone');
+					$('.cem-label').removeClass('selected');
+					if(typeof(app) != 'undefined')
+						app.makeToast('That\'s not right.', false);
+				}
+			}
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					h1 { color: " + tinycolor(accentColor).darken() + "; font-weight: bold; } \
+					h5 { border-color: #" + accentColor + "; color: #" + accentColor + "; } \
+					.cem-label { color: #" + backgroundColor + "; background-color: #" + textColor + "; -webkit-box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; } \
+					.selected { background-color: #" + accentColor + "; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					.accent-dark { color: " + tinycolor(accentColor).darken().toHexString() + "; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+					dropped_elements: dropped_elements,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				dropped_elements = state['dropped_elements'] || [];
+				dropped_elements.forEach(function(label) {
+					drop($(".cem-label:contains('" + label + "')"), $("input[data-ans='" + label + "']"));
+				});
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+
+			if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+				app.setLongClickable(true);
+		</script>
+	</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			.cem-label {
+				display: inline-block;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				margin: 4px;
+			}
+			.label-container {
+				margin: -4px;
+				margin-bottom: 12px;
+			}
+			h4 {
+				font-weight: 400;
+				margin-top: 20px;
+			}
+			h1 {
+				margin-top: 0;
+				/*font-style: italic;*/
+				/*font-weight: bold;*/
+				text-shadow: 0px 0px 4px rgba(0, 0, 0, .7);
+				margin-bottom: 4px;
+			}
+			.subtitle {
+				margin-top: 0;
+				font-weight: 300;
+				font-style: italic;
+				/*padding-bottom: 16px;*/
+				font-size: 1.2em;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			.lockable {
+				color: #eee;
+				border-left: solid 2px black;
+				border-right: solid 2px black;
+				border-bottom: solid 2px black;
+				background-color: #2d4858;
+				padding-top: 8px;
+			}
+			.box {
+				border: 2px solid;
+			}
+			.new-word, .new-word:focus, .new-word:hover {
+				color: white;
+			}
+			.frame {
+				padding: 4px;
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0,0,0,0.12), 0 1px 1px 0 rgba(0,0,0,0.24);
+				box-shadow: 0 2px 3px 0 rgba(0,0,0,0.12), 0 1px 1px 0 rgba(0,0,0,0.24);
+				background-color: white;
+			}
+			.dotted {
+				background-image: -webkit-repeating-radial-gradient(center center, rgba(255,255,255,.6), rgba(255,255,255,.2) 1px, transparent 1px, transparent 100%);
+				background-image: repeating-radial-gradient(center center, rgba(255,255,255,.6), rgba(255,255,255,.2) 1px, transparent 1px, transparent 100%);
+				-webkit-background-size: 5px 5px;
+				background-size: 5px 5px;
+			}
+			#title-container {
+				position: absolute;
+				bottom: 0;
+				text-align: center;
+				width: 100%;
+				color: white;
+				background: -webkit-linear-gradient(rgba(45,72,88,0),rgba(45,72,88,1));
+				margin-bottom: -1px;
+			}
+			.highlight {
+				background-color: #73858e;
+			}
+			.img-circle {
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				width: 100%;
+				/*margin-top: 16px;*/
+			}
+			.row {
+				margin-left: 0;
+				margin-right: 0;
+				margin-top: 0;
+				max-width: 480px;
+				display: inline-block;
+				margin-bottom: -8px;
+			}
+			.col-xs-4 {
+				padding-left: 0;
+				padding-right: 0;
+			}
+			.shifted-down {
+				margin-top: 18%;
+			}
+			.shifted-up {
+				margin-top: -18%;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<div style="position: relative;
+			border-left: solid 2px black; border-right: solid 2px black; border-top: solid 2px black;">
+				<img src="cover.jpg" style="width: 100%;">
+				<div id="title-container">
+					<h1>Happy Lands</h1>
+					<p class="subtitle">Denmark named the happiest place on earth.</p>
+				</div>
+			</div>
+
+			<div class="lockable dotted"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p><span data-start="12029" data-end="16177">Are you happy? If you aren’t, you should move to Denmark.</span> <span data-start="16178" data-end="19866">According to a new study, Denmark is the happiest place on earth.</span> <span data-start="19867" data-end="28550">Adrian White, from the UK's University of Leicester, used the responses of 80,000 people worldwide to create a map of <a class="new-word" data-word="well-being" data-type="n" data-en="someone’s “well-being” is their state of health and happiness">well-being</a>.</span> <span data-start="28551" data-end="32961">Denmark <a class="new-word" data-word="to come out on top" data-type="exp" data-en="to finish first; to be the best">came out on top</a>, closely followed by Switzerland and Austria.</span> <span data-start="32962" data-end="35342">The UK ranked 41st.</span> <span data-start="35343" data-end="48047">Mr White, who is an analytic social psychologist at the university, found that a nation’s level of happiness was most closely associated with health levels, prosperity and education.</span> <span data-start="48048" data-end="60000">“When people were asked if they were happy with their lives, people in countries with good healthcare, a higher <a class="new-word" data-word="GDP" data-type="n" data-en="gross domestic product – an economic term meaning the total value of a country’s goods and services within a given year">GDP</a> per capita, and access to education were much more likely to report being happy.”</span> <span data-start="60001" data-end="65287">He said it would be possible to use these parameters to <a class="new-word" data-word="to track" data-type="vb" data-en="if you “track” someone or something, you follow their movements or progress">track</a> changes in happiness.</span> <span data-start="65288" data-end="74185">They would also be able to see which events, such as a war, famine or national success, might have on happiness of people in a particular country.</span></p>
+				<p><span data-start="74186" data-end="81929">“There is increasing political interest in using measures of happiness as a national indicator <a class="new-word" data-word="in conjunction with" data-type="exp" data-en="if one thing is done “in conjunction with” another, the two things are done or used together">in conjunction with</a> measures of wealth.</span> <span data-start="81930" data-end="92126">A recent BBC survey found that 81% of the population think the government should focus on making us happier rather than <a class="new-word" data-word="wealthy" data-type="adj" data-en="rich; possessing large amounts of property and / or money">wealthier</a>.”</span> ✪</p>
+			</div></div>
+
+			<h4><span class="accent">❶</span> <b>Pre-listening I</b></h4>
+			<p>Look at these quotes about happiness. Which do you agree with and why?</p>
+			<ol type="a">
+				<li><span>Money can’t buy happiness.</span></li>
+				<li><span>You can be right, or you can be happy.</span></li>
+				<li><span>Be happy. It’s one way of being wise.</span></li>
+				<li><span>Happiness is a state of mind.</span></li>
+				<li><span>Being happy doesn’t mean being perfect.</span></li>
+			</ol>
+
+			<h4><span class="accent">❷</span> <b>Pre-listening II</b></h4>
+			<p>Look at the countries below. From the list below, which countries have the happiest people? Try to guess their rankings.</p>
+			<div class="label-container">
+				<div class="cem-label">Burundi</div>
+				<div class="cem-label">UK</div>
+				<div class="cem-label">Japan</div>
+				<div class="cem-label">Switzerland</div>
+				<div class="cem-label">USA</div>
+				<div class="cem-label">Iceland</div>
+				<div class="cem-label">Denmark</div>
+				<div class="cem-label">Austria</div>
+				<div class="cem-label">The Bahamas</div>
+			</div>
+
+			<h4><span class="accent">❸</span> <b>Listening</b></h4>
+			<p>Listen to check your rankings. Were your predictions correct?</p>
+
+			<h4><span class="accent">❹</span> <b>Reading</b></h4>
+			<ol>
+				<li><span>According to the article, what external factors affect levels of happiness?</span></li>
+				<li><span>What do most people think the government should focus on?</span></li>
+			</ol>
+
+			<h4><span class="accent">❺</span> <b>Discussion</b></h4>
+			<ol>
+				<li><span>What makes you happy?</span></li>
+				<li><span>What kind of mood are you in today? Why?</span></li>
+				<li><span>What external factors affect your mood? For example, climate, diet, sleep, etc. Refer back to the reading for more ideas.</span></li>
+			</ol>
+
+			<div class="box fill-light">
+				<p>Denmark often appear at the top of lists of the happiest nations in the world. They came first in 2013, 2014 and 2016, and were third place in 2015.</p>
+			</div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.cem-label { color: #" + backgroundColor + "; background-color: #" + textColor + "; -webkit-box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; } \
+					.box { padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
+					.fill-accent { background-color: " + highlightColor + "; } \
+					.fill-light { background-color: " + tinycolor(highlightColor).lighten() + "; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					.lockable, #title-container { padding-left: " + spacing + "px; padding-right: " + spacing + "px; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+				}
+
+				saveInstanceState();
+
+				if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+					app.setLongClickable(!b);
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to show text.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+
+			if(typeof(app) != 'undefined') {
+				if(typeof(app.showGlossaryEx) == 'function') {
+					$(document).ready(function() {
+						$('a.new-word').prop('onclick', null).off('click').click(function() {
+							var rect = this.getBoundingClientRect();
+							app.showGlossaryEx($(this).data('word'), rect.left  * window.devicePixelRatio, rect.top * window.devicePixelRatio, $(this).height() * window.devicePixelRatio, false);
+							return false;
+						});
+					});
+				}
+			}
+		</script>
+	</body>
+</html>

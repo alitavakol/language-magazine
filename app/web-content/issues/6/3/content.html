@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#title-container {
+				background-color: rgba(50,50,50,.4);
+				display: inline-block;
+			}
+			tr > td:first-child {
+				font-weight: bold;
+				text-align: right;
+			}
+			tr > td:last-child {
+				padding-left: 16px;
+			}
+			td {
+				vertical-align: top;
+			}
+			.frame {
+				padding: 4px;
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				background-color: white;
+			}
+			.dontsplit:not(:last-child) {
+				margin-bottom: 12px;
+			}
+			.title {
+				font-weight: bold;
+			}
+			#strip {
+				position: fixed;
+				top: 0;
+				left: 0;
+			}
+			body {
+				overflow-y: auto;
+			}
+			.h33 {
+				color: white;
+				text-transform: uppercase;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				font-weight: 300;
+			}
+			h4 {
+				text-transform: uppercase;
+				font-weight: 300;
+			}
+			.dotted {
+				background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.6), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+				background-image: repeating-radial-gradient(center center, rgba(0,0,0,.6), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+				-webkit-background-size: 5px 5px;
+				background-size: 5px 5px;
+			}
+			#transcript {
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+			h1 {
+				margin-top: 0;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="jquery.columnizer.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div id="strip"></div>
+		<div id="top-margin"></div>
+
+		<div class="foundation">
+			<h1>The Cinema</h1>
+
+			<h3 class="h33" style="margin-top: 0;">Vocabulary</h3>
+			<div id="images"></div>
+
+			<div style="opacity: 0; margin-bottom: -16px;">.</div>
+			<h3 class="h33"><span style="opacity: .6;">(Not so)</span> typical dialogues</h3>
+			<h3 style="margin-top: 0;">The Cinema Ticket</h3>
+			<div class="lockable dotted"><div id="transcript">
+				<h4><span data-start="10869" data-end="17385">In this conversation, brian is buying a cinema ticket from the ticket vendor.</span></h4>
+				<table style="margin-top: 8px;">
+					<tr>
+						<td>Brian:</td>
+						<td><span data-start="19793" data-end="23570">Hi, I’d like a ticket for the 6 o’clock session of <i>My Moon</i>, please.</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td> 
+						<td><span data-start="23571" data-end="25867">Certainly. Here you are. (He gives him a baboon.)</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td>
+						<td><span data-start="25868" data-end="26900">What’s this?</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td>
+						<td><span data-start="26901" data-end="28000">A <a class="new-word" data-word="a baboon" data-type="n" data-en="a type of monkey that lives in Africa">baboon</a>.</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td> 
+						<td><span data-start="28001" data-end="31283">No, I don’t want a baboon. I want to see the film <i>My Moon</i>.</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td>
+						<td><span data-start="31284" data-end="35424">Oh, it’s just when you said “moon”, I understood “baboon”.</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td> 
+						<td><span data-start="35425" data-end="37550">Well, why would I want a baboon?</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td> 
+						<td><span data-start="37551" data-end="39700">Well, I don’t know. You asked for it.</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td> 
+						<td><span data-start="39701" data-end="40350">No, I didn’t.</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td>
+						<td><span data-start="40351" data-end="41092">Yes you did.</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td> 
+						<td><span data-start="41093" data-end="42159">Oh, no…</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td>
+						<td><span data-start="42160" data-end="44380">I wouldn’t see that film, anyway.</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td>
+						<td><span data-start="44381" data-end="45048">Which film?</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td>
+						<td><span data-start="45049" data-end="46351"><i>My Moon</i>. It’s <a class="new-word" data-word="rubbish" data-type="adj inform" data-en="not very good">rubbish</a>.</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td> 
+						<td><span data-start="46352" data-end="46800">Is it?</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td>
+						<td><span data-start="46801" data-end="48000">Yeah, it’s terrible.</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td>
+						<td><span data-start="48001" data-end="48780">What’s it about?</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td>
+						<td><span data-start="48781" data-end="49850">Astronauts.</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td>
+						<td><span data-start="49851" data-end="50750">That sounds good.</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td> 
+						<td><span data-start="50751" data-end="53815">Yeah, but they don’t do anything. They’re just in space.</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td> 
+						<td><span data-start="53816" data-end="54761">Oh, right.</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td>
+						<td><span data-start="54762" data-end="56430">And then some aliens come.</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td> 
+						<td><span data-start="56431" data-end="57500">Oh, that sounds good.</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td>
+						<td><span data-start="57501" data-end="59390">Yeah, but I wouldn’t pay to see it.</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td> 
+						<td><span data-start="59391" data-end="60945">So, what do you recommend then?</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td>
+						<td><span data-start="60946" data-end="63074">Well, there’s a very good horror film.</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td>
+						<td><span data-start="63075" data-end="63760">Really?</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td>
+						<td><span data-start="63761" data-end="65511">Yes, and it’s really frightening.</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td>
+						<td><span data-start="65512" data-end="67033">Oh, good. I’ll see that then.</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td>
+						<td><span data-start="67034" data-end="69776">Oh, erm, I’m sorry but it isn’t showing at this cinema.</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td> 
+						<td><span data-start="69777" data-end="71697">[getting angry] What films do you have in this cinema?</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td> 
+						<td><span data-start="71698" data-end="73160">Well, there’s <i>Cats Galore</i>.</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td>
+						<td><span data-start="73161" data-end="74176">Is it any good?</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td>
+						<td><span data-start="74177" data-end="75062">It’s all right.</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td>
+						<td><span data-start="75063" data-end="77130">OK. One ticket for <i>Cats Galore</i>.</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td> 
+						<td><span data-start="77131" data-end="78099">Here you are.</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td>
+						<td><span data-start="78100" data-end="78966">What’s this?</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td>
+						<td><span data-start="78967" data-end="81251">One ticket for <i>Cats Galore</i>… next Friday.</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td>
+						<td><span data-start="81252" data-end="82480">But I want to go NOW!</span></td>
+					</tr>
+					<tr>
+						<td>Vendor:</td>
+						<td><span data-start="82481" data-end="84670">But the film doesn’t come out till next Friday.</span></td>
+					</tr>
+					<tr>
+						<td>Brian:</td>
+						<td><span data-start="84671" data-end="88104">AHHH!</span></td>
+					</tr>
+				</table>
+			</div></div>
+
+			<img src="baboon.png" class="frame" style="width: 100%; margin-top: 12px;">
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			var template = "\
+				<div class='dontsplit'> \
+					<table> \
+						<tr> \
+							<td style='width: 40%;'><img class='frame' style='width: 100%;' src='{img}.jpg'></td> \
+							<td><span class='title'>{title}</span> – {def}</td> \
+						</tr> \
+					</table> \
+				</div>";
+			var words = [
+				['The Red Carpet', 'a piece of carpet for the actors and actresses to walk on. It’s all very royal and important.'],
+				['Hollywood', 'the American film industry based in Hollywood, California in the United States. '],
+				['Premiere', 'the first day that a film comes out.'],
+				['Horror', 'a scary film. Not for scaredy cats!'],
+				['Comedy', 'a funny film.Ha, ha, ha!'],
+				['Drama', 'a serious film. Watch and think!'],
+				['Villain', 'an evil person in the movie. A killer or someone who tries to hurt someone else in the movie.'],
+				['Action', 'a type of film with lots of explosions, car chases and special effects.'],
+				['The Oscars', 'the annual award show to honour films and television. (in Britain, the equivalent is the BAFTAs.)'],
+				['Stunt Double', 'a person who does the dangerous things for the actor in the film.'],
+				['Soundtrack', 'the collection of songs from a film.'],
+				['Scene', 'a part of a film. Films are divided into scenes.'],
+				['Credits', '“opening credits” are at the beginning, and “closing credits” are at the end. They are a list of the actors, producers, casting directors and anyone else who contributed to the film.'],
+				['Period Piece', 'a film that is set during a certain time period that is not the present. It is usually a historical film.'],
+				['Trailers (“previews” in US English)', 'short clips of films that will come out soon. Trailers are often shown right before the main film.'],
+				['Musical', 'a type of film that has lots of singing mixed in with dialogue.'],
+				['Science Fiction', 'films about other parts of the universe that take place in the distant future.'],
+				['“Cut!”', 'what the director shouts to stop the filming.'],
+				['Ticket Stub', 'a small piece of paper you get after buying your cinema ticket.']
+			];
+			var i = 0;
+			words.forEach(function(w) {
+				$('#images').append(template.replace(/\{img\}/g, ++i).replace(/\{title\}/g, w[0]).replace(/\{def\}/g, w[1]));
+			});
+
+			adjustCustomLayout = function(options) {
+				var width = $('#images').width();
+				if(width >= 768)
+					cols = 3;
+				else if(width >= 480)
+					cols = 2;
+				else
+					cols = 1;
+
+				css = "\
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					#title-container { margin-top: " + (height-topMargin-bottomMargin-2*verticalMargin)/2 + "px; } \
+					tr:nth-child(odd) { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
+					.title { color: " + tinycolor(accentColor).darken() + "; } \
+					#strip { width: " + horizontalMargin + "px; height: " + height + "px; background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					.h33 { background-color: #" + accentColor + "; } \
+				";
+
+				if(cols > 1) {
+					css += "\
+						.column { padding-right: " + spacing + "px; padding-left: " + spacing + "px; } \
+						.first.column { padding-right: " + spacing + "px; padding-left: 0; } \
+						.last.column { padding-left: " + spacing + "px; padding-right: 0; } \
+						.column:not(:first-child) { border-left: dotted 1px black; } \
+					";
+				}
+
+				$('#local-rules').text(css);
+
+				$('#images').columnize({
+					columns: cols,
+				});
+			}
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+				}
+
+				saveInstanceState();
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to see transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+
+	</body>
+</html>

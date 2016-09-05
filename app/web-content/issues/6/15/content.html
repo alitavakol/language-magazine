@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#page-indicator {
+				width: 100%;
+				position: flex;
+				z-index: 1;
+				text-align: center;
+				display: none;
+			}
+			.dot {
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				border-radius: 5px;
+				margin: 3px;
+				/* background-color: #8999A6; */
+			}
+			.dot.active {
+				/* background-color: azure; */
+			}
+
+			.cem-card {
+				position: relative;
+				transition: box-shadow .25s;
+				border-radius: 2px;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				max-width: 100%;
+			}
+			.cem-card .card-image {
+				position: relative;
+			}
+			.cem-card .card-image img {
+				display: block;
+				border-radius: 2px 2px 0 0;
+				position: relative;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+			}
+			.cem-card .card-image .card-title {
+				color: #fff;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-top: 10px;
+				padding-bottom: 10px;
+				/*text-transform: uppercase;*/
+				background-color: black;
+				font-weight: bold;
+				background-color: rgba(0,0,0,.5);
+				font-size: 18px;
+			}
+			.cem-card .card-content {
+				border-radius: 0 0 2px 2px;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-bottom: 10px;
+				padding-top: 10px;
+				font-style: italic;
+			}
+			.cem-card .card-action {
+				border-top: 1px solid rgba(0,0,0,0.2);
+				padding: 20px;
+				padding-bottom: 0;
+				transition: color .3s ease;
+				text-transform: uppercase;
+				text-decoration: none;
+				-webkit-tap-highlight-color: transparent;
+			}
+
+			.swipe {
+				overflow: hidden;
+				visibility: hidden;
+				position: relative;
+			}
+			.swipe-wrap {
+				position: relative;
+			}
+			.swipe-wrap > div {
+				float: left;
+				width: 20px;
+				position: relative;
+				overflow: hidden;
+				overflow-y: auto;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="swipe.min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div id="page-indicator" style="position: absolute; z-index: 1;"></div>
+
+		<div id='swipeable' style='margin:0 auto;' class='swipe'>
+			<div class='swipe-wrap'></div>
+		</div>
+
+		<div style="display: none;">
+			<span data-start="1955" data-end="3300"></span>
+			<span data-start="3301" data-end="9416"></span>
+			<span data-start="9417" data-end="13370"></span>
+			<span data-start="13371" data-end="14910"></span>
+			<span data-start="14911" data-end="19537"></span>
+			<span data-start="19538" data-end="22700"></span>
+			<span data-start="22701" data-end="24051"></span>
+			<span data-start="24052" data-end="29285"></span>
+			<span data-start="29286" data-end="34219"></span>
+			<span data-start="34220" data-end="35920"></span>
+			<span data-start="35921" data-end="39340"></span>
+			<span data-start="39341" data-end="42569"></span>
+			<span data-start="42570" data-end="43670"></span>
+			<span data-start="43671" data-end="47390"></span>
+			<span data-start="47391" data-end="53108"></span>
+			<span data-start="53109" data-end="54870"></span>
+			<span data-start="54871" data-end="59736"></span>
+			<span data-start="59737" data-end="63750"></span>
+			<span data-start="63751" data-end="65300"></span>
+			<span data-start="65301" data-end="69244"></span>
+			<span data-start="69245" data-end="72529"></span>
+			<span data-start="72530" data-end="74250"></span>
+			<span data-start="74251" data-end="78673"></span>
+			<span data-start="78674" data-end="83389"></span>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			card_template = "\
+				<div>\
+					<div class='top-margin'></div>\
+					<div class='cem-card'>\
+						<div class='card-image'>\
+							<img class='img-responsive' src='{img}.png'>\
+							<span class='card-title'>{verb}</span>\
+						</div>\
+						<div class='card-action'>{def}</div>\
+						<div class='card-content'><p>{example}</p></div>\
+					</div>\
+					<div class='bottom-margin'></div>\
+				</div>\
+			";
+			verbs = [
+				['<span data-slide="0" data-start="1955" data-end="3300">To build on</span>', '<span data-slide="0" data-start="3301" data-end="9416">If you “build on” the success of something, you take advantage of that success in order to make further progress.</span>', '<span data-slide="0" data-start="9417" data-end="13370">“Let’s build on our success and expand as quickly as possible.”</span>'],
+				['<span data-slide="1" data-start="13371" data-end="14910">To walk into</span>', '<span data-slide="1" data-start="14911" data-end="19537">If you “walk into” a dangerous situation, you become involved in it unexpectedly.</span>', '<span data-slide="1" data-start="19538" data-end="22700">“He walked into a trap and there was no way out.”</span>'],
+				['<span data-slide="2" data-start="22701" data-end="24051">To muddle through</span>', '<span data-slide="2" data-start="24052" data-end="29285">If you “muddle through”, you manage to achieve success even though you don’t know how to do it properly.</span>', '<span data-slide="2" data-start="29286" data-end="34219">“He didn’t know much about computer programming, but he managed to muddle through.”</span>'],
+				['<span data-slide="3" data-start="34220" data-end="35920">To catch up</span>', '<span data-slide="3" data-start="35921" data-end="39340">To move fast enough to reach the same position as another person.</span>', '<span data-slide="3" data-start="39341" data-end="42569">“He caught up with them on the last lap of the race.”</span>'],
+				['<span data-slide="4" data-start="42570" data-end="43670">To pay off</span>', '<span data-slide="4" data-start="43671" data-end="47390">If an action “pays off”, it’s successful or profitable.</span>', '<span data-slide="4" data-start="47391" data-end="53108">“After years of working to become an executive, her persistence finally paid off.”</span>'],
+				['<span data-slide="5" data-start="53109" data-end="54870">To keep up</span>', '<span data-slide="5" data-start="54871" data-end="59736">If you “keep up”, you work at the necessary speed so you do as well as other people.</span>', '<span data-slide="5" data-start="59737" data-end="63750">“If he doesn’t start working soon, he won’t be able to keep up.”</span>'],
+				['<span data-slide="6" data-start="63751" data-end="65300">To stay ahead</span>', '<span data-slide="6" data-start="65301" data-end="69244">If you “stay ahead”, you manage to remain in a better position.</span>', '<span data-slide="6" data-start="69245" data-end="72529">“He’s going to have to work hard if he wants to stay ahead.”</span>'],
+				['<span data-slide="7" data-start="72530" data-end="74250">To fall behind</span>', '<span data-slide="7" data-start="74251" data-end="78673">If you "fall behind" at work, you don’t manage to do the things you have to do.</span>', '<span data-slide="7" data-start="78674" data-end="83389">“If he stays in bed all week, he’ll fall behind at work.”</span>']
+			];
+			var i = 0;
+			verbs.forEach(function(verb) {
+				$('.swipe-wrap').append(card_template.replace(/\{verb\}/g, verb[0]).replace(/\{def\}/g, verb[1]).replace(/\{example\}/, verb[2]).replace(/\{img\}/g, ++i));
+				$('#page-indicator').append('<span class="dot"></span>');
+			});
+
+			adjustCustomLayout = function(options) {
+				brightcolor = tinycolor(accentColor).brighten().brighten();
+				brightcolor.setAlpha(.7);
+				darkColor = tinycolor(accentColor).darken().darken();
+				darkColor.setAlpha(.7);
+
+				$('#local-rules').text("\
+					.cem-card { background-color: #" + accentColor + "; margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+					.card-content { color: " + newWordColor + "; } \
+					.top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.bottom-margin { height: " + bottomMargin + "px; } \
+					#page-indicator { margin-top: " + (topMargin+2*verticalMargin-8) + "px; } \
+					.swipe-wrap > div { height: " + height + "px; } \
+					.dot { background-color: " + brightcolor.toRgbString() + "; } \
+					.dot.active { background-color: " + darkColor.toRgbString() + "; }"
+				);
+			}
+
+			setCurrentSlide = function(index) {
+				$('#page-indicator').show();
+				$('#page-indicator .dot').eq(index).addClass('active');
+
+				if(typeof(window.swipeable) == 'object' && typeof(window.swipeable.kill) == 'function')
+					window.swipeable.kill();
+
+				window.swipeable = $('#swipeable').Swipe({
+					startSlide: index,
+					callback: function(index,elem) {
+						$('#page-indicator .dot').removeClass('active');
+						$('#page-indicator .dot').eq(index).addClass('active');
+
+						currentSlide = index;
+						saveInstanceState();
+					},
+				}).data('Swipe');
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					currentSlide: currentSlide,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				setCurrentSlide(state.currentSlide || 0);
+
+				restoringInstanceState = false;
+			}
+
+			highlight = function(timePoint) {
+				$('.highlight').removeClass('highlight');
+				t = $('[data-start=' + timePoint + ']');
+				t.addClass('highlight');
+				u = parseInt(t.data('slide'));
+				if(u >= 0)
+					window.swipeable.slide(u);
+			}
+		</script>
+
+	</body>
+</html>

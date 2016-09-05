@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#page-indicator {
+				width: 100%;
+				position: flex;
+				z-index: 1;
+				text-align: center;
+				display: none;
+			}
+			.dot {
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				border-radius: 5px;
+				margin: 3px;
+				/* background-color: #8999A6; */
+			}
+			.dot.active {
+				/* background-color: azure; */
+			}
+
+			.cem-card {
+				position: relative;
+				transition: box-shadow .25s;
+				border-radius: 2px;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				max-width: 100%;
+			}
+			.cem-card .card-image {
+				position: relative;
+			}
+			.cem-card .card-image img {
+				display: block;
+				border-radius: 2px 2px 0 0;
+				position: relative;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+			}
+			.cem-card .card-image .card-title {
+				color: #fff;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-top: 10px;
+				padding-bottom: 10px;
+				/*text-transform: uppercase;*/
+				background-color: black;
+				font-weight: bold;
+				background-color: rgba(0,0,0,.5);
+				font-size: 18px;
+			}
+			.cem-card .card-content {
+				border-radius: 0 0 2px 2px;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-bottom: 10px;
+				padding-top: 10px;
+				font-style: italic;
+			}
+			.cem-card .card-action {
+				border-top: 1px solid rgba(0,0,0,0.2);
+				padding: 20px;
+				padding-bottom: 0;
+				transition: color .3s ease;
+				text-transform: uppercase;
+				text-decoration: none;
+				-webkit-tap-highlight-color: transparent;
+			}
+
+			.swipe {
+				overflow: hidden;
+				visibility: hidden;
+				position: relative;
+			}
+			.swipe-wrap {
+				position: relative;
+			}
+			.swipe-wrap > div {
+				float: left;
+				width: 20px;
+				position: relative;
+				overflow: hidden;
+				overflow-y: auto;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="swipe.min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div id="page-indicator" style="position: absolute; z-index: 1;"></div>
+
+		<div id='swipeable' style='margin:0 auto;' class='swipe'>
+			<div class='swipe-wrap'></div>
+		</div>
+
+		<div style="display: none;">
+			<span data-start="1550" data-end="3500"></span>
+			<span data-start="3501" data-end="7969"></span>
+			<span data-start="7970" data-end="12807"></span>
+			<span data-start="12808" data-end="15274"></span>
+			<span data-start="15275" data-end="21210"></span>
+			<span data-start="21211" data-end="28240"></span>
+			<span data-start="28241" data-end="30035"></span>
+			<span data-start="30036" data-end="38070"></span>
+			<span data-start="38071" data-end="44368"></span>
+			<span data-start="44369" data-end="46256"></span>
+			<span data-start="46257" data-end="49100"></span>
+			<span data-start="49101" data-end="54318"></span>
+			<span data-start="54319" data-end="55962"></span>
+			<span data-start="55963" data-end="63537"></span>
+			<span data-start="63538" data-end="68926"></span>
+			<span data-start="68927" data-end="71160"></span>
+			<span data-start="71161" data-end="73165"></span>
+			<span data-start="73166" data-end="77613"></span>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			card_template = "\
+				<div>\
+					<div class='top-margin'></div>\
+					<div class='cem-card'>\
+						<div class='card-image'>\
+							<img class='img-responsive' src='{img}.png'>\
+							<span class='card-title'>{verb}</span>\
+						</div>\
+						<div class='card-action'>{def}</div>\
+						<div class='card-content'><p>{example}</p></div>\
+					</div>\
+					<div class='bottom-margin'></div>\
+				</div>\
+			";
+			verbs = [
+				['<span data-slide="0" data-start="1550" data-end="3500">Just around the corner</span>', '<span data-slide="0" data-start="3501" data-end="7969">If something is “just around the corner”, it’s going to happen soon.</span>', '<span data-slide="0" data-start="7970" data-end="12807">“With his retirement just around the corner, we thoughtwe’d go out and celebrate.”</span>'],
+				['<span data-slide="1" data-start="12808" data-end="15274">Be backed into a corner</span>', '<span data-slide="1" data-start="15275" data-end="21210">If you’ve been “backed into a corner”, you’re in a difficult situation with few options.</span>', '<span data-slide="1" data-start="21211" data-end="28240">“They’ve backed us into a corner. I think we’ll have to accept their conditions. We don’t really have a lot of choice”.</span>'],
+				['<span data-slide="2" data-start="28241" data-end="30035">Corner the market</span>', '<span data-slide="2" data-start="30036" data-end="38070">If a company has “cornered the market”, they’ve created a product that dominates a part of the market and there’s no competition.</span>', '<span data-slide="2" data-start="38071" data-end="44368">“They’ve more or less cornered the cheap clothing market – they’ve got a shop in every city across the country.”</span>'],
+				['<span data-slide="3" data-start="44369" data-end="46256">Fight your corner</span>', '<span data-slide="3" data-start="46257" data-end="49100">To defend something that you believe in.</span>', '<span data-slide="3" data-start="49101" data-end="54318">“You’ll have to be prepared to fight your corner if you want them to approve this project.”</span>'],
+				['<span data-slide="4" data-start="54319" data-end="55962">Turn the corner</span>', '<span data-slide="4" data-start="55963" data-end="63537">If something or someone “turns the corner”, their situation starts to improve after a difficult period.</span>', '<span data-slide="4" data-start="63538" data-end="68926">“The company has been through some difficult times, but right now I think they’ve turned the corner.”</span>'],
+				['<span data-slide="5" data-start="68927" data-end="71160">The four corners of the earth</span>', '<span data-slide="5" data-start="71161" data-end="73165">Every part of the world.</span>', '<span data-slide="5" data-start="73166" data-end="77613">“Guests arrived from the four corners of the earth.”</span>']
+			];
+			var i = 0;
+			verbs.forEach(function(verb) {
+				$('.swipe-wrap').append(card_template.replace(/\{verb\}/g, verb[0]).replace(/\{def\}/g, verb[1]).replace(/\{example\}/, verb[2]).replace(/\{img\}/g, ++i));
+				$('#page-indicator').append('<span class="dot"></span>');
+			});
+
+			adjustCustomLayout = function(options) {
+				brightcolor = tinycolor(accentColor).brighten().brighten();
+				brightcolor.setAlpha(.7);
+				darkColor = tinycolor(accentColor).darken().darken();
+				darkColor.setAlpha(.7);
+
+				$('#local-rules').text("\
+					.cem-card { background-color: #" + accentColor + "; margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+					.card-content { color: " + newWordColor + "; } \
+					.top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.bottom-margin { height: " + bottomMargin + "px; } \
+					#page-indicator { margin-top: " + (topMargin+2*verticalMargin-8) + "px; } \
+					.swipe-wrap > div { height: " + height + "px; } \
+					.dot { background-color: " + brightcolor.toRgbString() + "; } \
+					.dot.active { background-color: " + darkColor.toRgbString() + "; }"
+				);
+			}
+
+			setCurrentSlide = function(index) {
+				$('#page-indicator').show();
+				$('#page-indicator .dot').eq(index).addClass('active');
+
+				if(typeof(window.swipeable) == 'object' && typeof(window.swipeable.kill) == 'function')
+					window.swipeable.kill();
+
+				window.swipeable = $('#swipeable').Swipe({
+					startSlide: index,
+					callback: function(index,elem) {
+						$('#page-indicator .dot').removeClass('active');
+						$('#page-indicator .dot').eq(index).addClass('active');
+
+						currentSlide = index;
+						saveInstanceState();
+					},
+				}).data('Swipe');
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					currentSlide: currentSlide,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				setCurrentSlide(state.currentSlide || 0);
+
+				restoringInstanceState = false;
+			}
+
+			highlight = function(timePoint) {
+				$('.highlight').removeClass('highlight');
+				t = $('[data-start=' + timePoint + ']');
+				t.addClass('highlight');
+				u = parseInt(t.data('slide'));
+				if(u >= 0)
+					window.swipeable.slide(u);
+			}
+		</script>
+
+	</body>
+</html>

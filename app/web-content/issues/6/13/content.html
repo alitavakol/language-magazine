@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			.cem-label {
+				display: inline-block;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				margin: 4px;
+			}
+			.label-container {
+				margin: -4px;
+				margin-bottom: 12px;
+			}
+			h4 {
+				font-weight: 400;
+				margin-top: 20px;
+			}
+			h1 {
+				margin-top: 0;
+				/*font-style: italic;*/
+				/*font-weight: bold;*/
+				text-shadow: 0px 0px 4px rgba(0, 0, 0, .7);
+				margin-bottom: 4px;
+			}
+			h3 {
+				font-weight: bold;
+				color: darkslategray;
+				margin-top: 0;
+			}
+			.subtitle {
+				margin-top: 0;
+				font-weight: 300;
+				font-style: italic;
+				/*padding-bottom: 16px;*/
+				font-size: 1.2em;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			.lockable {
+				border-left: solid 2px black;
+				border-right: solid 2px black;
+				border-bottom: solid 2px black;
+				background-color: #e7ebee;
+				padding-top: 8px;
+			}
+			.box {
+				border: 2px solid;
+			}
+			.frame {
+				padding: 4px;
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0,0,0,0.12), 0 1px 1px 0 rgba(0,0,0,0.24);
+				box-shadow: 0 2px 3px 0 rgba(0,0,0,0.12), 0 1px 1px 0 rgba(0,0,0,0.24);
+				background-color: white;
+			}
+			.dotted {
+				background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.6), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+				background-image: repeating-radial-gradient(center center, rgba(0,0,0,.6), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+				-webkit-background-size: 5px 5px;
+				background-size: 5px 5px;
+			}
+			#title-container {
+				position: absolute;
+				bottom: 0;
+				text-align: right;
+				width: 100%;
+				color: black;
+				background: -webkit-linear-gradient(rgba(231,235,238,0),rgba(231,235,238,1));
+				margin-bottom: -1px;
+			}
+			.highlight {
+				background-color: lightgray;
+			}
+			.img-circle {
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				width: 100%;
+				/*margin-top: 16px;*/
+			}
+			.row {
+				margin-left: 0;
+				margin-right: 0;
+				margin-top: 0;
+				max-width: 480px;
+				display: inline-block;
+				margin-bottom: -8px;
+			}
+			.col-xs-4 {
+				padding-left: 0;
+				padding-right: 0;
+			}
+			.shifted-down {
+				margin-top: 18%;
+			}
+			.shifted-up {
+				margin-top: -18%;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<div style="position: relative;
+			border-left: solid 2px black; border-right: solid 2px black; border-top: solid 2px black;">
+				<img src="cover.jpg" style="width: 100%;">
+				<div id="title-container">
+					<h1>Odd Organics</h1>
+					<p class="subtitle">Bird-produced substances for beauty.</p>
+				</div>
+			</div>
+
+			<div class="lockable dotted"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p><span data-start="11746" data-end="16434">For centuries, people have <a class="new-word" data-word="to search" data-type="vb" data-en="to look for; to try to find">searched</a> for a solution to <a class="new-word" data-word="wrinkles" data-type="n" data-en="lines on the face. they often appear with age">wrinkles</a>.</span> <span data-start="16435" data-end="21034">These days, <a class="new-word" data-word="organic" data-type="adj" data-en="only containing natural ingredients">organic</a> skin and body products are <a class="new-word" data-word="all the rage" data-type="exp" data-en="fashionable, trendy, very popular">all the rage</a>.</span> <span data-start="21035" data-end="25881">And the latest trend at spas is the <a class="new-word" data-word="guano" data-type="n" data-en="excrement from birds">guano</a> <a class="new-word" data-word="a facial" data-type="n" data-en="a beauty treatment of the face">facial</a>.</span></p>
+				<p><span data-start="25882" data-end="29883">Guano comes from the Japanese <a class="new-word" data-word="a nightingale" data-type="n" data-en="a bird that sings a nice song">nightingale</a>.</span> <span data-start="29884" data-end="33963">It contains a powerful acid that <a class="new-word" data-word="to heal" data-type="vb" data-en="to cure; to make better">heals</a> the skin.</span> <span data-start="33964" data-end="47638">“The <a class="new-word" data-word="droppings" data-type="n" data-en="excrement from animals">droppings</a>, which are applied as a mask with Japanese white <a class="new-word" data-word="clay" data-type="n" data-en="wet, sticky earth / mud">clay</a>, are completely safe and treated under UV light to remove bacteria,” said Hari Salem, owner of Hari’s in West London.</span> <span data-start="47639" data-end="53100">This luxury can be yours in 90 minutes for about £100.</span> <span data-start="53101" data-end="56943">And so far, customers love the results.</span> <span data-start="56944" data-end="65966">“We have been <a class="new-word" data-word="to try out" data-type="phr vb" data-en="to test">trying</a> the nightingale facial <a class="new-word" data-word="to try out" data-type="phr vb" data-en="to test">out</a> and it has been an unbelievable success,” says one customer who prefers to remain anonymous.</span></p>
+				<p><span data-start="65967" data-end="70290">Apparently, there’s nothing new about this cream.</span> <span data-start="70291" data-end="76905">Japanese Geishas used guano in the 18th century to take off face make-up.</span> <span data-start="76906" data-end="81929">And Buddhist monks used it to <a class="new-word" data-word="to polish" data-type="vb" data-en="to clean something and make it shine and sparkle">polish</a> their shaved heads.</span> <span data-start="81930" data-end="86773">And birds aren’t the only animals who contribute to beauty products.</span> <span data-start="86774" data-end="90915">Many organic products today contain animal parts.</span> <span data-start="90916" data-end="98914">Red dye used in lipsticks and food products is made out of a small bug called the cochineal insect.</span> <span data-start="98915" data-end="105312">Nail polish, powders and lipsticks get their <a class="new-word" data-word="sparkle" data-type="n" data-en="if something has “sparkle”, it shines and gives off flashes of light">sparkle</a> from fish scales.</span> <span data-start="105313" data-end="115124">And last year, ladies looking for the <a class="new-word" data-word="Botox" data-type="n" data-en="treatment to remove wrinkles">Botox</a> effect without needles, found wrinkle-free heaven in a jar of <a class="new-word" data-word="snake venom" data-type="n" data-en="the poison from snakes">snake venom</a> cream.</span> <span data-start="115125" data-end="119813">The product’s exotic and exclusive appeal is what sells:</span> <span data-start="119814" data-end="126605">the Temple Viper is a “legendary species of snake” found in the Snake Temple in Malaysia.</span> <span data-start="126606" data-end="133463">Locals believe the snakes are representatives of a deity, and think the snakes have “divine powers”.</span> <span data-start="133464" data-end="138913">Wrinkle free and magic powers? That is heaven!</span> ✪</p>
+			</div></div>
+
+			<h4><span class="accent">❶</span> <b>Discussion</b></h4>
+			<p>Look at these beauty products. What do you think they do? Which one have you used? Which one would you use? Discuss your ideas with a colleague.</p>
+			<ol>
+				<li><span>The Body Shop Tea Tree Oil</span></li>
+				<li><span>Grapeseed Hydrating Toner</span></li>
+				<li><span>Vitamin C Eye Reviver</span></li>
+				<li><span>Blue Corn 3 in 1 Deep Cleansing Scrub Mask</span></li>
+				<li><span>Mango Lip Butter</span></li>
+				<li><span>Facial Buffer</span></li>
+			</ol>
+			<img src="tools.png" style="width: 100%;">
+
+			<h4><span class="accent">❷</span> <b>Listening I</b></h4>
+			<p>Look at the title and the sub-title. What do you think the article is about? Now listen many times to check your predictions.</p>
+
+			<h4><span class="accent">❸</span> <b>Listening II</b></h4>
+			<p>What do you remember? How are the following animals used to make organic cosmetics?</p>
+			<ol>
+				<li><span>birds =</span></li>
+				<li><span>insects =</span></li>
+				<li><span>fish =</span></li>
+				<li><span>snakes =</span></li>
+			</ol>
+			<p>Now listen to the article again to check your answers. Then read and test what you heard.</p>
+
+			<h4><span class="accent">❹</span> <b>Discussion</b></h4>
+			<ol>
+				<li><span>What do you think about the products mentioned in the article? Would you try them? Why? Why not?</span></li>
+				<li><span>What is your opinion of miracle creams? Are they an effective way of "stopping the clock"?</span></li>
+				<li><span>What’s the most you’ve ever spent on cosmetics?</span></li>
+				<li><span>What do you think of plastic surgery?</span></li>
+			</ol>
+
+			<div class="box fill-dark">
+				<h3>Vocabulary Focus</h3>
+				<p style="margin-bottom: 0; color: white;">Interesting expression of the day: to be all the rage. “Organic skin and body products are all the rage.” As you know, “rage” normally means anger. But what does it mean here?</p>
+			</div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.box { padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
+					.fill-dark { background-color: " + tinycolor(highlightColor).darken().darken() + "; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					.lockable, #title-container { padding-left: " + spacing + "px; padding-right: " + spacing + "px; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+				}
+
+				saveInstanceState();
+
+				if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+					app.setLongClickable(!b);
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to show text.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

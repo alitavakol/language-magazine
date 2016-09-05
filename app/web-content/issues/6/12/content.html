@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			.cem-label {
+				display: inline-block;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				margin: 4px;
+			}
+			.label-container {
+				margin: -4px;
+				margin-bottom: 12px;
+			}
+			h4 {
+				font-weight: 400;
+				margin-top: 20px;
+			}
+			h1 {
+				margin-top: 0;
+				/*font-style: italic;*/
+				/*font-weight: bold;*/
+				text-shadow: 0px 0px 4px rgba(0, 0, 0, .7);
+				margin-bottom: 4px;
+			}
+			.subtitle {
+				margin-top: 0;
+				font-weight: 300;
+				font-style: italic;
+				/*padding-bottom: 16px;*/
+				font-size: 1.2em;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			.lockable {
+				color: #eee;
+				border-left: solid 2px black;
+				border-right: solid 2px black;
+				border-bottom: solid 2px black;
+				background-color: #3c4649;
+				padding-top: 8px;
+			}
+			.box {
+				border: 2px solid;
+			}
+			.new-word, .new-word:focus, .new-word:hover {
+				color: white;
+			}
+			.frame {
+				padding: 4px;
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0,0,0,0.12), 0 1px 1px 0 rgba(0,0,0,0.24);
+				box-shadow: 0 2px 3px 0 rgba(0,0,0,0.12), 0 1px 1px 0 rgba(0,0,0,0.24);
+				background-color: white;
+			}
+			.dotted {
+				background-image: -webkit-repeating-radial-gradient(center center, rgba(255,255,255,.6), rgba(255,255,255,.2) 1px, transparent 1px, transparent 100%);
+				background-image: repeating-radial-gradient(center center, rgba(255,255,255,.6), rgba(255,255,255,.2) 1px, transparent 1px, transparent 100%);
+				-webkit-background-size: 5px 5px;
+				background-size: 5px 5px;
+			}
+			#title-container {
+				position: absolute;
+				bottom: 0;
+				text-align: center;
+				width: 100%;
+				color: white;
+				background: -webkit-linear-gradient(rgba(60,70,73,0),rgba(60,70,73,1));
+				margin-bottom: -1px;
+			}
+			.highlight {
+				background-color: #73858e;
+			}
+			.img-circle {
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				width: 100%;
+				/*margin-top: 16px;*/
+			}
+			.row {
+				margin-left: 0;
+				margin-right: 0;
+				margin-top: 0;
+				max-width: 480px;
+				display: inline-block;
+				margin-bottom: -8px;
+			}
+			.col-xs-4 {
+				padding-left: 0;
+				padding-right: 0;
+			}
+			.shifted-down {
+				margin-top: 18%;
+			}
+			.shifted-up {
+				margin-top: -18%;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<div style="position: relative;
+			border-left: solid 2px black; border-right: solid 2px black; border-top: solid 2px black;">
+				<img src="cover.jpg" style="width: 100%;">
+				<div id="title-container">
+					<h1>Good Deed Undone</h1>
+					<p class="subtitle">Car stolen from good Samaritan.</p>
+				</div>
+			</div>
+
+			<div class="lockable dotted"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p><span data-start="11824" data-end="14900">Who says a good deed doesn’t go unpunished?</span> <span data-start="14901" data-end="17704">We all know that doing the right thing is hard enough.</span> <span data-start="17705" data-end="22337">But is it fair that something bad happens to you when you try to help someone else?</span></p>
+				<p><span data-start="22338" data-end="25675">Marianne Bailey was only trying to do the right thing.</span> <span data-start="25676" data-end="30943">Bailey, a doctor, was driving on the road, and saw an injured man on the side of the street.</span> <span data-start="30944" data-end="33231">She got out of her car to help the man.</span> <span data-start="33232" data-end="38000">However, she was in such a hurry that she left the keys in the <a class="new-word" data-word="an ignition" data-type="n" data-en="inside a car, the “ignition” is the part where you turn the key to start the engine">ignition</a> of her car.</span> <span data-start="38001" data-end="42575">A <a class="new-word" data-word="callous" data-type="adj" data-en="a “callous” person or action is very cruel and does not care for other people or their feelings">callous</a> thief stole her car while she was providing emergency roadside assistance.</span></p>
+				<p><span data-start="42576" data-end="47100">Once she noticed her car was gone, Bailey immediately contacted the police.</span> <span data-start="47101" data-end="52520">Police Chief Jim Keifer was “<a class="new-word" data-word="appalled" data-type="adj" data-en="if you are “appalled” by something, you feel disgusted or disgraced">appalled</a>” at the thief, and said the theft was “pathetic”.</span> <span data-start="52521" data-end="55523">Keifer says he promises to catch the <a class="new-word" data-word="a culprit" data-type="n" data-en="a person who commits a crime">culprit</a>.</span> <span data-start="55524" data-end="63700">“It’s unthinkable why someone would steal someone’s car when they are just trying to help a man who has been seriously hurt.” Keifer continues,</span> <span data-start="63701" data-end="71992">“This woman’s <a class="new-word" data-word="compassion" data-type="n" data-en="a feeling of pity and understanding for someone who is suffering">compassion</a> has been totally taken advantage of by a pathetic opportunistic thief, and we are determined to catch whoever was responsible.”</span> <span data-start="71993" data-end="77700">The injured <a class="new-word" data-word="a pensioner" data-type="n" data-en="a person who receives pension (money paid by the state to retired people)">pensioner</a> was taken to the hospital in a critical condition suffering a serious head injury.</span> <span data-start="77701" data-end="81100">They say the man is recovering slowly but surely.</span> <span data-start="81101" data-end="84620">Bailey, however, is still waiting for her car to <a class="new-word" data-word="to turn up" data-type="exp" data-en="to appear">turn up</a>.</span> <span data-start="84621" data-end="90670">We can only hope that the criminal will feel bad enough that he will <a class="new-word" data-word="to turn himself over" data-type="exp" data-en="if you “turn yourself over”, you admit voluntarily to the police that you have committed a crime">turn himself over</a> to the police.</span> ✪</p>
+			</div></div>
+
+			<h4><span class="accent">❶</span> <b>Pre-listening</b></h4>
+			<p>What do you think a “good deed” is? Have you ever helped an old person across the road?</p>
+			<div style="text-align: center;">
+				<div class="row">
+					<div class="col-xs-4">
+						<img src="1.png" class="img-circle" style="margin-right: -16px;">
+					</div>
+					<div class="col-xs-4 shifted-down">
+						<img src="2.png" class="img-circle">
+					</div>
+					<div class="col-xs-4">
+						<img src="3.png" class="img-circle" style="margin-left: -16px;">
+					</div>
+				</div>
+			</div>
+
+			<h4><span class="accent">❷</span> <b>Listening</b></h4>
+			<p>Look at these words. What do you think this article is going to be about? Listen to the article. Use the words below to write up a quick news bulletin with a partner.</p>
+			<div class="label-container">
+				<div class="cem-label">Samaritan</div>
+				<div class="cem-label">good deed</div>
+				<div class="cem-label">car</div>
+				<div class="cem-label">Bailey</div>
+				<div class="cem-label">doctor</div>
+				<div class="cem-label">injured man</div>
+				<div class="cem-label">keys</div>
+				<div class="cem-label">hurry</div>
+				<div class="cem-label">pensioner</div>
+				<div class="cem-label">a callous thief</div>
+				<div class="cem-label">police</div>
+				<div class="cem-label">appalled</div>
+				<div class="cem-label">compassion</div>
+			</div>
+
+			<h4><span class="accent">❸</span> <b>Reading</b></h4>
+			<p>Summarise the “true” version of the story with the same words from the previous exercise.</p>
+
+			<div class="box fill-light">
+				<h4 style="margin-top: 0;"><span class="accent">❹</span> <b>Phrasal Verb Focus</b></h4>
+				<p>Did you notice the use of “turn” in two phrasal verbs from the text? Compare the phrasal verbs in these two examples.</p>
+				<ol type="a">
+					<li><span>Bailey, however, is still waiting for her car to <b>turn up</b>.</span></li>
+					<li><span>We can only hope that the criminal will feel bad enough that he will <b>turn himself over to</b> the police.</span></li>
+				</ol>
+				<p style="margin-bottom: 0;">Which phrasal verb is intransitive and which is transitive? How do you know?</p>
+			</div>
+
+			<h4><span class="accent">❺</span> <b>Discussion</b></h4>
+			<ol>
+				<li><span>Are you a “do gooder”? What is the nicest thing you have ever done for someone?</span></li>
+				<li><span>Has anyone ever done a good deed for you? When? What did he / she do?</span></li>
+				<li><span>Do you think people are generally good Samaritans? Why? Why not? Give examples.</span></li>
+			</ol>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.cem-label { color: #" + backgroundColor + "; background-color: #" + textColor + "; -webkit-box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; } \
+					.box { padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
+					.fill-accent { background-color: " + highlightColor + "; } \
+					.fill-light { background-color: " + tinycolor(highlightColor).lighten() + "; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					.lockable, #title-container { padding-left: " + spacing + "px; padding-right: " + spacing + "px; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+				}
+
+				saveInstanceState();
+
+				if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+					app.setLongClickable(!b);
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to show text.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+
+			if(typeof(app) != 'undefined') {
+				if(typeof(app.showGlossaryEx) == 'function') {
+					$(document).ready(function() {
+						$('a.new-word').prop('onclick', null).off('click').click(function() {
+							var rect = this.getBoundingClientRect();
+							app.showGlossaryEx($(this).data('word'), rect.left  * window.devicePixelRatio, rect.top * window.devicePixelRatio, $(this).height() * window.devicePixelRatio, false);
+							return false;
+						});
+					});
+				}
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h3 {
+				margin-top: 0;
+				text-transform: uppercase;
+				font-weight: bold;
+			}
+			h4 {
+				text-transform: uppercase;
+			}
+			img {
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				width: 100%;
+			}
+			ol {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+				color: inherit;
+			}
+			tr > td:first-child {
+				font-weight: bold;
+				text-align: right;
+			}
+			tr > td:last-child {
+				padding-left: 16px;
+			}
+			td {
+				vertical-align: top;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<div class="accent" style="text-transform: uppercase;">Word of the Month</div>
+			<h3>Wicked</h3>
+			<img src="cover.png">
+			<h4 style="font-weight: 300;">This month we’re looking at the word “wicked” and how it’s used in youth culture. The word used to be just another way of saying evil, but how is it used nowadays?</h4>
+
+			<p>In its correct definition, “wicked” refers to someone or something bad or malevolent. The word is quite <a class="new-word" data-word="antiquated" data-type="adj" data-en="old and dated">antiquated</a> these days, and it can sound strange when used in conversation. In Britain, it has been resurrected by youth culture, although it is occasionally used in America. In the 1980s, English comedian Lenny Henry used it a lot in his comedy acts. His character Delbert Wilkins, a supercool DJ, had a car which he named  the “Ford Wicked”. In this case, “wicked” is used in a similar way to the word “cool”, which means very fashionable or very good. Here are some examples of the word used in this way:</p>
+			<ol type="a">
+				<li><span>I saw a wicked movie last night. I’m definitely buying it when it <a class="new-word" data-word="to come out on DVD" data-type="exp " data-en="if a film “comes out on DVD”, it is released as a DVD">comes out on DVD</a>.</span></li>
+				<li><span>Liverpool signed a wicked midfielder from Barcelona during <a class="new-word" data-word="the transfer window" data-type="n" data-en="the limited time in a year that a football club can buy a contracted footballer">the transfer window</a>.</span></li>
+				<li><span>I bought my brother a wicked pair of shoes for his birthday.</span></li>
+			</ol>
+			<p>It can also be used on its own as an exclamation to express happiness in a situation. For example:</p>
+			<p><table>
+				<tr>
+					<td nowrap>Employee A:</td>
+					<td>The boss says that our work has been very good this year, so we’re getting a pay rise.</td>
+				</tr>
+				<tr>
+					<td nowrap>Employee B:</td>
+					<td>Wicked!</td>
+				</tr>
+			</table></p>
+			<p>“Wicked” can also mean that someone is mischievous, but in a fun and playful way that is enjoyable to others. For example, “The comic had a wicked sense of humour.” Another way of using the word is as a slang term or as a negative quantifier. For example, in the US comedy series <i>Malcolm in the Middle</i>, Malcolm talks to a <a class="new-word" data-word="a goth" data-type="n" data-en="a youth sub-group. Goths wear dark clothes and dark make-up">goth</a>. He mentions what he believes are the words written on the gates of Hell. The goth then replies, “Wow, that’s wicked dark!”</p>
+			<p>“Wicked” is another one of those old words that has been revised and is now used in a modern way. As you can see, not every generation uses words the same way. How “wicked” is that? <span class="accent">✪</span></p>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + verticalMargin + "px; } \
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					li { color: #" + accentColor + "; } \
+					li > span { color: #" + textColor + "; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+
+				if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+					app.setLongClickable(true);
+		</script>
+	</body>
+</html>
