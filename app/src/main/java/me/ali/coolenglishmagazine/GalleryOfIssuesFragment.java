@@ -161,16 +161,9 @@ public class GalleryOfIssuesFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        final FragmentActivity activity = getActivity();
-    }
-
-    @Override
     public void onStop() {
         super.onStop();
-        final FragmentActivity activity = getActivity();
-        cancelSync(activity, null);
+        cancelSync(null);
         finishActionMode();
     }
 
@@ -442,11 +435,8 @@ public class GalleryOfIssuesFragment extends Fragment {
                     Toast.makeText(activity, R.string.unzip_error, Toast.LENGTH_SHORT).show();
             }
 
-            if (!success) {
-                final FragmentActivity activity = getActivity();
-                if (activity != null)
-                    cancelSync(activity, adapter);
-            }
+            if (!success)
+                cancelSync(adapter);
         }
     }
 
@@ -478,7 +468,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                         .setAction(R.string.cancel_syncing, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                cancelSync(getActivity(), adapter);
+                                cancelSync(adapter);
                             }
                         }).setActionTextColor(getResources().getColor(R.color.primary_light));
                 snackbar.show();
@@ -497,12 +487,10 @@ public class GalleryOfIssuesFragment extends Fragment {
 
                     } else {
                         // received success with status code 204 (no content)
+                        cancelSync(adapter);
                         Context context = getActivity();
-                        if (context != null) {
-                            cancelSync(context, adapter);
+                        if (context != null)
                             Toast.makeText(context, R.string.update_success, Toast.LENGTH_LONG).show();
-                        }
-//                        updateInAppBillingData();
                     }
                 }
             }, new Response.ErrorListener() {
@@ -517,9 +505,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                             Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
                     }
 
-                    Context context = getActivity();
-                    if (context != null)
-                        cancelSync(context, adapter);
+                    cancelSync(adapter);
                 }
             }, null);
 
@@ -532,15 +518,14 @@ public class GalleryOfIssuesFragment extends Fragment {
             requestQueue.add(request);
 
         } else {
+            cancelSync(adapter);
             Context activity = getActivity();
-            if (activity != null) {
-                cancelSync(activity, adapter);
+            if (activity != null)
                 Toast.makeText(activity, R.string.check_connection, Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
-    protected void cancelSync(Context context, IssuesTabFragment.IssuesRecyclerViewAdapter adapter) {
+    protected void cancelSync(IssuesTabFragment.IssuesRecyclerViewAdapter adapter) {
         if (requestQueue != null) {
             requestQueue.cancelAll(GalleryOfIssuesFragment.this);
             requestQueue = null;
