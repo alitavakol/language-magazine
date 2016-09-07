@@ -36,7 +36,7 @@ public class ZipHelper {
                 File file = new File(targetDirectory, ze.getName());
                 File dir = ze.isDirectory() ? file : file.getParentFile();
 
-                if (!dir.isDirectory() && !dir.mkdirs())
+                if (!dir.mkdirs() && !dir.isDirectory())
                     throw new FileNotFoundException("Failed to ensure directory: " + dir.getAbsolutePath());
 
                 if (rootFile == null)
