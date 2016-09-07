@@ -391,6 +391,8 @@
     <string name="aboutLibraries_description_special1_name">Changes</string>
     <string name="aboutLibraries_description_special1_text">
         <![CDATA[
+        <h4>Version 3.1</h4>
+        <b>-</b> Enable installation on SD card<br>
         <h4>Version 3.0</h4>
         <b>-</b> Apprise to get a bonus free magazine<br>
         <b>-</b> Various GUI enhancements<br>
