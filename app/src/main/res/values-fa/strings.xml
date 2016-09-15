@@ -190,7 +190,15 @@
 
     <string name="download_manager_disabled">سرویس دانلود غیر فعال است. می‌خواهی فعالش کنی؟</string>
     <string name="accept">باشه</string>
-`
+
     <string name="free_up_space_question">مایل هستی تا حجمی که مجله‌های تموم شده گرفته‌اند رو آزاد کنی؟ چون فضای خالی حافظه‌ی دستگاه زیاد میشه و می‌تونی مجله‌های جدیدتر رو هم دانلود کنی.</string>
     <string name="free_up_space_question_title">آزاد کردن حافظه</string>
+
+    <string name="paid_item_error">این یک درس برگزیده و برای اونهایی هست که مجله رو خرید کرده‌اند. مایل به خرید این مجله و استفاده از همه‌ی درس‌های ویژه‌اش هستی؟</string>
+    <string name="paid_item_error_title">دسترسی ویژه</string>
+
+    <string name="yes">بله</string>
+    <string name="no">خیر</string>
+
+    <string name="tap_hold_reveal_text">فشار بده و نگه دار تا متن آشکار بشه.</string>
 </resources>
