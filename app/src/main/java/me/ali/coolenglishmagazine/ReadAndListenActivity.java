@@ -802,6 +802,10 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         @SuppressWarnings("unused")
         @JavascriptInterface
         public void makeToast(String message, boolean lengthLong) {
+            if (message.contains("Tap and hold")) {
+                message = getString(R.string.tap_hold_reveal_text);
+                lengthLong = true;
+            }
             Toast.makeText(getApplicationContext(), message, (lengthLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT)).show();
         }
 
@@ -1102,11 +1106,11 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
     public static void handleActivityResult(final Context context, int requestCode, int resultCode, final Intent data) {
         if (requestCode == RC_LESSON_ACTIVITY && resultCode == RESULT_CANCELED && data != null) {
             if (data.getBooleanExtra("payment_required", false)) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage(R.string.paid_item_error)
+                new AlertDialog.Builder(context)
+                        .setMessage(R.string.paid_item_error)
                         .setTitle(R.string.paid_item_error_title)
                         .setIcon(new IconicsDrawable(context).icon(FontAwesome.Icon.faw_credit_card_alt).sizeDp(72).colorRes(R.color.primary_dark))
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 try {
@@ -1119,7 +1123,7 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                                 }
                             }
                         })
-                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                             }

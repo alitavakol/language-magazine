@@ -520,4 +520,9 @@
 
     <string name="free_up_space_question">Would you like to free up space used by completed issues, and save device storage space?</string>
     <string name="free_up_space_question_title">Free up</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="tap_hold_reveal_text">Tap and hold to show text.</string>
 </resources>
