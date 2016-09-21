@@ -8,8 +8,8 @@ android {
         applicationId "me.ali.coolenglishmagazine"
         minSdkVersion 16 // Android 4.1 (JELLY_BEAN)
         targetSdkVersion 23
-        versionCode 22
-        versionName "3.1.1"
+        versionCode 24
+        versionName "3.2"
     }
     buildTypes {
         release {
@@ -32,12 +32,8 @@ dependencies {
     compile('com.mikepenz:materialdrawer:4.6.4@aar') {
         transitive = true
     }
-    dependencies {
-        compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-    }
-    dependencies {
-        compile 'com.github.tbouron.shakedetector:library:1.0.0@aar'
-    }
+    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
+    compile 'com.github.tbouron.shakedetector:library:1.0.0@aar'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:support-v4:23.3.0'
     compile 'com.android.support:design:23.3.0'

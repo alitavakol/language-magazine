@@ -730,8 +730,12 @@ public class IssueDetailActivity extends AppCompatActivity implements
      * @param purchased new value for {@link me.ali.coolenglishmagazine.model.Magazines.Issue#purchased}
      */
     protected void savePurchaseInfo(String price, boolean purchased) {
-        if (!issue.free && !issue.purchased && purchased)
-            Toast.makeText(this, R.string.tnx_for_purchase, Toast.LENGTH_LONG).show();
+        if (!issue.purchased && purchased) {
+            if (!issue.free)
+                Toast.makeText(this, R.string.tnx_for_purchase, Toast.LENGTH_LONG).show();
+            else if (issue.donatable)
+                Toast.makeText(this, R.string.thanks, Toast.LENGTH_LONG).show();
+        }
 
         issue.price = price;
         issue.purchased = purchased;
@@ -879,7 +883,8 @@ public class IssueDetailActivity extends AppCompatActivity implements
      */
     protected void updatePriceGui() {
         priceTextView.setText(issue.price.length() > 0 ? issue.price : getString(R.string.unknown_price));
-        buttonPurchase.setVisibility(issue.purchased || issue.free ? View.GONE : View.VISIBLE);
+        buttonPurchase.setVisibility(issue.purchased || (issue.free && !issue.donatable) ? View.GONE : View.VISIBLE);
+        buttonPurchase.setText(issue.free && issue.donatable ? R.string.donate : R.string.purchase);
 //        buttonPurchase.setAlpha(buttonDownload.getVisibility() == View.VISIBLE ? .7f : 1);
     }
 
