@@ -115,6 +115,7 @@ public class Magazines {
             issue.price = e.attr("price");
             issue.purchased = Boolean.parseBoolean(e.attr("purchased"));
             issue.free = Boolean.parseBoolean(e.attr("free"));
+            issue.donatable = Boolean.parseBoolean(e.attr("donate"));
 
             computeIssueStatus(context, issue);
 
@@ -304,6 +305,11 @@ public class Magazines {
         public boolean purchased;
 
         public boolean free;
+
+        /**
+         * if true, issue is free. but user can donate.
+         */
+        public boolean donatable;
 
 //        public String purchaseToken;
 
