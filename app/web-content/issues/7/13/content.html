@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h4 {
+				font-weight: bold;
+				margin-top: 20px;
+			}
+			h3 {
+				margin-top: 0;
+				text-transform: uppercase;
+				position: absolute;
+				bottom: 0;
+				right: 0;
+				text-align: right;
+				background-color: rgba(255,255,255,.9);
+				padding: 8px;
+				padding-left: 16px;
+				padding-right: 16px;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			.dotted {
+				background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
+				background-image: repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
+				-webkit-background-size: 5px 5px;
+				background-size: 5px 5px;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<div style="position: relative; margin-bottom: 16px;">
+				<img src="cover.jpg" style="width: 100%;">
+				<h3>Interview<br>Horror!</h3>
+			</div>
+
+			<h4><span class="accent">❶</span> <b>Think about it</b></h4>
+			<p>  When was the last time you went to an interview? How did it go? Did you get the job? Why? Why not? Has anything unusual ever happened to you during an interview? What was it? What can go wrong in an interview?</p>
+
+			<h4><span class="accent">❷</span> <b>Pre-reading</b></h4>
+			<p>Think of three things that can go wrong in an interview.</p>
+
+			<h4><span class="accent">❸</span> <b>Listening</b></h4>
+			<p id="comments">Listen to the article. Were any of your ideas mentioned?</p>
+
+			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p style="padding-top: 0;"><span data-start="7697" data-end="11263">When was the last time you had an interview?</span> <span data-start="11264" data-end="12667">How did it go?</span> <span data-start="12668" data-end="16626">Probably not as badly as it did for these candidates.</span></p>
+				<p class="accent-dark" style="font-style: italic; font-weight: bold; margin-bottom: 0;"><span data-start="16627" data-end="19189">The candidate for an interview who…</span></p>
+				<p><span data-start="19190" data-end="24434">… once asked the interviewer for a <a class="new-word" data-word="a ride" data-type="n" data-en="if you give someone a “ride”, you take them somewhere in your car">ride</a> home after the interview.</span></p>
+				<p><span data-start="24435" data-end="28949">… called up three hours late to say that she was <a class="new-word" data-word="stuck in traffic" data-type="exp" data-en="if you’re “stuck in traffic” while you’re driving, you can’t move because there are so many cars on the road">stuck in traffic</a>.</span></p>
+				<p><span data-start="28950" data-end="34097">… told the interviewer he had once been fired for <a class="new-word" data-word="to beat up" data-type="phr vb" data-en="if A “beats up” B, A hits B many, many times">beating up</a> his boss.</span></p>
+				<p><span data-start="34098" data-end="40212">… said she was a “people person” not a “numbers person” in her interview for an accounting position.</span></p>
+				<p><span data-start="40213" data-end="47918">… took out a hair brush and <a class="new-word" data-word="to brush" data-type="vb" data-en="if you “brush” your hair, you use a hairbrush to make your hair look nice and in place">brushed</a> her hair during the interview and <a class="new-word" data-word="to carry on" data-type="phr vb" data-en="to continue">carried on</a> as if nothing was wrong.</span></p>
+				<p><span data-start="47919" data-end="51850">… arrived at his interview with food <a class="new-word" data-word="a stain" data-type="n" data-en="a mark on clothing, etc. made by food, oil, etc.">stains</a> on his tie.</span></p> 
+				<p><span data-start="51851" data-end="56250">… was seen smelling his <a class="new-word" data-word="an armpit" data-type="n" data-en="the inside part of your arm where your arm joins your body">armpits</a> on the way to the interview room.</span></p> 
+				<p><span data-start="56251" data-end="63616">… once answered his phone and asked if the interviewer wouldn’t mind leaving the office because it was a private call.</span></p>
+				<p><span data-start="63617" data-end="69750">… after a 15-minute conversation apologised and asked the interviewer what her name was.</span></p> 
+				<p><span data-start="69751" data-end="79580">… told the interviewer he probably wouldn't stay at the company for long because he thought he might get an <a class="new-word" data-word="an inheritance" data-type="n" data-en="money, property, etc. you receive when someone dies">inheritance</a> from his uncle, and his uncle “wasn't looking too good”.</span></p>
+				<p><span data-start="79581" data-end="87812">… got up to say goodbye at the end of a 50-minute interview and in a moment of misplaced enthusiasm <a class="new-word" data-word="to hug" data-type="vb" data-en="to hold someone in your arms in an emotional way because you like them, etc.">hugged</a> the interviewer.</span></p> 
+				<p><span data-start="87813" data-end="93807">… excused himself to go to the toilet during the interview then failed to return.</span> <span data-start="93808" data-end="102975">After about 10 minutes, the interviewer went looking for him, only to find the toilet window was open and the candidate was nowhere to be seen.</span></p> 
+				<p><span data-start="102976" data-end="107965">… got into a <a class="new-word" data-word="a heated argument" data-type="exp" data-en="a violent discussion (talk) between two people">heated argument</a> with the interviewer over a parking space.</span> <span data-start="107966" data-end="115588">A few minutes before the interview, the candidate was parking when another car swerved in front of her and took the space.</span> <span data-start="115589" data-end="120285">The candidate <a class="new-word" data-word="to swear at" data-type="exp" data-en="if you “swear at” someone, you say a rude, bad word to them">swore at</a> the other driver and made a <a class="new-word" data-word="a rude gesture" data-type="exp" data-en="if you make a “rude gesture”, you use your hands, fingers or arms to say something horrible or not nice to another person">rude gesture</a>.</span> <span data-start="120286" data-end="131550">Minutes later, on walking into the interview room, the candidate saw that the person she’d had the argument with in the street was the man who was supposed to be interviewing her!</span> <span class="accent">✪</span></p>
+			</div></div>
+
+			<h4><span class="accent">❹</span> <b>Reading</b></h4>
+			<p>Read the article. Then, answer the questions.</p>
+			<ol>
+				<li><span>How late was the candidate who was stuck in traffic?</span></li> 
+				<li><span>What position was the woman applying for who said she was a “people person”?</span></li> 
+				<li><span>Where did one candidate have some food stains?</span></li> 
+				<li><span>What was one interviewee seen smelling before the interview?</span></li> 
+				<li><span>Who was one candidate expecting to get an inheritance from?</span></li> 
+				<li><span>What did one candidate do to the interviewer at the end of a 50-minute interview?</span></li>
+			</ol>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.box { padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					.accent-dark { color: " + tinycolor(accentColor).darken().darken() + "; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+					$('#comments').css('opacity', 1);
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+					$('#comments').css('opacity', .5);
+				}
+
+				saveInstanceState();
+
+				if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+					app.setLongClickable(!b);
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to show text.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

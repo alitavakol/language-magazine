@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#page-indicator {
+				width: 100%;
+				position: flex;
+				z-index: 1;
+				text-align: center;
+				display: none;
+			}
+			.dot {
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				border-radius: 5px;
+				margin: 3px;
+				/* background-color: #8999A6; */
+			}
+			.dot.active {
+				/* background-color: azure; */
+			}
+
+			.cem-card {
+				position: relative;
+				transition: box-shadow .25s;
+				border-radius: 2px;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				max-width: 100%;
+			}
+			.cem-card .card-image {
+				position: relative;
+			}
+			.cem-card .card-image img {
+				display: block;
+				border-radius: 2px 2px 0 0;
+				position: relative;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+			}
+			.cem-card .card-image .card-title {
+				color: #fff;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-top: 10px;
+				padding-bottom: 10px;
+				/*text-transform: uppercase;*/
+				background-color: black;
+				font-weight: bold;
+				background-color: rgba(0,0,0,.5);
+				font-size: 18px;
+			}
+			.cem-card .card-content {
+				border-radius: 0 0 2px 2px;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-bottom: 10px;
+				padding-top: 10px;
+				font-style: italic;
+			}
+			.cem-card .card-action {
+				border-top: 1px solid rgba(0,0,0,0.2);
+				padding: 20px;
+				padding-bottom: 0;
+				transition: color .3s ease;
+				text-transform: uppercase;
+				text-decoration: none;
+				-webkit-tap-highlight-color: transparent;
+			}
+
+			.swipe {
+				overflow: hidden;
+				visibility: hidden;
+				position: relative;
+			}
+			.swipe-wrap {
+				position: relative;
+			}
+			.swipe-wrap > div {
+				float: left;
+				width: 20px;
+				position: relative;
+				overflow: hidden;
+				overflow-y: auto;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="swipe.min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div id="page-indicator" style="position: absolute; z-index: 1;"></div>
+
+		<div id='swipeable' style='margin:0 auto;' class='swipe'>
+			<div class='swipe-wrap'></div>
+		</div>
+
+		<div style="display: none;">
+			<a class="new-word" data-word="a bee" data-type="n" data-en="a little black and yellow insect that makes honey">bee</a>
+			<a class="new-word" data-word="a bonnet" data-type="n" data-en="a hat with ribbons that are tied under the chin (the bottom part of your face)">bonnet</a>
+			<a class="new-word" data-word="a mess" data-type="n" data-en="if things are “in a mess”, they are disordered and not tidy">mess</a>
+			<a class="new-word" data-word="snug" data-type="adj" data-en="if you are “snug”, you feel warm, secure and comfortable">snug</a>
+			<a class="new-word" data-word="a bug" data-type="n US" data-en="an insect">bug</a>
+			<a class="new-word" data-word="a rug" data-type="n" data-en="a piece of material on the floor. It is similar to a carpet, but it covers a smaller area">rug</a>
+			<a class="new-word" data-word="rubbish/litter" data-type="n" data-en="old things that you throw away: bits of paper, food, etc.">rubbish</a>
+			<a class="new-word" data-word="rubbish/litter" data-type="n" data-en="old things that you throw away: bits of paper, food, etc.">litter</a>
+
+			<span data-start="9216" data-end="11104"></span>
+			<span data-start="24571" data-end="26823"></span>
+			<span data-start="38223" data-end="40820"></span>
+			<span data-start="52583" data-end="54458"></span>
+			<span data-start="66439" data-end="68110"></span>
+			<span data-start="75124" data-end="77300"></span>
+			<span data-start="11105" data-end="15829"></span>
+			<span data-start="15830" data-end="18603"></span>
+			<span data-start="26824" data-end="32834"></span>
+			<span data-start="40821" data-end="45232"></span>
+			<span data-start="54459" data-end="57475"></span>
+			<span data-start="68111" data-end="70050"></span>
+			<span data-start="77301" data-end="81785"></span>
+			<span data-start="18604" data-end="24570"></span>
+			<span data-start="32835" data-end="38222"></span>
+			<span data-start="45233" data-end="52582"></span>
+			<span data-start="57476" data-end="62166"></span>
+			<span data-start="62167" data-end="66438"></span>
+			<span data-start="70051" data-end="75123"></span>
+			<span data-start="81786" data-end="87817"></span>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			card_template = "\
+				<div>\
+					<div class='top-margin'></div>\
+					<div class='cem-card'>\
+						<div class='card-image'>\
+							<img class='img-responsive' src='{img}.jpg'>\
+							<span class='card-title'>{verb}</span>\
+						</div>\
+						<div class='card-action'>{def}</div>\
+						<div class='card-content'><p>{example}</p></div>\
+					</div>\
+					<div class='bottom-margin'></div>\
+				</div>\
+			";
+			verbs = ['<span data-slide="0" data-start="9216" data-end="11104">Have a bee in your bonnet</span>', '<span data-slide="1" data-start="24571" data-end="26823">The birds and the bees</span>', '<span data-slide="2" data-start="38223" data-end="40820">As snug as a bug in a rug</span>', '<span data-slide="3" data-start="52583" data-end="54458">A litter bug</span>', '<span data-slide="4" data-start="66439" data-end="68110">Bug someone</span>', '<span data-slide="5" data-start="75124" data-end="77300">Bug in the system</span>'];
+			defs = ['<span data-slide="0" data-start="11105" data-end="15829">To keep talking about something again and again because you think it is important.</span> <span data-slide="0" data-start="15830" data-end="18603">However, no one else thinks it is so important.</span>', '<span data-slide="1" data-start="26824" data-end="32834">If you tell a child about the “birds and the bees”, you tell him/her about sexual reproduction.</span>', '<span data-slide="2" data-start="40821" data-end="45232">To feel very comfortable and warm because you are in bed or under a cover.</span>', '<span data-slide="3" data-start="54459" data-end="57475">Someone who throws rubbish on the flour.</span>', '<span data-slide="4" data-start="68111" data-end="70050">To annoy or irritate someone.</span>', '<span data-slide="5" data-start="77301" data-end="81785">If there is a bug in a computer programme, there is an error in it.</span>'];
+			examples = ['<span data-slide="0" data-start="18604" data-end="24570">“He’s got a <a class="new-word" data-word="a bee" data-type="n" data-en="a little black and yellow insect that makes honey">bee</a> in his <a class="new-word" data-word="a bonnet" data-type="n" data-en="a hat with ribbons that are tied under the chin (the bottom part of your face)">bonnet</a> about people leaving a <a class="new-word" data-word="a mess" data-type="n" data-en="if things are “in a mess”, they are disordered and not tidy">mess</a> on their desk. I wish he’d shut up about it.”</span>', '<span data-slide="1" data-start="32835" data-end="38222">“My parents didn’t tell me about the birds and bees until I was fifteen.”</span>', '<span data-slide="2" data-start="45233" data-end="52582">“I spent all weekend in bed watching TV and playing with my PSP portable. I was as <a class="new-word" data-word="snug" data-type="adj" data-en="if you are “snug”, you feel warm, secure and comfortable">snug</a> as a <a class="new-word" data-word="a bug" data-type="n US" data-en="an insect">bug</a> in a <a class="new-word" data-word="a rug" data-type="n" data-en="a piece of material on the floor. It is similar to a carpet, but it covers a smaller area">rug</a>.”</span>', '<span data-slide="3" data-start="57476" data-end="62166">“This street is disgusting with all this <a class="new-word" data-word="rubbish/litter" data-type="n" data-en="old things that you throw away: bits of paper, food, etc.">rubbish</a> everywhere.</span> <span data-slide="3" data-start="62167" data-end="66438">The government has to do something about <a class="new-word" data-word="rubbish/litter" data-type="n" data-en="old things that you throw away: bits of paper, food, etc.">litter</a> bugs.”</span>', '<span data-slide="4" data-start="70051" data-end="75123">“No, I won’t play that game with you — I’m busy. Now go away and stop bugging me!”</span>', '<span data-slide="5" data-start="81786" data-end="87817">“The programme doesn’t work properly. I think there’s a bug in the software.”</span>'];
+			var i = 0;
+			verbs.forEach(function(verb) {
+				$('.swipe-wrap').append(card_template.replace(/\{verb\}/g, verb).replace(/\{def\}/g, defs[i]).replace(/\{example\}/, examples[i]).replace(/\{img\}/g, ++i));
+				$('#page-indicator').append('<span class="dot"></span>');
+			});
+
+			adjustCustomLayout = function(options) {
+				brightcolor = tinycolor(accentColor).brighten().brighten();
+				brightcolor.setAlpha(.7);
+				darkColor = tinycolor(accentColor).darken().darken();
+				darkColor.setAlpha(.7);
+
+				$('#local-rules').text("\
+					.cem-card { background-color: #" + accentColor + "; margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+					.card-content { color: " + newWordColor + "; } \
+					.top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.bottom-margin { height: " + bottomMargin + "px; } \
+					#page-indicator { margin-top: " + (topMargin+2*verticalMargin-8) + "px; } \
+					.swipe-wrap > div { height: " + height + "px; } \
+					.dot { background-color: " + brightcolor.toRgbString() + "; } \
+					.dot.active { background-color: " + darkColor.toRgbString() + "; }"
+				);
+			}
+
+			setCurrentSlide = function(index) {
+				$('#page-indicator').show();
+				$('#page-indicator .dot').eq(index).addClass('active');
+
+				if(typeof(window.swipeable) == 'object' && typeof(window.swipeable.kill) == 'function')
+					window.swipeable.kill();
+
+				window.swipeable = $('#swipeable').Swipe({
+					startSlide: index,
+					callback: function(index,elem) {
+						$('#page-indicator .dot').removeClass('active');
+						$('#page-indicator .dot').eq(index).addClass('active');
+
+						currentSlide = index;
+						saveInstanceState();
+					},
+				}).data('Swipe');
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					currentSlide: currentSlide,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				setCurrentSlide(state.currentSlide || 0);
+
+				restoringInstanceState = false;
+			}
+
+			highlight = function(timePoint) {
+				$('.highlight').removeClass('highlight');
+				t = $('[data-start=' + timePoint + ']');
+				t.addClass('highlight');
+				u = parseInt(t.data('slide'));
+				if(u >= 0)
+					window.swipeable.slide(u);
+			}
+		</script>
+
+	</body>
+</html>

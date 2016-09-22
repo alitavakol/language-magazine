@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+				background: url('cover.jpg');
+				background-repeat: no-repeat;
+				background-size: cover;
+				background-position: center;
+			}
+			.illustrative {
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				width: calc(100% - 12px);
+				height: 100%;
+				margin-left: 12px;
+			}
+			.wrapper {
+				width: 100%;
+				/* whatever width you want */
+				display: inline-block;
+				position: relative;
+			}
+			.wrapper:after {
+				padding-top: 80%;
+				display: block;
+				content: '';
+			}
+			.img-container {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				right: 0;
+				left: 0;
+			}
+			.text-box {
+				background-color: white;
+				padding: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				margin-left: 12px;
+				/*border: solid 1px black;*/
+				max-width: 85%;
+				opacity: .95;
+				font-size: .9em;
+			}
+			.text-box > p {
+				margin-bottom: 4px;
+			}
+			.counter, .my-label {
+				background-color: #cc1111;
+				font-weight: bold;
+				/*font-size: 1.2em;*/
+				color: white;
+				padding: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+			}
+			.counter {
+				position: absolute;
+				left: 0;
+				top: 12px;
+			}
+			.my-label {
+				background-color: #cc1111;
+				display: inline-block;
+			}
+			.info {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+			}
+			.A, .B {
+				color: white;
+				margin-right: 4px;
+				padding-left: 2px;
+				padding-right: 4px;
+				padding-left: 4px;
+				border-radius: 20%;
+			}
+			.A {
+				background-color: #cc1111;
+			}
+			.B {
+				background-color: #1111cc;
+			}
+			.example {
+				font-weight: 500;
+			}
+			h1 {
+				text-transform: uppercase;
+				font-weight: 300;
+			}
+			.header {
+				background-color: white;
+				opacity: .95;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<div class="header">
+				<h1>12 phrases to improve your <span style="color: #cc1111; font-weight: normal;">spoken</span> english!</h1>
+				<h4>Learn these phrases to really improve your English. They’ll make you sound more fluent, natural and native.</h4>
+			</div>
+
+			<div class="row">
+			</div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<div style="display: none;">
+			<span data-start="19569" data-end="21520"></span>
+			<span data-start="21521" data-end="24842"></span>
+			<span data-start="24843" data-end="26732"></span>
+			<span data-start="26733" data-end="28896"></span>
+			<span data-start="28897" data-end="30900"></span>
+			<span data-start="30901" data-end="34989"></span>
+			<span data-start="34990" data-end="37270"></span>
+			<span data-start="37271" data-end="38827"></span>
+			<span data-start="38828" data-end="42325"></span>
+			<span data-start="42326" data-end="46100"></span>
+			<span data-start="46101" data-end="48515"></span>
+			<span data-start="48516" data-end="50281"></span>
+			<span data-start="50282" data-end="53211"></span>
+			<span data-start="53212" data-end="56927"></span>
+			<span data-start="56928" data-end="58725"></span>
+			<span data-start="58726" data-end="60737"></span>
+			<span data-start="60738" data-end="63544"></span>
+			<span data-start="63545" data-end="68446"></span>
+			<span data-start="68447" data-end="71600"></span>
+			<span data-start="71601" data-end="74100"></span>
+			<span data-start="74101" data-end="77045"></span>
+			<span data-start="77046" data-end="83227"></span>
+			<span data-start="83228" data-end="84616"></span>
+			<span data-start="84617" data-end="86871"></span>
+			<span data-start="86872" data-end="89737"></span>
+			<span data-start="89738" data-end="95925"></span>
+			<span data-start="95926" data-end="98424"></span>
+			<span data-start="98425" data-end="101192"></span>
+			<span data-start="101193" data-end="103769"></span>
+			<span data-start="103770" data-end="109070"></span>
+			<span data-start="109071" data-end="111250"></span>
+			<span data-start="111251" data-end="115758"></span>
+			<span data-start="115759" data-end="118470"></span>
+			<span data-start="118471" data-end="124238"></span>
+			<span data-start="124239" data-end="127100"></span>
+			<span data-start="127101" data-end="129022"></span>
+			<span data-start="129023" data-end="132309"></span>
+			<span data-start="132310" data-end="138393"></span>
+			<span data-start="138394" data-end="142230"></span>
+			<span data-start="142231" data-end="143670"></span>
+			<span data-start="143671" data-end="146708"></span>
+			<span data-start="146709" data-end="152587"></span>
+			<span data-start="152588" data-end="154737"></span>
+			<span data-start="154738" data-end="157601"></span>
+			<span data-start="157602" data-end="160713"></span>
+			<span data-start="160714" data-end="165920"></span>
+			<span data-start="165921" data-end="167830"></span>
+			<span data-start="167831" data-end="172109"></span>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			template = '\
+				<div class="col-md-6">\
+					<div class="wrapper">\
+						<div class="img-container">\
+							<div class="illustrative" style="background: url(\'{img}.png\'); background-repeat: no-repeat; background-size: cover; background-position: center;"></div>\
+						</div>\
+						<div class="counter">{img}</div>\
+						<div class="info">\
+							<div class="my-label">{label}</div>\
+							<div class="text-box">\
+								<p>{def}</p>\
+								<div class="example"><span class="A">A</span> {A}</div>\
+								<div class="example"><span class="B">B</span> {B}</div>\
+							</div>\
+						</div>\
+					</div>\
+				</div>\
+			';
+
+			i = 0;
+			[
+				['<span data-start="19569" data-end="21520">Sure!</span>', '<span data-start="21521" data-end="24842">This is an alternative way of saying “yes”.</span>', '<span data-start="24843" data-end="26732">Can I take this chair?</span>', '<span data-start="26733" data-end="28896">Sure! Go ahead.</span>'],
+				['<span data-start="28897" data-end="30900">Likewise!</span>', '<span data-start="30901" data-end="34989">You can use this word to say that you feel the same about something.</span>', '<span data-start="34990" data-end="37270">I’m just so pleased that’s over.</span>', '<span data-start="37271" data-end="38827">Likewise.</span>'],
+				['<span data-start="38828" data-end="42325">What have you been up to lately?</span>', '<span data-start="42326" data-end="46100">This is good as an alternative to “How are you?”</span>', '<span data-start="46101" data-end="48515">Hey, what have you been up to lately?</span>', '<span data-start="48516" data-end="50281">Oh, not much.</span>'],
+				['<span data-start="50282" data-end="53211">I am indeed!</span>', '<span data-start="53212" data-end="56927">You can use this phrase instead of just saying “yes”.</span>', '<span data-start="56928" data-end="58725">You’re Jeff, aren’t you?</span>', '<span data-start="58726" data-end="60737">I am indeed.</span>'],
+				['<span data-start="60738" data-end="63544">Good to see you again!</span>', '<span data-start="63545" data-end="68446">If you’ve just met up with an old friend, this phrase is perfect.</span>', '<span data-start="68447" data-end="71600">Hey, Greg! Good to see you again!</span>', '<span data-start="71601" data-end="74100">Yeah, it’s been a few years.</span>'],
+				['<span data-start="74101" data-end="77045">Can’t complain!</span>', '<span data-start="77046" data-end="83227">Next time someone asks you how things are going, use this phrase to say that everything is all right.</span>', '<span data-start="83228" data-end="84616">How’s it going?</span>', '<span data-start="84617" data-end="86871">Oh, can’t complain.</span>'],
+				['<span data-start="86872" data-end="89737">Do you mind me asking …?</span>', '<span data-start="89738" data-end="95925">Use this phrase before you ask a personal question to make it sound a bit more polite.</span>', '<span data-start="95926" data-end="98424">Do you mind me asking how old you are?</span>', '<span data-start="98425" data-end="101192">Not at all. I’m twenty-eight.</span>'],
+				['<span data-start="101193" data-end="103769">To be honest, …</span>', '<span data-start="103770" data-end="109070">Use this expression instead of the usual “in my opinion”.</span>', '<span data-start="109071" data-end="111250">So, what did you think of it?</span>', '<span data-start="111251" data-end="115758">Well, to be honest, I didn’t think it was as good as his last film.</span>'],
+				['<span data-start="115759" data-end="118470">I didn’t catch …</span>', '<span data-start="118471" data-end="124238">If you didn’t understand or hear something, you can use the verb “catch”.</span>', '<span data-start="124239" data-end="127100">I’m sorry but I didn’t catch your last name.</span>', '<span data-start="127101" data-end="129022">It’s Davis.</span>'],
+				['<span data-start="129023" data-end="132309">If that’s all right with you.</span>', '<span data-start="132310" data-end="138393">Add this expression to the end of something to check that the other person is all right with things.</span>', '<span data-start="138394" data-end="142230">I’m going to be in a bit later tomorrow, if that’s all right with you.</span>', '<span data-start="142231" data-end="143670">No problem!</span>'],
+				['<span data-start="143671" data-end="146708">Long time no see!</span>', '<span data-start="146709" data-end="152587">You can use this if you’ve just bumped into someone you haven’t seen for a long time.</span>', '<span data-start="152588" data-end="154737">Hey, long time no see!</span>', '<span data-start="154738" data-end="157601">Yeah. So, what are you doing here?</span>'],
+				['<span data-start="157602" data-end="160713">Stick around!</span>', '<span data-start="160714" data-end="165920">If you want someone to stay somewhere for longer, tell them to “stick around”:</span>', '<span data-start="165921" data-end="167830">So, I think I’ll be heading off.</span>', '<span data-start="167831" data-end="172109">Oh, come on. Stick around for a bit longer! The band are about to start.</span>']
+			].forEach(function(t) {
+				$('.row').append(template.replace(/\{img\}/g, ++i).replace(/\{label\}/g, t[0]).replace(/\{def\}/g, t[1]).replace(/\{A\}/g, t[2]).replace(/\{B\}/g, t[3]));
+			});
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					.foundation { margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.box { padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					.accent-dark { color: " + tinycolor(accentColor).darken().darken() + "; } \
+					.col-md-6 { margin-top: " + (2*spacing) + "px; } \
+					.header { padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; padding-top: " + verticalMargin + "px; padding-bottom: " + verticalMargin + "px; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+
+			if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+				app.setLongClickable(true);
+		</script>
+	</body>
+</html>
