@@ -603,7 +603,7 @@ public class IssuesTabFragment extends Fragment implements
             }
 
             holder.checkMarkImageView.setVisibility(selectedItems.get(position, false) ? View.VISIBLE : View.GONE);
-            holder.freeImageView.setVisibility(issue.free && filter == AVAILABLE_ISSUES ? View.VISIBLE : View.INVISIBLE);
+            holder.freeImageView.setVisibility((issue.free || issue.donatable) && filter == AVAILABLE_ISSUES ? View.VISIBLE : View.INVISIBLE);
         }
 
         @Override
