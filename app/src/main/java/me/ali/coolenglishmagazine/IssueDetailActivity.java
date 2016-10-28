@@ -477,12 +477,14 @@ public class IssueDetailActivity extends AppCompatActivity implements
 
         updateFab();
 
-        // check if user is logged in to their bazaar account
-        loginCheckServiceConnection = new LoginCheckServiceConnection();
-        Intent i = new Intent("com.farsitel.bazaar.service.LoginCheckService.BIND");
-        i.setPackage("com.farsitel.bazaar");
-        boolean ret = bindService(i, loginCheckServiceConnection, Context.BIND_AUTO_CREATE);
-        LogHelper.i(TAG, "initService() bound value: " + ret);
+        if (BuildConfig.MARKET_APPLICATION_ID.equals("com.farsitel.bazaar")) {
+            // check if user is logged in to their bazaar account
+            loginCheckServiceConnection = new LoginCheckServiceConnection();
+            Intent i = new Intent("com.farsitel.bazaar.service.LoginCheckService.BIND");
+            i.setPackage("com.farsitel.bazaar");
+            boolean ret = bindService(i, loginCheckServiceConnection, Context.BIND_AUTO_CREATE);
+            LogHelper.i(TAG, "initService() bound value: " + ret);
+        }
     }
 
     @Override
@@ -898,9 +900,10 @@ public class IssueDetailActivity extends AppCompatActivity implements
      * updates GUI to reflect product price and purchased information
      */
     protected void updatePriceGui() {
-        priceTextView.setText(issue.price.length() > 0 ? issue.price : getString(R.string.unknown_price));
+        priceTextView.setText(issue.free ? getString(R.string.free) : (issue.price.length() > 0 ? issue.price : getString(R.string.unknown_price)));
         buttonPurchase.setVisibility(issue.purchased || issue.free ? View.GONE : View.VISIBLE);
         buttonPurchase.setText(issue.donatable ? R.string.donate : R.string.purchase);
+        tapToRefreshButton.setVisibility(issue.free ? View.GONE : View.VISIBLE);
 //        buttonPurchase.setAlpha(buttonDownload.getVisibility() == View.VISIBLE ? .7f : 1);
     }
 
@@ -924,13 +927,6 @@ public class IssueDetailActivity extends AppCompatActivity implements
 
                 unbindService(loginCheckServiceConnection);
                 loginCheckServiceConnection = null;
-
-                // fetch price information only if item is not purchased and price is unknown
-                // TODO: price might go down. users may purchase with new price!
-                if (!issue.purchased && issue.price.length() == 0) {
-                    displayErrors = false;
-                    requestPrice();
-                }
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1031,9 +1027,21 @@ public class IssueDetailActivity extends AppCompatActivity implements
 //                                return;
 //                            }
 
+                            if (!NetworkHelper.isOnline(IssueDetailActivity.this)) {
+                                Toast.makeText(IssueDetailActivity.this, R.string.check_connection, Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
                             startPurchaseFlow();
                         }
                     });
+
+                    // fetch price information only if item is not purchased and price is unknown
+                    // TODO: price might go down. users may purchase with new price!
+                    if (!issue.purchased && issue.price.length() == 0) {
+                        displayErrors = false;
+                        requestPrice();
+                    }
                 }
             });
         }
@@ -1077,6 +1085,11 @@ public class IssueDetailActivity extends AppCompatActivity implements
         // purchase token must be present
         if (purchaseToken != null)
             url += "&purchase_token=" + purchaseToken;
+
+        if (BuildConfig.MARKET_APPLICATION_ID.equals("com.farsitel.bazaar"))
+            url += "&market=cafebazaar";
+        else if (BuildConfig.MARKET_APPLICATION_ID.equals("ir.mservices.market"))
+            url += "&market=myket";
 
         else { // check if user has this issue as a bonus
             try {

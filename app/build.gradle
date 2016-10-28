@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 
+def marketApplicationId
+def marketBillingPermission
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -8,8 +11,8 @@ android {
         applicationId "me.ali.coolenglishmagazine"
         minSdkVersion 16 // Android 4.1 (JELLY_BEAN)
         targetSdkVersion 23
-        versionCode 25
-        versionName "3.2.1"
+        versionCode 26
+        versionName "3.2.2_m-beta"
     }
     buildTypes {
         release {
@@ -21,6 +24,30 @@ android {
     // http://stackoverflow.com/a/26576623
     lintOptions {
         disable 'MissingTranslation'
+    }
+
+    productFlavors {
+        cafebazaar {
+            marketApplicationId = "com.farsitel.bazaar"
+            buildConfigField "String", "MARKET_APPLICATION_ID", "\"${marketApplicationId}\""
+
+            buildConfigField "String", "MARKET_SERVICE_INTENT", "\"ir.cafebazaar.pardakht.InAppBillingService.BIND\""
+
+            marketBillingPermission = "${marketApplicationId}.permission.PAY_THROUGH_BAZAAR"
+
+            manifestPlaceholders = [marketBillingPermission: "${marketBillingPermission}", marketApplicationId: "${marketApplicationId}"]
+        }
+
+        myket {
+            marketApplicationId = "ir.mservices.market"
+            buildConfigField "String", "MARKET_APPLICATION_ID", "\"${marketApplicationId}\""
+
+            buildConfigField "String", "MARKET_SERVICE_INTENT", "\"${marketApplicationId}.InAppBillingService.BIND\""
+
+            marketBillingPermission = "${marketApplicationId}.BILLING"
+
+            manifestPlaceholders = [marketBillingPermission: "${marketBillingPermission}", marketApplicationId: "${marketApplicationId}"]
+        }
     }
 }
 
