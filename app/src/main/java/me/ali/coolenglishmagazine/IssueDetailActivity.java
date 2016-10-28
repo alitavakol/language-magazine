@@ -11,6 +11,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -852,12 +853,6 @@ public class IssueDetailActivity extends AppCompatActivity implements
             return;
         }
 
-        if (!isLoggedIn) {
-            if (displayErrors)
-                Toast.makeText(IssueDetailActivity.this, R.string.login_required, Toast.LENGTH_LONG).show();
-            return;
-        }
-
         if (!NetworkHelper.isOnline(IssueDetailActivity.this)) {
             if (displayErrors)
                 Toast.makeText(IssueDetailActivity.this, R.string.check_connection, Toast.LENGTH_SHORT).show();
@@ -870,8 +865,33 @@ public class IssueDetailActivity extends AppCompatActivity implements
         // get price and purchase state from inventory
         ArrayList<String> skuList = new ArrayList<>();
         skuList.add(Magazines.getSku(issue));
-        iabHelper.flagEndAsync();
-        iabHelper.queryInventoryAsync(true, skuList, iabQueryProductDetailsFinishedListener);
+
+        if (!isLoggedIn) {
+            AsyncTask<ArrayList<String>, Void, Object[]> t = new AsyncTask<ArrayList<String>, Void, Object[]>() {
+                @Override
+                protected Object[] doInBackground(ArrayList<String>... params) {
+                    Inventory inventory = new Inventory();
+                    try {
+                        int r = iabHelper.querySkuDetails(IabHelper.ITEM_TYPE_INAPP, inventory, params[0]);
+                        return new Object[]{r, inventory};
+
+                    } catch (Exception e) {
+                        return new Object[]{IabHelper.BILLING_RESPONSE_RESULT_DEVELOPER_ERROR, inventory};
+                    }
+                }
+
+                @Override
+                protected void onPostExecute(Object[] o) {
+                    if (!isFinishing())
+                        iabQueryProductDetailsFinishedListener.onQueryInventoryFinished(new IabResult((Integer) o[0], null), (Inventory) o[1]);
+                }
+            };
+            t.execute(skuList);
+
+        } else {
+            iabHelper.flagEndAsync();
+            iabHelper.queryInventoryAsync(true, skuList, iabQueryProductDetailsFinishedListener);
+        }
     }
 
     /**
