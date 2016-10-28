@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h4 {
+				font-weight: bold;
+				margin-top: 20px;
+			}
+			h3 {
+				margin-top: 0;
+				text-transform: uppercase;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				text-shadow: 0px 0px 8px rgba(0,0,0,1);
+				padding: 8px;
+				padding-left: 16px;
+				padding-right: 16px;
+				display: inline-block;
+				color: white;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			.dotted {
+				background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
+				background-image: repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
+				-webkit-background-size: 5px 5px;
+				background-size: 5px 5px;
+			}
+			tr > td:first-child {
+				font-weight: bold;
+				text-align: right;
+			}
+			tr > td:last-child {
+				padding-left: 16px;
+			}
+			td {
+				vertical-align: top;
+			}
+			.hash {
+				background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAATklEQVQoU2NkYGAwZmBgOMuAACA+CKCIMSIpADGRNaEYgKwQ3WQUjTCF6CYhWw2WAynEpgjmIpg7jUlSiM0TWK2GWUOUZ7ApxggeogIcABHJFtftKVfJAAAAAElFTkSuQmCC) repeat;
+				width: 100%;
+				margin-top: 16px;
+				margin-bottom: 8px;
+				font-weight: bold;
+				padding-left: 8px;
+				padding-right: 8px;
+			}
+			.no-wrap {
+				white-space: nowrap;
+			}
+			input {
+				display: inline-block;
+				padding-top: 0;
+				padding-bottom: 0;
+				width: 1.5em;
+				border: solid 1px rgba(0,0,0,.6);
+				text-align: center;
+				vertical-align: middle;
+				text-transform: lowercase;
+				height: 90%;
+			}
+			input:focus {
+				outline: none;
+			}
+			.mini-header {
+				font-weight: bold;
+				margin-bottom: 0;
+				margin-top: 4px;
+			}
+			.new-word {
+				color: inherit;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<div style="position: relative; margin-bottom: 16px;">
+				<img src="cover.jpg" style="width: 100%;">
+				<h3>Introducing Yourself</h3>
+			</div>
+
+			<h4><span class="accent">❶</span> <b>Think about it</b></h4>
+			<p>When was the last time you had to introduce yourself ? Who were you talking to? What are some polite ways to introduce yourself to people in your language? What do you usually say to friends when you see them after a short period of time? How do you greet them? What about friends you haven’t seen for a long time? What do you say or do?</p>
+
+			<h4><span class="accent">❷</span> <b>Pre-listening</b></h4>
+			<p>For each of the situations below, say how you’d greet the person and what you’d say to them in the first minute of conversation. </p>
+			<ol>
+				<li><span>A good friend you’ve just met in the street.</span></li>
+				<li><span>Someone you’ve met for the first time in an internet café.</span></li>
+				<li><span>A friend you bump into on the train who you haven’t seen for six years.</span></li>
+				<li><span>Someone who you’ve just been introduced to at a party.</span></li>
+			</ol>
+
+			<h4><span class="accent">❸</span> <b>Listening I</b></h4>
+			<p id="comments">You’re going to listen to four mini-conversations. Listen many times and compare your ideas from the Pre-listening activity. Did they say any of the things you thought of?</p>
+
+			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<div class="hash">In the street</div>
+				<table style="padding-top: 0;">
+					<tr>
+						<td>Ben:</td>
+						<td data-start="9268" data-end="10348">All right?</td>
+					</tr>
+					<tr>
+						<td>Jack:</td>
+						<td data-start="10349" data-end="11243">How’s it going?</td>
+					</tr>
+					<tr>
+						<td>Ben:</td>
+						<td data-start="11244" data-end="12620">Not too bad. And you?</td>
+					</tr>
+					<tr>
+						<td>Jack:</td>
+						<td data-start="12621" data-end="14080">Just <span class="fill-in" data-ans="had"></span> an exam.</td>
+					</tr>
+					<tr>
+						<td>Ben:</td>
+						<td data-start="14081" data-end="16152">Oh, right. How did it go?</td>
+					</tr>
+					<tr>
+						<td>Jack:</td>
+						<td data-start="16153" data-end="17675">Not too bad i think.</td>
+					</tr>
+					<tr>
+						<td>Ben:</td>
+						<td data-start="17676" data-end="19020">Do you <span class="fill-in" data-ans="<a class='new-word' data-word='to reckon' data-type='vb' data-en='to think, to believe'>reckon</a>"></span> you passed?</td>
+					</tr>
+					<tr>
+						<td>Jack:</td>
+						<td data-start="19021" data-end="19976">I hope so.</td>
+					</tr>
+					<tr>
+						<td>Ben:</td>
+						<td data-start="19977" data-end="21331">Fancy going to the pub?</td>
+					</tr>
+					<tr>
+						<td>Jack:</td>
+						<td data-start="21332" data-end="22457">Yeah, good idea.</td>
+					</tr>
+					<tr>
+						<td>Ben:</td>
+						<td data-start="22458" data-end="23766">Come on then.</td>
+					</tr>
+				</table>
+
+				<div class="hash">At the internet café</div>
+				<table style="padding-top: 0;">
+					<tr>
+						<td>Alex:</td>
+						<td data-start="26661" data-end="28600">Hi, i’m Alex.</td>
+					</tr>
+					<tr>
+						<td>Jessica:</td>
+						<td data-start="28601" data-end="30580">Jessica. nice to meet you.</td>
+					</tr>
+					<tr>
+						<td>Alex:</td>
+						<td data-start="30581" data-end="33564">Nice to meet you. So, have you been here for long?</td>
+					</tr>
+					<tr>
+						<td>Jessica:</td>
+						<td data-start="33565" data-end="35876">About three weeks now. And you?</td>
+					</tr>
+					<tr>
+						<td>Alex:</td>
+						<td data-start="35877" data-end="38193">About a month. great country, isn’t it?</td>
+					</tr>
+					<tr>
+						<td>Jessica:</td>
+						<td data-start="38194" data-end="40812">Fantastic. Have you been to the north?</td>
+					</tr>
+					<tr>
+						<td>Alex:</td>
+						<td data-start="40813" data-end="42220">Yeah. I went trekking there.</td>
+					</tr>
+					<tr>
+						<td>Jessica:</td>
+						<td data-start="42221" data-end="45438">So did I! I’m <span class="fill-in" data-ans="heading"></span> down south now.</td>
+					</tr>
+					<tr>
+						<td>Alex:</td>
+						<td data-start="45439" data-end="50621">I <span class="fill-in" data-ans="went"></span> there last week. The beaches are incredible, and the accommodation is so cheap.</td>
+					</tr>
+					<tr>
+						<td>Jessica:</td>
+						<td data-start="50622" data-end="53583">Yes, I’ve heard. So, what… <i>[fades out]</i></td>
+					</tr>
+				</table>
+
+				<div class="hash">On the train</div>
+				<table style="padding-top: 0;">
+					<tr>
+						<td>Mike:</td>
+						<td data-start="57085" data-end="58255">Julie!</td>
+					</tr>
+					<tr>
+						<td>Julie:</td>
+						<td data-start="58256" data-end="61820">Mike! Fancy <span class="fill-in" data-ans="meeting"></span> you here! How’s it going?</td>
+					</tr>
+					<tr>
+						<td>Mike:</td>
+						<td data-start="61821" data-end="63426">Not too bad! And you?</td>
+					</tr>
+					<tr>
+						<td>Julie:</td>
+						<td data-start="63427" data-end="66933">Just great. I haven’t <span class="fill-in" data-ans="seen"></span> you for ages.</td>
+					</tr>
+					<tr>
+						<td>Mike:</td>
+						<td data-start="66934" data-end="68300">Yeah, it’s been a while.</td>
+					</tr>
+					<tr>
+						<td>Julie:</td>
+						<td data-start="68301" data-end="70036">About six years.</td>
+					</tr>
+					<tr>
+						<td>Mike:</td>
+						<td data-start="70037" data-end="72804">Something like that. You don’t <span class="fill-in" data-ans="look"></span> a day older.</td>
+					</tr>
+					<tr>
+						<td>Julie:</td>
+						<td data-start="72805" data-end="75607">Thanks. So, how’s Zoe and the kids?</td>
+					</tr>
+					<tr>
+						<td>Mike:</td>
+						<td data-start="75608" data-end="79760">They’re fine thanks. Sam’s still at school, but Sandra’s just left for university.</td>
+					</tr>
+					<tr>
+						<td>Julie:</td>
+						<td data-start="79761" data-end="82164">Wow! Doesn’t time <span class="fill-in" data-ans="fly"></span>!</td>
+					</tr>
+					<tr>
+						<td>Mike:</td>
+						<td data-start="82165" data-end="84140">Tell me about it. So, what… <i>[fades out]</i></td>
+					</tr>
+				</table>
+
+				<div class="hash">At a party</div>
+				<table style="padding-top: 0;">
+					<tr>
+						<td>John:</td>
+						<td data-start="87732" data-end="91599">Jane, this is Mark. Mark, Jane.</td>
+					</tr>
+					<tr>
+						<td>Mark:</td>
+						<td data-start="91600" data-end="93791">Hi Jane. Nice to meet you.</td>
+					</tr>
+					<tr>
+						<td>Jane:</td>
+						<td data-start="93792" data-end="98448">Nice to meet you too. So, how long have you and John <span class="fill-in" data-ans="known"></span> each other?</td>
+					</tr>
+					<tr>
+						<td>Mark:</td>
+						<td data-start="98449" data-end="106125">Oh, we go back a long way. We were at school together, then, after university, we spent a bit of time together in a shared flat. What about you?</td>
+					</tr>
+					<tr>
+						<td>Jane:</td>
+						<td data-start="106126" data-end="112583">Oh, I <span class="fill-in" data-ans="worked"></span> with John for about three years in a company in London. Lovely place you’ve got here.</td>
+					</tr>
+					<tr>
+						<td>Mark:</td>
+						<td data-start="112584" data-end="118321">Thanks. We <span class="fill-in" data-ans="moved"></span> in about six months ago, so there’s still a lot to do. So, where do you live?</td>
+					</tr>
+					<tr>
+						<td>Jane:</td>
+						<td data-start="118322" data-end="120854">Well, I’ve been living… <i>[fades out]</i></td>
+					</tr>
+				</table>
+			</div></div>
+
+			<h4><span class="accent">❹</span> <b>Listening II</b></h4>
+			<p>Listen again. Then, answer the questions.</p>
+			<p class="mini-header">Conversation I</p>
+			<ol>
+				<li><span>What does Jack hope he’s done?</span></li>
+				<li><span>What does Ben suggest doing?</span></li>
+			</ol>
+			<p class="mini-header">Conversation II</p>
+			<ol start="3">
+				<li><span>How long has Jessica been there?</span></li>
+				<li><span>What did Alex do in the north?</span></li>
+			</ol>
+			<p class="mini-header">Conversation III</p>
+			<ol start="5">
+				<li><span>How long is it since they last saw each other?</span></li>
+				<li><span>What has Sandra just done?</span></li>
+			</ol>
+			<p class="mini-header">Conversation IV</p>
+			<ol start="7">
+				<li><span>When did John and Mark first meet?</span></li>
+				<li><span>How long did Jane work with John for in London?</span></li>
+			</ol>
+
+			<h4><span class="accent">❺</span> <b>Listening III</b></h4>
+			<p>Listen again and complete the audio script with the correct prepositions.</p>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<div style="display: none;">
+			<a class='new-word' data-word='to reckon' data-type='vb' data-en='to think, to believe'>reckon</a>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			$('.fill-in').html('……  <span class="accent-dark">🏁</span> ').click(function() {
+				$(this).html($(this).data('ans')).removeClass('fill-in').addClass('accent-dark');
+
+				$('a.new-word').off('click');
+				$('a.new-word').click(function() {
+					if(typeof(app) != 'undefined') {
+						var rect = this.getBoundingClientRect();
+						app.showGlossary($(this).data('word'), rect.left  * window.devicePixelRatio, rect.top * window.devicePixelRatio, $(this).height() * window.devicePixelRatio);
+					} else {
+						alert($(this).data('en') + "\n" + $(this).data('fa'));
+					}
+					return false;
+				});
+			});
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.box { padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					.accent-dark { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
+					.hash { color: " + tinycolor(accentColor).darken().darken().darken() + " } \
+				");
+			}
+
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+					$('#comments').css('opacity', 1);
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+					$('#comments').css('opacity', .5);
+				}
+
+				saveInstanceState();
+
+				if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+					app.setLongClickable(!b);
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to show text.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>
