@@ -337,7 +337,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
                 }
             }, null);
 
-            request.setRetryPolicy(new DefaultRetryPolicy(10000,
+            request.setRetryPolicy(new DefaultRetryPolicy(5000,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
