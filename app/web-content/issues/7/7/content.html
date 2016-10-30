@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h4 {
+				font-weight: bold;
+				margin-top: 20px;
+			}
+			h3 {
+				margin-top: 0;
+				text-transform: uppercase;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				text-shadow: 0px 0px 8px rgba(0,0,0,1);
+				padding: 8px;
+				padding-left: 16px;
+				padding-right: 16px;
+				display: inline-block;
+				color: white;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			.dotted {
+				background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
+				background-image: repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
+				-webkit-background-size: 5px 5px;
+				background-size: 5px 5px;
+			}
+			tr > td:first-child {
+				font-weight: bold;
+				text-align: right;
+			}
+			tr > td:last-child {
+				padding-left: 16px;
+			}
+			td {
+				vertical-align: top;
+			}
+			.hash {
+				background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAa0lEQVQoU2NkgIKmQ37/6+w2MYK4xpnX/h9piWDgFL4E54MZhBSdna7FyEiMIpBhYBNxWQcyCWYjTjchKwK5nRGbw9EVga3+/lbvP7LvsCkCGYbiRlyKdtW2QDwD0oFPkbDUMogbCSkCGQYAka1/qtQO9d8AAAAASUVORK5CYII=) repeat;
+				width: 100%;
+				height: 16px;
+				margin-top: 8px;
+				margin-bottom: 8px;
+			}
+			.no-wrap {
+				white-space: nowrap;
+			}
+			input {
+				display: inline-block;
+				padding-top: 0;
+				padding-bottom: 0;
+				width: 1.5em;
+				border: solid 1px rgba(0,0,0,.6);
+				text-align: center;
+				vertical-align: middle;
+				text-transform: lowercase;
+				height: 90%;
+			}
+			input:focus {
+				outline: none;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<div style="position: relative; margin-bottom: 16px;">
+				<img src="cover.jpg" style="width: 100%;">
+				<h3>How to interrupt someone</h3>
+			</div>
+
+			<h4><span class="accent">❶</span> <b>Think about it</b></h4>
+			<p>When was the last time you had a chat with someone? What were you talking about? What did you say? What did the other person say? Were you interrupted at any point? Why? How did you react? What do people typically say in your country if they want to interrupt someone? What are the direct ways of doing this?</p>
+
+			<h4><span class="accent">❷</span> <b>Pre-listening</b></h4>
+			<p>How could you interrupt someone? What could you say? Think of as many phrases or expressions as you can.</p>
+
+			<h4><span class="accent">❸</span> <b>Listening I</b></h4>
+			<p id="comments">Now you’re going to listen to five conversation extracts in which people interrupt one another. Listen many times!</p>
+
+			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<table style="padding-top: 0;">
+					<tr>
+						<td>A:</td>
+						<td><span data-start="9420" data-end="18073">Well, as you can see from this graph, sales have increased by 20% since last year, and, erm, …</span></td>
+					</tr>
+					<tr>
+						<td>B:</td>
+						<td><span data-start="18074" data-end="22884">I’m sorry to interrupt, but would you mind if I just said something here?</span> <span data-start="22885" data-end="29790">I think it would be really useful if you could go through the figures from last year too so we can compare them.</span></td>
+					</tr>
+					<tr>
+						<td>A:</td>
+						<td><span data-start="29791" data-end="33960">Oh, OK. Good idea.</span></td>
+					</tr>
+				</table>
+				<div class="hash"></div>
+				<table>
+					<tr>
+						<td>A:</td>
+						<td><span data-start="33961" data-end="37551">The fact is that we’re in a difficult situation:</span> <span data-start="37552" data-end="43000">we’ve just lost the contract with Jennings Limited, online sales are down and …</span></td>
+					</tr>
+					<tr>
+						<td>B:</td>
+						<td><span data-start="43001" data-end="53875">Apologies for jumping in like this, but, erm, could you explain what any of this has to do with the proposed job cuts to cleaning staff?</span></td>
+					</tr>
+				</table>
+				<div class="hash"></div>
+				<table>
+					<tr>
+						<td>A:</td>
+						<td><span data-start="53876" data-end="61195">In my opinion, I think we should seriously reconsider the purchase of the office as …</span></td>
+					</tr>
+					<tr>
+						<td>B:</td>
+						<td><span data-start="61196" data-end="66153">Erm, sorry but could I just take this opportunity to say something on the cost.</span> <span data-start="66154" data-end="73779">I mean, I think we should all be aware that the price for the property is over 30% below the market rate,</span> <span data-start="73780" data-end="78199">so it’s actually a very good deal.</span></td>
+					</tr>
+				</table>
+				<div class="hash"></div>
+				<table>
+					<tr>
+						<td>A:</td>
+						<td><span data-start="78200" data-end="82860">And now onto my second point about the staff lunch next week.</span> <span data-start="82861" data-end="85687">I think it’s all fairly clear that …</span></td>
+					</tr>
+					<tr>
+						<td>B:</td>
+						<td><span data-start="85688" data-end="91971">I’m sorry, but I don’t see the point of talking about this until we’ve had a chance to comment on point number one.</span> <span data-start="91972" data-end="98634">I mean, I think we should all have a chance to say what we think of it, don’t you?</span></td>
+					</tr>
+				</table>
+				<div class="hash"></div>
+				<table>
+					<tr>
+						<td>A:</td>
+						<td><span data-start="98635" data-end="105239">I think it’s all a question of finding the right person for the marketing manager position and then …</span></td>
+					</tr>
+					<tr>
+						<td>B:</td>
+						<td><span data-start="105240" data-end="109506">The marketing position? That’s the least of our worries.</span> <span data-start="109507" data-end="116454">What about finance for the project? Without that, we can’t even think about taking on any more staff.</span> <span data-start="116455" data-end="121116">I think that’s a far more important issue, don’t you?</span> <span class="accent">✪</span></td>
+					</tr>
+				</table>
+			</div></div>
+
+			<h4><span class="accent">❹</span> <b>Listening II</b></h4>
+			<p>Listen again and put the conversation summaries below in the correct order.</p>
+			<p class="accent-dark" style="font-style: italic; margin-bottom: 0;">They’re talking about…</p>
+			<ul>
+				<li><span>The purchase of an office <input type="text"></span></li>
+				<li><span>A difficult situation <input type="text"></span></li>
+				<li><span>A staff lunch <input type="text"></span></li>
+				<li><span>The marketing manager position <input type="text"></span></li>
+				<li><span>A graph <input type="text"></span></li>
+			</ul>
+
+			<h4><span class="accent">❺</span> <b>Listening III</b></h4>
+			<p>Listen again and make a note of any expression they use for interrupting. Then, complete the expressions below.</p>
+			<ol>
+				<li><span>I’m sorry to <span class="no-wrap">……………</span> but would you <span class="no-wrap">……………</span> if I just said something here?</span></li>
+				<li><span>Apologies for <span class="no-wrap">……………</span> in like this, but, erm, you…</span></li>
+				<li><span>Erm, sorry but <span class="no-wrap">……………</span> I just take this <span class="no-wrap">……………</span> to say something on…</span></li>
+				<li><span>I’m sorry, I don’t see the <span class="no-wrap">……………</span> of talking about this until…</span></li>
+				<li><span>The marketing position? <span class="no-wrap">……………</span> the least of our worries. <span class="no-wrap">……………</span> about…</span></li>
+			</ol>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.box { padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					.accent-dark, .no-wrap, input { color: " + tinycolor(accentColor).darken().darken() + "; } \
+					li { color: #" + accentColor + "; } \
+					li > span { color: #" + textColor + "; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+					$('#comments').css('opacity', 1);
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+					$('#comments').css('opacity', .5);
+				}
+
+				saveInstanceState();
+
+				if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+					app.setLongClickable(!b);
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to show text.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

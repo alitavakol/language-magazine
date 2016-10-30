@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#title-container {
+				background-color: rgba(50,50,50,.4);
+				display: inline-block;
+			}
+			tr > td:first-child {
+				font-weight: bold;
+				text-align: right;
+				padding-right: 16px;
+			}
+			tr > td:last-child {
+			}
+			td {
+				vertical-align: top;
+			}
+			.frame {
+				padding: 4px;
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				background-color: white;
+			}
+			.dontsplit:not(:last-child) {
+				margin-bottom: 12px;
+			}
+			.title {
+				font-weight: bold;
+			}
+			#strip {
+				position: fixed;
+				top: 0;
+				left: 0;
+			}
+			body {
+				overflow-y: auto;
+			}
+			.h33 {
+				color: white;
+				text-transform: uppercase;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				font-weight: 300;
+			}
+			h4 {
+				text-transform: uppercase;
+				font-weight: 300;
+			}
+			.dotted {
+				background-image: url('dog.jpg');
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+			#transcript {
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+			h1 {
+				margin-top: 0;
+			}
+			li > span {
+				font-weight: 300;
+			}
+			ol {
+				margin-bottom: 0;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="jquery.columnizer.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div id="strip"></div>
+		<div id="top-margin"></div>
+
+		<div class="foundation">
+			<h1>The Police</h1>
+
+			<h3 class="h33" style="margin-top: 0;">Vocabulary</h3>
+			<h4>Learn some more useful words and expressions to talk about the police and crime.</h4>
+			<div id="images"></div>
+
+			<div style="opacity: 0; margin-bottom: -16px;">.</div>
+			<h3 class="h33"><span style="opacity: .6;">(Not so)</span> typical dialogues</h3>
+			<h3 style="margin-top: 0;">Police Search</h3>
+			<div class="lockable dotted"><div id="transcript">
+				<h4><span data-start="10482" data-end="13839">In this conversation, Nigella is in the street.</span> <span data-start="13840" data-end="16766">It’s late at night and she’s on her way home.</span> <span data-start="16767" data-end="21178">All of a sudden a police officer with a dog appears.</span></h4>
+				<table style="margin-top: 8px;">
+					<tr>
+						<td>Police:</td>
+						<td><span data-start="26086" data-end="27600">Excuse me.</span></td>
+					</tr>
+					<tr>
+						<td>Nigella:</td>
+						<td><span data-start="27601" data-end="28645">Yes.</span></td>
+					</tr>
+					<tr>
+						<td>Police:</td>
+						<td><span data-start="28646" data-end="30700">Where are you going at this time of night? <i>(dog <a class="new-word" data-word="to growl" data-type="vb" data-en="when a dog “growls”, it makes a low, angry noise">growling</a>)</i></span></td>
+					</tr>
+					<tr>
+						<td>Nigella:</td>
+						<td><span data-start="30701" data-end="32268">Well, I’m, erm, I’m going home.</span></td>
+					</tr>
+					<tr>
+						<td>Police:</td>
+						<td><span data-start="32269" data-end="33396">Where do you live? <i>(dog growling)</i></span></td>
+					</tr>
+					<tr>
+						<td>Nigella:</td>
+						<td><span data-start="33397" data-end="36812">I live in Queen, erm, King, erm, Queen Street.</span></td>
+					</tr>
+					<tr>
+						<td>Police:</td>
+						<td><span data-start="36813" data-end="38850">You don’t seem to be very sure. <i>(dog growling)</i></span></td>
+					</tr>
+					<tr>
+						<td>Nigella:</td>
+						<td><span data-start="38851" data-end="41839">Sorry. It’s your dog. He’s making me nervous. <i>(dog growling)</i></span></td>
+					</tr>
+					<tr>
+						<td>Police:</td>
+						<td><span data-start="41840" data-end="44260"><i>(on the police radio)</i> Yeah, there’s a suspicious-looking lady here.</span> <span data-start="44261" data-end="50140">She matches the description of the woman we’re looking for. <i>(on the radio)</i></span> <span data-start="50141" data-end="51957">Yeah, short, fat…</span></td>
+					</tr>
+					<tr>
+						<td>Nigella:</td>
+						<td><span data-start="51958" data-end="54428">Excuse me, I’m not fat.</span></td>
+					</tr>
+					<tr>
+						<td>Police:</td>
+						<td><span data-start="54429" data-end="60207"><i>(to Nigella)</i> I do the talking here, <a class="new-word" data-word="miss" data-type="exp inform" data-en="an informal and sometimes insulting way of referring to a woman. Can be an abbreviation of Mrs or Miss. Also, a term for an unmarried woman / girl">miss</a>. Stand by the car and place your hands on the <a class="new-word" data-word="a roof" data-type="n" data-en="the top and outside part of a building">roof</a>.</span> <span data-start="60208" data-end="66268"><i>(on the radio again)</i> Yeah, she’s getting a bit <a class="new-word" data-word="cheeky" data-type="adj" data-en="disrespectful; disrespectful but also funny">cheeky</a>.</span> <span data-start="66269" data-end="71830">Could you send some <a class="new-word" data-word="reinforcements" data-type="n" data-en="back-up; support; more police officers">reinforcements</a>? This could <a class="new-word" data-word="to get nasty" data-type="exp" data-en="to become violent / difficult, etc.">get nasty</a>.</span></td>
+					</tr>
+					<tr>
+						<td>Nigella:</td>
+						<td><span data-start="71831" data-end="75415">Could you please tell me what’s going on?</span></td>
+					</tr>
+					<tr>
+						<td>Police:</td>
+						<td><span data-start="75416" data-end="78395">I ask the questions here, miss. Open the bag.</span></td>
+					</tr>
+					<tr>
+						<td>Nigella:</td>
+						<td><span data-start="78396" data-end="79402">My bag?</span></td>
+					</tr>
+					<tr>
+						<td>Police:</td>
+						<td><span data-start="79403" data-end="80965">Yes, open the bag.</span></td>
+					</tr>
+					<tr>
+						<td>Nigella:</td>
+						<td><span data-start="80966" data-end="82172">I will not.</span></td>
+					</tr>
+					<tr>
+						<td>Police:</td>
+						<td><span data-start="82173" data-end="86976">Now, look here. We can do this the easy way, or we do this the hard way.</span></td>
+					</tr>
+					<tr>
+						<td>Nigella:</td>
+						<td><span data-start="86977" data-end="88287">What’s the hard way?</span></td>
+					</tr>
+					<tr>
+						<td>Police:</td>
+						<td><span data-start="88288" data-end="90252">Pebbles! Here, boy. <i>(dog growling)</i></span></td>
+					</tr>
+					<tr>
+						<td>Nigella:</td>
+						<td><span data-start="90253" data-end="94515">OK. OK. Here you are. <i>(he opens the bag)</i></span></td>
+					</tr>
+					<tr>
+						<td>Police:</td>
+						<td><span data-start="94516" data-end="96572">What’s all this?</span></td>
+					</tr>
+					<tr>
+						<td>Nigella:</td>
+						<td><span data-start="96573" data-end="99285">It’s a leg of lamb and some <a class="new-word" data-word="parsley" data-type="n" data-en="plant used as cooking herb or garnish" data-fa="سبزی جعفری">parsley</a>.</span></td>
+					</tr>
+					<tr>
+						<td>Police:</td>
+						<td><span data-start="99286" data-end="101195">Do you think I’m stupid, or what?</span> <span data-start="101196" data-end="103923">This looks like a human leg and some marijuana.</span></td>
+					</tr>
+					<tr>
+						<td>Nigella:</td>
+						<td><span data-start="103924" data-end="106291">It’s lamb and parsley, honestly.</span></td>
+					</tr>
+					<tr>
+						<td>Police:</td>
+						<td><span data-start="106292" data-end="110954">Well, what <a class="new-word" data-word="(what) on earth …?" data-type="exp" data-en="used to express shock / surprise, etc.">on earth</a> are you doing with a leg of lamb and some parsley on a Saturday night?</span></td>
+					</tr>
+					<tr>
+						<td>Nigella:</td>
+						<td><span data-start="110955" data-end="115773">I’m going home. I was at my restaurant. I am a restaurant owner.</span> <span data-start="115774" data-end="121610">And I’m a celebrity <a class="new-word" data-word="a chef" data-type="n" data-en="a cook in a restaurant / hotel">chef</a> – a famous one. Perhaps you’ve seen me on the television.</span></td>
+					</tr>
+					<tr>
+						<td>Police:</td>
+						<td><span data-start="121611" data-end="127248">On the television? Oh, right. Yes, I know. It’s you. You’re Nigella Gulliver, aren’t you?</span></td>
+					</tr>
+					<tr>
+						<td>Nigella:</td>
+						<td><span data-start="127249" data-end="128071">That is correct.</span></td>
+					</tr>
+					<tr>
+						<td>Police:</td>
+						<td><span data-start="128072" data-end="132191">I am sorry. <i>(the sound of a police <a class="new-word" data-word="a siren" data-type="n" data-en="a device that makes a loud warning sound, e.g. ambulance siren">siren</a>)</i> Please carry on. Can we <a class="new-word" data-word="to give someone a lift" data-type="exp" data-en="to take a person to a place in a car / motorbike, etc.">give you a lift</a> home?</span></td>
+					</tr>
+					<tr>
+						<td>Nigella:</td>
+						<td><span data-start="132192" data-end="136063">No, that’s quite all right. I will find my own way home.</span></td>
+					</tr>
+					<tr>
+						<td>Police:</td>
+						<td><span data-start="136064" data-end="138197">Enjoy the lamb!</span></td>
+					</tr>
+				</table>
+
+				<img src="chef.jpg" style="width: 100%; margin-top: 4px; max-width: 10cm;">
+			</div></div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			var template = "\
+				<div class='dontsplit'> \
+					<table> \
+						<tr> \
+							{img} \
+							<td><span class='title'>{title}</span> – {def}</td> \
+						</tr> \
+					</table> \
+				</div>";
+			var words = [
+				['Suspect', 'someone accused of a crime.', false],
+				['Suspicious', 'a “suspicious-looking person” is someone who appears to be a criminal.', false],
+				['Police radio', 'a device police use to communicate.', false],
+				['Police officer', 'a member of a police force.', false],
+				['CCTV (Closed circuit television)', 'a system of street video cameras, used for maintaining security.', true],
+				['Sniffer dog (sniff dog)', 'a dog that is trained to find illegal drugs or explosives through smell.', true],
+				['Alibi', 'a legal excuse; an explanation of where you were at the time of a crime.', false],
+				['Hold up', 'to rob a bank or building, often using force or the threat of force.', false],
+				['Break in', 'to enter a place illegally.', false],
+				['Arrest', 'to take custody of a person because he / she is a suspect.', true],
+				['Court', 'the building where legal processes take place to decide if someone is innocent or guilty.', false],
+				['Trial', 'a legal process to decide if someone is innocent or guilty.', false],
+				['Innocent', 'not guilty.', false],
+				['Guilty', 'not innocent.', false],
+				['Lawyer', 'a person who works in the legal system. A solicitor often deals with the paperwork, and a barrister represents people in court during trials.', true],
+				['Community Service', 'a punitive sentence that requires a convicted person to perform unpaid work for the community in lieu of imprisonment.', false],
+				['Capital punishment', 'Punishment by death for a crime; death penalty.', false],
+				['Rob', 'to steal from a building or person. For example, “They robbed a bank. / They robbed a man in the street.” The noun is “robbery”.', true],
+				['Steal', 'to take something that isn’t yours. “Steal” is often used for things you can carry away. For example: <ol type="a"><li><span>They stole the jewellery.</span></li> <li><span>His wallet was stolen from the table.</span></li></ol> The noun is “theft”. Be careful! You cannot say, “He stole a bank. / They stole me.” In these cases, you need to use the verb “to rob”.', true]
+			];
+			var i = 0;
+			words.forEach(function(w) {
+				$('#images').append(template.replace(/\{title\}/g, w[0]).replace(/\{def\}/g, w[1]).replace(/\{img\}/g, w[2] ? ("<td style='width: 40%;'><img class='frame' style='width: 100%;' src='" + i + ".jpg'></td>") : "<td style='display: none;'></td>"));
+				i++;
+			});
+
+			adjustCustomLayout = function(options) {
+				var width = $('#images').width();
+				if(width >= 768)
+					cols = 3;
+				else if(width >= 480)
+					cols = 2;
+				else
+					cols = 1;
+
+				css = "\
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					#title-container { margin-top: " + (height-topMargin-bottomMargin-2*verticalMargin)/2 + "px; } \
+					tr:nth-child(odd) { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
+					.title { color: " + tinycolor(accentColor).darken().darken() + "; } \
+					#strip { width: " + horizontalMargin + "px; height: " + height + "px; background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					.h33 { background-color: #" + accentColor + "; } \
+				";
+
+				if(cols > 1) {
+					css += "\
+						.column { padding-right: " + spacing + "px; padding-left: " + spacing + "px; } \
+						.first.column { padding-right: " + spacing + "px; padding-left: 0; } \
+						.last.column { padding-left: " + spacing + "px; padding-right: 0; } \
+						.column:not(:first-child) { border-left: dotted 1px black; } \
+					";
+				}
+
+				$('#local-rules').text(css);
+
+				$('#images').columnize({
+					columns: cols,
+				});
+			}
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+				}
+
+				saveInstanceState();
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to see transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+
+	</body>
+</html>

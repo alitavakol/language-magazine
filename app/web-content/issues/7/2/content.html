@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#title-container {
+				background-color: rgba(50,50,50,.4);
+				display: inline-block;
+			}
+			tr > td:first-child {
+				font-weight: bold;
+				text-align: right;
+			}
+			tr > td:last-child {
+				padding-left: 16px;
+			}
+			td {
+				vertical-align: top;
+			}
+			.frame {
+				padding: 4px;
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				background-color: white;
+			}
+			.dontsplit:not(:last-child) {
+				margin-bottom: 12px;
+			}
+			.title {
+				font-weight: bold;
+			}
+			#strip {
+				position: fixed;
+				top: 0;
+				left: 0;
+			}
+			body {
+				overflow-y: auto;
+			}
+			.h33 {
+				color: white;
+				text-transform: uppercase;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				font-weight: 300;
+			}
+			h4 {
+				text-transform: uppercase;
+				font-weight: 300;
+			}
+			.dotted {
+				background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
+				background-image: repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
+				-webkit-background-size: 5px 5px;
+				background-size: 5px 5px;
+			}
+			#transcript {
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+			h1 {
+				margin-top: 0;
+			}
+			h3 {
+				margin-bottom: 16px;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			.box {
+				border: solid 2px black;
+			}
+			.grid {
+				margin: 0 auto;
+			}
+			.grid-item {
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: cover;
+				border: solid 2px;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				text-align: center;
+				position: relative;
+			}
+			.my-label {
+				border-radius: 16px;
+				padding: 4px;
+				position: absolute;
+				bottom: 4px;
+				left: 0;
+				right: 0;
+				margin: 8px;
+				margin-bottom: 2px;
+				font-weight: bold;
+				font-size: .8em;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="masonry.pkgd.min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div id="strip"></div>
+		<div id="top-margin"></div>
+
+		<div class="foundation">
+			<h1>The Emergency</h1>
+			<h3>Learn over 20 useful words and expressions for talking about emergencies.</h3>
+
+			<h3 class="h33" style="margin-top: 0;">Useful Words</h3>
+			<div class="grid">
+				<div class="grid-item grid-item--width2 grid-item--height2" style="background-image: url('1.jpg');"><div class="my-label">Police car</div></div>
+				<div class="grid-item" style="background-image: url('2.jpg');"><div class="my-label">Police officer</div></div>
+				<div class="grid-item grid-item--height2" style="background-image: url('3.jpg');"><div class="my-label">Fire-fighter</div></div>
+				<div class="grid-item grid-item--width2 grid-item--height2" style="background-image: url('4.jpg');"><div class="my-label">Fire engine</div></div>
+				<div class="grid-item grid-item--width2 grid-item--height2" style="background-image: url('7.jpg');"><div class="my-label">Smoke</div></div>
+				<div class="grid-item grid-item--height2" style="background-image: url('5.jpg');"><div class="my-label">Fire extinguisher</div></div>
+				<div class="grid-item grid-item--height2" style="background-image: url('6.jpg');"><div class="my-label">Ladder</div></div>
+				<div class="grid-item grid-item--width2 grid-item--height2" style="background-image: url('8.jpg');"><div class="my-label">Ambulance</div></div>
+				<div class="grid-item grid-item--width2 grid-item--height2" style="background-image: url('9.jpg');"><div class="my-label">Paramedic</div></div>
+				<div class="grid-item grid-item--width2 grid-item--height2" style="background-image: url('10.jpg');"><div class="my-label">Helicopter</div></div>
+				<div class="grid-item grid-item--width4 grid-item--height2" style="background-image: url('11.jpg');"><div class="my-label">Hospital</div></div>
+				<div class="grid-item" style="background-image: url('12.jpg');"><div class="my-label">Stretcher</div></div>
+			</div>
+
+			<h3 class="h33" style="margin-top: 12px;">Words to describe</h3>
+			<ul>
+				<li><span><b>Injury</b> – if you’ve got an injury, you’ve got a cut, or a broken leg, etc.</span></li>
+				<li><span><b>Bleeding</b> – if you’re bleeding, blood (a red liquid) is coming out of your body.</span></li>
+				<li><span><b>Burn</b> – if someone has a burn, a part of their skin is red because it’s been in contact with fire.</span></li>
+				<li><span><b>Pulse</b> – your “pulse” is the regular beat in your body.</span></li>
+				<li><span><b>Bruise</b> – a mark on your body (usually black, blue or purple in colour) where you’ve been hit.</span></li>
+				<li><span><b>Mouth-to-mouth resuscitation / the kiss of life</b> – a form of first aid that involves breathing into someone’s mouth.</span></li>
+				<li><span><b>Siren</b> – a device on a fire engine, police car, ambulance, etc. that produces a loud sound.</span></li>
+				<li><span><b>Operator</b> – the person who takes emergency phone calls.</span></li>
+				<li><span><b>Accident & Emergency</b> – a department at a hospital that deals with patients who need immediate and urgent help.</span></li>
+				<li><span><b>Heart attack</b> – if someone has a “heart attack”, their heart stops beating.</span></li>
+				<li><span><b>Unconscious</b> – someone who is “unconscious” is breathing but not completely awake or conscious.</span></li>
+				<li><span><b>First Aid</b> – treatment given to a sick person before professional medical help can be given</span></li>
+				<li><span><b>Airlift</b> – to transport a person by helicopter / plane, etc.</span></li>
+			</ul>
+
+			<div class="box fill-light">
+				<h4 style="font-weight: bold; margin-top: 0;">999</h4>
+				<p style="margin-bottom: 0;">In the UK, if there’s an emergency, you have to dial 999. You will need to give the following information when you call 999: who you are, where you are, your phone number and what happened. Once the situation has been assessed properly, an ambulance, fire engine or police car will be sent.</p>
+			</div>
+
+			<h3 class="h33"><span style="opacity: .8;">Dialogue:</span> The emergency phone call</h3>
+			<h4>Oscar, a language student, is staying with a host family in Bournemouth (England). He’s just discovered his host family’s dad unconscious on the kitchen floor. Listen and complete the script with the correct words.</h4>
+			<div class="lockable dotted"><div id="transcript">
+				<table style="margin-top: 8px;">
+					<tr>
+						<td>Operator:</td>
+						<td><span data-start="16875" data-end="18512">The ambulance service.</span></td>
+					</tr>
+					<tr>
+						<td>Oscar:</td>
+						<td><span data-start="18513" data-end="22321">Hi, it’s my <a class="new-word" data-word="a host family" data-type="n" data-en="a family that you stay with when you go abroad to study or learn a language">host family</a>’s dad – he’s <a class="new-word" data-word="unconscious" data-type="n" data-en="not awake especially because of an injury, drug, etc.">unconscious</a>.</span></td>
+					</tr>
+					<tr>
+						<td>Operator:</td> 
+						<td><span data-start="22322" data-end="25480">OK, what’s your name and address please?</span></td>
+					</tr>
+					<tr>
+						<td>Oscar:</td> 
+						<td><span data-start="25481" data-end="33779">Oscar. I’m staying at 23 Blacksmith Road, in Bournemouth, it’s just off the high street.</span></td>
+					</tr>
+					<tr>
+						<td>Operator:</td>
+						<td><span data-start="33780" data-end="36842">OK, Oscar, an ambulance is on its way.</span></td>
+					</tr>
+					<tr>
+						<td>Oscar:</td>
+						<td><span data-start="36843" data-end="41172">There’s no one else at home. I found him on the kitchen floor.</span> <span data-start="41173" data-end="44761">I think he’s had a (1) &#8230; or something like that.</span></td>
+					</tr>
+					<tr>
+						<td>Operator:</td>
+						<td><span data-start="44762" data-end="50798">OK, I need you to try and find his pulse, and tell me if he’s (2) &#8230;.</span></td>
+					</tr>
+					<tr>
+						<td>Oscar:</td>
+						<td><span data-start="50799" data-end="53100"><i>[feeling for the pulse]</i> Yes, he’s breathing.</span></td>
+					</tr>
+					<tr>
+						<td>Operator:</td>
+						<td><span data-start="53101" data-end="54420">How old is he?</span></td>
+					</tr>
+					<tr>
+						<td>Oscar:</td>
+						<td><span data-start="54421" data-end="58166">About 55, I think.</span></td>
+					</tr>
+					<tr>
+						<td>Operator:</td> 
+						<td><span data-start="58167" data-end="61268">Do you know anything about his (3) &#8230;?</span></td>
+					</tr>
+					<tr>
+						<td>Oscar:</td>
+						<td><span data-start="61269" data-end="65048">Not really. He seems to be quite (4) &#8230;.</span> <span data-start="65049" data-end="70279">I mean, he goes walking and plays tennis. Please hurry up.</span></td>
+					</tr>
+					<tr>
+						<td>Operator:</td> 
+						<td><span data-start="70280" data-end="76121">The ambulance is just around the corner. Are there any signs of (5) &#8230; or broken limbs?</span></td>
+					</tr>
+					<tr>
+						<td>Oscar:</td>
+						<td><span data-start="76122" data-end="80670">No, but he’s got a (6) &#8230; on his head. What should I do?</span></td>
+					</tr>
+					<tr>
+						<td>Operator:</td> 
+						<td><span data-start="80671" data-end="83920">Just stay with him until the (7) &#8230; get there. <i>[the sound of an ambulance]</i></span></td>
+					</tr>
+					<tr>
+						<td>Oscar:</td>
+						<td><span data-start="83921" data-end="86554">OK, I can hear the (8) &#8230;.</span></td>
+					</tr>
+					<tr>
+						<td>Operator:</td>
+						<td><span data-start="86555" data-end="90752">They’re outside your house right now; make sure they can get in quickly.</span></td>
+					</tr>
+					<tr>
+						<td>Oscar:</td>
+						<td><span data-start="90753" data-end="92672">Yes, yes they’re here.</span></td>
+					</tr>
+					<tr>
+						<td>Operator:</td>
+						<td><span data-start="92673" data-end="96018">OK, I’m going to leave you with them now, OK?</span></td>
+					</tr>
+					<tr>
+						<td>Oscar:</td>
+						<td><span data-start="96019" data-end="97906">OK, thanks for your help.</span></td>
+					</tr>
+					<tr>
+						<td>Operator:</td> 
+						<td><span data-start="97907" data-end="99856">No problem, bye.</span></td>
+					</tr>
+					<tr>
+						<td>Oscar:</td>
+						<td><span data-start="99857" data-end="102561">Bye.</span> <i>[He hangs up the phone.]</i> <span class="accent">✪</span></td>
+					</tr>
+					</tr>
+				</table>
+			</div></div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				var columnWidth = $('.foundation').width() - 3*horizontalMargin + spacing;
+				if(columnWidth > 800) {
+					columnWidth /= 5;
+				}
+				else if(columnWidth > 640)
+					columnWidth /= 4;
+				else if(columnWidth > 320)
+					columnWidth /= 3;
+				else
+					columnWidth /= 2;
+				columnWidth -= spacing;
+				columnHeight = 3 * columnWidth / 4;
+
+				css = "\
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					#title-container { margin-top: " + (height-topMargin-bottomMargin-2*verticalMargin)/2 + "px; } \
+					tr:nth-child(odd) { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
+					.title { color: " + tinycolor(accentColor).darken() + "; } \
+					#strip { width: " + horizontalMargin + "px; height: " + height + "px; background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					.h33 { background-color: #" + accentColor + "; } \
+					li { color: #" + accentColor + "; } \
+					li > span { color: #" + textColor + "; } \
+					.fill-light { background-color: " + tinycolor(accentColor).lighten().lighten().lighten() + "; } \
+					.my-label { background-color: #" + accentColor + "; } \
+					.box { padding: " + spacing + "px; } \
+					.grid { margin-right: -" + spacing + "px; } \
+					.grid-item { margin-bottom: " + spacing + "px; } \
+					.grid-item { width: " + columnWidth + "px; height: " + columnHeight + "px; } \
+					.grid-item--height2 { height: " + (2*columnHeight+spacing) + "px; } \
+					.grid-item--height3 { height: " + (1.5*columnHeight) + "px; } \
+					.grid-item--height4 { height: " + (4*columnHeight+3*spacing) + "px; } \
+					.grid-item--width2 { width: " + (2*columnWidth+spacing) + "px; } \
+				";
+
+				$('#local-rules').text(css);
+
+				$('.grid').masonry({
+					itemSelector: '.grid-item',
+					columnWidth: columnWidth,
+					gutter: spacing,
+				});
+			}
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+				}
+
+				saveInstanceState();
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to see transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+
+	</body>
+</html>

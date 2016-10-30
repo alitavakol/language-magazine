@@ -168,7 +168,8 @@ public class RootActivity extends AppCompatActivity implements
 //        account = new Account(this);
 
         if (savedInstanceState == null) {
-            initUpdateCheckService();
+            if (BuildConfig.MARKET_APPLICATION_ID.equals("com.farsitel.bazaar"))
+                initUpdateCheckService();
             newIssuesAvailableWarningShown = false;
             processNewIntent(getIntent());
         }

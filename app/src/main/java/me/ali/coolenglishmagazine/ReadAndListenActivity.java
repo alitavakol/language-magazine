@@ -682,11 +682,20 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             try {
-                                                // open Bazaar to rate this app
-                                                Intent intent = new Intent(Intent.ACTION_EDIT);
-                                                intent.setData(Uri.parse("bazaar://details?id=" + getPackageName()));
-                                                intent.setPackage("com.farsitel.bazaar");
-                                                startActivity(intent);
+                                                // open marker to rate this app
+                                                if (BuildConfig.MARKET_APPLICATION_ID.equals("com.farsitel.bazaar")) {
+                                                    Intent intent = new Intent(Intent.ACTION_EDIT);
+                                                    intent.setData(Uri.parse("bazaar://details?id=" + getPackageName()));
+                                                    intent.setPackage("com.farsitel.bazaar");
+                                                    startActivity(intent);
+
+                                                } else if (BuildConfig.MARKET_APPLICATION_ID.equals("ir.mservices.market")) {
+                                                    String url = "myket://comment?id=" + getPackageName();
+                                                    Intent intent = new Intent();
+                                                    intent.setAction(Intent.ACTION_VIEW);
+                                                    intent.setData(Uri.parse(url));
+                                                    startActivity(intent);
+                                                }
 
                                                 preferences.edit().putBoolean(preferenceRateAppDialogShown, true).apply();
 

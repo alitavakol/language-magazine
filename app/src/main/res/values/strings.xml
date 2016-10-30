@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Hot English Magazine</string>
-    <string name="app_website">http://cafebazaar.ir/app/me.ali.coolenglishmagazine/</string>
-    <string name="app_icon_url">http://cafebazaar.ir/media/upload/icons/me.ali.coolenglishmagazine.png</string>
 
     <string name="gallery_of_issues">Gallery of Issues</string>
     <string name="cool_english_times">Hot English Times</string>
@@ -41,7 +39,6 @@
     <string name="add_alarm">Add new alarm</string>
 
     <string name="check_connection">Make sure your device is online.</string>
-    <string name="login_required">باید کافه بازار نصب باشه و توش sign-in کرده باشی.</string>
     <string name="network_error">Could not connect to server.</string>
     <string name="server_message_dialog_title">Server message</string>
     <string name="upgrade_message">The “Hot English Magazine” app is old. Please upgrade to a more recent version.</string>
@@ -409,7 +406,7 @@
         <b>-</b> Released on 1395/5/16<br>
         <h4>Version 2.0</h4>
         <b>-</b> Add sign-in with Google account<br>
-        <b>-</b> Implement Bazaar in-app billing<br>
+        <b>-</b> Implement in-app billing<br>
         <b>-</b> Farsi translation of readme<br>
         <b>-</b> Show context help<br>
         <b>-</b> Bug fixes<br>
@@ -437,7 +434,6 @@
     <string name="free_download_warning">This will download free version of selected magazine issues. To grab full-text version of them, see each issue’s introduction.</string>
     <string name="free_download_warning_single">This will download the free version. To grab full-text version of this magazine, you will have to purchase it.</string>
     <string name="free_download_warning_title">Download warning</string>
-    <string name="visit_app_store">توی کافه بازار نظر بده...</string>
 
     <!-- Google sign in -->
     <string name="sign_in_name">Let’s sign in!</string>
@@ -469,14 +465,12 @@
 
     <string name="update_available">Update is available!</string>
     <string name="update">Install</string>
-    <string name="app_store_not_found">لطفاً کافه بازار رو نصب کنید.</string>
 
     <string name="dont_show_again">دوباره نمایش نده!</string>
     <string name="owner_warning_title">هشدار</string>
     <string name="owner_warning">در صورت خرید، شما می‌پذیرید که محتوای خریداری شده متعلق به %1$s با آدرس ایمیل %2$s خواهد بود؛ و دسترسی به آن، فقط هنگامی فراهم است که همان فرد در این نرم‌افزار sign-in کرده باشد.</string>
     <string name="accept">OK</string>
     <string name="reject">انصراف</string>
-    <string name="incorrect_owner">خرید این محتوا قبلاً به نام فرد دیگری در کافه بازار ثبت شده است. لطفاً حساب کاربری خود را بررسی کنید.</string>
     <string name="incorrect_owner_title">خطا</string>
 
     <string name="new_word_and_type">%1$s\u0020\u0020\u0020\u0020%2$s</string>

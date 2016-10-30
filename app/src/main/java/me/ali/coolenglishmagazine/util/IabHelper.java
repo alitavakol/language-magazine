@@ -37,6 +37,8 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.ali.coolenglishmagazine.BuildConfig;
+
 
 /**
  * Provides convenience methods for in-app billing. You can create one instance of this
@@ -260,8 +262,8 @@ public class IabHelper {
             }
         };
 
-        Intent serviceIntent = new Intent("ir.cafebazaar.pardakht.InAppBillingService.BIND");
-        serviceIntent.setPackage("com.farsitel.bazaar");
+        Intent serviceIntent = new Intent(BuildConfig.MARKET_SERVICE_INTENT);
+        serviceIntent.setPackage(BuildConfig.MARKET_APPLICATION_ID);
         List<ResolveInfo> intentServices = mContext.getPackageManager().queryIntentServices(serviceIntent, 0);
         if (intentServices != null && !intentServices.isEmpty()) {
             // service available to handle that Intent
@@ -885,7 +887,7 @@ public class IabHelper {
         return verificationFailed ? IABHELPER_VERIFICATION_FAILED : BILLING_RESPONSE_RESULT_OK;
     }
 
-    int querySkuDetails(String itemType, Inventory inv, List<String> moreSkus)
+    public int querySkuDetails(String itemType, Inventory inv, List<String> moreSkus)
             throws RemoteException, JSONException, NullPointerException {
         logDebug("Querying SKU details.");
         ArrayList<String> skuList = new ArrayList<String>();
@@ -985,11 +987,21 @@ public class IabHelper {
      * @return RSA public key
      */
     public static String getPublicKey() {
-        return "MIHNMA0GCSqGSIb3DQEBAQUAA4G7A"
-                + "KE6qk+XuDxrRZ80Ke3qyDCBtwKBrwDUa7YKE6qk+XuDxrRZ80Ke3qy9sPy0ng/L5ejx".substring(20, 62)
-                + swapCase("OwQsxaYxikPdhP0DQBL5ejxVjIsAHXZL65iMD7Cj")
-                + "EOs/+5sbXXBcs5AccQqY0QNSXaI46sVThg3L5ZhMaYV6C/6nd9K56uGG4MZSPz7xzRDaI2iFBpeRLVejZSYnNYp4T3U4maCEEv4KxhAKC6Uk0EP7jrg"
-                + new StringBuilder("==QAAEwACsUs5fzo7paap+CVg+dLyEP9pqdhf6cNFeC4mIHsl1ryrE").reverse().toString();
+        if (BuildConfig.MARKET_APPLICATION_ID.equals("com.farsitel.bazaar")) {
+            return "MIHNMA0GCSqGSIb3DQEBAQUAA4G7A"
+                    + "KE6qk+XuDxrRZ80Ke3qyDCBtwKBrwDUa7YKE6qk+XuDxrRZ80Ke3qy9sPy0ng/L5ejx".substring(20, 62)
+                    + swapCase("OwQsxaYxikPdhP0DQBL5ejxVjIsAHXZL65iMD7Cj")
+                    + "EOs/+5sbXXBcs5AccQqY0QNSXaI46sVThg3L5ZhMaYV6C/6nd9K56uGG4MZSPz7xzRDaI2iFBpeRLVejZSYnNYp4T3U4maCEEv4KxhAKC6Uk0EP7jrg"
+                    + new StringBuilder("==QAAEwACsUs5fzo7paap+CVg+dLyEP9pqdhf6cNFeC4mIHsl1ryrE").reverse().toString();
+
+        } else if (BuildConfig.MARKET_APPLICATION_ID.equals("ir.mservices.market")) {
+            return "MIGfMA0GCSqGSIb3DQEBAQUAA4GNA"
+                    + swapCase("dcbIqkbGqdDSGMHuD/mbT47Upz5ChT+xdiJjiic58K0f3lPh3DdmcCI2")
+                    + "vyEw0Hx92vI4ZSq2o8xQ7ojRldskb/zxtgmDYbl4eJ0q3lYElquALaQKAC9AYrB91Km26gTlXWhsl"
+                    + new StringBuilder("BAQADIwUyN92Kl4cNPt1WgXBoRUecEbvkQk9v2FC+eZ/xMoEXWlpGz").reverse().toString();
+        }
+
+        return null;
     }
 
     private static String swapCase(final String s) {

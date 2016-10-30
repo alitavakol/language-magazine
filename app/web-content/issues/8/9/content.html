@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h4 {
+				font-weight: bold;
+				margin-top: 20px;
+			}
+			h3 {
+				margin-top: 0;
+				text-transform: uppercase;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				text-shadow: 0px 0px 8px rgba(0,0,0,1);
+				padding: 8px;
+				padding-left: 16px;
+				padding-right: 16px;
+				display: inline-block;
+				color: white;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+				margin-bottom: 8px;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			.box {
+				border: solid 2px black;
+			}
+			.highlight {
+				background-color: white;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<div class="box" style="text-align: center;">
+				<img src="q.png" style="width: 100%; max-width: 4cm;">
+				<h1>Riddles</h1>
+
+				<div style="text-align: left;">
+					<ol>
+						<li><span data-start="8250" data-end="11122">The person who invented it doesn’t want it.</span> <span data-start="11123" data-end="14137">The person who paid for it doesn’t need it.</span> <span data-start="14138" data-end="18224">The person who needs it won’t know when they need it.</span> <span data-start="18225" data-end="19321">What is it?</span><br><span class="fill-in" data-ans="A coffin"></span></li>
+						<li><span data-start="27768" data-end="33850">I have holes in my top and bottom, my left and right, and in the middle,</span> <span data-start="33851" data-end="36820">but I still hold water.</span> <span data-start="36821" data-end="38125">What am I?</span><br><span class="fill-in" data-ans="A sponge"></span></li>
+					</ol>
+				</div>
+			</div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<div style="display: none;">
+			<a class='new-word' data-word='to reckon' data-type='vb' data-en='to think, to believe'>reckon</a>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			$('.fill-in').html('……  <span class="accent-dark">🏁</span> ').click(function() {
+				$(this).html($(this).data('ans')).removeClass('fill-in').addClass('accent-dark').css('font-weight', 'bold');
+			});
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.box { padding: " + spacing + "px; background-color: " + tinycolor(accentColor).brighten().lighten().lighten() + "; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					.accent-dark { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

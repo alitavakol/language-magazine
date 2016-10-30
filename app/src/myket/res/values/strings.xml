@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_website">http://myket.ir/DeveloperApps.aspx?Packagename=me.ali.coolenglishmagazine</string>
+    <string name="app_icon_url">http://cafebazaar.ir/media/upload/icons/me.ali.coolenglishmagazine.png</string>
+
+    <string name="login_required">باید مایکت نصب باشه و توش sign-in کرده باشی.</string>
+    <string name="visit_app_store">توی مایکت نظر بده...</string>
+    <string name="app_store_not_found">لطفاً مایکت رو نصب کنید.</string>
+    <string name="incorrect_owner">خرید این محتوا قبلاً به نام فرد دیگری در مایکت ثبت شده است. لطفاً حساب کاربری خود را بررسی کنید.</string>
+</resources>

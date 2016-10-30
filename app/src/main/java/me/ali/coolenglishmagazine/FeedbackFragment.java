@@ -138,11 +138,20 @@ public class FeedbackFragment extends DialogFragment {
             public void onClick(View v) {
                 final FragmentActivity activity = getActivity();
                 try {
-                    // open Bazaar to upgrade this app
-                    Intent intent = new Intent(Intent.ACTION_EDIT);
-                    intent.setData(Uri.parse("bazaar://details?id=" + activity.getPackageName()));
-                    intent.setPackage("com.farsitel.bazaar");
-                    startActivity(intent);
+                    // open marker to rate this app
+                    if (BuildConfig.MARKET_APPLICATION_ID.equals("com.farsitel.bazaar")) {
+                        Intent intent = new Intent(Intent.ACTION_EDIT);
+                        intent.setData(Uri.parse("bazaar://details?id=" + activity.getPackageName()));
+                        intent.setPackage("com.farsitel.bazaar");
+                        startActivity(intent);
+
+                    } else if (BuildConfig.MARKET_APPLICATION_ID.equals("ir.mservices.market")) {
+                        String url = "myket://comment?id=" + activity.getPackageName();
+                        Intent intent = new Intent();
+                        intent.setAction(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(url));
+                        startActivity(intent);
+                    }
 
                     PreferenceManager.getDefaultSharedPreferences(activity)
                             .edit()

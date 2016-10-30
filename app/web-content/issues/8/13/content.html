@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h4 {
+				font-weight: bold;
+				margin-top: 20px;
+			}
+			h1 {
+				margin-top: 0;
+				text-transform: uppercase;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			.dotted {
+				background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
+				background-image: repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
+				-webkit-background-size: 5px 5px;
+				background-size: 5px 5px;
+			}
+			.box {
+				border: dotted 1px black;
+			}
+			#images {
+				padding: 10px;
+				padding-top: 16px;
+			}
+			#images img {
+				width: 100%;
+				border: solid 1px black;
+			}
+			#labels {
+				margin-left: -8px;
+			}
+			.label-container {
+				display: inline-block;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				margin-left: 8px;
+				margin-right: 8px;
+				margin-top: 4px;
+				margin-bottom: 4px;
+				-webkit-box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				font-weight: bold;
+			}
+			.label-container.gone {
+				opacity: .2;
+				-webkit-box-shadow: inherit;
+				box-shadow: inherit;
+			}
+			.label-container.attached {
+				visibility: hidden;
+			}
+			.label-base {
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: -4px;
+				vertical-align: center;
+			}
+			.visible {
+				visibility: visible !important;
+			}
+			.image-container {
+				text-align: center;
+				padding: 8px;
+				margin-bottom: 8px;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="jquery-ui.min.js"></script>
+		<script src="jquery.ui.touch-punch.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<div style="position: relative; margin-bottom: 16px;">
+				<img src="cover.jpg" style="width: 100%; 				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);">
+			</div>
+			<h1>What’s so great about farmers’ markets?</h1>
+
+			<h4><span class="accent">❶</span> <b>Think about it</b></h4>
+			<p>Where do you buy your food? Which shops do you use? What type of food do you buy there? What type of fresh food do you look for? Do you ever go to markets to buy your food? Why? Why not? Have you ever been to a Farmers Market? Do they have a Farmers Market near where you live? What can you buy there? What can you do there apart from just buying food? What forms of entertainment do they offer?</p>
+
+			<h4><span class="accent">❷</span> <b>Pre-reading</b></h4>
+			<p>Match the food words to the pictures.</p>
+			<div class="box">
+				<div id="labels"></div>
+				<div id="images" class="row"></div>
+			</div>
+
+			<h4><span class="accent">❸</span> <b>Listening</b></h4>
+			<p id="comments">You’re going to listen to an article about <a class="new-word" data-word="a Farmers’ Market" data-type="n" data-en="a place where farmers sell their produce to the public. It’s sometimes written as “Farmers Market” with no apostrophe, which is acceptable as “farmers” ">Farmers’ Markets</a>. What are the pros and cons of Farmers’ Markets? Make notes. Then listen to the article many times, and compare your ideas.</p>
+
+			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p style="padding-top: 0;"><span data-start="3993" data-end="11919">Talk to farmers, pick up some cooking tips, get some fabulous food&#8230;</span> <span data-start="11920" data-end="15062"><a class="new-word" data-word="a Farmers’ Market" data-type="n" data-en="a place where farmers sell their produce to the public. It’s sometimes written as “Farmers Market” with no apostrophe, which is acceptable as “farmers” is acting as an adjective, so it isn’t strictly necessary">Farmers’ Markets</a> are a great way to spend the day.</span></p>
+				<p><span data-start="15063" data-end="20574">A Farmers’ Market is a place where <a class="new-word" data-word="local" data-type="adj " data-en="something that is “local” is close to where you live">local</a> farmers can sell their <a class="new-word" data-word="produce" data-type="n" data-en="food that is grown to be sold">produce</a> to the public.</span> <span data-start="20575" data-end="23902">But they aren’t just about fresh fruit and vegetables.</span> <span data-start="23903" data-end="39143">Apart from all the delicious locally-grown <a class="new-word" data-word="lettuce" data-type="n" data-en="a cultivated plant of the daisy family, with edible leaves that are a usual ingredient of salads" data-fa="کاهو">lettuce</a>, berries, watermelon and cucumbers, you can also find cheeses, breads, snacks, jams, sausages, drinks, organic produce and baked goods.</span></p>
+				<p><span data-start="39144" data-end="41975">There are also lots of things to do.</span> <span data-start="41976" data-end="51456">You can try out the best <a class="new-word" data-word="seasonal" data-type="adj" data-en="“seasonal” food is only available at certain times of the year">seasonal</a> produce in free <a class="new-word" data-word="a tasting session" data-type="n" data-en="if there’s a “tasting session”, you can try food for free">tasting sessions</a>, ask questions about growing food and learn about the latest cooking methods.</span> <span data-start="51457" data-end="61238">Plus, there are often concerts with local musicians, cooking demonstrations with celebrities and fun activities for children, such as story-telling.</span></p>
+				<p><span data-start="61239" data-end="64777">So, what are the benefits of a Farmers’ Market?</span> <span data-start="64778" data-end="69082">For a start, they offer really fresh, seasonal produce.</span> <span data-start="69083" data-end="76057">And as it’s grown nearby, it can help <a class="new-word" data-word="to sustain" data-type="vb" data-en="if you “sustain” something, you allow it to continue">sustain</a> the local economy and provide jobs for people in the area.</span> <span data-start="76058" data-end="86476">On top of that, many small-scale farms use fewer <a class="new-word" data-word="pesticide" data-type="n" data-en="a substance used for destroying insects harmful to plants" data-fa="سم کشنده حشرات">pesticides</a> or other harmful chemicals when growing their <a class="new-word" data-word="crops" data-type="n" data-en="food that is grown in large quantities and later sold">crops</a>, so the food is better for you.</span> <span data-start="86477" data-end="92786">And the food is often more <a class="new-word" data-word="environmentally friendly" data-type="exp" data-en="something that is “environmentally friendly” doesn’t harm the earth, air, water, etc.">environmentally friendly</a> as it hasn’t been on a long road journey to get there.</span></p>
+				<p><span data-start="92787" data-end="95501">So, where can you find Farmers’ Markets?</span> <span data-start="95502" data-end="98183">Well, most cities and towns have one.</span> <span data-start="98184" data-end="110550">For example, the Santa Monica Farmers Market opens on Wednesdays and Saturdays and has a wide variety of agricultural products including avocados, chillies and lettuces.</span> <span data-start="110551" data-end="115888">As an added bonus, you can often <a class="new-word" data-word="to spot" data-type="vb" data-en="to see or notice">spot</a> celebrities doing their shopping there.</span></p>
+				<p><span data-start="115889" data-end="119630">Chicago’s Green City Market is open all year.</span> <span data-start="119631" data-end="128327">Some of the food available there includes <a class="new-word" data-word="an elk" data-type="n" data-en="reindeer" data-fa="گوزن شمالی">elk</a> meat, cheese, bread, pies and tofu.</span> <span data-start="128328" data-end="137257">There are also cooking demonstrations led by some of Chicago’s most important chefs such as Michelin starred chef Carrie Nahabedian.</span> <span data-start="137258" data-end="143943">The market has its “Club Sprouts” too where children can taste local produce and learn about healthy eating.</span></p>
+				<p><span data-start="143944" data-end="151347">On the East Coast, The Union Square Greenmarket is one of Manhattan’s best food experiences.</span> <span data-start="151348" data-end="157256">Founded in 1976, it now has up to 140 <a class="new-word" data-word="a vendor" data-type="n" data-en="someone who sells something">vendors</a>.</span> <span data-start="157257" data-end="162551">The market opens Mondays, Wednesdays, Saturdays and Sundays.</span> <span data-start="162552" data-end="182044">On a typical market day, over 60,000 people pass through there, shopping for fruit and vegetables, talking to sellers, <a class="new-word" data-word="to sample" data-type="vb" data-en="if you “sample” food, you try it to see if you like it">sampling</a> a variety of <a class="new-word" data-word="pastries" data-type="n" data-en="cookies" data-fa="شیرینی">pastries</a>, cookies, cheeses and juices, and enjoying the opportunity to buy directly from producers.</span> <span data-start="182045" data-end="187315">And all this, right in the centre of the Big Apple!</span></p>
+				<p><span data-start="187316" data-end="193500">Next time you need to go shopping, why not go to your local Farmers’ Market?</span> <span class="accent">✪</span></p>
+			</div></div>
+
+			<h4><span class="accent">❹</span> <b>Reading</b></h4>
+			<p>Read the article. Then, answer the questions.</p>
+			<ol>
+				<li><span>What is a Farmers Market?</span></li>
+				<li><span>What forms of entertainment might you find at Farmers Market?</span></li>
+				<li><span>In what way are Farmers’ Markets good for the local economy?</span></li>
+				<li><span>How are Farmers’ Markets more environmentally friendly?</span></li>
+				<li><span>What’s the “added bonus” of attending the Santa Monica Farmers Market?</span></li>
+				<li><span>What does “Club Sprouts” offer?</span></li>
+				<li><span>How long has the Union Square Greenmarket been in operation for?</span></li>
+				<li><span>Where is it?</span></li>
+			</ol>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			var mixed_label_ids = [3, 7, 5, 1, 6, 4, 0, 2];
+			var images = [['a', 'Berries'], ['b', 'Brussels sprouts'], ['c', 'Tofu'], ['d', 'Avocados'], ['e', 'Jam'], ['f', 'Watermelon'], ['g', 'Chillies'], ['h', 'Cucumber']];
+			var image_template = "<div class='image-container col-xs-6 col-sm-4 col-md-3 col-lg-2' data-label='{label}'><img src='{img}.png'><div class='label-base'><div class='label-container attached'>{label}</div></div></div>";
+			var label_template = "<div class='label-container draggable' data-label='{label}'>{label}</div>";
+
+			container = $('#images');
+			images.forEach(function(img) {
+				 container.append(image_template.replace('{img}', img[0]).replace(/\{label\}/g, img[1]));
+			});
+
+			container = $('#labels');
+			mixed_label_ids.forEach(function(id) {
+				 container.append(label_template.replace(/\{label\}/g, images[id][1]));
+			});
+
+			dropped_elements = [];
+
+			$('.draggable').draggable({
+				revert: 'invalid',
+				containment: 'body',
+				zIndex: 2,
+				appendTo: 'body',
+				helper: 'clone',
+				scrollSensitivity: 40,
+				scrollSpeed: 10,
+				start: function(e,u) {
+					$('.label-container').removeClass('selected');
+					$(e.target).addClass('gone');
+				},
+				stop: function(e,u) {
+					if(!$(e.target).data('gone'))
+						$(e.target).removeClass('gone').trigger('tap');
+				},
+			});
+			$('.draggable').tap(function() {
+				if(!$(this).hasClass('gone')) {
+					$('.label-container').removeClass('selected');
+					$(this).addClass('selected');
+				}
+			});
+
+			$('.image-container').droppable({
+				activate: function(ev, ui) {
+				},
+				deactivate: function(ev, ui) {
+				},
+				drop: function(event, ui) {
+					drop(ui.draggable, $(this));
+				}
+			});
+			$('.image-container').tap(function() {
+				drop($('.draggable.selected'), $(this));
+			});
+
+			drop = function(dropped, dropzone) {
+				if(!dropped.length || !dropzone.length)
+					return;
+
+				var label = dropzone.data('label');
+				if(label == dropped.html()) {
+					dropzone.find('.label-container').addClass('visible');
+					dropped.draggable('disable');
+					dropped.data('gone', true).removeClass('selected').addClass('gone');
+
+					if(dropped_elements.indexOf(label) == -1) {
+						dropped_elements.push(label);
+						saveInstanceState();
+					}
+
+				} else {
+					dropped.removeClass('gone');
+					$('.label-container').removeClass('selected');
+					if(typeof(app) != 'undefined')
+						app.makeToast('That\'s not right.', false);
+				}
+			}
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.box { padding-top: " + spacing + "px; padding-left: " + (2*spacing) + "px; padding-right: " + (2*spacing) + "px; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					.accent-dark { color: " + tinycolor(accentColor).darken().darken() + "; } \
+					.label-container { background-color: " + highlightColor + "; } \
+					.label-container.selected { background-color: #" + accentColor + "; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+					$('#comments').css('opacity', 1);
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+					$('#comments').css('opacity', .5);
+				}
+
+				saveInstanceState();
+
+				if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+					app.setLongClickable(!b);
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+					dropped_elements: dropped_elements,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				dropped_elements = state['dropped_elements'] || [];
+				dropped_elements.forEach(function(label) {
+					drop($(".label-container[data-label='" + label + "']"), $(".image-container[data-label='" + label + "']"));
+				});
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to show text.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

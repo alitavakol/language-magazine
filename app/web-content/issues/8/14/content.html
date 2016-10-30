@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h1 {
+				margin-top: 0;
+				margin-bottom: 12px;
+				text-transform: uppercase;
+			}
+			h4 {
+				font-weight: bold;
+				margin-top: 20px;
+			}
+			.dotted {
+				background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
+				background-image: repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
+				-webkit-background-size: 5px 5px;
+				background-size: 5px 5px;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			tr > td:first-child {
+				font-weight: bold;
+				text-align: right;
+			}
+			tr > td:last-child {
+				padding-left: 16px;
+			}
+			td {
+				vertical-align: top;
+			}
+			.new-word {
+				color: inherit;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<h1>Making Plans</h1>
+
+			<div style="position: relative;">
+				<img src="cover.jpg" style="width: 100%; -webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); margin-bottom: 16px;">
+			</div>
+
+			<p>You’re going to listen to a conversation between two people who are trying to decide what to do. Listen once. What do they decide to do in the end? Then, listen again and try to guess the meaning of the following slang expressions (also marked in bold in the text). Speak out a version of them in Standard English:</p>
+
+			<ul>
+				<li><span>That’s thrown a spanner in the works ≈ ……………………</span></li>
+				<li><span>What a bummer! ≈ ……………………</span></li>
+				<li><span>Grab a bite to eat ≈ ……………………</span></li>
+				<li><span>We’ll never hear the end of it ≈ ……………………</span></li>
+				<li><span>I’m sort of in two minds ≈ ……………………</span></li>
+				<li><span>I just don’t feel up to it ≈ ……………………</span></li>
+				<li><span>You can’t bail out on me ≈ ……………………</span></li>
+				<li><span>I’m a bit broke ≈ ……………………</span></li>
+				<li><span>I’m loaded ≈ ……………………</span></li>
+				<li><span>I flogged ≈ ……………………</span></li>
+				<li><span>What a mug! ≈ ……………………</span></li>
+				<li><span>A quick one ≈ ……………………</span></li>
+				<li><span>A rip-off ≈ ……………………</span></li>
+				<li><span>His car’s conked out ≈ ……………………</span></li>
+				<li><span>We can’t leave him in the lurch ≈ ……………………</span></li>
+				<li><span>I’ll give him a bell ≈ ……………………</span></li>
+			</ul>
+
+			<h4>Dialogue</h4>
+			<div style="text-align: center; border-radius: 8px; -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.24); box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.24); padding: 8px; margin-top: 8px; margin: 2px; margin-bottom: 16px; font-size: .8em;"><b>Warning</b><br>Many of the words and expressions from this section are used in informal situations. so, be careful how you use them yourself!</div>
+
+			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<table>
+					<tr>
+						<td>Pete:</td> 
+						<td><span data-start="12365" data-end="15970"><i>[to the ticket seller]</i> Two tickets for Straight Guys at seven, please.</span></td>
+					</tr>
+					<tr>
+						<td>Ticket<br>seller:</td>
+						<td style="vertical-align: bottom;"><span data-start="15971" data-end="18522">I’m sorry but there aren’t any seats left.</span></td>
+					</tr>
+					<tr>
+						<td>Pete:</td> 
+						<td><span data-start="18523" data-end="21230"><i>[to Noah]</i> Well, <a class="new-word" data-word="that’s thrown a spanner in the works." data-type="exp" data-en="That’s ruined our plans">that’s thrown a spanner in the works.</a></span></td>
+					</tr>
+					<tr>
+						<td>Noah:</td>
+						<td><span data-start="21231" data-end="24917"><a class="new-word" data-word="What a bummer!" data-type="exp" data-en="How annoying">What a bummer!</a> I was really looking forward to it.</span></td>
+					</tr>
+					<tr>
+						<td>Pete:</td>
+						<td><span data-start="24918" data-end="29786">Me too! I guess we could go and <a class="new-word" data-word="grab a bite to eat" data-type="exp" data-en="Get something to eat">grab a bite to eat</a> then come back for the next session.</span></td>
+					</tr>
+					<tr>
+						<td>Noah:</td>
+						<td><span data-start="29787" data-end="32103">Yeah, but what about Mike’s party?</span> <span data-start="32104" data-end="35350"><a class="new-word" data-word="We’ll never hear the end of it" data-type="exp" data-en="We’ll be reminded of it over and over again">We’ll never hear the end of it</a> if we don’t show up.</span></td>
+					</tr>
+					<tr>
+						<td>Pete:</td> 
+						<td><span data-start="35351" data-end="38280">Well, <a class="new-word" data-word="I’m sort of in two minds" data-type="exp" data-en="I can’t decide what to do">I’m sort of in two minds</a> about going anyway.</span></td>
+					</tr>
+					<tr>
+						<td>Noah:</td> 
+						<td><span data-start="38281" data-end="39047">What?</span></td>
+					</tr>
+					<tr>
+						<td>Pete:</td> 
+						<td><span data-start="39048" data-end="41244">Yes, <a class="new-word" data-word="I just don’t feel up to it" data-type="exp" data-en="I don’t want to do it">I just don’t feel up to it</a>.</span></td>
+					</tr>
+					<tr>
+						<td>Noah:</td> 
+						<td><span data-start="41245" data-end="43230"><a class="new-word" data-word="You can’t bail out on me" data-type="exp" data-en="You can’t leave me alone">You can’t bail out on me</a> now.</span></td>
+					</tr>
+					<tr>
+						<td>Pete:</td>
+						<td><span data-start="43231" data-end="44831"><a class="new-word" data-word="I’m a bit broke" data-type="exp" data-en="I don’t have much money">I’m a bit broke</a> too.</span></td>
+					</tr>
+					<tr>
+						<td>Noah:</td>
+						<td><span data-start="44832" data-end="50063">I can lend you something. <a class="new-word" data-word="I’m loaded" data-type="exp" data-en="I’m rich">I’m loaded</a> right now. <a class="new-word" data-word="I flogged …" data-type="exp" data-en="I sold …">I flogged</a> my stereo to Greg.</span></td>
+					</tr>
+					<tr>
+						<td>Pete:</td>
+						<td><span data-start="50064" data-end="51476">How much did you get for it?</span></td>
+					</tr>
+					<tr>
+						<td>Noah:</td>
+						<td><span data-start="51477" data-end="52386">Two hundred.</span></td>
+					</tr>
+					<tr>
+						<td>Pete:</td> 
+						<td><span data-start="52387" data-end="54883">Nice! It was only worth about 50.</span></td>
+					</tr>
+					<tr>
+						<td>Noah:</td>
+						<td><span data-start="54884" data-end="56959">Yeah, I know. <a class="new-word" data-word="What a mug!" data-type="exp" data-en="What an idiot!">What a mug!</a></span> <span data-start="56960" data-end="62778">Look, I know, let’s go to the pub down the road, the Dog and Duck, and have a <a class="new-word" data-word="quick one" data-type="exp" data-en="a quick drink">quick one</a>.</span> <span data-start="62779" data-end="65371">Then, we can head off to the party.</span></td>
+					</tr>
+					<tr>
+						<td>Pete:</td> 
+						<td><span data-start="65372" data-end="67842">The Dog and Duck? That place is a <a class="new-word" data-word="rip-off" data-type="exp" data-en="a price far above the value of the goods">rip-off</a>.</span> <span data-start="67843" data-end="70519">I got charged £10 for a pint last time I went there.</span></td>
+					</tr>
+					<tr>
+						<td>Noah:</td>
+						<td><span data-start="70520" data-end="73935"><i>[beep from text message]</i> Hey, I just got a text from Leon.</span> <span data-start="73936" data-end="78785">He wants to know whether we can pick him up – <a class="new-word" data-word="his car’s conked out" data-type="exp" data-en="His car has broken down">his car’s conked out</a> so he needs a lift.</span></td>
+					</tr>
+					<tr>
+						<td>Pete:</td> 
+						<td><span data-start="78786" data-end="80340">But he lives miles away.</span></td>
+					</tr>
+					<tr>
+						<td>Noah:</td> 
+						<td><span data-start="80341" data-end="82160"><a class="new-word" data-word="We can’t leave him in the lurch." data-type="exp" data-en="We can’t leave him all alone">We can’t leave him in the lurch.</a></span> <span data-start="82161" data-end="89530">Look, I know, let’s go and pick him up, then head off to Mike’s place and have a drink in a pub near there, then go to the party.</span> <span data-start="89531" data-end="91584">Come on – you know you want to.</span></td>
+					</tr>
+					<tr>
+						<td>Pete:</td> 
+						<td><span data-start="91585" data-end="93532">Oh, all right then.</span></td>
+					</tr>
+					<tr>
+						<td>Noah:</td>
+						<td><span data-start="93533" data-end="97474">Great. <a class="new-word" data-word="I’ll give Leon a bell" data-type="exp" data-en="I’ll call him ">I’ll give Leon a bell</a> and tell him that we’ll be there in about 20 minutes.</span></td>
+					</tr>
+					<tr>
+						<td>Pete:</td> 
+						<td><span data-start="97475" data-end="100100">All right. I’ll go and get the car.</span> <span class="accent">✻</span></td>
+					</tr>
+				</table>
+			</div></div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					.accent-dark { color: " + tinycolor(accentColor).darken().darken() + "; } \
+					tr:nth-child(odd) { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
+					h4 { background-color: " + tinycolor(accentColor).lighten() + "; padding-right: " + spacing + "px; padding-left: " + spacing + "px; padding-top: " + (spacing/2) + "px; padding-bottom: " + (spacing/2) + "px; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+					$('#comments').css('opacity', 1);
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+					$('#comments').css('opacity', .5);
+				}
+
+				saveInstanceState();
+
+				if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+					app.setLongClickable(!b);
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h3 {
+				margin-top: 0;
+				margin-bottom: 0px;
+			}
+			h4 {
+				font-weight: bold;
+				margin-top: 20px;
+			}
+			.dotted {
+				background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
+				background-image: repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
+				-webkit-background-size: 5px 5px;
+				background-size: 5px 5px;
+			}
+			.title-container {
+				position: absolute;
+				bottom: 24px;
+				right: 4px;
+				text-align: right;
+				background-color: rgba(255,255,255,.85);
+				padding: 8px;
+				padding-left: 16px;
+				padding-right: 16px;
+				left: 10%;
+			}
+			h5 {
+				margin-top: 0;
+				margin-bottom: 0;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			.cem-label {
+				display: inline-block;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				margin: 4px;
+			}
+			.label-container {
+				margin: -4px;
+				margin-bottom: 12px;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<div style="position: relative;">
+				<img src="cover.jpg" style="width: 100%; -webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); margin-bottom: 16px;">
+				<div class="title-container">
+					<h3>Why the sauna is so important in Finland!</h3>
+				</div>
+			</div>
+
+			<h4 style="margin-top: 0;"><span class="accent">❶</span> <b>Think about it</b></h4>
+			<p>Have you ever had a sauna? What did you think of it? What do you do when you want to relax? Have you ever been in a Jacuzzi? Did you like it? Why? Why not?</p>
+
+			<h4><span class="accent">❷</span> <b>Pre-reading I</b></h4>
+			<p>Which of these things have you had or tried? which one did you like/dislike?</p>
+			<div class="label-container">
+				<div class="cem-label">sauna</div>
+				<div class="cem-label">Turkish bath</div>
+				<div class="cem-label">back massage</div>
+				<div class="cem-label">head massage</div>
+				<div class="cem-label">Jacuzzi</div>
+				<div class="cem-label">hot tub</div>
+				<div class="cem-label">steam bath</div>
+				<div class="cem-label">foot massage</div>
+				<div class="cem-label">aromatherapy</div>
+				<div class="cem-label">mud bath</div>
+			</div>
+
+			<h4><span class="accent">❸</span> <b>Pre-reading II</b></h4>
+			<p>You’re going to read an article about the sauna. See if you can answer the following questions. Guess if necessary.</p>
+			<ol>
+				<li><span>What rules are there for using the sauna in Finland?</span></li>
+				<li><span>What types of saunas are there?</span></li>
+				<li><span>Why are saunas so popular in Finland?</span></li>
+			</ol>
+
+			<h4><span class="accent">❹</span> <b>Listening</b></h4>
+			<p id="comments">Listen to the article many times. Check your answers from the pre-reading activity.</p>
+
+			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p><span data-start="9374" data-end="16775">Finland is a small, Nordic country of just 5.3 million, but over three million <a class="new-word" data-word="a sauna" data-type="n" data-en="a very hot room where you can relax">Saunas</a>.</span> <span data-start="16776" data-end="20679">So, what is it with the <a class="new-word" data-word="a Finn" data-type="n" data-en="a persion from Finland">Finns</a> and their saunas?</span></p>
+				<p><span data-start="20680" data-end="24513">Saunas are central to Finnish life.</span> <span data-start="24514" data-end="31256">According to recent statistics, most Finns have a sauna at least once a week,</span> <span data-start="31257" data-end="37201">and more frequently when they visit their summer <a class="new-word" data-word="a cottage" data-type="n" data-en="a small simple house, especially in a rural area">cottage</a> in the countryside.</span> <span data-start="37202" data-end="46117">Saunas can be found all over Finland: in offices, factories, sports centres and hotels;</span> <span data-start="46118" data-end="50774">and two thirds of the population have one in their house.</span></p>
+				<p><span data-start="50775" data-end="58574">Some of the basic rules for using the sauna include no eating or drinking, and no discussing your job.</span> <span data-start="58575" data-end="65838">Also, you can’t wear any clothes swimsuits in the sauna &#8212; you have to go <a class="new-word" data-word="naked" data-type="adj" data-en="with no clothes on">naked</a>.</span> <span data-start="65839" data-end="70738">Men and women visit the sauna separately, unless they’re members of the same family.</span> <span data-start="70739" data-end="73083">Parents go with their children.</span></p>
+				<p><span data-start="73084" data-end="77109">Saunas have existed for hundreds of years.</span> <span data-start="77110" data-end="83935">In the past, Finns <a class="new-word" data-word="to dig" data-type="vb" data-en="if you “dig” a hole, you make the hole">dug</a> holes in the ground and put <a class="new-word" data-word="heated" data-type="adj" data-en="“heated” stones (for example) are hot">heated</a> stones in them.</span> <span data-start="83936" data-end="91153">When water thrown on the hot stones, they gave off a <a class="new-word" data-word="vapour" data-type="n" data-en="tiny drops of water in the air, “Vapour” appears when you boil water (make the water 100°C), for example">vapour</a> known as “<a class="new-word" data-word="löyly" data-type="n Finnish" data-en="a Finnish word that refers to the atmosphere in the sauna and the way it makes you feel">löyly</a>”.</span> <span data-start="91154" data-end="100346">It’s said that each sauna has its own characteristic “löyly” &#8212; the better the “löyly”, the more enjoyable the sauna.</span></p>
+				<p><span data-start="100347" data-end="114215">According to the Oxford English Dictionary, the word “sauna” first appeared in English in 1881 in a book by travel writer Paul Belloni Du Chaillu called <i>The Land af the <a class="new-word" data-word="the midnight sun" data-type="n" data-en="the sun you can see at midnight in the Arctic in the summer">Midnight Sun</a></i>.</span> <span data-start="114216" data-end="121031">He wrote, “One of the most characteristic <a class="new-word" data-word="an institution" data-type="n" data-en="a custom or tradition that’s considered to be typical in a country">institutions</a> of the country is the sauna.”</span></p>
+				<p><span data-start="121032" data-end="123850">There are several types of sauna.</span> <span data-start="123851" data-end="128194">Smoke saunas are found mostly in <a class="new-word" data-word="rural areas" data-type="n" data-en="in the countryside (not in cities/towns)">rural areas</a>.</span> <span data-start="128195" data-end="130907">They’re <a class="new-word" data-word="to heat" data-type="vb" data-en="to make hot">heated</a> with burning wood.</span> <span data-start="130908" data-end="142338">Once the room is hot enough, the fire is allowed to die and the room is <a class="new-word" data-word="to ventilate" data-type="vb" data-en="if you “ventilate” a room, you let fresh air come into it">ventilated</a> by letting the smoke out through a hole in the <a class="new-word" data-word="the ceiling" data-type="n" data-en="the top part of a room above your heead">ceiling</a>.</span> <span data-start="142339" data-end="147302">However, the most common type is the electric sauna.</span> <span data-start="147303" data-end="154128">With these, you simply turn on an electric <a class="new-word" data-word="a stove" data-type="n" data-en="a piece of equipment that provides heat (either for cooking or for making the room warm)">stove</a> an hour before you want to go in.</span> <span data-start="154129" data-end="159612">This is seen as the safest and easiest way to heat the room.</span></p> 
+				<p><span data-start="159613" data-end="164518">So, why are saunas so popular in Finland?</span> <span data-start="164519" data-end="168590">Many claim that they’re important for your <a class="new-word" data-word="wellbeing" data-type="n" data-en="your “wellbeing” is your health and happiness">wellbeing</a>.</span> <span data-start="168591" data-end="177282">A Finnish <a class="new-word" data-word="a proverb" data-type="n" data-en="a common saying that tells you something about life or that offers practical advice">proverb</a> says, “If a sick person is not cured by <a class="new-word" data-word="tar" data-type="n" data-en="a thick black substance that’s used for making roads. Traditionally, it was used as an antiseptic (a substance that kills bacteria/germs)">tar</a>, <a class="new-word" data-word="spirits" data-type="n" data-en="strong alcohol: vodka, whisky, gin, etc.">spirits</a> or sauna, then they’ll die.”</span> <span data-start="177283" data-end="182893">Having a sauna is also seen as a good way to relive stress and tension.</span></p>
+				<p><span data-start="182894" data-end="188900">If you ever visit Finland, don’t forget to have a nice, relaxing sauna.</span> <span data-start="188901" data-end="193291">It’s all part of the experience!</span> <span class="accent">✪</span></p>
+			</div></div>
+
+			<h4><span class="accent">❺</span> <b>Reading</b></h4>
+			<p>Read the article. Then, complete the sentences with the correct words.</p>
+			<ol>
+				<li><span>People from Finland are known as the Finnish and ….</span></li>
+				<li><span>You can’t wear any … in the sauna.</span></li>
+				<li><span>Men and women visit the sauna ….</span></li>
+				<li><span>… is a Finnish word that describes the vapour in the sauna.</span></li>
+				<li><span>Smoke saunas are mostly found in … areas.</span></li>
+				<li><span>Many claim that saunas are good for your ….</span></li>
+			</ol>
+
+			<div class="box fill-lighter">
+				<h4 style="margin-top: 0;"><span class="accent">❻</span> <b>Language Focus<br><span class="accent-dark">Superlatives</span></b></h4>
+				<p>Look at this extract from the article on this page, <span style="font-weight: 300;">“&#8230;This is seen as the safest and easiest way to&#8230;”</span> Create superlatives from the following adjectives.</p>
+				<ol style="margin-bottom: 0;">
+					<li><span>pretty</span></li>
+					<li><span>interesting</span></li>
+					<li><span>tall</span></li>
+					<li><span>fat</span></li>
+					<li><span>nice</span></li>
+					<li><span>boring</span></li>
+				</ol>
+			</div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					.box { border: solid 2px black; padding: " + spacing + "px; margin-top: " + verticalMargin + "px; } \
+					.accent-dark { color: " + tinycolor(accentColor).darken() + "; } \
+					.fill-lighter { background-color: " + tinycolor(accentColor).lighten().lighten().lighten() + "; } \
+					.cem-label { color: #" + backgroundColor + "; background-color: #" + textColor + "; -webkit-box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; box-shadow: 0 0 1.5px 2px " + tinycolor(accentColor).setAlpha(.12).toRgbString() + ", 0 1px 1px 0 " + tinycolor(accentColor).setAlpha(.24).toRgbString() + "; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+					$('#comments').css('opacity', 1);
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+					$('#comments').css('opacity', .5);
+				}
+
+				saveInstanceState();
+
+				if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+					app.setLongClickable(!b);
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>
