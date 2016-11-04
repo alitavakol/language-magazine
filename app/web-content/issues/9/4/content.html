@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#title-container {
+				background-color: rgba(50,50,50,.8);
+				display: inline-block;
+			}
+			.label-container {
+				display: inline-block;
+				padding-left: 10px;
+				padding-right: 10px;
+				padding-top: 6px;
+				padding-bottom: 6px;
+				margin-left: 10px;
+				margin-right: 10px;
+				margin-top: 6px;
+				margin-bottom: 6px;
+				-webkit-box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				/*font-weight: bold;*/
+			}
+			.label-container.gone {
+				opacity: .2;
+				-webkit-box-shadow: inherit;
+				box-shadow: inherit;
+			}
+			.label-container.attached {
+				visibility: hidden;
+			}
+			.label-base {
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: -16px;
+				vertical-align: center;
+			}
+			.visible {
+				visibility: visible !important;
+			}
+			.image-container {
+				text-align: center;
+				padding: 8px;
+				margin-bottom: 12px;
+			}
+			#images {
+				padding: 10px;
+				padding-top: 16px;
+			}
+			#images img {
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				border: solid 2px black;
+				width: 100%;
+			}
+			#labels {
+				margin-left: -10px;
+			}
+			body {
+				overflow-y: scroll;
+			}
+			h4 {
+				font-weight: 400;
+				margin-top: 20px;
+			}
+			h5 {
+				padding-top: 6px;
+				padding-bottom: 6px;
+				font-weight: bold;
+				border-bottom: 1px solid;
+			}
+			h1, h3 {
+				margin-top: 0;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+			.lockable {
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+			input {
+				display: inline-block;
+				padding-top: 0;
+				padding-bottom: 0;
+				/*margin-left: 4px;*/
+				width: 1.7em;
+				border: solid 1px black;
+				text-align: center;
+				vertical-align: middle;
+				font-weight: bold;
+				text-transform: lowercase;
+				/*height: 90%;*/
+				color: black;
+				margin-bottom: 4px;
+			}
+			input:focus {
+				outline: none;
+			}
+			.img-circle {
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				width: 90%;
+				/*margin-top: 16px;*/
+				/*border: solid 3px transparent;*/
+				/*padding: 8px;*/
+			}
+			.row {
+				margin-left: 0;
+				margin-right: 0;
+				/*margin-top: 12px;*/
+				/*max-width: 480px;*/
+				display: inline-block;
+			}
+			.label {
+				/*position: relative;*/
+				border: solid 2px black;
+				background-color: black;
+				color: white;
+				/*bottom: 36px;*/
+				display: inline-block;
+				padding-left: 8px;
+				padding-right: 8px;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+				margin-bottom: 16px;
+				/*margin-top: -8px;*/
+			}
+			.box {
+				border: dotted 1px black;
+				text-align: center;
+			}
+			.choice {
+				font-weight: bold;
+			}
+			.choice.wrong {
+				text-decoration: line-through;
+			}
+			.choice.right {
+				text-decoration: none;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="jquery-ui.min.js"></script>
+		<script src="jquery.ui.touch-punch.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<h1>Banking It</h1>
+			<h3>Bankers in the spotlight.</h3>
+
+			<img src="call.jpg" style="width: 100%; border: solid 1px black;">
+
+			<h4><span class="accent">❶</span> <b>Pre-reading</b></h4>
+			<p>Match the words to the pictures.</p>
+			<div class="box">
+				<div id="labels"></div>
+				<div id="images" class="row"></div>
+			</div>
+
+			<h4><span class="accent">❷</span> <b>Listening</b></h4>
+			<p id="comments">What complaints do you think people have about banks? Think. Then, listen to the article to check your ideas. Listen many times!</p>
+
+			<div class="lockable"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p><span data-start="12200" data-end="15800">Have you had a problem with your bank lately?</span> <span data-start="15801" data-end="25750">Every year, the <a class="new-word" data-word="the Financial Ombudsman Service" data-type="n" data-en="an organisation that tries to settle disputes between consumers and UK-based businesses providing financial services (banks, etc.). An “Ombudsman” is a person/organisation that investigates complaints">Financial Ombudsman Service</a> (the FOS) receives thousands of <a class="new-word" data-word="a complaint" data-type="n" data-en="if you make a “complaint”, you say that you are not happy about something / a service">complaints</a> about banks.</span></p>
+				<p><span data-start="25751" data-end="30928">At the top of the list of complaints are banking <a class="new-word" data-word="a charge" data-type="n" data-en="an amount of money you must pay for a service">charges</a>.</span> <span data-start="30929" data-end="43650">These include charges for <a class="new-word" data-word="to go overdrawn" data-type="exp" data-en="to take out more money from your account than you have">going overdrawn</a>, charges for <a class="new-word" data-word="to bounce (a cheque)" data-type="vb" data-en="if a cheque “bounces”, the bank doesn’t pay the amount">bounced</a> cheques, and charges for not having sufficient funds to cover <a class="new-word" data-word="a direct debit payment" data-type="n" data-en="an amount of money that comes out of your account every month to pay for something you have bought previously">direct debit payments</a>.</span> <span data-start="43651" data-end="50800">In some cases, banks charge up to €50 for <a class="new-word" data-word="unauthorised" data-type="adj" data-en="without official permission">unauthorised</a> <a class="new-word" data-word="an overdraft" data-type="n" data-en="an amount of money you can borrow from the bank (sometimes without having to pay charges)">overdrafts</a>,</span> <span data-start="50801" data-end="56680">even though the overdrawn amount is as little as 2 pence.</span></p>
+				<p><span data-start="56681" data-end="61540">Other complaints refer to bank-charge increases.</span> <span data-start="61541" data-end="67931">Some banks initially offer customers low <a class="new-word" data-word="a rate" data-type="n" data-en="a fixed amount of money you must pay for something">rates</a> or even zero-banking.</span> <span data-start="67932" data-end="74989">However, they later change this – often without informing clients.</span> <span data-start="74990" data-end="86621">“I’ve seen the unauthorised overdraft charge on my account go from £15 (when I opened the account) to £35 a year later.</span> <span data-start="86622" data-end="96330">At no point was I consulted or given the chance to agree with these changes,” said one angry customer.</span> <span data-start="96331" data-end="102039">“When I opened my account, they told me that there were no charges.</span> <span data-start="102040" data-end="111895">But now, every time I write a cheque, they charge me 50 pence,” said another customer.</span></p>
+				<p><span data-start="111896" data-end="116342">One woman decided to <a class="new-word" data-word="to take someone to court" data-type="exp" data-en="to start a legal process against someone in order to get compensation">take</a> her bank <a class="new-word" data-word="to take someone to court" data-type="exp" data-en="to start a legal process against someone in order to get compensation">to court</a>.</span> <span data-start="116343" data-end="129313">Mrs Reynolds, 53, was so angry about her bank charges that she started a <a class="new-word" data-word="a claim" data-type="n" data-en="a formal demand for something">claim</a> for £1,500.</span> <span data-start="129314" data-end="136250">She won the case – partly because the bank failed to <a class="new-word" data-word="a dispute" data-type="n" data-en="an argument between two people/parties">dispute</a> the claim.</span> <span data-start="136251" data-end="141522">However, the bank failed to pay the money <a class="new-word" data-word="promptly" data-type="adv" data-en="quickly">promptly</a>.</span> <span data-start="141523" data-end="148300">So, she sent <a class="new-word" data-word="a bailiff" data-type="n" data-en="a law officer who makes sure that decisions of the law are obeyed">bailiffs</a> to the bank’s head office to collect it.</span> <span data-start="148301" data-end="154308">“I spent days phoning them and trying to <a class="new-word" data-word="to resolve a matter" data-type="exp" data-en="to find a solution to a problem">resolve the matter</a>,</span> <span data-start="154309" data-end="160262">but they did not return one single phone call,” she explained.</span></p>
+				<p><span data-start="160263" data-end="162850">Her actions seemed to work.</span> <span data-start="162851" data-end="169551">The bank paid up quickly, and a spokesperson made a public <a class="new-word" data-word="an apology" data-type="n" data-en="if someone makes an “apology”, they say sorry">apology</a>,</span> <span data-start="169552" data-end="174906">“We’d like to apologise to Mrs Reynolds for any <a class="new-word" data-word="a delay" data-type="n" data-en="if there is a “delay”, something happens later than planned">delays</a>.</span> <span data-start="174907" data-end="181600">Unfortunately there was an administrative error in sending the payment.</span> <span data-start="181601" data-end="187333">However, I can now confirm that it has been made.”</span></p>
+				<p><span data-start="187334" data-end="194950">So, the cheque is in the post, right? Excuses, excuses!</span> <span class="accent">✪</span></p>
+			</div></div>
+
+			<h4><span class="accent">❸</span> <b>Reading</b></h4>
+			<p>Read the article and say what the numbers refer to.</p>
+			<ol>
+				<li><span>€50</span></li>
+				<li><span>2 pence</span></li>
+				<li><span>£15</span></li>
+				<li><span>£35</span></li>
+				<li><span>50 pence</span></li>
+				<li><span>53</span></li>
+				<li><span>£1,500</span></li>
+			</ol>
+
+			<h4><span class="accent">❹</span> <b>Language Focus: <span class="accent">Prepositions + the gerund</span></b></h4>
+			<p>Look at this extract from the article, <span style="font-weight: 300;">“However, they later change this – often without informing clients.”</span> Verbs that follow a preposition are often followed by a gerund: “without informing” (in this case). Complete the sentences with the correct form of the verbs in brackets.</p>
+			<ol>
+				<li><span>I’m thinking about ……… <b>(go)</b> away for the weekend.</span></li>
+				<li><span>They left without ……… <b>(say)</b> goodbye.</span></li>
+				<li><span>She finished all the work before ……… <b>(leave)</b>.</span></li>
+				<li><span>We’ll tidy up after ……… <b>(eat)</b>.</span></li> 
+			</ol>
+
+			<h4><span class="accent">❺</span> <b>Discussion</b></h4>
+			<ol>
+				<li><span>What do you most like/dislike about banks? Why?</span></li>
+				<li><span>What’s the best/worst experience you’ve had with a bank?</span></li>
+				<li><span>How could banks improve their service to customers?</span></li>
+			</ol>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			var mixed_label_ids = [3, 5, 1, 4, 0, 2];
+			var images = ['A cashier', 'A cheque', 'A credit card', 'A bank', 'A bank account', 'A bank manager'];
+			var image_template = "<div class='image-container col-xs-6 col-sm-4 col-md-3 col-lg-2' data-label='{label}'><img src='{img}.jpg' class='img-circle img-responsive'><div class='label-base'><div class='label-container attached'>{label}</div></div></div>";
+			var label_template = "<div class='label-container draggable' data-label='{label}'>{label}</div>";
+
+			container = $('#images');
+			str = "abcdef";
+			i = 0;
+			images.forEach(function(img) {
+				 container.append(image_template.replace('{img}', str.charAt(i++)).replace(/\{label\}/g, img));
+			});
+
+			container = $('#labels');
+			mixed_label_ids.forEach(function(id) {
+				 container.append(label_template.replace(/\{label\}/g, images[id]));
+			});
+
+			dropped_elements = [];
+
+			$('.draggable').draggable({
+				revert: 'invalid',
+				containment: 'body',
+				zIndex: 2,
+				appendTo: 'body',
+				helper: 'clone',
+				scrollSensitivity: 40,
+				scrollSpeed: 10,
+				start: function(e,u) {
+					$('.label-container').removeClass('selected');
+					$(e.target).addClass('gone');
+				},
+				stop: function(e,u) {
+					if(!$(e.target).data('gone'))
+						$(e.target).removeClass('gone').trigger('tap');
+				},
+			});
+			$('.draggable').tap(function() {
+				if(!$(this).hasClass('gone')) {
+					$('.label-container').removeClass('selected');
+					$(this).addClass('selected');
+				}
+			});
+
+			$('.image-container').droppable({
+				activate: function(ev, ui) {
+				},
+				deactivate: function(ev, ui) {
+				},
+				drop: function(event, ui) {
+					drop(ui.draggable, $(this));
+				}
+			});
+			$('.image-container').tap(function() {
+				drop($('.draggable.selected'), $(this));
+			});
+
+			drop = function(dropped, dropzone) {
+				if(!dropped.length || !dropzone.length)
+					return;
+
+				var label = dropzone.data('label');
+				if(label == dropped.html()) {
+					dropzone.find('.label-container').addClass('visible');
+					dropped.draggable('disable');
+					dropped.data('gone', true).removeClass('selected').addClass('gone');
+
+					if(dropped_elements.indexOf(label) == -1) {
+						dropped_elements.push(label);
+						saveInstanceState();
+					}
+
+				} else {
+					dropped.removeClass('gone');
+					$('.label-container').removeClass('selected');
+					if(typeof(app) != 'undefined')
+						app.makeToast('That\'s not right.', false);
+				}
+			}
+
+			$('.choice').tap(function() {
+				t = $(this);
+				u = t.parent().find('.choice');
+				u.removeClass('wrong right');
+				if(t.parent().data('ans') == t.html()) {
+					u.addClass('wrong');
+					t.addClass('right');
+					saveInstanceState();
+				} else
+					app.makeToast('That\'s not right.', false);
+			});
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					h1 { color: " + tinycolor(accentColor).darken() + "; font-weight: bold; } \
+					h5 { border-color: #" + accentColor + "; color: #" + accentColor + "; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					ul > li { color: #" + accentColor + "; } \
+					ul > li > span { color: #" + textColor + "; } \
+					.box { padding-top: " + (2*spacing) + "px; padding-left: " + spacing + "px; padding-right: " + spacing + "px; } \
+					.choice.right { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
+					.label-container { background-color: " + highlightColor + "; } \
+					.label-container.selected { background-color: #" + accentColor + "; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key.png")').children().css('visibility', 'hidden');
+					$('.lockable').css('background-image', "url('cover.jpg')");
+					$('#comments').css('opacity', 1);
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').css('background-image', '');
+					$('#comments').css('opacity', .5);
+				}
+
+				if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+					app.setLongClickable(!b);
+
+				saveInstanceState();
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+					choices: $('.choice.right').map(function() { return this.innerHTML; }).get(),
+					dropped_elements: dropped_elements,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				dropped_elements = state['dropped_elements'] || [];
+				dropped_elements.forEach(function(label) {
+					drop($(".label-container[data-label='" + label + "']"), $(".image-container[data-label='" + label + "']"));
+				});
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				if(state['choices']) {
+					state.choices.forEach(function(choice) {
+						$(".choice:contains('" + choice + "')").tap();
+					});
+				}
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

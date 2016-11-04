@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			tr > td:first-child {
+				font-weight: bold;
+				text-align: right;
+			}
+			tr > td:last-child {
+				padding-left: 16px;
+			}
+			td {
+				vertical-align: top;
+			}
+			.frame {
+				padding: 4px;
+				-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+				background-color: white;
+			}
+			.dontsplit:not(:last-child) {
+				margin-bottom: 12px;
+			}
+			#strip {
+				position: fixed;
+				top: 0;
+				left: 0;
+			}
+			body {
+				overflow-y: auto;
+			}
+			.h33 {
+				color: white;
+				text-transform: uppercase;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				font-weight: 300;
+				margin-bottom: 8px;
+				margin-top: 12px;
+			}
+			.dotted {
+				background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
+				background-image: repeating-radial-gradient(center center, rgba(0,0,0,.8), rgba(0,0,0,.8) 1px, transparent 1px, transparent 100%);
+				-webkit-background-size: 5px 5px;
+				background-size: 5px 5px;
+			}
+			#transcript {
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+			h1 {
+				margin-top: 0;
+			}
+			h3 {
+				margin-bottom: 16px;
+			}
+			h4 {
+				font-weight: 300;
+				text-transform: uppercase;
+			}
+			ol, ul {
+				padding-left: 1.2em;
+			}
+			li {
+				font-weight: bold;
+			}
+			li > span {
+				font-weight: normal;
+			}
+
+			/* fixed aspect ratio*/
+			.wrapper {
+				width: 100%;
+				display: inline-block;
+				position: relative;
+			}
+			.wrapper:after {
+				padding-top: 100%;
+				display: block;
+				content: '';
+			}
+			.main {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				right: 0;
+				left: 0;
+				border: solid 1px black;
+			}
+			.my-label {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				background-color: rgba(255,255,255,.9);
+				border-top: solid 1px black;
+				border-right: solid 1px black;
+				padding-top: 2px;
+				padding-bottom: 2px;
+				padding-left: 6px;
+				padding-right: 6px;
+				font-size: smaller;
+			}
+			.row {
+				margin-left: -4px !important;
+				margin-right: -4px !important;
+			}
+			.col-xs-6, .col-sm-4, .col-md-3, .col-lg-2 {
+				padding-left: 4px !important;
+				padding-right: 4px !important;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div id="strip"></div>
+		<div id="top-margin"></div>
+
+		<div class="foundation">
+			<h1 class="accent-dark">Going Through Customs</h1>
+
+			<h3 class="h33" style="margin-top: 16px;">Useful words</h3>
+			<div id="my-grid" class="row">
+			</div>
+
+			<h3 class="h33">Extra words</h3>
+			<ul>
+				<li><span><b>Luggage</b> – all the bags that you take with you when you travel abroad.</span></li>
+				<li><span><b>Exotic species</b> – a plant, animal or insect that is taken from its native habitat into another country.</span></li>
+				<li><span><b>Smuggle</b> – to take goods illegally into a country.</span></li>
+				<li><span><b>Tax / duty</b> – money you pay to the government for certain goods: cigarettes, alcohol, etc.</span></li>
+				<li><span><b>Duty-free shop</b> – a shop in an airport where you can buy goods at a cheaper price because you do not have to pay tax on them.</span></li>
+				<li><span><b>Duty-free allowance</b> – the amount of goods you’re allowed to take into a country without having to pay tax.</span></li>
+				<li><span><b>VAT (Value Added Tax)</b> – a tax that is added to the price of goods or services.</span></li>
+				<li><span><b>Declare</b> – if you have something to declare, you have goods that you must pay tax on.</span></li>
+				<li><span><b>Green channel</b> – you walk through this area in an airport if you have nothing to declare.</span></li>
+				<li><span><b>Red channel</b> – you walk through this area in an airport if you have something to declare.</span></li>
+				<li><span><b>Banned goods</b> – goods that you can’t bring into a country: drugs, guns, explosives…</span></li>
+				<li><span><b>Restricted goods</b> – goods that have controls over the quantity you can bring in, etc: some food products, some animal products, some plants, some souvenirs made from endangered species…</span></li>
+			</ul>
+
+			<h3 class="h33"><span style="opacity: .8;">Dialogue:</span> The customs officer</h3>
+			<h4><span>                   </span>In this dialogue, Peter, who has flown in from New York City, is going through customs. [complete the dialogue with the correct words.]</h4>
+			<img src="cover.jpg" style="width: 100%;">
+
+			<div class="lockable dotted"><div id="transcript">
+				<table style="margin-top: 8px;">
+					<tr>
+						<td>Customs:</td> 
+						<td><span data-start="4048" data-end="7520">Hi, could you put your bag on the table, please?</span></td>
+					</tr>
+					<tr>
+						<td>Peter:</td> 
+						<td><span data-start="7521" data-end="8900">Yes, sure.</span></td>
+					</tr>
+					<tr>
+						<td>Customs:</td>
+						<td><span data-start="8901" data-end="11516">Would you mind ………… it for me, please?</span></td>
+					</tr>
+					<tr>
+						<td>Peter:</td> 
+						<td><span data-start="11517" data-end="13350">Yes, of course.</span></td>
+					</tr>
+					<tr>
+						<td>Customs:</td> 
+						<td><span data-start="13351" data-end="15300">Did you ………… it yourself?</span></td>
+					</tr>
+					<tr>
+						<td>Peter:</td> 
+						<td><span data-start="15301" data-end="17027">Yes, I did.</span></td>
+					</tr>
+					<tr>
+						<td>Customs:</td>
+						<td><span data-start="17028" data-end="19313">Where have you ………… in from?</span></td>
+					</tr>
+					<tr>
+						<td>Peter:</td>
+						<td><span data-start="19314" data-end="20683">New York City.</span></td>
+					</tr>
+					<tr>
+						<td>Customs:</td>  
+						<td><span data-start="20684" data-end="23426">Is this your first time in the UK?</span></td>
+					</tr>
+					<tr>
+						<td>Peter:</td> 
+						<td><span data-start="23427" data-end="24463">Yes.</span></td>
+					</tr>
+					<tr>
+						<td>Customs:</td> 
+						<td><span data-start="24464" data-end="26885">Is there anyone else ………… with you?</span></td>
+					</tr>
+					<tr>
+						<td>Peter:</td> 
+						<td><span data-start="26886" data-end="27673">No.</span></td>
+					</tr>
+					<tr>
+						<td>Customs:</td>
+						<td><span data-start="27674" data-end="30170">Can I ………… your passport, please?</span></td>
+					</tr>
+					<tr>
+						<td>Peter:</td> 
+						<td><span data-start="30171" data-end="33300">Yes, erm, here you are.</span></td>
+					</tr>
+					<tr>
+						<td>Customs:</td>
+						<td><span data-start="33301" data-end="37254">OK, and what’s the purpose of your visit?</span></td>
+					</tr>
+					<tr>
+						<td>Peter:</td>
+						<td><span data-start="37255" data-end="40270">I’m ………… some friends and relatives.</span></td>
+					</tr>
+					<tr>
+						<td>Customs:</td> 
+						<td><span data-start="40271" data-end="43497">And how long do you plan to …………?</span></td>
+					</tr>
+					<tr>
+						<td>Peter:</td>
+						<td><span data-start="43497" data-end="45326">15 days.</span></td>
+					</tr>
+					<tr>
+						<td>Customs:</td>
+						<td><span data-start="45327" data-end="47278">Where will you be staying?</span></td>
+					</tr>
+					<tr>
+						<td>Peter:</td>
+						<td><span data-start="47279" data-end="49278">At my uncle’s house.</span></td>
+					</tr>
+					<tr>
+						<td>Customs:</td> 
+						<td><span data-start="49279" data-end="51736">Have you got anything to …………?</span></td>
+					</tr>
+					<tr>
+						<td>Peter:</td> 
+						<td><span data-start="51737" data-end="59840">No, I don’t think so. I mean, I’ve got this bottle of whisky, but I got it in the duty-free shop.</span></td>
+					</tr>
+					<tr>
+						<td>Customs:</td>
+						<td><span data-start="59841" data-end="63609">That’s all right. That’s within your duty free allowance.</span> <span data-start="63610" data-end="67229">OK, you can go now. Enjoy your stay.</span></td>
+					</tr>
+					<tr>
+						<td>Peter:</td> 
+						<td><span data-start="67230" data-end="69267">Thanks.</span></td>
+					</tr>
+				</table>
+			</div></div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			item_tmpl = "\
+				<div class='col-xs-6 col-sm-4 col-md-3 col-lg-2'> \
+					<div class='wrapper'> \
+						<div class='main' style='background: url(\"{img}.png\"); background-repeat: no-repeat; background-size: cover; background-position: center;'> \
+							<div class='my-label'>{label}</div> \
+						</div> \
+					</div> \
+				</div> \
+			";
+			cntr = $('#my-grid');
+			i = 0;
+			['Customs officer','Passport','ID card','Suitcase ','Backpack ','Hand luggage ','Firearm','Metal detector','Body scanner','Packet of cigarettes ','Carton of cigarettes ','Bottle of spirits '].forEach(function(t) {
+				cntr.append(item_tmpl.replace('{img}', ++i).replace(/\{label\}/g, t));
+			});
+
+			adjustCustomLayout = function(options) {
+				css = "\
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					tr:nth-child(odd) { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
+					#strip { width: " + horizontalMargin + "px; height: " + height + "px; background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					.h33 { background-color: #" + accentColor + "; } \
+					li { color: #" + accentColor + "; } \
+					li > span { color: #" + textColor + "; } \
+					.fill-light { background-color: " + tinycolor(accentColor).lighten().lighten().lighten() + "; } \
+					.accent-dark { color: " + tinycolor(accentColor).darken().toHexString() + "; } \
+				";
+
+				$('#local-rules').text(css);
+			}
+
+		lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+				}
+
+				saveInstanceState();
+
+				if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+					app.setLongClickable(!b);
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to see transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+
+	</body>
+</html>

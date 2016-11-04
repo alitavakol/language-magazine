@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#page-indicator {
+				width: 100%;
+				position: flex;
+				z-index: 1;
+				text-align: center;
+				display: none;
+			}
+			.dot {
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				border-radius: 5px;
+				margin: 3px;
+				/* background-color: #8999A6; */
+			}
+			.dot.active {
+				/* background-color: azure; */
+			}
+
+			.cem-card {
+				position: relative;
+				transition: box-shadow .25s;
+				border-radius: 2px;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				max-width: 100%;
+			}
+			.cem-card .card-image {
+				position: relative;
+			}
+			.cem-card .card-image img {
+				display: block;
+				border-radius: 2px 2px 0 0;
+				position: relative;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+			}
+			.cem-card .card-image .card-title {
+				color: #fff;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-top: 10px;
+				padding-bottom: 10px;
+				text-transform: uppercase;
+				background-color: black;
+				font-weight: bold;
+				background-color: rgba(0,0,0,.5);
+				font-size: 18px;
+			}
+			.cem-card .card-content {
+				border-radius: 0 0 2px 2px;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-bottom: 10px;
+				padding-top: 10px;
+				font-style: italic;
+			}
+			.cem-card .card-action {
+				border-top: 1px solid rgba(0,0,0,0.2);
+				padding: 20px;
+				padding-bottom: 0;
+				transition: color .3s ease;
+				text-transform: uppercase;
+				text-decoration: none;
+				-webkit-tap-highlight-color: transparent;
+			}
+
+			.swipe {
+				overflow: hidden;
+				visibility: hidden;
+				position: relative;
+			}
+			.swipe-wrap {
+				position: relative;
+			}
+			.swipe-wrap > div {
+				float: left;
+				width: 20px;
+				position: relative;
+				overflow: hidden;
+				overflow-y: auto;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="swipe.min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div id="page-indicator" style="position: absolute; z-index: 1;"></div>
+
+		<div id='swipeable' style='margin:0 auto;' class='swipe'>
+			<div class='swipe-wrap'>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			card_template = "\
+				<div>\
+					<div class='top-margin'></div>\
+					<div class='cem-card'>\
+						<div class='card-image'>\
+							<img class='img-responsive' src='{img}.png'>\
+							<span class='card-title'>{verb}</span>\
+						</div>\
+						<div class='card-action'>{def}</div>\
+						<div class='card-content'><p>{example}</p></div>\
+					</div>\
+					<div class='bottom-margin'></div>\
+				</div>\
+			";
+			examples = ['“We had to get a train to my sister’s house as she lives in the outskirts.”', '“The eastern part of the city has lots of ugly, high-rise flats.”', '“They’ve got a nice house in the suburbs.”', '“For a lively nightlife, head off to the western part of the city.”', '“There are lots of office blocks in the financial district.”', '“We sat in a pavement café and watched the people walking by.”', '“The northern part of the city is mostly residential.”', '“Many of the buildings in the centre were run-down.”', '“It’s a large sprawling city without a real centre.”', '“We had a relaxing cup of coffee in the main square.”', '“The hotels in the French quarter are excellent.”', '“There are a lot of upmarket shops in the main street.”'];
+			defs = ['The “outskirts” of a city or town are the parts of it that are far from the centre.', 'Large buildings with many floors and flats (or apartments) on each floor.', 'The outer area of large towns and cities where people live, often in bigger houses with gardens.', 'If a city has a “lively nightlife”, there are lots of bars, clubs, restaurants, etc. with a good atmosphere.', 'A large building with many floors and offices on each floor.', 'A café with tables outside on the pavement where you can sit and have a drink.', 'An area where people live. There aren’t many shops or offices here.', 'Old and of a poor standard.', 'A “sprawling” city covers a wide area. You often need a car to travel around it.', 'In a town or city, a square is a flat open place, often in the shape of a square.', 'A “quarter” of a town is a part of the town where a particular group of people traditionally live or work.', 'Fashionable shops that sell expensive goods.'];
+			verbs = ['Outskirts', 'High-rise flats', 'The suburbs', 'Lively nightlife', 'An office block', 'Pavement café', 'Residential area', 'Run-down', 'Sprawling', 'Square', 'Quarter', 'Upmarket shops'];
+			var i = 0;
+			verbs.forEach(function(verb) {
+				$('.swipe-wrap').append(card_template.replace(/\{verb\}/g, verb).replace(/\{def\}/g, defs[i]).replace(/\{example\}/, examples[i]).replace(/\{img\}/g, ++i));
+				$('#page-indicator').append('<span class="dot"></span>');
+			});
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					.cem-card { background-color: #" + accentColor + "; margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+					.card-content { color: " + newWordColor + "; } \
+					.top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.bottom-margin { height: " + verticalMargin + "px; } \
+					#page-indicator { margin-top: " + (topMargin+2*verticalMargin-8) + "px; } \
+					.swipe-wrap > div { height: " + height + "px; } \
+					.dot { background-color: " + tinycolor(accentColor).brighten().brighten().setAlpha(.9).toRgbString() + "; } \
+					.dot.active { background-color: " + tinycolor(accentColor).darken().darken().setAlpha(.9).toRgbString() + "; }"
+				);
+			}
+
+			setCurrentSlide = function(index) {
+				$('#page-indicator').show();
+				$('#page-indicator .dot').eq(index).addClass('active');
+
+				if(typeof(window.swipeable) == 'object' && typeof(window.swipeable.kill) == 'function')
+					window.swipeable.kill();
+
+				window.swipeable = $('#swipeable').Swipe({
+					startSlide: index,
+					callback: function(index,elem) {
+						$('#page-indicator .dot').removeClass('active');
+						$('#page-indicator .dot').eq(index).addClass('active');
+
+						currentSlide = index;
+						saveInstanceState();
+					},
+				}).data('Swipe');
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					currentSlide: currentSlide,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				setCurrentSlide(state.currentSlide || 0);
+
+				restoringInstanceState = false;
+			}
+		</script>
+
+	</body>
+</html>

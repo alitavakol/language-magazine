@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h1, h4 {
+				margin-bottom: 0;
+				color: #eee;
+			}
+			h4 {
+				font-weight: normal;
+			}
+			.title {
+				position: relative;
+				border-left: solid 2px black;
+				border-right: solid 2px black;
+				border-top: solid 2px black;
+			}
+			.title-container {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				text-shadow: 0px 0px 6px rgba(0,0,0,1);
+				background: -webkit-linear-gradient(rgba(93,99,92,0),rgba(93,99,92,1));
+				padding-bottom: 16px;
+				width: 100%;
+				margin-bottom: -1px;
+			}
+			.lockable {
+				border-left: solid 2px black;
+				border-right: solid 2px black;
+				border-bottom: solid 2px black;
+				background-color: #5d635c;
+				color: #eee;
+			}
+			.dotted {
+				background-image: -webkit-repeating-radial-gradient(center center, rgba(255,255,255,.6), rgba(255,255,255,.2) 1px, transparent 1px, transparent 100%);
+				background-image: repeating-radial-gradient(center center, rgba(255,255,255,.6), rgba(255,255,255,.2) 1px, transparent 1px, transparent 100%);
+				-webkit-background-size: 5px 5px;
+				background-size: 5px 5px;
+			}
+			.new-word, .new-word:focus, .new-word:hover {
+				color: white;
+			}
+			.highlight {
+				background-color: #3b433b;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<div class="title">
+				<img src="cover.jpg" style="width: 100%;">
+				<div class="title-container">
+					<h1>Strange Excuses</h1>
+					<h4>Driver in trouble after <a class="new-word" data-word="a pathetic excuse" data-type="n inform" data-en="poor and worthless excuse" data-fa="عذر غیر موجّه">pathetic excuse</a>.</h4>
+				</div>
+			</div>
+
+			<div class="lockable dotted"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p style="padding-top: 8px;">
+					<span data-start="12334" data-end="19337">A man caught <a class="new-word" data-word="speeding" data-type="n" data-en="driving above the speed limit; driving too fast">speeding</a> on a Canadian highway has surprised traffic police with his <a class="new-word" data-word="reasoning" data-type="n" data-en="the arguments you use to explain something or to arrive at a conclusion">reasoning</a>.</span> <span data-start="19338" data-end="31392">The man, from Switzerland, claimed that he was driving his car at 161 km/h (100 mph) because there weren’t any <a class="new-word" data-word="a goat" data-type="n" data-en="an animal with horns and a beard">goats</a> on the roads.</span> <span data-start="31393" data-end="38970">“It is the first time that I have heard an excuse like that,” said Canadian police spokesperson Joel Doiron.</span> <span data-start="38971" data-end="48858">“Although he’s correct, in a way. I’ve never seen a goat on these roads in twenty years. But no one has ever used it as an excuse before”.</span> <span data-start="48859" data-end="57805">The driver claimed that in his native Switzerland he is constantly worried that a goat might jump out into the road as he’s <a class="new-word" data-word="to drive along" data-type="phr vb" data-en="to continue driving in a particular direction">driving along</a>.</span> <span data-start="57806" data-end="62100">“<a class="new-word" data-word="I guess" data-type="exp" data-en="I think; I suppose">I guess</a> there must be a lot of goats there,” Mr Doiron commented.</span> <span data-start="62101" data-end="68260">The driver has been ordered to pay a <a class="new-word" data-word="a fine" data-type="n" data-en="if you are given a “fine”, you must pay money as punishment for committing a crime">fine</a> of C$360.</span> <span data-start="68261" data-end="78078">Mr Doiron added, “We always hear the same reasons: that someone is <a class="new-word" data-word="in a rush" data-type="exp" data-en="if you are “in a rush”, you must go somewhere quickly">in a rush</a>, or that they are angry, or that they haven’t been <a class="new-word" data-word="to pay attention" data-type="exp" data-en="to concentrate on what you are doing">paying attention</a>.</span> <span data-start="78079" data-end="83621">It’s nice to hear something different, even though it’s a little crazy.”</span> ✪
+				</p>
+			</div></div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					.lockable, .title-container { padding-left: " + spacing + "px; padding-right: " + spacing + "px; } \
+					#title-container { background: -webkit-linear-gradient(" + tinycolor(textColor).setAlpha(0).toRgbString() + "," + tinycolor(textColor).toRgbString() + "); } \
+				");
+			}
+
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+				}
+
+				saveInstanceState();
+
+				if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+					app.setLongClickable(!b);
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+
+			if(typeof(app) != 'undefined') {
+				if(typeof(app.showGlossaryEx) == 'function') {
+					$(document).ready(function() {
+						$('a.new-word').prop('onclick', null).off('click').click(function() {
+							var rect = this.getBoundingClientRect();
+							app.showGlossaryEx($(this).data('word'), rect.left  * window.devicePixelRatio, rect.top * window.devicePixelRatio, $(this).height() * window.devicePixelRatio, false);
+							return false;
+						});
+					});
+				}
+			}
+		</script>
+	</body>
+</html>

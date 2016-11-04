@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h2, h4 {
+				margin-bottom: 0;
+				color: #eee;
+			}
+			.title {
+				position: relative;
+				border-left: solid 2px black;
+				border-right: solid 2px black;
+				border-top: solid 2px black;
+			}
+			.title-container {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				text-shadow: 0px 0px 6px rgba(0,0,0,1);
+				background: -webkit-linear-gradient(rgba(191,60,52,0),rgba(191,60,52,1));
+				padding-bottom: 16px;
+				width: 100%;
+				margin-bottom: -1px;
+			}
+			.lockable {
+				border-left: solid 2px black;
+				border-right: solid 2px black;
+				border-bottom: solid 2px black;
+				background-color: #bf3c34;
+				color: #eee;
+			}
+			.dotted {
+				background-image: -webkit-repeating-radial-gradient(center center, rgba(255,255,255,.6), rgba(255,255,255,.2) 1px, transparent 1px, transparent 100%);
+				background-image: repeating-radial-gradient(center center, rgba(255,255,255,.6), rgba(255,255,255,.2) 1px, transparent 1px, transparent 100%);
+				-webkit-background-size: 5px 5px;
+				background-size: 5px 5px;
+			}
+			.new-word, .new-word:focus, .new-word:hover {
+				color: white;
+			}
+			.highlight {
+				background-color: #843b36;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<div class="title">
+				<img src="cover.jpg" style="width: 100%;">
+				<div class="title-container">
+					<h2>Smoking Presenters</h2>
+					<h4>Television presenters in trouble for smoking on “the box”.</h4>
+				</div>
+			</div>
+
+			<div class="lockable dotted"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<p style="padding-top: 8px;">
+					<span data-start="13013" data-end="24845">Anti-smoking protesters in England say the BBC has to <a class="new-word" data-word="to apologise" data-type="n" data-en="to say that you are sorry">apologise</a> after two <a class="new-word" data-word="a TV presenter" data-type="n" data-en="a person who introduces and appears in a television or radio programme">presenters</a> smoked a <a class="new-word" data-word="a pipe" data-type="n" data-en="an object for smoking tobacco. It has a tube and a small cup at the end in which you put tobacco">pipe</a> whilst <a class="new-word" data-word="on air" data-type="exp" data-en="if something happens “on air”, it happens while people are watching the television or listening to the radio">on air</a>.</span> <span data-start="24846" data-end="32909">This happened half-way through a programme called <i>Top Gear</i>, which is all about cars.</span> <span data-start="32910" data-end="38505">Smoking inside the television studio is illegal.</span> <span data-start="38506" data-end="44531">The two men <a class="new-word" data-word="to break a rule" data-type="exp" data-en="to do something that is not permitted">broke the rule</a> while they were talking about a Porsche.</span> <span data-start="44532" data-end="50724">“They took out two pipes and <a class="new-word" data-word="to light up" data-type="phr vb" data-en="to put fire on a cigarette/cigar, etc so you can smoke it">lit up</a>”, said one <a class="new-word" data-word="a viewer" data-type="n" data-en="a person watching a television programme">viewer</a>.</span> <span data-start="50725" data-end="64356">The anti-smoking organisation ASH (Action on Smoking and Health) say that by smoking on television, the presenters were breaking the law.</span> <span data-start="64357" data-end="70850">However, the BBC said that they have only received a few <a class="new-word" data-word="a complaint" data-type="n" data-en="if there is a “complaint”, someone says something bad about a programme or service">complaints</a>.</span> <span data-start="70851" data-end="80545"><i>The Rolling Stones</i> had a similar problem a few months earlier when Keith Richards smoked a cigarette <a class="new-word" data-word="on stage" data-type="exp" data-en="if a musician/actor does something “on stage”, he/she does it while playing in front of an audience and on the “stage” (an elevated platform)">on stage</a>.</span> ✪
+				</p>
+			</div></div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					.lockable, .title-container { padding-left: " + spacing + "px; padding-right: " + spacing + "px; } \
+					#title-container { background: -webkit-linear-gradient(" + tinycolor(textColor).setAlpha(0).toRgbString() + "," + tinycolor(textColor).toRgbString() + "); } \
+				");
+			}
+
+			prevScroll = 0;
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("key.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+				}
+
+				saveInstanceState();
+
+				if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+					app.setLongClickable(!b);
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to reveal transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+
+			if(typeof(app) != 'undefined') {
+				if(typeof(app.showGlossaryEx) == 'function') {
+					$(document).ready(function() {
+						$('a.new-word').prop('onclick', null).off('click').click(function() {
+							var rect = this.getBoundingClientRect();
+							app.showGlossaryEx($(this).data('word'), rect.left  * window.devicePixelRatio, rect.top * window.devicePixelRatio, $(this).height() * window.devicePixelRatio, false);
+							return false;
+						});
+					});
+				}
+			}
+		</script>
+	</body>
+</html>

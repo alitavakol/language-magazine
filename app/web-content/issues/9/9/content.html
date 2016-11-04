@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#page-indicator {
+				width: 100%;
+				position: flex;
+				z-index: 1;
+				text-align: center;
+				display: none;
+			}
+			.dot {
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				border-radius: 5px;
+				margin: 3px;
+				/* background-color: #8999A6; */
+			}
+			.dot.active {
+				/* background-color: azure; */
+			}
+
+			.cem-card {
+				position: relative;
+				transition: box-shadow .25s;
+				border-radius: 2px;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				max-width: 100%;
+			}
+			.cem-card .card-image {
+				position: relative;
+			}
+			.cem-card .card-image img {
+				display: block;
+				border-radius: 2px 2px 0 0;
+				position: relative;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+			}
+			.cem-card .card-image .card-title {
+				color: #fff;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-top: 10px;
+				padding-bottom: 10px;
+				/*text-transform: uppercase;*/
+				background-color: black;
+				font-weight: bold;
+				background-color: rgba(0,0,0,.5);
+				font-size: 18px;
+			}
+			.cem-card .card-content {
+				border-radius: 0 0 2px 2px;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-bottom: 10px;
+				padding-top: 10px;
+				font-style: italic;
+			}
+			.cem-card .card-action {
+				border-top: 1px solid rgba(0,0,0,0.2);
+				padding: 20px;
+				padding-bottom: 0;
+				transition: color .3s ease;
+				text-transform: uppercase;
+				text-decoration: none;
+				-webkit-tap-highlight-color: transparent;
+			}
+
+			.swipe {
+				overflow: hidden;
+				visibility: hidden;
+				position: relative;
+			}
+			.swipe-wrap {
+				position: relative;
+			}
+			.swipe-wrap > div {
+				float: left;
+				width: 20px;
+				position: relative;
+				overflow: hidden;
+				overflow-y: auto;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="swipe.min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div id="page-indicator" style="position: absolute; z-index: 1;"></div>
+
+		<div id='swipeable' style='margin:0 auto;' class='swipe'>
+			<div class='swipe-wrap'></div>
+		</div>
+
+		<div style="display: none;">
+			<a class="new-word" data-word="slippery" data-type="adj" data-en="wet and smooth">slippery</a>
+			<a class="new-word" data-word="an eel" data-type="n" data-en="a long fish with a body like a snake">eel</a>
+			<a class="new-word" data-word="fry" data-type="n" data-en="young or newly-hatched fish">fry</a>
+			<a class="new-word" data-word="an oyster" data-type="n" data-en="a large, flat shellfish. Some are eaten, others produce pearls">oyster</a>
+			<a class="new-word" data-word="a shark" data-type="n" data-en="a large fish with big teeth. Some eat humans">sharks</a>
+
+			<span data-start="9216" data-end="11153"></span>
+			<span data-start="20276" data-end="22000"></span>
+			<span data-start="38632" data-end="41246"></span>
+			<span data-start="51356" data-end="53024"></span>
+			<span data-start="62431" data-end="64776"></span>
+			<span data-start="76406" data-end="77863"></span>
+			<span data-start="11154" data-end="15890"></span>
+			<span data-start="22001" data-end="25868"></span>
+			<span data-start="25869" data-end="31593"></span>
+			<span data-start="41247" data-end="46419"></span>
+			<span data-start="53025" data-end="56801"></span>
+			<span data-start="64777" data-end="70500"></span>
+			<span data-start="77864" data-end="80618"></span>
+			<span data-start="80619" data-end="86182"></span>
+			<span data-start="15891" data-end="20275"></span>
+			<span data-start="31594" data-end="38631"></span>
+			<span data-start="46420" data-end="51355"></span>
+			<span data-start="56802" data-end="62430"></span>
+			<span data-start="70501" data-end="76405"></span>
+			<span data-start="86183" data-end="91360"></span>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			card_template = "\
+				<div>\
+					<div class='top-margin'></div>\
+					<div class='cem-card'>\
+						<div class='card-image'>\
+							<img class='img-responsive' src='{img}.jpg'>\
+							<span class='card-title'>{verb}</span>\
+						</div>\
+						<div class='card-action'>{def}</div>\
+						<div class='card-content'><p>{example}</p></div>\
+					</div>\
+					<div class='bottom-margin'></div>\
+				</div>\
+			";
+			verbs = ['<span data-slide="0" data-start="9216" data-end="11153">As slippery as an eel</span>', '<span data-slide="1" data-start="20276" data-end="22000">A red herring</span>', '<span data-slide="2" data-start="38632" data-end="41246">Be packed like sardines</span>', '<span data-slide="3" data-start="51356" data-end="53024">Small fry</span>', '<span data-slide="4" data-start="62431" data-end="64776">The world is your oyster</span>', '<span data-slide="5" data-start="76406" data-end="77863">A shark</span>'];
+			defs = ['<span data-slide="0" data-start="11154" data-end="15890">Someone who is “as <a class="new-word" data-word="slippery" data-type="adj" data-en="wet and smooth">slippery</a> as an <a class="new-word" data-word="an eel" data-type="n" data-en="a long fish with a body like a snake">eel</a>” is dishonest and cannot be trusted.</span>', '<span data-slide="1" data-start="22001" data-end="25868">Something or someone who takes your attention away from the main subject.</span> <span data-slide="1" data-start="25869" data-end="31593">For example, a character in a film who appears to be the murderer, when really it is someone else.</span>', '<span data-slide="2" data-start="41247" data-end="46419">If people are “packed like sardines”, there are many people in a very small space.</span>', '<span data-slide="3" data-start="53025" data-end="56801">People or organisations which are not large or important.</span>', '<span data-slide="4" data-start="64777" data-end="70500">If the “world is your <a class="new-word" data-word="an oyster" data-type="n" data-en="a large, flat shellfish. Some are eaten, others produce pearls">oyster</a>”, you have the ability and freedom to do anything or go anywhere.</span>', '<span data-slide="5" data-start="77864" data-end="80618">Someone who tricks people in order to get their money.</span> <span data-slide="5" data-start="80619" data-end="86182">This often consists of giving bad advice about selling, buying or investing in something.</span>'];
+			examples = ['<span data-slide="0" data-start="15891" data-end="20275">“I wouldn’t go into business with him. He’s as slippery as an eel.”</span>', '<span data-slide="1" data-start="31594" data-end="38631">“For the first 200 pages of the book I was convinced that Lord Melbury was the murderer, but that was just a red herring.”</span>', '<span data-slide="2" data-start="46420" data-end="51355">“There were fifty of us in the train carriage. We were packed like sardines.”</span>', '<span data-slide="3" data-start="56802" data-end="62430">“These new clients of ours are small <a class="new-word" data-word="fry" data-type="n" data-en="young or newly-hatched fish">fry</a>. We’re used to dealing with much bigger organisations.”</span>', '<span data-slide="4" data-start="70501" data-end="76405">“You’re young, healthy, intelligent, and you don’t have any commitments – the world is your oyster.”</span>', '<span data-slide="5" data-start="86183" data-end="91360">“When you are asking for information about where to invest, beware of the <a class="new-word" data-word="a shark" data-type="n" data-en="a large fish with big teeth. Some eat humans">sharks</a>.”</span>'];
+			var i = 0;
+			verbs.forEach(function(verb) {
+				$('.swipe-wrap').append(card_template.replace(/\{verb\}/g, verb).replace(/\{def\}/g, defs[i]).replace(/\{example\}/, examples[i]).replace(/\{img\}/g, ++i));
+				$('#page-indicator').append('<span class="dot"></span>');
+			});
+
+			adjustCustomLayout = function(options) {
+				brightcolor = tinycolor(accentColor).brighten().brighten();
+				brightcolor.setAlpha(.7);
+				darkColor = tinycolor(accentColor).darken().darken();
+				darkColor.setAlpha(.7);
+
+				$('#local-rules').text("\
+					.cem-card { background-color: #" + accentColor + "; margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+					.card-content { color: " + newWordColor + "; } \
+					.top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.bottom-margin { height: " + bottomMargin + "px; } \
+					#page-indicator { margin-top: " + (topMargin+2*verticalMargin-8) + "px; } \
+					.swipe-wrap > div { height: " + height + "px; } \
+					.dot { background-color: " + brightcolor.toRgbString() + "; } \
+					.highlight { background-color: " + tinycolor(accentColor).lighten().lighten().toHexString() + "; } \
+					.dot.active { background-color: " + darkColor.toRgbString() + "; } \
+				");
+			}
+
+			setCurrentSlide = function(index) {
+				$('#page-indicator').show();
+				$('#page-indicator .dot').eq(index).addClass('active');
+
+				if(typeof(window.swipeable) == 'object' && typeof(window.swipeable.kill) == 'function')
+					window.swipeable.kill();
+
+				window.swipeable = $('#swipeable').Swipe({
+					startSlide: index,
+					callback: function(index,elem) {
+						$('#page-indicator .dot').removeClass('active');
+						$('#page-indicator .dot').eq(index).addClass('active');
+
+						currentSlide = index;
+						saveInstanceState();
+					},
+				}).data('Swipe');
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					currentSlide: currentSlide,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				setCurrentSlide(state.currentSlide || 0);
+
+				restoringInstanceState = false;
+			}
+
+			highlight = function(timePoint) {
+				$('.highlight').removeClass('highlight');
+				t = $('[data-start=' + timePoint + ']');
+				t.addClass('highlight');
+				u = parseInt(t.data('slide'));
+				if(u >= 0)
+					window.swipeable.slide(u);
+			}
+		</script>
+
+	</body>
+</html>

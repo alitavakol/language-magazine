@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			@font-face {
+				font-family: 'latinotype';
+				src: url('Latinotype - Queulat Cnd Regular.otf');
+			}
+			@font-face {
+				font-family: 'sina';
+				src: url('Sina-BoldItalic.otf');
+			}
+			@font-face {
+				font-family: 'sina-bold-italic';
+				src: url('Sina-ExtraBoldItalic.otf');
+			}
+			body {
+				overflow-y: auto;
+				font-family: 'latinotype';
+				background-color: #f9cc4d;
+			}
+			#strip {
+				position: absolute;
+				top: 0;
+				left: 0;
+				bottom: 0;
+			}
+			h1, h3 {
+				margin-top: 0;
+				text-transform: uppercase;
+			}
+			h1 {
+				font-weight: bold;
+				background: url('hash.png');
+				padding-right: 25%;
+			}
+			h1 > span {
+				display: inline-block;
+				background-color: #f9cc4d;
+				padding-right: 12px;
+			}
+			h3 {
+				margin-bottom: 16px;
+			}
+			h4 {
+				margin-top: 24px;
+				font-weight: bold;
+			}
+			.skewed {
+				/*display: inline-block;*/
+				/*font: 2em/1 impact, sans-serif;*/
+				/*margin-top: 5em;*/
+				/*position: relative;*/
+				-webkit-transform: rotate(-10deg) skew(-10deg, 0);
+				transform: rotate(-10deg) skew(-10deg, 0);
+			}
+			.explanation {
+				/*text-align: justify;*/
+				/*text-justify: inter-word;*/
+			}
+			.poem {
+				font-family: 'sina';
+				font-size: large;
+				color: #eb4e4a;
+				/*line-height: 110%;*/
+			}
+			.poem .new-word {
+				font-family: 'sina-bold-italic';
+				color: inherit;
+			}
+			h4 .song-title {
+				color: #cb3e3a;
+				font-style: italic;
+			}
+			h4 .number {
+				color: white;
+				background-color: black;
+				padding-left: 4px;
+				padding-right: 4px;
+				border-radius: 20%;
+			}
+			.foundation {
+				position: relative;
+			}
+			.highlight {
+				background-color: #fbeabb;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+			<div id="strip"></div>
+
+			<h1><span>8 Songs to make you feel good!</span></h1>
+			<h3>Feeling a bit down? Here are eight songs to inspire, encourage, energise and motivate you.</h3>
+
+			<h4><span data-start="15987" data-end="20736"><span class="number">1</span> <span class="song-title">We Are The World</span> – USA For Africa</span></h4>
+			<p class="explanation"><span data-start="20737" data-end="27569"><i>We Are The World</i> was written by Michael Jackson and Lionel Richie and released in 1985.</span> <span data-start="27570" data-end="30885">It followed Band Aid’s <i>Do They Know It’s Christmas</i>,</span> <span data-start="30886" data-end="34786">and was used to <a class="new-word" data-word="to raise" data-type="vb" data-en="if you “raise” money for a charity, you make money for that charity">raise</a> money for people <a class="new-word" data-word="in need" data-type="exp" data-en="people “in need” are poor or hungry and need help">in need</a> in Africa.</span> <span data-start="34787" data-end="40950">Celebrities such as Stevie Wonder, Diana Ross and Bob Dylan participated,</span> <span data-start="40951" data-end="44407">and over 20 million copies were sold worldwide.</span> <span data-start="44408" data-end="47630">Over $60 million dollars was raised.</span></p>
+			<p class="poem">
+				<span data-start="47922" data-end="51117">We are the world,</span><br>
+				<span data-start="51118" data-end="54345">We are the children,</span><br>
+				<span data-start="54346" data-end="60193">We are the ones who make a <a class="new-word" data-word="bright" data-type="adj" data-en="something “bright” is happy and cheerful">brighter</a> day,<br>So, lets start giving,</span>
+				<span data-start="60919" data-end="64807">There’s a choice we're making,</span><br>
+				<span data-start="64808" data-end="68077">We're saving our own lives,</span><br>
+				<span data-start="68078" data-end="70802">Its true we’ll make a better day,</span><br>
+				<span data-start="70803" data-end="74332">Just you and me.</span>
+			</p>
+
+			<h4><span data-start="75674" data-end="80752"><span class="number">2</span> <span class="song-title">What a Wonderful World,</span> Louis Armstrong</span></h4>
+			<p class="explanation"><span data-start="80753" data-end="86593">Released in 1967, this song is about the beauty of the world.</span> <span data-start="86594" data-end="93112">It was written by Bob Thiele and George David Weiss and <a class="new-word" data-word="to top the charts" data-type="exp" data-en="if a song “tops the charts”, it is in the number-one position in the charts (the list of the most popular songs)">topped the charts</a> in the UK.</span> <span data-start="93113" data-end="98646">Louis Armstrong’s deep, warm voice has made the song an all-time classic.</span></p>
+			<img src="1.png" style="float: right; width: 40%; max-width: 3cm; margin-left: 8px; margin-top: 4px; margin-bottom: 4px;">
+			<p class="poem">
+				<span data-start="99255" data-end="103041">I hear babies crying,</span> <span data-start="103042" data-end="106763">I watch them grow,</span><br>
+				<span data-start="106764" data-end="112969">They’ll learn much more than I’ll never know,</span><br>
+				<span data-start="112970" data-end="122161">And I think to myself what a wonderful world.</span><br>
+				Alive again, oh you make me feel like I’m alive again.
+			</p>
+
+			<h4><span data-start="123782" data-end="127983"><span class="number">3</span> <span class="song-title">All You Need Is Love,</span> the Beatles</span></h4>
+			<p class="explanation"><span data-start="127984" data-end="136838">This song was written by John Lennon and was the UK’s contibution to the first  live, international TV show <i>Our World</i>,</span> <img src="2.png" style="float: right; width: 50%; max-width: 5cm; margin-bottom: 4px;"> <span data-start="136839" data-end="139697">which was <a class="new-word" data-word="to broadcast" data-type="vb" data-en="if you “broadcast” a song, you play it on the radio or on television">broadcast</a> in 1967.</span> <span data-start="139698" data-end="144995">With more than 500 million viewers worldwide, the song was an instant <a class="new-word" data-word="a hit" data-type="n" data-en="a very popular song">hit</a>.</span> <span data-start="144996" data-end="148370">The Beatles wanted a song that would speak to everyone,</span> <span data-start="148371" data-end="150000">and who  doesn’t need love?</span></p>
+			<p class="poem">
+				<span data-start="150100" data-end="153899">There’s nothing you can make that can’t be made,</span><br>
+				<span data-start="155187" data-end="158934">No one you can save that can’t be saved,</span><br>
+				<span data-start="159323" data-end="163514">Nothing you can do but you can learn how to be you in time,</span><br>
+				<span data-start="163515" data-end="165512">It’s easy,</span> <span data-start="168119" data-end="172883">all you need is love,</span> <span data-start="172884" data-end="177210">all you need is love.</span>
+			</p>
+
+			<h4><span data-start="177211" data-end="181724"><span class="number">4</span> <span class="song-title">Survivor,</span> Destiny’s Child</span></h4>
+			<p class="explanation"><span data-start="181725" data-end="186450">This is an <a class="new-word" data-word="uplifting" data-type="adj" data-en="something “uplifting” makes you feel good and positive">uplifting</a> song for anyone who has  a <a class="new-word" data-word="a broken heart" data-type="n" data-en="someone with a “broken heart” is sad because the person they love has left them, etc.">broken heart</a>.</span> <span data-start="186451" data-end="189618">It was released in 2001.</span> <span data-start="189619" data-end="196207">The band, which was led by superstar Beyoncé Knowles, <a class="new-word" data-word="to split" data-type="vb" data-en="if the members of a band “split”, they stop playing together">split</a> in 2006.</span></p>
+			<p class="poem">
+				<span data-start="196208" data-end="198700">Thought that I would fail without you,</span><br>
+				<span data-start="198701" data-end="199861">but I’m on top,</span><br>
+				<span data-start="199862" data-end="202688">Thought it would be over by now, but it won’t stop,</span><br>
+				<span data-start="202689" data-end="205693">Thought that I would <a class="new-word" data-word="to self destruct" data-type="vb" data-en="if someone “self destructs”, they destroy themselves">self destruct</a>, but I’m still here,</span><br>
+				<span data-start="205694" data-end="208802">Even in my years to come, I’m still gonna be here</span><br>
+				<span data-start="208803" data-end="211800">I’m a survivor, I’m not gonna give up,</span><br>
+				<span data-start="211801" data-end="214747">I’m not gonna stop, I’m gonna work harder,</span><br>
+				<span data-start="214748" data-end="217730">I’m a survivor, I’m gonna <a class="new-word" data-word="to make it" data-type="exp" data-en="if you “make it”, you become successful, rich, etc.">make it</a>,</span>
+				<span data-start="217731" data-end="222413">I will survive, keep on surviving.</span>
+			</p>
+
+			<h4><span data-start="222414" data-end="226694"><span class="number">5</span> <span class="song-title">Born this Way,</span> Lady Gaga</span></h4>
+			<p class="explanation"><span data-start="226695" data-end="235687">Known for her <a class="new-word" data-word="outlandish" data-type="adj" data-en="strange or unusual">outlandish</a> clothes, <i>Mother Monster</i>, as she calls herself, has inspired millions with her music and own particular style.</span> <span data-start="235688" data-end="244218">Released in 2011, the song encourages Lady Gaga’s “Little Monsters” to accept themselves for the way they are.</span></p>
+			<p class="poem">
+				<span data-start="244219" data-end="245750">I was born this way,</span><br>
+				<span data-start="245751" data-end="247578">Don't hide yourself in <a class="new-word" data-word="regret" data-type="n" data-en="if you have a feeling of “regret”, you feel bad about something you did in the past">regret</a>,</span><br>
+				<span data-start="247579" data-end="249560">Just love yourself and you’re set,</span><br>
+				<span data-start="249561" data-end="251109">I’m <a class="new-word" data-word="on the right track" data-type="exp" data-en="if you’re “on the right track”, you’re doing the right thing">on the right track</a>,</span><br>
+				<span data-start="251110" data-end="253924">Baby, I was born this way</span><br>
+				<span data-start="253925" data-end="255746">Oh, there <a class="new-word" data-word="ain’t" data-type="exp" data-en="isn’t">ain’t</a> no other way,</span><br>
+				<span data-start="255747" data-end="257871">Baby, I was born this way,</span><br>
+				<span data-start="257872" data-end="263019">Baby, I was born this way.</span>
+			</p>
+
+			<h4><span data-start="264785" data-end="268776"><span class="number">6</span> <span class="song-title">Summer Rain,</span> U2</span></h4>
+			<img src="6.png" style="float: left; width: 50%; max-width: 5cm; margin-right: 8px; margin-top: 4px; margin-bottom: 4px;">
+			<p class="explanation"><span data-start="268777" data-end="273919">This Irish rockband has been around since 1976,</span> <span data-start="273920" data-end="281069">and lead singer Bono is well-known for his charity work, mainly for the poor in Africa.</span> <span data-start="281070" data-end="288802"><i>Summer Rain</i> was released in 2000 as part of the album, <i>All that you Can’t Leave Behind</i>.</span> <span data-start="288803" data-end="294095">It tells us not to be afraid of ourselves and to feel the strength within.</span></p>
+			<p class="poem" style="clear: both;">
+				<span data-start="294426" data-end="296727">It’s not why you’re running,</span><br>
+				<span data-start="296728" data-end="299180">It’s where you’re going,</span><br>
+				<span data-start="299181" data-end="301256">It’s not what you’re dreaming,</span><br>
+				<span data-start="301257" data-end="304016">But what you’re going to do,</span><br>
+				<span data-start="304017" data-end="305855">It’s not where you’re born,</span><br>
+				<span data-start="305856" data-end="308768">It’s where you <a class="new-word" data-word="to belong" data-type="vb" data-en="the place where you “belong” is the place where you should be">belong</a>,</span><br>
+				<span data-start="308769" data-end="310548">It’s not how weak,</span><br>
+				<span data-start="310549" data-end="314490">But what will make you strong.</span>
+			</p>
+
+			<h4><span data-start="318315" data-end="322547"><span class="number">7</span> <span class="song-title">A Brand New Day,</span> Wizard of Oz</span></h4>
+			<p class="explanation"><span data-start="322548" data-end="329600">This song featured in the movie <i>The Wiz</i> (1978), which was inspired by the musical of the same name.</span> <span data-start="329601" data-end="334274">The movie featured superstars such as Michael Jackson and Diana Ross.</span></p>
+			<p class="poem">
+				<span data-start="334275" data-end="336225">Everybody be glad,</span><br>
+				<span data-start="336226" data-end="338519">Cos the sun is <a class="new-word" data-word="to shine" data-type="vb" data-en="if you’re “shining”, you seem to be transmitting happiness and positive feelings">shining</a> just for us,</span><br>
+				<span data-start="338520" data-end="339823">Everybody wake up,</span><br>
+				<span data-start="339824" data-end="342751">Into the morning into happiness,</span><br>
+				<span data-start="342752" data-end="343966">Hello, world,</span><br>
+				<span data-start="343967" data-end="346708">It’s like a different way of living now,</span><br>
+				<span data-start="346709" data-end="347897">And thank you world,</span><br>
+				<span data-start="347898" data-end="352711">We always knew that we’d be free somehow.</span>
+			</p>
+
+			<h4><span data-start="352712" data-end="359497"><span class="number">8</span> <span class="song-title">That’s What Friends Are For,</span> Dionne Warwick and Friends</span></h4>
+			<p class="explanation"><span data-start="359498" data-end="364368">Dionne Warwick was born into a musical family in 1940.</span> <span data-start="364369" data-end="370480">She is not only a singer, but also a successful actress and TV-show host.</span> <span data-start="370481" data-end="377903"><i>That’s What Friends Are For</i> was originally recorded by Rod Stewart for the soundtrack of the movie <i>Night Shift</i>,</span> <span data-start="377904" data-end="382609">but became a hit after Warwick covered it in 1985.</span> <span data-start="382610" data-end="387586">The song is about the importance of friendship in times of need.</span></p>
+			<p class="poem">
+				<span data-start="387587" data-end="391000">Keep smiling, keep shining,</span><br>
+				<span data-start="391001" data-end="396332">Knowing you can always count on me,</span><br>
+				<span data-start="396333" data-end="403420">For sure, that’s what friends are for,</span><br>
+				<span data-start="403421" data-end="406920">For good times and bad times,</span><br>
+				<span data-start="406921" data-end="414127">I’ll be on your side forever more,</span><br>
+				<span data-start="414798" data-end="420000">That’s what friends are for.</span>
+			</p>
+		</div>
+
+		<img src="t.png" style="width: 100%;">
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				css = "\
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + verticalMargin + "px; } \
+					#strip { width: " + horizontalMargin + "px; background-image: url('hash.png') } \
+					.foundation { padding-left: " + (2*horizontalMargin) + "px; padding-right: " + horizontalMargin + "px; } \
+				";
+				$('#local-rules').text(css);
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+
+			if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+				app.setLongClickable(true);
+		</script>
+	</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../src/main/assets/bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			p:first-of-type {
+				margin-top: 0;
+			}
+			.box {
+				border: solid 1px black;
+				background-color: rgba(255,224,178,.5);
+				text-transform: uppercase;
+				margin-top: 16px; 
+			}
+			body {
+				background-color: transparent;
+			}
+			.stat {
+				text-align: center;
+				border: solid 1px black;
+				padding: 4px;
+				font-size: .9em;
+				/*font-weight: 300;*/
+				margin-bottom: 4px;
+				position: relative;
+			}
+			.fill {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				z-index: -1;
+				opacity: .5;
+			}
+			h3 {
+				margin-top: 0;
+				text-transform: uppercase;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="code.js"></script>
+		<script src="debug.js"></script>
+	</head>
+
+	<body>
+		<div id="top-margin"></div>
+
+		<h3><span style="color: #ff0e00;">Editor’s</span> Intro</h3>
+
+		<p>Hi, everybody and welcome to the 9<sup>th</sup> issue of the Hot English Magazine – the fun magazine for learning English.</p>
+		<p>This month, we’re looking at 8 songs in English to motivate, inspire and energise you. Listen to the songs, learn lots of new vocabulary and start to feel good.</p>
+		<p>Of course, that’s not all and we’ve lots more fun things for you to read and listen to so you can learn lots of useful English. We’ll be looking at the Cantonese Chinese English accent, sea-creature idioms, Mr Omidyar (the man of eBay) and lots lots more!</p>
+		<p>If you are a <b>beginner-level</b> or <b>intermediate-level</b> student, this issue is for you. There are:</p>
+		<div class="stat"><div class="fill" style="width: 44%; background-color: #03a9f4;"></div>7 Beginner Lessons</div>
+		<div class="stat"><div class="fill" style="width: 50%; background-color: #4caf50;"></div>8 Intermediate Lessons</div>
+		<div class="stat" style="margin-bottom: 16px;"><div class="fill" style="width: 6%; background-color: #ae9b3c;"></div>1 Upper-intermediate Lesson</div>
+		<p>Well, we hope you enjoy reading and listening to this issue of Hot English Magazine. Have fun, learn lots of English and see you all next time!</p>
+
+		<div class="box">
+			Remember to see <b>Readme section</b> of the application. There you will find 7 rules of learning a foreign language in the most effective and productive way. Then enjoy learning this magazine!
+		</div>
+
+		<div id="bottom-margin"></div>
+
+		<script type="text/javascript">
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					#top-margin { height: " + verticalMargin + "px; } \
+					#bottom-margin { height: " + verticalMargin + "px; } \
+					body { padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					.box { padding: " + spacing + "px; } \
+				");
+			}
+
+			saveInstanceState = function() {
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+			}
+		</script>
+
+	</body>
+</html>
