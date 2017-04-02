@@ -331,7 +331,7 @@ public class IssuesTabFragment extends Fragment implements
                         break;
 
                     case AVAILABLE_ISSUES:
-                        add = status == Magazines.Issue.Status.downloading || status == Magazines.Issue.Status.available;
+                        add = status == Magazines.Issue.Status.downloading || status == Magazines.Issue.Status.available || status == Magazines.Issue.Status.free_issue;
                         break;
 
                     case COMPLETED_ISSUES:
@@ -432,7 +432,7 @@ public class IssuesTabFragment extends Fragment implements
             for (int i = 0; i < headers.length; i++) {
                 Magazines.Issue.Status status = statuses[2 * i];
 
-                if (shouldAddHeader[i] > 0 && (shouldAddHeader[i] < issuesCount || (status != Magazines.Issue.Status.header_available && status != Magazines.Issue.Status.header_other_saved && status != Magazines.Issue.Status.header_completed))) {
+                if (shouldAddHeader[i] > 0 && (shouldAddHeader[i] < issuesCount || (status != Magazines.Issue.Status.header_other_saved && status != Magazines.Issue.Status.header_completed))) {
                     if (!isHeaderAdded[i]) {
                         final Magazines.Issue header = headers[i];
                         int idx = issues.addAndSort(header);

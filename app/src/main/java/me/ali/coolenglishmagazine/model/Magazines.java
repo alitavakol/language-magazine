@@ -142,6 +142,8 @@ public class Magazines {
             issue.status = Issue.Status.other_saved;
         else if (downloadStatus != -1 && downloadStatus != DownloadManager.STATUS_SUCCESSFUL)
             issue.status = Issue.Status.downloading;
+        else if (issue.free || issue.donatable)
+            issue.status = Issue.Status.free_issue;
         else
             issue.status = Issue.Status.available;
     }
@@ -237,6 +239,8 @@ public class Magazines {
             other_saved,
             header_downloading,
             downloading, // downloading or failed downloading
+            header_free_issues,
+            free_issue, // available free issue
             header_available,
             available,
             header_completed, // not used, because completed issues are listed in their own tab

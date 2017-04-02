@@ -267,7 +267,8 @@
     <string name="active_issue">Currently learning</string>
     <string name="saved_issues">Other saved issues</string>
     <string name="downloading_issues">Downloading</string>
-    <string name="more_available_issues">More available magazines</string>
+    <string name="free_issues">Free magazines</string>
+    <string name="more_available_issues">Pro magazines</string>
     <string name="deleted_issues">Deleted magazines</string>
 
     <!-- issues list fragments section header titles -->
@@ -275,6 +276,7 @@
         <item>@string/active_issue</item>
         <item>@string/saved_issues</item>
         <item>@string/downloading_issues</item>
+        <item>@string/free_issues</item>
         <item>@string/more_available_issues</item>
         <item>@string/completed_issues</item>
         <item>@string/deleted_issues</item>

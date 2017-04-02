@@ -185,7 +185,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
                             downloadManager.remove(downloadReference); // http://stackoverflow.com/a/34797980
                         }
                     }, 1000);
-                    issue.setStatus(Magazines.Issue.Status.available);
+                    issue.setStatus(issue.free || issue.donatable ? Magazines.Issue.Status.free_issue : Magazines.Issue.Status.available);
                     updateFab();
                 }
             });
@@ -664,7 +664,7 @@ public class IssueDetailActivity extends AppCompatActivity implements
     public void onIssueStatusChanged(Magazines.Issue issue) {
         final Magazines.Issue.Status status = issue.getStatus();
 
-        if (status == Magazines.Issue.Status.downloading || status == Magazines.Issue.Status.available) {
+        if (status == Magazines.Issue.Status.downloading || status == Magazines.Issue.Status.available || status == Magazines.Issue.Status.free_issue) {
             completeMenuItem.setVisible(false);
             incompleteMenuItem.setVisible(false);
 
