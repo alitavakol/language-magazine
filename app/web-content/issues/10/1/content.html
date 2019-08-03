@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#title-container {
+				background-color: rgba(50,50,50,.4);
+				display: inline-block;
+			}
+			tr > td:first-child {
+				font-weight: bold;
+				text-align: right;
+				padding-right: 16px;
+			}
+			td {
+				vertical-align: top;
+			}
+			.dontsplit:not(:last-child) {
+				margin-bottom: 12px;
+			}
+			.title {
+				font-weight: bold;
+			}
+			#strip {
+				position: fixed;
+				top: 0;
+				left: 0;
+			}
+			body {
+				overflow-y: auto;
+			}
+			.h33 {
+				color: white;
+				text-transform: uppercase;
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 8px;
+				padding-right: 8px;
+				font-weight: 300;
+			}
+			h4 {
+				text-transform: uppercase;
+				font-weight: 300;
+			}
+			.dotted {
+				background-image: url('drill.jpg');
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+			#transcript {
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+			h1 {
+				margin-top: 0;
+			}
+			li > span {
+				font-weight: 300;
+			}
+			ol {
+				margin-bottom: 0;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="jquery.columnizer.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div id="strip"></div>
+		<div id="top-margin"></div>
+
+		<div class="foundation">
+			<h1>DIY</h1>
+
+			<h3 class="h33" style="margin-top: 0;">Vocabulary</h3>
+			<h4>Learn some more useful words and expressions to talk about DIY: Do It Yourself - jobs that you do at home: painting, fixing a toilet, building something&#8230;</h4>
+			<div id="images"></div>
+
+			<div style="opacity: 0; margin-bottom: -16px;">.</div>
+			<h3 class="h33">Typical Dialogues</h3>
+			<div class="lockable dotted"><div id="transcript">
+				<h4><span data-start="8840" data-end="12240">In this conversation, Nigel is talking to Shirley.</span> <span data-start="12241" data-end="15551">Nigel has just made a new bookshelf.</span></h4>
+				<img src="drill.jpg" class="shadow" style="width: 100%;">
+				<table style="margin-top: 12px;">
+					<tr>
+						<td>Nigel:</td>    
+						<td><span data-start="19398" data-end="21851">So, what do you think?</span></td>
+					</tr>
+					<tr>
+						<td>Shirley:</td>  
+						<td><span data-start="21852" data-end="23800">What do I think of what?</span></td>
+					</tr>
+					<tr>
+						<td>Nigel:</td>    
+						<td><span data-start="23801" data-end="25092">The new <a class="new-word" data-word="a bookshelf" data-type="n" data-en="a piece of furniture for putting books on">bookshelf</a>.</span></td>
+					</tr>
+					<tr>
+						<td>Shirley:</td>  
+						<td><span data-start="25093" data-end="27401">Oh, right. Is it finished?</span></td>
+					</tr>
+					<tr>
+						<td>Nigel:</td>    
+						<td><span data-start="27402" data-end="29203">Finished? Of course it’s finished.</span></td>
+					</tr>
+					<tr>
+						<td>Shirley:</td>  
+						<td><span data-start="29204" data-end="30960">It doesn’t look very safe.</span></td>
+					</tr>
+					<tr>
+						<td>Nigel:</td>    
+						<td><span data-start="30961" data-end="33685">It will be, just as soon as I put some books on it.</span></td>
+					</tr>
+					<tr>
+						<td>Shirley:</td>  
+						<td><span data-start="33686" data-end="35863">And it isn’t really straight.</span></td>
+					</tr>
+					<tr>
+						<td>Nigel:</td>    
+						<td><span data-start="35864" data-end="37115">Yes, it is.</span></td>
+					</tr>
+					<tr>
+						<td>Shirley:</td>  
+						<td><span data-start="37116" data-end="40310">Look, if you put this spirit level on it&#8230;</span></td>
+					</tr>
+					<tr>
+						<td>Nigel:</td>    
+						<td><span data-start="40311" data-end="41781">Don’t! Don’t touch it!</span></td>
+					</tr>
+					<tr>
+						<td>Shirley:</td>  
+						<td><span data-start="41782" data-end="42565">Why?</span></td>
+					</tr>
+					<tr>
+						<td>Nigel:</td>    
+						<td><span data-start="42566" data-end="43949">The glue hasn’t set.</span></td>
+					</tr>
+					<tr>
+						<td>Shirley:</td>  
+						<td><span data-start="43950" data-end="46859">Glue? But you can’t build <a class="new-word" data-word="a shelf" data-type="n" data-en="a piece of wood, metal, etc for putting products in a shop on or things on at home">shelves</a> with glue.</span></td>
+					</tr>
+					<tr>
+						<td>Nigel:</td>    
+						<td><span data-start="46860" data-end="47640">Why?</span></td>
+					</tr>
+					<tr>
+						<td>Shirley:</td>  
+						<td><span data-start="47641" data-end="49881">Well, you have to use screws.</span></td>
+					</tr>
+					<tr>
+						<td>Nigel:</td>    
+						<td><span data-start="49882" data-end="51058">Screws?</span></td>
+					</tr>
+					<tr>
+						<td>Shirley:</td>  
+						<td><span data-start="51059" data-end="53239">Well, what’s holding it together?</span></td>
+					</tr>
+					<tr>
+						<td>Nigel:</td>    
+						<td><span data-start="53240" data-end="54250">Nails.</span></td>
+					</tr>
+					<tr>
+						<td>Shirley:</td>  
+						<td><span data-start="54251" data-end="55358">Nails?</span></td>
+					</tr>
+					<tr>
+						<td>Nigel:</td>    
+						<td><span data-start="55359" data-end="58281">Yes, I just banged a few into the wall with my hammer.</span></td>
+					</tr>
+					<tr>
+						<td>Shirley:</td>  
+						<td><span data-start="58282" data-end="59942">	Oh, dear. Good luck!</span> <i>(She starts to leave.)</i></td>
+					</tr>
+					<tr>
+						<td>Nigel:</td>    
+						<td><span data-start="59943" data-end="61031">Where are you going?</span></td>
+					</tr>
+					<tr>
+						<td>Shirley:</td>  
+						<td><span data-start="61032" data-end="62130">I’m going out.</span></td>
+					</tr>
+					<tr>
+						<td>Nigel:</td>    
+						<td><span data-start="62131" data-end="63886">Look, I’m going to put the first book on it.</span> <span data-start="63887" data-end="65766">Don’t you want to see what happens?</span> <i>(He puts a book onto it. Nothing happens.)</i> <span data-start="66158" data-end="69455">You see, it’s perfect. It hasn’t fallen down.</span></td>
+					</tr>
+					<tr>
+						<td>Shirley:</td>  
+						<td><span data-start="69456" data-end="71423">Very good. Well done.</span> <i>(She leaves.)</i></td>
+					</tr>
+					<tr>
+						<td>Nigel:</td>    
+						<td><span data-start="71424" data-end="74716">No one ever believes in me.</span></td>
+					</tr>
+				</table>
+			</div></div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			var template = "\
+				<div class='dontsplit'> \
+					<table> \
+						<tr> \
+							{img} \
+							<td><span class='title'>{title}</span> – {def}</td> \
+						</tr> \
+					</table> \
+				</div>";
+			var words = [
+				['Spanner', 'a tool for turning nuts/bolts, etc. “Wrench” or “monkey wrench” in US English.'],
+				['Hammer', 'a tool for hitting a nail into the wall.'],
+				['Screwdriver', 'a tool for turning a screw.'],
+				['Electric drill', 'an electrical tool for making holes in objects.'],
+				['Soldering iron', 'a tool that is used to join two objects with hot metal.'],
+				['Nail', 'a small, sharp piece of metal that you hit with a hammer; usually to join pieces of wood.'],
+				['Screw', 'a small, sharp piece of metal with round lines on it; you turn it with a screwdriver.'],
+				['Saw', 'a thin, flat piece of metal with sharp teeth and a handle; used for cutting wood.'],
+				['Spirit level', 'a tool for determining if something is “level” or flat; it has a small tube with a bubble inside.'],
+				['Nut', 'a small piece of metal (usually square or hexagonal). It goes onto a bolt.'],
+				['Bolt', 'a small round piece of metal that goes into a hole or a nut.'],
+				['Clamp', 'a tool for holding objects together with lots of pressure.'],
+				['Chainsaw', 'a powerful, electrical “saw” with a chain that spins and cuts through wood.'],
+				['Measuring tape', 'a long piece of plastic, metal, or cloth marked with centimetres, metres, etc.'],
+				['Allen key', 'an L-shaped metal bar with hexagonal ends for turning special “Allen” screws.']
+			];
+			var i = 0;
+			words.forEach(function(w) {
+				$('#images').append(template.replace(/\{title\}/g, w[0]).replace(/\{def\}/g, w[1]).replace(/\{img\}/g, "<td style='width: 40%;'><img class='frame' style='width: 100%;' src='" + (i++) + ".jpg'></td>"));
+			});
+
+			adjustCustomLayout = function(options) {
+				var width = $('#images').width();
+				if(width >= 768)
+					cols = 3;
+				else if(width >= 480)
+					cols = 2;
+				else
+					cols = 1;
+
+				css = "\
+					#top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					#title-container { margin-top: " + (height-topMargin-bottomMargin-2*verticalMargin)/2 + "px; } \
+					tr:nth-child(odd) { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
+					.title { color: " + tinycolor(accentColor).darken().darken() + "; } \
+					#strip { width: " + horizontalMargin + "px; height: " + height + "px; background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					.h33 { background-color: #" + accentColor + "; } \
+				";
+
+				if(cols > 1) {
+					css += "\
+						.column { padding-right: " + spacing + "px; padding-left: " + spacing + "px; } \
+						.first.column { padding-right: " + spacing + "px; padding-left: 0; } \
+						.last.column { padding-left: " + spacing + "px; padding-right: 0; } \
+						.column:not(:first-child) { border-left: dotted 1px black; } \
+					";
+				}
+
+				$('#local-rules').text(css);
+
+				$('#images').columnize({
+					columns: cols,
+				});
+			}
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("../key.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+				}
+
+				saveInstanceState();
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to see transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+	</body>
+</html>

@@ -29,7 +29,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import me.ali.coolenglishmagazine.BuildConfig;
 import me.ali.coolenglishmagazine.R;
 import me.ali.coolenglishmagazine.broadcast_receivers.DownloadCompleteBroadcastReceiver;
 import me.ali.coolenglishmagazine.util.FileHelper;
@@ -376,7 +375,9 @@ public class Magazines {
 
         boolean wifiOnly = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("download_plan", "1")) == 0;
 
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(getIssueDownloadUrl(context, issue)))
+        String u = getIssueDownloadUrl(context, issue);
+
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(u))
                 .setDescription(issue.title)
                 .setTitle(issue.subtitle)
                 .setDestinationUri(Uri.fromFile(getIssueLocalDownloadUri(context, issue)))
@@ -396,10 +397,10 @@ public class Magazines {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         final Uri uri = Uri.parse(preferences.getString("server_address", context.getResources().getString(R.string.pref_default_server_address)));
+        final int issueNumber = Integer.parseInt(issue.rootDirectory.getName());
+        final String[] dropboxHash = {"", "7h9h628a8vqs5l1", "utznpi69i9vpcez", "k59fmio9z8nqgcm", "bfqx1jebydq3jts", "e4sb5dli3op6tsq", "j816szw8hgzopkw", "9yamsfgx5hcutmu", "3rov493zx4co46o", "8e3u7y78xpr7p9u", "gamunkr6j8yfdzo", ""};
 
-        // http://docs.oracle.com/javase/tutorial/networking/urls/urlInfo.html
-        return uri.toString() + "/api/issues/" + Integer.parseInt(issue.rootDirectory.getName())
-                + "?app_version=" + BuildConfig.VERSION_CODE;
+        return uri.toString() + "/" + dropboxHash[issueNumber] + "/" + issueNumber + ".zip";
     }
 
     /**

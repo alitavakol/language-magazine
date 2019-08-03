@@ -87,49 +87,7 @@ public class FeedbackFragment extends DialogFragment {
                 if (requestQueue == null)
                     requestQueue = Volley.newRequestQueue(context);
 
-                if (NetworkHelper.isOnline(context)) {
-                    sendButton.setClickable(false);
-
-                    final RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radio_group);
-                    final String category = ((RadioButton) view.findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString();
-
-                    final Uri uri = Uri.parse(preferences.getString("server_address", getResources().getString(R.string.pref_default_server_address)));
-                    final String url = uri.toString() + "/api/feedbacks.json";
-
-                    Map<String, String> params = new HashMap<>();
-                    params.put("message", message);
-                    params.put("category", category);
-
-                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject o) {
-                            editText.setText("");
-                            sendButton.setClickable(true);
-                            Context context = getActivity();
-                            if (context != null)
-                                Toast.makeText(context, R.string.thanks, Toast.LENGTH_SHORT).show();
-                            dismiss();
-
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-                            sendButton.setClickable(true);
-                            Context context = getActivity();
-                            if (context != null)
-                                Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    request.setTag(this);
-                    requestQueue.add(request);
-
-                } else {
-                    requestQueue.cancelAll(this);
-                    Context context = getActivity();
-                    if (context != null)
-                        Toast.makeText(context, R.string.check_connection, Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(context, R.string.not_available, Toast.LENGTH_SHORT).show();
             }
         });
 

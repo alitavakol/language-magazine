@@ -2,9 +2,9 @@ package me.ali.coolenglishmagazine.util;
 
 import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -17,16 +17,16 @@ public class ZipHelper {
     /**
      * This code is based on <a href="http://stackoverflow.com/a/27050680">this link</a>.
      *
-     * @param zipFile         file to extract
+     * @param zipFileStream         file input stream to extract
      * @param targetDirectory destination
      * @param deleteOnError   delete root file of extraction on failure
      * @return first encountered file/folder or null on failure
      */
-    public static File unzip(File zipFile, File targetDirectory, boolean deleteOnError) {
+    public static File unzip(InputStream zipFileStream, File targetDirectory, boolean deleteOnError) {
         File rootFile = null;
 
         try {
-            ZipInputStream zis = new ZipInputStream(new BufferedInputStream(new FileInputStream(zipFile)));
+            ZipInputStream zis = new ZipInputStream(new BufferedInputStream(zipFileStream));
 
             ZipEntry ze;
             int count;

@@ -35,7 +35,7 @@ android {
             buildConfigField "String", "MARKET_SERVICE_INTENT", "\"ir.cafebazaar.pardakht.InAppBillingService.BIND\""
 
             manifestPlaceholders = [marketBillingPermission: "${marketBillingPermission}", marketApplicationId: "${marketApplicationId}"]
-            versionNameSuffix "_cafebazaar"
+            versionNameSuffix ""
         }
 
         myket {

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			tr > td:first-child {
+				font-weight: bold;
+				text-align: right;
+				padding-right: 16px;
+			}
+			td {
+				vertical-align: top;
+			}
+			#strip {
+				position: fixed;
+				top: 0;
+				left: 0;
+				bottom: 0;
+			}
+			body {
+				overflow-y: auto;
+			}
+			h1 {
+				background-color: black;
+				color: white;
+				font-weight: bold;
+				text-align: center;
+				padding-left: 8px;
+				padding-right: 8px;
+				padding-top: 16px;
+				padding-bottom: 16px;
+				-webkit-transform: rotate(-3deg);
+				transform: rotate(-3deg);
+			}
+			h2 {
+				margin-top: 0;
+				border-bottom: solid 2px black;
+				padding-bottom: 4px;
+				font-weight: bold;
+			}
+			.news {
+				background-image: url('paper.png');
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+				display: inline-block;
+				text-align: left;
+				padding-right: 10%;
+				padding-left: 8%;
+			}
+			input {
+				display: inline-block;
+				padding-top: 0;
+				padding-bottom: 0;
+				width: 1.5em;
+				border: solid 1px #888;
+				text-align: center;
+				vertical-align: middle;
+				font-weight: bold;
+				text-transform: lowercase;
+				height: 90%;
+				color: black;
+			}
+			input.fake {
+				visibility: hidden;
+				width: .1em;
+			}
+			input:focus {
+				outline: none;
+			}
+			.hot {
+				background-color: #eedd00;
+			}
+			.correct {
+				background-color: lightgreen;
+			}
+			.incorrect {
+				background-color: lightcoral;
+			}
+			@media (min-width: 20cm) {
+				.drunk {
+					float: left;
+					width: 60%;
+					max-width: 6cm;
+					margin-right: 8px;
+					margin-bottom: 4px;
+				}
+			}
+			@media (max-width: 20cm) {
+				.drunk {
+					width: 100%;
+					margin-bottom: 8px;
+				}
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/jquery.mobile.custom.min.js"></script>
+		<script src="../../../../src/main/assets/jquery.mobile.custom.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div id="strip"></div>
+		<div id="top-margin"></div>
+
+		<div class="foundation">
+			<h1 class="shadow">Grape Claim!</h1>
+
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="news">
+						<h2>Jarring Experience</h2>
+						<p><img src="jar.png" style="float: left; width: 40%; max-width: 35mm; margin-top: 8px; margin-bottom: 4px; margin-right: 12px;"> A West Virginia shop employee once injured her back while opening a jar of <a class="new-word" data-word="a pickle" data-type="n" data-en="a small cucumber preserved in vinegar" data-fa="خیارشور">pickles</a> at work. She took 12 months off work to recover. On attempting to return to work, her employer made things difficult for her. So, she sued them for unlawful termination of employment and was awarded $2,699,000 in <a class="new-word" data-word="compensation" data-type="n" data-en="something, typically money, awarded to someone as a recompense for loss, injury, or suffering" data-fa="غرامت، تاوان">compensation</a>.</p>
+					</div>
+				</div>
+
+				<div class="col-sm-6">
+					<div class="news">
+						<h2>Drunk Gambler</h2>
+						<p><img src="drunk.jpg" class="drunk"> A California man attempted to sue the Las Vegas Hilton and Mandalay Bay Hotel and Casino, claiming the casinos were <a class="new-word" data-word="negligent" data-type="adj" data-en="failing to take proper care in doing something" data-fa="مسامحه‌کار، بی‌دقت">negligent</a> in allowing him to <a class="new-word" data-word="to gamble away" data-type="phr vb" data-en="to lose something by gambling" data-fa="از دست دادن پول در قماربازی">gamble away</a> more than $1 million while he was drunk.</p>
+					</div>
+				</div>
+			</div>
+
+			<h4><span class="accent">❶</span> <b>Pre-listening</b></h4>
+			<p>Read over the two stories above about crazy lawsuits. Which one is the most ridiculous? Why?</p>
+
+			<h4 style="margin-top: 0;"><span class="accent">❷</span> <b>Listening I</b></h4>
+			<p id="comments">You are going to listen to a conversation about another strange lawsuit. Listen many times and answer this question: <span style="font-weight: 500;">Why is the man suing the shop?</span></p>
+
+			<div class="lockable dotted"><div id="transcript" style="background-size: contain; background-repeat: no-repeat; background-position: center;">
+				<h4 class="accent-dark" style="font-style: italic;">Man sues Marks & Spencer for €400,000 over grape.</h4>
+				<table style="margin-top: 12px;">
+					<tr>
+						<td>Presenter:</td> 
+						<td><span data-start="15159" data-end="17227">Hello and welcome to the programme.</span> <span data-start="17228" data-end="22100">Today’s big story is about a man who is suing the department store, Marks and Spencer.</span> <span data-start="22101" data-end="26330">Here to tell us more about it is our reporter, John Ford. Hello John.</span></td>
+					</tr>
+					<tr>
+						<td>John:</td>
+						<td><span data-start="26331" data-end="33472">Hello. Yes, a 55 year-old accountant is suing Marks &amp; Spencer for €400,000.</span></td>
+					</tr>
+					<tr>
+						<td>Presenter:</td>
+						<td><span data-start="33473" data-end="35340">So what happened?</span></td>
+					</tr>
+					<tr>
+						<td>John:</td>
+						<td><span data-start="35341" data-end="38550">Well, he claims he injured himself during a shopping trip.</span> <span data-start="38551" data-end="40630">He <a class="new-word" data-word="to slip" data-type="vb" data-en="to slide on or down a slippery surface " data-fa="سر خوردن و افتادن">slipped</a> on a <a class="new-word" data-word="grape" data-type="n" data-en="a berry (typically green, purple, or black) growing in clusters on a grapevine" data-fa="انگور">grape</a>.</span></td>
+					</tr>
+					<tr>
+						<td>Presenter:</td>
+						<td><span data-start="40631" data-end="45340">I see. And why does he think that Marks &amp; Spencer is to blame?</span></td>
+					</tr>
+					<tr>
+						<td>John:</td>
+						<td><span data-start="45341" data-end="50720">He says that a piece of grape on his shoe was picked up inside the shop or car park.</span> <span data-start="50721" data-end="54066">He claims that the car park was only cleaned once a week.</span></td>
+					</tr>
+					<tr>
+						<td>Presenter:</td>
+						<td><span data-start="54067" data-end="56020">When did the incident happen?</span></td>
+					</tr>
+					<tr>
+						<td>John:</td>
+						<td><span data-start="56021" data-end="59599">In June 2004, at a store in north London.</span></td>
+					</tr>
+					<tr>
+						<td>Presenter:</td>
+						<td><span data-start="59600" data-end="61440">And what were his injuries?</span></td>
+					</tr>
+					<tr>
+						<td>John:</td>
+						<td><span data-start="61441" data-end="64110">Well, he <a class="new-word" data-word="to tear" data-type="vb" data-en="pull something apart or to pieces with force" data-fa="پاره کردن">tore</a> the tendon in his right leg.</span></td>
+					</tr>
+					<tr>
+						<td>Presenter:</td>
+						<td><span data-start="64111" data-end="66830">OK. And what is he claiming for?</span></td>
+					</tr>
+					<tr>
+						<td>John:</td>
+						<td><span data-start="66831" data-end="69884">He’s claiming for general damages and lost earnings.</span> <span data-start="69885" data-end="74972">He says that, following his injury, he sufered depression and a loss of confidence.</span> <span data-start="74973" data-end="78940">He says that this made him unable to recruit new clients for his business.</span></td>
+					</tr>
+					<tr>
+						<td>Presenter:</td>
+						<td><span data-start="78941" data-end="85165">I see. And I understand he’s also claiming that the injury stopped him from playing sports?</span></td>
+					</tr>
+					<tr>
+						<td>John:</td>
+						<td><span data-start="85166" data-end="90750">Yes, that’s right. He claims that the injury stopped him from skiing and playing football or tennis.</span></td>
+					</tr>
+					<tr>
+						<td>Presenter:</td>
+						<td><span data-start="90751" data-end="92780">So, what’s going to happen next?</span></td>
+					</tr>
+					<tr>
+						<td>John:</td>
+						<td><span data-start="92781" data-end="95829">Well, he has chosen to represent himself in court.</span> <span data-start="95830" data-end="98292">And the hearing is set to last for two days.</span></td>
+					</tr>
+					<tr>
+						<td>Presenter:</td>
+						<td><span data-start="98293" data-end="101733">And what does Marks &amp; Spencer say about the issue?</span></td>
+					</tr>
+					<tr>
+						<td>John:</td>
+						<td><span data-start="101734" data-end="104323">They say it was just an unfortunate accident.</span> <span data-start="104324" data-end="109055">They also say the object on his shoe could have been picked up outside their store.</span></td>
+					</tr>
+					<tr>
+						<td>Presenter:</td>
+						<td><span data-start="109056" data-end="112218">A very interesting case. Thanks, John.</span></td>
+					</tr>
+				</table>
+			</div></div>
+
+			<h4 style="margin-top: 16px;"><span class="accent">❸</span> <b>Listening II</b></h4>
+			<p>Listen again to complete each space with the correct missing words.</p>
+			<ol>
+				<li><span>A 55 year old …………… is suing the store, M&amp;S.</span></li>
+				<li><span>The man in question slipped on a …………….</span></li>
+				<li><span>The incident happened in a …………… in June 2004.</span></li>
+				<li><span>He injured his …………… in the fall.</span></li>
+				<li><span>He’s claiming for …………….</span></li>
+			</ol>
+
+			<h4><span class="accent">❹</span> <b>Language Focus</b></h4>
+			<p>Match the words with their definitions:</p>
+			<div class="row">
+				<div class="col-sm-4">
+					<ol class="first">
+						<li class="col-a"><span>to sue <input type="text" readonly="true" data-ans="d"></span></li> 
+						<li class="col-a"><span>to claim for <input type="text" readonly="true" data-ans="a"></span></li>
+						<li class="col-a"><span>an injury <input type="text" readonly="true" data-ans="c"></span></li>
+						<li class="col-a"><span>court <input type="text" readonly="true" data-ans="e"></span></li>
+						<li class="col-a"><span>lawsuit <input type="text" readonly="true" data-ans="b"></span></li> 
+					</ol>
+				</div>
+
+				<div class="col-sm-8 second">
+					<ol type="a" class="second">
+						<li class="col-b" data-choice="a"><span>to ask for, take or state that one should have. <input type="text" class="fake"></span></li>
+						<li class="col-b" data-choice="b"><span>a legal matter brought to court to be judged. <input type="text" class="fake"></span></li>  
+						<li class="col-b" data-choice="c"><span>a physical hurt or wound <input type="text" class="fake"></span></li>
+						<li class="col-b" data-choice="d"><span>to make a legal claim for an amount of money. <input type="text" class="fake"></span></li>
+						<li class="col-b" data-choice="e"><span>a building in which law cases can be heard and judged. <input type="text" class="fake"></span></li>
+					</ol>
+				</div>
+			</div>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			prev_input = null;
+			$('.col-a').tap(function() {
+				t = $(this).find('input');
+				if(prev_input != null) {
+					prev_input.val(prev_input_val).change();
+				}
+
+				$('.col-b > span').addClass('hot');
+				prev_input = t;
+				prev_input_val = prev_input.val();
+				prev_input.val('?').change();
+			});
+			$('.col-b').tap(function () {
+				$('.col-b > span').removeClass('hot');
+				if(typeof(prev_input) != 'undefined') {
+					prev_input.val($(this).data('choice')).change();
+					prev_input = null;
+				}
+			});
+			$('input').on('change', function() {
+				$(this).removeClass('correct incorrect');
+				if(this.value != '?' && this.value != '')
+					$(this).addClass($(this).data('ans') == this.value ? 'correct' : 'incorrect');
+				saveInstanceState();
+			});
+
+			adjustCustomLayout = function(options) {
+				css = "\
+					#bottom-margin { height: " + bottomMargin + "px; } \
+					tr:nth-child(odd) { color: " + tinycolor(accentColor).darken().darken().darken() + "; } \
+					#strip { width: " + horizontalMargin + "px; background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+					.news { padding-top: " + (verticalMargin+spacing) + "px; padding-bottom: " + verticalMargin + "px; margin-bottom: " + (verticalMargin/2) + "px; } \
+					.row { margin-left: -" + (spacing/2) + "px !important; margin-right: -" + (spacing/2) + "px !important; margin-top: -" + spacing + "px; } \
+					.col-sm-6, .col-sm-4, .col-sm-8 { padding-left: " + (spacing/2) + "px !important; padding-right: " + (spacing/2) + "px !important; } \
+					h1 { margin-top: -" + (spacing/2) + "px; } \
+				";
+				$('#local-rules').text(css);
+			}
+
+			lock = function(b) {
+				transcriptLocked = b;
+
+				if(b) {
+					$('#transcript').css('background-image', 'url("../key.png")').children().css('visibility', 'hidden');
+					$('.lockable').addClass('dotted');
+					$('#comments').css('opacity', 1);
+
+				} else {
+					$('#transcript').css('background-image', '').children().css('visibility', '');
+					$('.lockable').removeClass('dotted');
+					$('#comments').css('opacity', .5);
+				}
+
+				saveInstanceState();
+
+				if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+					app.setLongClickable(!b);
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					transcriptLocked: transcriptLocked,
+					scroll: prevScroll,
+					inputs: $('input').map(function() { return this.value == '?' ? prev_input_val : this.value; }).get(),
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				lock(state.transcriptLocked || true);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				if(state['inputs']) {
+					$('input').map(function(i) {
+						$(this).val(state.inputs[i]).change();
+					});
+				}
+
+				restoringInstanceState = false;
+			}
+
+			taphold = false;
+			$('.lockable').tap(function() {
+				if(transcriptLocked && !taphold)
+					app.makeToast('Tap and hold to see transcript.', false);
+				taphold = false;
+			});
+			$('.lockable').taphold(function() {
+				taphold = true;
+				if(transcriptLocked)
+					app.lockTranscript(!transcriptLocked);
+			});
+
+			if(typeof(app) != 'undefined')
+				app.showLockControls(true);
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+		</script>
+
+	</body>
+</html>

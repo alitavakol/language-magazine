@@ -17,6 +17,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -93,7 +95,11 @@ public class DownloadCompleteBroadcastReceiver extends BroadcastReceiver {
         protected File doInBackground(Object... params) {
             f = (File) params[1];
             context = (Context) params[0];
-            return ZipHelper.unzip(f, context.getExternalFilesDir(null), false);
+            try {
+                return ZipHelper.unzip(new FileInputStream(f), context.getExternalFilesDir(null), false);
+            } catch (FileNotFoundException e) {
+                return null;
+            }
         }
 
         @Override

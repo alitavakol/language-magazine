@@ -1,7 +1,6 @@
 package me.ali.coolenglishmagazine;
 
 import android.app.NotificationManager;
-import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,7 +9,6 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -636,8 +634,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ReadAndListenActivity.this);
 
         final String preferenceVolumePlaybackPopupShown = "volume_nav_tooltip_shown";
-        final String preferenceRateAppCounter = "rate_app_counter";
-        final String preferenceRateAppDialogShown = "rate_app_shown";
 
         if (!preferences.getBoolean(preferenceVolumePlaybackPopupShown, false)) {
             new Handler().postDelayed(new Runnable() {
@@ -665,59 +661,6 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                     }
                 }
             }, 3000);
-        }
-
-        if (!preferences.getBoolean(preferenceRateAppDialogShown, false)) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        int rateAppCounter = preferences.getInt(preferenceRateAppCounter, 1);
-                        if (rateAppCounter % 10 == 0) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(ReadAndListenActivity.this);
-                            builder.setMessage(R.string.rate_app)
-                                    .setTitle(R.string.rate_app_title)
-                                    .setIcon(new IconicsDrawable(ReadAndListenActivity.this).icon(FontAwesome.Icon.faw_comments_o).sizeDp(72).colorRes(R.color.primary_dark))
-                                    .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            try {
-                                                // open marker to rate this app
-                                                if (BuildConfig.MARKET_APPLICATION_ID.equals("com.farsitel.bazaar")) {
-                                                    Intent intent = new Intent(Intent.ACTION_EDIT);
-                                                    intent.setData(Uri.parse("bazaar://details?id=" + getPackageName()));
-                                                    intent.setPackage("com.farsitel.bazaar");
-                                                    startActivity(intent);
-
-                                                } else if (BuildConfig.MARKET_APPLICATION_ID.equals("ir.mservices.market")) {
-                                                    String url = "myket://comment?id=" + getPackageName();
-                                                    Intent intent = new Intent();
-                                                    intent.setAction(Intent.ACTION_VIEW);
-                                                    intent.setData(Uri.parse(url));
-                                                    startActivity(intent);
-                                                }
-
-                                                preferences.edit().putBoolean(preferenceRateAppDialogShown, true).apply();
-
-                                            } catch (ActivityNotFoundException e) {
-                                                Toast.makeText(ReadAndListenActivity.this, R.string.app_store_not_found, Toast.LENGTH_LONG).show();
-                                            }
-                                        }
-                                    })
-                                    .setNegativeButton(R.string.later, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                        }
-                                    })
-                                    .setCancelable(false)
-                                    .show();
-                        }
-                        preferences.edit().putInt(preferenceRateAppCounter, rateAppCounter + 1).apply();
-
-                    } catch (Exception e) {
-                    }
-                }
-            }, 2000);
         }
     }
 
@@ -975,15 +918,14 @@ public class ReadAndListenActivity extends AppCompatActivity implements View.OnC
                         textViewEn.setVisibility(View.GONE);
 
                     final View separator = popupView.findViewById(R.id.separator);
-
                     final TextView textViewFa = (TextView) popupView.findViewById(R.id.def_fa);
-                    final String fa = newWord.definition.get("fa");
-                    if (fa.length() > 0)
-                        textViewFa.setText(fa);
-                    else {
-                        textViewFa.setVisibility(View.GONE);
-                        separator.setVisibility(View.GONE);
-                    }
+//                    final String fa = newWord.definition.get("fa");
+//                    if (fa.length() > 0)
+//                        textViewFa.setText(fa);
+//                    else {
+                    textViewFa.setVisibility(View.GONE);
+                    separator.setVisibility(View.GONE);
+//                    }
 
                     final PopupWindow popupWindow = new PopupWindow(
                             popupView,

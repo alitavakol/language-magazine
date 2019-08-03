@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#page-indicator {
+				width: 100%;
+				position: flex;
+				z-index: 1;
+				text-align: center;
+				display: none;
+			}
+			.dot {
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				border-radius: 5px;
+				margin: 3px;
+			}
+			.dot.active {
+			}
+
+			.cem-card {
+				position: relative;
+				max-width: 100%;
+			}
+			.card-action {
+				padding: 20px;
+				padding-top: 48px;
+				transition: color .3s ease;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				border-top-left-radius: 24px;
+				border-top-right-radius: 24px;
+				color: white;
+				text-align: center;
+				background-color: #0094a2;
+			}
+			.card-action.title {
+				padding: 40px;
+				padding-top: 80px;
+				border-radius: 24px;
+				font-size: x-large;
+				text-transform: uppercase;
+			}
+			.card-content {
+				border-radius: 0 0 2px 2px;
+				padding-bottom: 10px;
+				padding-top: 10px;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				/*font-style: italic;*/
+				/*margin: 10px;*/
+			}
+			.card-content:nth-child(3n+2) {
+				background-color: #a0daf7;
+			}
+			.card-content:nth-child(3n) {
+				background-color: #97d5f6;				
+			}
+			.card-content:nth-child(3n+1) {
+				background-color: #8dd0f5;				
+				border-bottom-left-radius: 24px;
+				border-bottom-right-radius: 24px;
+			}
+			.card-content img {
+				padding-bottom: 4px;
+			}
+			.card-content .situation {
+				font-weight: bold;
+				display: block;
+			}
+			td:first-child {
+				padding-top: 4px;
+				padding-bottom: 4px;
+				text-align: center;
+				padding-right: 24px;
+			}
+
+			.swipe {
+				overflow: hidden;
+				visibility: hidden;
+				position: relative;
+			}
+			.swipe-wrap {
+				position: relative;
+			}
+			.swipe-wrap > div {
+				float: left;
+				width: 20px;
+				position: relative;
+				overflow: hidden;
+				overflow-y: auto;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="swipe.min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div id="page-indicator" style="position: absolute; z-index: 1;"></div>
+
+		<div id='swipeable' style='margin:0 auto;' class='swipe'>
+			<div class='swipe-wrap'>
+				<div>
+					<div class='top-margin'></div>
+					<div class='cem-card'>
+						<div class='card-action title'>Here we’ve got some examples of how to say things in different situations.</div>
+					</div>
+					<div class='bottom-margin'></div>
+				</div>
+			</div>
+		</div>
+
+		<div style="display: none;">
+			<span data-start="7800" data-end="11676"></span>
+			<span data-start="11677" data-end="17308"></span>
+			<span data-start="17309" data-end="20720"></span>
+			<span data-start="20721" data-end="25169"></span>
+			<span data-start="25170" data-end="30772"></span>
+			<span data-start="30773" data-end="34553"></span>
+			<span data-start="34554" data-end="38320"></span>
+			<span data-start="38321" data-end="41776"></span>
+			<span data-start="41777" data-end="46956"></span>
+			<span data-start="46957" data-end="51770"></span>
+			<span data-start="51771" data-end="53980"></span>
+			<span data-start="53981" data-end="57471"></span>
+			<span data-start="57472" data-end="63169"></span>
+			<span data-start="63170" data-end="66977"></span>
+			<span data-start="66978" data-end="69382"></span>
+			<span data-start="69383" data-end="73040"></span>
+			<span data-start="73041" data-end="76664"></span>
+			<span data-start="76665" data-end="82086"></span>
+			<span data-start="82087" data-end="84690"></span>
+			<span data-start="84691" data-end="91857"></span>
+			<span data-start="91858" data-end="99750"></span>
+			<span data-start="99751" data-end="103746"></span>
+			<span data-start="103747" data-end="105460"></span>
+			<span data-start="105461" data-end="108067"></span>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			card_template = "\
+				<div>\
+					<div class='top-margin'></div>\
+					<div class='cem-card'>\
+						<div class='card-action'>{situation}</div>\
+						<div class='card-content'><table><tr><td><img src='formal.png'><span class='situation'>Formal</span></td><td>{formal}</td></tr></table></div>\
+						<div class='card-content'><table><tr><td><img src='relaxed.png'><span class='situation'>Relaxed</span></td><td>{relaxed}</td></tr></table></div>\
+						<div class='card-content'><table><tr><td><img src='informal.png'><span class='situation'>Informal</span></td><td>{informal}</td></tr></table></div>\
+					</div>\
+					<div class='bottom-margin'></div>\
+				</div>\
+			";
+			slangs = [
+				['<span data-slide="1" data-start="7800" data-end="11676">A friend asks if she can sleep at your house.</span>', '<span data-slide="1" data-start="11677" data-end="17308">May I rest my weary head at your abode tonight?</span>', '<span data-slide="1" data-start="17309" data-end="20720">Can I sleep at your house tonight?</span>', '<span data-slide="1" data-start="20721" data-end="25169">Can I kip at your pad tonight?</span>'], 
+				['<span data-slide="2" data-start="25170" data-end="30772">A friend loves going out and enjoying herself in bars at night.</span>', '<span data-slide="2" data-start="30773" data-end="34553">She adores the pleasures of the night.</span>', '<span data-slide="2" data-start="34554" data-end="38320">She loves going out at night and having fun.</span>', '<span data-slide="2" data-start="38321" data-end="41776">She’s a real party animal.</span>'], 
+				['<span data-slide="3" data-start="41777" data-end="46956">Someone is touching you. You tell that person to stop.</span>', '<span data-slide="3" data-start="46957" data-end="51770">Please desist from making any physical contact with me.</span>', '<span data-slide="3" data-start="51771" data-end="53980">Please stop touching me.</span>', '<span data-slide="3" data-start="53981" data-end="57471">Get your paws off me!</span>'], 
+				['<span data-slide="4" data-start="57472" data-end="63169">You ate a lot of ice cream. You tell a friend.</span>', '<span data-slide="4" data-start="63170" data-end="66977">We consumed large quantities of ice cream.</span>', '<span data-slide="4" data-start="66978" data-end="69382">We ate a lot of ice cream.</span>', '<span data-slide="4" data-start="69383" data-end="73040">We pigged out on ice cream.</span>'], 
+				['<span data-slide="5" data-start="73041" data-end="76664">A friend smoked some marijuana.</span>', '<span data-slide="5" data-start="76665" data-end="82086">He partook of a cigarette that contained an illegal substance.</span>', '<span data-slide="5" data-start="82087" data-end="84690">He smoked some marijuana.</span>', '<span data-slide="5" data-start="84691" data-end="91857">He had a joint; he smoked some weed; he smoked some pot.</span>'], 
+				['<span data-slide="6" data-start="91858" data-end="99750">Someone you know is a bit wild, and sometimes does things that put himself or others in danger.</span>', '<span data-slide="6" data-start="99751" data-end="103746">He is somewhat mentally unhinged.</span>', '<span data-slide="6" data-start="103747" data-end="105460">He’s crazy!</span>', '<span data-slide="6" data-start="105461" data-end="108067">He’s a psycho!</span>']
+			];
+			var i = 0;
+			slangs.forEach(function(slang) {
+				$('.swipe-wrap').append(card_template.replace(/\{situation\}/g, slang[0]).replace(/\{formal\}/g, slang[1]).replace(/\{relaxed\}/g, slang[2]).replace(/\{informal\}/, slang[3]));
+				$('#page-indicator').append('<span class="dot"></span>');
+				i++;
+			});
+			$('#page-indicator').append('<span class="dot"></span>');
+
+			adjustCustomLayout = function(options) {
+				brightcolor = tinycolor(accentColor).brighten().brighten();
+				brightcolor.setAlpha(.7);
+				darkColor = tinycolor(accentColor).darken().darken().darken();
+				darkColor.setAlpha(.7);
+
+				$('#local-rules').text("\
+					.cem-card { margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+					.card-content { color: " + newWordColor + "; } \
+					.top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.bottom-margin { height: " + bottomMargin + "px; } \
+					#page-indicator { margin-top: " + (topMargin+2*verticalMargin) + "px; } \
+					.swipe-wrap > div { height: " + height + "px; } \
+					.dot { background-color: " + brightcolor.toRgbString() + "; } \
+					.dot.active { background-color: " + darkColor.toRgbString() + "; } \
+					.card-content, .card-action { margin-bottom: " + spacing + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; } \
+				");
+			}
+
+			setCurrentSlide = function(index) {
+				$('#page-indicator').show();
+				$('#page-indicator .dot').eq(index).addClass('active');
+
+				if(typeof(window.swipeable) == 'object' && typeof(window.swipeable.kill) == 'function')
+					window.swipeable.kill();
+
+				window.swipeable = $('#swipeable').Swipe({
+					startSlide: index,
+					callback: function(index,elem) {
+						$('#page-indicator .dot').removeClass('active');
+						$('#page-indicator .dot').eq(index).addClass('active');
+
+						currentSlide = index;
+						saveInstanceState();
+					},
+				}).data('Swipe');
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					currentSlide: currentSlide,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				setCurrentSlide(state.currentSlide || 0);
+
+				restoringInstanceState = false;
+			}
+
+			highlight = function(timePoint) {
+				$('.highlight').removeClass('highlight');
+				t = $('[data-start=' + timePoint + ']');
+				t.addClass('highlight');
+				u = parseInt(t.data('slide'));
+				if(u >= 0)
+					window.swipeable.slide(u);
+			}
+		</script>
+
+	</body>
+</html>

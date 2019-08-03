@@ -1,0 +1,35 @@
+body {
+	margin: 0;
+	overflow: hidden;
+	font-family: "Ubuntu";
+}
+.new-word, .new-word:hover, .new-word:focus {
+	text-decoration: none;
+	font-weight: 700;
+	color: inherit;
+}
+.frame {
+	padding: 4px;
+	-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+	box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+	background-color: white;
+}
+.dotted {
+	background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.6), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+	background-image: repeating-radial-gradient(center center, rgba(0,0,0,.6), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+	-webkit-background-size: 5px 5px;
+	background-size: 5px 5px;
+}
+ol, ul {
+	padding-left: 1.2em;
+}
+li {
+	font-weight: bold;
+}
+li > span {
+	font-weight: normal;
+}
+.shadow {
+	-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+	box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+}

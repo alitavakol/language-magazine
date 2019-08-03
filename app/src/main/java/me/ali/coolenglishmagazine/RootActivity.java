@@ -116,7 +116,7 @@ public class RootActivity extends AppCompatActivity implements
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // force change locale based on value of "locale" preference
-        String languageToLoad = preferences.getString("locale", "fa");
+        String languageToLoad = preferences.getString("locale", "en");
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
         Configuration config = getResources().getConfiguration(); // http://stackoverflow.com/a/24908330
@@ -167,12 +167,12 @@ public class RootActivity extends AppCompatActivity implements
 
 //        account = new Account(this);
 
-        if (savedInstanceState == null) {
-            if (BuildConfig.MARKET_APPLICATION_ID.equals("com.farsitel.bazaar"))
-                initUpdateCheckService();
-            newIssuesAvailableWarningShown = false;
-            processNewIntent(getIntent());
-        }
+//        if (savedInstanceState == null) {
+//            if (BuildConfig.MARKET_APPLICATION_ID.equals("com.farsitel.bazaar"))
+//                initUpdateCheckService();
+//            newIssuesAvailableWarningShown = false;
+//            processNewIntent(getIntent());
+//        }
     }
 
     @Override
@@ -425,9 +425,9 @@ public class RootActivity extends AppCompatActivity implements
             if (!preferences.getBoolean("gem_seen", false)) {
                 if (footerIconBlinker == null)
                     footerIconBlinker = new Blinker();
-                if (footerView != null)
-                    footerIconBlinker.setBlinkingView(footerView.findViewById(R.id.material_drawer_icon));
-                footerIconBlinker.start();
+//                if (footerView != null)
+//                    footerIconBlinker.setBlinkingView(footerView.findViewById(R.id.material_drawer_icon));
+//                footerIconBlinker.start();
 
             } else if (footerIconBlinker != null)
                 footerIconBlinker.stop();
@@ -623,7 +623,7 @@ public class RootActivity extends AppCompatActivity implements
                     }
                 })
                 .withSelectedItemByPosition(drawerSelection)
-                .withStickyFooter(footerView)
+//                .withStickyFooter(footerView)
                 .withFooterClickable(true)
                 .withStickyFooterDivider(true)
                 .build();
@@ -795,7 +795,7 @@ public class RootActivity extends AppCompatActivity implements
     @Override
     public void onStart() {
         // force change locale based on value of "locale" preference
-        String languageToLoad = PreferenceManager.getDefaultSharedPreferences(this).getString("locale", "fa");
+        String languageToLoad = PreferenceManager.getDefaultSharedPreferences(this).getString("locale", "en");
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
         Configuration config = getResources().getConfiguration(); // http://stackoverflow.com/a/24908330

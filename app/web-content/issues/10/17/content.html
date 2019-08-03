@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<!-- <link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			body {
+				overflow-y: scroll;
+			}
+			h1 {
+				margin-top: 0;
+				text-transform: uppercase;
+			}
+			h4 {
+				text-transform: uppercase;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div class="foundation">
+			<div id="top-margin"></div>
+
+			<h1>Sleaze</h1>
+			<img src="cover.png" style="-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24); width: 100%;">
+
+			<h4 style="font-weight: 300;">This month we’re looking at the word “sleaze”.</h4>
+
+			<p>“Sleaze” is often used to describe corruption and scandals in a government. Basically, anything involving sex, drugs, <a class="new-word" data-word="a backhander" data-type="n" data-en="money given to a government in return for a favour">backhanders</a> or <a class="new-word" data-word="cronyism" data-type="n" data-en="giving jobs and preference to your friends or people who pay you a sum of money">cronyism</a> would be described as sleaze if it involves members of government or <a class="new-word" data-word="high-ranking" data-type="adj" data-en="with a very important job">high-ranking</a> politicians. It is used widely by the <a class="new-word" data-word="a tabloid" data-type="n" data-en="a newspaper having pages half the size of those of the average broadsheet">tabloid</a> <a class="new-word" data-word="the press" data-type="n" data-en="newspapers, magazines, etc">press</a> to <a class="new-word" data-word="to sensationalise" data-type="vb" data-en="to make something seem more important or scandalous than it really is">sensationalise</a> news stories or events surrounding <a class="new-word" data-word="high-profile" data-type="adj" data-en="well known/famous/important">high profile</a> members of public life.</p>
+			<p>The original sensationalised sleaze story in the British press was the Profumo Affair in the 1960s. A member of the <a class="new-word" data-word="Tory" data-type="n" data-en="a member of the British Conservative Party (a right-wing, traditional party)">Tory</a> government, John Profumo had an <a class="new-word" data-word="an affair" data-type="n" data-en="a romantic relationship with someone who isn’t your husband/wife">affair</a> with a <a class="new-word" data-word="a showgirl" data-type="n" data-en="a dancer in an erotic club">showgirl</a> called Christine Keeler. Events were made worse when it was reported that Keeler was also sleeping with a Soviet agent thereby <a class="new-word" data-word="to breach national security" data-type="exp" data-en="to endanger/break the security of a country">breaching national security</a> of the UK. Christine Keeler became even more famous a few weeks later when she posed for some semi-erotic photos. A Hollywood film <i>Scandal</i> was made about the affair starring Joanne Whalley. Another <a class="new-word" data-word="infamous" data-type="n" data-en="famous for negative reasons">infamous</a> example of sleaze involved another Tory <a class="new-word" data-word="an MP" data-type="abbr" data-en="a Member of the British parliament">MP</a>, Neil Hamilton. He was involved in the Cash for Questions <a class="new-word" data-word="a scandal" data-type="n" data-en="an action or event regarded as morally or legally wrong and causing general public outrage" data-fa="رسوایی، ننگ">scandal</a>. This was when Hamilton and another MP supposedly accepted <a class="new-word" data-word="a bribe" data-type="n" data-en="a sum of money given to an official in return for a favour">bribes</a> from the owner of <a class="new-word" data-word="Harrod’s" data-type="n" data-en="a large department store in London">Harrod’s</a>, Mohammed al Fayed, to ask questions for him in parliament. Hamilton’s political career was ruined but he later became a television personality because of it. </p>
+			<p>One of the most infamous political scandals involved ex-president of the United States Bill Clinton when he had affairs with several White House interns. The best known of these was a girl called Monica Lewinsky. Clinton was <a class="new-word" data-word="to impeach" data-type="vb" data-en="to prosecute an American president in a trial for doing something illegal">impeached</a> for lying about the affair. His wife, Hillary, punished him by making him sleep on the sofa for a while. <span class="accent">✪</span></p>
+
+			<div id="bottom-margin"></div>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			adjustCustomLayout = function(options) {
+				$('#local-rules').text("\
+					#bottom-margin { height: " + verticalMargin + "px; } \
+					body { background: -webkit-linear-gradient(#" + accentColor + ",#" + backgroundColor + "); background-repeat: no-repeat; -webkit-background-attachment: fixed; } \
+					.foundation { margin-left: " + horizontalMargin + "px; padding-left: " + horizontalMargin + "px; padding-right: " + horizontalMargin + "px; background-color: #" + backgroundColor + "; } \
+				");
+			}
+
+			prevScroll = 0;
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					scroll: prevScroll,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				$('body').scrollTop((state['scroll'] || 0) * $('body').height());
+				prevScroll = $('body').scrollTop() / $('body').height();
+
+				restoringInstanceState = false;
+			}
+
+			setInterval(function() {
+				scroll = $('body').scrollTop() / $('body').height();
+				if(scroll != prevScroll) {
+					prevScroll = scroll;
+					saveInstanceState();
+				}
+			}, 3000);
+
+			lastScrollTop = 0;
+			if(typeof(app) != 'undefined') {
+				$(document).scroll(function() {
+					scrollTop = $(document).scrollTop();
+
+					if(scrollTop < topMargin) {
+						if(scrollTop < lastScrollTop && lastScrollTop >= topMargin)
+							app.setToolbarScrollable(false);
+
+					} else if(lastScrollTop < topMargin)
+							app.setToolbarScrollable(true);
+
+					lastScrollTop = scrollTop;
+				});
+			}
+
+			if(typeof(app) != 'undefined' && typeof(app.setLongClickable) == 'function')
+				app.setLongClickable(true);
+		</script>
+	</body>
+</html>

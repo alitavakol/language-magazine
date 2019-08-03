@@ -1,10 +1,7 @@
 package me.ali.coolenglishmagazine;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,18 +23,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.view.IconicsTextView;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -46,9 +42,7 @@ import me.ali.coolenglishmagazine.model.Magazines;
 import me.ali.coolenglishmagazine.util.Blinker;
 import me.ali.coolenglishmagazine.util.FileHelper;
 import me.ali.coolenglishmagazine.util.FontManager;
-import me.ali.coolenglishmagazine.util.InputStreamVolleyRequest;
 import me.ali.coolenglishmagazine.util.LogHelper;
-import me.ali.coolenglishmagazine.util.NetworkHelper;
 import me.ali.coolenglishmagazine.util.ZipHelper;
 
 public class GalleryOfIssuesFragment extends Fragment {
@@ -387,7 +381,7 @@ public class GalleryOfIssuesFragment extends Fragment {
                 f.write(response, 0, response.length);
                 f.close();
 
-                File rootDirectory = ZipHelper.unzip(zipFile, context.getExternalFilesDir(null), true);
+                File rootDirectory = ZipHelper.unzip(new FileInputStream(zipFile), context.getExternalFilesDir(null), true);
 
                 FileHelper.delete(zipFile);
 
@@ -461,67 +455,28 @@ public class GalleryOfIssuesFragment extends Fragment {
         if (requestQueue == null)
             requestQueue = Volley.newRequestQueue(context);
 
-        if (NetworkHelper.isOnline(context)) {
-            if (snackbar == null) {
-                snackbar = Snackbar
-                        .make(getView(), R.string.syncing, Snackbar.LENGTH_INDEFINITE)
-                        .setAction(R.string.cancel_syncing, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                cancelSync(adapter);
-                            }
-                        }).setActionTextColor(getResources().getColor(R.color.primary_light));
-                snackbar.show();
-            }
+        if (snackbar == null) {
+            snackbar = Snackbar
+                    .make(getView(), R.string.syncing, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.cancel_syncing, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            cancelSync(adapter);
+                        }
+                    }).setActionTextColor(getResources().getColor(R.color.primary_light));
+            snackbar.show();
+        }
 
-            final Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(context).getString("server_address", getResources().getString(R.string.pref_default_server_address)));
-            // http://docs.oracle.com/javase/tutorial/networking/urls/urlInfo.html
-            final String url = uri.toString() + "/api/issues?min_issue_number=" + firstMissingIssueNumber + "&app_version=" + BuildConfig.VERSION_CODE;
+        // install issues previews which are bundled with application package
+        try {
+            InputStream stream = context.getAssets().open("issues-preview/issues-preview-" + firstMissingIssueNumber + "-" + firstMissingIssueNumber + ".zip");
+            byte[] response = new byte[stream.available()];
+            stream.read(response);
+            new UnzipOperation().execute(app, response, adapter);
 
-            // Request a string response from the provided URL.
-            InputStreamVolleyRequest request = new InputStreamVolleyRequest(Request.Method.GET, url, new Response.Listener<byte[]>() {
-                @Override
-                public void onResponse(byte[] response) {
-                    if (response.length > 0) {
-                        new UnzipOperation().execute(app, response, adapter);
-
-                    } else {
-                        // received success with status code 204 (no content)
-                        cancelSync(adapter);
-                        Context context = getActivity();
-                        if (context != null)
-                            Toast.makeText(context, R.string.update_success, Toast.LENGTH_LONG).show();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    if (error.networkResponse != null && error.networkResponse.statusCode == 426) { // 426 Upgrade Required
-                        NetworkHelper.showUpgradeDialog(getActivity(), false);
-
-                    } else {
-                        Context context = getActivity();
-                        if (context != null)
-                            Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
-                    }
-
-                    cancelSync(adapter);
-                }
-            }, null);
-
-            request.setTag(GalleryOfIssuesFragment.this)
-                    .setRetryPolicy(new DefaultRetryPolicy(30000,
-                            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-            // Add the request to the RequestQueue.
-            requestQueue.add(request);
-
-        } else {
+        } catch (IOException e) {
             cancelSync(adapter);
-            Context activity = getActivity();
-            if (activity != null)
-                Toast.makeText(activity, R.string.check_connection, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.update_success, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -564,55 +519,11 @@ public class GalleryOfIssuesFragment extends Fragment {
      * @param context activity context
      */
     void fetchLatestIssueNumber(Context context) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-//        if (!NetworkHelper.isOnline(context)) {
-//            latestAvailableIssueNumberOnServer = preferences.getInt("latestAvailableIssueNumberOnServer", 0);
-//            updateBlinker(IssuesTabFragment.AVAILABLE_ISSUES);
-//            return;
-//        }
-
-        final long currentTime = System.currentTimeMillis();
-        long lastUpdateCheck = preferences.getLong("last_update_check", currentTime - 365L * 24L * 3600L * 1000L);
-        if (currentTime - lastUpdateCheck < 3L * 24L * 3600L * 1000L) { // don't check if last update occurred less than 3 days ago
-            latestAvailableIssueNumberOnServer = PreferenceManager.getDefaultSharedPreferences(context).getInt("latestAvailableIssueNumberOnServer", 0);
-            updateBlinker((RootActivity) getActivity(), IssuesTabFragment.AVAILABLE_ISSUES);
-            return;
+        try {
+            latestAvailableIssueNumberOnServer = context.getAssets().list("issues-preview").length;
+        } catch (IOException e) {
         }
-
-        if (requestQueue == null)
-            requestQueue = Volley.newRequestQueue(context);
-
-        final Uri uri = Uri.parse(preferences.getString("server_address", getResources().getString(R.string.pref_default_server_address)));
-        final String url = uri.toString() + "/api/issues/latest?app_version=" + BuildConfig.VERSION_CODE;
-
-        InputStreamVolleyRequest request = new InputStreamVolleyRequest(Request.Method.GET, url, new Response.Listener<byte[]>() {
-            @Override
-            public void onResponse(byte[] response) {
-                latestAvailableIssueNumberOnServer = Integer.parseInt(new String(response));
-                Activity activity = getActivity();
-                if (activity != null)
-                    PreferenceManager.getDefaultSharedPreferences(activity).edit()
-                            .putInt("latestAvailableIssueNumberOnServer", latestAvailableIssueNumberOnServer)
-                            .putLong("last_update_check", currentTime)
-                            .apply();
-                updateBlinker((RootActivity) getActivity(), IssuesTabFragment.AVAILABLE_ISSUES);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Activity activity = getActivity();
-                if (activity != null) {
-                    latestAvailableIssueNumberOnServer = PreferenceManager.getDefaultSharedPreferences(activity).getInt("latestAvailableIssueNumberOnServer", 0);
-                    updateBlinker((RootActivity) getActivity(), IssuesTabFragment.AVAILABLE_ISSUES);
-                }
-            }
-        }, null);
-
-        request.setTag(GalleryOfIssuesFragment.this);
-
-        // Add the request to the RequestQueue.
-        requestQueue.add(request);
+        updateBlinker((RootActivity) getActivity(), IssuesTabFragment.AVAILABLE_ISSUES);
     }
 
     /**

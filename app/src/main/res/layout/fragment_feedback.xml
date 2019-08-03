@@ -78,7 +78,8 @@
         android:layout_height="2dp"
         android:layout_marginBottom="@dimen/spacing_normal"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:background="@color/accent" />
+        android:background="@color/accent"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/visitAppStore"
@@ -86,5 +87,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:text="@string/visit_app_store"
-        android:textColor="@color/linkColor" />
+        android:textColor="@color/linkColor"
+        android:visibility="gone" />
 </LinearLayout>

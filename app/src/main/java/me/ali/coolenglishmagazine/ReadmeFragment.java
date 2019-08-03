@@ -255,7 +255,7 @@ public class ReadmeFragment extends Fragment {
         switch (id) {
             case R.id.action_toggle_language:
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                String language = preferences.getString("locale", "fa");
+                String language = preferences.getString("locale", "en");
                 language = language.equals("fa") ? "en" : "fa";
                 preferences.edit().putString("locale", language).apply();
                 return true;

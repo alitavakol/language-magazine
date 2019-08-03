@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Material Design fonts -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/ubuntu.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/ubuntu.css">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css" href="file:///android_asset/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../../../src/main/assets/bootstrap.min.css">
+
+		<!-- Bootstrap Material Design -->
+		<link rel="stylesheet" type="text/css" href="bootstrap-material-design.min.css">
+
+		<link rel="stylesheet" type="text/css" href="../styles.css">
+
+		<style id="dynamic-rules">
+		</style>
+
+		<style type="text/css">
+			#page-indicator {
+				width: 100%;
+				position: flex;
+				z-index: 1;
+				text-align: center;
+				display: none;
+			}
+			.dot {
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				border-radius: 5px;
+				margin: 3px;
+				/* background-color: #8999A6; */
+			}
+			.dot.active {
+				/* background-color: azure; */
+			}
+
+			.cem-card {
+				position: relative;
+				transition: box-shadow .25s;
+				border-radius: 2px;
+				-webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 6px 0 rgba(0, 0, 0, 0.12);
+				max-width: 100%;
+			}
+			.cem-card .card-image {
+				position: relative;
+			}
+			.cem-card .card-image img {
+				display: block;
+				border-radius: 2px 2px 0 0;
+				position: relative;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+			}
+			.cem-card .card-image .card-title {
+				color: #fff;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-top: 10px;
+				padding-bottom: 10px;
+				/*text-transform: uppercase;*/
+				background-color: black;
+				font-weight: bold;
+				background-color: rgba(0,0,0,.5);
+				font-size: 18px;
+			}
+			.cem-card .card-content {
+				border-radius: 0 0 2px 2px;
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-bottom: 10px;
+				padding-top: 10px;
+				font-style: italic;
+			}
+			.cem-card .card-action {
+				border-top: 1px solid rgba(0,0,0,0.2);
+				padding: 20px;
+				padding-bottom: 0;
+				transition: color .3s ease;
+				text-transform: uppercase;
+				text-decoration: none;
+				-webkit-tap-highlight-color: transparent;
+			}
+
+			.swipe {
+				overflow: hidden;
+				visibility: hidden;
+				position: relative;
+			}
+			.swipe-wrap {
+				position: relative;
+			}
+			.swipe-wrap > div {
+				float: left;
+				width: 20px;
+				position: relative;
+				overflow: hidden;
+				overflow-y: auto;
+			}
+		</style>
+
+		<style id="local-rules">
+		</style>
+
+		<script src="file:///android_asset/jquery-1.11.3.min.js"></script>
+		<script src="../../../../src/main/assets/jquery-1.11.3.min.js"></script>
+		<script src="file:///android_asset/tinycolor-min.js"></script>
+		<script src="../../../../src/main/assets/tinycolor-min.js"></script>
+		<script src="swipe.min.js"></script>
+
+		<script src="../code.js"></script>
+		<script src="../debug.js"></script>
+	</head>
+
+	<body>
+		<div id="page-indicator" style="position: absolute; z-index: 1;"></div>
+
+		<div id='swipeable' style='margin:0 auto;' class='swipe'>
+			<div class='swipe-wrap'>
+				<div>
+					<div class='top-margin'></div>
+					<div class='cem-card'>
+						<div class='card-action' style="text-transform: none; padding: 24px; padding-top: 48px; text-align: center; border: none;">Here are some more useful and interesting expressions for you to learn. This month we are looking at some expressions to describe <b>the act of stopping</b>.</div>
+					</div>
+					<div class='bottom-margin'></div>
+				</div>
+			</div>
+		</div>
+
+		<div style="display: none;">
+			<span data-start="19569" data-end="21583"></span>
+			<span data-start="21584" data-end="31376"></span>
+			<span data-start="31377" data-end="38423"></span>
+			<span data-start="38424" data-end="41259"></span>
+			<span data-start="41260" data-end="47190"></span>
+			<span data-start="47191" data-end="54139"></span>
+			<span data-start="54140" data-end="56650"></span>
+			<span data-start="56651" data-end="61868"></span>
+			<span data-start="61869" data-end="65876"></span>
+			<span data-start="65877" data-end="69472"></span>
+			<span data-start="69473" data-end="72035"></span>
+			<span data-start="72036" data-end="74118"></span>
+			<span data-start="74119" data-end="78200"></span>
+			<span data-start="78201" data-end="84365"></span>
+			<span data-start="84366" data-end="87832"></span>
+			<span data-start="87833" data-end="96642"></span>
+			<span data-start="96643" data-end="102888"></span>
+			<span data-start="102889" data-end="105163"></span>
+			<span data-start="105164" data-end="110353"></span>
+			<span data-start="110354" data-end="113224"></span>
+			<span data-start="113225" data-end="118285"></span>
+			<span data-start="118286" data-end="122600"></span>
+			<span data-start="122601" data-end="131695"></span>
+			<span data-start="131696" data-end="138391"></span>
+		</div>
+
+		<script type="text/javascript">
+			restoringInstanceState = false;
+
+			card_template = "\
+				<div>\
+					<div class='top-margin'></div>\
+					<div class='cem-card'>\
+						<div class='card-image'>\
+							<img class='img-responsive' src='{img}.jpg'>\
+							<span class='card-title'>{verb}</span>\
+						</div>\
+						<div class='card-action'>{def}</div>\
+						<div class='card-content'><p>{example}</p></div>\
+					</div>\
+					<div class='bottom-margin'></div>\
+				</div>\
+			";
+			verbs = [
+				['<span data-slide="1" data-start="19569" data-end="21583">Change hands</span>', '<span data-slide="1" data-start="21584" data-end="31376">When a business/company/shop, etc “changes hands”, there is a new owner.</span>', '<span data-slide="1" data-start="31377" data-end="38423">“This restaurant has changed hands three times over the past six months.”</span>'],
+				['<span data-slide="2" data-start="38424" data-end="41259">Call it a day</span>', '<span data-slide="2" data-start="41260" data-end="47190">To stop doing something because it is obviously not going to be successful.</span>', '<span data-slide="2" data-start="47191" data-end="54139">“I’ve had enough of all this stress. Let’s call it a day and go home.”</span>'],
+				['<span data-slide="3" data-start="54140" data-end="56650">Have a change of heart</span>', '<span data-slide="3" data-start="56651" data-end="61868">To decide to do something differently; to change your mind.</span>', '<span data-slide="3" data-start="61869" data-end="65876">“She originally said that she wanted to join our band,</span> <span data-slide="3" data-start="65877" data-end="69472">but since then she has had a change of heart.”</span>'],
+				['<span data-slide="4" data-start="69473" data-end="72035">Kick the habit</span>', '<span data-slide="4" data-start="72036" data-end="74118">To stop doing something;</span> <span data-slide="4" data-start="74119" data-end="78200">to give up something (often a bad habit).</span>', '<span data-slide="4" data-start="78201" data-end="84365">“I hate smoking and I’ve been trying to kick the habit for ages.”</span>'],
+				['<span data-slide="5" data-start="84366" data-end="87832">Here today, gone tomorrow</span>', '<span data-slide="5" data-start="87833" data-end="96642">If something is “here today, gone tomorrow”, it only exists for a very short period of time.</span>', '<span data-slide="5" data-start="96643" data-end="102888">“She had quite a few boyfriends, but they were always here today, gone tomorrow.”</span>'],
+				['<span data-slide="6" data-start="102889" data-end="105163">Give up the ghost</span>', '<span data-slide="6" data-start="105164" data-end="110353">To stop doing something because you know that it won’t be successful.</span>', '<span data-slide="6" data-start="110354" data-end="113224">“She’s never going to marry you.</span> <span data-slide="6" data-start="113225" data-end="118285">Why don’t you just give up the ghost and move on with your life?”</span>'],
+				['<span data-slide="7" data-start="118286" data-end="122600">It’s curtains for someone/something</span>', '<span data-slide="7" data-start="122601" data-end="131695">Someone/something is finished; Someone/something is going to die.</span>', '<span data-slide="7" data-start="131696" data-end="138391">“They found out that Jim was a police informer, so it’s curtains for him.”</span>']
+			];
+			var i = 0;
+			$('#page-indicator').append('<span class="dot"></span>');
+			verbs.forEach(function(t) {
+				$('.swipe-wrap').append(card_template.replace(/\{verb\}/g, t[0]).replace(/\{def\}/g, t[1]).replace(/\{example\}/, t[2]).replace(/\{img\}/g, ++i));
+				$('#page-indicator').append('<span class="dot"></span>');
+			});
+
+			adjustCustomLayout = function(options) {
+				brightcolor = tinycolor(accentColor).brighten().brighten();
+				brightcolor.setAlpha(.7);
+				darkColor = tinycolor(accentColor).darken().darken();
+				darkColor.setAlpha(.7);
+
+				$('#local-rules').text("\
+					.cem-card { background-color: #" + accentColor + "; margin-left: " + horizontalMargin + "px; margin-right: " + horizontalMargin + "px; } \
+					.card-content { color: " + newWordColor + "; } \
+					.top-margin { height: " + (topMargin+verticalMargin) + "px; } \
+					.bottom-margin { height: " + bottomMargin + "px; } \
+					#page-indicator { margin-top: " + (topMargin+2*verticalMargin-8) + "px; } \
+					.swipe-wrap > div { height: " + height + "px; } \
+					.dot { background-color: " + brightcolor.toRgbString() + "; } \
+					.dot.active { background-color: " + darkColor.toRgbString() + "; }"
+				);
+			}
+
+			setCurrentSlide = function(index) {
+				$('#page-indicator').show();
+				$('#page-indicator .dot').eq(index).addClass('active');
+
+				if(typeof(window.swipeable) == 'object' && typeof(window.swipeable.kill) == 'function')
+					window.swipeable.kill();
+
+				window.swipeable = $('#swipeable').Swipe({
+					startSlide: index,
+					callback: function(index,elem) {
+						$('#page-indicator .dot').removeClass('active');
+						$('#page-indicator .dot').eq(index).addClass('active');
+
+						currentSlide = index;
+						saveInstanceState();
+					},
+				}).data('Swipe');
+			}
+
+			saveInstanceState = function() {
+				if(restoringInstanceState)
+					return;
+
+				outState = {
+					currentSlide: currentSlide,
+				};
+
+				if(typeof(app) != 'undefined')
+					app.saveInstanceState(JSON.stringify(outState));
+			}
+
+			restoreInstanceState = function(savedInstanceState) {
+				restoringInstanceState = true;
+				state = JSON.parse(savedInstanceState);
+
+				setCurrentSlide(state.currentSlide || 0);
+
+				restoringInstanceState = false;
+			}
+
+			highlight = function(timePoint) {
+				$('.highlight').removeClass('highlight');
+				t = $('[data-start=' + timePoint + ']');
+				t.addClass('highlight');
+				u = parseInt(t.data('slide'));
+				if(u >= 0)
+					window.swipeable.slide(u);
+			}
+		</script>
+
+	</body>
+</html>
