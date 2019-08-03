@@ -1,3 +1,9 @@
+# What's This
+
+[See demo videos on YouTube.](https://www.youtube.com/playlist?list=PL2YAZ9vLf1OnPkdS8yVSDceH4ArhyfBMr)
+
+[![Application Showcase](/app/src/main/res/drawable-nodpi/readme_background_icon.png)](https://www.youtube.com/playlist?list=PL2YAZ9vLf1OnPkdS8yVSDceH4ArhyfBMr)
+
 # About this project
 
 This is the **Hot English Magazine** android application. Idea to develop such project dates back to the methods I had used to learn english language, specially listening skills to native english. 
